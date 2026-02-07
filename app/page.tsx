@@ -4,208 +4,206 @@ export default function LandingPage() {
   return (
     <>
       {/* Hero */}
-      <section style={{ marginTop: 70, padding: "7rem 0 3rem", textAlign: "center" }} id="product">
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
-          <span className="tag" style={{ marginBottom: "1.5rem" }}>Now in early access</span>
-          <h1 style={{ fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 800, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: "1.2rem" }}>
-            The AI-native partner platform
-          </h1>
-          <p style={{ fontSize: "clamp(1.1rem, 2vw, 1.4rem)", color: "var(--muted)", marginBottom: "2.5rem", lineHeight: 1.4, maxWidth: 680, margin: "0 auto 2.5rem" }}>
-            Run your entire partner program from one platform. Attribution, incentives, program management, partner portal — powered by AI that actually understands partnerships.
+      <section className="hero" id="product">
+        <div className="wrap">
+          <div className="tag">Now in early access</div>
+          <h1>The AI-native partner platform</h1>
+          <p className="subtitle" style={{ maxWidth: 700, margin: "0 auto 2.5rem" }}>
+            Run your entire partner operation from one platform. Attribution, incentives, program management, partner portal, revenue intelligence — all powered by AI.
           </p>
-          <div style={{ display: "flex", gap: "0.5rem", maxWidth: 480, margin: "0 auto" }}>
-            <input type="email" placeholder="Enter your work email" className="input" style={{ flex: 1 }} />
-            <button className="btn-primary" style={{ whiteSpace: "nowrap" }}>Get early access</button>
+          <div className="waitlist">
+            <input type="email" placeholder="Enter your work email" className="input" />
+            <button className="btn">Get early access</button>
           </div>
-          <p style={{ marginTop: "0.8rem", fontSize: "0.85rem", color: "var(--muted)" }}>Free to start · No credit card required</p>
+          <p className="muted" style={{ marginTop: ".8rem", fontSize: ".85rem" }}>Free to start · No credit card required</p>
         </div>
 
-        {/* Demo Card */}
-        <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 2rem", position: "relative", marginTop: "4rem" }}>
-          <div className="orb" style={{ top: "-15%", left: "10%", right: "10%", height: 500, position: "absolute" }} />
-          <div className="card" style={{ position: "relative", zIndex: 1, maxWidth: 900, margin: "0 auto", textAlign: "left" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: "1.2rem", borderBottom: "1px solid var(--border)" }}>
+        <div className="hero-demo wrap-wide">
+          <div className="orb"></div>
+          <div className="card demo-card">
+            <div className="demo-header">
               <strong>Partner AI</strong>
-              <span className="badge badge-neutral">VP Partnerships · Acme Inc</span>
+              <span className="chip">VP Partnerships · Acme Inc</span>
             </div>
-            <p style={{ padding: "1.5rem 0", color: "var(--muted)", fontSize: "1.05rem" }}>Show me Q1 partner performance and who's ready for tier promotion</p>
-            <div style={{ background: "var(--subtle)", padding: "1.5rem", borderRadius: 10 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "1rem", fontSize: "0.95rem" }}>
-                <span className="tag" style={{ margin: 0 }}>AI</span> Analyzed 24 partners, 142 deals, 847 touchpoints
+            <p className="demo-q">Show me Q1 partner performance and recommend tier promotions</p>
+            <div className="demo-response">
+              <div className="demo-meta"><span className="badge">AI</span> Analyzed 24 partners, 142 deals, 847 touchpoints</div>
+              <div className="demo-results">
+                <p><strong>TechStar Solutions (Reseller)</strong> — $124k attributed revenue (↑32%). Exceeded Gold tier threshold by 40%. <em>Recommend: Platinum promotion + $15k MDF increase.</em></p>
+                <p><strong>CloudBridge Partners (Referral)</strong> — $89k attributed, $215k pipeline open. Highest first-touch conversion rate. <em>Recommend: Co-sell enablement + joint webinar.</em></p>
+                <p><strong>3 partners flagged at-risk</strong> — No activity in 30+ days. Re-engagement sequences auto-triggered via partner portal.</p>
               </div>
-              <p style={{ margin: "0.8rem 0", lineHeight: 1.6 }}><strong>TechStar Solutions</strong> — $124k attributed revenue (↑32%), 8 deals closed. Exceeded Gold tier by 40%. <em>Recommend: Platinum promotion + increased MDF.</em></p>
-              <p style={{ margin: "0.8rem 0", lineHeight: 1.6 }}><strong>CloudBridge Partners</strong> — $89k attributed, strong pipeline ($215k open). First-touch leader. <em>Recommend: Co-sell training + joint webinar.</em></p>
-              <p style={{ margin: "0.8rem 0", lineHeight: 1.6 }}><strong>3 partners at risk</strong> — No activity in 30+ days. Auto-triggered re-engagement sequences.</p>
-              <p style={{ marginTop: "1rem", paddingTop: "1rem", borderTop: "1px solid var(--border)", fontSize: "0.85rem", color: "var(--muted)" }}>
-                Full report exported to your dashboard · Tier promotions queued for approval
-              </p>
+              <p className="demo-conf">Full report exported to dashboard · Tier promotions queued for approval · Incentives recalculated</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Problem Statement */}
-      <section style={{ padding: "5rem 0", background: "var(--subtle)" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto", padding: "0 2rem", textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: "2rem" }}>Sound familiar?</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem", textAlign: "left" }}>
+      {/* Problem */}
+      <section className="problems">
+        <div className="wrap" style={{ textAlign: "center" }}>
+          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "2rem" }}>Sound familiar?</h2>
+          <div className="grid-3">
             <div className="card" style={{ boxShadow: "none" }}>
-              <p style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>📊</p>
-              <p style={{ fontWeight: 600, marginBottom: "0.5rem" }}>Spreadsheet hell</p>
-              <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.5 }}>Partner data lives in 12 different spreadsheets. Nobody trusts the numbers.</p>
+              <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>📊</p>
+              <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Spreadsheet hell</h3>
+              <p className="muted" style={{ lineHeight: 1.5 }}>Partner data scattered across 12 spreadsheets. Nobody trusts the numbers. Every QBR is a fire drill.</p>
             </div>
             <div className="card" style={{ boxShadow: "none" }}>
-              <p style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>🤷</p>
-              <p style={{ fontWeight: 600, marginBottom: "0.5rem" }}>Who gets credit?</p>
-              <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.5 }}>Partners argue about attribution. You're the referee with no data to back it up.</p>
+              <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>🤷</p>
+              <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Which partner gets credit?</h3>
+              <p className="muted" style={{ lineHeight: 1.5 }}>Multiple partners touched the same deal. You're the referee with no data. Disputes erode trust.</p>
             </div>
             <div className="card" style={{ boxShadow: "none" }}>
-              <p style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>💸</p>
-              <p style={{ fontWeight: 600, marginBottom: "0.5rem" }}>Payout chaos</p>
-              <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.5 }}>Commissions are calculated manually. Partners wait weeks. Finance hates you.</p>
+              <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>💸</p>
+              <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Payout chaos</h3>
+              <p className="muted" style={{ lineHeight: 1.5 }}>Commissions calculated manually. Partners wait weeks. Finance flags errors. Everyone's frustrated.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Platform Modules */}
-      <section style={{ padding: "7rem 0" }} id="platform">
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem", textAlign: "center", marginBottom: "4rem" }}>
-          <span className="tag" style={{ marginBottom: "1.5rem" }}>The Platform</span>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: "1rem" }}>One platform for your entire partner operation</h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 600, margin: "0 auto", lineHeight: 1.6 }}>Everything your partner team needs, powered by AI that learns how your partnerships actually work.</p>
+      <section className="modules" id="platform">
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div className="tag">The Platform</div>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Everything your partner org needs. One platform.</h2>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 680, margin: "0 auto", lineHeight: 1.6 }}>For partner ops teams that need to run programs, track revenue, and enable partners — and for partner reps building relationships in the field.</p>
         </div>
-
-        <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 2rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }}>
-          <ModuleCard emoji="🧠" title="AI Attribution" desc="5 attribution models plus AI that learns which model best predicts your actual outcomes. Transparent, auditable, trusted." link="/dashboard/reports" />
-          <ModuleCard emoji="💰" title="Incentives & Payouts" desc="Auto-calculated commissions, tiered structures, SPIFs, and one-click payouts. Partners get paid on time, every time." link="/dashboard/partners" />
-          <ModuleCard emoji="📋" title="Program Management" desc="Partner tiers, onboarding workflows, certifications, territory management. Run your program, not spreadsheets." link="/dashboard" />
-          <ModuleCard emoji="📊" title="Revenue Intelligence" desc="Pipeline visibility, revenue forecasting, deal registration, co-sell tracking. Know which partners actually drive growth." link="/dashboard/deals" />
-          <ModuleCard emoji="🌐" title="Partner Portal" desc="Self-service portal where partners see their performance, register deals, access content, and track commissions." link="/dashboard/partners/1" />
-          <ModuleCard emoji="🔗" title="Integrations" desc="Connect your CRM, marketing tools, and billing. Salesforce, HubSpot, Stripe — touchpoints flow in automatically." link="/dashboard/settings" />
+        <div className="wrap-wide grid-6">
+          <Link href="/dashboard/reports"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>🧠</p><h3>AI Attribution</h3><p>5 built-in models plus custom attribution rules you define. Transparent, auditable, and trusted by every partner.</p></div></Link>
+          <Link href="/dashboard/partners"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>💰</p><h3>Incentives & Payouts</h3><p>Auto-calculated commissions, tiered structures, SPIFs, bonuses, and one-click payouts. Partners get paid on time.</p></div></Link>
+          <Link href="/dashboard"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>📋</p><h3>Program Management</h3><p>Partner tiers, onboarding workflows, certifications, territory assignments. Run your program, not spreadsheets.</p></div></Link>
+          <Link href="/dashboard/deals"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>📊</p><h3>Revenue Intelligence</h3><p>Pipeline visibility, forecasting, deal registration, co-sell tracking. Know which partners actually drive growth.</p></div></Link>
+          <Link href="/dashboard/partners/1"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>🌐</p><h3>Partner Portal</h3><p>Self-service portal for partners to see performance, register deals, access content, view paper trail, and track commissions.</p></div></Link>
+          <Link href="/dashboard/settings"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>👁️</p><h3>Activity & Paper Trail</h3><p>Every touchpoint, every interaction, every decision — logged and auditable. Full transparency for partners and your team.</p></div></Link>
         </div>
       </section>
 
-      {/* How it Works */}
-      <section style={{ padding: "7rem 0" }}>
-        <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 2rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "5rem", alignItems: "center" }}>
+      {/* Feature: Attribution */}
+      <section className="feature">
+        <div className="wrap-wide grid-2">
           <div>
-            <span className="tag" style={{ marginBottom: "1.5rem" }}>How It Works</span>
-            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: "1.2rem" }}>Attribution powers everything</h2>
-            <p style={{ fontSize: "1.1rem", color: "var(--muted)", marginBottom: "1rem", lineHeight: 1.6 }}>Most partner platforms treat attribution as a reporting feature. We made it the foundation.</p>
-            <p style={{ fontSize: "1.1rem", color: "var(--muted)", marginBottom: "1.5rem", lineHeight: 1.6 }}>Every module — incentives, program management, revenue ops, analytics — is powered by real-time attribution intelligence. The result: <em style={{ fontWeight: 700 }}>decisions backed by data, not gut feel.</em></p>
-            <Link href="/dashboard" style={{ fontWeight: 600, fontSize: "1rem" }}>See the dashboard →</Link>
+            <div className="tag">AI-Powered Attribution</div>
+            <h2>Attribution that partners actually trust</h2>
+            <p>Choose from 5 built-in attribution models — or build your own custom rules. Every calculation is explainable and auditable.</p>
+            <p>When a deal closes, partners see exactly <em>why</em> they received their share. No black boxes. No disputes.</p>
+            <Link href="/dashboard/reports" className="arrow-link">Explore attribution models →</Link>
           </div>
           <div className="card">
-            <div style={{ textAlign: "center", padding: "1rem 0" }}>
-              <div style={{ display: "inline-block", padding: "1rem 2rem", background: "var(--fg)", color: "var(--bg)", borderRadius: 8, fontWeight: 700, fontSize: "0.9rem", marginBottom: "1.5rem" }}>🧠 Attribution Engine</div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.8rem", marginTop: "0.5rem" }}>
-                {["Incentive Calculations", "Tier Promotions", "Revenue Forecasts", "Partner Scoring", "Payout Amounts", "Program Decisions"].map((item) => (
-                  <div key={item} style={{ padding: "0.7rem", background: "var(--subtle)", borderRadius: 8, fontSize: "0.85rem", fontWeight: 500 }}>
-                    ↓ {item}
-                  </div>
-                ))}
-              </div>
+            <h4 style={{ marginBottom: "1.2rem" }}>Deal: TechStar × CloudBridge</h4>
+            <div className="bar-row"><span>TechStar (Reseller)</span><div className="bar"><div style={{ width: "55%" }}></div></div><span>55%</span></div>
+            <div className="bar-row"><span>CloudBridge (Referral)</span><div className="bar"><div style={{ width: "30%" }}></div></div><span>30%</span></div>
+            <div className="bar-row"><span>DataPipe (Integration)</span><div className="bar"><div style={{ width: "15%" }}></div></div><span>15%</span></div>
+            <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>Model: Role-Based (custom weights) · <a href="#" style={{ fontWeight: 500 }}>Switch model</a></p>
+          </div>
+        </div>
+      </section>
+
+      {/* Feature: Activity Tracking */}
+      <section className="feature">
+        <div className="wrap-wide grid-2 grid-flip">
+          <div>
+            <div className="tag">Full Visibility</div>
+            <h2>Every partner touchpoint, captured</h2>
+            <p>Partner AI tracks all interactions across your ecosystem — referrals, demos, co-sell meetings, content shares, deal registrations. The complete paper trail.</p>
+            <p>Partners see their activity history. Your team sees the full picture. Everyone stays aligned.</p>
+            <Link href="/dashboard/deals/1" className="arrow-link">View deal timelines →</Link>
+          </div>
+          <div className="card">
+            <div className="timeline">
+              <div className="tl-item"><div className="tl-dot"></div><div><strong>TechStar registered the deal</strong><br /><small>Jan 15 · Deal registration</small></div></div>
+              <div className="tl-item"><div className="tl-dot"></div><div><strong>CloudBridge ran a technical demo</strong><br /><small>Jan 22 · Co-sell activity</small></div></div>
+              <div className="tl-item"><div className="tl-dot"></div><div><strong>DataPipe completed integration</strong><br /><small>Jan 28 · Technical enablement</small></div></div>
+              <div className="tl-item"><div className="tl-dot active"></div><div><strong>Deal closed · $50,000 ARR</strong><br /><small>Feb 1 · Attribution calculated · Commissions queued</small></div></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Who it's for */}
-      <section style={{ padding: "7rem 0", background: "var(--subtle)" }} id="pricing">
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem", textAlign: "center", marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: "1rem" }}>Built for how you run partnerships</h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 600, margin: "0 auto" }}>Whether you manage 5 partners or 5,000, one platform scales with you.</p>
-        </div>
-        <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 2rem", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.5rem" }}>
-          <SegmentCard title="SaaS Channel" desc="Resellers, VARs, co-sell partners. Track ARR attribution through the full customer lifecycle." examples="Salesforce, HubSpot, AWS" />
-          <SegmentCard title="Marketplaces" desc="App ecosystems, plugin marketplaces. Measure which partners drive platform adoption." examples="Shopify, Atlassian, Stripe" />
-          <SegmentCard title="Distribution" desc="Multi-tier channel partners, distributors, resellers. Attribution across complex chains." examples="Dell, Cisco, HP" />
-          <SegmentCard title="Agencies & Services" desc="Referral networks, consulting partners. Track lead quality, not just quantity." examples="Deloitte, boutique agencies" />
+      {/* Feature: Incentives */}
+      <section className="feature">
+        <div className="wrap-wide grid-2">
+          <div>
+            <div className="tag">Incentives & Payouts</div>
+            <h2>Fair splits, zero manual work</h2>
+            <p>Attribution powers automatic commission calculations. Set up tiered structures, SPIFs, bonuses — then let the platform handle the rest.</p>
+            <p>Partners see pending and paid commissions in real time. Finance gets clean reports. No more end-of-month scrambles.</p>
+            <Link href="/dashboard/partners" className="arrow-link">Manage incentives →</Link>
+          </div>
+          <div className="card">
+            <h4 style={{ marginBottom: "1rem" }}>January Partner Payouts</h4>
+            <div className="payout"><div className="avatar">TS</div><span>TechStar Solutions</span><strong>$12,450</strong></div>
+            <div className="payout"><div className="avatar">CB</div><span>CloudBridge Partners</span><strong>$8,920</strong></div>
+            <div className="payout"><div className="avatar">DP</div><span>DataPipe Agency</span><strong>$5,630</strong></div>
+            <p className="muted" style={{ marginTop: ".8rem", fontSize: ".85rem" }}>Total: $26,700 · Based on role-based attribution · Auto-approved</p>
+          </div>
         </div>
       </section>
 
-      {/* Social Proof */}
+      {/* Who it's for */}
+      <section className="benefits" id="solutions">
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Built for how you run partnerships</h2>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 640, margin: "0 auto" }}>Whether you manage channel partners, alliances, resellers, or referral networks — one platform adapts to your motion.</p>
+        </div>
+        <div className="wrap-wide grid-4">
+          <div className="card" style={{ background: "white" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>SaaS Channel</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Resellers, VARs, co-sell partners. Track ARR attribution through the full customer lifecycle.</p>
+            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Salesforce, HubSpot, AWS</p>
+          </div>
+          <div className="card" style={{ background: "white" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Marketplaces</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>App ecosystems and plugin marketplaces. Measure which partners drive platform adoption.</p>
+            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Shopify, Atlassian, Stripe</p>
+          </div>
+          <div className="card" style={{ background: "white" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Distribution</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Multi-tier channel networks. Attribution across distributor → reseller → end customer chains.</p>
+            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Dell, Cisco, HP</p>
+          </div>
+          <div className="card" style={{ background: "white" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Agencies & Services</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Referral networks and consulting partners. Track lead quality and relationship value.</p>
+            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Deloitte, boutique agencies</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Trust */}
       <section style={{ padding: "5rem 0" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem", display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "3rem" }}>
-          <div>
-            <h3 style={{ fontSize: "1.3rem", fontWeight: 700, marginBottom: "0.8rem" }}>AI-native architecture</h3>
-            <p style={{ fontSize: "1rem", color: "var(--muted)", lineHeight: 1.6 }}>Not a legacy PRM with AI bolted on. Built from scratch for the AI era.</p>
-          </div>
-          <div>
-            <h3 style={{ fontSize: "1.3rem", fontWeight: 700, marginBottom: "0.8rem" }}>15 minutes to value</h3>
-            <p style={{ fontSize: "1rem", color: "var(--muted)", lineHeight: 1.6 }}>Import your partners, connect your CRM, and see your first attribution report in minutes.</p>
-          </div>
-          <div>
-            <h3 style={{ fontSize: "1.3rem", fontWeight: 700, marginBottom: "0.8rem" }}>Enterprise security</h3>
-            <p style={{ fontSize: "1rem", color: "var(--muted)", lineHeight: 1.6 }}>Your data is never used to train models. SOC 2 Type 2 compliant from day one.</p>
-          </div>
+        <div className="wrap grid-3">
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>AI-native, not AI-bolted</h3><p className="muted" style={{ lineHeight: 1.6 }}>Not a legacy PRM with AI tacked on. Built from the ground up for the AI era. Attribution is the brain, not a feature.</p></div>
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>15 minutes to value</h3><p className="muted" style={{ lineHeight: 1.6 }}>Import partners, connect your CRM, see your first attribution report. Onboard a partner rep in minutes, not months.</p></div>
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>Enterprise security</h3><p className="muted" style={{ lineHeight: 1.6 }}>Your data is never used to train models. SOC 2 compliant. Full audit trail on every action.</p></div>
         </div>
       </section>
 
       {/* CTA */}
-      <section style={{ padding: "9rem 0", textAlign: "center" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 2rem" }}>
-          <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.8rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: "1rem" }}>
-            Stop managing partnerships in spreadsheets
-          </h2>
-          <p style={{ fontSize: "clamp(1.1rem, 2vw, 1.4rem)", color: "var(--muted)", marginBottom: "2.5rem", lineHeight: 1.4 }}>
-            Your partners deserve better. So does your team.
-          </p>
-          <Link href="/dashboard" className="btn-primary" style={{ padding: "1rem 2.5rem", borderRadius: "var(--radius)", fontSize: "1.1rem" }}>
-            Get started free
-          </Link>
+      <section className="cta">
+        <div className="wrap">
+          <h2>Stop managing partnerships in spreadsheets</h2>
+          <p className="subtitle">Your partners deserve better. So does your team.</p>
+          <Link href="/dashboard" className="btn btn-lg">Get started free</Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer style={{ background: "var(--fg)", color: "var(--bg)", padding: "3.5rem 0 2rem" }}>
-        <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 2rem", display: "grid", gridTemplateColumns: "1fr 3fr", gap: "3rem" }}>
+      <footer className="site-footer">
+        <div className="wrap-wide footer-grid">
           <div>
-            <span style={{ fontSize: "1.4rem", fontWeight: 700, color: "white" }}>Partner<span style={{ fontWeight: 400 }}>AI</span></span>
-            <p style={{ color: "var(--muted)", marginTop: "0.8rem", fontSize: "0.9rem" }}>© 2026 Partner AI, Inc.</p>
+            <span className="logo" style={{ color: "white" }}>Partner<span>AI</span></span>
+            <p className="muted" style={{ marginTop: ".8rem" }}>© 2026 Partner AI, Inc.</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "2rem" }}>
-            <FooterCol title="Platform" links={["Attribution", "Incentives", "Program Mgmt", "Partner Portal", "Integrations"]} />
-            <FooterCol title="Solutions" links={["SaaS Channel", "Marketplaces", "Distribution", "Agencies"]} />
-            <FooterCol title="Company" links={["About", "Blog", "Careers", "Contact"]} />
-            <FooterCol title="Legal" links={["Terms", "Privacy", "Security", "DPA"]} />
+          <div className="footer-links">
+            <div><h4>Platform</h4><a href="#">Attribution</a><a href="#">Incentives</a><a href="#">Program Mgmt</a><a href="#">Partner Portal</a><a href="#">Activity Trail</a></div>
+            <div><h4>Solutions</h4><a href="#">SaaS Channel</a><a href="#">Marketplaces</a><a href="#">Distribution</a><a href="#">Agencies</a></div>
+            <div><h4>Resources</h4><a href="#">Blog</a><a href="#">API Docs</a><a href="#">Case Studies</a><a href="#">Changelog</a></div>
+            <div><h4>Company</h4><a href="#">About</a><a href="#">Careers</a><a href="#">Security</a><a href="#">Contact</a></div>
           </div>
         </div>
       </footer>
     </>
-  );
-}
-
-function ModuleCard({ emoji, title, desc, link }: { emoji: string; title: string; desc: string; link: string }) {
-  return (
-    <Link href={link}>
-      <div className="card" style={{ height: "100%", transition: "transform 0.2s, box-shadow 0.2s", cursor: "pointer" }}>
-        <p style={{ fontSize: "1.8rem", marginBottom: "0.8rem" }}>{emoji}</p>
-        <h3 style={{ fontSize: "1.15rem", fontWeight: 700, marginBottom: "0.6rem" }}>{title}</h3>
-        <p style={{ fontSize: "0.95rem", color: "var(--muted)", lineHeight: 1.5 }}>{desc}</p>
-      </div>
-    </Link>
-  );
-}
-
-function SegmentCard({ title, desc, examples }: { title: string; desc: string; examples: string }) {
-  return (
-    <div className="card" style={{ background: "white" }}>
-      <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.6rem" }}>{title}</h3>
-      <p style={{ fontSize: "0.9rem", color: "var(--muted)", lineHeight: 1.5, marginBottom: "0.8rem" }}>{desc}</p>
-      <p style={{ fontSize: "0.8rem", color: "var(--muted)", fontStyle: "italic" }}>{examples}</p>
-    </div>
-  );
-}
-
-function FooterCol({ title, links }: { title: string; links: string[] }) {
-  return (
-    <div>
-      <h4 style={{ fontSize: "0.85rem", marginBottom: "0.8rem", color: "white" }}>{title}</h4>
-      {links.map((l) => (
-        <a key={l} href="#" style={{ display: "block", color: "var(--muted)", fontSize: "0.85rem", margin: "0.4rem 0" }}>{l}</a>
-      ))}
-    </div>
   );
 }
