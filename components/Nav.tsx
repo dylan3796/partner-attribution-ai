@@ -69,7 +69,7 @@ export default function Nav() {
         <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "white", borderBottom: "1px solid #e9ecef", padding: "1rem 2rem" }}>
           {(isDashboard ? dashboardLinks : marketingLinks).map((link) => (
             <Link key={link.name} href={link.href} onClick={() => setMobileOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.8rem 0", fontWeight: 500, fontSize: "0.95rem", borderBottom: "1px solid #e9ecef" }}>
-              {"icon" in link && <link.icon size={16} />}
+              {"icon" in link && (() => { const Icon = (link as any).icon; return <Icon size={16} />; })()}
               {link.name}
             </Link>
           ))}
