@@ -1,22 +1,147 @@
 @import "tailwindcss";
 
+/* === DAY.ai Design System === */
+:root {
+  --bg: #fff;
+  --fg: #000;
+  --muted: #6c757d;
+  --subtle: #f8f9fa;
+  --border: #e9ecef;
+  --radius: 12px;
+  --accent: #6366f1;
+}
+
 @theme {
-  --color-primary-50: #eef2ff;
-  --color-primary-100: #e0e7ff;
-  --color-primary-200: #c7d2fe;
-  --color-primary-300: #a5b4fc;
-  --color-primary-400: #818cf8;
-  --color-primary-500: #6366f1;
-  --color-primary-600: #4f46e5;
-  --color-primary-700: #4338ca;
-  --color-primary-800: #3730a3;
-  --color-primary-900: #312e81;
-  
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --color-fg: #000;
+  --color-muted: #6c757d;
+  --color-subtle: #f8f9fa;
+  --color-border: #e9ecef;
+  --color-accent: #6366f1;
+  --color-accent-light: #eef2ff;
 }
 
 body {
   font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* === Shared Components === */
+.btn-primary {
+  background: var(--fg);
+  color: var(--bg);
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 0.2s, opacity 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.btn-primary:hover { transform: translateY(-1px); opacity: 0.9; }
+
+.btn-secondary {
+  background: var(--bg);
+  color: var(--fg);
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--border);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+.btn-secondary:hover { background: var(--subtle); }
+
+.card {
+  background: var(--bg);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+}
+
+.tag {
+  background: var(--fg);
+  color: var(--bg);
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.badge {
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+.badge-success { background: #ecfdf5; color: #065f46; }
+.badge-warning { background: #fffbeb; color: #92400e; }
+.badge-info { background: #eef2ff; color: #3730a3; }
+.badge-danger { background: #fef2f2; color: #991b1b; }
+.badge-neutral { background: var(--subtle); color: var(--muted); }
+
+.input {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.input:focus { border-color: var(--fg); }
+
+/* === Progress Bar === */
+.progress-bar {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: var(--fg);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+/* === Orb Animation (Landing) === */
+.orb {
+  position: absolute;
+  background: linear-gradient(135deg, rgba(168,85,247,0.35), rgba(99,102,241,0.35), rgba(236,72,153,0.35), rgba(14,165,233,0.35));
+  filter: blur(80px);
+  border-radius: 50%;
+  z-index: 0;
+  animation: pulse 8s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+/* === Fade In Animation === */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: none;
 }

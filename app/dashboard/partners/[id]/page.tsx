@@ -1,86 +1,205 @@
 "use client";
+
+import { use } from "react";
 import Link from "next/link";
-import { ArrowLeft, Mail, Calendar } from "lucide-react";
+import { useStore } from "@/lib/store";
+import { formatCurrency, formatDate, formatPercent, getTouchpointColor, MODEL_COLORS } from "@/lib/utils";
+import { StatCard } from "@/components/ui/stat-card";
+import { StatusBadge, Badge } from "@/components/ui/badge";
+import { Avatar } from "@/components/ui/avatar";
+import { MODEL_LABELS, TOUCHPOINT_LABELS, PARTNER_TYPE_LABELS, type AttributionModel } from "@/lib/types";
+import {
+  ArrowLeft,
+  DollarSign,
+  Briefcase,
+  Percent,
+  PiggyBank,
+  Mail,
+  Calendar,
+} from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 
-const partner = { id: "1", name: "TechStar Solutions", email: "partners@techstar.io", type: "Reseller", status: "active", commissionRate: 10, createdAt: "2025-09-15", revenue: 124500, deals: 8, commission: 12450 };
-const touchpoints = [
-  { date: "2026-02-05", deal: "Acme Corp Enterprise", type: "Demo", weight: 25 },
-  { date: "2026-02-03", deal: "Acme Corp Enterprise", type: "Referral", weight: 30 },
-  { date: "2026-01-28", deal: "FinServ Platform Deal", type: "Introduction", weight: 10 },
-  { date: "2026-01-20", deal: "FinServ Platform Deal", type: "Proposal", weight: 25 },
-  { date: "2026-01-15", deal: "DataFlow Integration", type: "Negotiation", weight: 20 },
-];
-const attributions = [
-  { deal: "Acme Corp Enterprise", amount: 48000, pct: 65, commission: 3120 },
-  { deal: "FinServ Platform Deal", amount: 67000, pct: 45, commission: 3015 },
-  { deal: "Startup Suite Bundle", amount: 12500, pct: 100, commission: 1250 },
-];
-const typeColors: Record<string, string> = { Referral: "bg-purple-50 text-purple-700", Demo: "bg-blue-50 text-blue-700", Introduction: "bg-amber-50 text-amber-700", Proposal: "bg-emerald-50 text-emerald-700", Negotiation: "bg-pink-50 text-pink-700" };
+const MODELS: AttributionModel[] = ["equal_split", "first_touch", "last_touch", "time_decay", "role_based"];
 
-export default function PartnerDetailPage() {
+export default function PartnerDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const { getPartner, getTouchpointsByPartner, getAttributionsByPartner, deals } = useStore();
+
+  const partner = getPartner(id);
+  const touchpoints = getTouchpointsByPartner(id);
+  const allAttributions = getAttributionsByPartner(id);
+
+  if (!partner) {
+    return (
+      <div className="p-8 text-center">
+        <p className="text-gray-500">Partner not found</p>
+        <Link href="/dashboard/partners" className="text-indigo-600 hover:underline text-sm mt-2 inline-block">Back to partners</Link>
+      </div>
+    );
+  }
+
+  // Stats
+  const uniqueDeals = [...new Set(touchpoints.map((tp) => tp.dealId))];
+  const equalSplitAttrs = allAttributions.filter((a) => a.model === "equal_split");
+  const totalRevenue = equalSplitAttrs.reduce((s, a) => s + a.amount, 0);
+  const totalCommission = equalSplitAttrs.reduce((s, a) => s + a.commissionAmount, 0);
+  const avgPct = equalSplitAttrs.length > 0
+    ? equalSplitAttrs.reduce((s, a) => s + a.percentage, 0) / equalSplitAttrs.length
+    : 0;
+
+  // Attribution by model chart
+  const modelData = MODELS.map((model) => {
+    const attrs = allAttributions.filter((a) => a.model === model);
+    return {
+      model: MODEL_LABELS[model],
+      revenue: Math.round(attrs.reduce((s, a) => s + a.amount, 0)),
+      commission: Math.round(attrs.reduce((s, a) => s + a.commissionAmount, 0)),
+    };
+  });
+
+  // Touchpoints sorted by date
+  const sortedTouchpoints = [...touchpoints].sort((a, b) => b.createdAt - a.createdAt);
+
   return (
-    <div className="space-y-6 max-w-5xl">
-      <Link href="/dashboard/partners" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition"><ArrowLeft className="w-4 h-4" /> Back to Partners</Link>
-      <div className="bg-white rounded-2xl border border-gray-200 p-6">
-        <div className="flex items-start justify-between">
-          <div>
+    <div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-8">
+      {/* Back + Header */}
+      <div>
+        <Link href="/dashboard/partners" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 mb-4">
+          <ArrowLeft className="h-4 w-4" /> Back to Partners
+        </Link>
+
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <Avatar name={partner.name} size="lg" />
+          <div className="flex-1">
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-bold text-gray-900">{partner.name}</h1>
-              <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700">{partner.status}</span>
+              <StatusBadge status={partner.status} />
             </div>
-            <div className="flex items-center gap-4 mt-3 text-sm text-gray-500">
-              <span className="flex items-center gap-1.5"><Mail className="w-4 h-4" /> {partner.email}</span>
-              <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> Joined {partner.createdAt}</span>
+            <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
+              <span className="flex items-center gap-1"><Mail className="h-3.5 w-3.5" />{partner.email}</span>
+              <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" />Joined {formatDate(partner.createdAt)}</span>
             </div>
           </div>
-          <span className="px-3 py-1.5 rounded-full text-sm font-medium bg-blue-50 text-blue-700">{partner.type}</span>
+          <Badge variant="info">{PARTNER_TYPE_LABELS[partner.type]}</Badge>
         </div>
       </div>
-      <div className="grid grid-cols-4 gap-4">
-        {[
-          { label: "Attributed Revenue", value: `$${(partner.revenue / 1000).toFixed(1)}k` },
-          { label: "Deals Involved", value: partner.deals },
-          { label: "Commission Earned", value: `$${partner.commission.toLocaleString()}`, green: true },
-          { label: "Commission Rate", value: `${partner.commissionRate}%` },
-        ].map((s) => (
-          <div key={s.label} className="bg-white rounded-2xl border border-gray-200 p-5">
-            <p className="text-xs text-gray-500">{s.label}</p>
-            <p className={`text-2xl font-bold mt-1 ${s.green ? "text-emerald-600" : "text-gray-900"}`}>{s.value}</p>
-          </div>
-        ))}
+
+      {/* Stats */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard title="Attributed Revenue" value={formatCurrency(totalRevenue)} subtitle="Equal split model" icon={DollarSign} />
+        <StatCard title="Total Commission" value={formatCurrency(totalCommission)} subtitle={`${partner.commissionRate}% rate`} icon={PiggyBank} />
+        <StatCard title="Deals Involved" value={String(uniqueDeals.length)} subtitle={`${touchpoints.length} touchpoints`} icon={Briefcase} />
+        <StatCard title="Avg Attribution" value={formatPercent(avgPct)} subtitle="Equal split avg" icon={Percent} />
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white rounded-2xl border border-gray-200">
-          <div className="px-6 py-4 border-b border-gray-100"><h3 className="font-semibold text-gray-900">Touchpoint History</h3></div>
-          <div className="divide-y divide-gray-100">
-            {touchpoints.map((tp, i) => (
-              <div key={i} className="px-6 py-4 flex items-center justify-between">
-                <div><p className="text-sm font-medium text-gray-900">{tp.deal}</p><p className="text-xs text-gray-500">{tp.date}</p></div>
-                <div className="flex items-center gap-3">
-                  <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${typeColors[tp.type] || "bg-gray-100 text-gray-600"}`}>{tp.type}</span>
-                  <span className="text-xs text-gray-400 tabular-nums">{tp.weight}%</span>
-                </div>
-              </div>
-            ))}
+        {/* Attribution by Model */}
+        <div className="bg-white rounded-xl border border-gray-100 p-6">
+          <h3 className="text-sm font-semibold text-gray-900 mb-4">Revenue by Attribution Model</h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={modelData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
+                <XAxis dataKey="model" tick={{ fontSize: 11, fill: "#9ca3af" }} tickLine={false} axisLine={{ stroke: "#e5e7eb" }} />
+                <YAxis tick={{ fontSize: 11, fill: "#9ca3af" }} tickLine={false} axisLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                <Tooltip formatter={(value: any, name: any) => [formatCurrency(value), name === "revenue" ? "Revenue" : "Commission"]} contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb" }} />
+                <Legend />
+                <Bar dataKey="revenue" name="Revenue" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="commission" name="Commission" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         </div>
-        <div className="bg-white rounded-2xl border border-gray-200">
-          <div className="px-6 py-4 border-b border-gray-100"><h3 className="font-semibold text-gray-900">Attribution Results</h3></div>
-          <div className="divide-y divide-gray-100">
-            {attributions.map((attr, i) => (
-              <div key={i} className="px-6 py-4">
-                <div className="flex items-center justify-between mb-2">
-                  <p className="text-sm font-medium text-gray-900">{attr.deal}</p>
-                  <span className="text-sm font-bold text-primary-600">{attr.pct}%</span>
+
+        {/* Touchpoint History */}
+        <div className="bg-white rounded-xl border border-gray-100 p-6">
+          <h3 className="text-sm font-semibold text-gray-900 mb-4">Touchpoint History ({touchpoints.length})</h3>
+          <div className="space-y-0 max-h-72 overflow-y-auto">
+            {sortedTouchpoints.map((tp, i) => {
+              const deal = deals.find((d) => d._id === tp.dealId);
+              return (
+                <div key={tp._id} className="flex gap-3 py-3 border-b border-gray-50 last:border-0">
+                  <div className="relative flex flex-col items-center">
+                    <div className="w-2.5 h-2.5 rounded-full bg-indigo-400 mt-1.5 flex-shrink-0" />
+                    {i < sortedTouchpoints.length - 1 && <div className="w-px flex-1 bg-gray-200 mt-1" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium border ${getTouchpointColor(tp.type)}`}>
+                        {TOUCHPOINT_LABELS[tp.type]}
+                      </span>
+                      <span className="text-xs text-gray-400">{formatDate(tp.createdAt)}</span>
+                    </div>
+                    {deal && (
+                      <Link href={`/dashboard/deals/${deal._id}`} className="text-sm text-gray-700 hover:text-indigo-600">
+                        {deal.name}
+                      </Link>
+                    )}
+                    {tp.notes && <p className="text-xs text-gray-400 mt-0.5">{tp.notes}</p>}
+                  </div>
                 </div>
-                <div className="w-full bg-gray-100 rounded-full h-2 mb-2"><div className="bg-primary-500 h-2 rounded-full" style={{ width: `${attr.pct}%` }} /></div>
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Deal: ${attr.amount.toLocaleString()}</span>
-                  <span className="text-emerald-600 font-medium">Commission: ${attr.commission.toLocaleString()}</span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
+            {sortedTouchpoints.length === 0 && (
+              <p className="text-sm text-gray-400 text-center py-8">No touchpoints recorded yet</p>
+            )}
           </div>
+        </div>
+      </div>
+
+      {/* Attribution Breakdown Table */}
+      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-50">
+          <h3 className="text-sm font-semibold text-gray-900">Attribution Breakdown by Deal</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-gray-100 bg-gray-50/50">
+                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Deal</th>
+                {MODELS.map((m) => (
+                  <th key={m} className="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase">{MODEL_LABELS[m]}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {[...new Set(allAttributions.map((a) => a.dealId))].map((dealId) => {
+                const deal = deals.find((d) => d._id === dealId);
+                return (
+                  <tr key={dealId} className="hover:bg-gray-50/50">
+                    <td className="px-6 py-3">
+                      <Link href={`/dashboard/deals/${dealId}`} className="text-sm font-medium text-gray-900 hover:text-indigo-600">{deal?.name || dealId}</Link>
+                      <p className="text-xs text-gray-400">{formatCurrency(deal?.amount || 0)}</p>
+                    </td>
+                    {MODELS.map((model) => {
+                      const attr = allAttributions.find((a) => a.dealId === dealId && a.model === model);
+                      return (
+                        <td key={model} className="px-4 py-3 text-right">
+                          {attr ? (
+                            <div>
+                              <p className="text-sm font-medium text-gray-900">{formatPercent(attr.percentage)}</p>
+                              <p className="text-xs text-gray-400">{formatCurrency(attr.amount)}</p>
+                            </div>
+                          ) : (
+                            <span className="text-xs text-gray-300">—</span>
+                          )}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
