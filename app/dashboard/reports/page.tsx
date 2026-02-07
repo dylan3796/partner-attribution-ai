@@ -28,6 +28,16 @@ import {
 
 const MODELS: AttributionModel[] = ["equal_split", "first_touch", "last_touch", "time_decay", "role_based"];
 
+type LeaderboardEntry = {
+  partnerId: string;
+  name: string;
+  type: string;
+  revenue: number;
+  commission: number;
+  deals: number;
+  avgPct: number;
+};
+
 export default function ReportsPage() {
   const { attributions, partners } = useStore();
   const [selectedModel, setSelectedModel] = useState<AttributionModel>("equal_split");
@@ -74,10 +84,8 @@ export default function ReportsPage() {
         if (sortBy === "commission") return b.commission - a.commission;
         if (sortBy === "deals") return b.deals - a.deals;
         return b.revenue - a.revenue;
-      }) as NonNullable<ReturnType<typeof Object.entries>[0]>[];
-  }, [partnerModelData, selectedModel, partners, sortBy]) as Array<{
-    partnerId: string; name: string; type: string; revenue: number; commission: number; deals: number; avgPct: number;
-  }>;
+      }) as unknown as LeaderboardEntry[];
+  }, [partnerModelData, selectedModel, partners, sortBy]);
 
   // Model comparison
   const modelComparison = useMemo(() => {
