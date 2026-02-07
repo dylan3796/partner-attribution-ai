@@ -14,7 +14,8 @@ export default function LandingPage() {
   const [error, setError] = useState("");
   const [showLogin, setShowLogin] = useState(false);
 
-  if (isAuthenticated) {
+  // Client-only redirect — don't run on SSR
+  if (typeof window !== "undefined" && isAuthenticated) {
     router.push("/dashboard");
     return null;
   }

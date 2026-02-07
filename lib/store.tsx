@@ -62,7 +62,7 @@ type StoreContextType = {
 const StoreContext = createContext<StoreContextType | null>(null);
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [org, setOrg] = useState<Organization | null>(demoOrg);
+  const [org, setOrg] = useState<Organization | null>(null);
   const [partners, setPartners] = useState<Partner[]>(demoPartners);
   const [deals, setDeals] = useState<Deal[]>(demoDeals);
   const [touchpoints] = useState<Touchpoint[]>(demoTouchpoints);
