@@ -6,6 +6,19 @@ export type Organization = {
   email: string;
   apiKey: string;
   plan: "starter" | "growth" | "enterprise";
+  defaultAttributionModel?: AttributionModel;
+  createdAt: number;
+};
+
+export type User = {
+  _id: string;
+  email: string;
+  name: string;
+  organizationId: string;
+  role: "admin" | "manager" | "member" | "partner";
+  partnerId?: string;
+  avatarUrl?: string;
+  lastLoginAt?: number;
   createdAt: number;
 };
 
@@ -15,8 +28,13 @@ export type Partner = {
   name: string;
   email: string;
   type: "affiliate" | "referral" | "reseller" | "integration";
+  tier?: "bronze" | "silver" | "gold" | "platinum";
   commissionRate: number;
   status: "active" | "inactive" | "pending";
+  contactName?: string;
+  contactPhone?: string;
+  territory?: string;
+  notes?: string;
   createdAt: number;
 };
 
@@ -27,6 +45,12 @@ export type Deal = {
   amount: number;
   status: "open" | "won" | "lost";
   closedAt?: number;
+  expectedCloseDate?: number;
+  contactName?: string;
+  contactEmail?: string;
+  notes?: string;
+  registeredBy?: string;
+  registrationStatus?: "pending" | "approved" | "rejected";
   createdAt: number;
 };
 
@@ -36,7 +60,10 @@ export type TouchpointType =
   | "content_share"
   | "introduction"
   | "proposal"
-  | "negotiation";
+  | "negotiation"
+  | "deal_registration"
+  | "co_sell"
+  | "technical_enablement";
 
 export type Touchpoint = {
   _id: string;
@@ -74,6 +101,61 @@ export type Attribution = {
   deal?: Deal;
 };
 
+export type Payout = {
+  _id: string;
+  organizationId: string;
+  partnerId: string;
+  amount: number;
+  status: "pending_approval" | "approved" | "rejected" | "processing" | "paid" | "failed";
+  approvedBy?: string;
+  approvedAt?: number;
+  period?: string;
+  notes?: string;
+  paidAt?: number;
+  createdAt: number;
+  partner?: Partner;
+};
+
+export type AuditEntry = {
+  _id: string;
+  organizationId: string;
+  userId?: string;
+  action: string;
+  entityType: string;
+  entityId: string;
+  changes?: string;
+  metadata?: string;
+  createdAt: number;
+};
+
+export type Approval = {
+  _id: string;
+  organizationId: string;
+  entityType: "payout" | "deal_registration" | "tier_change" | "dispute";
+  entityId: string;
+  status: "pending" | "approved" | "rejected";
+  requestedBy: string;
+  reviewedBy?: string;
+  reviewedAt?: number;
+  notes?: string;
+  createdAt: number;
+};
+
+export type Dispute = {
+  _id: string;
+  organizationId: string;
+  partnerId: string;
+  dealId: string;
+  currentPercentage: number;
+  requestedPercentage: number;
+  reason: string;
+  status: "open" | "under_review" | "resolved" | "rejected";
+  resolution?: string;
+  resolvedBy?: string;
+  resolvedAt?: number;
+  createdAt: number;
+};
+
 export const MODEL_LABELS: Record<AttributionModel, string> = {
   equal_split: "Equal Split",
   first_touch: "First Touch",
@@ -97,6 +179,9 @@ export const TOUCHPOINT_LABELS: Record<TouchpointType, string> = {
   introduction: "Introduction",
   proposal: "Proposal",
   negotiation: "Negotiation",
+  deal_registration: "Deal Registration",
+  co_sell: "Co-Sell",
+  technical_enablement: "Technical Enablement",
 };
 
 export const PARTNER_TYPE_LABELS: Record<Partner["type"], string> = {
@@ -106,11 +191,9 @@ export const PARTNER_TYPE_LABELS: Record<Partner["type"], string> = {
   integration: "Integration",
 };
 
-export const STATUS_COLORS: Record<string, string> = {
-  active: "emerald",
-  inactive: "red",
-  pending: "amber",
-  open: "indigo",
-  won: "emerald",
-  lost: "red",
+export const TIER_LABELS: Record<string, string> = {
+  bronze: "Bronze",
+  silver: "Silver",
+  gold: "Gold",
+  platinum: "Platinum",
 };

@@ -1,22 +1,21 @@
 "use client";
 
-import { use } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
-import { formatCurrency, formatDate, formatPercent, getTouchpointColor, MODEL_COLORS } from "@/lib/utils";
-import { StatCard } from "@/components/ui/stat-card";
-import { StatusBadge } from "@/components/ui/badge";
-import { Avatar } from "@/components/ui/avatar";
-import { MODEL_LABELS, TOUCHPOINT_LABELS, type AttributionModel } from "@/lib/types";
 import {
-  ArrowLeft,
-  DollarSign,
-  Calendar,
-  Users,
-  Clock,
-  CheckCircle2,
-  XCircle,
-} from "lucide-react";
+  formatCurrency,
+  formatDate,
+  formatPercent,
+  MODEL_COLORS,
+} from "@/lib/utils";
+import { Modal } from "@/components/ui/modal";
+import {
+  MODEL_LABELS,
+  TOUCHPOINT_LABELS,
+  type AttributionModel,
+  type TouchpointType,
+} from "@/lib/types";
 import {
   BarChart,
   Bar,
@@ -28,11 +27,42 @@ import {
   Legend,
 } from "recharts";
 
-const MODELS: AttributionModel[] = ["equal_split", "first_touch", "last_touch", "time_decay", "role_based"];
+const MODELS: AttributionModel[] = [
+  "equal_split",
+  "first_touch",
+  "last_touch",
+  "time_decay",
+  "role_based",
+];
 
-export default function DealDetailPage({ params }: { params: Promise<{ id: string }> }) {
+const statusBadgeClass: Record<string, string> = {
+  won: "badge-success",
+  open: "badge-info",
+  lost: "badge-danger",
+};
+
+export default function DealDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = use(params);
-  const { getDeal, getTouchpointsByDeal, getAttributionsByDeal, partners } = useStore();
+  const {
+    getDeal,
+    getTouchpointsByDeal,
+    getAttributionsByDeal,
+    partners,
+    closeDeal,
+    addTouchpoint,
+  } = useStore();
+
+  const [showCloseModal, setShowCloseModal] = useState(false);
+  const [showTouchpointModal, setShowTouchpointModal] = useState(false);
+
+  // Touchpoint form
+  const [tpPartnerId, setTpPartnerId] = useState("");
+  const [tpType, setTpType] = useState<TouchpointType>("referral");
+  const [tpNotes, setTpNotes] = useState("");
 
   const deal = getDeal(id);
   const touchpoints = getTouchpointsByDeal(id);
@@ -40,16 +70,26 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
 
   if (!deal) {
     return (
-      <div className="p-8 text-center">
-        <p className="text-gray-500">Deal not found</p>
-        <Link href="/dashboard/deals" className="text-indigo-600 hover:underline text-sm mt-2 inline-block">Back to deals</Link>
+      <div style={{ padding: "3rem", textAlign: "center" }}>
+        <p className="muted">Deal not found</p>
+        <Link
+          href="/dashboard/deals"
+          style={{
+            fontWeight: 500,
+            marginTop: "0.5rem",
+            display: "inline-block",
+          }}
+        >
+          ← Back to deals
+        </Link>
       </div>
     );
   }
 
   const partnerIds = [...new Set(touchpoints.map((tp) => tp.partnerId))];
-  const involvedPartners = partnerIds.map((pid) => partners.find((p) => p._id === pid)).filter(Boolean);
-
+  const involvedPartners = partnerIds
+    .map((pid) => partners.find((p) => p._id === pid))
+    .filter(Boolean);
   const timeline = [...touchpoints].sort((a, b) => a.createdAt - b.createdAt);
 
   // Attribution comparison data
@@ -61,80 +101,323 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
     partnerModels[name][a.model] = a.percentage;
   });
 
-  const comparisonData = Object.entries(partnerModels).map(([name, models]) => ({
-    name: name.split(" ")[0],
-    fullName: name,
-    ...models,
-  }));
+  const comparisonData = Object.entries(partnerModels).map(
+    ([name, models]) => ({
+      name: name.split(" ")[0],
+      fullName: name,
+      ...models,
+    })
+  );
 
-  const statusIcon = deal.status === "won" ? <CheckCircle2 className="h-5 w-5 text-emerald-500" />
-    : deal.status === "lost" ? <XCircle className="h-5 w-5 text-red-500" />
-    : <Clock className="h-5 w-5 text-indigo-500" />;
+  function handleClose(status: "won" | "lost") {
+    closeDeal(id, status);
+    setShowCloseModal(false);
+  }
+
+  function handleAddTouchpoint(e: React.FormEvent) {
+    e.preventDefault();
+    if (!tpPartnerId || !deal) return;
+    addTouchpoint({
+      dealId: deal!._id,
+      partnerId: tpPartnerId,
+      type: tpType,
+      notes: tpNotes || undefined,
+    });
+    setShowTouchpointModal(false);
+    setTpPartnerId("");
+    setTpType("referral");
+    setTpNotes("");
+  }
+
+  // Active partners for selection
+  const activePartners = partners.filter((p) => p.status !== "inactive");
+
+  const timelineDays =
+    timeline.length > 1
+      ? Math.ceil(
+          (timeline[timeline.length - 1].createdAt - timeline[0].createdAt) /
+            86400000
+        )
+      : 0;
 
   return (
-    <div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-8">
+    <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
       {/* Back + Header */}
       <div>
-        <Link href="/dashboard/deals" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 mb-4">
-          <ArrowLeft className="h-4 w-4" /> Back to Deals
+        <Link
+          href="/dashboard/deals"
+          className="muted"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.4rem",
+            fontSize: "0.9rem",
+            marginBottom: "1rem",
+          }}
+        >
+          ← Back to Deals
         </Link>
 
-        <div className="flex flex-col sm:flex-row sm:items-start gap-4">
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-2">
-              {statusIcon}
-              <h1 className="text-2xl font-bold text-gray-900">{deal.name}</h1>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: "1rem",
+          }}
+        >
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem",
+                marginBottom: "0.5rem",
+              }}
+            >
+              <h1
+                style={{
+                  fontSize: "1.8rem",
+                  fontWeight: 800,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {deal.name}
+              </h1>
+              <span
+                className={`badge ${statusBadgeClass[deal.status] || "badge-neutral"}`}
+                style={{ textTransform: "capitalize" }}
+              >
+                {deal.status}
+              </span>
             </div>
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500">
-              <span className="flex items-center gap-1"><DollarSign className="h-3.5 w-3.5" />{formatCurrency(deal.amount)}</span>
-              <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" />Created {formatDate(deal.createdAt)}</span>
-              {deal.closedAt && <span className="flex items-center gap-1"><CheckCircle2 className="h-3.5 w-3.5" />Closed {formatDate(deal.closedAt)}</span>}
+            <div
+              className="muted"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "1rem",
+                fontSize: "0.9rem",
+              }}
+            >
+              <span>{formatCurrency(deal.amount)}</span>
+              <span>Created {formatDate(deal.createdAt)}</span>
+              {deal.closedAt && (
+                <span>Closed {formatDate(deal.closedAt)}</span>
+              )}
             </div>
           </div>
-          <StatusBadge status={deal.status} />
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            {deal.status === "open" && (
+              <>
+                <button
+                  className="btn-outline"
+                  onClick={() => setShowTouchpointModal(true)}
+                >
+                  + Touchpoint
+                </button>
+                <button
+                  className="btn"
+                  onClick={() => setShowCloseModal(true)}
+                >
+                  Close Deal
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Deal Value" value={formatCurrency(deal.amount)} icon={DollarSign} />
-        <StatCard title="Partners Involved" value={String(involvedPartners.length)} subtitle={`${touchpoints.length} touchpoints`} icon={Users} />
-        <StatCard
-          title="Timeline"
-          value={timeline.length > 1 ? `${Math.ceil((timeline[timeline.length - 1].createdAt - timeline[0].createdAt) / 86400000)} days` : "—"}
-          subtitle="First to last touch"
-          icon={Clock}
-        />
-        <StatCard
-          title="Status"
-          value={deal.status.charAt(0).toUpperCase() + deal.status.slice(1)}
-          subtitle={deal.closedAt ? formatDate(deal.closedAt) : "In progress"}
-          icon={deal.status === "won" ? CheckCircle2 : deal.status === "lost" ? XCircle : Clock}
-        />
+      <div className="stat-grid">
+        <div className="card">
+          <p
+            className="muted"
+            style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }}
+          >
+            Deal Value
+          </p>
+          <p style={{ fontSize: "1.8rem", fontWeight: 700 }}>
+            {formatCurrency(deal.amount)}
+          </p>
+        </div>
+        <div className="card">
+          <p
+            className="muted"
+            style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }}
+          >
+            Partners Involved
+          </p>
+          <p style={{ fontSize: "1.8rem", fontWeight: 700 }}>
+            {involvedPartners.length}
+          </p>
+          <p
+            className="muted"
+            style={{ fontSize: "0.8rem", marginTop: "0.25rem" }}
+          >
+            {touchpoints.length} touchpoints
+          </p>
+        </div>
+        <div className="card">
+          <p
+            className="muted"
+            style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }}
+          >
+            Timeline
+          </p>
+          <p style={{ fontSize: "1.8rem", fontWeight: 700 }}>
+            {timelineDays > 0 ? `${timelineDays} days` : "—"}
+          </p>
+          <p
+            className="muted"
+            style={{ fontSize: "0.8rem", marginTop: "0.25rem" }}
+          >
+            First to last touch
+          </p>
+        </div>
+        <div className="card">
+          <p
+            className="muted"
+            style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }}
+          >
+            Status
+          </p>
+          <p style={{ fontSize: "1.8rem", fontWeight: 700, textTransform: "capitalize" }}>
+            {deal.status}
+          </p>
+          <p
+            className="muted"
+            style={{ fontSize: "0.8rem", marginTop: "0.25rem" }}
+          >
+            {deal.closedAt ? formatDate(deal.closedAt) : "In progress"}
+          </p>
+        </div>
       </div>
 
       {/* Touchpoint Timeline */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6">
-        <h3 className="text-sm font-semibold text-gray-900 mb-6">Touchpoint Timeline</h3>
+      <div className="card">
+        <h3
+          style={{ fontSize: "0.95rem", fontWeight: 600, marginBottom: "1.5rem" }}
+        >
+          Touchpoint Timeline
+        </h3>
         {timeline.length > 0 ? (
-          <div className="relative">
-            {timeline.length > 1 && <div className="absolute top-4 left-4 right-4 h-0.5 bg-gray-100" />}
-            <div className="flex gap-0 overflow-x-auto pb-2">
+          <div style={{ position: "relative" }}>
+            {timeline.length > 1 && (
+              <div
+                style={{
+                  position: "absolute",
+                  top: 16,
+                  left: 16,
+                  right: 16,
+                  height: 2,
+                  background: "var(--border)",
+                }}
+              />
+            )}
+            <div
+              style={{
+                display: "flex",
+                gap: 0,
+                overflowX: "auto",
+                paddingBottom: "0.5rem",
+              }}
+            >
               {timeline.map((tp) => {
-                const partner = partners.find((p) => p._id === tp.partnerId);
+                const partner = partners.find(
+                  (p) => p._id === tp.partnerId
+                );
                 return (
-                  <div key={tp._id} className="flex-1 min-w-[160px] relative px-2">
-                    <div className="flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-white border-2 border-indigo-400 flex items-center justify-center relative z-10">
-                        <div className="w-3 h-3 rounded-full bg-indigo-500" />
+                  <div
+                    key={tp._id}
+                    style={{
+                      flex: "1 0 160px",
+                      position: "relative",
+                      padding: "0 0.5rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 32,
+                          height: 32,
+                          borderRadius: "50%",
+                          background: "var(--bg)",
+                          border: "2px solid var(--fg)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          position: "relative",
+                          zIndex: 1,
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: 12,
+                            height: 12,
+                            borderRadius: "50%",
+                            background: "var(--fg)",
+                          }}
+                        />
                       </div>
-                      <div className="mt-3 text-center">
-                        <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium border ${getTouchpointColor(tp.type)}`}>
+                      <div
+                        style={{
+                          marginTop: "0.75rem",
+                          textAlign: "center",
+                        }}
+                      >
+                        <span
+                          className="badge-neutral"
+                          style={{
+                            padding: "0.15rem 0.5rem",
+                            borderRadius: 4,
+                            fontSize: "0.7rem",
+                            fontWeight: 600,
+                            textTransform: "uppercase",
+                          }}
+                        >
                           {TOUCHPOINT_LABELS[tp.type]}
                         </span>
-                        <p className="text-sm font-medium text-gray-900 mt-1.5">{partner?.name}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">{formatDate(tp.createdAt)}</p>
-                        {tp.notes && <p className="text-xs text-gray-400 mt-1 max-w-[140px] truncate">{tp.notes}</p>}
+                        <p
+                          style={{
+                            fontSize: "0.85rem",
+                            fontWeight: 500,
+                            marginTop: "0.4rem",
+                          }}
+                        >
+                          {partner?.name}
+                        </p>
+                        <p
+                          className="muted"
+                          style={{
+                            fontSize: "0.75rem",
+                            marginTop: "0.15rem",
+                          }}
+                        >
+                          {formatDate(tp.createdAt)}
+                        </p>
+                        {tp.notes && (
+                          <p
+                            className="muted"
+                            style={{
+                              fontSize: "0.75rem",
+                              marginTop: "0.25rem",
+                              maxWidth: 140,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {tp.notes}
+                          </p>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -143,7 +426,12 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
             </div>
           </div>
         ) : (
-          <p className="text-sm text-gray-400 text-center py-8">No touchpoints recorded</p>
+          <p
+            className="muted"
+            style={{ textAlign: "center", padding: "2rem 0" }}
+          >
+            No touchpoints recorded
+          </p>
         )}
       </div>
 
@@ -151,56 +439,198 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
       {deal.status === "won" && allAttributions.length > 0 && (
         <>
           {/* Model Comparison Chart */}
-          <div className="bg-white rounded-xl border border-gray-100 p-6">
-            <h3 className="text-sm font-semibold text-gray-900 mb-2">Attribution Model Comparison</h3>
-            <p className="text-xs text-gray-400 mb-6">How each model attributes credit for this {formatCurrency(deal.amount)} deal</p>
-            <div className="h-72">
+          <div className="card">
+            <h3
+              style={{
+                fontSize: "0.95rem",
+                fontWeight: 600,
+                marginBottom: "0.25rem",
+              }}
+            >
+              Attribution Model Comparison
+            </h3>
+            <p
+              className="muted"
+              style={{
+                fontSize: "0.8rem",
+                marginBottom: "1.5rem",
+              }}
+            >
+              How each model attributes credit for this{" "}
+              {formatCurrency(deal.amount)} deal
+            </p>
+            <div style={{ height: 288 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={comparisonData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
-                  <XAxis dataKey="name" tick={{ fontSize: 12, fill: "#6b7280" }} tickLine={false} axisLine={{ stroke: "#e5e7eb" }} />
-                  <YAxis tick={{ fontSize: 11, fill: "#9ca3af" }} tickLine={false} axisLine={false} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
-                  <Tooltip
-                    formatter={(value: any, name: any) => [`${value}%`, MODEL_LABELS[name as AttributionModel] || name]}
-                    contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb" }}
+                  <CartesianGrid
+                    strokeDasharray="3 3"
+                    stroke="var(--border)"
                   />
-                  <Legend formatter={(value: string) => MODEL_LABELS[value as AttributionModel] || value} />
+                  <XAxis
+                    dataKey="name"
+                    tick={{ fontSize: 12, fill: "var(--muted)" }}
+                    tickLine={false}
+                    axisLine={{ stroke: "var(--border)" }}
+                  />
+                  <YAxis
+                    tick={{ fontSize: 11, fill: "var(--muted)" }}
+                    tickLine={false}
+                    axisLine={false}
+                    tickFormatter={(v) => `${v}%`}
+                    domain={[0, 100]}
+                  />
+                  <Tooltip
+                    formatter={(value: any, name: any) => [
+                      `${value}%`,
+                      MODEL_LABELS[name as AttributionModel] || name,
+                    ]}
+                    contentStyle={{
+                      borderRadius: 8,
+                      border: "1px solid var(--border)",
+                      background: "var(--bg)",
+                    }}
+                  />
+                  <Legend
+                    formatter={(value: string) =>
+                      MODEL_LABELS[value as AttributionModel] || value
+                    }
+                  />
                   {MODELS.map((model) => (
-                    <Bar key={model} dataKey={model} name={model} fill={MODEL_COLORS[model]} radius={[2, 2, 0, 0]} />
+                    <Bar
+                      key={model}
+                      dataKey={model}
+                      name={model}
+                      fill={MODEL_COLORS[model]}
+                      radius={[2, 2, 0, 0]}
+                    />
                   ))}
                 </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
 
-          {/* Side-by-Side Model Cards */}
+          {/* Model Breakdown Cards */}
           <div>
-            <h3 className="text-sm font-semibold text-gray-900 mb-4">Model Breakdown</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            <h3
+              style={{
+                fontSize: "0.95rem",
+                fontWeight: 600,
+                marginBottom: "1rem",
+              }}
+            >
+              Model Breakdown
+            </h3>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(5, 1fr)",
+                gap: "1rem",
+              }}
+            >
               {MODELS.map((model) => {
-                const modelAttrs = allAttributions.filter((a) => a.model === model);
+                const modelAttrs = allAttributions.filter(
+                  (a) => a.model === model
+                );
                 return (
-                  <div key={model} className="bg-white rounded-xl border border-gray-100 p-5">
-                    <div className="flex items-center gap-2 mb-4">
-                      <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: MODEL_COLORS[model] }} />
-                      <h4 className="text-sm font-semibold text-gray-900">{MODEL_LABELS[model]}</h4>
+                  <div key={model} className="card" style={{ padding: "1.2rem" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        marginBottom: "1rem",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: "50%",
+                          background: MODEL_COLORS[model],
+                        }}
+                      />
+                      <h4
+                        style={{
+                          fontSize: "0.85rem",
+                          fontWeight: 600,
+                        }}
+                      >
+                        {MODEL_LABELS[model]}
+                      </h4>
                     </div>
-                    <div className="space-y-3">
-                      {modelAttrs.sort((a, b) => b.percentage - a.percentage).map((attr) => {
-                        const partner = partners.find((p) => p._id === attr.partnerId);
-                        return (
-                          <div key={attr._id}>
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs font-medium text-gray-700 truncate max-w-[100px]">{partner?.name?.split(" ")[0]}</span>
-                              <span className="text-xs font-semibold text-gray-900">{formatPercent(attr.percentage)}</span>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: "0.75rem",
+                      }}
+                    >
+                      {modelAttrs
+                        .sort((a, b) => b.percentage - a.percentage)
+                        .map((attr) => {
+                          const partner = partners.find(
+                            (p) => p._id === attr.partnerId
+                          );
+                          return (
+                            <div key={attr._id}>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  marginBottom: "0.25rem",
+                                }}
+                              >
+                                <span
+                                  style={{
+                                    fontSize: "0.8rem",
+                                    fontWeight: 500,
+                                    maxWidth: 100,
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
+                                  {partner?.name?.split(" ")[0]}
+                                </span>
+                                <span
+                                  style={{
+                                    fontSize: "0.8rem",
+                                    fontWeight: 600,
+                                  }}
+                                >
+                                  {formatPercent(attr.percentage)}
+                                </span>
+                              </div>
+                              <div
+                                style={{
+                                  width: "100%",
+                                  height: 6,
+                                  background: "var(--border)",
+                                  borderRadius: 3,
+                                  overflow: "hidden",
+                                }}
+                              >
+                                <div
+                                  style={{
+                                    width: `${attr.percentage}%`,
+                                    height: "100%",
+                                    background: MODEL_COLORS[model],
+                                    borderRadius: 3,
+                                  }}
+                                />
+                              </div>
+                              <p
+                                className="muted"
+                                style={{
+                                  fontSize: "0.75rem",
+                                  marginTop: "0.15rem",
+                                }}
+                              >
+                                {formatCurrency(attr.amount)}
+                              </p>
                             </div>
-                            <div className="w-full bg-gray-100 rounded-full h-1.5">
-                              <div className="h-full rounded-full" style={{ width: `${attr.percentage}%`, backgroundColor: MODEL_COLORS[model] }} />
-                            </div>
-                            <p className="text-xs text-gray-400 mt-0.5">{formatCurrency(attr.amount)}</p>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
                     </div>
                   </div>
                 );
@@ -209,43 +639,188 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
           </div>
 
           {/* Full Table */}
-          <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-50">
-              <h3 className="text-sm font-semibold text-gray-900">Full Attribution & Commission Table</h3>
+          <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+            <div
+              style={{
+                padding: "1.2rem 1.5rem",
+                borderBottom: "1px solid var(--border)",
+              }}
+            >
+              <strong>Full Attribution & Commission Table</strong>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full">
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <thead>
-                  <tr className="border-b border-gray-100 bg-gray-50/50">
-                    <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Partner</th>
-                    <th className="text-left px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Model</th>
-                    <th className="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase">%</th>
-                    <th className="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase">Amount</th>
-                    <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Commission</th>
+                  <tr
+                    style={{
+                      borderBottom: "1px solid var(--border)",
+                      background: "var(--subtle)",
+                    }}
+                  >
+                    <th
+                      style={{
+                        textAlign: "left",
+                        padding: "0.75rem 1.5rem",
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        color: "var(--muted)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Partner
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "left",
+                        padding: "0.75rem 1rem",
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        color: "var(--muted)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Model
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "right",
+                        padding: "0.75rem 1rem",
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        color: "var(--muted)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      %
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "right",
+                        padding: "0.75rem 1rem",
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        color: "var(--muted)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Amount
+                    </th>
+                    <th
+                      style={{
+                        textAlign: "right",
+                        padding: "0.75rem 1.5rem",
+                        fontSize: "0.75rem",
+                        fontWeight: 600,
+                        color: "var(--muted)",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Commission
+                    </th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
+                <tbody>
                   {allAttributions
-                    .sort((a, b) => a.partnerId !== b.partnerId ? a.partnerId.localeCompare(b.partnerId) : MODELS.indexOf(a.model) - MODELS.indexOf(b.model))
+                    .sort((a, b) =>
+                      a.partnerId !== b.partnerId
+                        ? a.partnerId.localeCompare(b.partnerId)
+                        : MODELS.indexOf(a.model) - MODELS.indexOf(b.model)
+                    )
                     .map((attr) => {
-                      const partner = partners.find((p) => p._id === attr.partnerId);
+                      const partner = partners.find(
+                        (p) => p._id === attr.partnerId
+                      );
                       return (
-                        <tr key={attr._id} className="hover:bg-gray-50/50">
-                          <td className="px-6 py-3">
-                            <div className="flex items-center gap-2">
-                              <Avatar name={partner?.name || "?"} size="sm" />
-                              <span className="text-sm font-medium text-gray-900">{partner?.name}</span>
+                        <tr
+                          key={attr._id}
+                          style={{
+                            borderBottom: "1px solid var(--border)",
+                          }}
+                        >
+                          <td style={{ padding: "0.75rem 1.5rem" }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.5rem",
+                              }}
+                            >
+                              <div
+                                className="avatar"
+                                style={{
+                                  width: 28,
+                                  height: 28,
+                                  fontSize: "0.65rem",
+                                }}
+                              >
+                                {partner?.name
+                                  ?.split(" ")
+                                  .map((n) => n[0])
+                                  .join("")
+                                  .toUpperCase()
+                                  .slice(0, 2) || "?"}
+                              </div>
+                              <span
+                                style={{
+                                  fontSize: "0.9rem",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                {partner?.name}
+                              </span>
                             </div>
                           </td>
-                          <td className="px-4 py-3">
-                            <div className="flex items-center gap-2">
-                              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: MODEL_COLORS[attr.model] }} />
-                              <span className="text-sm text-gray-700">{MODEL_LABELS[attr.model]}</span>
+                          <td style={{ padding: "0.75rem 1rem" }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.4rem",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  width: 8,
+                                  height: 8,
+                                  borderRadius: "50%",
+                                  background: MODEL_COLORS[attr.model],
+                                }}
+                              />
+                              <span style={{ fontSize: "0.85rem" }}>
+                                {MODEL_LABELS[attr.model]}
+                              </span>
                             </div>
                           </td>
-                          <td className="px-4 py-3 text-right text-sm font-semibold text-gray-900">{formatPercent(attr.percentage)}</td>
-                          <td className="px-4 py-3 text-right text-sm text-gray-700">{formatCurrency(attr.amount)}</td>
-                          <td className="px-6 py-3 text-right text-sm font-medium text-emerald-600">{formatCurrency(attr.commissionAmount)}</td>
+                          <td
+                            style={{
+                              padding: "0.75rem 1rem",
+                              textAlign: "right",
+                              fontWeight: 600,
+                              fontSize: "0.9rem",
+                            }}
+                          >
+                            {formatPercent(attr.percentage)}
+                          </td>
+                          <td
+                            style={{
+                              padding: "0.75rem 1rem",
+                              textAlign: "right",
+                              fontSize: "0.9rem",
+                            }}
+                          >
+                            {formatCurrency(attr.amount)}
+                          </td>
+                          <td
+                            style={{
+                              padding: "0.75rem 1.5rem",
+                              textAlign: "right",
+                              fontWeight: 500,
+                              fontSize: "0.9rem",
+                              color: "#059669",
+                            }}
+                          >
+                            {formatCurrency(attr.commissionAmount)}
+                          </td>
                         </tr>
                       );
                     })}
@@ -257,25 +832,218 @@ export default function DealDetailPage({ params }: { params: Promise<{ id: strin
       )}
 
       {/* Partners Involved */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6">
-        <h3 className="text-sm font-semibold text-gray-900 mb-4">Partners Involved</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="card">
+        <h3
+          style={{ fontSize: "0.95rem", fontWeight: 600, marginBottom: "1rem" }}
+        >
+          Partners Involved
+        </h3>
+        <div className="grid-3">
           {involvedPartners.map((partner) => {
             if (!partner) return null;
-            const pTouchpoints = touchpoints.filter((tp) => tp.partnerId === partner._id);
+            const pTouchpoints = touchpoints.filter(
+              (tp) => tp.partnerId === partner._id
+            );
             return (
-              <Link key={partner._id} href={`/dashboard/partners/${partner._id}`} className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 hover:border-gray-200 hover:shadow-sm transition-all">
-                <Avatar name={partner.name} size="md" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-gray-900 truncate">{partner.name}</p>
-                  <p className="text-xs text-gray-400">{pTouchpoints.length} touchpoints · {partner.commissionRate}% rate</p>
+              <Link
+                key={partner._id}
+                href={`/dashboard/partners/${partner._id}`}
+                className="card card-hover"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  padding: "1rem",
+                }}
+              >
+                <div
+                  className="avatar"
+                  style={{ width: 36, height: 36, fontSize: "0.75rem" }}
+                >
+                  {partner.name
+                    .split(" ")
+                    .map((n) => n[0])
+                    .join("")
+                    .toUpperCase()
+                    .slice(0, 2)}
                 </div>
-                <StatusBadge status={partner.status} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p
+                    style={{
+                      fontWeight: 500,
+                      fontSize: "0.9rem",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {partner.name}
+                  </p>
+                  <p
+                    className="muted"
+                    style={{ fontSize: "0.8rem" }}
+                  >
+                    {pTouchpoints.length} touchpoints ·{" "}
+                    {partner.commissionRate}% rate
+                  </p>
+                </div>
+                <span
+                  className={`badge ${statusBadgeClass[partner.status] || "badge-neutral"}`}
+                  style={{ textTransform: "capitalize", fontSize: "0.7rem" }}
+                >
+                  {partner.status}
+                </span>
               </Link>
             );
           })}
+          {involvedPartners.length === 0 && (
+            <p className="muted">No partners involved yet</p>
+          )}
         </div>
       </div>
+
+      {/* Close Deal Modal */}
+      <Modal
+        open={showCloseModal}
+        onClose={() => setShowCloseModal(false)}
+        title="Close Deal"
+      >
+        <p style={{ marginBottom: "1.5rem", color: "var(--muted)" }}>
+          How did <strong>{deal.name}</strong> ({formatCurrency(deal.amount)}) end?
+        </p>
+        <div style={{ display: "flex", gap: "0.75rem" }}>
+          <button
+            className="btn"
+            style={{
+              flex: 1,
+              background: "#059669",
+              color: "white",
+              justifyContent: "center",
+            }}
+            onClick={() => handleClose("won")}
+          >
+            ✓ Won
+          </button>
+          <button
+            className="btn"
+            style={{
+              flex: 1,
+              background: "#dc2626",
+              color: "white",
+              justifyContent: "center",
+            }}
+            onClick={() => handleClose("lost")}
+          >
+            ✗ Lost
+          </button>
+        </div>
+        <button
+          className="btn-outline"
+          style={{ width: "100%", marginTop: "0.75rem", justifyContent: "center" }}
+          onClick={() => setShowCloseModal(false)}
+        >
+          Cancel
+        </button>
+      </Modal>
+
+      {/* Add Touchpoint Modal */}
+      <Modal
+        open={showTouchpointModal}
+        onClose={() => setShowTouchpointModal(false)}
+        title="Add Touchpoint"
+      >
+        <form
+          onSubmit={handleAddTouchpoint}
+          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+        >
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                marginBottom: "0.4rem",
+              }}
+            >
+              Partner
+            </label>
+            <select
+              className="input"
+              value={tpPartnerId}
+              onChange={(e) => setTpPartnerId(e.target.value)}
+              required
+            >
+              <option value="">Select a partner...</option>
+              {activePartners.map((p) => (
+                <option key={p._id} value={p._id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                marginBottom: "0.4rem",
+              }}
+            >
+              Type
+            </label>
+            <select
+              className="input"
+              value={tpType}
+              onChange={(e) => setTpType(e.target.value as TouchpointType)}
+            >
+              <option value="referral">Referral</option>
+              <option value="demo">Demo</option>
+              <option value="content_share">Content Share</option>
+              <option value="introduction">Introduction</option>
+              <option value="proposal">Proposal</option>
+              <option value="negotiation">Negotiation</option>
+            </select>
+          </div>
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                marginBottom: "0.4rem",
+              }}
+            >
+              Notes (optional)
+            </label>
+            <input
+              className="input"
+              placeholder="What happened?"
+              value={tpNotes}
+              onChange={(e) => setTpNotes(e.target.value)}
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: "0.75rem",
+              paddingTop: "0.5rem",
+            }}
+          >
+            <button
+              type="button"
+              className="btn-outline"
+              onClick={() => setShowTouchpointModal(false)}
+            >
+              Cancel
+            </button>
+            <button type="submit" className="btn">
+              Add Touchpoint
+            </button>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 }

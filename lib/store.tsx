@@ -1,49 +1,29 @@
 "use client";
-
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import type { Organization, Partner, Deal, Touchpoint, Attribution, AttributionModel } from "./types";
-import {
-  demoOrg,
-  demoPartners,
-  demoDeals,
-  demoTouchpoints,
-  demoAttributions,
-  enrichTouchpoints,
-  enrichAttributions,
-} from "./demo-data";
+import type { Organization, Partner, Deal, Touchpoint, Attribution, Payout, AuditEntry, AttributionModel } from "./types";
+import { demoOrg, demoPartners, demoDeals, demoTouchpoints, demoAttributions, demoPayouts, demoAuditLog, enrichTouchpoints, enrichAttributions } from "./demo-data";
 
 type StoreContextType = {
-  // Auth
-  org: Organization | null;
-  isAuthenticated: boolean;
-  login: (apiKey: string) => boolean;
-  logout: () => void;
-
-  // Partners
+  org: Organization;
   partners: Partner[];
   getPartner: (id: string) => Partner | undefined;
-  addPartner: (partner: Omit<Partner, "_id" | "organizationId" | "createdAt" | "status">) => Partner;
+  addPartner: (p: Omit<Partner, "_id" | "organizationId" | "createdAt">) => Partner;
   updatePartner: (id: string, updates: Partial<Partner>) => void;
-
-  // Deals
   deals: Deal[];
   getDeal: (id: string) => Deal | undefined;
-  addDeal: (deal: Omit<Deal, "_id" | "organizationId" | "createdAt" | "status">) => Deal;
+  addDeal: (d: Omit<Deal, "_id" | "organizationId" | "createdAt">) => Deal;
   updateDeal: (id: string, updates: Partial<Deal>) => void;
-
-  // Touchpoints
+  closeDeal: (id: string, status: "won" | "lost") => void;
   touchpoints: Touchpoint[];
   getTouchpointsByDeal: (dealId: string) => Touchpoint[];
   getTouchpointsByPartner: (partnerId: string) => Touchpoint[];
   addTouchpoint: (tp: Omit<Touchpoint, "_id" | "organizationId" | "createdAt">) => Touchpoint;
-
-  // Attributions
   attributions: Attribution[];
   getAttributionsByDeal: (dealId: string) => Attribution[];
   getAttributionsByPartner: (partnerId: string) => Attribution[];
   getAttributionsByModel: (model: AttributionModel) => Attribution[];
-
-  // Computed
+  payouts: Payout[];
+  auditLog: AuditEntry[];
   stats: {
     totalRevenue: number;
     pipelineValue: number;
@@ -56,111 +36,59 @@ type StoreContextType = {
     winRate: number;
     avgDealSize: number;
     totalCommissions: number;
+    pendingPayouts: number;
   };
 };
 
 const StoreContext = createContext<StoreContextType | null>(null);
 
 export function StoreProvider({ children }: { children: ReactNode }) {
-  const [org, setOrg] = useState<Organization | null>(null);
   const [partners, setPartners] = useState<Partner[]>(demoPartners);
   const [deals, setDeals] = useState<Deal[]>(demoDeals);
-  const [touchpoints] = useState<Touchpoint[]>(demoTouchpoints);
+  const [touchpoints, setTouchpoints] = useState<Touchpoint[]>(demoTouchpoints);
   const [attributions] = useState<Attribution[]>(demoAttributions);
-
-  const login = useCallback((apiKey: string) => {
-    // For MVP, accept any key or the demo key
-    if (apiKey === demoOrg.apiKey || apiKey.startsWith("pk_")) {
-      setOrg(demoOrg);
-      return true;
-    }
-    return false;
-  }, []);
-
-  const logout = useCallback(() => {
-    setOrg(null);
-  }, []);
+  const [payouts] = useState<Payout[]>(demoPayouts);
+  const [auditLog] = useState<AuditEntry[]>(demoAuditLog);
 
   const getPartner = useCallback((id: string) => partners.find((p) => p._id === id), [partners]);
   const getDeal = useCallback((id: string) => deals.find((d) => d._id === id), [deals]);
 
-  const addPartner = useCallback(
-    (data: Omit<Partner, "_id" | "organizationId" | "createdAt" | "status">) => {
-      const partner: Partner = {
-        ...data,
-        _id: `p_${Date.now()}`,
-        organizationId: org?._id || "",
-        status: "pending",
-        createdAt: Date.now(),
-      };
-      setPartners((prev) => [...prev, partner]);
-      return partner;
-    },
-    [org]
-  );
+  const addPartner = useCallback((data: Omit<Partner, "_id" | "organizationId" | "createdAt">) => {
+    const partner: Partner = { ...data, _id: `p_${Date.now()}`, organizationId: demoOrg._id, createdAt: Date.now() };
+    setPartners((prev) => [...prev, partner]);
+    return partner;
+  }, []);
 
   const updatePartner = useCallback((id: string, updates: Partial<Partner>) => {
     setPartners((prev) => prev.map((p) => (p._id === id ? { ...p, ...updates } : p)));
   }, []);
 
-  const addDeal = useCallback(
-    (data: Omit<Deal, "_id" | "organizationId" | "createdAt" | "status">) => {
-      const deal: Deal = {
-        ...data,
-        _id: `d_${Date.now()}`,
-        organizationId: org?._id || "",
-        status: "open",
-        createdAt: Date.now(),
-      };
-      setDeals((prev) => [...prev, deal]);
-      return deal;
-    },
-    [org]
-  );
+  const addDeal = useCallback((data: Omit<Deal, "_id" | "organizationId" | "createdAt">) => {
+    const deal: Deal = { ...data, _id: `d_${Date.now()}`, organizationId: demoOrg._id, createdAt: Date.now() };
+    setDeals((prev) => [...prev, deal]);
+    return deal;
+  }, []);
 
   const updateDeal = useCallback((id: string, updates: Partial<Deal>) => {
     setDeals((prev) => prev.map((d) => (d._id === id ? { ...d, ...updates } : d)));
   }, []);
 
-  const getTouchpointsByDeal = useCallback(
-    (dealId: string) => enrichTouchpoints(touchpoints.filter((tp) => tp.dealId === dealId)),
-    [touchpoints]
-  );
+  const closeDeal = useCallback((id: string, status: "won" | "lost") => {
+    setDeals((prev) => prev.map((d) => (d._id === id ? { ...d, status, closedAt: Date.now() } : d)));
+  }, []);
 
-  const getTouchpointsByPartner = useCallback(
-    (partnerId: string) => enrichTouchpoints(touchpoints.filter((tp) => tp.partnerId === partnerId)),
-    [touchpoints]
-  );
+  const getTouchpointsByDeal = useCallback((dealId: string) => enrichTouchpoints(touchpoints.filter((tp) => tp.dealId === dealId)), [touchpoints]);
+  const getTouchpointsByPartner = useCallback((partnerId: string) => enrichTouchpoints(touchpoints.filter((tp) => tp.partnerId === partnerId)), [touchpoints]);
+  const addTouchpoint = useCallback((data: Omit<Touchpoint, "_id" | "organizationId" | "createdAt">) => {
+    const tp: Touchpoint = { ...data, _id: `tp_${Date.now()}`, organizationId: demoOrg._id, createdAt: Date.now() };
+    setTouchpoints((prev) => [...prev, tp]);
+    return tp;
+  }, []);
 
-  const addTouchpoint = useCallback(
-    (data: Omit<Touchpoint, "_id" | "organizationId" | "createdAt">) => {
-      const tp: Touchpoint = {
-        ...data,
-        _id: `tp_${Date.now()}`,
-        organizationId: org?._id || "",
-        createdAt: Date.now(),
-      };
-      return tp;
-    },
-    [org]
-  );
+  const getAttributionsByDeal = useCallback((dealId: string) => enrichAttributions(attributions.filter((a) => a.dealId === dealId)), [attributions]);
+  const getAttributionsByPartner = useCallback((partnerId: string) => enrichAttributions(attributions.filter((a) => a.partnerId === partnerId)), [attributions]);
+  const getAttributionsByModel = useCallback((model: AttributionModel) => enrichAttributions(attributions.filter((a) => a.model === model)), [attributions]);
 
-  const getAttributionsByDeal = useCallback(
-    (dealId: string) => enrichAttributions(attributions.filter((a) => a.dealId === dealId)),
-    [attributions]
-  );
-
-  const getAttributionsByPartner = useCallback(
-    (partnerId: string) => enrichAttributions(attributions.filter((a) => a.partnerId === partnerId)),
-    [attributions]
-  );
-
-  const getAttributionsByModel = useCallback(
-    (model: AttributionModel) => enrichAttributions(attributions.filter((a) => a.model === model)),
-    [attributions]
-  );
-
-  // Compute stats
   const wonDealsList = deals.filter((d) => d.status === "won");
   const totalRevenue = wonDealsList.reduce((s, d) => s + d.amount, 0);
   const pipelineValue = deals.filter((d) => d.status === "open").reduce((s, d) => s + d.amount, 0);
@@ -177,35 +105,12 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     totalPartners: partners.length,
     winRate: closedCount > 0 ? Math.round((wonDealsList.length / closedCount) * 100) : 0,
     avgDealSize: wonDealsList.length > 0 ? Math.round(totalRevenue / wonDealsList.length) : 0,
-    totalCommissions: Math.round(attributions.filter((a) => a.model === "equal_split").reduce((s, a) => s + a.commissionAmount, 0)),
+    totalCommissions: Math.round(attributions.filter((a) => a.model === "role_based").reduce((s, a) => s + a.commissionAmount, 0)),
+    pendingPayouts: payouts.filter((p) => p.status === "pending_approval").reduce((s, p) => s + p.amount, 0),
   };
 
   return (
-    <StoreContext.Provider
-      value={{
-        org,
-        isAuthenticated: !!org,
-        login,
-        logout,
-        partners,
-        getPartner,
-        addPartner,
-        updatePartner,
-        deals,
-        getDeal,
-        addDeal,
-        updateDeal,
-        touchpoints,
-        getTouchpointsByDeal,
-        getTouchpointsByPartner,
-        addTouchpoint,
-        attributions,
-        getAttributionsByDeal,
-        getAttributionsByPartner,
-        getAttributionsByModel,
-        stats,
-      }}
-    >
+    <StoreContext.Provider value={{ org: demoOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, payouts, auditLog, stats }}>
       {children}
     </StoreContext.Provider>
   );

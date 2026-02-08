@@ -1,112 +1,145 @@
 "use client";
-
 import Link from "next/link";
+import { useStore } from "@/lib/store";
+import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock } from "lucide-react";
 
-const stats = [
-  { name: "Total Revenue", value: "$284,500", change: "+12.5%" },
-  { name: "Active Partners", value: "24", change: "+3" },
-  { name: "Open Deals", value: "18", change: "+5" },
-  { name: "Attribution Score", value: "87%", change: "-2%" },
-];
-
-const recentDeals = [
-  { id: "1", name: "Acme Corp Enterprise", amount: 48000, status: "won", partner: "TechStar Solutions" },
-  { id: "2", name: "GlobalTech Migration", amount: 32000, status: "open", partner: "CloudBridge Partners" },
-  { id: "3", name: "Startup Suite Bundle", amount: 12500, status: "won", partner: "InnovateCo" },
-  { id: "4", name: "DataFlow Integration", amount: 85000, status: "open", partner: "DataPipe Agency" },
-  { id: "5", name: "SecureNet Rollout", amount: 23000, status: "lost", partner: "CyberShield Partners" },
-  { id: "6", name: "FinServ Platform Deal", amount: 67000, status: "won", partner: "FinTech Allies" },
-];
-
-const topPartners = [
-  { name: "TechStar Solutions", revenue: 124500, deals: 8, type: "Reseller" },
-  { name: "CloudBridge Partners", revenue: 89000, deals: 5, type: "Referral" },
-  { name: "FinTech Allies", revenue: 67000, deals: 4, type: "Alliance" },
-  { name: "InnovateCo", revenue: 45000, deals: 6, type: "Affiliate" },
-  { name: "DataPipe Agency", revenue: 38000, deals: 3, type: "Integration" },
-];
-
-const statusBadge: Record<string, string> = { won: "badge-success", open: "badge-info", lost: "badge-danger" };
+function fmt(n: number) {
+  if (n >= 1000000) return `$${(n / 1000000).toFixed(1)}M`;
+  if (n >= 1000) return `$${(n / 1000).toFixed(0)}k`;
+  return `$${n}`;
+}
 
 export default function DashboardPage() {
+  const { stats, deals, partners, payouts, auditLog } = useStore();
+  const recentDeals = [...deals].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5);
+  const topPartners = partners.filter((p) => p.status === "active").slice(0, 5);
+  const pendingPayouts = payouts.filter((p) => p.status === "pending_approval");
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-      <div>
-        <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Dashboard</h1>
-        <p style={{ color: "var(--muted)", fontSize: "0.95rem", marginTop: "0.25rem" }}>Your partner program at a glance</p>
-      </div>
+    <div className="dash-layout">
+      <div className="dash-content">
+        <div style={{ marginBottom: "2rem" }}>
+          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Dashboard</h1>
+          <p className="muted">Your partner program at a glance</p>
+        </div>
 
-      {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
-        {stats.map((s) => (
-          <div key={s.name} className="card">
-            <p style={{ fontSize: "0.8rem", color: "var(--muted)", marginBottom: "0.5rem" }}>{s.name}</p>
-            <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
-              <span style={{ fontSize: "1.8rem", fontWeight: 700 }}>{s.value}</span>
-              <span style={{ fontSize: "0.8rem", fontWeight: 500, color: s.change.startsWith("+") ? "#059669" : "#dc2626" }}>{s.change}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1.5rem" }}>
-        {/* Recent Deals */}
-        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-          <div style={{ padding: "1.2rem 1.5rem", borderBottom: "1px solid var(--border)" }}>
-            <strong>Recent Deals</strong>
-          </div>
-          {recentDeals.map((deal) => (
-            <Link key={deal.id} href={`/dashboard/deals/${deal.id}`} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem 1.5rem", borderBottom: "1px solid var(--border)", transition: "background 0.15s" }}>
+        {/* Stats */}
+        <div className="stat-grid" style={{ marginBottom: "2rem" }}>
+          <div className="card">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
               <div>
-                <p style={{ fontWeight: 500, fontSize: "0.95rem" }}>{deal.name}</p>
-                <p style={{ color: "var(--muted)", fontSize: "0.8rem" }}>{deal.partner}</p>
+                <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Total Revenue</p>
+                <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{fmt(stats.totalRevenue)}</p>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                <span style={{ fontWeight: 600, fontSize: "0.95rem", fontVariantNumeric: "tabular-nums" }}>${deal.amount.toLocaleString()}</span>
-                <span className={`badge ${statusBadge[deal.status]}`} style={{ textTransform: "capitalize" }}>{deal.status}</span>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {/* Top Partners */}
-        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-          <div style={{ padding: "1.2rem 1.5rem", borderBottom: "1px solid var(--border)" }}>
-            <strong>Top Partners</strong>
-          </div>
-          {topPartners.map((p, i) => (
-            <Link key={p.name} href="/dashboard/partners/1" style={{ display: "flex", alignItems: "center", gap: "0.8rem", padding: "1rem 1.5rem", borderBottom: "1px solid var(--border)", transition: "background 0.15s" }}>
-              <span style={{ fontWeight: 700, color: "var(--muted)", width: 20, fontSize: "0.85rem" }}>{i + 1}</span>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontWeight: 500, fontSize: "0.9rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</p>
-                <p style={{ color: "var(--muted)", fontSize: "0.8rem" }}>{p.type} · {p.deals} deals</p>
-              </div>
-              <span style={{ fontWeight: 600, fontSize: "0.9rem", fontVariantNumeric: "tabular-nums" }}>${(p.revenue / 1000).toFixed(0)}k</span>
-            </Link>
-          ))}
-        </div>
-      </div>
-
-      {/* Attribution Comparison */}
-      <div className="card">
-        <div style={{ marginBottom: "1rem" }}>
-          <strong>Attribution Model Comparison</strong>
-          <p style={{ fontSize: "0.8rem", color: "var(--muted)", marginTop: "0.25rem" }}>Same deals, different models</p>
-        </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "1rem" }}>
-          {[
-            { model: "Equal Split", partner: "TechStar", pct: "20%" },
-            { model: "First Touch", partner: "CloudBridge", pct: "35%" },
-            { model: "Last Touch", partner: "TechStar", pct: "42%" },
-            { model: "Time Decay", partner: "TechStar", pct: "31%" },
-            { model: "Role-Based", partner: "FinTech Allies", pct: "28%" },
-          ].map((m) => (
-            <div key={m.model} style={{ textAlign: "center", padding: "1.2rem", background: "var(--subtle)", borderRadius: "var(--radius)" }}>
-              <p style={{ fontSize: "0.8rem", color: "var(--muted)", fontWeight: 500 }}>{m.model}</p>
-              <p style={{ fontSize: "1.8rem", fontWeight: 700, marginTop: "0.5rem" }}>{m.pct}</p>
-              <p style={{ fontSize: "0.75rem", color: "var(--muted)", marginTop: "0.25rem" }}>Top: {m.partner}</p>
+              <div style={{ background: "#ecfdf5", padding: ".5rem", borderRadius: 8 }}><TrendingUp size={18} color="#065f46" /></div>
             </div>
-          ))}
+            <p style={{ fontSize: ".8rem", color: "#065f46", marginTop: ".5rem" }}>↑ {stats.wonDeals} won deals</p>
+          </div>
+          <div className="card">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
+              <div>
+                <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Pipeline Value</p>
+                <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{fmt(stats.pipelineValue)}</p>
+              </div>
+              <div style={{ background: "#eef2ff", padding: ".5rem", borderRadius: 8 }}><Briefcase size={18} color="#3730a3" /></div>
+            </div>
+            <p style={{ fontSize: ".8rem", color: "#3730a3", marginTop: ".5rem" }}>{stats.openDeals} active deals</p>
+          </div>
+          <div className="card">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
+              <div>
+                <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Active Partners</p>
+                <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{stats.activePartners}</p>
+              </div>
+              <div style={{ background: "#f0fdf4", padding: ".5rem", borderRadius: 8 }}><Users size={18} color="#166534" /></div>
+            </div>
+            <p style={{ fontSize: ".8rem", color: "#166534", marginTop: ".5rem" }}>{stats.totalPartners} total</p>
+          </div>
+          <div className="card">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
+              <div>
+                <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Win Rate</p>
+                <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{stats.winRate}%</p>
+              </div>
+              <div style={{ background: "#fffbeb", padding: ".5rem", borderRadius: 8 }}><ArrowUpRight size={18} color="#92400e" /></div>
+            </div>
+            <p style={{ fontSize: ".8rem", color: "#92400e", marginTop: ".5rem" }}>Avg deal: {fmt(stats.avgDealSize)}</p>
+          </div>
+        </div>
+
+        <div className="dash-grid-2">
+          {/* Recent Deals */}
+          <div className="card" style={{ padding: 0 }}>
+            <div style={{ padding: "1.2rem 1.5rem", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <h3 style={{ fontWeight: 700, fontSize: "1rem" }}>Recent Deals</h3>
+              <Link href="/dashboard/deals" className="muted" style={{ fontSize: ".85rem", fontWeight: 500 }}>View all →</Link>
+            </div>
+            {recentDeals.map((deal) => (
+              <Link key={deal._id} href={`/dashboard/deals/${deal._id}`} className="list-item">
+                <div>
+                  <p style={{ fontWeight: 600, fontSize: ".9rem" }}>{deal.name}</p>
+                  <p className="muted" style={{ fontSize: ".8rem" }}>{new Date(deal.createdAt).toLocaleDateString()}</p>
+                </div>
+                <div style={{ textAlign: "right" }}>
+                  <p style={{ fontWeight: 700, fontSize: ".95rem" }}>{fmt(deal.amount)}</p>
+                  <span className={`badge badge-${deal.status === "won" ? "success" : deal.status === "lost" ? "danger" : "info"}`}>{deal.status}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Sidebar */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            {/* Pending Approvals */}
+            <div className="card">
+              <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1rem" }}>
+                <Clock size={16} style={{ display: "inline", marginRight: ".4rem", verticalAlign: "-2px" }} />
+                Pending Approvals
+              </h3>
+              {pendingPayouts.length === 0 ? (
+                <p className="muted" style={{ fontSize: ".85rem" }}>All clear! No pending approvals.</p>
+              ) : (
+                pendingPayouts.map((p) => {
+                  const partner = partners.find((pr) => pr._id === p.partnerId);
+                  return (
+                    <div key={p._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: ".6rem 0", borderBottom: "1px solid var(--border)" }}>
+                      <div>
+                        <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{partner?.name}</p>
+                        <p className="muted" style={{ fontSize: ".75rem" }}>Payout · {p.period}</p>
+                      </div>
+                      <strong style={{ fontSize: ".9rem" }}>{fmt(p.amount)}</strong>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* Top Partners */}
+            <div className="card">
+              <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1rem" }}>Top Partners</h3>
+              {topPartners.map((p) => (
+                <Link key={p._id} href={`/dashboard/partners/${p._id}`} style={{ display: "flex", alignItems: "center", gap: ".8rem", padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
+                  <div className="avatar">{p.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{p.name}</p>
+                    <p className="muted" style={{ fontSize: ".75rem" }}>{p.type} · {p.tier || "—"}</p>
+                  </div>
+                  <span className="badge badge-success" style={{ fontSize: ".7rem" }}>{p.commissionRate}%</span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Audit Trail */}
+            <div className="card">
+              <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1rem" }}>Recent Activity</h3>
+              {auditLog.slice(0, 5).map((entry) => (
+                <div key={entry._id} style={{ padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
+                  <p style={{ fontSize: ".85rem" }}><strong>{entry.action}</strong></p>
+                  <p className="muted" style={{ fontSize: ".75rem" }}>{new Date(entry.createdAt).toLocaleString()} {entry.changes && `· ${entry.changes}`}</p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

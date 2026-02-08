@@ -1,13 +1,11 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Menu, X } from "lucide-react";
+import { LayoutDashboard, Users, Briefcase, PieChart, Settings } from "lucide-react";
 
 const marketingLinks = [
   { name: "Platform", href: "#platform" },
-  { name: "Solutions", href: "#pricing" },
+  { name: "Solutions", href: "#solutions" },
   { name: "Pricing", href: "#pricing" },
 ];
 
@@ -22,59 +20,51 @@ const dashboardLinks = [
 export default function Nav() {
   const pathname = usePathname();
   const isDashboard = pathname.startsWith("/dashboard");
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const isPortal = pathname.startsWith("/portal");
+
+  // Portal has its own nav in layout.tsx
+  if (isPortal) return null;
 
   return (
-    <nav style={{ position: "fixed", top: 0, left: 0, right: 0, background: "rgba(255,255,255,0.95)", backdropFilter: "blur(12px)", borderBottom: "1px solid #e9ecef", zIndex: 100, padding: "0.8rem 0" }}>
-      <div style={{ maxWidth: 1300, margin: "0 auto", padding: "0 2rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-        <Link href="/" style={{ fontSize: "1.4rem", fontWeight: 700 }}>
-          Partner<span style={{ fontWeight: 400 }}>AI</span>
-        </Link>
+    <nav className="site-nav">
+      <div className="nav-inner">
+        <Link href="/" className="logo">Partner<span>AI</span></Link>
 
-        <div style={{ display: "flex", gap: isDashboard ? "0.5rem" : "2rem", alignItems: "center" }} className="hidden md:flex">
-          {isDashboard
-            ? dashboardLinks.map((link) => {
-                const isActive = pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href));
-                return (
-                  <Link key={link.name} href={link.href} style={{ display: "flex", alignItems: "center", gap: "0.4rem", padding: "0.5rem 0.8rem", borderRadius: 8, fontSize: "0.9rem", fontWeight: 500, background: isActive ? "#f8f9fa" : "transparent", color: isActive ? "#000" : "#6c757d", transition: "all 0.2s" }}>
-                    <link.icon size={16} />
-                    {link.name}
-                  </Link>
-                );
-              })
-            : marketingLinks.map((link) => (
-                <a key={link.name} href={link.href} style={{ fontWeight: 500, fontSize: "0.9rem" }}>{link.name}</a>
-              ))}
-        </div>
+        {isDashboard ? (
+          <div className="nav-links-dash">
+            {dashboardLinks.map((link) => {
+              const isActive = pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href));
+              const Icon = link.icon;
+              return (
+                <Link key={link.name} href={link.href} className={isActive ? "active" : ""}>
+                  <Icon size={16} />
+                  {link.name}
+                </Link>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="nav-links">
+            {marketingLinks.map((link) => (
+              <a key={link.name} href={link.href}>{link.name}</a>
+            ))}
+          </div>
+        )}
 
-        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+        <div className="nav-actions">
           {isDashboard ? (
             <>
-              <span style={{ background: "#f8f9fa", padding: "0.25rem 0.6rem", borderRadius: 6, fontSize: "0.75rem", color: "#6c757d" }} className="hidden sm:inline">Demo</span>
-              <Link href="/" style={{ background: "white", border: "1px solid #e9ecef", padding: "0.4rem 1rem", borderRadius: 8, fontSize: "0.85rem", fontWeight: 500 }}>← Site</Link>
+              <Link href="/portal" className="btn-outline" style={{ fontSize: ".8rem", padding: ".4rem .8rem" }}>Partner Portal</Link>
+              <Link href="/" style={{ fontSize: ".85rem", fontWeight: 500 }}>← Site</Link>
             </>
           ) : (
             <>
-              <Link href="/dashboard" style={{ fontWeight: 500, fontSize: "0.9rem" }} className="hidden sm:inline">Log in</Link>
-              <Link href="/dashboard" style={{ background: "#000", color: "#fff", padding: "0.5rem 1.2rem", borderRadius: 8, fontSize: "0.85rem", fontWeight: 600 }}>Get started</Link>
+              <Link href="/dashboard" className="link" style={{ fontWeight: 500, fontSize: ".9rem" }}>Log in</Link>
+              <Link href="/dashboard" className="btn">Get started</Link>
             </>
           )}
-          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden" style={{ background: "none", border: "none", cursor: "pointer" }}>
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
         </div>
       </div>
-
-      {mobileOpen && (
-        <div style={{ position: "absolute", top: "100%", left: 0, right: 0, background: "white", borderBottom: "1px solid #e9ecef", padding: "1rem 2rem" }}>
-          {(isDashboard ? dashboardLinks : marketingLinks).map((link) => (
-            <Link key={link.name} href={link.href} onClick={() => setMobileOpen(false)} style={{ display: "flex", alignItems: "center", gap: "0.5rem", padding: "0.8rem 0", fontWeight: 500, fontSize: "0.95rem", borderBottom: "1px solid #e9ecef" }}>
-              {"icon" in link && (() => { const Icon = (link as any).icon; return <Icon size={16} />; })()}
-              {link.name}
-            </Link>
-          ))}
-        </div>
-      )}
     </nav>
   );
 }

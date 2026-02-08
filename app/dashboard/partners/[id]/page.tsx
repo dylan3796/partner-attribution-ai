@@ -1,205 +1,123 @@
 "use client";
-
 import { use } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
-import { formatCurrency, formatDate, formatPercent, getTouchpointColor, MODEL_COLORS } from "@/lib/utils";
-import { StatCard } from "@/components/ui/stat-card";
-import { StatusBadge, Badge } from "@/components/ui/badge";
-import { Avatar } from "@/components/ui/avatar";
-import { MODEL_LABELS, TOUCHPOINT_LABELS, PARTNER_TYPE_LABELS, type AttributionModel } from "@/lib/types";
-import {
-  ArrowLeft,
-  DollarSign,
-  Briefcase,
-  Percent,
-  PiggyBank,
-  Mail,
-  Calendar,
-} from "lucide-react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
+import { ArrowLeft, Mail, Phone, MapPin, Edit } from "lucide-react";
+import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS } from "@/lib/types";
 
-const MODELS: AttributionModel[] = ["equal_split", "first_touch", "last_touch", "time_decay", "role_based"];
+function fmt(n: number) { return n >= 1000 ? `$${(n / 1000).toFixed(0)}k` : `$${n}`; }
 
 export default function PartnerDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { getPartner, getTouchpointsByPartner, getAttributionsByPartner, deals } = useStore();
-
+  const { getPartner, getTouchpointsByPartner, getAttributionsByPartner, payouts } = useStore();
   const partner = getPartner(id);
+  if (!partner) return <div className="dash-layout"><div className="dash-content"><p>Partner not found.</p></div></div>;
+
   const touchpoints = getTouchpointsByPartner(id);
-  const allAttributions = getAttributionsByPartner(id);
-
-  if (!partner) {
-    return (
-      <div className="p-8 text-center">
-        <p className="text-gray-500">Partner not found</p>
-        <Link href="/dashboard/partners" className="text-indigo-600 hover:underline text-sm mt-2 inline-block">Back to partners</Link>
-      </div>
-    );
-  }
-
-  // Stats
-  const uniqueDeals = [...new Set(touchpoints.map((tp) => tp.dealId))];
-  const equalSplitAttrs = allAttributions.filter((a) => a.model === "equal_split");
-  const totalRevenue = equalSplitAttrs.reduce((s, a) => s + a.amount, 0);
-  const totalCommission = equalSplitAttrs.reduce((s, a) => s + a.commissionAmount, 0);
-  const avgPct = equalSplitAttrs.length > 0
-    ? equalSplitAttrs.reduce((s, a) => s + a.percentage, 0) / equalSplitAttrs.length
-    : 0;
-
-  // Attribution by model chart
-  const modelData = MODELS.map((model) => {
-    const attrs = allAttributions.filter((a) => a.model === model);
-    return {
-      model: MODEL_LABELS[model],
-      revenue: Math.round(attrs.reduce((s, a) => s + a.amount, 0)),
-      commission: Math.round(attrs.reduce((s, a) => s + a.commissionAmount, 0)),
-    };
-  });
-
-  // Touchpoints sorted by date
-  const sortedTouchpoints = [...touchpoints].sort((a, b) => b.createdAt - a.createdAt);
+  const attributions = getAttributionsByPartner(id).filter((a) => a.model === "role_based");
+  const partnerPayouts = payouts.filter((p) => p.partnerId === id);
+  const totalRevenue = attributions.reduce((s, a) => s + a.amount, 0);
+  const totalCommission = attributions.reduce((s, a) => s + a.commissionAmount, 0);
 
   return (
-    <div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-8">
-      {/* Back + Header */}
-      <div>
-        <Link href="/dashboard/partners" className="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 mb-4">
-          <ArrowLeft className="h-4 w-4" /> Back to Partners
-        </Link>
+    <div className="dash-layout">
+      <div className="dash-content">
+        <Link href="/dashboard/partners" style={{ display: "inline-flex", alignItems: "center", gap: ".4rem", marginBottom: "1.5rem", fontSize: ".9rem" }} className="muted"><ArrowLeft size={16} /> Back to partners</Link>
 
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-          <Avatar name={partner.name} size="lg" />
-          <div className="flex-1">
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold text-gray-900">{partner.name}</h1>
-              <StatusBadge status={partner.status} />
+        {/* Header */}
+        <div className="card" style={{ marginBottom: "1.5rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", flexWrap: "wrap", gap: "1rem" }}>
+            <div style={{ display: "flex", gap: "1.2rem", alignItems: "center" }}>
+              <div className="avatar" style={{ width: 56, height: 56, fontSize: "1.1rem" }}>{partner.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
+              <div>
+                <h1 style={{ fontSize: "1.5rem", fontWeight: 800, letterSpacing: "-.02em" }}>{partner.name}</h1>
+                <div style={{ display: "flex", gap: ".5rem", marginTop: ".3rem", flexWrap: "wrap" }}>
+                  <span className="chip">{PARTNER_TYPE_LABELS[partner.type]}</span>
+                  <span className="badge badge-neutral">{partner.tier ? TIER_LABELS[partner.tier] : "No Tier"}</span>
+                  <span className={`badge badge-${partner.status === "active" ? "success" : partner.status === "pending" ? "info" : "danger"}`}>{partner.status}</span>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-4 mt-1 text-sm text-gray-500">
-              <span className="flex items-center gap-1"><Mail className="h-3.5 w-3.5" />{partner.email}</span>
-              <span className="flex items-center gap-1"><Calendar className="h-3.5 w-3.5" />Joined {formatDate(partner.createdAt)}</span>
-            </div>
+            <button className="btn-outline"><Edit size={15} /> Edit Partner</button>
           </div>
-          <Badge variant="info">{PARTNER_TYPE_LABELS[partner.type]}</Badge>
+          <div style={{ display: "flex", gap: "2rem", marginTop: "1.2rem", flexWrap: "wrap" }}>
+            <span className="muted" style={{ display: "flex", alignItems: "center", gap: ".3rem", fontSize: ".85rem" }}><Mail size={14} /> {partner.email}</span>
+            {partner.contactPhone && <span className="muted" style={{ display: "flex", alignItems: "center", gap: ".3rem", fontSize: ".85rem" }}><Phone size={14} /> {partner.contactPhone}</span>}
+            {partner.territory && <span className="muted" style={{ display: "flex", alignItems: "center", gap: ".3rem", fontSize: ".85rem" }}><MapPin size={14} /> {partner.territory}</span>}
+          </div>
+          {partner.notes && <p className="muted" style={{ marginTop: ".8rem", fontSize: ".9rem", fontStyle: "italic" }}>{partner.notes}</p>}
         </div>
-      </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Attributed Revenue" value={formatCurrency(totalRevenue)} subtitle="Equal split model" icon={DollarSign} />
-        <StatCard title="Total Commission" value={formatCurrency(totalCommission)} subtitle={`${partner.commissionRate}% rate`} icon={PiggyBank} />
-        <StatCard title="Deals Involved" value={String(uniqueDeals.length)} subtitle={`${touchpoints.length} touchpoints`} icon={Briefcase} />
-        <StatCard title="Avg Attribution" value={formatPercent(avgPct)} subtitle="Equal split avg" icon={Percent} />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Attribution by Model */}
-        <div className="bg-white rounded-xl border border-gray-100 p-6">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4">Revenue by Attribution Model</h3>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={modelData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />
-                <XAxis dataKey="model" tick={{ fontSize: 11, fill: "#9ca3af" }} tickLine={false} axisLine={{ stroke: "#e5e7eb" }} />
-                <YAxis tick={{ fontSize: 11, fill: "#9ca3af" }} tickLine={false} axisLine={false} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
-                <Tooltip formatter={(value: any, name: any) => [formatCurrency(value), name === "revenue" ? "Revenue" : "Commission"]} contentStyle={{ borderRadius: 8, border: "1px solid #e5e7eb" }} />
-                <Legend />
-                <Bar dataKey="revenue" name="Revenue" fill="#6366f1" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="commission" name="Commission" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
+        {/* Stats */}
+        <div className="stat-grid" style={{ marginBottom: "1.5rem" }}>
+          <div className="card" style={{ textAlign: "center" }}>
+            <p className="muted" style={{ fontSize: ".8rem" }}>Commission Rate</p>
+            <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{partner.commissionRate}%</p>
+          </div>
+          <div className="card" style={{ textAlign: "center" }}>
+            <p className="muted" style={{ fontSize: ".8rem" }}>Attributed Revenue</p>
+            <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{fmt(totalRevenue)}</p>
+          </div>
+          <div className="card" style={{ textAlign: "center" }}>
+            <p className="muted" style={{ fontSize: ".8rem" }}>Commission Earned</p>
+            <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{fmt(totalCommission)}</p>
+          </div>
+          <div className="card" style={{ textAlign: "center" }}>
+            <p className="muted" style={{ fontSize: ".8rem" }}>Touchpoints</p>
+            <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{touchpoints.length}</p>
           </div>
         </div>
 
-        {/* Touchpoint History */}
-        <div className="bg-white rounded-xl border border-gray-100 p-6">
-          <h3 className="text-sm font-semibold text-gray-900 mb-4">Touchpoint History ({touchpoints.length})</h3>
-          <div className="space-y-0 max-h-72 overflow-y-auto">
-            {sortedTouchpoints.map((tp, i) => {
-              const deal = deals.find((d) => d._id === tp.dealId);
-              return (
-                <div key={tp._id} className="flex gap-3 py-3 border-b border-gray-50 last:border-0">
-                  <div className="relative flex flex-col items-center">
-                    <div className="w-2.5 h-2.5 rounded-full bg-indigo-400 mt-1.5 flex-shrink-0" />
-                    {i < sortedTouchpoints.length - 1 && <div className="w-px flex-1 bg-gray-200 mt-1" />}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium border ${getTouchpointColor(tp.type)}`}>
-                        {TOUCHPOINT_LABELS[tp.type]}
-                      </span>
-                      <span className="text-xs text-gray-400">{formatDate(tp.createdAt)}</span>
-                    </div>
-                    {deal && (
-                      <Link href={`/dashboard/deals/${deal._id}`} className="text-sm text-gray-700 hover:text-indigo-600">
-                        {deal.name}
-                      </Link>
-                    )}
-                    {tp.notes && <p className="text-xs text-gray-400 mt-0.5">{tp.notes}</p>}
+        <div className="dash-grid-2">
+          {/* Activity Timeline */}
+          <div className="card">
+            <h3 style={{ fontWeight: 700, marginBottom: "1.2rem" }}>Activity Timeline</h3>
+            <div className="timeline">
+              {touchpoints.sort((a, b) => b.createdAt - a.createdAt).map((tp) => (
+                <div key={tp._id} className="tl-item">
+                  <div className="tl-dot active"></div>
+                  <div>
+                    <strong>{TOUCHPOINT_LABELS[tp.type]}</strong> — <Link href={`/dashboard/deals/${tp.dealId}`} style={{ fontWeight: 500 }}>{tp.deal?.name || tp.dealId}</Link>
+                    <br /><small className="muted">{new Date(tp.createdAt).toLocaleDateString()} {tp.notes && `· ${tp.notes}`}</small>
                   </div>
                 </div>
-              );
-            })}
-            {sortedTouchpoints.length === 0 && (
-              <p className="text-sm text-gray-400 text-center py-8">No touchpoints recorded yet</p>
-            )}
+              ))}
+              {touchpoints.length === 0 && <p className="muted">No activity yet.</p>}
+            </div>
           </div>
-        </div>
-      </div>
 
-      {/* Attribution Breakdown Table */}
-      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-50">
-          <h3 className="text-sm font-semibold text-gray-900">Attribution Breakdown by Deal</h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-gray-100 bg-gray-50/50">
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase">Deal</th>
-                {MODELS.map((m) => (
-                  <th key={m} className="text-right px-4 py-3 text-xs font-semibold text-gray-500 uppercase">{MODEL_LABELS[m]}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-50">
-              {[...new Set(allAttributions.map((a) => a.dealId))].map((dealId) => {
-                const deal = deals.find((d) => d._id === dealId);
-                return (
-                  <tr key={dealId} className="hover:bg-gray-50/50">
-                    <td className="px-6 py-3">
-                      <Link href={`/dashboard/deals/${dealId}`} className="text-sm font-medium text-gray-900 hover:text-indigo-600">{deal?.name || dealId}</Link>
-                      <p className="text-xs text-gray-400">{formatCurrency(deal?.amount || 0)}</p>
-                    </td>
-                    {MODELS.map((model) => {
-                      const attr = allAttributions.find((a) => a.dealId === dealId && a.model === model);
-                      return (
-                        <td key={model} className="px-4 py-3 text-right">
-                          {attr ? (
-                            <div>
-                              <p className="text-sm font-medium text-gray-900">{formatPercent(attr.percentage)}</p>
-                              <p className="text-xs text-gray-400">{formatCurrency(attr.amount)}</p>
-                            </div>
-                          ) : (
-                            <span className="text-xs text-gray-300">—</span>
-                          )}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          {/* Sidebar */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+            {/* Attributions */}
+            <div className="card">
+              <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>Attribution (Role-Based)</h3>
+              {attributions.map((a) => (
+                <div key={a._id} style={{ display: "flex", justifyContent: "space-between", padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
+                  <div>
+                    <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{a.deal?.name}</p>
+                    <p className="muted" style={{ fontSize: ".75rem" }}>{a.percentage.toFixed(1)}% · {fmt(a.amount)}</p>
+                  </div>
+                  <strong style={{ color: "#065f46" }}>{fmt(a.commissionAmount)}</strong>
+                </div>
+              ))}
+              {attributions.length === 0 && <p className="muted" style={{ fontSize: ".85rem" }}>No attributions yet.</p>}
+            </div>
+
+            {/* Payouts */}
+            <div className="card">
+              <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>Payouts</h3>
+              {partnerPayouts.map((p) => (
+                <div key={p._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
+                  <div>
+                    <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{p.period || "—"}</p>
+                    <span className={`badge badge-${p.status === "paid" ? "success" : p.status === "approved" ? "info" : p.status.includes("pending") ? "neutral" : "danger"}`} style={{ fontSize: ".7rem" }}>{p.status.replace("_", " ")}</span>
+                  </div>
+                  <strong>{fmt(p.amount)}</strong>
+                </div>
+              ))}
+              {partnerPayouts.length === 0 && <p className="muted" style={{ fontSize: ".85rem" }}>No payouts yet.</p>}
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,205 +1,146 @@
 "use client";
-
-import { useState, useMemo } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
-import { formatCurrency, formatDate } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Input, Select } from "@/components/ui/input";
-import { Modal } from "@/components/ui/modal";
-import { StatusBadge } from "@/components/ui/badge";
-import { Avatar } from "@/components/ui/avatar";
-import { PARTNER_TYPE_LABELS } from "@/lib/types";
-import { Search, Plus, Users, ArrowUpRight } from "lucide-react";
+import { Plus, Download, Upload, Search, X } from "lucide-react";
+import { exportPartnersCSV, parsePartnersCSV } from "@/lib/csv";
+import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
 
 export default function PartnersPage() {
-  const { partners, attributions, addPartner } = useStore();
+  const { partners, addPartner } = useStore();
   const [search, setSearch] = useState("");
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [typeFilter, setTypeFilter] = useState<string>("all");
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [filterType, setFilterType] = useState<string>("all");
+  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [showAdd, setShowAdd] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
 
   // Form state
-  const [formName, setFormName] = useState("");
-  const [formEmail, setFormEmail] = useState("");
-  const [formType, setFormType] = useState<"affiliate" | "referral" | "reseller" | "integration">("referral");
-  const [formRate, setFormRate] = useState("10");
+  const [form, setForm] = useState({ name: "", email: "", type: "reseller" as const, tier: "bronze" as const, commissionRate: 15, contactName: "", territory: "" });
 
-  // Calculate revenue per partner
-  const partnerRevenue = useMemo(() => {
-    const map: Record<string, number> = {};
-    attributions
-      .filter((a) => a.model === "equal_split")
-      .forEach((a) => {
-        map[a.partnerId] = (map[a.partnerId] || 0) + a.amount;
-      });
-    return map;
-  }, [attributions]);
+  const filtered = partners.filter((p) => {
+    if (search && !p.name.toLowerCase().includes(search.toLowerCase()) && !p.email.toLowerCase().includes(search.toLowerCase())) return false;
+    if (filterType !== "all" && p.type !== filterType) return false;
+    if (filterStatus !== "all" && p.status !== filterStatus) return false;
+    return true;
+  });
 
-  const filtered = useMemo(() => {
-    return partners
-      .filter((p) => {
-        if (statusFilter !== "all" && p.status !== statusFilter) return false;
-        if (typeFilter !== "all" && p.type !== typeFilter) return false;
-        if (search) {
-          const s = search.toLowerCase();
-          return p.name.toLowerCase().includes(s) || p.email.toLowerCase().includes(s);
-        }
-        return true;
-      })
-      .sort((a, b) => (partnerRevenue[b._id] || 0) - (partnerRevenue[a._id] || 0));
-  }, [partners, search, statusFilter, typeFilter, partnerRevenue]);
+  function handleAdd() {
+    addPartner({ ...form, status: "pending", commissionRate: Number(form.commissionRate) });
+    setShowAdd(false);
+    setForm({ name: "", email: "", type: "reseller", tier: "bronze", commissionRate: 15, contactName: "", territory: "" });
+  }
 
-  function handleAdd(e: React.FormEvent) {
-    e.preventDefault();
-    addPartner({
-      name: formName,
-      email: formEmail,
-      type: formType,
-      commissionRate: parseFloat(formRate),
-    });
-    setShowAddModal(false);
-    setFormName("");
-    setFormEmail("");
-    setFormType("referral");
-    setFormRate("10");
+  function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const csv = ev.target?.result as string;
+      const parsed = parsePartnersCSV(csv);
+      parsed.forEach((p) => addPartner(p));
+    };
+    reader.readAsText(file);
   }
 
   return (
-    <div className="p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Partners</h1>
-          <p className="text-gray-500 mt-1">{partners.length} partners in your program</p>
+    <div className="dash-layout">
+      <div className="dash-content">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
+          <div>
+            <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Partners</h1>
+            <p className="muted">{partners.length} partners · {partners.filter((p) => p.status === "active").length} active</p>
+          </div>
+          <div style={{ display: "flex", gap: ".5rem" }}>
+            <button className="btn-outline" onClick={() => exportPartnersCSV(partners)}><Download size={15} /> Export</button>
+            <button className="btn-outline" onClick={() => fileRef.current?.click()}><Upload size={15} /> Import</button>
+            <input ref={fileRef} type="file" accept=".csv" onChange={handleImport} style={{ display: "none" }} />
+            <button className="btn" onClick={() => setShowAdd(true)}><Plus size={15} /> Add Partner</button>
+          </div>
         </div>
-        <Button onClick={() => setShowAddModal(true)}>
-          <Plus className="h-4 w-4" />
-          Add Partner
-        </Button>
-      </div>
 
-      {/* Filters */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search partners..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-200 text-sm focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
-          />
+        {/* Filters */}
+        <div className="card" style={{ marginBottom: "1.5rem", display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap", padding: "1rem 1.5rem" }}>
+          <div style={{ flex: 1, position: "relative", minWidth: 200 }}>
+            <Search size={16} style={{ position: "absolute", left: 12, top: 12, color: "var(--muted)" }} />
+            <input className="input" placeholder="Search partners..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ paddingLeft: 36 }} />
+          </div>
+          <select className="input" style={{ width: "auto" }} value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+            <option value="all">All Types</option>
+            {Object.entries(PARTNER_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+          </select>
+          <select className="input" style={{ width: "auto" }} value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="inactive">Inactive</option>
+          </select>
         </div>
-        <select
-          value={statusFilter}
-          onChange={(e) => setStatusFilter(e.target.value)}
-          className="rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-700 focus:border-indigo-500 focus:outline-none"
-        >
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="pending">Pending</option>
-          <option value="inactive">Inactive</option>
-        </select>
-        <select
-          value={typeFilter}
-          onChange={(e) => setTypeFilter(e.target.value)}
-          className="rounded-lg border border-gray-200 px-3 py-2.5 text-sm text-gray-700 focus:border-indigo-500 focus:outline-none"
-        >
-          <option value="all">All Types</option>
-          <option value="referral">Referral</option>
-          <option value="affiliate">Affiliate</option>
-          <option value="reseller">Reseller</option>
-          <option value="integration">Integration</option>
-        </select>
-      </div>
 
-      {/* Partners Table */}
-      <div className="bg-white rounded-xl border border-gray-100 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full">
+        {/* Table */}
+        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".9rem" }}>
             <thead>
-              <tr className="border-b border-gray-100 bg-gray-50/50">
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Partner</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Type</th>
-                <th className="text-left px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Commission</th>
-                <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Attributed Revenue</th>
-                <th className="text-right px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider">Joined</th>
-                <th className="px-6 py-3"></th>
+              <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--subtle)" }}>
+                <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Partner</th>
+                <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Type</th>
+                <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Tier</th>
+                <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Commission</th>
+                <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Territory</th>
+                <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
-              {filtered.map((partner) => (
-                <tr key={partner._id} className="hover:bg-gray-50/50 transition-colors">
-                  <td className="px-6 py-4">
-                    <Link href={`/dashboard/partners/${partner._id}`} className="flex items-center gap-3">
-                      <Avatar name={partner.name} size="sm" />
+            <tbody>
+              {filtered.map((p) => (
+                <tr key={p._id} style={{ borderBottom: "1px solid var(--border)", cursor: "pointer", transition: "background .15s" }} onMouseOver={(e) => (e.currentTarget.style.background = "var(--subtle)")} onMouseOut={(e) => (e.currentTarget.style.background = "")}>
+                  <td style={{ padding: ".8rem 1.2rem" }}>
+                    <Link href={`/dashboard/partners/${p._id}`} style={{ display: "flex", alignItems: "center", gap: ".8rem" }}>
+                      <div className="avatar">{p.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
                       <div>
-                        <p className="text-sm font-medium text-gray-900">{partner.name}</p>
-                        <p className="text-xs text-gray-400">{partner.email}</p>
+                        <p style={{ fontWeight: 600 }}>{p.name}</p>
+                        <p className="muted" style={{ fontSize: ".8rem" }}>{p.email}</p>
                       </div>
                     </Link>
                   </td>
-                  <td className="px-6 py-4">
-                    <span className="text-sm text-gray-600">{PARTNER_TYPE_LABELS[partner.type]}</span>
-                  </td>
-                  <td className="px-6 py-4"><StatusBadge status={partner.status} /></td>
-                  <td className="px-6 py-4 text-right">
-                    <span className="text-sm font-medium text-gray-900">{partner.commissionRate}%</span>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <span className="text-sm font-semibold text-gray-900">{formatCurrency(partnerRevenue[partner._id] || 0)}</span>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <span className="text-sm text-gray-500">{formatDate(partner.createdAt)}</span>
-                  </td>
-                  <td className="px-6 py-4 text-right">
-                    <Link
-                      href={`/dashboard/partners/${partner._id}`}
-                      className="inline-flex items-center gap-1 text-sm text-indigo-600 hover:text-indigo-700 font-medium"
-                    >
-                      View <ArrowUpRight className="h-3.5 w-3.5" />
-                    </Link>
+                  <td style={{ padding: ".8rem" }}><span className="chip">{PARTNER_TYPE_LABELS[p.type]}</span></td>
+                  <td style={{ padding: ".8rem" }}><span className="badge badge-neutral">{p.tier ? TIER_LABELS[p.tier] : "—"}</span></td>
+                  <td style={{ padding: ".8rem", fontWeight: 600 }}>{p.commissionRate}%</td>
+                  <td style={{ padding: ".8rem" }} className="muted">{p.territory || "—"}</td>
+                  <td style={{ padding: ".8rem" }}>
+                    <span className={`badge badge-${p.status === "active" ? "success" : p.status === "pending" ? "info" : "danger"}`}>{p.status}</span>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+          {filtered.length === 0 && <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No partners found.</p>}
         </div>
 
-        {filtered.length === 0 && (
-          <div className="py-12 text-center">
-            <Users className="h-8 w-8 text-gray-300 mx-auto mb-3" />
-            <p className="text-sm text-gray-500">No partners found</p>
+        {/* Add Modal */}
+        {showAdd && (
+          <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => setShowAdd(false)}>
+            <div className="card" style={{ width: 500, maxHeight: "90vh", overflow: "auto" }} onClick={(e) => e.stopPropagation()}>
+              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+                <h2 style={{ fontSize: "1.2rem", fontWeight: 700 }}>Add Partner</h2>
+                <button onClick={() => setShowAdd(false)} style={{ background: "none", border: "none", cursor: "pointer" }}><X size={20} /></button>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Company Name *</label><input className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="TechStar Solutions" /></div>
+                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Email *</label><input className="input" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="partnerships@techstar.io" /></div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                  <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Type</label><select className="input" value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value as any })}><option value="reseller">Reseller</option><option value="referral">Referral</option><option value="integration">Integration</option><option value="affiliate">Affiliate</option></select></div>
+                  <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Tier</label><select className="input" value={form.tier} onChange={(e) => setForm({ ...form, tier: e.target.value as any })}><option value="bronze">Bronze</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="platinum">Platinum</option></select></div>
+                </div>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                  <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Commission Rate %</label><input className="input" type="number" value={form.commissionRate} onChange={(e) => setForm({ ...form, commissionRate: Number(e.target.value) })} /></div>
+                  <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Territory</label><input className="input" value={form.territory} onChange={(e) => setForm({ ...form, territory: e.target.value })} placeholder="West Coast" /></div>
+                </div>
+                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Primary Contact</label><input className="input" value={form.contactName} onChange={(e) => setForm({ ...form, contactName: e.target.value })} placeholder="Sarah Anderson" /></div>
+                <button className="btn" style={{ width: "100%", marginTop: ".5rem" }} onClick={handleAdd} disabled={!form.name || !form.email}>Add Partner</button>
+              </div>
+            </div>
           </div>
         )}
       </div>
-
-      {/* Add Partner Modal */}
-      <Modal open={showAddModal} onClose={() => setShowAddModal(false)} title="Add Partner">
-        <form onSubmit={handleAdd} className="space-y-4">
-          <Input label="Name" id="partner-name" placeholder="Partner name" value={formName} onChange={(e) => setFormName(e.target.value)} required />
-          <Input label="Email" id="partner-email" type="email" placeholder="partner@company.com" value={formEmail} onChange={(e) => setFormEmail(e.target.value)} required />
-          <Select
-            label="Type"
-            id="partner-type"
-            value={formType}
-            onChange={(e) => setFormType(e.target.value as typeof formType)}
-            options={[
-              { value: "referral", label: "Referral" },
-              { value: "affiliate", label: "Affiliate" },
-              { value: "reseller", label: "Reseller" },
-              { value: "integration", label: "Integration" },
-            ]}
-          />
-          <Input label="Commission Rate (%)" id="partner-rate" type="number" min="0" max="100" step="0.5" placeholder="10" value={formRate} onChange={(e) => setFormRate(e.target.value)} required />
-          <div className="flex justify-end gap-3 pt-2">
-            <Button type="button" variant="secondary" onClick={() => setShowAddModal(false)}>Cancel</Button>
-            <Button type="submit">Add Partner</Button>
-          </div>
-        </form>
-      </Modal>
     </div>
   );
 }

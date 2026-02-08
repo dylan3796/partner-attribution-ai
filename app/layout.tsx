@@ -10,9 +10,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PartnerAI — Attribution Reimagined",
+  title: "PartnerAI — The AI-Native Partner Platform",
   description:
-    "AI-powered partner attribution. Track every touchpoint, calculate fair splits, automate payouts.",
+    "Run your entire partner operation from one platform. Attribution, incentives, program management, partner portal, revenue intelligence — all powered by AI.",
 };
 
 export default function RootLayout({
