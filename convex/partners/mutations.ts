@@ -22,6 +22,7 @@ export const create = mutation({
       v.literal("integration")
     ),
     commissionRate: v.number(),
+    userId: v.optional(v.id("users")),
   },
   handler: async (ctx, args) => {
     const org = await getOrgFromApiKey(ctx, args.apiKey)
@@ -52,6 +53,22 @@ export const create = mutation({
       createdAt: Date.now(),
     })
 
+    // Audit log
+    await ctx.db.insert("audit_log", {
+      organizationId: org._id,
+      userId: args.userId,
+      action: "partner.created",
+      entityType: "partner",
+      entityId: partnerId,
+      changes: JSON.stringify({
+        name: args.name,
+        email: args.email,
+        type: args.type,
+        commissionRate: args.commissionRate,
+      }),
+      createdAt: Date.now(),
+    })
+
     return partnerId
   },
 })
@@ -77,6 +94,7 @@ export const update = mutation({
       v.literal("inactive"),
       v.literal("pending")
     )),
+    userId: v.optional(v.id("users")),
   },
   handler: async (ctx, args) => {
     const org = await getOrgFromApiKey(ctx, args.apiKey)
@@ -88,11 +106,13 @@ export const update = mutation({
 
     verifyOwnership(partner.organizationId, org._id)
 
-    // Build update object
+    // Build update object and track changes
     const updates: any = {}
+    const changes: Record<string, { from: any; to: any }> = {}
 
     if (args.name !== undefined) {
       validateNotEmpty(args.name, "Partner name")
+      changes.name = { from: partner.name, to: args.name }
       updates.name = args.name
     }
 
@@ -109,24 +129,41 @@ export const update = mutation({
         throw new Error("Another partner with this email already exists")
       }
 
+      changes.email = { from: partner.email, to: args.email }
       updates.email = args.email
     }
 
     if (args.type !== undefined) {
+      changes.type = { from: partner.type, to: args.type }
       updates.type = args.type
     }
 
     if (args.commissionRate !== undefined) {
       validatePercentage(args.commissionRate)
+      changes.commissionRate = { from: partner.commissionRate, to: args.commissionRate }
       updates.commissionRate = args.commissionRate
     }
 
     if (args.status !== undefined) {
+      changes.status = { from: partner.status, to: args.status }
       updates.status = args.status
     }
 
     // Update
     await ctx.db.patch(args.partnerId, updates)
+
+    // Audit log
+    if (Object.keys(changes).length > 0) {
+      await ctx.db.insert("audit_log", {
+        organizationId: org._id,
+        userId: args.userId,
+        action: "partner.updated",
+        entityType: "partner",
+        entityId: args.partnerId,
+        changes: JSON.stringify(changes),
+        createdAt: Date.now(),
+      })
+    }
 
     return { success: true }
   },
@@ -139,6 +176,7 @@ export const activate = mutation({
   args: {
     apiKey: v.string(),
     partnerId: v.id("partners"),
+    userId: v.optional(v.id("users")),
   },
   handler: async (ctx, args) => {
     const org = await getOrgFromApiKey(ctx, args.apiKey)
@@ -152,6 +190,17 @@ export const activate = mutation({
 
     await ctx.db.patch(args.partnerId, { status: "active" })
 
+    // Audit log
+    await ctx.db.insert("audit_log", {
+      organizationId: org._id,
+      userId: args.userId,
+      action: "partner.activated",
+      entityType: "partner",
+      entityId: args.partnerId,
+      changes: JSON.stringify({ status: { from: partner.status, to: "active" } }),
+      createdAt: Date.now(),
+    })
+
     return { success: true }
   },
 })
@@ -163,6 +212,7 @@ export const deactivate = mutation({
   args: {
     apiKey: v.string(),
     partnerId: v.id("partners"),
+    userId: v.optional(v.id("users")),
   },
   handler: async (ctx, args) => {
     const org = await getOrgFromApiKey(ctx, args.apiKey)
@@ -175,6 +225,17 @@ export const deactivate = mutation({
     verifyOwnership(partner.organizationId, org._id)
 
     await ctx.db.patch(args.partnerId, { status: "inactive" })
+
+    // Audit log
+    await ctx.db.insert("audit_log", {
+      organizationId: org._id,
+      userId: args.userId,
+      action: "partner.deactivated",
+      entityType: "partner",
+      entityId: args.partnerId,
+      changes: JSON.stringify({ status: { from: partner.status, to: "inactive" } }),
+      createdAt: Date.now(),
+    })
 
     return { success: true }
   },
@@ -189,6 +250,7 @@ export const remove = mutation({
   args: {
     apiKey: v.string(),
     partnerId: v.id("partners"),
+    userId: v.optional(v.id("users")),
   },
   handler: async (ctx, args) => {
     const org = await getOrgFromApiKey(ctx, args.apiKey)
@@ -214,6 +276,17 @@ export const remove = mutation({
 
     // Hard delete if no touchpoints
     await ctx.db.delete(args.partnerId)
+
+    // Audit log
+    await ctx.db.insert("audit_log", {
+      organizationId: org._id,
+      userId: args.userId,
+      action: "partner.deleted",
+      entityType: "partner",
+      entityId: args.partnerId,
+      metadata: JSON.stringify({ name: partner.name, email: partner.email }),
+      createdAt: Date.now(),
+    })
 
     return { success: true }
   },
