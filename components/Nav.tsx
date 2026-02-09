@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Briefcase, PieChart, Settings } from "lucide-react";
+import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity } from "lucide-react";
 
 const marketingLinks = [
   { name: "Platform", href: "#platform" },
@@ -14,6 +14,7 @@ const dashboardLinks = [
   { name: "Partners", href: "/dashboard/partners", icon: Users },
   { name: "Deals", href: "/dashboard/deals", icon: Briefcase },
   { name: "Reports", href: "/dashboard/reports", icon: PieChart },
+  { name: "Activity", href: "/dashboard/activity", icon: Activity },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 

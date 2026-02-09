@@ -133,11 +133,53 @@ export const demoPayouts: Payout[] = [
 ];
 
 export const demoAuditLog: AuditEntry[] = [
+  // Today / Recent
   { _id: "al_001", organizationId: ORG_ID, action: "deal.closed", entityType: "deal", entityId: "d_009", changes: '{"status":"open→won"}', createdAt: now - 2 * day },
-  { _id: "al_002", organizationId: ORG_ID, action: "attribution.calculated", entityType: "deal", entityId: "d_009", metadata: '{"model":"role_based","partners":4}', createdAt: now - 2 * day },
-  { _id: "al_003", organizationId: ORG_ID, action: "payout.created", entityType: "payout", entityId: "pay_004", metadata: '{"partner":"NexGen Resellers","amount":15200}', createdAt: now - 1 * day },
+  { _id: "al_002", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_009", metadata: '{"model":"role_based","partners":"4","deal":"DevOps Suite — Massive Dynamic"}', createdAt: now - 2 * day + 300000 },
+  { _id: "al_003", organizationId: ORG_ID, action: "payout.created", entityType: "payout", entityId: "pay_004", metadata: '{"partner":"NexGen Resellers","amount":"$15,200","period":"2026-02"}', createdAt: now - 1 * day },
+  { _id: "al_030", organizationId: ORG_ID, action: "payout.created", entityType: "payout", entityId: "pay_005", metadata: '{"partner":"GrowthLabs Co","amount":"$6,800","period":"2026-02"}', createdAt: now - 1 * day + 120000 },
+  { _id: "al_031", organizationId: ORG_ID, action: "touchpoint.created", entityType: "touchpoint", entityId: "tp_020", metadata: '{"type":"negotiation","deal":"DevOps Suite — Massive Dynamic","partner":"GrowthLabs Co"}', createdAt: now - 4 * day },
+
+  // This week
+  { _id: "al_005", organizationId: ORG_ID, action: "deal.registered", entityType: "deal", entityId: "d_006", metadata: '{"registeredBy":"NexGen Resellers","deal":"Security Audit Tool — Stark Industries"}', createdAt: now - 3 * day },
+  { _id: "al_006", organizationId: ORG_ID, action: "approval.requested", entityType: "approval", entityId: "d_006", metadata: '{"type":"deal_registration","partner":"NexGen Resellers"}', createdAt: now - 3 * day + 60000 },
+  { _id: "al_032", organizationId: ORG_ID, action: "touchpoint.created", entityType: "touchpoint", entityId: "tp_016", metadata: '{"type":"deal_registration","deal":"Security Audit Tool — Stark Industries","partner":"NexGen Resellers"}', createdAt: now - 2 * day - 3600000 },
   { _id: "al_004", organizationId: ORG_ID, action: "partner.updated", entityType: "partner", entityId: "p_001", changes: '{"tier":"silver→gold"}', createdAt: now - 5 * day },
-  { _id: "al_005", organizationId: ORG_ID, action: "deal.registered", entityType: "deal", entityId: "d_006", metadata: '{"registeredBy":"NexGen Resellers"}', createdAt: now - 3 * day },
+  { _id: "al_033", organizationId: ORG_ID, action: "partner.tier_change", entityType: "partner", entityId: "p_001", changes: '{"tier":"silver→gold"}', metadata: '{"partner":"TechStar Solutions","reason":"Exceeded quarterly targets by 40%"}', createdAt: now - 5 * day + 60000 },
+  { _id: "al_007", organizationId: ORG_ID, action: "payout.approved", entityType: "payout", entityId: "pay_003", metadata: '{"partner":"DataPipe Agency","amount":"$5,630"}', createdAt: now - 1 * day - 7200000 },
+
+  // Last week
+  { _id: "al_008", organizationId: ORG_ID, action: "deal.created", entityType: "deal", entityId: "d_005", metadata: '{"deal":"Monitoring Solution — Wayne Enterprises","value":"$150,000"}', createdAt: now - 8 * day },
+  { _id: "al_009", organizationId: ORG_ID, action: "touchpoint.created", entityType: "touchpoint", entityId: "tp_014", metadata: '{"type":"referral","deal":"Monitoring Solution — Wayne Enterprises","partner":"GrowthLabs Co"}', createdAt: now - 7 * day },
+  { _id: "al_010", organizationId: ORG_ID, action: "touchpoint.created", entityType: "touchpoint", entityId: "tp_015", metadata: '{"type":"content_share","deal":"Monitoring Solution — Wayne Enterprises","partner":"CloudBridge Partners"}', createdAt: now - 4 * day - 7200000 },
+  { _id: "al_034", organizationId: ORG_ID, action: "partner.created", entityType: "partner", entityId: "p_006", metadata: '{"partner":"ChannelForce Inc","type":"reseller","tier":"bronze"}', createdAt: now - 10 * day },
+  { _id: "al_035", organizationId: ORG_ID, action: "payout.paid", entityType: "payout", entityId: "pay_001", metadata: '{"partner":"TechStar Solutions","amount":"$12,450","period":"2026-01"}', createdAt: now - 3 * day - 86400000 },
+  { _id: "al_036", organizationId: ORG_ID, action: "payout.paid", entityType: "payout", entityId: "pay_002", metadata: '{"partner":"CloudBridge Partners","amount":"$8,920","period":"2026-01"}', createdAt: now - 3 * day - 86400000 + 300000 },
+
+  // Two weeks ago
+  { _id: "al_011", organizationId: ORG_ID, action: "deal.closed", entityType: "deal", entityId: "d_002", changes: '{"status":"open→won"}', createdAt: now - 12 * day },
+  { _id: "al_012", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_002", metadata: '{"model":"role_based","partners":"3","deal":"Analytics Platform — Initech"}', createdAt: now - 12 * day + 300000 },
+  { _id: "al_013", organizationId: ORG_ID, action: "deal.created", entityType: "deal", entityId: "d_004", metadata: '{"deal":"Data Pipeline — Umbrella Inc","value":"$200,000"}', createdAt: now - 15 * day },
+  { _id: "al_014", organizationId: ORG_ID, action: "touchpoint.created", entityType: "touchpoint", entityId: "tp_012", metadata: '{"type":"deal_registration","deal":"Data Pipeline — Umbrella Inc","partner":"TechStar Solutions"}', createdAt: now - 14 * day },
+  { _id: "al_015", organizationId: ORG_ID, action: "approval.approved", entityType: "approval", entityId: "d_004", metadata: '{"type":"deal_registration","partner":"TechStar Solutions"}', createdAt: now - 13 * day },
+
+  // Three weeks ago
+  { _id: "al_016", organizationId: ORG_ID, action: "deal.closed", entityType: "deal", entityId: "d_003", changes: '{"status":"open→won"}', createdAt: now - 20 * day },
+  { _id: "al_017", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_003", metadata: '{"model":"role_based","partners":"2","deal":"API Integration — Soylent Corp"}', createdAt: now - 20 * day + 300000 },
+  { _id: "al_018", organizationId: ORG_ID, action: "deal.lost", entityType: "deal", entityId: "d_007", changes: '{"status":"open→lost"}', metadata: '{"deal":"Legacy Migration — Cyberdyne Systems","reason":"Budget constraints"}', createdAt: now - 25 * day },
+  { _id: "al_019", organizationId: ORG_ID, action: "touchpoint.created", entityType: "touchpoint", entityId: "tp_019", metadata: '{"type":"proposal","deal":"DevOps Suite — Massive Dynamic","partner":"NexGen Resellers"}', createdAt: now - 10 * day - 7200000 },
+
+  // Older
+  { _id: "al_020", organizationId: ORG_ID, action: "deal.lost", entityType: "deal", entityId: "d_008", changes: '{"status":"open→lost"}', metadata: '{"deal":"Cloud Hosting — Oscorp","reason":"Chose competitor"}', createdAt: now - 30 * day },
+  { _id: "al_021", organizationId: ORG_ID, action: "deal.closed", entityType: "deal", entityId: "d_010", changes: '{"status":"open→won"}', createdAt: now - 35 * day },
+  { _id: "al_022", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_010", metadata: '{"model":"role_based","partners":"3","deal":"Compliance Platform — Dunder Mifflin"}', createdAt: now - 35 * day + 300000 },
+  { _id: "al_023", organizationId: ORG_ID, action: "deal.created", entityType: "deal", entityId: "d_001", metadata: '{"deal":"Enterprise CRM Suite — Globex Corp","value":"$120,000"}', createdAt: now - 45 * day },
+  { _id: "al_024", organizationId: ORG_ID, action: "partner.created", entityType: "partner", entityId: "p_005", metadata: '{"partner":"GrowthLabs Co","type":"referral","tier":"silver"}', createdAt: now - 50 * day },
+  { _id: "al_025", organizationId: ORG_ID, action: "partner.created", entityType: "partner", entityId: "p_004", metadata: '{"partner":"NexGen Resellers","type":"reseller","tier":"platinum"}', createdAt: now - 60 * day },
+  { _id: "al_026", organizationId: ORG_ID, action: "deal.created", entityType: "deal", entityId: "d_002", metadata: '{"deal":"Analytics Platform — Initech","value":"$85,000"}', createdAt: now - 60 * day },
+  { _id: "al_027", organizationId: ORG_ID, action: "partner.created", entityType: "partner", entityId: "p_003", metadata: '{"partner":"DataPipe Agency","type":"integration","tier":"gold"}', createdAt: now - 75 * day },
+  { _id: "al_028", organizationId: ORG_ID, action: "partner.created", entityType: "partner", entityId: "p_002", metadata: '{"partner":"CloudBridge Partners","type":"referral","tier":"silver"}', createdAt: now - 80 * day },
+  { _id: "al_029", organizationId: ORG_ID, action: "partner.created", entityType: "partner", entityId: "p_001", metadata: '{"partner":"TechStar Solutions","type":"reseller","tier":"gold"}', createdAt: now - 85 * day },
 ];
 
 // Generate attributions for won deals
