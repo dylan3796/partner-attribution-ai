@@ -23,7 +23,12 @@ type StoreContextType = {
   getAttributionsByPartner: (partnerId: string) => Attribution[];
   getAttributionsByModel: (model: AttributionModel) => Attribution[];
   payouts: Payout[];
+  approvePayout: (id: string) => void;
+  rejectPayout: (id: string, notes?: string) => void;
+  markPayoutPaid: (id: string) => void;
+  createPayout: (data: { partnerId: string; amount: number; period: string; notes?: string }) => Payout;
   auditLog: AuditEntry[];
+  addAuditEntry: (entry: Omit<AuditEntry, "_id" | "organizationId" | "createdAt">) => void;
   stats: {
     totalRevenue: number;
     pipelineValue: number;
@@ -47,8 +52,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [deals, setDeals] = useState<Deal[]>(demoDeals);
   const [touchpoints, setTouchpoints] = useState<Touchpoint[]>(demoTouchpoints);
   const [attributions] = useState<Attribution[]>(demoAttributions);
-  const [payouts] = useState<Payout[]>(demoPayouts);
-  const [auditLog] = useState<AuditEntry[]>(demoAuditLog);
+  const [payouts, setPayouts] = useState<Payout[]>(demoPayouts);
+  const [auditLog, setAuditLog] = useState<AuditEntry[]>(demoAuditLog);
 
   const getPartner = useCallback((id: string) => partners.find((p) => p._id === id), [partners]);
   const getDeal = useCallback((id: string) => deals.find((d) => d._id === id), [deals]);
@@ -89,6 +94,40 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const getAttributionsByPartner = useCallback((partnerId: string) => enrichAttributions(attributions.filter((a) => a.partnerId === partnerId)), [attributions]);
   const getAttributionsByModel = useCallback((model: AttributionModel) => enrichAttributions(attributions.filter((a) => a.model === model)), [attributions]);
 
+  const addAuditEntry = useCallback((entry: Omit<AuditEntry, "_id" | "organizationId" | "createdAt">) => {
+    const newEntry: AuditEntry = { ...entry, _id: `al_${Date.now()}`, organizationId: demoOrg._id, createdAt: Date.now() };
+    setAuditLog((prev) => [newEntry, ...prev]);
+  }, []);
+
+  const approvePayout = useCallback((id: string) => {
+    setPayouts((prev) => prev.map((p) => (p._id === id ? { ...p, status: "approved" as const, approvedAt: Date.now() } : p)));
+    const payout = payouts.find((p) => p._id === id);
+    const partner = payout ? partners.find((pr) => pr._id === payout.partnerId) : undefined;
+    addAuditEntry({ action: "payout.approved", entityType: "payout", entityId: id, metadata: JSON.stringify({ partner: partner?.name, amount: payout ? `$${payout.amount.toLocaleString()}` : "" }) });
+  }, [payouts, partners, addAuditEntry]);
+
+  const rejectPayout = useCallback((id: string, notes?: string) => {
+    setPayouts((prev) => prev.map((p) => (p._id === id ? { ...p, status: "rejected" as const, notes: notes || p.notes } : p)));
+    const payout = payouts.find((p) => p._id === id);
+    const partner = payout ? partners.find((pr) => pr._id === payout.partnerId) : undefined;
+    addAuditEntry({ action: "payout.rejected", entityType: "payout", entityId: id, metadata: JSON.stringify({ partner: partner?.name, amount: payout ? `$${payout.amount.toLocaleString()}` : "", reason: notes }) });
+  }, [payouts, partners, addAuditEntry]);
+
+  const markPayoutPaid = useCallback((id: string) => {
+    setPayouts((prev) => prev.map((p) => (p._id === id ? { ...p, status: "paid" as const, paidAt: Date.now() } : p)));
+    const payout = payouts.find((p) => p._id === id);
+    const partner = payout ? partners.find((pr) => pr._id === payout.partnerId) : undefined;
+    addAuditEntry({ action: "payout.paid", entityType: "payout", entityId: id, metadata: JSON.stringify({ partner: partner?.name, amount: payout ? `$${payout.amount.toLocaleString()}` : "", period: payout?.period }) });
+  }, [payouts, partners, addAuditEntry]);
+
+  const createPayout = useCallback((data: { partnerId: string; amount: number; period: string; notes?: string }) => {
+    const payout: Payout = { ...data, _id: `pay_${Date.now()}`, organizationId: demoOrg._id, status: "pending_approval", createdAt: Date.now() };
+    setPayouts((prev) => [...prev, payout]);
+    const partner = partners.find((p) => p._id === data.partnerId);
+    addAuditEntry({ action: "payout.created", entityType: "payout", entityId: payout._id, metadata: JSON.stringify({ partner: partner?.name, amount: `$${data.amount.toLocaleString()}`, period: data.period }) });
+    return payout;
+  }, [partners, addAuditEntry]);
+
   const wonDealsList = deals.filter((d) => d.status === "won");
   const totalRevenue = wonDealsList.reduce((s, d) => s + d.amount, 0);
   const pipelineValue = deals.filter((d) => d.status === "open").reduce((s, d) => s + d.amount, 0);
@@ -110,7 +149,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <StoreContext.Provider value={{ org: demoOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, payouts, auditLog, stats }}>
+    <StoreContext.Provider value={{ org: demoOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, payouts, approvePayout, rejectPayout, markPayoutPaid, createPayout, auditLog, addAuditEntry, stats }}>
       {children}
     </StoreContext.Provider>
   );
