@@ -36,11 +36,13 @@ A full Partner Relationship Management (PRM) platform that solves attribution, i
 - Automatic attribution on deal close
 - Revenue tracking & forecasting
 
-### Incentive Management *(planned)*
+### Incentive Management ✅
 - Commission calculations & payouts
-- Tiered incentive programs
-- SPIFs & bonuses
-- Multi-currency support
+- Payout approval workflow (pending → approved → paid)
+- Bulk payout operations
+- Partner earnings summaries
+- Export & reporting
+- *(Coming: SPIFs, tiered programs, multi-currency)*
 
 ### Program Management *(planned)*
 - Partner tiers & leveling
@@ -104,11 +106,13 @@ Open http://localhost:3000
 - [x] Deal management
 - [x] Touchpoint tracking
 - [x] Landing page prototype
-- [ ] Frontend dashboard
-- [ ] Partner portal
+- [x] Frontend dashboard (partners, deals, reports, activity)
+- [x] Partner portal (overview, commissions, deals)
+- [x] **Payout management** (approve, reject, mark paid, bulk ops)
+- [x] Audit trail (complete activity log)
+- [ ] Dispute resolution (schema exists, UI pending)
 - [ ] CRM integrations (Salesforce, HubSpot)
-- [ ] Payout management
-- [ ] Audit trail & dispute resolution
+- [ ] Revenue intelligence & forecasting
 - [ ] API & webhooks
 - [ ] Multi-currency support
 
