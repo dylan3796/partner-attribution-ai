@@ -5,7 +5,8 @@ import { useStore } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
 import { MODEL_LABELS, MODEL_DESCRIPTIONS, type AttributionModel, FEATURE_FLAG_LABELS, type FeatureFlags, type ComplexityLevel, type UIDensity } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
-import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles } from "lucide-react";
+import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles, FileUp } from "lucide-react";
+import CSVImport from "@/components/CSVImport";
 
 export default function SettingsPage() {
   const { org, updateOrg } = useStore();
@@ -228,6 +229,18 @@ export default function SettingsPage() {
             <strong>💡 No CRM connected yet?</strong> You can import deals manually from the <a href="/dashboard/deals" style={{ fontWeight: 600, textDecoration: "underline" }}>Deals page</a>. When you connect a CRM, existing manual entries will be preserved alongside synced data.
           </p>
         </div>
+      </div>
+
+      {/* Data Import */}
+      <div className="card" id="data-import">
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: 6 }}>
+          <FileUp size={18} /> Data Import
+        </h2>
+        <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.25rem", lineHeight: 1.5 }}>
+          Upload a CSV file with your data, or download our template to get started.
+          Import partners, deals, and touchpoints in bulk with validation and duplicate detection.
+        </p>
+        <CSVImport />
       </div>
 
       {/* Attribution Settings */}

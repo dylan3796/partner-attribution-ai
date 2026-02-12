@@ -313,3 +313,7 @@ html.dark .mobile-menu{background:var(--bg)}
 html.dark .mobile-menu-item:hover,html.dark .mobile-menu-item.active{background:var(--subtle)}
 html.dark .toast{background:var(--fg);color:var(--bg)}
 html.dark select.input{color-scheme:dark}
+
+/* Spinner animation for loading states */
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.spin{animation:spin 1s linear infinite}
