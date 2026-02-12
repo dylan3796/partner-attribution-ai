@@ -9,6 +9,7 @@ import {
   DollarSign,
   FolderOpen,
   User,
+  Award,
   LogOut,
   Menu,
   X,
@@ -20,6 +21,7 @@ const sidebarLinks = [
   { name: "Dashboard", href: "/portal", icon: LayoutDashboard },
   { name: "My Deals", href: "/portal/deals", icon: Briefcase },
   { name: "Commissions", href: "/portal/commissions", icon: DollarSign },
+  { name: "Enablement", href: "/portal/enablement", icon: Award },
   { name: "Resources", href: "/portal/resources", icon: FolderOpen },
   { name: "Profile", href: "/portal/profile", icon: User },
 ];
