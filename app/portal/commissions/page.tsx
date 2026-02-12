@@ -12,8 +12,7 @@ export default function PortalCommissionsPage() {
   const totalEarned = myAttributions.reduce((s, a) => s + a.commissionAmount, 0);
 
   return (
-    <div className="dash-layout">
-      <div className="dash-content">
+    <>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
           <div>
             <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Commissions</h1>
@@ -89,7 +88,6 @@ export default function PortalCommissionsPage() {
           <h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>How are commissions calculated?</h3>
           <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>Your commission is based on your <strong>attributed revenue</strong> multiplied by your <strong>commission rate</strong>. Attribution is calculated using the Role-Based model, which weights different types of partner activity. The more impact you have on a deal (referrals, demos, proposals), the higher your attribution percentage.</p>
         </div>
-      </div>
-    </div>
+    </>
   );
 }

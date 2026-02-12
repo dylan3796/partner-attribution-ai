@@ -2,30 +2,31 @@
 
 import { useState } from "react";
 import { useStore } from "@/lib/store";
+import { useToast } from "@/components/ui/toast";
 import { MODEL_LABELS, MODEL_DESCRIPTIONS, type AttributionModel } from "@/lib/types";
 
 export default function SettingsPage() {
-  const { org } = useStore();
+  const { org, updateOrg } = useStore();
+  const { toast } = useToast();
   const mode = "demo";
   const [orgName, setOrgName] = useState(org?.name || "");
   const [orgEmail, setOrgEmail] = useState(org?.email || "");
-  const [defaultModel, setDefaultModel] = useState<AttributionModel>("equal_split");
+  const [defaultModel, setDefaultModel] = useState<AttributionModel>(org?.defaultAttributionModel || "equal_split");
   const [defaultRate, setDefaultRate] = useState("10");
   const [showApiKey, setShowApiKey] = useState(false);
-  const [saved, setSaved] = useState(false);
 
   const apiKey = org?.apiKey || "pk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
   const maskedKey = apiKey.slice(0, 6) + "•".repeat(apiKey.length - 10) + apiKey.slice(-4);
 
   function handleSave(e: React.FormEvent) {
     e.preventDefault();
-    // In demo mode, we just show a success state
-    setSaved(true);
-    setTimeout(() => setSaved(false), 2000);
+    updateOrg({ name: orgName, email: orgEmail, defaultAttributionModel: defaultModel });
+    toast("Settings saved successfully");
   }
 
   function copyApiKey() {
     navigator.clipboard.writeText(apiKey);
+    toast("API key copied to clipboard", "info");
   }
 
   return (
@@ -120,7 +121,7 @@ export default function SettingsPage() {
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "0.5rem" }}>
             <button type="submit" className="btn">
-              {saved ? "✓ Saved" : "Save Changes"}
+              Save Changes
             </button>
           </div>
         </form>
@@ -262,6 +263,7 @@ export default function SettingsPage() {
               display: "flex",
               gap: "0.5rem",
               alignItems: "center",
+              flexWrap: "wrap",
             }}
           >
             <div
@@ -277,6 +279,7 @@ export default function SettingsPage() {
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
+                minWidth: 200,
               }}
             >
               {showApiKey ? apiKey : maskedKey}
@@ -358,6 +361,8 @@ export default function SettingsPage() {
               padding: "1rem",
               border: "1px solid var(--border)",
               borderRadius: 8,
+              flexWrap: "wrap",
+              gap: ".5rem",
             }}
           >
             <div>
@@ -374,7 +379,7 @@ export default function SettingsPage() {
                 borderColor: "#fca5a5",
                 color: "#991b1b",
               }}
-              onClick={() => alert("This action is not available in demo mode")}
+              onClick={() => toast("This action is not available in demo mode", "error")}
             >
               Regenerate
             </button>
@@ -387,6 +392,8 @@ export default function SettingsPage() {
               padding: "1rem",
               border: "1px solid var(--border)",
               borderRadius: 8,
+              flexWrap: "wrap",
+              gap: ".5rem",
             }}
           >
             <div>
@@ -403,7 +410,7 @@ export default function SettingsPage() {
                 background: "#dc2626",
                 color: "white",
               }}
-              onClick={() => alert("This action is not available in demo mode")}
+              onClick={() => toast("This action is not available in demo mode", "error")}
             >
               Delete
             </button>

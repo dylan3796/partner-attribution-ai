@@ -1,6 +1,28 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 
 export default function LandingPage() {
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [emailError, setEmailError] = useState("");
+
+  function handleWaitlist(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.trim()) {
+      setEmailError("Please enter your email");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Please enter a valid email");
+      return;
+    }
+    setEmailError("");
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 4000);
+  }
+
   return (
     <>
       {/* Hero */}
@@ -11,11 +33,30 @@ export default function LandingPage() {
           <p className="subtitle" style={{ maxWidth: 700, margin: "0 auto 2.5rem" }}>
             Run your entire partner operation from one platform. Attribution, incentives, program management, partner portal, revenue intelligence — all powered by AI.
           </p>
-          <div className="waitlist">
-            <input type="email" placeholder="Enter your work email" className="input" />
-            <button className="btn">Get early access</button>
-          </div>
-          <p className="muted" style={{ marginTop: ".8rem", fontSize: ".85rem" }}>Free to start · No credit card required</p>
+          <form className="waitlist" onSubmit={handleWaitlist}>
+            <div style={{ flex: 1, position: "relative" }}>
+              <input
+                type="email"
+                placeholder="Enter your work email"
+                className="input"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
+                required
+              />
+              {emailError && <p style={{ position: "absolute", bottom: -20, left: 0, fontSize: ".75rem", color: "#dc2626" }}>{emailError}</p>}
+            </div>
+            <button type="submit" className="btn" disabled={submitted}>
+              {submitted ? "✓ You're in!" : "Get early access"}
+            </button>
+          </form>
+          {submitted && (
+            <p style={{ marginTop: "1.2rem", fontSize: ".9rem", color: "#059669", fontWeight: 500 }}>
+              🎉 Welcome aboard! We'll be in touch shortly.
+            </p>
+          )}
+          {!submitted && (
+            <p className="muted" style={{ marginTop: ".8rem", fontSize: ".85rem" }}>Free to start · No credit card required</p>
+          )}
         </div>
 
         <div className="hero-demo wrap-wide">
@@ -75,8 +116,8 @@ export default function LandingPage() {
           <Link href="/dashboard/partners"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>💰</p><h3>Incentives & Payouts</h3><p>Auto-calculated commissions, tiered structures, SPIFs, bonuses, and one-click payouts. Partners get paid on time.</p></div></Link>
           <Link href="/dashboard"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>📋</p><h3>Program Management</h3><p>Partner tiers, onboarding workflows, certifications, territory assignments. Run your program, not spreadsheets.</p></div></Link>
           <Link href="/dashboard/deals"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>📊</p><h3>Revenue Intelligence</h3><p>Pipeline visibility, forecasting, deal registration, co-sell tracking. Know which partners actually drive growth.</p></div></Link>
-          <Link href="/dashboard/partners/1"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>🌐</p><h3>Partner Portal</h3><p>Self-service portal for partners to see performance, register deals, access content, view paper trail, and track commissions.</p></div></Link>
-          <Link href="/dashboard/settings"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>👁️</p><h3>Activity & Paper Trail</h3><p>Every touchpoint, every interaction, every decision — logged and auditable. Full transparency for partners and your team.</p></div></Link>
+          <Link href="/portal"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>🌐</p><h3>Partner Portal</h3><p>Self-service portal for partners to see performance, register deals, access content, view paper trail, and track commissions.</p></div></Link>
+          <Link href="/dashboard/activity"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>👁️</p><h3>Activity & Paper Trail</h3><p>Every touchpoint, every interaction, every decision — logged and auditable. Full transparency for partners and your team.</p></div></Link>
         </div>
       </section>
 
@@ -95,7 +136,7 @@ export default function LandingPage() {
             <div className="bar-row"><span>TechStar (Reseller)</span><div className="bar"><div style={{ width: "55%" }}></div></div><span>55%</span></div>
             <div className="bar-row"><span>CloudBridge (Referral)</span><div className="bar"><div style={{ width: "30%" }}></div></div><span>30%</span></div>
             <div className="bar-row"><span>DataPipe (Integration)</span><div className="bar"><div style={{ width: "15%" }}></div></div><span>15%</span></div>
-            <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>Model: Role-Based (custom weights) · <a href="#" style={{ fontWeight: 500 }}>Switch model</a></p>
+            <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>Model: Role-Based (custom weights) · <Link href="/dashboard/reports" style={{ fontWeight: 500 }}>Switch model</Link></p>
           </div>
         </div>
       </section>
@@ -108,7 +149,7 @@ export default function LandingPage() {
             <h2>Every partner touchpoint, captured</h2>
             <p>Partner AI tracks all interactions across your ecosystem — referrals, demos, co-sell meetings, content shares, deal registrations. The complete paper trail.</p>
             <p>Partners see their activity history. Your team sees the full picture. Everyone stays aligned.</p>
-            <Link href="/dashboard/deals/1" className="arrow-link">View deal timelines →</Link>
+            <Link href="/dashboard/deals/d_001" className="arrow-link">View deal timelines →</Link>
           </div>
           <div className="card">
             <div className="timeline">
@@ -129,7 +170,7 @@ export default function LandingPage() {
             <h2>Fair splits, zero manual work</h2>
             <p>Attribution powers automatic commission calculations. Set up tiered structures, SPIFs, bonuses — then let the platform handle the rest.</p>
             <p>Partners see pending and paid commissions in real time. Finance gets clean reports. No more end-of-month scrambles.</p>
-            <Link href="/dashboard/partners" className="arrow-link">Manage incentives →</Link>
+            <Link href="/dashboard/payouts" className="arrow-link">Manage incentives →</Link>
           </div>
           <div className="card">
             <h4 style={{ marginBottom: "1rem" }}>January Partner Payouts</h4>
@@ -180,6 +221,35 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Pricing */}
+      <section id="pricing" style={{ padding: "5rem 0", background: "var(--subtle)" }}>
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <div className="tag">Pricing</div>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Simple, transparent pricing</h2>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 640, margin: "0 auto" }}>Start free. Upgrade when you need more.</p>
+        </div>
+        <div className="wrap grid-3" style={{ gap: "1.5rem" }}>
+          <div className="card" style={{ textAlign: "center" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Starter</h3>
+            <p style={{ fontSize: "2rem", fontWeight: 800, marginBottom: ".5rem" }}>Free</p>
+            <p className="muted" style={{ fontSize: ".9rem", marginBottom: "1.5rem" }}>Up to 10 partners, 1 user</p>
+            <Link href="/dashboard" className="btn-outline" style={{ width: "100%", justifyContent: "center" }}>Get started</Link>
+          </div>
+          <div className="card" style={{ textAlign: "center", border: "2px solid var(--fg)" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Growth</h3>
+            <p style={{ fontSize: "2rem", fontWeight: 800, marginBottom: ".5rem" }}>$299<span className="muted" style={{ fontSize: "1rem", fontWeight: 400 }}>/mo</span></p>
+            <p className="muted" style={{ fontSize: ".9rem", marginBottom: "1.5rem" }}>Unlimited partners, 5 users, all models</p>
+            <Link href="/dashboard" className="btn" style={{ width: "100%", justifyContent: "center" }}>Start free trial</Link>
+          </div>
+          <div className="card" style={{ textAlign: "center" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Enterprise</h3>
+            <p style={{ fontSize: "2rem", fontWeight: 800, marginBottom: ".5rem" }}>Custom</p>
+            <p className="muted" style={{ fontSize: ".9rem", marginBottom: "1.5rem" }}>SSO, custom models, dedicated support</p>
+            <a href="mailto:sales@partnerai.com" className="btn-outline" style={{ width: "100%", justifyContent: "center" }}>Contact sales</a>
+          </div>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="cta">
         <div className="wrap">
@@ -197,10 +267,35 @@ export default function LandingPage() {
             <p className="muted" style={{ marginTop: ".8rem" }}>© 2026 Partner AI, Inc.</p>
           </div>
           <div className="footer-links">
-            <div><h4>Platform</h4><a href="#">Attribution</a><a href="#">Incentives</a><a href="#">Program Mgmt</a><a href="#">Partner Portal</a><a href="#">Activity Trail</a></div>
-            <div><h4>Solutions</h4><a href="#">SaaS Channel</a><a href="#">Marketplaces</a><a href="#">Distribution</a><a href="#">Agencies</a></div>
-            <div><h4>Resources</h4><a href="#">Blog</a><a href="#">API Docs</a><a href="#">Case Studies</a><a href="#">Changelog</a></div>
-            <div><h4>Company</h4><a href="#">About</a><a href="#">Careers</a><a href="#">Security</a><a href="#">Contact</a></div>
+            <div>
+              <h4>Platform</h4>
+              <Link href="/dashboard/reports">Attribution</Link>
+              <Link href="/dashboard/payouts">Incentives</Link>
+              <Link href="/dashboard">Program Mgmt</Link>
+              <Link href="/portal">Partner Portal</Link>
+              <Link href="/dashboard/activity">Activity Trail</Link>
+            </div>
+            <div>
+              <h4>Solutions</h4>
+              <a href="#solutions">SaaS Channel</a>
+              <a href="#solutions">Marketplaces</a>
+              <a href="#solutions">Distribution</a>
+              <a href="#solutions">Agencies</a>
+            </div>
+            <div>
+              <h4>Resources</h4>
+              <a href="#" onClick={(e) => e.preventDefault()}>Blog</a>
+              <a href="#" onClick={(e) => e.preventDefault()}>API Docs</a>
+              <a href="#" onClick={(e) => e.preventDefault()}>Case Studies</a>
+              <a href="#" onClick={(e) => e.preventDefault()}>Changelog</a>
+            </div>
+            <div>
+              <h4>Company</h4>
+              <a href="#" onClick={(e) => e.preventDefault()}>About</a>
+              <a href="#" onClick={(e) => e.preventDefault()}>Careers</a>
+              <a href="#" onClick={(e) => e.preventDefault()}>Security</a>
+              <a href="mailto:hello@partnerai.com">Contact</a>
+            </div>
           </div>
         </div>
       </footer>

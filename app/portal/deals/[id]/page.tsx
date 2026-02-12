@@ -14,15 +14,14 @@ export default function PortalDealDetail({ params }: { params: Promise<{ id: str
   const [disputed, setDisputed] = useState(false);
 
   const deal = myDeals.find((d) => d._id === id);
-  if (!deal) return <div className="dash-layout"><div className="dash-content"><p>Deal not found.</p></div></div>;
+  if (!deal) return <div style={{ textAlign: "center", padding: "3rem" }}><p className="muted">Deal not found.</p></div>;
 
   const touchpoints = myTouchpoints.filter((tp) => tp.dealId === id).sort((a, b) => a.createdAt - b.createdAt);
   const attribution = myAttributions.find((a) => a.dealId === id);
 
   return (
-    <div className="dash-layout">
-      <div className="dash-content">
-        <Link href="/portal/deals" style={{ display: "inline-flex", alignItems: "center", gap: ".4rem", marginBottom: "1.5rem", fontSize: ".9rem" }} className="muted"><ArrowLeft size={16} /> Back to deals</Link>
+    <>
+      <Link href="/portal/deals" style={{ display: "inline-flex", alignItems: "center", gap: ".4rem", marginBottom: "1.5rem", fontSize: ".9rem" }} className="muted"><ArrowLeft size={16} /> Back to deals</Link>
 
         <div className="card" style={{ marginBottom: "1.5rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", flexWrap: "wrap", gap: "1rem" }}>
@@ -131,7 +130,6 @@ export default function PortalDealDetail({ params }: { params: Promise<{ id: str
             </div>
           </div>
         )}
-      </div>
-    </div>
+    </>
   );
 }

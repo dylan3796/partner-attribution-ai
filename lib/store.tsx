@@ -5,6 +5,7 @@ import { demoOrg, demoPartners, demoDeals, demoTouchpoints, demoAttributions, de
 
 type StoreContextType = {
   org: Organization;
+  updateOrg: (updates: Partial<Organization>) => void;
   partners: Partner[];
   getPartner: (id: string) => Partner | undefined;
   addPartner: (p: Omit<Partner, "_id" | "organizationId" | "createdAt">) => Partner;
@@ -48,12 +49,17 @@ type StoreContextType = {
 const StoreContext = createContext<StoreContextType | null>(null);
 
 export function StoreProvider({ children }: { children: ReactNode }) {
+  const [org, setOrg] = useState<Organization>(demoOrg);
   const [partners, setPartners] = useState<Partner[]>(demoPartners);
   const [deals, setDeals] = useState<Deal[]>(demoDeals);
   const [touchpoints, setTouchpoints] = useState<Touchpoint[]>(demoTouchpoints);
   const [attributions] = useState<Attribution[]>(demoAttributions);
   const [payouts, setPayouts] = useState<Payout[]>(demoPayouts);
   const [auditLog, setAuditLog] = useState<AuditEntry[]>(demoAuditLog);
+
+  const updateOrg = useCallback((updates: Partial<Organization>) => {
+    setOrg((prev) => ({ ...prev, ...updates }));
+  }, []);
 
   const getPartner = useCallback((id: string) => partners.find((p) => p._id === id), [partners]);
   const getDeal = useCallback((id: string) => deals.find((d) => d._id === id), [deals]);
@@ -149,7 +155,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <StoreContext.Provider value={{ org: demoOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, payouts, approvePayout, rejectPayout, markPayoutPaid, createPayout, auditLog, addAuditEntry, stats }}>
+    <StoreContext.Provider value={{ org, updateOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, payouts, approvePayout, rejectPayout, markPayoutPaid, createPayout, auditLog, addAuditEntry, stats }}>
       {children}
     </StoreContext.Provider>
   );

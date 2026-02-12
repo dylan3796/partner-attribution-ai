@@ -12,8 +12,7 @@ export default function PortalDealsPage() {
   const [submitted, setSubmitted] = useState(false);
 
   return (
-    <div className="dash-layout">
-      <div className="dash-content">
+    <>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
           <div>
             <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>My Deals</h1>
@@ -87,7 +86,6 @@ export default function PortalDealsPage() {
             </div>
           </div>
         )}
-      </div>
-    </div>
+    </>
   );
 }

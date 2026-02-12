@@ -13,6 +13,22 @@ export const metadata: Metadata = {
   title: "PartnerAI — The AI-Native Partner Platform",
   description:
     "Run your entire partner operation from one platform. Attribution, incentives, program management, partner portal, revenue intelligence — all powered by AI.",
+  icons: {
+    icon: [
+      { url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>", type: "image/svg+xml" },
+    ],
+  },
+  openGraph: {
+    title: "PartnerAI — The AI-Native Partner Platform",
+    description: "Run your entire partner operation from one platform. Attribution, incentives, program management, partner portal, revenue intelligence — all powered by AI.",
+    type: "website",
+    siteName: "PartnerAI",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "PartnerAI — The AI-Native Partner Platform",
+    description: "Run your entire partner operation from one platform. Attribution, incentives, and partner management — all powered by AI.",
+  },
 };
 
 export default function RootLayout({

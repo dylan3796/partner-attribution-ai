@@ -25,8 +25,7 @@ const resources = [
 
 export default function PortalResourcesPage() {
   return (
-    <div className="dash-layout">
-      <div className="dash-content">
+    <>
         <div style={{ marginBottom: "2rem" }}>
           <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Resources</h1>
           <p className="muted">Everything you need to sell, market, and succeed as a partner</p>
@@ -52,7 +51,6 @@ export default function PortalResourcesPage() {
             </div>
           </div>
         ))}
-      </div>
-    </div>
+    </>
   );
 }

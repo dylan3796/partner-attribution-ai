@@ -9,14 +9,13 @@ const TYPE_LABELS: Record<string, string> = { reseller: "Reseller", referral: "R
 export default function PortalProfilePage() {
   const { partner, setPartnerId, allPartners, myDeals, myAttributions, stats } = usePortal();
 
-  if (!partner) return <div className="dash-layout"><div className="dash-content"><p className="muted">Select a partner to view profile.</p></div></div>;
+  if (!partner) return <div style={{ textAlign: "center", padding: "3rem" }}><p className="muted">Select a partner to view profile.</p></div>;
 
   const totalRevenue = myAttributions.reduce((s, a) => s + a.amount, 0);
   const totalCommission = myAttributions.reduce((s, a) => s + a.commissionAmount, 0);
 
   return (
-    <div className="dash-layout">
-      <div className="dash-content" style={{ maxWidth: 800 }}>
+    <div style={{ maxWidth: 800 }}>
         <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em", marginBottom: "1.5rem" }}>Partner Profile</h1>
 
         {/* Switch Partner (Demo) */}
@@ -108,7 +107,6 @@ export default function PortalProfilePage() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }
