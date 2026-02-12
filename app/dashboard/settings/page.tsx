@@ -43,6 +43,32 @@ export default function SettingsPage() {
         </p>
       </div>
 
+      {/* Customization Hero Banner */}
+      <div
+        style={{
+          padding: "1.5rem 2rem",
+          borderRadius: 12,
+          background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 50%, #fdf4ff 100%)",
+          border: "1px solid #c7d2fe",
+          display: "flex",
+          alignItems: "center",
+          gap: "1.5rem",
+        }}
+      >
+        <div style={{ width: 48, height: 48, borderRadius: 12, background: "#6366f1", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+          <Sparkles size={24} color="white" />
+        </div>
+        <div style={{ flex: 1 }}>
+          <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: ".25rem", color: "#312e81" }}>
+            Built for YOUR partner program
+          </h3>
+          <p style={{ fontSize: ".85rem", color: "#4338ca", lineHeight: 1.5, margin: 0 }}>
+            PartnerAI adapts to how you work. Toggle features, adjust complexity, customize the UI — make it yours.
+            Enable only what you need, from simple partner tracking to enterprise-grade multi-model attribution.
+          </p>
+        </div>
+      </div>
+
       {/* Organization Settings */}
       <div className="card">
         <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.5rem" }}>
@@ -327,14 +353,51 @@ export default function SettingsPage() {
       </div>
 
       {/* Platform Configuration */}
-      <div className="card">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
+      <div className="card" id="platform-config">
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: ".75rem" }}>
           <h2 style={{ fontSize: "1.1rem", fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
             <Sliders size={18} /> Platform Configuration
           </h2>
           <button className="btn-outline" onClick={resetToDefaults} style={{ fontSize: ".8rem", padding: "4px 12px", display: "flex", alignItems: "center", gap: 4 }}>
             <RefreshCw size={13} /> Reset to Defaults
           </button>
+        </div>
+        <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.5rem", lineHeight: 1.5 }}>
+          Configure PartnerAI for your workflow — not the other way around. Toggle complexity, enable only the modules you use, and adapt the platform as your program grows.
+        </p>
+
+        {/* Configuration Tips */}
+        <div
+          style={{
+            padding: "1rem 1.25rem",
+            borderRadius: 10,
+            border: "1px solid #c7d2fe",
+            background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)",
+            marginBottom: "1.5rem",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginBottom: ".5rem" }}>
+            <Lightbulb size={15} color="#4338ca" />
+            <span style={{ fontWeight: 700, fontSize: ".85rem", color: "#4338ca" }}>Configuration Tips</span>
+          </div>
+          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: ".35rem" }}>
+            <li style={{ fontSize: ".8rem", color: "#3730a3", display: "flex", alignItems: "flex-start", gap: ".4rem" }}>
+              <span style={{ color: "#6366f1", fontWeight: 700 }}>→</span>
+              Start with &quot;Simple&quot; complexity and enable features as your program matures
+            </li>
+            <li style={{ fontSize: ".8rem", color: "#3730a3", display: "flex", alignItems: "flex-start", gap: ".4rem" }}>
+              <span style={{ color: "#6366f1", fontWeight: 700 }}>→</span>
+              Toggle individual features below to show/hide them from navigation and dashboards
+            </li>
+            <li style={{ fontSize: ".8rem", color: "#3730a3", display: "flex", alignItems: "flex-start", gap: ".4rem" }}>
+              <span style={{ color: "#6366f1", fontWeight: 700 }}>→</span>
+              Use &quot;Compact&quot; density for data-heavy views, &quot;Spacious&quot; for readability
+            </li>
+            <li style={{ fontSize: ".8rem", color: "#3730a3", display: "flex", alignItems: "flex-start", gap: ".4rem" }}>
+              <span style={{ color: "#6366f1", fontWeight: 700 }}>→</span>
+              Changes apply instantly — no restart needed. Experiment freely!
+            </li>
+          </ul>
         </div>
 
         {/* Complexity Level */}
@@ -343,7 +406,7 @@ export default function SettingsPage() {
             Complexity Level
           </label>
           <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".5rem" }}>
-            Controls how many features and options are visible across the platform.
+            Toggle complexity based on your team&apos;s needs. Simple for lean operations, Advanced for full power.
           </p>
           <div style={{ display: "flex", gap: ".5rem" }}>
             {(["simple", "standard", "advanced"] as ComplexityLevel[]).map(level => (
@@ -395,10 +458,10 @@ export default function SettingsPage() {
         {/* Feature Flags */}
         <div>
           <label style={{ display: "block", fontSize: "0.9rem", fontWeight: 600, marginBottom: "0.5rem" }}>
-            Feature Flags
+            Feature Modules — Enable Only What You Use
           </label>
           <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".75rem" }}>
-            Toggle features on/off based on your organization&apos;s needs.
+            Every toggle instantly shows or hides the feature across the platform. Disabled features are fully hidden from navigation, dashboards, and your team&apos;s view.
           </p>
           <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
             {(Object.keys(FEATURE_FLAG_LABELS) as (keyof FeatureFlags)[]).map(flag => {

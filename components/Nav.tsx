@@ -9,6 +9,7 @@ import type { FeatureFlags } from "@/lib/types";
 
 const marketingLinks = [
   { name: "Platform", href: "#platform" },
+  { name: "Customizable", href: "#customizable" },
   { name: "Solutions", href: "#solutions" },
   { name: "Pricing", href: "#pricing" },
 ];
@@ -132,6 +133,10 @@ export default function Nav() {
                   );
                 })}
                 <div className="mobile-menu-divider" />
+                <Link href="/dashboard/settings#platform-config" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
+                  <Sliders size={18} />
+                  Customize Platform
+                </Link>
                 <Link href="/portal" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
                   Partner Portal
                 </Link>

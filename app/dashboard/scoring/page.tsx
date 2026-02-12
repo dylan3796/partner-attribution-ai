@@ -12,6 +12,7 @@ import {
   type ScoringConfig,
 } from "@/lib/partner-scoring";
 import { TIER_LABELS } from "@/lib/types";
+import { ConfigTipBox } from "@/components/ui/config-tooltip";
 import {
   Trophy,
   TrendingUp,
@@ -346,6 +347,15 @@ export default function ScoringPage() {
             </button>
           </div>
         </div>
+
+        <ConfigTipBox
+          title="Scoring is Fully Customizable"
+          tips={[
+            "Adjust weight sliders to match what matters to your org (revenue vs engagement vs velocity)",
+            "Tier thresholds are configurable — adapt them to your partner program's criteria",
+            "Toggle Partner Scoring on/off entirely in Platform Configuration",
+          ]}
+        />
 
         {/* Weight Config Panel */}
         {showConfig && (

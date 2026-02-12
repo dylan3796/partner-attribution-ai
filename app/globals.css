@@ -156,6 +156,9 @@ select.input{appearance:auto;cursor:pointer}
 .payout strong{font-size:1.05rem}
 .avatar{width:36px;height:36px;border-radius:50%;background:var(--fg);color:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:.75rem;flex-shrink:0}
 
+/* === Customizable Section === */
+.customizable{padding:7rem 0;background:var(--subtle)}
+
 /* === Benefits === */
 .benefits{padding:5rem 0;background:var(--subtle)}
 .benefits h3{font-size:1.3rem;font-weight:700;margin-bottom:.8rem}

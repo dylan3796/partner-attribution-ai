@@ -5,6 +5,7 @@ import { useStore } from "@/lib/store";
 import { formatCurrency, formatPercent, MODEL_COLORS, CHART_COLORS } from "@/lib/utils";
 import { MODEL_LABELS, type AttributionModel } from "@/lib/types";
 import { exportAttributionsCSV } from "@/lib/csv";
+import { ConfigTipBox } from "@/components/ui/config-tooltip";
 import {
   BarChart,
   Bar,
@@ -205,6 +206,16 @@ export default function ReportsPage() {
           ↓ Export CSV
         </button>
       </div>
+
+      <ConfigTipBox
+        title="Customize Your Reports"
+        tips={[
+          "Choose from 5 attribution models — or set a default in Settings",
+          "Toggle Reports & Analytics on/off via feature flags",
+          "Adjust scoring weights to reflect your org's priorities",
+          "Export any report to CSV for your QBR presentations",
+        ]}
+      />
 
       {/* Model Overview Chart */}
       <div className="card">

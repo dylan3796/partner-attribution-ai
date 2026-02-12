@@ -58,6 +58,9 @@ export default function DealsPage() {
           {items.length === 0 && (
             <div style={{ textAlign: "center", padding: "2rem", color: "var(--muted)" }}>
               <p style={{ fontSize: ".85rem" }}>No deals</p>
+              <a href="/dashboard/settings#platform-config" style={{ fontSize: ".75rem", color: "#6366f1", fontWeight: 500 }}>
+                Enable deal registration in Platform Configuration
+              </a>
             </div>
           )}
         </div>

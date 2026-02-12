@@ -2,20 +2,61 @@
 import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders } from "lucide-react";
+import { usePlatformConfig } from "@/lib/platform-config";
 
 export default function DashboardPage() {
   const { stats, deals, partners, payouts, auditLog } = useStore();
+  const { config } = usePlatformConfig();
   const recentDeals = [...deals].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5);
   const topPartners = partners.filter((p) => p.status === "active").slice(0, 5);
   const pendingPayouts = payouts.filter((p) => p.status === "pending_approval");
 
   return (
     <>
-      <div style={{ marginBottom: "2rem" }}>
-        <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Dashboard</h1>
-        <p className="muted">Your partner program at a glance</p>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
+        <div>
+          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Dashboard</h1>
+          <p className="muted">Your partner program at a glance</p>
+        </div>
+        <Link
+          href="/dashboard/settings#platform-config"
+          className="btn-outline"
+          style={{ fontSize: ".8rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}
+        >
+          <Sliders size={14} />
+          Customize Platform
+        </Link>
       </div>
+
+      {/* Customization Callout */}
+      {config.complexityLevel === "standard" && (
+        <div
+          style={{
+            padding: "1rem 1.25rem",
+            borderRadius: 10,
+            border: "1px solid #c7d2fe",
+            background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)",
+            marginBottom: "1.5rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "1rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
+            <Sliders size={18} color="#4338ca" />
+            <div>
+              <p style={{ fontWeight: 600, fontSize: ".85rem", color: "#312e81" }}>This dashboard adapts to your workflow</p>
+              <p style={{ fontSize: ".8rem", color: "#4338ca" }}>Toggle features, adjust complexity, and enable only what you need in Platform Configuration.</p>
+            </div>
+          </div>
+          <Link href="/dashboard/settings#platform-config" className="btn" style={{ fontSize: ".8rem", padding: ".4rem 1rem", background: "#6366f1", whiteSpace: "nowrap" }}>
+            Configure →
+          </Link>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="stat-grid" style={{ marginBottom: "2rem" }}>
@@ -72,6 +113,9 @@ export default function DashboardPage() {
             <div className="empty-state" style={{ padding: "2rem" }}>
               <Briefcase size={32} color="var(--muted)" style={{ marginBottom: ".5rem" }} />
               <p className="muted">No deals yet. Create your first deal!</p>
+              <Link href="/dashboard/settings#platform-config" style={{ fontSize: ".75rem", color: "#6366f1", fontWeight: 500, marginTop: ".5rem" }}>
+                ⚙️ Configure deal features in Platform Configuration
+              </Link>
             </div>
           ) : (
             recentDeals.map((deal) => (

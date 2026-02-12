@@ -20,6 +20,7 @@ import {
 import { exportPayoutsCSV } from "@/lib/csv";
 
 import { formatCurrency, formatCurrencyCompact, formatDate } from "@/lib/utils";
+import { ConfigTipBox } from "@/components/ui/config-tooltip";
 
 const fmt = formatCurrencyCompact;
 const fmtFull = formatCurrency;
@@ -160,6 +161,15 @@ export default function PayoutsPage() {
             </button>
           </div>
         </div>
+
+        <ConfigTipBox
+          title="Configure Payout Workflows"
+          tips={[
+            "Set default commission rates globally or override per-partner",
+            "Toggle the Payouts module on/off in Platform Configuration",
+            "Approval workflows ensure every payout is reviewed before processing",
+          ]}
+        />
 
         {/* Summary Cards */}
         <div className="stat-grid" style={{ marginBottom: "1.5rem", gridTemplateColumns: "repeat(4, 1fr)" }}>
