@@ -560,7 +560,7 @@ export function processQuery(question: string, ctx: QueryContext): string {
     `I'm not sure how to answer that. Here are some things you can ask me:\n\n` +
     `- **"Who are my top 3 partners by revenue?"**\n` +
     `- **"Show me deals at risk of churning"**\n` +
-    `- **"What's my pipeline forecast?"**\n` +
+    `- **"What's my partner-influenced pipeline?"**\n` +
     `- **"Which partners haven't engaged in 30 days?"**\n` +
     `- **"How much have I paid out this quarter?"**\n` +
     `- **"Show me partner scores and rankings"**\n` +

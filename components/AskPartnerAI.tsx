@@ -15,8 +15,8 @@ type Message = {
 
 const EXAMPLE_QUERIES = [
   "Who are my top 3 partners by revenue?",
-  "Show me deals at risk of churning",
-  "What's my pipeline forecast?",
+  "Show me partner-influenced deals at risk",
+  "What's my partner-touched pipeline?",
   "Which partners haven't engaged in 30 days?",
   "How much have I paid out this quarter?",
   "Show me partner scores and rankings",

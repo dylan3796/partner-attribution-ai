@@ -1,14 +1,14 @@
 # Partner Attribution AI
 
-**AI-powered attribution, incentives, and program management for partner & channel organizations.**
+**The Partner Intelligence Layer for Your CRM — AI-powered attribution, incentives, and program management on top of the tools you already use.**
 
-> Built for companies that run channel partnerships, alliances, reseller networks, and co-selling programs.
+> Measure partner impact, automate attribution, and run world-class partner programs. Works with Salesforce, HubSpot, Pipedrive, and any CRM via REST API.
 
 ---
 
 ## 🎯 What This Is
 
-A full Partner Relationship Management (PRM) platform that solves attribution, incentive management, and program operations for:
+A Partner Intelligence Layer that sits on top of your CRM to measure partner contribution, calculate attribution, manage incentives, and run partner program operations for:
 
 - **Channel partnerships** — resellers, VARs, system integrators, distributors
 - **Technology alliances** — co-selling, co-marketing, integrations

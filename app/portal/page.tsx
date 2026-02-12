@@ -55,14 +55,14 @@ export default function PortalDashboard() {
       bg: "#fffbeb",
     },
     {
-      label: "Deals in Pipeline",
+      label: "Deals You Influenced",
       value: stats.dealsInPipeline.toString(),
       icon: TrendingUp,
       color: "#3730a3",
       bg: "#eef2ff",
     },
     {
-      label: "Active Deals",
+      label: "Active Registrations",
       value: stats.activeDeals.toString(),
       icon: Briefcase,
       color: "#1e40af",
@@ -78,7 +78,7 @@ export default function PortalDashboard() {
           Welcome back, {partner?.contactName?.split(" ")[0] || "Partner"}
         </h1>
         <p style={{ color: "var(--muted)", fontSize: "0.95rem", marginTop: "0.25rem" }}>
-          Here&apos;s how {partner.companyName} is performing
+          Track your influence, commissions, and deal registrations
         </p>
       </div>
 
@@ -137,7 +137,7 @@ export default function PortalDashboard() {
           </div>
           <div>
             <p style={{ fontWeight: 600, fontSize: "0.9rem" }}>Register a Deal</p>
-            <p style={{ fontSize: "0.8rem", color: "var(--muted)" }}>Submit a new opportunity</p>
+            <p style={{ fontSize: "0.8rem", color: "var(--muted)" }}>Submit for approval</p>
           </div>
         </Link>
 
@@ -289,7 +289,7 @@ export default function PortalDashboard() {
               justifyContent: "space-between",
             }}
           >
-            <strong style={{ fontSize: "0.95rem" }}>Your Deals</strong>
+            <strong style={{ fontSize: "0.95rem" }}>Deals You&apos;ve Influenced</strong>
             <span className="badge badge-neutral">{deals.length} total</span>
           </div>
           {deals.slice(0, 6).map((deal) => {

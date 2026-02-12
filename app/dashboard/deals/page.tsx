@@ -37,7 +37,7 @@ export default function DealsPage() {
     setShowAdd(false);
     setForm({ name: "", amount: 0, contactName: "", registeredBy: "" });
     setFormErrors({});
-    toast("Deal created successfully");
+    toast("Deal imported successfully");
   }
 
   function PipelineCol({ title, items, color }: { title: string; items: typeof deals; color: string }) {
@@ -61,9 +61,9 @@ export default function DealsPage() {
           ))}
           {items.length === 0 && (
             <div style={{ textAlign: "center", padding: "2rem", color: "var(--muted)" }}>
-              <p style={{ fontSize: ".85rem" }}>No deals</p>
-              <a href="/dashboard/settings#platform-config" style={{ fontSize: ".75rem", color: "#6366f1", fontWeight: 500 }}>
-                Enable deal registration in Platform Configuration
+              <p style={{ fontSize: ".85rem" }}>No partner-touched deals</p>
+              <a href="/dashboard/settings#crm-connection" style={{ fontSize: ".75rem", color: "#6366f1", fontWeight: 500 }}>
+                Connect your CRM to sync deals automatically
               </a>
             </div>
           )}
@@ -76,8 +76,8 @@ export default function DealsPage() {
     <>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
         <div>
-          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Deals</h1>
-          <p className="muted">{deals.length} deals · {formatCurrencyCompact(deals.filter((d) => d.status === "open").reduce((s, d) => s + d.amount, 0))} pipeline</p>
+          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Partner-Touched Deals</h1>
+          <p className="muted">{deals.length} deals from CRM · {formatCurrencyCompact(deals.filter((d) => d.status === "open").reduce((s, d) => s + d.amount, 0))} partner-influenced pipeline</p>
         </div>
         <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap", alignItems: "center" }}>
           <div style={{ position: "relative" }}>
@@ -95,7 +95,7 @@ export default function DealsPage() {
             <button onClick={() => setView("table")} style={{ padding: ".5rem .8rem", background: view === "table" ? "var(--subtle)" : "var(--bg)", border: "none", cursor: "pointer", color: "var(--fg)" }}><List size={16} /></button>
           </div>
           <button className="btn-outline" onClick={() => { exportDealsCSV(deals); toast("Deals exported"); }}><Download size={15} /> Export</button>
-          <button className="btn" onClick={() => setShowAdd(true)}><Plus size={15} /> New Deal</button>
+          <button className="btn" onClick={() => setShowAdd(true)}><Plus size={15} /> Import Deal</button>
         </div>
       </div>
 
@@ -137,7 +137,7 @@ export default function DealsPage() {
         <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={() => setShowAdd(false)}>
           <div className="card animate-in" style={{ width: 480, maxWidth: "100%" }} onClick={(e) => e.stopPropagation()}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1.5rem" }}>
-              <h2 style={{ fontSize: "1.2rem", fontWeight: 700 }}>New Deal</h2>
+              <h2 style={{ fontSize: "1.2rem", fontWeight: 700 }}>Import Deal</h2>
               <button onClick={() => setShowAdd(false)} style={{ background: "none", border: "none", cursor: "pointer" }}><X size={20} /></button>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -158,7 +158,8 @@ export default function DealsPage() {
                   {partners.filter((p) => p.status === "active").map((p) => <option key={p._id} value={p._id}>{p.name}</option>)}
                 </select>
               </div>
-              <button className="btn" style={{ width: "100%", marginTop: ".5rem" }} onClick={handleAdd} disabled={!form.name || !form.amount}>Create Deal</button>
+              <p className="muted" style={{ fontSize: ".75rem", marginTop: ".5rem", textAlign: "center", lineHeight: 1.4 }}>💡 Deals are typically synced from your CRM. Use this form for manual entry when CRM integration isn&apos;t set up yet.</p>
+              <button className="btn" style={{ width: "100%", marginTop: ".5rem" }} onClick={handleAdd} disabled={!form.name || !form.amount}>Import Deal</button>
             </div>
           </div>
         </div>

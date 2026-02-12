@@ -16,8 +16,8 @@ export default function PortalDealsPage() {
     <>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
           <div>
-            <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>My Deals</h1>
-            <p className="muted">{myDeals.length} deals you're involved in</p>
+            <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>My Deal Registrations</h1>
+            <p className="muted">{myDeals.length} deals you&apos;ve influenced · Status synced from CRM</p>
           </div>
           <button className="btn" onClick={() => setShowRegister(true)}><Plus size={15} /> Register a Deal</button>
         </div>
@@ -51,7 +51,7 @@ export default function PortalDealsPage() {
               })}
             </tbody>
           </table>
-          {myDeals.length === 0 && <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No deals yet. Register your first deal!</p>}
+          {myDeals.length === 0 && <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No deals yet. Submit your first deal registration for approval!</p>}
         </div>
 
         {/* Register Modal */}
@@ -80,7 +80,7 @@ export default function PortalDealsPage() {
                     </div>
                     <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Notes</label><textarea className="input" rows={3} placeholder="How did you find this opportunity? Any context helps..." style={{ resize: "vertical" }} value={regForm.notes} onChange={(e) => setRegForm({ ...regForm, notes: e.target.value })}></textarea></div>
                     <button className="btn" style={{ width: "100%" }} disabled={!regForm.companyName || !regForm.estimatedValue} onClick={() => { addDealRegistration({ companyName: regForm.companyName, estimatedValue: Number(regForm.estimatedValue), contactName: regForm.contactName, contactEmail: regForm.contactEmail, notes: regForm.notes, expectedCloseDate: "" }); setSubmitted(true); setRegForm({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "" }); }}>Submit Registration</button>
-                    <p className="muted" style={{ fontSize: ".8rem", textAlign: "center" }}>Registrations are reviewed within 24 hours.</p>
+                    <p className="muted" style={{ fontSize: ".8rem", textAlign: "center" }}>Registrations are reviewed within 24 hours. Once approved, deals are tracked in the CRM and your attribution is recorded.</p>
                   </div>
                 </>
               )}

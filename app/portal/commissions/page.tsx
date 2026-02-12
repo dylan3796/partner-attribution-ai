@@ -72,7 +72,7 @@ export default function PortalCommissionsPage() {
                 ))}
               </tbody>
             </table>
-            {myAttributions.length === 0 && <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No commissions yet. Close deals to earn commissions!</p>}
+            {myAttributions.length === 0 && <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No commissions yet. When deals you&apos;ve influenced close in the CRM, commissions are calculated automatically.</p>}
           </div>
         </div>
 
@@ -97,7 +97,7 @@ export default function PortalCommissionsPage() {
         {/* How it works */}
         <div className="card" style={{ marginTop: "1.5rem", background: "var(--subtle)" }}>
           <h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>How are commissions calculated?</h3>
-          <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>Your commission is based on your <strong>attributed revenue</strong> multiplied by your <strong>commission rate</strong>. Attribution is calculated using the Role-Based model, which weights different types of partner activity. The more impact you have on a deal (referrals, demos, proposals), the higher your attribution percentage.</p>
+          <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>Your commission is based on your <strong>attributed revenue</strong> multiplied by your <strong>commission rate</strong>. When a deal closes in the CRM, attribution is calculated using the Role-Based model, which weights different types of partner activity. The more impact you have on a deal (referrals, demos, proposals), the higher your attribution percentage.</p>
         </div>
     </>
   );

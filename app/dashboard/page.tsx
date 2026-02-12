@@ -50,7 +50,7 @@ export default function DashboardPage() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
         <div>
           <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Dashboard</h1>
-          <p className="muted">Your partner program at a glance</p>
+          <p className="muted">Partner-influenced revenue &amp; program overview</p>
         </div>
         <Link
           href="/dashboard/settings#platform-config"
@@ -96,7 +96,7 @@ export default function DashboardPage() {
         <div className="card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
             <div>
-              <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Total Revenue</p>
+              <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Partner-Influenced Revenue</p>
               <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{formatCurrencyCompact(stats.totalRevenue)}</p>
             </div>
             <div style={{ background: "#ecfdf5", padding: ".5rem", borderRadius: 8 }}><TrendingUp size={18} color="#065f46" /></div>
@@ -109,7 +109,7 @@ export default function DashboardPage() {
         <div className="card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
             <div>
-              <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Pipeline Value</p>
+              <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Partner-Touched Pipeline</p>
               <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{formatCurrencyCompact(stats.pipelineValue)}</p>
             </div>
             <div style={{ background: "#eef2ff", padding: ".5rem", borderRadius: 8 }}><Briefcase size={18} color="#3730a3" /></div>
@@ -135,7 +135,7 @@ export default function DashboardPage() {
         <div className="card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
             <div>
-              <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Win Rate</p>
+              <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Partner-Influenced Win Rate</p>
               <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{stats.winRate}%</p>
             </div>
             <div style={{ background: "#fffbeb", padding: ".5rem", borderRadius: 8 }}><ArrowUpRight size={18} color="#92400e" /></div>
@@ -151,13 +151,13 @@ export default function DashboardPage() {
         {/* Recent Deals */}
         <div className="card" style={{ padding: 0 }}>
           <div style={{ padding: "1.2rem 1.5rem", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <h3 style={{ fontWeight: 700, fontSize: "1rem" }}>Recent Deals</h3>
+            <h3 style={{ fontWeight: 700, fontSize: "1rem" }}>Recent Partner-Touched Deals</h3>
             <Link href="/dashboard/deals" className="muted" style={{ fontSize: ".85rem", fontWeight: 500 }}>View all →</Link>
           </div>
           {recentDeals.length === 0 ? (
             <div className="empty-state" style={{ padding: "2rem" }}>
               <Briefcase size={32} color="var(--muted)" style={{ marginBottom: ".5rem" }} />
-              <p className="muted">No deals yet. Create your first deal!</p>
+              <p className="muted">No deals yet. Import from your CRM or add manually.</p>
               <Link href="/dashboard/settings#platform-config" style={{ fontSize: ".75rem", color: "#6366f1", fontWeight: 500, marginTop: ".5rem" }}>
                 ⚙️ Configure deal features in Platform Configuration
               </Link>

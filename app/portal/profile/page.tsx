@@ -61,7 +61,7 @@ export default function PortalProfilePage() {
             </div>
             <div style={{ textAlign: "center", padding: "1rem" }}>
               <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>{fmt(stats.totalRevenue)}</p>
-              <p className="muted" style={{ fontSize: ".8rem" }}>Attributed Revenue</p>
+              <p className="muted" style={{ fontSize: ".8rem" }}>Partner-Influenced Revenue</p>
             </div>
             <div style={{ textAlign: "center", padding: "1rem" }}>
               <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>{fmt(stats.totalEarned)}</p>

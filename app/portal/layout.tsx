@@ -19,7 +19,7 @@ import PortalGate from "@/components/PortalGate";
 
 const sidebarLinks = [
   { name: "Dashboard", href: "/portal", icon: LayoutDashboard },
-  { name: "My Deals", href: "/portal/deals", icon: Briefcase },
+  { name: "Deal Registrations", href: "/portal/deals", icon: Briefcase },
   { name: "Commissions", href: "/portal/commissions", icon: DollarSign },
   { name: "Enablement", href: "/portal/enablement", icon: Award },
   { name: "Resources", href: "/portal/resources", icon: FolderOpen },
@@ -189,7 +189,7 @@ function PortalSidebar() {
             Sign Out
           </button>
           <p style={{ fontSize: "0.7rem", color: "var(--muted)", marginTop: "0.75rem", opacity: 0.6 }}>
-            Powered by PartnerAI
+            Powered by PartnerAI · Partner Intelligence Layer
           </p>
         </div>
       </aside>

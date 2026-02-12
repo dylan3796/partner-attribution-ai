@@ -41,6 +41,9 @@ export default function PortalDealDetail({ params }: { params: Promise<{ id: str
             )}
           </div>
           <p className="muted" style={{ marginTop: ".8rem" }}>Created {new Date(deal.createdAt).toLocaleDateString()} {deal.closedAt && `· Closed ${new Date(deal.closedAt).toLocaleDateString()}`}</p>
+          <p style={{ marginTop: ".5rem", fontSize: ".8rem", color: "#6366f1", display: "flex", alignItems: "center", gap: ".4rem" }}>
+            🔄 Deal status synced from CRM · Read-only
+          </p>
         </div>
 
         <div className="grid-2" style={{ gap: "1.5rem" }}>
@@ -98,7 +101,7 @@ export default function PortalDealDetail({ params }: { params: Promise<{ id: str
             ) : (
               <div className="card" style={{ background: "#eef2ff", border: "1px solid #c7d2fe" }}>
                 <p style={{ fontWeight: 600, marginBottom: ".3rem" }}>Attribution pending</p>
-                <p className="muted" style={{ fontSize: ".85rem" }}>Attribution will be calculated when this deal closes.</p>
+                <p className="muted" style={{ fontSize: ".85rem" }}>Attribution will be calculated when this deal closes in your CRM. Deal status is synced automatically.</p>
               </div>
             )}
           </div>

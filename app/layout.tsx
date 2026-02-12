@@ -12,24 +12,24 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PartnerAI — The AI-Native Partner Platform",
+  title: "PartnerAI — The Partner Intelligence Layer for Your CRM",
   description:
-    "Run your entire partner operation from one platform. Attribution, incentives, program management, partner portal, revenue intelligence — all powered by AI.",
+    "Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use. Works with Salesforce, HubSpot, and Pipedrive.",
   icons: {
     icon: [
       { url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "PartnerAI — The AI-Native Partner Platform",
-    description: "Run your entire partner operation from one platform. Attribution, incentives, program management, partner portal, revenue intelligence — all powered by AI.",
+    title: "PartnerAI — The Partner Intelligence Layer for Your CRM",
+    description: "Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use. Works with Salesforce, HubSpot, and Pipedrive.",
     type: "website",
     siteName: "PartnerAI",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PartnerAI — The AI-Native Partner Platform",
-    description: "Run your entire partner operation from one platform. Attribution, incentives, and partner management — all powered by AI.",
+    title: "PartnerAI — The Partner Intelligence Layer for Your CRM",
+    description: "Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use.",
   },
 };
 

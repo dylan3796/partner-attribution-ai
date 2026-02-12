@@ -199,7 +199,7 @@ export default function ReportsPage() {
             Attribution Reports
           </h1>
           <p className="muted" style={{ marginTop: "0.25rem" }}>
-            Compare attribution models and analyze partner performance
+            Compare attribution models and analyze partner influence on CRM deals
           </p>
         </div>
         <button className="btn-outline" onClick={handleExport}>

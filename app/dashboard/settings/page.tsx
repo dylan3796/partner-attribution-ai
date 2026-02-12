@@ -63,8 +63,8 @@ export default function SettingsPage() {
             Built for YOUR partner program
           </h3>
           <p style={{ fontSize: ".85rem", color: "#4338ca", lineHeight: 1.5, margin: 0 }}>
-            PartnerAI adapts to how you work. Toggle features, adjust complexity, customize the UI — make it yours.
-            Enable only what you need, from simple partner tracking to enterprise-grade multi-model attribution.
+            PartnerAI is the intelligence layer on top of your CRM. Connect your deal data, then toggle features, adjust complexity, and customize the UI — make it yours.
+            Enable only what you need, from simple partner attribution to enterprise-grade multi-model program management.
           </p>
         </div>
       </div>
@@ -154,6 +154,80 @@ export default function SettingsPage() {
             </button>
           </div>
         </form>
+      </div>
+
+      {/* CRM Connection */}
+      <div className="card" id="crm-connection">
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: 6 }}>
+          🔗 CRM Connection
+        </h2>
+        <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.5rem", lineHeight: 1.5 }}>
+          PartnerAI layers on top of your CRM. Connect your system of record to automatically sync deals, contacts, and pipeline data. We add partner attribution and program intelligence on top.
+        </p>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          {/* Salesforce */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>☁️</div>
+              <div>
+                <p style={{ fontWeight: 600, fontSize: ".9rem" }}>Salesforce</p>
+                <p className="muted" style={{ fontSize: ".8rem" }}>Sync deals, accounts, and opportunities</p>
+              </div>
+            </div>
+            <button className="btn-outline" style={{ fontSize: ".8rem" }} onClick={() => toast("Salesforce integration coming soon! Deals can be imported manually for now.", "info")}>
+              Connect
+            </button>
+          </div>
+
+          {/* HubSpot */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: "#fff7ed", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>🟠</div>
+              <div>
+                <p style={{ fontWeight: 600, fontSize: ".9rem" }}>HubSpot</p>
+                <p className="muted" style={{ fontSize: ".8rem" }}>Sync deals, contacts, and pipeline stages</p>
+              </div>
+            </div>
+            <button className="btn-outline" style={{ fontSize: ".8rem" }} onClick={() => toast("HubSpot integration coming soon! Deals can be imported manually for now.", "info")}>
+              Connect
+            </button>
+          </div>
+
+          {/* Pipedrive */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: "#ecfdf5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>🟢</div>
+              <div>
+                <p style={{ fontWeight: 600, fontSize: ".9rem" }}>Pipedrive</p>
+                <p className="muted" style={{ fontSize: ".8rem" }}>Sync deals and pipeline data</p>
+              </div>
+            </div>
+            <button className="btn-outline" style={{ fontSize: ".8rem" }} onClick={() => toast("Pipedrive integration coming soon! Deals can be imported manually for now.", "info")}>
+              Connect
+            </button>
+          </div>
+
+          {/* REST API */}
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>🔗</div>
+              <div>
+                <p style={{ fontWeight: 600, fontSize: ".9rem" }}>Custom CRM (REST API)</p>
+                <p className="muted" style={{ fontSize: ".8rem" }}>Push deal data via API from any system</p>
+              </div>
+            </div>
+            <button className="btn-outline" style={{ fontSize: ".8rem" }} onClick={() => toast("Use the API key below to push deal data from any CRM.", "info")}>
+              View Docs
+            </button>
+          </div>
+        </div>
+
+        <div style={{ marginTop: "1.25rem", padding: "1rem", borderRadius: 8, background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)", border: "1px solid #c7d2fe" }}>
+          <p style={{ fontSize: ".85rem", color: "#3730a3", lineHeight: 1.5 }}>
+            <strong>💡 No CRM connected yet?</strong> You can import deals manually from the <a href="/dashboard/deals" style={{ fontWeight: 600, textDecoration: "underline" }}>Deals page</a>. When you connect a CRM, existing manual entries will be preserved alongside synced data.
+          </p>
+        </div>
       </div>
 
       {/* Attribution Settings */}
@@ -363,7 +437,7 @@ export default function SettingsPage() {
           </button>
         </div>
         <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.5rem", lineHeight: 1.5 }}>
-          Configure PartnerAI for your workflow — not the other way around. Toggle complexity, enable only the modules you use, and adapt the platform as your program grows.
+          Configure PartnerAI&apos;s intelligence layer for your workflow. Toggle complexity, enable only the modules you use, and adapt the platform as your partner program grows. Your CRM stays your system of record — we add the partner ops on top.
         </p>
 
         {/* Configuration Tips */}

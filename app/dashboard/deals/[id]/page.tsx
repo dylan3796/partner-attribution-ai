@@ -249,7 +249,7 @@ export default function DealDetailPage({
                   className="btn"
                   onClick={() => setShowCloseModal(true)}
                 >
-                  Close Deal
+                  Record Deal Outcome
                 </button>
               </>
             )}
@@ -974,14 +974,17 @@ export default function DealDetailPage({
         </div>
       )}
 
-      {/* Close Deal Modal */}
+      {/* Record Deal Outcome Modal */}
       <Modal
         open={showCloseModal}
         onClose={() => setShowCloseModal(false)}
-        title="Close Deal"
+        title="Record Deal Outcome"
       >
-        <p style={{ marginBottom: "1.5rem", color: "var(--muted)" }}>
+        <p style={{ marginBottom: ".75rem", color: "var(--muted)" }}>
           How did <strong>{deal.name}</strong> ({formatCurrency(deal.amount)}) end?
+        </p>
+        <p style={{ marginBottom: "1.5rem", fontSize: ".8rem", color: "var(--muted)" }}>
+          💡 This records the CRM deal outcome for attribution calculation. When CRM sync is active, this happens automatically.
         </p>
         <div style={{ display: "flex", gap: "1rem" }}>
           <button

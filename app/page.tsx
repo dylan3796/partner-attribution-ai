@@ -59,9 +59,9 @@ export default function LandingPage() {
       <section className="hero" id="product">
         <div className="wrap">
           <div className="tag">Now in early access</div>
-          <h1>The AI-native partner platform</h1>
+          <h1>The Partner Intelligence Layer for Your CRM</h1>
           <p className="subtitle" style={{ maxWidth: 700, margin: "0 auto 2.5rem" }}>
-            Run your entire partner operation from one platform. Attribution, incentives, program management, partner portal, revenue intelligence — all powered by AI.
+            Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use.
           </p>
           <form className="waitlist" onSubmit={handleWaitlist}>
             <div style={{ flex: 1, position: "relative" }}>
@@ -115,15 +115,34 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Problem */}
+      {/* CRM Integration Banner */}
       <section className="problems">
         <div className="wrap" style={{ textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "2rem" }}>Sound familiar?</h2>
+          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Works with your CRM, not against it</h2>
+          <p className="muted" style={{ fontSize: "1.05rem", maxWidth: 600, margin: "0 auto 2rem", lineHeight: 1.6 }}>Your deals live in Salesforce, HubSpot, or Pipedrive. We add the partner intelligence layer on top — attribution, commissions, and program ops.</p>
+          <div style={{ display: "flex", justifyContent: "center", gap: "2.5rem", alignItems: "center", flexWrap: "wrap", marginBottom: "2.5rem" }}>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: ".5rem" }}>
+              <div style={{ width: 64, height: 64, borderRadius: 16, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.8rem" }}>☁️</div>
+              <span style={{ fontSize: ".85rem", fontWeight: 600 }}>Salesforce</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: ".5rem" }}>
+              <div style={{ width: 64, height: 64, borderRadius: 16, background: "#fff7ed", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.8rem" }}>🟠</div>
+              <span style={{ fontSize: ".85rem", fontWeight: 600 }}>HubSpot</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: ".5rem" }}>
+              <div style={{ width: 64, height: 64, borderRadius: 16, background: "#ecfdf5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.8rem" }}>🟢</div>
+              <span style={{ fontSize: ".85rem", fontWeight: 600 }}>Pipedrive</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: ".5rem" }}>
+              <div style={{ width: 64, height: 64, borderRadius: 16, background: "var(--subtle)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.8rem" }}>🔗</div>
+              <span style={{ fontSize: ".85rem", fontWeight: 600 }}>REST API</span>
+            </div>
+          </div>
           <div className="grid-3">
             <div className="card" style={{ boxShadow: "none" }}>
               <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>📊</p>
               <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Spreadsheet hell</h3>
-              <p className="muted" style={{ lineHeight: 1.5 }}>Partner data scattered across 12 spreadsheets. Nobody trusts the numbers. Every QBR is a fire drill.</p>
+              <p className="muted" style={{ lineHeight: 1.5 }}>Partner attribution scattered across 12 spreadsheets. Nobody trusts the numbers. Every QBR is a fire drill.</p>
             </div>
             <div className="card" style={{ boxShadow: "none" }}>
               <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>🤷</p>
@@ -143,15 +162,15 @@ export default function LandingPage() {
       <section className="modules" id="platform">
         <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
           <div className="tag">The Platform</div>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Everything your partner org needs. One platform.</h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 680, margin: "0 auto", lineHeight: 1.6 }}>For partner ops teams that need to run programs, track revenue, and enable partners — and for partner reps building relationships in the field.</p>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>The partner ops platform that doesn&apos;t replace your stack</h2>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 680, margin: "0 auto", lineHeight: 1.6 }}>Bring your CRM data, we add the partner intelligence. Attribution, incentives, program management, and a partner portal — all layered on top of your existing tools.</p>
         </div>
         <div className="wrap-wide grid-6">
           <Link href="/dashboard/reports"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>🧠</p><h3>AI Attribution</h3><p>5 built-in models plus custom attribution rules you define. Transparent, auditable, and trusted by every partner.</p></div></Link>
           <Link href="/dashboard/partners"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>💰</p><h3>Incentives & Payouts</h3><p>Auto-calculated commissions, tiered structures, SPIFs, bonuses, and one-click payouts. Partners get paid on time.</p></div></Link>
           <Link href="/dashboard"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>📋</p><h3>Program Management</h3><p>Partner tiers, onboarding workflows, certifications, territory assignments. Run your program, not spreadsheets.</p></div></Link>
-          <Link href="/dashboard/deals"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>📊</p><h3>Revenue Intelligence</h3><p>Pipeline visibility, forecasting, deal registration, co-sell tracking. Know which partners actually drive growth.</p></div></Link>
-          <Link href="/portal"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>🌐</p><h3>Partner Portal</h3><p>Self-service portal for partners to see performance, register deals, access content, view paper trail, and track commissions.</p></div></Link>
+          <Link href="/dashboard/deals"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>📊</p><h3>Partner-Influenced Revenue</h3><p>See which CRM deals your partners influenced. Deal registration, co-sell tracking, and attribution on every opportunity.</p></div></Link>
+          <Link href="/portal"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>🌐</p><h3>Partner Portal</h3><p>Self-service portal for partners to submit leads, register deals for approval, track their influence on CRM deals, and view commissions.</p></div></Link>
           <Link href="/dashboard/activity"><div className="card module-card"><p style={{ fontSize: "1.8rem", marginBottom: ".8rem" }}>👁️</p><h3>Activity & Paper Trail</h3><p>Every touchpoint, every interaction, every decision — logged and auditable. Full transparency for partners and your team.</p></div></Link>
         </div>
       </section>
@@ -163,7 +182,7 @@ export default function LandingPage() {
             <div className="tag">AI-Powered Attribution</div>
             <h2>Attribution that partners actually trust</h2>
             <p>Choose from 5 built-in attribution models — or build your own custom rules. Every calculation is explainable and auditable.</p>
-            <p>When a deal closes, partners see exactly <em>why</em> they received their share. No black boxes. No disputes.</p>
+            <p>When a deal closes in your CRM, partners see exactly <em>why</em> they received their share. No black boxes. No disputes.</p>
             <Link href="/dashboard/reports" className="arrow-link">Explore attribution models →</Link>
           </div>
           <div className="card">
@@ -182,7 +201,7 @@ export default function LandingPage() {
           <div>
             <div className="tag">Full Visibility</div>
             <h2>Every partner touchpoint, captured</h2>
-            <p>Partner AI tracks all interactions across your ecosystem — referrals, demos, co-sell meetings, content shares, deal registrations. The complete paper trail.</p>
+            <p>PartnerAI tracks all partner interactions across your ecosystem — referrals, demos, co-sell meetings, content shares, deal registrations. The complete paper trail layered on top of your CRM deals.</p>
             <p>Partners see their activity history. Your team sees the full picture. Everyone stays aligned.</p>
             <Link href="/dashboard/deals/d_001" className="arrow-link">View deal timelines →</Link>
           </div>
@@ -222,7 +241,7 @@ export default function LandingPage() {
         <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
           <div className="tag">Fully Customizable</div>
           <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Configure for your workflow — not the other way around</h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 700, margin: "0 auto", lineHeight: 1.6 }}>Every partnerships org operates differently. PartnerAI adapts to your process — toggle features on or off, choose your complexity level, and enable only what you need.</p>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 700, margin: "0 auto", lineHeight: 1.6 }}>Every partnerships org operates differently. PartnerAI layers onto your existing CRM and adapts to your process — toggle features on or off, choose your complexity level, and enable only what you need.</p>
         </div>
 
         {/* Messaging callouts */}
@@ -263,7 +282,7 @@ export default function LandingPage() {
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
                 <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
-                <span style={{ fontSize: ".9rem" }}>Basic deal tracking</span>
+                <span style={{ fontSize: ".9rem" }}>Basic deal attribution</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
                 <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
@@ -330,12 +349,12 @@ export default function LandingPage() {
       <section className="benefits" id="solutions">
         <div className="wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
           <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Built for how you run partnerships</h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 640, margin: "0 auto" }}>Whether you manage channel partners, alliances, resellers, or referral networks — one platform adapts to your motion.</p>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 640, margin: "0 auto" }}>Whether you manage channel partners, alliances, resellers, or referral networks — one intelligence layer sits on top of your CRM and adapts to your motion.</p>
         </div>
         <div className="wrap-wide grid-4">
           <div className="card" style={{ background: "var(--bg)" }}>
             <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>SaaS Channel</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Resellers, VARs, co-sell partners. Track ARR attribution through the full customer lifecycle.</p>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Resellers, VARs, co-sell partners. Measure partner-influenced ARR on your Salesforce or HubSpot deals.</p>
             <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Salesforce, HubSpot, AWS</p>
           </div>
           <div className="card" style={{ background: "var(--bg)" }}>
@@ -360,7 +379,7 @@ export default function LandingPage() {
       <section style={{ padding: "5rem 0" }}>
         <div className="wrap grid-3">
           <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>AI-native, not AI-bolted</h3><p className="muted" style={{ lineHeight: 1.6 }}>Not a legacy PRM with AI tacked on. Built from the ground up for the AI era. Attribution is the brain, not a feature.</p></div>
-          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>15 minutes to value</h3><p className="muted" style={{ lineHeight: 1.6 }}>Import partners, connect your CRM, see your first attribution report. Onboard a partner rep in minutes, not months.</p></div>
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>15 minutes to value</h3><p className="muted" style={{ lineHeight: 1.6 }}>Connect your CRM, import partners, and see your first partner attribution report. Onboard a partner rep in minutes, not months.</p></div>
           <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>Enterprise security</h3><p className="muted" style={{ lineHeight: 1.6 }}>Your data is never used to train models. SOC 2 compliant. Full audit trail on every action.</p></div>
         </div>
       </section>
@@ -397,8 +416,8 @@ export default function LandingPage() {
       {/* CTA */}
       <section className="cta">
         <div className="wrap">
-          <h2>Stop managing partnerships in spreadsheets</h2>
-          <p className="subtitle">Your partners deserve better. So does your team.</p>
+          <h2>Stop guessing which partners drive revenue</h2>
+          <p className="subtitle">Add the partner intelligence layer to your CRM. Your partners deserve transparency. So does your team.</p>
           <Link href="/dashboard" className="btn btn-lg">Get started free</Link>
         </div>
       </section>
