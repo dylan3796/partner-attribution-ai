@@ -5,7 +5,7 @@ import { useStore } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
 import { MODEL_LABELS, MODEL_DESCRIPTIONS, type AttributionModel, FEATURE_FLAG_LABELS, type FeatureFlags, type ComplexityLevel, type UIDensity } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
-import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server } from "lucide-react";
+import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles } from "lucide-react";
 
 export default function SettingsPage() {
   const { org, updateOrg } = useStore();

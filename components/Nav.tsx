@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity, DollarSign, Trophy, Award, Menu, X } from "lucide-react";
+import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity, DollarSign, Trophy, Award, Menu, X, Sliders } from "lucide-react";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -91,6 +91,9 @@ export default function Nav() {
           <div className="nav-actions">
             {isDashboard ? (
               <>
+                <Link href="/dashboard/settings#platform-config" className="btn-outline" style={{ fontSize: ".8rem", padding: ".4rem .8rem", display: "flex", alignItems: "center", gap: ".3rem" }}>
+                  <Sliders size={13} /> Customize
+                </Link>
                 <Link href="/portal" className="btn-outline" style={{ fontSize: ".8rem", padding: ".4rem .8rem" }}>Partner Portal</Link>
                 <Link href="/" className="nav-back-link" style={{ fontSize: ".85rem", fontWeight: 500 }}>← Site</Link>
               </>

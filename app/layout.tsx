@@ -4,6 +4,7 @@ import "./globals.css";
 import { StoreProvider } from "@/lib/store";
 import { PlatformConfigProvider } from "@/lib/platform-config";
 import Nav from "@/components/Nav";
+import AskPartnerAI from "@/components/AskPartnerAI";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -51,6 +52,7 @@ export default function RootLayout({
           <PlatformConfigProvider>
             <Nav />
             {children}
+            <AskPartnerAI />
           </PlatformConfigProvider>
         </StoreProvider>
       </body>

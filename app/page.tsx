@@ -182,6 +182,115 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* Fully Customizable */}
+      <section className="customizable" id="customizable">
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div className="tag">Fully Customizable</div>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Configure for your workflow — not the other way around</h2>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 700, margin: "0 auto", lineHeight: 1.6 }}>Every partnerships org operates differently. PartnerAI adapts to your process — toggle features on or off, choose your complexity level, and enable only what you need.</p>
+        </div>
+
+        {/* Messaging callouts */}
+        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem", marginBottom: "4rem" }}>
+          <div className="card" style={{ textAlign: "center", padding: "2rem 1.5rem" }}>
+            <p style={{ fontSize: "2rem", marginBottom: ".8rem" }}>🎛️</p>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem", fontSize: "1.05rem" }}>Toggle Complexity</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>Simple, Standard, or Advanced — toggle complexity based on your team&apos;s needs. No unused features cluttering the UI.</p>
+          </div>
+          <div className="card" style={{ textAlign: "center", padding: "2rem 1.5rem" }}>
+            <p style={{ fontSize: "2rem", marginBottom: ".8rem" }}>✅</p>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem", fontSize: "1.05rem" }}>Enable Only What You Use</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>12 toggleable feature modules — from scoring to certifications to MCP integration. Turn on what matters, turn off what doesn&apos;t.</p>
+          </div>
+          <div className="card" style={{ textAlign: "center", padding: "2rem 1.5rem" }}>
+            <p style={{ fontSize: "2rem", marginBottom: ".8rem" }}>📈</p>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem", fontSize: "1.05rem" }}>Works for 5 Partners or 500</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>Simple tracking to enterprise-grade attribution. Built for YOUR partner program, not a generic template.</p>
+          </div>
+        </div>
+
+        {/* Side-by-side: Simple vs Advanced */}
+        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
+          {/* Simple Mode */}
+          <div className="card" style={{ border: "2px solid #e5e7eb", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: "#6366f1" }} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+              <div>
+                <span className="badge" style={{ background: "#eef2ff", color: "#4338ca", marginBottom: ".5rem", display: "inline-block" }}>Simple Mode</span>
+                <h3 style={{ fontWeight: 700, fontSize: "1.15rem" }}>Lean partner tracking</h3>
+              </div>
+              <span style={{ fontSize: "1.5rem" }}>🎯</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: ".6rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                <span style={{ fontSize: ".9rem" }}>Partner directory & contacts</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                <span style={{ fontSize: ".9rem" }}>Basic deal tracking</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                <span style={{ fontSize: ".9rem" }}>Simple commission payouts</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8, opacity: 0.4 }}>
+                <span style={{ color: "var(--muted)" }}>—</span>
+                <span style={{ fontSize: ".9rem", color: "var(--muted)" }}>Scoring & tier management</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8, opacity: 0.4 }}>
+                <span style={{ color: "var(--muted)" }}>—</span>
+                <span style={{ fontSize: ".9rem", color: "var(--muted)" }}>Certifications & badges</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8, opacity: 0.4 }}>
+                <span style={{ color: "var(--muted)" }}>—</span>
+                <span style={{ fontSize: ".9rem", color: "var(--muted)" }}>MCP / API integrations</span>
+              </div>
+            </div>
+            <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem", fontStyle: "italic" }}>Perfect for small teams getting started with partner tracking</p>
+          </div>
+
+          {/* Advanced Mode */}
+          <div className="card" style={{ border: "2px solid var(--fg)", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: "var(--fg)" }} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+              <div>
+                <span className="badge" style={{ marginBottom: ".5rem", display: "inline-block" }}>Advanced Mode</span>
+                <h3 style={{ fontWeight: 700, fontSize: "1.15rem" }}>Full-power partner platform</h3>
+              </div>
+              <span style={{ fontSize: "1.5rem" }}>⚡</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: ".6rem" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                <span style={{ fontSize: ".9rem" }}>Everything in Simple, plus:</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                <span style={{ fontSize: ".9rem" }}>Multi-model AI attribution (5 models)</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                <span style={{ fontSize: ".9rem" }}>Partner scoring & tier automation</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                <span style={{ fontSize: ".9rem" }}>Certifications, badges & training</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                <span style={{ fontSize: ".9rem" }}>MCP integration & API access</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                <span style={{ fontSize: ".9rem" }}>Deal registration & dispute workflows</span>
+              </div>
+            </div>
+            <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem", fontStyle: "italic" }}>Enterprise-grade for complex multi-tier partner programs</p>
+          </div>
+        </div>
+      </section>
+
       {/* Who it's for */}
       <section className="benefits" id="solutions">
         <div className="wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
