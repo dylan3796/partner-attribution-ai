@@ -5,7 +5,7 @@ import { usePortal } from "@/lib/portal-context";
 import { ArrowLeft, AlertTriangle, X } from "lucide-react";
 import { TOUCHPOINT_LABELS } from "@/lib/types";
 
-function fmt(n: number) { return n >= 1000 ? `$${(n / 1000).toFixed(0)}k` : `$${n}`; }
+import { formatCurrencyCompact as fmt, formatCurrency } from "@/lib/utils";
 
 export default function PortalDealDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);

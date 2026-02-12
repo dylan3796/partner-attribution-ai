@@ -2,7 +2,7 @@
 import { usePortal } from "@/lib/portal-context";
 import { Mail, Phone, MapPin, Award, ArrowUp, Globe } from "lucide-react";
 
-function fmt(n: number) { return n >= 1000 ? `$${(n / 1000).toFixed(0)}k` : `$${n}`; }
+import { formatCurrencyCompact as fmt, formatCurrency } from "@/lib/utils";
 const TIER_LABELS: Record<string, string> = { bronze: "Bronze", silver: "Silver", gold: "Gold", platinum: "Platinum" };
 const TYPE_LABELS: Record<string, string> = { reseller: "Reseller", referral: "Referral", affiliate: "Affiliate", integration: "Integration" };
 

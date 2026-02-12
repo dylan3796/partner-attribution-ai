@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePortal } from "@/lib/portal-context";
 import { Plus, X } from "lucide-react";
 
-function fmt(n: number) { return n >= 1000 ? `$${(n / 1000).toFixed(0)}k` : `$${n}`; }
+import { formatCurrencyCompact as fmt, formatCurrency } from "@/lib/utils";
 
 export default function PortalDealsPage() {
   const { myDeals, myAttributions, partner } = usePortal();

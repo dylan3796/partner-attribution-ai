@@ -18,9 +18,7 @@ import {
   Mail,
 } from "lucide-react";
 
-function formatCurrency(n: number) {
-  return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-}
+import { formatCurrency } from "@/lib/utils";
 
 function timeAgo(ts: number) {
   const diff = Date.now() - ts;
