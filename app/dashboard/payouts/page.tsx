@@ -19,19 +19,10 @@ import {
 } from "lucide-react";
 import { exportPayoutsCSV } from "@/lib/csv";
 
-function fmt(n: number) {
-  if (n >= 1000000) return `$${(n / 1000000).toFixed(1)}M`;
-  if (n >= 1000) return `$${(n / 1000).toFixed(1)}k`;
-  return `$${n}`;
-}
+import { formatCurrency, formatCurrencyCompact, formatDate } from "@/lib/utils";
 
-function fmtFull(n: number) {
-  return "$" + n.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-}
-
-function formatDate(ts: number) {
-  return new Date(ts).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-}
+const fmt = formatCurrencyCompact;
+const fmtFull = formatCurrency;
 
 const STATUS_META: Record<string, { label: string; badge: string; icon: typeof Clock }> = {
   pending_approval: { label: "Pending Approval", badge: "badge-neutral", icon: Clock },

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity, DollarSign, Trophy, Menu, X } from "lucide-react";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 
 const marketingLinks = [
   { name: "Platform", href: "#platform" },
@@ -84,6 +85,7 @@ export default function Nav() {
                 <Link href="/dashboard" className="btn nav-cta-btn">Get started</Link>
               </>
             )}
+            <DarkModeToggle />
             <button
               className="menu-toggle"
               onClick={() => setMobileOpen(!mobileOpen)}

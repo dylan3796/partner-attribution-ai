@@ -279,3 +279,33 @@ select.input{appearance:auto;cursor:pointer}
   .waitlist{flex-direction:column}
   .dash-content{padding:1rem}
 }
+
+/* === Dark Mode === */
+html.dark{
+  --bg:#0f0f0f;
+  --fg:#f5f5f5;
+  --muted:#9ca3af;
+  --subtle:#1a1a1a;
+  --border:#2a2a2a;
+  color-scheme:dark;
+}
+html.dark body{background:var(--bg);color:var(--fg)}
+html.dark .site-nav{background:rgba(15,15,15,.95);border-color:var(--border)}
+html.dark .card{background:var(--bg);border-color:var(--border);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+html.dark .card-hover:hover{box-shadow:0 12px 40px rgba(0,0,0,.4)}
+html.dark .input{background:var(--subtle);border-color:var(--border);color:var(--fg)}
+html.dark .input:focus{border-color:var(--fg)}
+html.dark .btn{background:var(--fg);color:var(--bg)}
+html.dark .btn-outline{background:transparent;color:var(--fg);border-color:var(--border)}
+html.dark .btn-outline:hover{background:var(--subtle)}
+html.dark .badge{background:var(--fg);color:var(--bg)}
+html.dark .chip{background:var(--subtle);color:var(--fg)}
+html.dark .avatar{background:var(--fg);color:var(--bg)}
+html.dark .site-footer{background:var(--fg);color:var(--bg)}
+html.dark .orb{opacity:.4}
+html.dark .demo-response{background:var(--subtle)}
+html.dark .list-item:hover{background:var(--subtle)}
+html.dark .mobile-menu{background:var(--bg)}
+html.dark .mobile-menu-item:hover,html.dark .mobile-menu-item.active{background:var(--subtle)}
+html.dark .toast{background:var(--fg);color:var(--bg)}
+html.dark select.input{color-scheme:dark}
