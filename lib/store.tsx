@@ -1,7 +1,8 @@
 "use client";
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import type { Organization, Partner, Deal, Touchpoint, Attribution, Payout, AuditEntry, AttributionModel } from "./types";
+import type { Organization, Partner, Deal, Touchpoint, Attribution, Payout, AuditEntry, AttributionModel, Certification, Badge, TrainingCompletion, SkillEndorsement } from "./types";
 import { demoOrg, demoPartners, demoDeals, demoTouchpoints, demoAttributions, demoPayouts, demoAuditLog, enrichTouchpoints, enrichAttributions } from "./demo-data";
+import { demoCertifications, demoBadges, demoTrainingCompletions, demoSkillEndorsements } from "./certifications-data";
 
 type StoreContextType = {
   org: Organization;
@@ -28,6 +29,14 @@ type StoreContextType = {
   rejectPayout: (id: string, notes?: string) => void;
   markPayoutPaid: (id: string) => void;
   createPayout: (data: { partnerId: string; amount: number; period: string; notes?: string }) => Payout;
+  certifications: Certification[];
+  getCertificationsByPartner: (partnerId: string) => Certification[];
+  badges: Badge[];
+  getBadgesByPartner: (partnerId: string) => Badge[];
+  trainingCompletions: TrainingCompletion[];
+  getTrainingByPartner: (partnerId: string) => TrainingCompletion[];
+  skillEndorsements: SkillEndorsement[];
+  getEndorsementsByPartner: (partnerId: string) => SkillEndorsement[];
   auditLog: AuditEntry[];
   addAuditEntry: (entry: Omit<AuditEntry, "_id" | "organizationId" | "createdAt">) => void;
   stats: {
@@ -55,6 +64,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [touchpoints, setTouchpoints] = useState<Touchpoint[]>(demoTouchpoints);
   const [attributions] = useState<Attribution[]>(demoAttributions);
   const [payouts, setPayouts] = useState<Payout[]>(demoPayouts);
+  const [certifications] = useState<Certification[]>(demoCertifications);
+  const [badges] = useState<Badge[]>(demoBadges);
+  const [trainingCompletions] = useState<TrainingCompletion[]>(demoTrainingCompletions);
+  const [skillEndorsements] = useState<SkillEndorsement[]>(demoSkillEndorsements);
   const [auditLog, setAuditLog] = useState<AuditEntry[]>(demoAuditLog);
 
   const updateOrg = useCallback((updates: Partial<Organization>) => {
@@ -95,6 +108,11 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setTouchpoints((prev) => [...prev, tp]);
     return tp;
   }, []);
+
+  const getCertificationsByPartner = useCallback((partnerId: string) => certifications.filter((c) => c.partnerId === partnerId), [certifications]);
+  const getBadgesByPartner = useCallback((partnerId: string) => badges.filter((b) => b.partnerId === partnerId), [badges]);
+  const getTrainingByPartner = useCallback((partnerId: string) => trainingCompletions.filter((t) => t.partnerId === partnerId), [trainingCompletions]);
+  const getEndorsementsByPartner = useCallback((partnerId: string) => skillEndorsements.filter((e) => e.partnerId === partnerId), [skillEndorsements]);
 
   const getAttributionsByDeal = useCallback((dealId: string) => enrichAttributions(attributions.filter((a) => a.dealId === dealId)), [attributions]);
   const getAttributionsByPartner = useCallback((partnerId: string) => enrichAttributions(attributions.filter((a) => a.partnerId === partnerId)), [attributions]);
@@ -155,7 +173,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <StoreContext.Provider value={{ org, updateOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, payouts, approvePayout, rejectPayout, markPayoutPaid, createPayout, auditLog, addAuditEntry, stats }}>
+    <StoreContext.Provider value={{ org, updateOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, certifications, getCertificationsByPartner, badges, getBadgesByPartner, trainingCompletions, getTrainingByPartner, skillEndorsements, getEndorsementsByPartner, payouts, approvePayout, rejectPayout, markPayoutPaid, createPayout, auditLog, addAuditEntry, stats }}>
       {children}
     </StoreContext.Provider>
   );

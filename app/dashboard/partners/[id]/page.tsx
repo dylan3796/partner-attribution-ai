@@ -4,13 +4,15 @@ import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save } from "lucide-react";
-import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS } from "@/lib/types";
+import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star } from "lucide-react";
+import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS, CERTIFICATION_LEVEL_LABELS } from "@/lib/types";
+import { usePlatformConfig } from "@/lib/platform-config";
 
 export default function PartnerDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { getPartner, updatePartner, getTouchpointsByPartner, getAttributionsByPartner, payouts } = useStore();
+  const { getPartner, updatePartner, getTouchpointsByPartner, getAttributionsByPartner, payouts, getCertificationsByPartner, getBadgesByPartner, getTrainingByPartner, getEndorsementsByPartner } = useStore();
   const { toast } = useToast();
+  const { isFeatureEnabled } = usePlatformConfig();
   const [editing, setEditing] = useState(false);
 
   const partner = getPartner(id);
@@ -35,6 +37,12 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
   const partnerPayouts = payouts.filter((p) => p.partnerId === id);
   const totalRevenue = attributions.reduce((s, a) => s + a.amount, 0);
   const totalCommission = attributions.reduce((s, a) => s + a.commissionAmount, 0);
+  const certs = getCertificationsByPartner(id);
+  const partnerBadges = getBadgesByPartner(id);
+  const trainings = getTrainingByPartner(id);
+  const endorsements = getEndorsementsByPartner(id);
+  const activeCerts = certs.filter(c => c.status === "active");
+  const showCerts = isFeatureEnabled("certifications");
 
   function handleSaveEdit() {
     updatePartner(id, {
@@ -95,6 +103,55 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{touchpoints.length}</p>
         </div>
       </div>
+
+      {/* Certifications & Badges Section */}
+      {showCerts && (activeCerts.length > 0 || partnerBadges.length > 0) && (
+        <div className="card" style={{ marginBottom: "1.5rem" }}>
+          <h3 style={{ fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: 6 }}>
+            <Award size={18} color="#6366f1" /> Certifications & Badges
+          </h3>
+          {/* Badges row */}
+          {partnerBadges.length > 0 && (
+            <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap", marginBottom: activeCerts.length > 0 ? "1rem" : 0 }}>
+              {partnerBadges.map(b => (
+                <span key={b._id} title={b.description} style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 16, fontSize: ".8rem", fontWeight: 600, background: "var(--subtle)", border: "1px solid var(--border)" }}>
+                  {b.icon} {b.name}
+                </span>
+              ))}
+            </div>
+          )}
+          {/* Certs list */}
+          {activeCerts.length > 0 && (
+            <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
+              {activeCerts.map(c => (
+                <div key={c._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: ".5rem .75rem", borderRadius: 8, background: "var(--subtle)" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <Shield size={14} color="#059669" />
+                    <span style={{ fontWeight: 600, fontSize: ".85rem" }}>{c.name}</span>
+                    <span className="muted" style={{ fontSize: ".75rem" }}>· {c.issuer}</span>
+                  </div>
+                  <span style={{ display: "inline-flex", padding: "2px 8px", borderRadius: 10, fontSize: ".7rem", fontWeight: 700, background: c.level === "expert" ? "#ecfdf5" : c.level === "advanced" ? "#fef3c7" : "#dbeafe", color: c.level === "expert" ? "#065f46" : c.level === "advanced" ? "#92400e" : "#1e40af", textTransform: "uppercase" }}>
+                    {CERTIFICATION_LEVEL_LABELS[c.level]}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+          {/* Training + Endorsement counts */}
+          <div style={{ display: "flex", gap: "1.5rem", marginTop: "1rem" }}>
+            {trainings.length > 0 && (
+              <span className="muted" style={{ fontSize: ".8rem", display: "flex", alignItems: "center", gap: 4 }}>
+                <BookOpen size={13} /> {trainings.length} trainings completed
+              </span>
+            )}
+            {endorsements.length > 0 && (
+              <span className="muted" style={{ fontSize: ".8rem", display: "flex", alignItems: "center", gap: 4 }}>
+                <Star size={13} /> {endorsements.length} skill endorsements
+              </span>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="dash-grid-2">
         {/* Activity Timeline */}

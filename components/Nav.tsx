@@ -2,8 +2,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity, DollarSign, Trophy, Menu, X } from "lucide-react";
+import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity, DollarSign, Trophy, Award, Menu, X } from "lucide-react";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
+import { usePlatformConfig } from "@/lib/platform-config";
+import type { FeatureFlags } from "@/lib/types";
 
 const marketingLinks = [
   { name: "Platform", href: "#platform" },
@@ -11,14 +13,22 @@ const marketingLinks = [
   { name: "Pricing", href: "#pricing" },
 ];
 
-const dashboardLinks = [
+type DashLink = {
+  name: string;
+  href: string;
+  icon: typeof LayoutDashboard;
+  featureFlag?: keyof FeatureFlags;
+};
+
+const allDashboardLinks: DashLink[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Partners", href: "/dashboard/partners", icon: Users },
-  { name: "Scoring", href: "/dashboard/scoring", icon: Trophy },
+  { name: "Scoring", href: "/dashboard/scoring", icon: Trophy, featureFlag: "scoring" },
+  { name: "Certs", href: "/dashboard/certifications", icon: Award, featureFlag: "certifications" },
   { name: "Deals", href: "/dashboard/deals", icon: Briefcase },
-  { name: "Reports", href: "/dashboard/reports", icon: PieChart },
-  { name: "Payouts", href: "/dashboard/payouts", icon: DollarSign },
-  { name: "Activity", href: "/dashboard/activity", icon: Activity },
+  { name: "Reports", href: "/dashboard/reports", icon: PieChart, featureFlag: "reports" },
+  { name: "Payouts", href: "/dashboard/payouts", icon: DollarSign, featureFlag: "payouts" },
+  { name: "Activity", href: "/dashboard/activity", icon: Activity, featureFlag: "auditLog" },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
@@ -27,6 +37,11 @@ export default function Nav() {
   const isDashboard = pathname.startsWith("/dashboard");
   const isPortal = pathname.startsWith("/portal");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { isFeatureEnabled } = usePlatformConfig();
+  
+  const dashboardLinks = allDashboardLinks.filter(link => 
+    !link.featureFlag || isFeatureEnabled(link.featureFlag)
+  );
 
   // Close mobile menu on route change
   useEffect(() => {

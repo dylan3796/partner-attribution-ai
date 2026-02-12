@@ -12,6 +12,7 @@
  */
 
 import type { Partner, Deal, Touchpoint, Attribution } from "./types";
+import { calculateCertificationScore } from "./certifications-data";
 
 export type ScoreDimension = {
   score: number;      // 0–100
@@ -174,11 +175,17 @@ function scoreEngagement(
     }
   }
   const maxEngagement = Math.max(...allPartnerEngagement.values(), 1);
-  const score = Math.min(100, Math.round((weightedCount / maxEngagement) * 100));
+  
+  // Blend touchpoint engagement (70%) with certification score (30%)
+  const touchpointScore = Math.min(100, Math.round((weightedCount / maxEngagement) * 100));
+  const certScore = calculateCertificationScore(partnerId);
+  const score = Math.round(touchpointScore * 0.7 + certScore * 0.3);
+
+  const certDetail = certScore > 0 ? ` · Cert score: ${certScore}` : "";
 
   return {
     score,
-    detail: `${recent.length} touchpoints (last 30d), ${partnerTps.length} total`,
+    detail: `${recent.length} touchpoints (last 30d), ${partnerTps.length} total${certDetail}`,
     recentCount: recent.length,
     totalCount: partnerTps.length,
   };

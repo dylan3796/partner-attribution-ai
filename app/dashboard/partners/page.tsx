@@ -3,13 +3,17 @@ import { useState, useRef } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
-import { Plus, Download, Upload, Search, X } from "lucide-react";
+import { Plus, Download, Upload, Search, X, Shield, Award } from "lucide-react";
 import { exportPartnersCSV, parsePartnersCSV } from "@/lib/csv";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
+import { usePlatformConfig } from "@/lib/platform-config";
+import { getActiveCertCount, getBadgeCount } from "@/lib/certifications-data";
 
 export default function PartnersPage() {
   const { partners, addPartner } = useStore();
   const { toast } = useToast();
+  const { isFeatureEnabled } = usePlatformConfig();
+  const showCerts = isFeatureEnabled("certifications");
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
@@ -112,7 +116,19 @@ export default function PartnersPage() {
                     <Link href={`/dashboard/partners/${p._id}`} style={{ display: "flex", alignItems: "center", gap: ".8rem" }}>
                       <div className="avatar">{p.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
                       <div>
-                        <p style={{ fontWeight: 600 }}>{p.name}</p>
+                        <div style={{ display: "flex", alignItems: "center", gap: ".4rem" }}>
+                          <p style={{ fontWeight: 600 }}>{p.name}</p>
+                          {showCerts && getActiveCertCount(p._id) > 0 && (
+                            <span title={`${getActiveCertCount(p._id)} certifications`} style={{ display: "inline-flex", alignItems: "center", gap: 2, padding: "1px 5px", borderRadius: 8, fontSize: ".65rem", fontWeight: 700, background: "#ecfdf5", color: "#059669" }}>
+                              <Shield size={10} />{getActiveCertCount(p._id)}
+                            </span>
+                          )}
+                          {showCerts && getBadgeCount(p._id) > 0 && (
+                            <span title={`${getBadgeCount(p._id)} badges`} style={{ display: "inline-flex", alignItems: "center", gap: 2, padding: "1px 5px", borderRadius: 8, fontSize: ".65rem", fontWeight: 700, background: "#fef3c7", color: "#92400e" }}>
+                              <Award size={10} />{getBadgeCount(p._id)}
+                            </span>
+                          )}
+                        </div>
                         <p className="muted" style={{ fontSize: ".8rem" }}>{p.email}</p>
                       </div>
                     </Link>

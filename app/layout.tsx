@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/lib/store";
+import { PlatformConfigProvider } from "@/lib/platform-config";
 import Nav from "@/components/Nav";
 
 const inter = Inter({
@@ -47,8 +48,10 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <StoreProvider>
-          <Nav />
-          {children}
+          <PlatformConfigProvider>
+            <Nav />
+            {children}
+          </PlatformConfigProvider>
         </StoreProvider>
       </body>
     </html>
