@@ -13,6 +13,10 @@ import {
   LogOut,
   Menu,
   X,
+  BarChart3,
+  Megaphone,
+  Package,
+  MapPin,
 } from "lucide-react";
 import { PortalProvider, usePortal } from "@/lib/portal-context";
 import PortalGate from "@/components/PortalGate";
@@ -20,6 +24,10 @@ import PortalGate from "@/components/PortalGate";
 const sidebarLinks = [
   { name: "Dashboard", href: "/portal", icon: LayoutDashboard },
   { name: "Deal Registrations", href: "/portal/deals", icon: Briefcase },
+  { name: "Volume Progress", href: "/portal/volume", icon: BarChart3 },
+  { name: "MDF Requests", href: "/portal/mdf", icon: Megaphone },
+  { name: "Product Catalog", href: "/portal/products", icon: Package },
+  { name: "Territory", href: "/portal/territory", icon: MapPin },
   { name: "Commissions", href: "/portal/commissions", icon: DollarSign },
   { name: "Enablement", href: "/portal/enablement", icon: Award },
   { name: "Resources", href: "/portal/resources", icon: FolderOpen },

@@ -11,8 +11,9 @@
  * Tier recommendations are auto-calculated from the final score.
  */
 
-import type { Partner, Deal, Touchpoint, Attribution } from "./types";
+import type { Partner, Deal, Touchpoint, Attribution, PartnerVolumeRecord } from "./types";
 import { calculateCertificationScore } from "./certifications-data";
+import { demoPartnerVolumes } from "./distributor-demo-data";
 
 export type ScoreDimension = {
   score: number;      // 0–100
@@ -31,6 +32,7 @@ export type PartnerScore = {
     pipeline: ScoreDimension;
     engagement: ScoreDimension;
     velocity: ScoreDimension;
+    volume?: ScoreDimension;
   };
   recommendedTier: "bronze" | "silver" | "gold" | "platinum";
   tierChange: "upgrade" | "downgrade" | "maintain";
@@ -317,6 +319,33 @@ function generateHighlights(
 }
 
 /**
+ * Score volume contribution — units sold in volume rebate programs.
+ */
+function scoreVolume(
+  partnerId: string,
+): { score: number; detail: string } {
+  const partnerVols = demoPartnerVolumes.filter((v) => v.partnerId === partnerId);
+  if (partnerVols.length === 0) {
+    return { score: 0, detail: "No volume data" };
+  }
+  const totalUnits = partnerVols.reduce((s, v) => s + v.unitsTotal, 0);
+  const totalRevenue = partnerVols.reduce((s, v) => s + v.revenueTotal, 0);
+
+  // Normalize against max across all partners
+  const allPartnerUnits = new Map<string, number>();
+  for (const v of demoPartnerVolumes) {
+    allPartnerUnits.set(v.partnerId, (allPartnerUnits.get(v.partnerId) || 0) + v.unitsTotal);
+  }
+  const maxUnits = Math.max(...allPartnerUnits.values(), 1);
+  const score = Math.min(100, Math.round((totalUnits / maxUnits) * 100));
+
+  return {
+    score,
+    detail: `${totalUnits.toLocaleString()} units · $${(totalRevenue / 1000).toFixed(0)}k revenue`,
+  };
+}
+
+/**
  * Calculate scores for all partners.
  */
 export function calculatePartnerScores(
@@ -334,12 +363,19 @@ export function calculatePartnerScores(
     const pipe = scorePipeline(partner._id, deals, touchpoints, touchpoints);
     const eng = scoreEngagement(partner._id, touchpoints, touchpoints);
     const vel = scoreVelocity(partner._id, deals, touchpoints, touchpoints);
+    const vol = scoreVolume(partner._id);
+
+    // Include volume as a bonus dimension (10% weight taken proportionally from others)
+    const hasVolume = vol.score > 0;
+    const volumeWeight = hasVolume ? 0.10 : 0;
+    const scaleFactor = hasVolume ? 0.90 : 1.0;
 
     const overallScore = Math.round(
-      rev.score * config.weights.revenue +
-        pipe.score * config.weights.pipeline +
-        eng.score * config.weights.engagement +
-        vel.score * config.weights.velocity
+      rev.score * config.weights.revenue * scaleFactor +
+        pipe.score * config.weights.pipeline * scaleFactor +
+        eng.score * config.weights.engagement * scaleFactor +
+        vel.score * config.weights.velocity * scaleFactor +
+        vol.score * volumeWeight
     );
 
     const recommendedTier =
@@ -378,28 +414,36 @@ export function calculatePartnerScores(
       dimensions: {
         revenue: {
           score: rev.score,
-          weight: config.weights.revenue,
+          weight: config.weights.revenue * scaleFactor,
           label: "Revenue Impact",
           detail: rev.detail,
         },
         pipeline: {
           score: pipe.score,
-          weight: config.weights.pipeline,
+          weight: config.weights.pipeline * scaleFactor,
           label: "Pipeline Contribution",
           detail: pipe.detail,
         },
         engagement: {
           score: eng.score,
-          weight: config.weights.engagement,
+          weight: config.weights.engagement * scaleFactor,
           label: "Engagement",
           detail: eng.detail,
         },
         velocity: {
           score: vel.score,
-          weight: config.weights.velocity,
+          weight: config.weights.velocity * scaleFactor,
           label: "Deal Velocity",
           detail: vel.detail,
         },
+        ...(hasVolume ? {
+          volume: {
+            score: vol.score,
+            weight: volumeWeight,
+            label: "Volume Contribution",
+            detail: vol.detail,
+          },
+        } : {}),
       },
       recommendedTier,
       tierChange: tierChange as "upgrade" | "downgrade" | "maintain",

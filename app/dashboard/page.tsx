@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 
 /** Mini sparkline SVG component */
@@ -39,8 +39,10 @@ const PARTNERS_TREND = [3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7];
 const WINRATE_TREND = [50, 55, 48, 60, 58, 62, 55, 67, 65, 70, 68, 72];
 
 export default function DashboardPage() {
-  const { stats, deals, partners, payouts, auditLog } = useStore();
-  const { config } = usePlatformConfig();
+  const { stats, deals, partners, payouts, auditLog, channelConflicts, mdfRequests, partnerVolumes } = useStore();
+  const { config, isFeatureEnabled } = usePlatformConfig();
+  const openConflicts = channelConflicts.filter((c) => c.status === "open" || c.status === "under_review");
+  const pendingMDF = mdfRequests.filter((r) => r.status === "pending");
   const recentDeals = [...deals].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5);
   const topPartners = partners.filter((p) => p.status === "active").slice(0, 5);
   const pendingPayouts = payouts.filter((p) => p.status === "pending_approval");
@@ -88,6 +90,34 @@ export default function DashboardPage() {
           <Link href="/dashboard/settings#platform-config" className="btn" style={{ fontSize: ".8rem", padding: ".4rem 1rem", background: "#6366f1", whiteSpace: "nowrap" }}>
             Configure →
           </Link>
+        </div>
+      )}
+
+      {/* Channel Conflict Alert */}
+      {isFeatureEnabled("channelConflict") && openConflicts.length > 0 && (
+        <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #fca5a5", background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: ".5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
+            <AlertTriangle size={20} color="#991b1b" />
+            <div>
+              <p style={{ fontWeight: 700, fontSize: ".9rem", color: "#991b1b" }}>{openConflicts.length} unresolved channel conflict{openConflicts.length !== 1 ? "s" : ""}</p>
+              <p style={{ fontSize: ".8rem", color: "#b91c1c" }}>Multiple partners claiming the same accounts</p>
+            </div>
+          </div>
+          <Link href="/dashboard/conflicts" className="btn" style={{ fontSize: ".8rem", padding: ".4rem 1rem", background: "#dc2626" }}>Review →</Link>
+        </div>
+      )}
+
+      {/* Pending MDF Alert */}
+      {isFeatureEnabled("mdf") && pendingMDF.length > 0 && (
+        <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #fbbf24", background: "#fffbeb", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: ".5rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
+            <Megaphone size={20} color="#92400e" />
+            <div>
+              <p style={{ fontWeight: 700, fontSize: ".9rem", color: "#78350f" }}>{pendingMDF.length} MDF request{pendingMDF.length !== 1 ? "s" : ""} awaiting approval</p>
+              <p style={{ fontSize: ".8rem", color: "#92400e" }}>Partner marketing campaigns need review</p>
+            </div>
+          </div>
+          <Link href="/dashboard/mdf" className="btn" style={{ fontSize: ".8rem", padding: ".4rem 1rem", background: "#d97706" }}>Review →</Link>
         </div>
       )}
 

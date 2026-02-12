@@ -1,8 +1,9 @@
 "use client";
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import type { Organization, Partner, Deal, Touchpoint, Attribution, Payout, AuditEntry, AttributionModel, Certification, Badge, TrainingCompletion, SkillEndorsement } from "./types";
+import type { Organization, Partner, Deal, Touchpoint, Attribution, Payout, AuditEntry, AttributionModel, Certification, Badge, TrainingCompletion, SkillEndorsement, VolumeProgram, PartnerVolumeRecord, MDFBudget, MDFRequest, Product, ProductRebate, PartnerProductCertification, Territory, ChannelConflict } from "./types";
 import { demoOrg, demoPartners, demoDeals, demoTouchpoints, demoAttributions, demoPayouts, demoAuditLog, enrichTouchpoints, enrichAttributions, generateAttributionsForDeal } from "./demo-data";
 import { demoCertifications, demoBadges, demoTrainingCompletions, demoSkillEndorsements } from "./certifications-data";
+import { demoVolumePrograms, demoPartnerVolumes, demoMDFBudgets, demoMDFRequests, demoProducts, demoProductRebates, demoPartnerProductCerts, demoTerritories, demoChannelConflicts } from "./distributor-demo-data";
 
 type StoreContextType = {
   org: Organization;
@@ -37,6 +38,25 @@ type StoreContextType = {
   getTrainingByPartner: (partnerId: string) => TrainingCompletion[];
   skillEndorsements: SkillEndorsement[];
   getEndorsementsByPartner: (partnerId: string) => SkillEndorsement[];
+  // Distributor / VAR features
+  volumePrograms: VolumeProgram[];
+  partnerVolumes: PartnerVolumeRecord[];
+  mdfBudgets: MDFBudget[];
+  mdfRequests: MDFRequest[];
+  updateMDFRequest: (id: string, updates: Partial<MDFRequest>) => void;
+  addMDFRequest: (req: Omit<MDFRequest, "_id" | "organizationId" | "submittedAt">) => MDFRequest;
+  products: Product[];
+  addProduct: (p: Omit<Product, "_id" | "organizationId" | "createdAt">) => Product;
+  updateProduct: (id: string, updates: Partial<Product>) => void;
+  productRebates: ProductRebate[];
+  partnerProductCerts: PartnerProductCertification[];
+  territories: Territory[];
+  addTerritory: (t: Omit<Territory, "_id" | "organizationId" | "createdAt">) => Territory;
+  updateTerritory: (id: string, updates: Partial<Territory>) => void;
+  channelConflicts: ChannelConflict[];
+  updateConflict: (id: string, updates: Partial<ChannelConflict>) => void;
+  addConflict: (c: Omit<ChannelConflict, "_id" | "organizationId" | "createdAt">) => ChannelConflict;
+
   auditLog: AuditEntry[];
   addAuditEntry: (entry: Omit<AuditEntry, "_id" | "organizationId" | "createdAt">) => void;
   stats: {
@@ -68,6 +88,15 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [badges] = useState<Badge[]>(demoBadges);
   const [trainingCompletions] = useState<TrainingCompletion[]>(demoTrainingCompletions);
   const [skillEndorsements] = useState<SkillEndorsement[]>(demoSkillEndorsements);
+  const [volumePrograms] = useState<VolumeProgram[]>(demoVolumePrograms);
+  const [partnerVolumes] = useState<PartnerVolumeRecord[]>(demoPartnerVolumes);
+  const [mdfBudgets, setMdfBudgets] = useState<MDFBudget[]>(demoMDFBudgets);
+  const [mdfRequests, setMdfRequests] = useState<MDFRequest[]>(demoMDFRequests);
+  const [products, setProducts] = useState<Product[]>(demoProducts);
+  const [productRebates] = useState<ProductRebate[]>(demoProductRebates);
+  const [partnerProductCerts] = useState<PartnerProductCertification[]>(demoPartnerProductCerts);
+  const [territories, setTerritories] = useState<Territory[]>(demoTerritories);
+  const [channelConflicts, setChannelConflicts] = useState<ChannelConflict[]>(demoChannelConflicts);
   const [auditLog, setAuditLog] = useState<AuditEntry[]>(demoAuditLog);
 
   const updateOrg = useCallback((updates: Partial<Organization>) => {
@@ -162,6 +191,54 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     return payout;
   }, [partners, addAuditEntry]);
 
+  const updateMDFRequest = useCallback((id: string, updates: Partial<MDFRequest>) => {
+    setMdfRequests((prev) => prev.map((r) => (r._id === id ? { ...r, ...updates } : r)));
+    // Update budget spent if status changes to paid
+    if (updates.status === "paid") {
+      const req = mdfRequests.find((r) => r._id === id);
+      if (req) {
+        const amount = updates.approvedAmount ?? req.approvedAmount ?? req.requestedAmount;
+        setMdfBudgets((prev) => prev.map((b) => b._id === req.budgetId ? { ...b, spentAmount: b.spentAmount + amount, remainingAmount: b.remainingAmount - amount } : b));
+      }
+    }
+  }, [mdfRequests]);
+
+  const addMDFRequest = useCallback((data: Omit<MDFRequest, "_id" | "organizationId" | "submittedAt">) => {
+    const req: MDFRequest = { ...data, _id: `mdf_r_${Date.now()}`, organizationId: demoOrg._id, submittedAt: Date.now() };
+    setMdfRequests((prev) => [req, ...prev]);
+    return req;
+  }, []);
+
+  const addProduct = useCallback((data: Omit<Product, "_id" | "organizationId" | "createdAt">) => {
+    const product: Product = { ...data, _id: `prod_${Date.now()}`, organizationId: demoOrg._id, createdAt: Date.now() };
+    setProducts((prev) => [...prev, product]);
+    return product;
+  }, []);
+
+  const updateProduct = useCallback((id: string, updates: Partial<Product>) => {
+    setProducts((prev) => prev.map((p) => (p._id === id ? { ...p, ...updates } : p)));
+  }, []);
+
+  const addTerritory = useCallback((data: Omit<Territory, "_id" | "organizationId" | "createdAt">) => {
+    const territory: Territory = { ...data, _id: `terr_${Date.now()}`, organizationId: demoOrg._id, createdAt: Date.now() };
+    setTerritories((prev) => [...prev, territory]);
+    return territory;
+  }, []);
+
+  const updateTerritory = useCallback((id: string, updates: Partial<Territory>) => {
+    setTerritories((prev) => prev.map((t) => (t._id === id ? { ...t, ...updates } : t)));
+  }, []);
+
+  const updateConflict = useCallback((id: string, updates: Partial<ChannelConflict>) => {
+    setChannelConflicts((prev) => prev.map((c) => (c._id === id ? { ...c, ...updates } : c)));
+  }, []);
+
+  const addConflict = useCallback((data: Omit<ChannelConflict, "_id" | "organizationId" | "createdAt">) => {
+    const conflict: ChannelConflict = { ...data, _id: `conf_${Date.now()}`, organizationId: demoOrg._id, createdAt: Date.now() };
+    setChannelConflicts((prev) => [conflict, ...prev]);
+    return conflict;
+  }, []);
+
   const wonDealsList = deals.filter((d) => d.status === "won");
   const totalRevenue = wonDealsList.reduce((s, d) => s + d.amount, 0);
   const pipelineValue = deals.filter((d) => d.status === "open").reduce((s, d) => s + d.amount, 0);
@@ -183,7 +260,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <StoreContext.Provider value={{ org, updateOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, certifications, getCertificationsByPartner, badges, getBadgesByPartner, trainingCompletions, getTrainingByPartner, skillEndorsements, getEndorsementsByPartner, payouts, approvePayout, rejectPayout, markPayoutPaid, createPayout, auditLog, addAuditEntry, stats }}>
+    <StoreContext.Provider value={{ org, updateOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, certifications, getCertificationsByPartner, badges, getBadgesByPartner, trainingCompletions, getTrainingByPartner, skillEndorsements, getEndorsementsByPartner, payouts, approvePayout, rejectPayout, markPayoutPaid, createPayout, volumePrograms, partnerVolumes, mdfBudgets, mdfRequests, updateMDFRequest, addMDFRequest, products, addProduct, updateProduct, productRebates, partnerProductCerts, territories, addTerritory, updateTerritory, channelConflicts, updateConflict, addConflict, auditLog, addAuditEntry, stats }}>
       {children}
     </StoreContext.Provider>
   );

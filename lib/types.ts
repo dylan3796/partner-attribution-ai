@@ -27,7 +27,7 @@ export type Partner = {
   organizationId: string;
   name: string;
   email: string;
-  type: "affiliate" | "referral" | "reseller" | "integration";
+  type: "affiliate" | "referral" | "reseller" | "integration" | "distributor";
   tier?: "bronze" | "silver" | "gold" | "platinum";
   commissionRate: number;
   status: "active" | "inactive" | "pending";
@@ -189,6 +189,7 @@ export const PARTNER_TYPE_LABELS: Record<Partner["type"], string> = {
   referral: "Referral",
   reseller: "Reseller",
   integration: "Integration",
+  distributor: "Distributor",
 };
 
 export const TIER_LABELS: Record<string, string> = {
@@ -273,6 +274,10 @@ export type FeatureFlags = {
   apiAccess: boolean;
   auditLog: boolean;
   mcpIntegration: boolean;
+  volumeRebates: boolean;
+  productCatalog: boolean;
+  channelConflict: boolean;
+  territories: boolean;
 };
 
 export type PlatformConfig = {
@@ -290,7 +295,7 @@ export type PlatformConfig = {
 export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   certifications: true,
   dealRegistration: true,
-  mdf: false,
+  mdf: true,
   coSell: true,
   scoring: true,
   payouts: true,
@@ -300,6 +305,10 @@ export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   apiAccess: true,
   auditLog: true,
   mcpIntegration: false,
+  volumeRebates: true,
+  productCatalog: true,
+  channelConflict: true,
+  territories: true,
 };
 
 export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
@@ -331,4 +340,184 @@ export const FEATURE_FLAG_LABELS: Record<keyof FeatureFlags, { label: string; de
   apiAccess: { label: "API Access", description: "REST API and webhook integrations" },
   auditLog: { label: "Audit Log", description: "Activity tracking and compliance logs" },
   mcpIntegration: { label: "MCP Integration", description: "Model Context Protocol for natural language queries" },
+  volumeRebates: { label: "Volume Rebates", description: "Tiered volume-based incentive programs for distributors" },
+  productCatalog: { label: "Product Catalog", description: "Product/SKU management with distributor pricing" },
+  channelConflict: { label: "Channel Conflict Detection", description: "Territory management and conflict resolution" },
+  territories: { label: "Territory Management", description: "Assign and manage partner territories" },
+};
+
+// ── Volume-Based Incentive Programs ──
+
+export type VolumeRebateTier = {
+  minUnits: number;
+  maxUnits: number | null; // null = unlimited
+  rebatePercent: number;
+  label: string;
+};
+
+export type VolumeProgram = {
+  _id: string;
+  organizationId: string;
+  name: string;
+  period: "quarterly" | "annual";
+  startDate: number;
+  endDate: number;
+  status: "active" | "upcoming" | "completed";
+  tiers: VolumeRebateTier[];
+  productIds?: string[]; // if specific to certain products
+  createdAt: number;
+};
+
+export type PartnerVolumeRecord = {
+  _id: string;
+  organizationId: string;
+  partnerId: string;
+  programId: string;
+  period: string; // e.g., "2026-Q1"
+  unitsTotal: number;
+  revenueTotal: number;
+  currentTierIndex: number;
+  rebateAccrued: number;
+  rebateProjected: number;
+  lastUpdated: number;
+};
+
+// ── MDF (Market Development Funds) ──
+
+export type MDFStatus = "pending" | "approved" | "rejected" | "executed" | "paid";
+
+export type MDFBudget = {
+  _id: string;
+  organizationId: string;
+  partnerId: string;
+  period: string; // e.g., "2026" or "2026-Q1"
+  allocatedAmount: number;
+  spentAmount: number;
+  remainingAmount: number;
+  createdAt: number;
+};
+
+export type MDFRequest = {
+  _id: string;
+  organizationId: string;
+  partnerId: string;
+  budgetId: string;
+  title: string;
+  campaignType: "event" | "digital_marketing" | "content" | "training" | "co_branded" | "other";
+  description: string;
+  requestedAmount: number;
+  approvedAmount?: number;
+  status: MDFStatus;
+  startDate: number;
+  endDate: number;
+  // Performance metrics
+  leadsGenerated?: number;
+  pipelineCreated?: number;
+  revenueInfluenced?: number;
+  // Approval workflow
+  submittedAt: number;
+  reviewedBy?: string;
+  reviewedAt?: number;
+  executedAt?: number;
+  paidAt?: number;
+  notes?: string;
+};
+
+export const MDF_CAMPAIGN_LABELS: Record<MDFRequest["campaignType"], string> = {
+  event: "Event / Trade Show",
+  digital_marketing: "Digital Marketing",
+  content: "Content Creation",
+  training: "Training / Enablement",
+  co_branded: "Co-Branded Campaign",
+  other: "Other",
+};
+
+export const MDF_STATUS_LABELS: Record<MDFStatus, string> = {
+  pending: "Pending Review",
+  approved: "Approved",
+  rejected: "Rejected",
+  executed: "Executed",
+  paid: "Paid",
+};
+
+// ── Product Catalog ──
+
+export type Product = {
+  _id: string;
+  organizationId: string;
+  sku: string;
+  name: string;
+  category: string;
+  msrp: number;
+  distributorPrice: number;
+  margin: number; // calculated
+  status: "active" | "discontinued" | "coming_soon";
+  description?: string;
+  imageUrl?: string;
+  createdAt: number;
+};
+
+export type ProductRebate = {
+  _id: string;
+  organizationId: string;
+  productId: string;
+  programId?: string;
+  rebatePercent: number;
+  minUnits: number;
+  validFrom: number;
+  validTo: number;
+};
+
+export type PartnerProductCertification = {
+  _id: string;
+  organizationId: string;
+  partnerId: string;
+  productId: string;
+  certifiedAt: number;
+  expiresAt?: number;
+  level: "authorized" | "preferred" | "elite";
+  status: "active" | "expired" | "revoked";
+};
+
+// ── Territory & Channel Conflict ──
+
+export type Territory = {
+  _id: string;
+  organizationId: string;
+  name: string;
+  region: string;
+  partnerId: string;
+  accounts: string[]; // company names or account IDs
+  isExclusive: boolean;
+  createdAt: number;
+};
+
+export type ChannelConflict = {
+  _id: string;
+  organizationId: string;
+  dealId?: string;
+  accountName: string;
+  partnerIds: string[]; // partners involved
+  primaryPartnerId?: string;
+  status: "open" | "under_review" | "resolved" | "escalated";
+  resolution?: "assign_primary" | "split_credit" | "escalated" | "dismissed";
+  resolutionNotes?: string;
+  resolvedBy?: string;
+  resolvedAt?: number;
+  reportedAt: number;
+  createdAt: number;
+};
+
+export const CONFLICT_STATUS_LABELS: Record<ChannelConflict["status"], string> = {
+  open: "Open",
+  under_review: "Under Review",
+  resolved: "Resolved",
+  escalated: "Escalated",
+};
+
+export const CONFLICT_RESOLUTION_LABELS: Record<string, string> = {
+  assign_primary: "Assigned Primary Partner",
+  split_credit: "Split Credit",
+  escalated: "Escalated to Management",
+  dismissed: "Dismissed",
 };

@@ -16,9 +16,13 @@ import {
   Plus,
   ArrowRight,
   Mail,
+  BarChart3,
+  Megaphone,
+  Package,
+  MapPin,
 } from "lucide-react";
 
-import { formatCurrency } from "@/lib/utils";
+import { formatCurrency, formatNumber } from "@/lib/utils";
 
 function timeAgo(ts: number) {
   const diff = Date.now() - ts;
@@ -38,6 +42,16 @@ export default function PortalDashboard() {
   const stats = getPartnerStats(partner);
   const touchpoints = getPartnerTouchpoints(partner).slice(0, 10);
   const deals = getPartnerDeals(partner);
+
+  // Use lazy import pattern to avoid SSR issues
+  const storeModule = require("@/lib/store");
+  const { volumePrograms, partnerVolumes, mdfBudgets, territories, channelConflicts } = storeModule.useStore();
+  const linkedIds = partner.linkedPartnerIds;
+  const activeProgram = volumePrograms?.find((p: any) => p.status === "active" && p.period === "quarterly");
+  const myVol = partnerVolumes?.find((v: any) => linkedIds.includes(v.partnerId) && v.programId === activeProgram?._id);
+  const myBudget = mdfBudgets?.find((b: any) => linkedIds.includes(b.partnerId));
+  const myTerritories = territories?.filter((t: any) => linkedIds.includes(t.partnerId)) || [];
+  const myConflicts = channelConflicts?.filter((c: any) => c.partnerIds.some((pid: string) => linkedIds.includes(pid)) && (c.status === "open" || c.status === "under_review")) || [];
 
   const statCards = [
     {
@@ -202,6 +216,41 @@ export default function PortalDashboard() {
             <p style={{ fontSize: "0.8rem", color: "var(--muted)" }}>{partner.partnerManager.name}</p>
           </div>
         </a>
+      </div>
+
+      {/* Distributor-Specific Cards */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
+        {myVol && (
+          <Link href="/portal/volume" className="card card-hover" style={{ padding: "1.25rem", cursor: "pointer" }}>
+            <BarChart3 size={20} color="#6366f1" />
+            <p style={{ fontWeight: 700, fontSize: "1.3rem", marginTop: ".5rem" }}>{formatNumber(myVol.unitsTotal)} units</p>
+            <p className="muted" style={{ fontSize: ".8rem" }}>Volume this quarter</p>
+            <p style={{ fontSize: ".8rem", color: "#059669", fontWeight: 600, marginTop: ".25rem" }}>{formatCurrency(myVol.rebateAccrued)} accrued</p>
+          </Link>
+        )}
+        {myBudget && (
+          <Link href="/portal/mdf" className="card card-hover" style={{ padding: "1.25rem", cursor: "pointer" }}>
+            <Megaphone size={20} color="#d97706" />
+            <p style={{ fontWeight: 700, fontSize: "1.3rem", marginTop: ".5rem" }}>{formatCurrency(myBudget.remainingAmount)}</p>
+            <p className="muted" style={{ fontSize: ".8rem" }}>MDF balance remaining</p>
+            <p style={{ fontSize: ".8rem", color: "var(--muted)", marginTop: ".25rem" }}>of {formatCurrency(myBudget.allocatedAmount)}</p>
+          </Link>
+        )}
+        <Link href="/portal/products" className="card card-hover" style={{ padding: "1.25rem", cursor: "pointer" }}>
+          <Package size={20} color="#7c3aed" />
+          <p style={{ fontWeight: 700, fontSize: "1.3rem", marginTop: ".5rem" }}>Products</p>
+          <p className="muted" style={{ fontSize: ".8rem" }}>View catalog & pricing</p>
+        </Link>
+        <Link href="/portal/territory" className="card card-hover" style={{ padding: "1.25rem", cursor: "pointer", position: "relative" }}>
+          <MapPin size={20} color="#0284c7" />
+          <p style={{ fontWeight: 700, fontSize: "1.3rem", marginTop: ".5rem" }}>{myTerritories.length} territor{myTerritories.length !== 1 ? "ies" : "y"}</p>
+          <p className="muted" style={{ fontSize: ".8rem" }}>Your assigned regions</p>
+          {myConflicts.length > 0 && (
+            <span style={{ position: "absolute", top: 12, right: 12, padding: ".15rem .5rem", borderRadius: 12, fontSize: ".7rem", fontWeight: 600, background: "#fee2e2", color: "#991b1b" }}>
+              {myConflicts.length} conflict{myConflicts.length !== 1 ? "s" : ""}
+            </span>
+          )}
+        </Link>
       </div>
 
       {/* Recent Activity + Deals summary */}

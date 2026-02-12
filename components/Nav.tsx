@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity, DollarSign, Trophy, Award, Menu, X, Sliders } from "lucide-react";
+import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity, DollarSign, Trophy, Award, Menu, X, Sliders, BarChart3, Megaphone, AlertTriangle, Package } from "lucide-react";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -27,6 +27,10 @@ const allDashboardLinks: DashLink[] = [
   { name: "Scoring", href: "/dashboard/scoring", icon: Trophy, featureFlag: "scoring" },
   { name: "Certs", href: "/dashboard/certifications", icon: Award, featureFlag: "certifications" },
   { name: "Deals", href: "/dashboard/deals", icon: Briefcase },
+  { name: "Volume", href: "/dashboard/volume-rebates", icon: BarChart3, featureFlag: "volumeRebates" },
+  { name: "MDF", href: "/dashboard/mdf", icon: Megaphone, featureFlag: "mdf" },
+  { name: "Products", href: "/dashboard/products", icon: Package, featureFlag: "productCatalog" },
+  { name: "Conflicts", href: "/dashboard/conflicts", icon: AlertTriangle, featureFlag: "channelConflict" },
   { name: "Reports", href: "/dashboard/reports", icon: PieChart, featureFlag: "reports" },
   { name: "Payouts", href: "/dashboard/payouts", icon: DollarSign, featureFlag: "payouts" },
   { name: "Activity", href: "/dashboard/activity", icon: Activity, featureFlag: "auditLog" },
