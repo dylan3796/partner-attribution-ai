@@ -43,7 +43,7 @@ export default function PortalResourcesPage() {
                   </div>
                   <h3 style={{ fontWeight: 600, fontSize: ".95rem" }}>{item.title}</h3>
                   <p className="muted" style={{ fontSize: ".85rem", lineHeight: 1.5 }}>{item.desc}</p>
-                  <button className="btn-outline" style={{ marginTop: "auto", fontSize: ".8rem", padding: ".4rem .8rem", alignSelf: "start" }}>
+                  <button className="btn-outline" style={{ marginTop: "auto", fontSize: ".8rem", padding: ".4rem .8rem", alignSelf: "start" }} onClick={() => alert(`"${item.title}" would be downloaded in production. This is a demo.`)}>
                     <Download size={14} /> Download
                   </button>
                 </div>

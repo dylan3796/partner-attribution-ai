@@ -82,7 +82,7 @@ export default function PortalProfilePage() {
               <p style={{ fontSize: "1.1rem", fontWeight: 700 }}>{TIER_LABELS[partner.tier] || partner.tier} Tier</p>
               <p className="muted" style={{ fontSize: ".85rem" }}>Based on trailing 12-month performance</p>
             </div>
-            <button className="btn-outline" style={{ fontSize: ".85rem" }}><ArrowUp size={14} /> Request Upgrade</button>
+            <button className="btn-outline" style={{ fontSize: ".85rem" }} onClick={() => alert("Upgrade request submitted! Your partner manager will be in touch within 48 hours.")}><ArrowUp size={14} /> Request Upgrade</button>
           </div>
           <div style={{ height: 8, background: "var(--border)", borderRadius: 4, overflow: "hidden" }}>
             <div style={{ width: partner.tier === "platinum" ? "100%" : partner.tier === "gold" ? "75%" : partner.tier === "silver" ? "50%" : "25%", height: "100%", background: "var(--fg)", borderRadius: 4 }}></div>
