@@ -9,9 +9,11 @@ import { formatCurrencyCompact as fmt, formatCurrency } from "@/lib/utils";
 
 export default function PortalDealDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { myDeals, myTouchpoints, myAttributions } = usePortal();
+  const { myDeals, myTouchpoints, myAttributions, addDispute } = usePortal();
   const [showDispute, setShowDispute] = useState(false);
   const [disputed, setDisputed] = useState(false);
+  const [disputePercent, setDisputePercent] = useState("");
+  const [disputeReason, setDisputeReason] = useState("");
 
   const deal = myDeals.find((d) => d._id === id);
   if (!deal) return <div style={{ textAlign: "center", padding: "3rem" }}><p className="muted">Deal not found.</p></div>;
@@ -121,9 +123,9 @@ export default function PortalDealDetail({ params }: { params: Promise<{ id: str
                   </div>
                   <p className="muted" style={{ marginBottom: "1rem", fontSize: ".9rem" }}>Current attribution: <strong>{attribution?.percentage.toFixed(1)}%</strong> ({fmt(attribution?.commissionAmount || 0)} commission)</p>
                   <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                    <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>What % do you believe is correct?</label><input className="input" type="number" placeholder="45" /></div>
-                    <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Reason *</label><textarea className="input" rows={4} placeholder="Explain why you believe your attribution should be different. Include any supporting details..." style={{ resize: "vertical" }}></textarea></div>
-                    <button className="btn" style={{ width: "100%" }} onClick={() => setDisputed(true)}>Submit Dispute</button>
+                    <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>What % do you believe is correct?</label><input className="input" type="number" placeholder="45" value={disputePercent} onChange={(e) => setDisputePercent(e.target.value)} /></div>
+                    <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Reason *</label><textarea className="input" rows={4} placeholder="Explain why you believe your attribution should be different. Include any supporting details..." style={{ resize: "vertical" }} value={disputeReason} onChange={(e) => setDisputeReason(e.target.value)}></textarea></div>
+                    <button className="btn" style={{ width: "100%" }} disabled={!disputeReason} onClick={() => { addDispute({ dealId: id, dealName: deal.name, currentAttribution: attribution?.percentage || 0, requestedAttribution: parseFloat(disputePercent) || 0, reason: disputeReason }); setDisputed(true); }}>Submit Dispute</button>
                   </div>
                 </>
               )}

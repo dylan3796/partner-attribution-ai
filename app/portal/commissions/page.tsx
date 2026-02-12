@@ -18,7 +18,18 @@ export default function PortalCommissionsPage() {
             <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Commissions</h1>
             <p className="muted">Track your earnings and payout status</p>
           </div>
-          <button className="btn-outline"><Download size={15} /> Export</button>
+          <button className="btn-outline" onClick={() => {
+            const header = "Deal,Deal Value,Attribution %,Commission";
+            const rows = myAttributions.map((a) => `"${a.deal?.name || ""}",${a.deal?.amount || 0},${a.percentage.toFixed(1)},${a.commissionAmount}`);
+            const csv = [header, ...rows].join("\n");
+            const blob = new Blob([csv], { type: "text/csv" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = `commissions-${new Date().toISOString().slice(0, 10)}.csv`;
+            link.click();
+            URL.revokeObjectURL(url);
+          }}><Download size={15} /> Export</button>
         </div>
 
         {/* Summary */}

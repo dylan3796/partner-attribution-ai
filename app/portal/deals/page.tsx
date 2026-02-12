@@ -7,9 +7,10 @@ import { Plus, X } from "lucide-react";
 import { formatCurrencyCompact as fmt, formatCurrency } from "@/lib/utils";
 
 export default function PortalDealsPage() {
-  const { myDeals, myAttributions, partner } = usePortal();
+  const { myDeals, myAttributions, partner, addDealRegistration } = usePortal();
   const [showRegister, setShowRegister] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [regForm, setRegForm] = useState({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "" });
 
   return (
     <>
@@ -71,14 +72,14 @@ export default function PortalDealsPage() {
                     <button onClick={() => setShowRegister(false)} style={{ background: "none", border: "none", cursor: "pointer" }}><X size={20} /></button>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                    <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Company Name *</label><input className="input" placeholder="Prospect company name" /></div>
-                    <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Estimated Deal Value *</label><input className="input" type="number" placeholder="50000" /></div>
+                    <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Company Name *</label><input className="input" placeholder="Prospect company name" value={regForm.companyName} onChange={(e) => setRegForm({ ...regForm, companyName: e.target.value })} /></div>
+                    <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Estimated Deal Value *</label><input className="input" type="number" placeholder="50000" value={regForm.estimatedValue} onChange={(e) => setRegForm({ ...regForm, estimatedValue: e.target.value })} /></div>
                     <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                      <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Contact Name</label><input className="input" placeholder="Decision maker" /></div>
-                      <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Contact Email</label><input className="input" placeholder="email@company.com" /></div>
+                      <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Contact Name</label><input className="input" placeholder="Decision maker" value={regForm.contactName} onChange={(e) => setRegForm({ ...regForm, contactName: e.target.value })} /></div>
+                      <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Contact Email</label><input className="input" type="email" placeholder="email@company.com" value={regForm.contactEmail} onChange={(e) => setRegForm({ ...regForm, contactEmail: e.target.value })} /></div>
                     </div>
-                    <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Notes</label><textarea className="input" rows={3} placeholder="How did you find this opportunity? Any context helps..." style={{ resize: "vertical" }}></textarea></div>
-                    <button className="btn" style={{ width: "100%" }} onClick={() => setSubmitted(true)}>Submit Registration</button>
+                    <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Notes</label><textarea className="input" rows={3} placeholder="How did you find this opportunity? Any context helps..." style={{ resize: "vertical" }} value={regForm.notes} onChange={(e) => setRegForm({ ...regForm, notes: e.target.value })}></textarea></div>
+                    <button className="btn" style={{ width: "100%" }} disabled={!regForm.companyName || !regForm.estimatedValue} onClick={() => { addDealRegistration({ companyName: regForm.companyName, estimatedValue: Number(regForm.estimatedValue), contactName: regForm.contactName, contactEmail: regForm.contactEmail, notes: regForm.notes, expectedCloseDate: "" }); setSubmitted(true); setRegForm({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "" }); }}>Submit Registration</button>
                     <p className="muted" style={{ fontSize: ".8rem", textAlign: "center" }}>Registrations are reviewed within 24 hours.</p>
                   </div>
                 </>
