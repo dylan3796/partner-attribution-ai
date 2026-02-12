@@ -447,8 +447,9 @@ export default function SettingsPage() {
           </p>
           <div style={{ background: "var(--subtle)", borderRadius: 8, padding: "1rem", fontFamily: "monospace", fontSize: ".8rem", border: "1px solid var(--border)" }}>
             <p style={{ fontWeight: 600, marginBottom: ".5rem", fontFamily: "inherit" }}>Connection Instructions:</p>
-            <pre style={{ margin: 0, whiteSpace: "pre-wrap", wordBreak: "break-all" }}>{`# Install and run the MCP server
-cd mcp/
+            <pre style={{ margin: 0, whiteSpace: "pre-wrap", wordBreak: "break-all" }}>{`# The MCP server is in ../partner-attribution-ai-mcp/
+# Install and run:
+cd ../partner-attribution-ai-mcp/
 npm install
 npm start
 
@@ -457,7 +458,7 @@ npm start
   "mcpServers": {
     "partnerai": {
       "command": "node",
-      "args": ["mcp/dist/index.js"],
+      "args": ["path/to/partner-attribution-ai-mcp/dist/index.js"],
       "env": {
         "PARTNERAI_API_KEY": "${apiKey}"
       }
