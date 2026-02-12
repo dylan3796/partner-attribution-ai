@@ -11,12 +11,12 @@ type EmptyStateProps = {
 
 export function EmptyState({ icon: Icon, title, description, action }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-      <div className="rounded-xl bg-gray-50 p-4 mb-4">
-        <Icon className="h-8 w-8 text-gray-400" />
+    <div className="empty-state">
+      <div className="empty-state-icon">
+        <Icon size={28} color="var(--muted)" />
       </div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-1">{title}</h3>
-      <p className="text-sm text-gray-500 max-w-sm mb-4">{description}</p>
+      <h3 style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: ".25rem" }}>{title}</h3>
+      <p className="muted" style={{ maxWidth: 320, marginBottom: action ? "1rem" : 0 }}>{description}</p>
       {action}
     </div>
   );
