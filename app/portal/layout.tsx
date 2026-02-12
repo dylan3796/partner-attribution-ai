@@ -144,7 +144,7 @@ function PortalSidebar() {
                   color: isActive ? "var(--fg)" : "var(--muted)",
                   background: isActive ? "var(--subtle)" : "transparent",
                   transition: "all 0.15s",
-                  marginBottom: "0.15rem",
+                  marginBottom: "0.25rem",
                 }}
               >
                 <link.icon size={18} />

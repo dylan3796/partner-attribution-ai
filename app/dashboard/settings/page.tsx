@@ -290,7 +290,7 @@ export default function SettingsPage() {
           <div
             style={{
               display: "flex",
-              gap: "0.5rem",
+              gap: "0.75rem",
               alignItems: "center",
               flexWrap: "wrap",
             }}
@@ -408,7 +408,7 @@ export default function SettingsPage() {
           <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".5rem" }}>
             Toggle complexity based on your team&apos;s needs. Simple for lean operations, Advanced for full power.
           </p>
-          <div style={{ display: "flex", gap: ".5rem" }}>
+          <div style={{ display: "flex", gap: ".75rem" }}>
             {(["simple", "standard", "advanced"] as ComplexityLevel[]).map(level => (
               <button
                 key={level}
@@ -436,7 +436,7 @@ export default function SettingsPage() {
           <label style={{ display: "flex", fontSize: "0.9rem", fontWeight: 600, marginBottom: "0.5rem", alignItems: "center", gap: 6 }}>
             <Layout size={15} /> UI Density
           </label>
-          <div style={{ display: "flex", gap: ".5rem" }}>
+          <div style={{ display: "flex", gap: ".75rem" }}>
             {(["compact", "comfortable", "spacious"] as UIDensity[]).map(density => (
               <button
                 key={density}
@@ -463,7 +463,7 @@ export default function SettingsPage() {
           <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".75rem" }}>
             Every toggle instantly shows or hides the feature across the platform. Disabled features are fully hidden from navigation, dashboards, and your team&apos;s view.
           </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
             {(Object.keys(FEATURE_FLAG_LABELS) as (keyof FeatureFlags)[]).map(flag => {
               const meta = FEATURE_FLAG_LABELS[flag];
               const enabled = config.featureFlags[flag];
@@ -531,7 +531,7 @@ npm start
           </div>
           <div style={{ marginTop: "1rem" }}>
             <p style={{ fontWeight: 600, fontSize: ".85rem", marginBottom: ".5rem" }}>Available Tools:</p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: ".5rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: ".75rem" }}>
               {[
                 "query_partners — Search and filter partners",
                 "query_deals — Search deals pipeline",

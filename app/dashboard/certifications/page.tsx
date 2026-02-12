@@ -107,7 +107,7 @@ export default function CertificationsPage() {
 
       {/* Tab Bar + Search */}
       <div className="card" style={{ marginBottom: "1.5rem", display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap", padding: "1rem 1.5rem" }}>
-        <div style={{ display: "flex", gap: ".25rem", background: "var(--subtle)", borderRadius: 8, padding: 3 }}>
+        <div style={{ display: "flex", gap: ".5rem", background: "var(--subtle)", borderRadius: 8, padding: 3 }}>
           {([
             { key: "certs", label: "Certifications", icon: <Shield size={14} /> },
             { key: "badges", label: "Badges", icon: <Star size={14} /> },

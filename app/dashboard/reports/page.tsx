@@ -440,7 +440,7 @@ export default function ReportsPage() {
           }}
         >
           <strong>Partner Leaderboard</strong>
-          <div style={{ display: "flex", gap: "0.5rem" }}>
+          <div style={{ display: "flex", gap: "0.75rem" }}>
             <select
               value={selectedModel}
               onChange={(e) =>

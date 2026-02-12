@@ -75,7 +75,7 @@ export default function DealsPage() {
           <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Deals</h1>
           <p className="muted">{deals.length} deals · {formatCurrencyCompact(deals.filter((d) => d.status === "open").reduce((s, d) => s + d.amount, 0))} pipeline</p>
         </div>
-        <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap" }}>
           <div style={{ display: "flex", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
             <button onClick={() => setView("pipeline")} style={{ padding: ".5rem .8rem", background: view === "pipeline" ? "var(--subtle)" : "white", border: "none", cursor: "pointer" }}><LayoutGrid size={16} /></button>
             <button onClick={() => setView("table")} style={{ padding: ".5rem .8rem", background: view === "table" ? "var(--subtle)" : "white", border: "none", cursor: "pointer" }}><List size={16} /></button>

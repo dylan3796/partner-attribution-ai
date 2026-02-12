@@ -29,7 +29,7 @@ export default function PortalDealDetail({ params }: { params: Promise<{ id: str
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", flexWrap: "wrap", gap: "1rem" }}>
             <div>
               <h1 style={{ fontSize: "1.5rem", fontWeight: 800, letterSpacing: "-.02em" }}>{deal.name}</h1>
-              <div style={{ display: "flex", gap: ".5rem", marginTop: ".3rem", alignItems: "center" }}>
+              <div style={{ display: "flex", gap: ".75rem", marginTop: ".3rem", alignItems: "center" }}>
                 <span style={{ fontSize: "1.3rem", fontWeight: 800 }}>{fmt(deal.amount)}</span>
                 <span className={`badge badge-${deal.status === "won" ? "success" : deal.status === "lost" ? "danger" : "info"}`}>{deal.status}</span>
               </div>

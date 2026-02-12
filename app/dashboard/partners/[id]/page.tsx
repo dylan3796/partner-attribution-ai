@@ -67,7 +67,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
             <div className="avatar" style={{ width: 56, height: 56, fontSize: "1.1rem" }}>{partner.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
             <div>
               <h1 style={{ fontSize: "1.5rem", fontWeight: 800, letterSpacing: "-.02em" }}>{partner.name}</h1>
-              <div style={{ display: "flex", gap: ".5rem", marginTop: ".3rem", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", gap: ".75rem", marginTop: ".3rem", flexWrap: "wrap" }}>
                 <span className="chip">{PARTNER_TYPE_LABELS[partner.type]}</span>
                 <span className="badge badge-neutral">{partner.tier ? TIER_LABELS[partner.tier] : "No Tier"}</span>
                 <span className={`badge badge-${partner.status === "active" ? "success" : partner.status === "pending" ? "info" : "danger"}`}>{partner.status}</span>
@@ -112,7 +112,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           </h3>
           {/* Badges row */}
           {partnerBadges.length > 0 && (
-            <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap", marginBottom: activeCerts.length > 0 ? "1rem" : 0 }}>
+            <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap", marginBottom: activeCerts.length > 0 ? "1rem" : 0 }}>
               {partnerBadges.map(b => (
                 <span key={b._id} title={b.description} style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 16, fontSize: ".8rem", fontWeight: 600, background: "var(--subtle)", border: "1px solid var(--border)" }}>
                   {b.icon} {b.name}

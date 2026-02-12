@@ -152,7 +152,7 @@ export default function PayoutsPage() {
             <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Payouts</h1>
             <p className="muted">Manage partner commissions and payment workflows</p>
           </div>
-          <div style={{ display: "flex", gap: ".5rem" }}>
+          <div style={{ display: "flex", gap: ".75rem" }}>
             <button className="btn-outline" onClick={handleExport}>
               <Download size={15} /> Export
             </button>
@@ -344,7 +344,7 @@ export default function PayoutsPage() {
 
                     {/* Actions */}
                     <td style={{ padding: ".8rem 1.2rem", textAlign: "right" }}>
-                      <div style={{ display: "flex", gap: ".4rem", justifyContent: "flex-end" }}>
+                      <div style={{ display: "flex", gap: ".75rem", justifyContent: "flex-end" }}>
                         {payout.status === "pending_approval" && (
                           <>
                             <button

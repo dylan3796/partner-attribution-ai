@@ -194,7 +194,7 @@ export default function DisputeModal({ dealId, dealName, currentAttribution, onC
             </div>
 
             {/* Actions */}
-            <div style={{ display: "flex", gap: "0.75rem", justifyContent: "flex-end" }}>
+            <div style={{ display: "flex", gap: "1rem", justifyContent: "flex-end" }}>
               <button type="button" className="btn-outline" onClick={onClose}>
                 Cancel
               </button>

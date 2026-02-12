@@ -186,7 +186,7 @@ function CertificationsSection({
         <div
           style={{
             display: "flex",
-            gap: "0.25rem",
+            gap: "0.5rem",
             background: "var(--subtle)",
             borderRadius: 8,
             padding: 3,
@@ -1215,7 +1215,7 @@ export default function PortalEnablementPage() {
         className="card"
         style={{
           display: "flex",
-          gap: "0.25rem",
+          gap: "0.5rem",
           padding: "0.5rem 0.75rem",
           flexWrap: "wrap",
         }}

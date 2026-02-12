@@ -34,7 +34,7 @@ export default function PortalProfilePage() {
             <div className="avatar" style={{ width: 64, height: 64, fontSize: "1.2rem" }}>{partner.companyName.split(" ").map((w: string) => w[0]).join("").slice(0, 2)}</div>
             <div>
               <h2 style={{ fontSize: "1.3rem", fontWeight: 800 }}>{partner.companyName}</h2>
-              <div style={{ display: "flex", gap: ".5rem", marginTop: ".3rem" }}>
+              <div style={{ display: "flex", gap: ".75rem", marginTop: ".3rem" }}>
                 <span className="chip">{TYPE_LABELS[partner.type] || partner.type}</span>
                 <span className={`badge badge-${partner.tier === "platinum" ? "info" : partner.tier === "gold" ? "success" : "neutral"}`}>{TIER_LABELS[partner.tier] || partner.tier}</span>
                 <span className="badge badge-success">{partner.status}</span>
@@ -42,7 +42,7 @@ export default function PortalProfilePage() {
             </div>
           </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
             <span style={{ display: "flex", alignItems: "center", gap: ".5rem", fontSize: ".9rem" }}><Mail size={16} color="var(--muted)" /> {partner.contactEmail}</span>
             {partner.phone && <span style={{ display: "flex", alignItems: "center", gap: ".5rem", fontSize: ".9rem" }}><Phone size={16} color="var(--muted)" /> {partner.phone}</span>}
             {partner.address && <span style={{ display: "flex", alignItems: "center", gap: ".5rem", fontSize: ".9rem" }}><MapPin size={16} color="var(--muted)" /> {partner.address}</span>}

@@ -219,7 +219,7 @@ function ExpandedScorecard({ ps }: { ps: PartnerScore }) {
         </div>
       )}
 
-      <div style={{ marginTop: "1rem", display: "flex", gap: 8 }}>
+      <div style={{ marginTop: "1rem", display: "flex", gap: "0.75rem" }}>
         <Link
           href={`/dashboard/partners/${ps.partnerId}`}
           className="btn-outline"
@@ -338,7 +338,7 @@ export default function ScoringPage() {
               Composite scoring across revenue, pipeline, engagement & velocity
             </p>
           </div>
-          <div style={{ display: "flex", gap: ".5rem" }}>
+          <div style={{ display: "flex", gap: ".75rem" }}>
             <button className="btn-outline" onClick={() => setShowConfig(!showConfig)}>
               <Settings2 size={15} /> Weights
             </button>

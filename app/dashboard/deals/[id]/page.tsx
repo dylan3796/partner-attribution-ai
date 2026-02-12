@@ -172,7 +172,7 @@ export default function DealDetailPage({
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: "0.75rem",
+                gap: "1rem",
                 marginBottom: "0.5rem",
               }}
             >
@@ -208,7 +208,7 @@ export default function DealDetailPage({
               )}
             </div>
           </div>
-          <div style={{ display: "flex", gap: "0.5rem" }}>
+          <div style={{ display: "flex", gap: "0.75rem" }}>
             {deal.status === "open" && (
               <>
                 <button
@@ -911,7 +911,7 @@ export default function DealDetailPage({
         <p style={{ marginBottom: "1.5rem", color: "var(--muted)" }}>
           How did <strong>{deal.name}</strong> ({formatCurrency(deal.amount)}) end?
         </p>
-        <div style={{ display: "flex", gap: "0.75rem" }}>
+        <div style={{ display: "flex", gap: "1rem" }}>
           <button
             className="btn"
             style={{
@@ -1027,7 +1027,7 @@ export default function DealDetailPage({
             style={{
               display: "flex",
               justifyContent: "flex-end",
-              gap: "0.75rem",
+              gap: "1rem",
               paddingTop: "0.5rem",
             }}
           >

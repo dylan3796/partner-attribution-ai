@@ -70,7 +70,7 @@ export default function PartnersPage() {
           <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Partners</h1>
           <p className="muted">{partners.length} partners · {partners.filter((p) => p.status === "active").length} active</p>
         </div>
-        <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap" }}>
           <button className="btn-outline" onClick={() => { exportPartnersCSV(partners); toast("Partners exported"); }}><Download size={15} /> Export</button>
           <button className="btn-outline" onClick={() => fileRef.current?.click()}><Upload size={15} /> Import</button>
           <input ref={fileRef} type="file" accept=".csv" onChange={handleImport} style={{ display: "none" }} />

@@ -37,11 +37,11 @@ img{max-width:100%;display:block}
 .grid-flip{direction:rtl}.grid-flip>*{direction:ltr}
 
 /* === Components === */
-.btn{background:var(--fg);color:var(--bg);padding:.6rem 1.5rem;border-radius:8px;font-weight:600;font-size:.95rem;display:inline-flex;align-items:center;gap:.4rem;transition:transform .2s,opacity .2s;border:none;cursor:pointer;justify-content:center}
+.btn{background:var(--fg);color:var(--bg);padding:.6rem 1.5rem;border-radius:8px;font-weight:600;font-size:.95rem;display:inline-flex;align-items:center;gap:.5rem;transition:transform .2s,opacity .2s;border:none;cursor:pointer;justify-content:center}
 .btn:hover{transform:translateY(-1px);opacity:.9}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 .btn-lg{padding:1rem 2.5rem;border-radius:var(--radius);font-size:1.1rem}
-.btn-outline{background:var(--bg);color:var(--fg);border:1px solid var(--border);padding:.6rem 1.5rem;border-radius:8px;font-weight:500;font-size:.95rem;display:inline-flex;align-items:center;gap:.5rem;transition:background .2s,border-color .2s;cursor:pointer}
+.btn-outline{background:var(--bg);color:var(--fg);border:1px solid var(--border);padding:.6rem 1.5rem;border-radius:8px;font-weight:500;font-size:.95rem;display:inline-flex;align-items:center;gap:.5rem;transition:background .2s,border-color .2s;cursor:pointer;white-space:nowrap}
 .btn-outline:hover{background:var(--subtle)}
 .tag{background:var(--fg);color:var(--bg);padding:.4rem 1rem;border-radius:20px;font-size:.8rem;font-weight:600;display:inline-block;margin-bottom:1.5rem;text-transform:uppercase;letter-spacing:.02em}
 .badge{background:var(--fg);color:var(--bg);padding:.2rem .6rem;border-radius:6px;font-size:.75rem;font-weight:600}
