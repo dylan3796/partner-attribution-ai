@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity, DollarSign, Trophy } from "lucide-react";
+import { useState, useEffect } from "react";
+import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity, DollarSign, Trophy, Menu, X } from "lucide-react";
 
 const marketingLinks = [
   { name: "Platform", href: "#platform" },
@@ -24,50 +25,119 @@ export default function Nav() {
   const pathname = usePathname();
   const isDashboard = pathname.startsWith("/dashboard");
   const isPortal = pathname.startsWith("/portal");
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   // Portal has its own nav in layout.tsx
   if (isPortal) return null;
 
   return (
-    <nav className="site-nav">
-      <div className="nav-inner">
-        <Link href="/" className="logo">Partner<span>AI</span></Link>
+    <>
+      <nav className="site-nav">
+        <div className="nav-inner">
+          <Link href="/" className="logo">Partner<span>AI</span></Link>
 
-        {isDashboard ? (
-          <div className="nav-links-dash">
-            {dashboardLinks.map((link) => {
-              const isActive = pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href));
-              const Icon = link.icon;
-              return (
-                <Link key={link.name} href={link.href} className={isActive ? "active" : ""}>
-                  <Icon size={16} />
-                  {link.name}
-                </Link>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="nav-links">
-            {marketingLinks.map((link) => (
-              <a key={link.name} href={link.href}>{link.name}</a>
-            ))}
-          </div>
-        )}
-
-        <div className="nav-actions">
           {isDashboard ? (
-            <>
-              <Link href="/portal" className="btn-outline" style={{ fontSize: ".8rem", padding: ".4rem .8rem" }}>Partner Portal</Link>
-              <Link href="/" style={{ fontSize: ".85rem", fontWeight: 500 }}>← Site</Link>
-            </>
+            <div className="nav-links-dash">
+              {dashboardLinks.map((link) => {
+                const isActive = pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href));
+                const Icon = link.icon;
+                return (
+                  <Link key={link.name} href={link.href} className={isActive ? "active" : ""}>
+                    <Icon size={16} />
+                    <span className="nav-link-label">{link.name}</span>
+                  </Link>
+                );
+              })}
+            </div>
           ) : (
-            <>
-              <Link href="/dashboard" className="link" style={{ fontWeight: 500, fontSize: ".9rem" }}>Log in</Link>
-              <Link href="/dashboard" className="btn">Get started</Link>
-            </>
+            <div className="nav-links">
+              {marketingLinks.map((link) => (
+                <a key={link.name} href={link.href}>{link.name}</a>
+              ))}
+            </div>
           )}
+
+          <div className="nav-actions">
+            {isDashboard ? (
+              <>
+                <Link href="/portal" className="btn-outline" style={{ fontSize: ".8rem", padding: ".4rem .8rem" }}>Partner Portal</Link>
+                <Link href="/" className="nav-back-link" style={{ fontSize: ".85rem", fontWeight: 500 }}>← Site</Link>
+              </>
+            ) : (
+              <>
+                <Link href="/dashboard" className="link nav-login-link" style={{ fontWeight: 500, fontSize: ".9rem" }}>Log in</Link>
+                <Link href="/dashboard" className="btn nav-cta-btn">Get started</Link>
+              </>
+            )}
+            <button
+              className="menu-toggle"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Mobile menu overlay */}
+      {mobileOpen && (
+        <div className="mobile-menu-overlay" onClick={() => setMobileOpen(false)}>
+          <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
+            {isDashboard ? (
+              <>
+                {dashboardLinks.map((link) => {
+                  const isActive = pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href));
+                  const Icon = link.icon;
+                  return (
+                    <Link key={link.name} href={link.href} className={`mobile-menu-item ${isActive ? "active" : ""}`} onClick={() => setMobileOpen(false)}>
+                      <Icon size={18} />
+                      {link.name}
+                    </Link>
+                  );
+                })}
+                <div className="mobile-menu-divider" />
+                <Link href="/portal" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
+                  Partner Portal
+                </Link>
+                <Link href="/" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
+                  ← Back to Site
+                </Link>
+              </>
+            ) : (
+              <>
+                {marketingLinks.map((link) => (
+                  <a key={link.name} href={link.href} className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
+                    {link.name}
+                  </a>
+                ))}
+                <div className="mobile-menu-divider" />
+                <Link href="/dashboard" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
+                  Log in
+                </Link>
+                <Link href="/dashboard" className="btn" style={{ margin: "0.5rem 1rem", textAlign: "center" }} onClick={() => setMobileOpen(false)}>
+                  Get started
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }

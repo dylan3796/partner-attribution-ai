@@ -153,9 +153,8 @@ export default function PayoutsPage() {
   const currentPeriod = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 
   return (
-    <div className="dash-layout">
-      <div className="dash-content">
-        {/* Header */}
+    <>
+      {/* Header */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
           <div>
             <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Payouts</h1>
@@ -529,7 +528,6 @@ export default function PayoutsPage() {
             </div>
           </div>
         )}
-      </div>
-    </div>
+    </>
   );
 }

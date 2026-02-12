@@ -2,19 +2,21 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
+import { useToast } from "@/components/ui/toast";
 import { Plus, Download, Upload, Search, X } from "lucide-react";
 import { exportPartnersCSV, parsePartnersCSV } from "@/lib/csv";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
 
 export default function PartnersPage() {
   const { partners, addPartner } = useStore();
+  const { toast } = useToast();
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [showAdd, setShowAdd] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
 
-  // Form state
   const [form, setForm] = useState({ name: "", email: "", type: "reseller" as const, tier: "bronze" as const, commissionRate: 15, contactName: "", territory: "" });
 
   const filtered = partners.filter((p) => {
@@ -24,10 +26,22 @@ export default function PartnersPage() {
     return true;
   });
 
+  function validate() {
+    const errors: Record<string, string> = {};
+    if (!form.name.trim()) errors.name = "Company name is required";
+    if (!form.email.trim()) errors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(form.email)) errors.email = "Invalid email format";
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  }
+
   function handleAdd() {
+    if (!validate()) return;
     addPartner({ ...form, status: "pending", commissionRate: Number(form.commissionRate) });
     setShowAdd(false);
     setForm({ name: "", email: "", type: "reseller", tier: "bronze", commissionRate: 15, contactName: "", territory: "" });
+    setFormErrors({});
+    toast("Partner added successfully");
   }
 
   function handleImport(e: React.ChangeEvent<HTMLInputElement>) {
@@ -38,46 +52,48 @@ export default function PartnersPage() {
       const csv = ev.target?.result as string;
       const parsed = parsePartnersCSV(csv);
       parsed.forEach((p) => addPartner(p));
+      toast(`Imported ${parsed.length} partners`, "success");
     };
     reader.readAsText(file);
+    if (fileRef.current) fileRef.current.value = "";
   }
 
   return (
-    <div className="dash-layout">
-      <div className="dash-content">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
-          <div>
-            <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Partners</h1>
-            <p className="muted">{partners.length} partners · {partners.filter((p) => p.status === "active").length} active</p>
-          </div>
-          <div style={{ display: "flex", gap: ".5rem" }}>
-            <button className="btn-outline" onClick={() => exportPartnersCSV(partners)}><Download size={15} /> Export</button>
-            <button className="btn-outline" onClick={() => fileRef.current?.click()}><Upload size={15} /> Import</button>
-            <input ref={fileRef} type="file" accept=".csv" onChange={handleImport} style={{ display: "none" }} />
-            <button className="btn" onClick={() => setShowAdd(true)}><Plus size={15} /> Add Partner</button>
-          </div>
+    <>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem", flexWrap: "wrap", gap: "1rem" }}>
+        <div>
+          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Partners</h1>
+          <p className="muted">{partners.length} partners · {partners.filter((p) => p.status === "active").length} active</p>
         </div>
-
-        {/* Filters */}
-        <div className="card" style={{ marginBottom: "1.5rem", display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap", padding: "1rem 1.5rem" }}>
-          <div style={{ flex: 1, position: "relative", minWidth: 200 }}>
-            <Search size={16} style={{ position: "absolute", left: 12, top: 12, color: "var(--muted)" }} />
-            <input className="input" placeholder="Search partners..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ paddingLeft: 36 }} />
-          </div>
-          <select className="input" style={{ width: "auto" }} value={filterType} onChange={(e) => setFilterType(e.target.value)}>
-            <option value="all">All Types</option>
-            {Object.entries(PARTNER_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
-          </select>
-          <select className="input" style={{ width: "auto" }} value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
-            <option value="all">All Status</option>
-            <option value="active">Active</option>
-            <option value="pending">Pending</option>
-            <option value="inactive">Inactive</option>
-          </select>
+        <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
+          <button className="btn-outline" onClick={() => { exportPartnersCSV(partners); toast("Partners exported"); }}><Download size={15} /> Export</button>
+          <button className="btn-outline" onClick={() => fileRef.current?.click()}><Upload size={15} /> Import</button>
+          <input ref={fileRef} type="file" accept=".csv" onChange={handleImport} style={{ display: "none" }} />
+          <button className="btn" onClick={() => setShowAdd(true)}><Plus size={15} /> Add Partner</button>
         </div>
+      </div>
 
-        {/* Table */}
-        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+      {/* Filters */}
+      <div className="card" style={{ marginBottom: "1.5rem", display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap", padding: "1rem 1.5rem" }}>
+        <div style={{ flex: 1, position: "relative", minWidth: 200 }}>
+          <Search size={16} style={{ position: "absolute", left: 12, top: 12, color: "var(--muted)" }} />
+          <input className="input" placeholder="Search partners..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ paddingLeft: 36 }} />
+        </div>
+        <select className="input" style={{ width: "auto" }} value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+          <option value="all">All Types</option>
+          {Object.entries(PARTNER_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+        </select>
+        <select className="input" style={{ width: "auto" }} value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)}>
+          <option value="all">All Status</option>
+          <option value="active">Active</option>
+          <option value="pending">Pending</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+
+      {/* Table */}
+      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+        <div className="table-responsive">
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".9rem" }}>
             <thead>
               <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--subtle)" }}>
@@ -112,35 +128,48 @@ export default function PartnersPage() {
               ))}
             </tbody>
           </table>
-          {filtered.length === 0 && <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No partners found.</p>}
         </div>
-
-        {/* Add Modal */}
-        {showAdd && (
-          <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => setShowAdd(false)}>
-            <div className="card" style={{ width: 500, maxHeight: "90vh", overflow: "auto" }} onClick={(e) => e.stopPropagation()}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1.5rem" }}>
-                <h2 style={{ fontSize: "1.2rem", fontWeight: 700 }}>Add Partner</h2>
-                <button onClick={() => setShowAdd(false)} style={{ background: "none", border: "none", cursor: "pointer" }}><X size={20} /></button>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Company Name *</label><input className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="TechStar Solutions" /></div>
-                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Email *</label><input className="input" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="partnerships@techstar.io" /></div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                  <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Type</label><select className="input" value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value as any })}><option value="reseller">Reseller</option><option value="referral">Referral</option><option value="integration">Integration</option><option value="affiliate">Affiliate</option></select></div>
-                  <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Tier</label><select className="input" value={form.tier} onChange={(e) => setForm({ ...form, tier: e.target.value as any })}><option value="bronze">Bronze</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="platinum">Platinum</option></select></div>
-                </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                  <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Commission Rate %</label><input className="input" type="number" value={form.commissionRate} onChange={(e) => setForm({ ...form, commissionRate: Number(e.target.value) })} /></div>
-                  <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Territory</label><input className="input" value={form.territory} onChange={(e) => setForm({ ...form, territory: e.target.value })} placeholder="West Coast" /></div>
-                </div>
-                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Primary Contact</label><input className="input" value={form.contactName} onChange={(e) => setForm({ ...form, contactName: e.target.value })} placeholder="Sarah Anderson" /></div>
-                <button className="btn" style={{ width: "100%", marginTop: ".5rem" }} onClick={handleAdd} disabled={!form.name || !form.email}>Add Partner</button>
-              </div>
-            </div>
+        {filtered.length === 0 && (
+          <div className="empty-state" style={{ padding: "2rem" }}>
+            <Search size={32} color="var(--muted)" style={{ marginBottom: ".5rem" }} />
+            <p className="muted">No partners found. Try adjusting your filters.</p>
           </div>
         )}
       </div>
-    </div>
+
+      {/* Add Modal */}
+      {showAdd && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={() => setShowAdd(false)}>
+          <div className="card animate-in" style={{ width: 500, maxWidth: "100%", maxHeight: "90vh", overflow: "auto" }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+              <h2 style={{ fontSize: "1.2rem", fontWeight: 700 }}>Add Partner</h2>
+              <button onClick={() => setShowAdd(false)} style={{ background: "none", border: "none", cursor: "pointer" }}><X size={20} /></button>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <div>
+                <label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Company Name *</label>
+                <input className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="TechStar Solutions" />
+                {formErrors.name && <p style={{ fontSize: ".75rem", color: "#dc2626", marginTop: ".25rem" }}>{formErrors.name}</p>}
+              </div>
+              <div>
+                <label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Email *</label>
+                <input className="input" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} placeholder="partnerships@techstar.io" />
+                {formErrors.email && <p style={{ fontSize: ".75rem", color: "#dc2626", marginTop: ".25rem" }}>{formErrors.email}</p>}
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Type</label><select className="input" value={form.type} onChange={(e) => setForm({ ...form, type: e.target.value as any })}><option value="reseller">Reseller</option><option value="referral">Referral</option><option value="integration">Integration</option><option value="affiliate">Affiliate</option></select></div>
+                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Tier</label><select className="input" value={form.tier} onChange={(e) => setForm({ ...form, tier: e.target.value as any })}><option value="bronze">Bronze</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="platinum">Platinum</option></select></div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Commission Rate %</label><input className="input" type="number" value={form.commissionRate} onChange={(e) => setForm({ ...form, commissionRate: Number(e.target.value) })} /></div>
+                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Territory</label><input className="input" value={form.territory} onChange={(e) => setForm({ ...form, territory: e.target.value })} placeholder="West Coast" /></div>
+              </div>
+              <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Primary Contact</label><input className="input" value={form.contactName} onChange={(e) => setForm({ ...form, contactName: e.target.value })} placeholder="Sarah Anderson" /></div>
+              <button className="btn" style={{ width: "100%", marginTop: ".5rem" }} onClick={handleAdd} disabled={!form.name || !form.email}>Add Partner</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

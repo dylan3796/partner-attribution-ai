@@ -316,9 +316,8 @@ export default function ScoringPage() {
   }, [scores]);
 
   return (
-    <div className="dash-layout">
-      <div className="dash-content">
-        {/* Header */}
+    <>
+      {/* Header */}
         <div
           style={{
             display: "flex",
@@ -725,7 +724,6 @@ export default function ScoringPage() {
             Tier thresholds: Platinum ≥ 85 · Gold ≥ 65 · Silver ≥ 40 · Bronze &lt; 40. Scores are normalized relative to peer partners.
           </p>
         </div>
-      </div>
-    </div>
+    </>
   );
 }

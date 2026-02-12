@@ -4,6 +4,10 @@ export function cn(...inputs: ClassValue[]) {
   return clsx(inputs);
 }
 
+/**
+ * Unified currency formatting — use this everywhere.
+ * Produces "$120,000" for integers, "$1,234.56" for decimals.
+ */
 export function formatCurrency(amount: number): string {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -11,6 +15,15 @@ export function formatCurrency(amount: number): string {
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
+}
+
+/**
+ * Compact currency: $120k, $1.2M
+ */
+export function formatCurrencyCompact(n: number): string {
+  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}k`;
+  return formatCurrency(n);
 }
 
 export function formatCurrencyPrecise(amount: number): string {
