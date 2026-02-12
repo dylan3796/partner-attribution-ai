@@ -15,7 +15,7 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
+        background: "linear-gradient(135deg, var(--subtle) 0%, var(--border) 100%)",
         padding: "2rem",
       }}
     >

@@ -251,6 +251,7 @@ select.input{appearance:auto;cursor:pointer}
 .fade-in{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
 .fade-in.visible{opacity:1;transform:none}
 .animate-in{animation:slideUp .3s ease}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
 /* === Responsive === */
 @media(max-width:1024px){

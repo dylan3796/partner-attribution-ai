@@ -5,6 +5,39 @@ import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
 import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 
+/** Mini sparkline SVG component */
+function Sparkline({ data, color = "#10b981", width = 80, height = 28 }: { data: number[]; color?: string; width?: number; height?: number }) {
+  if (data.length < 2) return null;
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const range = max - min || 1;
+  const points = data.map((v, i) => {
+    const x = (i / (data.length - 1)) * width;
+    const y = height - ((v - min) / range) * (height - 4) - 2;
+    return `${x},${y}`;
+  }).join(" ");
+  // Fill area
+  const areaPoints = `0,${height} ${points} ${width},${height}`;
+  return (
+    <svg width={width} height={height} style={{ display: "block", overflow: "visible" }}>
+      <defs>
+        <linearGradient id={`sparkGrad-${color.replace("#","")}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity={0.2} />
+          <stop offset="100%" stopColor={color} stopOpacity={0} />
+        </linearGradient>
+      </defs>
+      <polygon points={areaPoints} fill={`url(#sparkGrad-${color.replace("#","")})`} />
+      <polyline points={points} fill="none" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+// Simulated trend data for sparklines
+const REVENUE_TREND = [42, 55, 48, 67, 73, 80, 92, 85, 102, 110, 95, 125];
+const PIPELINE_TREND = [180, 160, 200, 220, 195, 210, 240, 230, 250, 215, 270, 290];
+const PARTNERS_TREND = [3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7];
+const WINRATE_TREND = [50, 55, 48, 60, 58, 62, 55, 67, 65, 70, 68, 72];
+
 export default function DashboardPage() {
   const { stats, deals, partners, payouts, auditLog } = useStore();
   const { config } = usePlatformConfig();
@@ -68,7 +101,10 @@ export default function DashboardPage() {
             </div>
             <div style={{ background: "#ecfdf5", padding: ".5rem", borderRadius: 8 }}><TrendingUp size={18} color="#065f46" /></div>
           </div>
-          <p style={{ fontSize: ".8rem", color: "#065f46", marginTop: ".5rem" }}>↑ {stats.wonDeals} won deals</p>
+          <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
+            <Sparkline data={REVENUE_TREND} color="#10b981" />
+            <p style={{ fontSize: ".8rem", color: "#065f46" }}>↑ {stats.wonDeals} won deals</p>
+          </div>
         </div>
         <div className="card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
@@ -78,7 +114,10 @@ export default function DashboardPage() {
             </div>
             <div style={{ background: "#eef2ff", padding: ".5rem", borderRadius: 8 }}><Briefcase size={18} color="#3730a3" /></div>
           </div>
-          <p style={{ fontSize: ".8rem", color: "#3730a3", marginTop: ".5rem" }}>{stats.openDeals} active deals</p>
+          <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
+            <Sparkline data={PIPELINE_TREND} color="#6366f1" />
+            <p style={{ fontSize: ".8rem", color: "#3730a3" }}>{stats.openDeals} active deals</p>
+          </div>
         </div>
         <div className="card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
@@ -88,7 +127,10 @@ export default function DashboardPage() {
             </div>
             <div style={{ background: "#f0fdf4", padding: ".5rem", borderRadius: 8 }}><Users size={18} color="#166534" /></div>
           </div>
-          <p style={{ fontSize: ".8rem", color: "#166534", marginTop: ".5rem" }}>{stats.totalPartners} total</p>
+          <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
+            <Sparkline data={PARTNERS_TREND} color="#22c55e" />
+            <p style={{ fontSize: ".8rem", color: "#166534" }}>{stats.totalPartners} total</p>
+          </div>
         </div>
         <div className="card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
@@ -98,7 +140,10 @@ export default function DashboardPage() {
             </div>
             <div style={{ background: "#fffbeb", padding: ".5rem", borderRadius: 8 }}><ArrowUpRight size={18} color="#92400e" /></div>
           </div>
-          <p style={{ fontSize: ".8rem", color: "#92400e", marginTop: ".5rem" }}>Avg deal: {formatCurrencyCompact(stats.avgDealSize)}</p>
+          <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
+            <Sparkline data={WINRATE_TREND} color="#f59e0b" />
+            <p style={{ fontSize: ".8rem", color: "#92400e" }}>Avg deal: {formatCurrencyCompact(stats.avgDealSize)}</p>
+          </div>
         </div>
       </div>
 

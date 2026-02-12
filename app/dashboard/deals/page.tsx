@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { Plus, Download, LayoutGrid, List, X } from "lucide-react";
+import { Plus, Download, LayoutGrid, List, X, Search } from "lucide-react";
 import { exportDealsCSV } from "@/lib/csv";
 
 export default function DealsPage() {
@@ -14,10 +14,14 @@ export default function DealsPage() {
   const [showAdd, setShowAdd] = useState(false);
   const [form, setForm] = useState({ name: "", amount: 0, contactName: "", registeredBy: "" });
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+  const [search, setSearch] = useState("");
 
-  const open = deals.filter((d) => d.status === "open").sort((a, b) => b.amount - a.amount);
-  const won = deals.filter((d) => d.status === "won").sort((a, b) => (b.closedAt || 0) - (a.closedAt || 0));
-  const lost = deals.filter((d) => d.status === "lost").sort((a, b) => (b.closedAt || 0) - (a.closedAt || 0));
+  const filtered = search.trim()
+    ? deals.filter((d) => d.name.toLowerCase().includes(search.toLowerCase()) || d.contactName?.toLowerCase().includes(search.toLowerCase()))
+    : deals;
+  const open = filtered.filter((d) => d.status === "open").sort((a, b) => b.amount - a.amount);
+  const won = filtered.filter((d) => d.status === "won").sort((a, b) => (b.closedAt || 0) - (a.closedAt || 0));
+  const lost = filtered.filter((d) => d.status === "lost").sort((a, b) => (b.closedAt || 0) - (a.closedAt || 0));
 
   function validate() {
     const errors: Record<string, string> = {};
@@ -75,10 +79,20 @@ export default function DealsPage() {
           <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Deals</h1>
           <p className="muted">{deals.length} deals · {formatCurrencyCompact(deals.filter((d) => d.status === "open").reduce((s, d) => s + d.amount, 0))} pipeline</p>
         </div>
-        <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap", alignItems: "center" }}>
+          <div style={{ position: "relative" }}>
+            <Search size={14} style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "var(--muted)" }} />
+            <input
+              className="input"
+              placeholder="Search deals..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              style={{ paddingLeft: 32, width: 200, padding: ".5rem .8rem .5rem 2rem", fontSize: ".85rem" }}
+            />
+          </div>
           <div style={{ display: "flex", border: "1px solid var(--border)", borderRadius: 8, overflow: "hidden" }}>
-            <button onClick={() => setView("pipeline")} style={{ padding: ".5rem .8rem", background: view === "pipeline" ? "var(--subtle)" : "white", border: "none", cursor: "pointer" }}><LayoutGrid size={16} /></button>
-            <button onClick={() => setView("table")} style={{ padding: ".5rem .8rem", background: view === "table" ? "var(--subtle)" : "white", border: "none", cursor: "pointer" }}><List size={16} /></button>
+            <button onClick={() => setView("pipeline")} style={{ padding: ".5rem .8rem", background: view === "pipeline" ? "var(--subtle)" : "var(--bg)", border: "none", cursor: "pointer", color: "var(--fg)" }}><LayoutGrid size={16} /></button>
+            <button onClick={() => setView("table")} style={{ padding: ".5rem .8rem", background: view === "table" ? "var(--subtle)" : "var(--bg)", border: "none", cursor: "pointer", color: "var(--fg)" }}><List size={16} /></button>
           </div>
           <button className="btn-outline" onClick={() => { exportDealsCSV(deals); toast("Deals exported"); }}><Download size={15} /> Export</button>
           <button className="btn" onClick={() => setShowAdd(true)}><Plus size={15} /> New Deal</button>
@@ -104,7 +118,7 @@ export default function DealsPage() {
                 </tr>
               </thead>
               <tbody>
-                {deals.sort((a, b) => b.createdAt - a.createdAt).map((d) => (
+                {filtered.sort((a, b) => b.createdAt - a.createdAt).map((d) => (
                   <tr key={d._id} style={{ borderBottom: "1px solid var(--border)" }}>
                     <td style={{ padding: ".8rem 1.2rem" }}><Link href={`/dashboard/deals/${d._id}`} style={{ fontWeight: 600 }}>{d.name}</Link></td>
                     <td style={{ padding: ".8rem", fontWeight: 700 }}>{formatCurrency(d.amount)}</td>

@@ -1,8 +1,9 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useState, useCallback } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
+import { useToast } from "@/components/ui/toast";
 import {
   formatCurrency,
   formatDate,
@@ -26,6 +27,7 @@ import {
   ResponsiveContainer,
   Legend,
 } from "recharts";
+import confetti from "canvas-confetti";
 
 const MODELS: AttributionModel[] = [
   "equal_split",
@@ -56,8 +58,10 @@ export default function DealDetailPage({
     addTouchpoint,
   } = useStore();
 
+  const { toast } = useToast();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showTouchpointModal, setShowTouchpointModal] = useState(false);
+  const [isRecalculating, setIsRecalculating] = useState(false);
 
   // Touchpoint form
   const [tpPartnerId, setTpPartnerId] = useState("");
@@ -109,9 +113,32 @@ export default function DealDetailPage({
     })
   );
 
+  const fireConfetti = useCallback(() => {
+    const duration = 2500;
+    const end = Date.now() + duration;
+    const colors = ["#10b981", "#6366f1", "#f59e0b", "#ec4899", "#06b6d4"];
+    (function frame() {
+      confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors });
+      confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+  }, []);
+
   function handleClose(status: "won" | "lost") {
-    closeDeal(id, status);
     setShowCloseModal(false);
+    if (status === "won") {
+      setIsRecalculating(true);
+      // Simulate attribution recalculation delay for dramatic effect
+      setTimeout(() => {
+        closeDeal(id, status);
+        setIsRecalculating(false);
+        toast(`🎉 Deal closed as Won! Attribution calculated.`, "success");
+        fireConfetti();
+      }, 1800);
+    } else {
+      closeDeal(id, status);
+      toast("Deal closed as Lost", "info");
+    }
   }
 
   function handleAddTouchpoint(e: React.FormEvent) {
@@ -127,6 +154,7 @@ export default function DealDetailPage({
     setTpPartnerId("");
     setTpType("referral");
     setTpNotes("");
+    toast("Touchpoint added successfully", "success");
   }
 
   // Active partners for selection
@@ -901,6 +929,50 @@ export default function DealDetailPage({
           )}
         </div>
       </div>
+
+      {/* Recalculating Attribution Overlay */}
+      {isRecalculating && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            backdropFilter: "blur(4px)",
+            zIndex: 300,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            className="card animate-in"
+            style={{
+              padding: "2.5rem 3rem",
+              textAlign: "center",
+              maxWidth: 400,
+            }}
+          >
+            <div
+              style={{
+                width: 48,
+                height: 48,
+                border: "3px solid var(--border)",
+                borderTopColor: "#6366f1",
+                borderRadius: "50%",
+                margin: "0 auto 1.2rem",
+                animation: "spin 0.8s linear infinite",
+              }}
+            />
+            <h3 style={{ fontWeight: 700, fontSize: "1.1rem", marginBottom: "0.5rem" }}>
+              Recalculating Attribution...
+            </h3>
+            <p className="muted" style={{ fontSize: "0.85rem" }}>
+              Running 5 attribution models across all partner touchpoints
+            </p>
+          </div>
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      )}
 
       {/* Close Deal Modal */}
       <Modal

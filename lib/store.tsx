@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import type { Organization, Partner, Deal, Touchpoint, Attribution, Payout, AuditEntry, AttributionModel, Certification, Badge, TrainingCompletion, SkillEndorsement } from "./types";
-import { demoOrg, demoPartners, demoDeals, demoTouchpoints, demoAttributions, demoPayouts, demoAuditLog, enrichTouchpoints, enrichAttributions } from "./demo-data";
+import { demoOrg, demoPartners, demoDeals, demoTouchpoints, demoAttributions, demoPayouts, demoAuditLog, enrichTouchpoints, enrichAttributions, generateAttributionsForDeal } from "./demo-data";
 import { demoCertifications, demoBadges, demoTrainingCompletions, demoSkillEndorsements } from "./certifications-data";
 
 type StoreContextType = {
@@ -62,7 +62,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [partners, setPartners] = useState<Partner[]>(demoPartners);
   const [deals, setDeals] = useState<Deal[]>(demoDeals);
   const [touchpoints, setTouchpoints] = useState<Touchpoint[]>(demoTouchpoints);
-  const [attributions] = useState<Attribution[]>(demoAttributions);
+  const [attributions, setAttributions] = useState<Attribution[]>(demoAttributions);
   const [payouts, setPayouts] = useState<Payout[]>(demoPayouts);
   const [certifications] = useState<Certification[]>(demoCertifications);
   const [badges] = useState<Badge[]>(demoBadges);
@@ -98,8 +98,18 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const closeDeal = useCallback((id: string, status: "won" | "lost") => {
-    setDeals((prev) => prev.map((d) => (d._id === id ? { ...d, status, closedAt: Date.now() } : d)));
-  }, []);
+    const closedAt = Date.now();
+    setDeals((prev) => prev.map((d) => (d._id === id ? { ...d, status, closedAt } : d)));
+    // Generate attributions for won deals
+    if (status === "won") {
+      const deal = deals.find((d) => d._id === id);
+      if (deal) {
+        const dealTouchpoints = touchpoints.filter((tp) => tp.dealId === id);
+        const newAttrs = generateAttributionsForDeal({ ...deal, status: "won", closedAt }, dealTouchpoints, partners);
+        setAttributions((prev) => [...prev, ...newAttrs]);
+      }
+    }
+  }, [deals, touchpoints, partners]);
 
   const getTouchpointsByDeal = useCallback((dealId: string) => enrichTouchpoints(touchpoints.filter((tp) => tp.dealId === dealId)), [touchpoints]);
   const getTouchpointsByPartner = useCallback((partnerId: string) => enrichTouchpoints(touchpoints.filter((tp) => tp.partnerId === partnerId)), [touchpoints]);

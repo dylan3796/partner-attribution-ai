@@ -251,6 +251,69 @@ function generateAttributions(): Attribution[] {
 
 export const demoAttributions: Attribution[] = generateAttributions();
 
+/** Generate attributions for a single deal (used when closing deals at runtime) */
+export function generateAttributionsForDeal(deal: Deal, dealTouchpoints: Touchpoint[], allPartners: Partner[]): Attribution[] {
+  const models: Attribution["model"][] = ["equal_split", "first_touch", "last_touch", "time_decay", "role_based"];
+  const results: Attribution[] = [];
+  let id = Date.now();
+  const partnerIds = [...new Set(dealTouchpoints.map((tp) => tp.partnerId))];
+  if (partnerIds.length === 0) return results;
+
+  for (const model of models) {
+    let percentages: Record<string, number> = {};
+    switch (model) {
+      case "equal_split": {
+        const pct = 100 / partnerIds.length;
+        partnerIds.forEach((pid) => (percentages[pid] = Math.round(pct * 100) / 100));
+        break;
+      }
+      case "first_touch": {
+        const first = dealTouchpoints.reduce((a, b) => (a.createdAt < b.createdAt ? a : b));
+        partnerIds.forEach((pid) => (percentages[pid] = pid === first.partnerId ? 100 : 0));
+        break;
+      }
+      case "last_touch": {
+        const last = dealTouchpoints.reduce((a, b) => (a.createdAt > b.createdAt ? a : b));
+        partnerIds.forEach((pid) => (percentages[pid] = pid === last.partnerId ? 100 : 0));
+        break;
+      }
+      case "time_decay": {
+        const weights: Record<string, number> = {};
+        const maxTime = Math.max(...dealTouchpoints.map((tp) => tp.createdAt));
+        dealTouchpoints.forEach((tp) => {
+          const daysAgo = (maxTime - tp.createdAt) / day;
+          const w = Math.exp(-0.1 * daysAgo);
+          weights[tp.partnerId] = (weights[tp.partnerId] || 0) + w;
+        });
+        const total = Object.values(weights).reduce((a, b) => a + b, 0);
+        Object.entries(weights).forEach(([pid, w]) => { percentages[pid] = Math.round((w / total) * 100 * 100) / 100; });
+        break;
+      }
+      case "role_based": {
+        const roleWeights: Record<string, number> = { referral: 30, demo: 25, proposal: 25, negotiation: 20, introduction: 15, content_share: 10, deal_registration: 30, co_sell: 20, technical_enablement: 20 };
+        const scores: Record<string, number> = {};
+        dealTouchpoints.forEach((tp) => { scores[tp.partnerId] = (scores[tp.partnerId] || 0) + (roleWeights[tp.type] || 10); });
+        const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
+        Object.entries(scores).forEach(([pid, s]) => { percentages[pid] = Math.round((s / totalScore) * 100 * 100) / 100; });
+        break;
+      }
+    }
+    for (const [partnerId, pct] of Object.entries(percentages)) {
+      if (pct === 0) continue;
+      const partner = allPartners.find((p) => p._id === partnerId);
+      if (!partner) continue;
+      const amount = Math.round((deal.amount * pct) / 100 * 100) / 100;
+      const commissionAmount = Math.round((amount * partner.commissionRate) / 100 * 100) / 100;
+      results.push({
+        _id: `attr_rt_${id++}`, organizationId: deal.organizationId,
+        dealId: deal._id, partnerId, model, percentage: pct, amount, commissionAmount,
+        calculatedAt: deal.closedAt || Date.now(),
+      });
+    }
+  }
+  return results;
+}
+
 export function enrichTouchpoints(touchpoints: Touchpoint[]): Touchpoint[] {
   return touchpoints.map((tp) => ({ ...tp, partner: demoPartners.find((p) => p._id === tp.partnerId), deal: demoDeals.find((d) => d._id === tp.dealId) }));
 }

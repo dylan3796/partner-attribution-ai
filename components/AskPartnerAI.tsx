@@ -165,16 +165,38 @@ export default function AskPartnerAI() {
       >
         {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
         {showPulse && !isOpen && (
-          <span
-            className="ask-fab-pulse"
-            style={{
-              position: "absolute",
-              inset: -4,
-              borderRadius: "50%",
-              border: "2px solid rgba(0,0,0,0.3)",
-              animation: "ask-pulse 2s ease-in-out infinite",
-            }}
-          />
+          <>
+            <span
+              className="ask-fab-pulse"
+              style={{
+                position: "absolute",
+                inset: -4,
+                borderRadius: "50%",
+                border: "2px solid rgba(0,0,0,0.3)",
+                animation: "ask-pulse 2s ease-in-out infinite",
+              }}
+            />
+            <span
+              className="ask-try-me"
+              style={{
+                position: "absolute",
+                top: -8,
+                right: -8,
+                background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                color: "#fff",
+                fontSize: "0.6rem",
+                fontWeight: 700,
+                padding: "2px 6px",
+                borderRadius: 8,
+                whiteSpace: "nowrap",
+                boxShadow: "0 2px 8px rgba(99,102,241,0.4)",
+                animation: "ask-badge-bounce 2s ease-in-out infinite",
+                zIndex: 1,
+              }}
+            >
+              Try me!
+            </span>
+          </>
         )}
       </button>
 
@@ -519,6 +541,11 @@ export default function AskPartnerAI() {
         @keyframes ask-pulse {
           0%, 100% { transform: scale(1); opacity: 0.5; }
           50% { transform: scale(1.15); opacity: 0; }
+        }
+
+        @keyframes ask-badge-bounce {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-3px) scale(1.05); }
         }
 
         @keyframes ask-slide-up {

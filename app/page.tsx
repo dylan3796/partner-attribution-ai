@@ -1,12 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 export default function LandingPage() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [emailError, setEmailError] = useState("");
+
+  // Typing animation for demo card
+  const DEMO_QUERY = "Show me Q1 partner performance and recommend tier promotions";
+  const [typedText, setTypedText] = useState("");
+  const [showResponse, setShowResponse] = useState(false);
+  const typingStarted = useRef(false);
+  const demoRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typingStarted.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !typingStarted.current) {
+          typingStarted.current = true;
+          let i = 0;
+          const interval = setInterval(() => {
+            i++;
+            setTypedText(DEMO_QUERY.slice(0, i));
+            if (i >= DEMO_QUERY.length) {
+              clearInterval(interval);
+              setTimeout(() => setShowResponse(true), 400);
+            }
+          }, 35);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (demoRef.current) observer.observe(demoRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   function handleWaitlist(e: React.FormEvent) {
     e.preventDefault();
@@ -59,15 +89,20 @@ export default function LandingPage() {
           )}
         </div>
 
-        <div className="hero-demo wrap-wide">
+        <div className="hero-demo wrap-wide" ref={demoRef}>
           <div className="orb"></div>
           <div className="card demo-card">
             <div className="demo-header">
               <strong>Partner AI</strong>
               <span className="chip">VP Partnerships · Acme Inc</span>
             </div>
-            <p className="demo-q">Show me Q1 partner performance and recommend tier promotions</p>
-            <div className="demo-response">
+            <p className="demo-q">
+              {typedText || <span style={{ opacity: 0.4 }}>Ask about attribution...</span>}
+              {typedText && typedText.length < DEMO_QUERY.length && (
+                <span className="typing-cursor" style={{ display: "inline-block", width: 2, height: "1.1em", background: "var(--fg)", marginLeft: 2, verticalAlign: "text-bottom", animation: "blink 0.8s step-end infinite" }} />
+              )}
+            </p>
+            <div className="demo-response" style={{ opacity: showResponse ? 1 : 0, maxHeight: showResponse ? 600 : 0, overflow: "hidden", transition: "opacity 0.5s ease, max-height 0.6s ease" }}>
               <div className="demo-meta"><span className="badge">AI</span> Analyzed 24 partners, 142 deals, 847 touchpoints</div>
               <div className="demo-results">
                 <p><strong>TechStar Solutions (Reseller)</strong> — $124k attributed revenue (↑32%). Exceeded Gold tier threshold by 40%. <em>Recommend: Platinum promotion + $15k MDF increase.</em></p>
@@ -298,22 +333,22 @@ export default function LandingPage() {
           <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 640, margin: "0 auto" }}>Whether you manage channel partners, alliances, resellers, or referral networks — one platform adapts to your motion.</p>
         </div>
         <div className="wrap-wide grid-4">
-          <div className="card" style={{ background: "white" }}>
+          <div className="card" style={{ background: "var(--bg)" }}>
             <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>SaaS Channel</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Resellers, VARs, co-sell partners. Track ARR attribution through the full customer lifecycle.</p>
             <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Salesforce, HubSpot, AWS</p>
           </div>
-          <div className="card" style={{ background: "white" }}>
+          <div className="card" style={{ background: "var(--bg)" }}>
             <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Marketplaces</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>App ecosystems and plugin marketplaces. Measure which partners drive platform adoption.</p>
             <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Shopify, Atlassian, Stripe</p>
           </div>
-          <div className="card" style={{ background: "white" }}>
+          <div className="card" style={{ background: "var(--bg)" }}>
             <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Distribution</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Multi-tier channel networks. Attribution across distributor → reseller → end customer chains.</p>
             <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Dell, Cisco, HP</p>
           </div>
-          <div className="card" style={{ background: "white" }}>
+          <div className="card" style={{ background: "var(--bg)" }}>
             <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Agencies & Services</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Referral networks and consulting partners. Track lead quality and relationship value.</p>
             <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Deloitte, boutique agencies</p>

@@ -51,7 +51,7 @@ function PortalSidebar() {
           left: 0,
           right: 0,
           height: 60,
-          background: "#fff",
+          background: "var(--bg)",
           borderBottom: "1px solid var(--border)",
           zIndex: 200,
           padding: "0 1rem",
@@ -82,7 +82,7 @@ function PortalSidebar() {
           left: 0,
           bottom: 0,
           width: 260,
-          background: "#fff",
+          background: "var(--bg)",
           borderRight: "1px solid var(--border)",
           display: "flex",
           flexDirection: "column",
@@ -223,7 +223,7 @@ function PortalSidebar() {
 function PortalShell({ children }: { children: React.ReactNode }) {
   return (
     <PortalGate>
-      <div style={{ minHeight: "100vh", background: "#f8f9fb" }}>
+      <div style={{ minHeight: "100vh", background: "var(--subtle)" }}>
         <PortalSidebar />
         <main
           className="portal-main"
