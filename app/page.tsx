@@ -208,87 +208,15 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Product Showcase - Screenshots/Demos */}
+      {/* Request Demo CTA */}
       <section style={{ padding: "5rem 0", background: "var(--subtle)" }}>
-        <div className="wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <div className="tag">See it in action</div>
+        <div className="wrap" style={{ textAlign: "center" }}>
+          <div className="tag">Ready to get started?</div>
           <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
-            AI-Powered Partner Intelligence
+            See PartnerBase in Action
           </h2>
-          <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 700, margin: "0 auto" }}>
-            See how PartnerBase layers intelligent attribution, automation, and insights on top of your existing CRM.
-          </p>
-        </div>
-
-        <div className="wrap-wide" style={{ display: "grid", gap: "3rem" }}>
-          {/* Attribution Dashboard */}
-          <div className="card" style={{ padding: 0, overflow: "hidden", position: "relative" }}>
-            <div style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(0,0,0,0.8)", color: "white", padding: ".4rem .8rem", borderRadius: "6px", fontSize: ".75rem", fontWeight: 600, zIndex: 10 }}>
-              🎬 DEMO PREVIEW
-            </div>
-            <div style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", padding: "3rem 2rem", color: "white", textAlign: "center" }}>
-              <h3 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: ".5rem" }}>AI Attribution Dashboard</h3>
-              <p style={{ opacity: 0.9 }}>5 attribution models, transparent calculations, zero disputes</p>
-            </div>
-            <div style={{ padding: "2rem", background: "var(--bg)" }}>
-              <p className="muted" style={{ fontSize: ".9rem", textAlign: "center", marginBottom: "1rem" }}>
-                <strong>Screenshot:</strong> Real-time partner attribution across all your CRM deals
-              </p>
-              <img 
-                src="/screenshots/dashboard.jpg" 
-                alt="Partner Attribution Dashboard" 
-                style={{ width: "100%", height: "auto", borderRadius: "8px", border: "1px solid var(--border)" }}
-              />
-            </div>
-          </div>
-
-          {/* Deal Registration */}
-          <div className="card" style={{ padding: 0, overflow: "hidden", position: "relative" }}>
-            <div style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(0,0,0,0.8)", color: "white", padding: ".4rem .8rem", borderRadius: "6px", fontSize: ".75rem", fontWeight: 600, zIndex: 10 }}>
-              🎬 DEMO PREVIEW
-            </div>
-            <div style={{ background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)", padding: "3rem 2rem", color: "white", textAlign: "center" }}>
-              <h3 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: ".5rem" }}>Deal Registration Workflow</h3>
-              <p style={{ opacity: 0.9 }}>Partners submit, sales approves, attribution auto-calculates</p>
-            </div>
-            <div style={{ padding: "2rem", background: "var(--bg)" }}>
-              <p className="muted" style={{ fontSize: ".9rem", textAlign: "center", marginBottom: "1rem" }}>
-                <strong>Screenshot:</strong> End-to-end deal registration and approval process
-              </p>
-              <img 
-                src="/screenshots/deals.jpg" 
-                alt="Deal Registration Workflow" 
-                style={{ width: "100%", height: "auto", borderRadius: "8px", border: "1px solid var(--border)" }}
-              />
-            </div>
-          </div>
-
-          {/* Partner Portal */}
-          <div className="card" style={{ padding: 0, overflow: "hidden", position: "relative" }}>
-            <div style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(0,0,0,0.8)", color: "white", padding: ".4rem .8rem", borderRadius: "6px", fontSize: ".75rem", fontWeight: 600, zIndex: 10 }}>
-              🎬 DEMO PREVIEW
-            </div>
-            <div style={{ background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)", padding: "3rem 2rem", color: "white", textAlign: "center" }}>
-              <h3 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: ".5rem" }}>Self-Service Partner Portal</h3>
-              <p style={{ opacity: 0.9 }}>Partners see their deals, commissions, and influence—transparently</p>
-            </div>
-            <div style={{ padding: "2rem", background: "var(--bg)" }}>
-              <p className="muted" style={{ fontSize: ".9rem", textAlign: "center", marginBottom: "1rem" }}>
-                <strong>Screenshot:</strong> Partner-facing portal with deal tracking and commission history
-              </p>
-              <img 
-                src="/screenshots/portal.jpg" 
-                alt="Self-Service Partner Portal" 
-                style={{ width: "100%", height: "auto", borderRadius: "8px", border: "1px solid var(--border)" }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Request Demo CTA */}
-        <div className="wrap" style={{ textAlign: "center", marginTop: "4rem" }}>
-          <p style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: "1.5rem" }}>
-            Ready to see it in action with your data?
+          <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 700, margin: "0 auto 2rem" }}>
+            Request a demo and we'll show you how to configure PartnerBase to match your exact partnership strategy.
           </p>
           <form className="waitlist" onSubmit={handleWaitlist} style={{ maxWidth: 500, margin: "0 auto" }}>
             <div style={{ flex: 1, position: "relative" }}>
