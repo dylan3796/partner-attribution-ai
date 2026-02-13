@@ -22,6 +22,7 @@ import type * as lib_validation from "../lib/validation.js";
 import type * as organizations_mutations from "../organizations/mutations.js";
 import type * as organizations_queries from "../organizations/queries.js";
 import type * as queries_analytics from "../queries/analytics.js";
+import type * as seedDemo from "../seedDemo.js";
 import type * as setup from "../setup.js";
 import type * as touchpoints_mutations from "../touchpoints/mutations.js";
 import type * as touchpoints_queries from "../touchpoints/queries.js";
@@ -47,6 +48,7 @@ declare const fullApi: ApiFromModules<{
   "organizations/mutations": typeof organizations_mutations;
   "organizations/queries": typeof organizations_queries;
   "queries/analytics": typeof queries_analytics;
+  seedDemo: typeof seedDemo;
   setup: typeof setup;
   "touchpoints/mutations": typeof touchpoints_mutations;
   "touchpoints/queries": typeof touchpoints_queries;

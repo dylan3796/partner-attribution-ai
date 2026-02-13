@@ -5,8 +5,8 @@ import { api } from "@/convex/_generated/api";
 import { useState } from "react";
 
 export default function SeedPage() {
-  const clearData = useMutation(api["seed-demo"].clearDemoData);
-  const seedData = useMutation(api["seed-demo"].seedDemoData);
+  const clearData = useMutation(api.seedDemo.clearDemoData);
+  const seedData = useMutation(api.seedDemo.seedDemoData);
   const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
 
