@@ -2,8 +2,11 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 export default function LandingPage() {
+  const captureLead = useMutation(api.leads.captureLead);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [emailError, setEmailError] = useState("");
@@ -38,7 +41,7 @@ export default function LandingPage() {
     return () => observer.disconnect();
   }, []);
 
-  function handleWaitlist(e: React.FormEvent) {
+  async function handleWaitlist(e: React.FormEvent) {
     e.preventDefault();
     if (!email.trim()) {
       setEmailError("Please enter your email");
@@ -49,8 +52,18 @@ export default function LandingPage() {
       return;
     }
     setEmailError("");
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
+    
+    // Save to Convex
+    try {
+      await captureLead({ email, source: "landing_hero" });
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 4000);
+    } catch (error) {
+      console.error("Failed to capture lead:", error);
+      // Still show success to user
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 4000);
+    }
   }
 
   return (
@@ -112,6 +125,109 @@ export default function LandingPage() {
               <p className="demo-conf">Full report exported to dashboard · Tier promotions queued for approval · Incentives recalculated</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Product Showcase - Screenshots/Demos */}
+      <section style={{ padding: "5rem 0", background: "var(--subtle)" }}>
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <div className="tag">See it in action</div>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
+            AI-Powered Partner Intelligence
+          </h2>
+          <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 700, margin: "0 auto" }}>
+            See how PartnerBase layers intelligent attribution, automation, and insights on top of your existing CRM.
+          </p>
+        </div>
+
+        <div className="wrap-wide" style={{ display: "grid", gap: "3rem" }}>
+          {/* Attribution Dashboard */}
+          <div className="card" style={{ padding: 0, overflow: "hidden", position: "relative" }}>
+            <div style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(0,0,0,0.8)", color: "white", padding: ".4rem .8rem", borderRadius: "6px", fontSize: ".75rem", fontWeight: 600, zIndex: 10 }}>
+              🎬 DEMO PREVIEW
+            </div>
+            <div style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", padding: "3rem 2rem", color: "white", textAlign: "center" }}>
+              <h3 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: ".5rem" }}>AI Attribution Dashboard</h3>
+              <p style={{ opacity: 0.9 }}>5 attribution models, transparent calculations, zero disputes</p>
+            </div>
+            <div style={{ padding: "2rem", background: "var(--bg)" }}>
+              <p className="muted" style={{ fontSize: ".9rem", textAlign: "center", marginBottom: "1rem" }}>
+                <strong>Screenshot:</strong> Real-time partner attribution across all your CRM deals
+              </p>
+              <div style={{ background: "#f9fafb", border: "2px dashed var(--border)", borderRadius: "8px", padding: "4rem 2rem", textAlign: "center", color: "var(--muted)" }}>
+                📊 Attribution Dashboard Preview<br/>
+                <span style={{ fontSize: ".8rem" }}>Request demo to see live</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Deal Registration */}
+          <div className="card" style={{ padding: 0, overflow: "hidden", position: "relative" }}>
+            <div style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(0,0,0,0.8)", color: "white", padding: ".4rem .8rem", borderRadius: "6px", fontSize: ".75rem", fontWeight: 600, zIndex: 10 }}>
+              🎬 DEMO PREVIEW
+            </div>
+            <div style={{ background: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)", padding: "3rem 2rem", color: "white", textAlign: "center" }}>
+              <h3 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: ".5rem" }}>Deal Registration Workflow</h3>
+              <p style={{ opacity: 0.9 }}>Partners submit, sales approves, attribution auto-calculates</p>
+            </div>
+            <div style={{ padding: "2rem", background: "var(--bg)" }}>
+              <p className="muted" style={{ fontSize: ".9rem", textAlign: "center", marginBottom: "1rem" }}>
+                <strong>Screenshot:</strong> End-to-end deal registration and approval process
+              </p>
+              <div style={{ background: "#f9fafb", border: "2px dashed var(--border)", borderRadius: "8px", padding: "4rem 2rem", textAlign: "center", color: "var(--muted)" }}>
+                📝 Deal Registration Flow<br/>
+                <span style={{ fontSize: ".8rem" }}>Request demo to see live</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Partner Portal */}
+          <div className="card" style={{ padding: 0, overflow: "hidden", position: "relative" }}>
+            <div style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(0,0,0,0.8)", color: "white", padding: ".4rem .8rem", borderRadius: "6px", fontSize: ".75rem", fontWeight: 600, zIndex: 10 }}>
+              🎬 DEMO PREVIEW
+            </div>
+            <div style={{ background: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)", padding: "3rem 2rem", color: "white", textAlign: "center" }}>
+              <h3 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: ".5rem" }}>Self-Service Partner Portal</h3>
+              <p style={{ opacity: 0.9 }}>Partners see their deals, commissions, and influence—transparently</p>
+            </div>
+            <div style={{ padding: "2rem", background: "var(--bg)" }}>
+              <p className="muted" style={{ fontSize: ".9rem", textAlign: "center", marginBottom: "1rem" }}>
+                <strong>Screenshot:</strong> Partner-facing portal with deal tracking and commission history
+              </p>
+              <div style={{ background: "#f9fafb", border: "2px dashed var(--border)", borderRadius: "8px", padding: "4rem 2rem", textAlign: "center", color: "var(--muted)" }}>
+                🌐 Partner Portal View<br/>
+                <span style={{ fontSize: ".8rem" }}>Request demo to see live</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Request Demo CTA */}
+        <div className="wrap" style={{ textAlign: "center", marginTop: "4rem" }}>
+          <p style={{ fontSize: "1.1rem", fontWeight: 600, marginBottom: "1.5rem" }}>
+            Ready to see it in action with your data?
+          </p>
+          <form className="waitlist" onSubmit={handleWaitlist} style={{ maxWidth: 500, margin: "0 auto" }}>
+            <div style={{ flex: 1, position: "relative" }}>
+              <input
+                type="email"
+                placeholder="Enter your work email"
+                className="input"
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
+                required
+              />
+              {emailError && <p style={{ position: "absolute", bottom: -20, left: 0, fontSize: ".75rem", color: "#dc2626" }}>{emailError}</p>}
+            </div>
+            <button type="submit" className="btn" disabled={submitted}>
+              {submitted ? "✓ We'll be in touch!" : "Request Demo"}
+            </button>
+          </form>
+          {submitted && (
+            <p style={{ marginTop: "1.2rem", fontSize: ".9rem", color: "#059669", fontWeight: 500 }}>
+              🎉 Demo request received! We'll reach out within 24 hours.
+            </p>
+          )}
         </div>
       </section>
 

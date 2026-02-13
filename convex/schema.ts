@@ -236,4 +236,25 @@ export default defineSchema({
     .index("by_partner", ["partnerId"])
     .index("by_deal", ["dealId"])
     .index("by_status", ["status"]),
+
+  // Leads (from landing page)
+  leads: defineTable({
+    email: v.string(),
+    company: v.optional(v.string()),
+    source: v.optional(v.string()),
+    status: v.union(
+      v.literal("new"),
+      v.literal("contacted"),
+      v.literal("demo_scheduled"),
+      v.literal("demo_completed"),
+      v.literal("qualified"),
+      v.literal("customer"),
+      v.literal("lost")
+    ),
+    createdAt: v.number(),
+    lastSeenAt: v.number(),
+  })
+    .index("by_email", ["email"])
+    .index("by_status", ["status"])
+    .index("by_created", ["createdAt"]),
 });
