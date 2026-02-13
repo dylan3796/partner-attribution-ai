@@ -526,16 +526,16 @@ export default function LandingPage() {
             <Link href="/dashboard" className="btn-outline" style={{ width: "100%", justifyContent: "center" }}>Get started</Link>
           </div>
           <div className="card" style={{ textAlign: "center", border: "2px solid var(--fg)" }}>
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Growth</h3>
-            <p style={{ fontSize: "2rem", fontWeight: 800, marginBottom: ".5rem" }}>$299<span className="muted" style={{ fontSize: "1rem", fontWeight: 400 }}>/mo</span></p>
-            <p className="muted" style={{ fontSize: ".9rem", marginBottom: "1.5rem" }}>Unlimited partners, 5 users, all models</p>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Professional</h3>
+            <p style={{ fontSize: "2rem", fontWeight: 800, marginBottom: ".5rem" }}>$499<span className="muted" style={{ fontSize: "1rem", fontWeight: 400 }}>/mo</span></p>
+            <p className="muted" style={{ fontSize: ".9rem", marginBottom: "1.5rem" }}>Unlimited partners, 10 users, all features</p>
             <Link href="/dashboard" className="btn" style={{ width: "100%", justifyContent: "center" }}>Start free trial</Link>
           </div>
           <div className="card" style={{ textAlign: "center" }}>
             <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Enterprise</h3>
-            <p style={{ fontSize: "2rem", fontWeight: 800, marginBottom: ".5rem" }}>Custom</p>
-            <p className="muted" style={{ fontSize: ".9rem", marginBottom: "1.5rem" }}>SSO, custom models, dedicated support</p>
-            <a href="mailto:sales@partnerai.com" className="btn-outline" style={{ width: "100%", justifyContent: "center" }}>Contact sales</a>
+            <p style={{ fontSize: "2rem", fontWeight: 800, marginBottom: ".5rem" }}>$999<span className="muted" style={{ fontSize: "1rem", fontWeight: 400 }}>+/mo</span></p>
+            <p className="muted" style={{ fontSize: ".9rem", marginBottom: "1.5rem" }}>SSO, custom models, dedicated support, SLA</p>
+            <a href="mailto:sales@partnerbase.app" className="btn-outline" style={{ width: "100%", justifyContent: "center" }}>Contact sales</a>
           </div>
         </div>
       </section>
