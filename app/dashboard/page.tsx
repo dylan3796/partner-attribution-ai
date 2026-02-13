@@ -1,5 +1,7 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
 import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone } from "lucide-react";
@@ -39,6 +41,7 @@ const PARTNERS_TREND = [3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7];
 const WINRATE_TREND = [50, 55, 48, 60, 58, 62, 55, 67, 65, 70, 68, 72];
 
 export default function DashboardPage() {
+  const router = useRouter();
   const { stats, deals, partners, payouts, auditLog, channelConflicts, mdfRequests, partnerVolumes } = useStore();
   const { config, isFeatureEnabled } = usePlatformConfig();
   const openConflicts = channelConflicts.filter((c) => c.status === "open" || c.status === "under_review");
@@ -46,6 +49,14 @@ export default function DashboardPage() {
   const recentDeals = [...deals].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5);
   const topPartners = partners.filter((p) => p.status === "active").slice(0, 5);
   const pendingPayouts = payouts.filter((p) => p.status === "pending_approval");
+
+  // First-run detection: redirect to setup if new user
+  useEffect(() => {
+    const setupComplete = localStorage.getItem("partnerai_setup_complete");
+    if (!setupComplete && partners.length === 0 && deals.length === 0) {
+      router.push("/setup");
+    }
+  }, [partners.length, deals.length, router]);
 
   return (
     <>
