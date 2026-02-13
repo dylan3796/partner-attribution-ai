@@ -72,7 +72,7 @@ export default function LandingPage() {
       <section className="hero" id="product">
         <div className="wrap">
           <div className="tag">Now in early access</div>
-          <h1>Built for Your Partnership Strategy, Not Ours</h1>
+          <h1>The Partner Intelligence Layer for Your CRM</h1>
           <p className="subtitle" style={{ maxWidth: 700, margin: "0 auto 2.5rem" }}>
             Whether you run reseller programs, referral networks, or co-sell motions — PartnerBase adapts to your playbook. Configure attribution models, tier structures, and incentive plans that match how you actually work.
           </p>
