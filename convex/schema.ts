@@ -257,4 +257,86 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_status", ["status"])
     .index("by_created", ["createdAt"]),
+
+  // Agent task queue
+  agent_tasks: defineTable({
+    type: v.union(
+      v.literal("lead_followup"),
+      v.literal("demo_request"),
+      v.literal("feature_request"),
+      v.literal("bug_fix"),
+      v.literal("content_write"),
+      v.literal("outreach")
+    ),
+    assignedTo: v.union(
+      v.literal("lead_manager"),
+      v.literal("sales"),
+      v.literal("content"),
+      v.literal("builder"),
+      v.literal("outreach")
+    ),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("in_progress"),
+      v.literal("completed"),
+      v.literal("blocked")
+    ),
+    priority: v.union(
+      v.literal("low"),
+      v.literal("medium"),
+      v.literal("high"),
+      v.literal("urgent")
+    ),
+    title: v.string(),
+    description: v.string(),
+    data: v.optional(v.string()), // JSON string
+    result: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    completedAt: v.optional(v.number()),
+  })
+    .index("by_agent", ["assignedTo"])
+    .index("by_status", ["status"])
+    .index("by_priority", ["priority"]),
+
+  // Agent message board
+  agent_messages: defineTable({
+    from: v.union(
+      v.literal("lead_manager"),
+      v.literal("sales"),
+      v.literal("content"),
+      v.literal("builder"),
+      v.literal("outreach")
+    ),
+    to: v.union(
+      v.literal("lead_manager"),
+      v.literal("sales"),
+      v.literal("content"),
+      v.literal("builder"),
+      v.literal("outreach"),
+      v.literal("all")
+    ),
+    content: v.string(),
+    relatedTaskId: v.optional(v.id("agent_tasks")),
+    read: v.boolean(),
+    timestamp: v.number(),
+  })
+    .index("by_recipient", ["to"])
+    .index("by_timestamp", ["timestamp"]),
+
+  // Agent activity log
+  agent_activity: defineTable({
+    agentRole: v.union(
+      v.literal("lead_manager"),
+      v.literal("sales"),
+      v.literal("content"),
+      v.literal("builder"),
+      v.literal("outreach")
+    ),
+    action: v.string(),
+    details: v.optional(v.string()),
+    timestamp: v.number(),
+  })
+    .index("by_agent", ["agentRole"])
+    .index("by_timestamp", ["timestamp"]),
 });
