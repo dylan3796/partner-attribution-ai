@@ -104,8 +104,8 @@ export default function Nav() {
               </>
             ) : (
               <>
-                <Link href="/dashboard" className="link nav-login-link" style={{ fontWeight: 500, fontSize: ".9rem" }}>Log in</Link>
-                <Link href="/dashboard" className="btn nav-cta-btn">Get started</Link>
+                <Link href="/dashboard" className="link nav-login-link" style={{ fontWeight: 500, fontSize: ".9rem" }}>View Demo</Link>
+                <Link href="/dashboard" className="btn nav-cta-btn">Try Demo</Link>
               </>
             )}
             <DarkModeToggle />
@@ -157,10 +157,10 @@ export default function Nav() {
                 ))}
                 <div className="mobile-menu-divider" />
                 <Link href="/dashboard" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
-                  Log in
+                  View Demo
                 </Link>
                 <Link href="/dashboard" className="btn" style={{ margin: "0.5rem 1rem", textAlign: "center" }} onClick={() => setMobileOpen(false)}>
-                  Get started
+                  Try Demo
                 </Link>
               </>
             )}

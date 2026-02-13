@@ -60,6 +60,25 @@ export default function DashboardPage() {
 
   return (
     <>
+      {/* Demo Environment Banner */}
+      <div
+        style={{
+          padding: "1.25rem 1.5rem",
+          borderRadius: 10,
+          border: "2px solid #fbbf24",
+          background: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)",
+          marginBottom: "2rem",
+          textAlign: "center",
+        }}
+      >
+        <p style={{ fontWeight: 700, fontSize: "1rem", color: "#78350f", marginBottom: ".25rem" }}>
+          🎬 Demo Environment – Early Access Preview
+        </p>
+        <p style={{ fontSize: ".85rem", color: "#92400e" }}>
+          You're viewing a live demo of PartnerBase. Full product launches <strong>March 7, 2024</strong>. <Link href="/" style={{ textDecoration: "underline", fontWeight: 600 }}>Request early access →</Link>
+        </p>
+      </div>
+
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
         <div>
           <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Dashboard</h1>
