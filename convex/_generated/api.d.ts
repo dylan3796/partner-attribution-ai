@@ -8,9 +8,11 @@
  * @module
  */
 
+import type * as agents from "../agents.js";
 import type * as deals from "../deals.js";
 import type * as deals_mutations from "../deals/mutations.js";
 import type * as deals_queries from "../deals/queries.js";
+import type * as leads from "../leads.js";
 import type * as lib_attribution from "../lib/attribution.js";
 import type * as lib_attribution_calculator from "../lib/attribution/calculator.js";
 import type * as lib_attribution_index from "../lib/attribution/index.js";
@@ -31,9 +33,11 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  agents: typeof agents;
   deals: typeof deals;
   "deals/mutations": typeof deals_mutations;
   "deals/queries": typeof deals_queries;
+  leads: typeof leads;
   "lib/attribution": typeof lib_attribution;
   "lib/attribution/calculator": typeof lib_attribution_calculator;
   "lib/attribution/index": typeof lib_attribution_index;

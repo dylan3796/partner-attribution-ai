@@ -10,9 +10,6 @@ import { formatCurrencyCompact as fmt } from "@/lib/utils";
 export default function PortalDealsPage() {
   // Demo mode: empty state
   const myDeals: any[] = [];
-  const registerDeal = async () => {
-    setError("Demo mode: Deal registration is disabled. Request a demo to see this feature in action!");
-  };
 
   const [showRegister, setShowRegister] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -27,23 +24,7 @@ export default function PortalDealsPage() {
   });
 
   const handleSubmit = async () => {
-    setError("");
-    try {
-      await registerDeal({
-        partnerId,
-        organizationId: orgId,
-        name: regForm.companyName,
-        amount: Number(regForm.estimatedValue),
-        contactName: regForm.contactName,
-        contactEmail: regForm.contactEmail,
-        notes: regForm.notes,
-        expectedCloseDate: regForm.expectedCloseDate ? new Date(regForm.expectedCloseDate).getTime() : undefined,
-      });
-      setSubmitted(true);
-      setRegForm({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "", expectedCloseDate: "" });
-    } catch (err: any) {
-      setError(err.message || "Failed to register deal");
-    }
+    setError("Demo mode: Deal registration is disabled. Request a demo to see this feature in action!");
   };
 
   return (
