@@ -94,7 +94,7 @@ export const getWithDetails = query({
     )
 
     // Get attributions if deal is closed and won
-    let attributions = []
+    let attributions: any[] = []
     if (deal.status === "won") {
       attributions = await ctx.db
         .query("attributions")
