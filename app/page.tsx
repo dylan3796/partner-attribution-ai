@@ -154,10 +154,11 @@ export default function LandingPage() {
               <p className="muted" style={{ fontSize: ".9rem", textAlign: "center", marginBottom: "1rem" }}>
                 <strong>Screenshot:</strong> Real-time partner attribution across all your CRM deals
               </p>
-              <div style={{ background: "#f9fafb", border: "2px dashed var(--border)", borderRadius: "8px", padding: "4rem 2rem", textAlign: "center", color: "var(--muted)" }}>
-                📊 Attribution Dashboard Preview<br/>
-                <span style={{ fontSize: ".8rem" }}>Request demo to see live</span>
-              </div>
+              <img 
+                src="/screenshots/dashboard.jpg" 
+                alt="Partner Attribution Dashboard" 
+                style={{ width: "100%", height: "auto", borderRadius: "8px", border: "1px solid var(--border)" }}
+              />
             </div>
           </div>
 
@@ -174,10 +175,11 @@ export default function LandingPage() {
               <p className="muted" style={{ fontSize: ".9rem", textAlign: "center", marginBottom: "1rem" }}>
                 <strong>Screenshot:</strong> End-to-end deal registration and approval process
               </p>
-              <div style={{ background: "#f9fafb", border: "2px dashed var(--border)", borderRadius: "8px", padding: "4rem 2rem", textAlign: "center", color: "var(--muted)" }}>
-                📝 Deal Registration Flow<br/>
-                <span style={{ fontSize: ".8rem" }}>Request demo to see live</span>
-              </div>
+              <img 
+                src="/screenshots/deals.jpg" 
+                alt="Deal Registration Workflow" 
+                style={{ width: "100%", height: "auto", borderRadius: "8px", border: "1px solid var(--border)" }}
+              />
             </div>
           </div>
 
@@ -194,10 +196,11 @@ export default function LandingPage() {
               <p className="muted" style={{ fontSize: ".9rem", textAlign: "center", marginBottom: "1rem" }}>
                 <strong>Screenshot:</strong> Partner-facing portal with deal tracking and commission history
               </p>
-              <div style={{ background: "#f9fafb", border: "2px dashed var(--border)", borderRadius: "8px", padding: "4rem 2rem", textAlign: "center", color: "var(--muted)" }}>
-                🌐 Partner Portal View<br/>
-                <span style={{ fontSize: ".8rem" }}>Request demo to see live</span>
-              </div>
+              <img 
+                src="/screenshots/portal.jpg" 
+                alt="Self-Service Partner Portal" 
+                style={{ width: "100%", height: "auto", borderRadius: "8px", border: "1px solid var(--border)" }}
+              />
             </div>
           </div>
         </div>
