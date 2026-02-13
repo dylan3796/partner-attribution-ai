@@ -6,15 +6,11 @@ import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
 
 export default function DealsPage() {
-  // TODO: Replace with actual org ID from auth
-  const orgId = "kjz7e8v9nh1n7q5j8h9k6m4r5s3t2u1v" as any;
-  
-  const pendingDeals = useQuery(api.deals.getPendingDealRegistrations, { organizationId: orgId });
-  const allDeals = useQuery(api.deals.getAllDealRegistrations, { organizationId: orgId });
-
-  const pending = allDeals?.filter((d) => d.registrationStatus === "pending") || [];
-  const approved = allDeals?.filter((d) => d.registrationStatus === "approved") || [];
-  const rejected = allDeals?.filter((d) => d.registrationStatus === "rejected") || [];
+  // Demo mode: show empty state since no real data exists yet
+  const allDeals: any[] = [];
+  const pending: any[] = [];
+  const approved: any[] = [];
+  const rejected: any[] = [];
 
   return (
     <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "2rem" }}>

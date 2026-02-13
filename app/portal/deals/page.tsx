@@ -8,12 +8,11 @@ import { Plus, X } from "lucide-react";
 import { formatCurrencyCompact as fmt } from "@/lib/utils";
 
 export default function PortalDealsPage() {
-  // TODO: Replace with actual partner ID from auth
-  const partnerId = "kjz7e8v9nh1n7q5j8h9k6m4r5s3t2u1v" as any;
-  const orgId = "kjz7e8v9nh1n7q5j8h9k6m4r5s3t2u1w" as any;
-
-  const myDeals = useQuery(api.deals.getPartnerDeals, { partnerId });
-  const registerDeal = useMutation(api.deals.registerDeal);
+  // Demo mode: empty state
+  const myDeals: any[] = [];
+  const registerDeal = async () => {
+    setError("Demo mode: Deal registration is disabled. Request a demo to see this feature in action!");
+  };
 
   const [showRegister, setShowRegister] = useState(false);
   const [submitted, setSubmitted] = useState(false);
