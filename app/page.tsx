@@ -72,9 +72,9 @@ export default function LandingPage() {
       <section className="hero" id="product">
         <div className="wrap">
           <div className="tag">Now in early access</div>
-          <h1>The Partner Intelligence Layer for Your CRM</h1>
+          <h1>Built for Your Partnership Strategy, Not Ours</h1>
           <p className="subtitle" style={{ maxWidth: 700, margin: "0 auto 2.5rem" }}>
-            Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use.
+            Whether you run reseller programs, referral networks, or co-sell motions — PartnerBase adapts to your playbook. Configure attribution models, tier structures, and incentive plans that match how you actually work.
           </p>
           <form className="waitlist" onSubmit={handleWaitlist}>
             <div style={{ flex: 1, position: "relative" }}>
@@ -125,6 +125,86 @@ export default function LandingPage() {
               <p className="demo-conf">Full report exported to dashboard · Tier promotions queued for approval · Incentives recalculated</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Your Strategy Section */}
+      <section style={{ padding: "5rem 0" }}>
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div className="tag">Your strategy, your rules</div>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
+            Configure PartnerBase to Match Your Playbook
+          </h2>
+          <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 700, margin: "0 auto" }}>
+            Every company runs partnerships differently. We give you the tools to design your program exactly how you want it.
+          </p>
+        </div>
+
+        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem" }}>
+          {/* Reseller Program */}
+          <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>🏢</div>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Reseller Programs</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>
+              Volume tiers, deal reg protection, MDF budgets, co-sell workflows
+            </p>
+            <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
+              <li>✓ Deal registration with conflict resolution</li>
+              <li>✓ Tiered commission structures</li>
+              <li>✓ Volume rebates & SPIFFs</li>
+            </ul>
+          </div>
+
+          {/* Referral Network */}
+          <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "#fff7ed", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>🤝</div>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Referral Networks</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>
+              Simple payouts, first-touch attribution, partner portal access
+            </p>
+            <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
+              <li>✓ One-time or recurring commissions</li>
+              <li>✓ Automated payout scheduling</li>
+              <li>✓ Partner self-service portal</li>
+            </ul>
+          </div>
+
+          {/* Integration Partners */}
+          <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>🔌</div>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Integration Partners</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>
+              Multi-touch attribution, influence tracking, shared pipeline
+            </p>
+            <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
+              <li>✓ Technical enablement tracking</li>
+              <li>✓ Joint GTM campaign measurement</li>
+              <li>✓ Bi-directional data sync</li>
+            </ul>
+          </div>
+
+          {/* Agency/Affiliate */}
+          <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>📊</div>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Agency & Affiliate</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>
+              Performance-based payouts, transparent reporting, dispute workflows
+            </p>
+            <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
+              <li>✓ Custom attribution models</li>
+              <li>✓ Multi-currency payouts</li>
+              <li>✓ White-label partner portal</li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="wrap" style={{ textAlign: "center", marginTop: "3rem" }}>
+          <p style={{ fontSize: "1.05rem", fontWeight: 600, marginBottom: ".5rem" }}>
+            Don't see your program type?
+          </p>
+          <p className="muted" style={{ fontSize: ".9rem" }}>
+            PartnerBase is fully configurable. We adapt to your strategy, tier structures, attribution logic, and payout schedules.
+          </p>
         </div>
       </section>
 
@@ -237,8 +317,8 @@ export default function LandingPage() {
       {/* CRM Integration Banner */}
       <section className="problems">
         <div className="wrap" style={{ textAlign: "center" }}>
-          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Works with your CRM, not against it</h2>
-          <p className="muted" style={{ fontSize: "1.05rem", maxWidth: 600, margin: "0 auto 2rem", lineHeight: 1.6 }}>Your deals live in Salesforce, HubSpot, or Pipedrive. We add the partner intelligence layer on top — attribution, commissions, and program ops.</p>
+          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Plugs into your stack, not the other way around</h2>
+          <p className="muted" style={{ fontSize: "1.05rem", maxWidth: 600, margin: "0 auto 2rem", lineHeight: 1.6 }}>Keep using Salesforce, HubSpot, or Pipedrive. We layer partner intelligence on top — measuring influence, calculating attribution, and automating payouts based on YOUR rules.</p>
           <div style={{ display: "flex", justifyContent: "center", gap: "2.5rem", alignItems: "center", flexWrap: "wrap", marginBottom: "2.5rem" }}>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: ".5rem" }}>
               <div style={{ width: 64, height: 64, borderRadius: 16, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.8rem" }}>☁️</div>
