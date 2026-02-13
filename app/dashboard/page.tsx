@@ -75,7 +75,7 @@ export default function DashboardPage() {
           🎬 Demo Environment – Early Access Preview
         </p>
         <p style={{ fontSize: ".85rem", color: "#92400e" }}>
-          You're viewing a live demo of PartnerBase. Full product launches <strong>March 7, 2024</strong>. <Link href="/" style={{ textDecoration: "underline", fontWeight: 600 }}>Request early access →</Link>
+          You're viewing a live demo of PartnerBase. Full product launches <strong>March 7, 2026</strong>. <Link href="/" style={{ textDecoration: "underline", fontWeight: 600 }}>Request early access →</Link>
         </p>
       </div>
 

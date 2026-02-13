@@ -71,7 +71,7 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="hero" id="product">
         <div className="wrap">
-          <div className="tag">Early Access – Launching March 7, 2024</div>
+          <div className="tag">Early Access – Launching March 7, 2026</div>
           <h1>The Partner Intelligence Layer for Your CRM</h1>
           <p className="subtitle" style={{ maxWidth: 700, margin: "0 auto 2.5rem" }}>
             Whether you run reseller programs, referral networks, or co-sell motions — PartnerBase adapts to your playbook. Configure attribution models, tier structures, and incentive plans that match how you actually work.
