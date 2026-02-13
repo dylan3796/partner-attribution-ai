@@ -1,4 +1,4 @@
-# 🎬 Steve Jobs Demo Readiness Audit — PartnerAI
+# 🎬 Steve Jobs Demo Readiness Audit — PartnerBase AI
 
 **Date:** February 12, 2026  
 **Auditor:** AI Code Reviewer (Opus-level depth)  
@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-PartnerAI is an impressively complete demo-mode SaaS application. The breadth is remarkable — 16+ pages, 5 attribution models, full partner portal, AI chat, certifications, scoring, dark mode, keyboard shortcuts, CSV export, and platform configuration. For a demo, this is **90th percentile quality**.
+PartnerBase AI is an impressively complete demo-mode SaaS application. The breadth is remarkable — 16+ pages, 5 attribution models, full partner portal, AI chat, certifications, scoring, dark mode, keyboard shortcuts, CSV export, and platform configuration. For a demo, this is **90th percentile quality**.
 
 But Steve wouldn't demo a product at 90%. He'd want 100%. Here's what stands between good and *insanely great*.
 
@@ -107,7 +107,7 @@ Imagine during the demo: "Let me add a touchpoint to this deal... watch. The att
 
 Currently attribution is static (pre-computed). Making it reactive would be the ultimate demo moment.
 
-### 19. ✨ Ask PartnerAI is a Hidden Gem — Feature It More
+### 19. ✨ Ask PartnerBase AI is a Hidden Gem — Feature It More
 **Impact: HIGH**  
 The AI chat widget is genuinely impressive — 13+ pattern matchers covering revenue, pipeline, churn risk, partner scores, payouts, etc. But it's hidden behind a small floating button. During a demo:
 - Have it auto-open on first visit
@@ -259,7 +259,7 @@ Add a simple "How much is partner attribution worth to you?" calculator on the l
 - ✅ Dispute attribution workflow
 - ✅ Partner switcher for demo mode
 
-### Ask PartnerAI
+### Ask PartnerBase AI
 - ✅ 13+ query patterns (top partners, pipeline, churn, scores, payouts...)
 - ✅ Markdown-formatted responses
 - ✅ Example queries that auto-send
@@ -323,7 +323,7 @@ Add a simple "How much is partner attribution worth to you?" calculator on the l
 ### Would Elevate the Demo (4-8 hours)
 9. **Confetti on deal won** 
 10. **Interactive landing page demo** (typing animation)
-11. **Ask PartnerAI auto-open hint on dashboard**
+11. **Ask PartnerBase AI auto-open hint on dashboard**
 12. **Deal registration approval workflow**
 
 ---

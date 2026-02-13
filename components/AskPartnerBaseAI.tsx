@@ -22,7 +22,7 @@ const EXAMPLE_QUERIES = [
   "Show me partner scores and rankings",
 ];
 
-export default function AskPartnerAI() {
+export default function AskPartnerBaseAI() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -142,7 +142,7 @@ export default function AskPartnerAI() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="ask-fab"
-        aria-label={isOpen ? "Close Ask PartnerAI" : "Open Ask PartnerAI"}
+        aria-label={isOpen ? "Close Ask PartnerBase AI" : "Open Ask PartnerBase AI"}
         style={{
           position: "fixed",
           bottom: 24,
@@ -246,7 +246,7 @@ export default function AskPartnerAI() {
                     color: "var(--fg, #000)",
                   }}
                 >
-                  Ask PartnerAI
+                  Ask PartnerBase AI
                 </h3>
                 <p
                   style={{

@@ -293,7 +293,7 @@ export const portalResources: PortalResource[] = [
     id: "res_004",
     title: "Case Study: Globex Corp — 3x Pipeline Growth",
     description:
-      "How Globex Corp used PartnerAI to triple their partner-sourced pipeline in 6 months.",
+      "How Globex Corp used PartnerBase AI to triple their partner-sourced pipeline in 6 months.",
     category: "case_studies",
     type: "PDF",
     updatedAt: now - 8 * day,
@@ -313,7 +313,7 @@ export const portalResources: PortalResource[] = [
     id: "res_006",
     title: "API Integration Guide",
     description:
-      "Complete technical documentation for integrating with the PartnerAI API.",
+      "Complete technical documentation for integrating with the PartnerBase AI API.",
     category: "product_docs",
     type: "Guide",
     updatedAt: now - 3 * day,

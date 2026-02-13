@@ -201,7 +201,7 @@ export default function LandingPage() {
           <div>
             <div className="tag">Full Visibility</div>
             <h2>Every partner touchpoint, captured</h2>
-            <p>PartnerAI tracks all partner interactions across your ecosystem — referrals, demos, co-sell meetings, content shares, deal registrations. The complete paper trail layered on top of your CRM deals.</p>
+            <p>PartnerBase AI tracks all partner interactions across your ecosystem — referrals, demos, co-sell meetings, content shares, deal registrations. The complete paper trail layered on top of your CRM deals.</p>
             <p>Partners see their activity history. Your team sees the full picture. Everyone stays aligned.</p>
             <Link href="/dashboard/deals/d_001" className="arrow-link">View deal timelines →</Link>
           </div>
@@ -241,7 +241,7 @@ export default function LandingPage() {
         <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
           <div className="tag">Fully Customizable</div>
           <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Configure for your workflow — not the other way around</h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 700, margin: "0 auto", lineHeight: 1.6 }}>Every partnerships org operates differently. PartnerAI layers onto your existing CRM and adapts to your process — toggle features on or off, choose your complexity level, and enable only what you need.</p>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 700, margin: "0 auto", lineHeight: 1.6 }}>Every partnerships org operates differently. PartnerBase AI layers onto your existing CRM and adapts to your process — toggle features on or off, choose your complexity level, and enable only what you need.</p>
         </div>
 
         {/* Messaging callouts */}
@@ -426,8 +426,8 @@ export default function LandingPage() {
       <footer className="site-footer">
         <div className="wrap-wide footer-grid">
           <div>
-            <span className="logo" style={{ color: "white" }}>Partner<span>AI</span></span>
-            <p className="muted" style={{ marginTop: ".8rem" }}>© 2026 Partner AI, Inc.</p>
+            <span className="logo" style={{ color: "white" }}>PartnerBase<span> AI</span></span>
+            <p className="muted" style={{ marginTop: ".8rem" }}>© 2026 PartnerBase AI, Inc.</p>
           </div>
           <div className="footer-links">
             <div>

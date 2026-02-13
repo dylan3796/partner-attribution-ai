@@ -1,5 +1,5 @@
 /**
- * Ask PartnerAI — Natural Language Query Engine
+ * Ask PartnerBase AI — Natural Language Query Engine
  *
  * Parses user questions and resolves them against in-memory store data.
  * Returns markdown-formatted answers. No LLM needed — pattern matching + data logic.

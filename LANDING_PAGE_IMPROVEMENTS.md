@@ -1,4 +1,4 @@
-# Landing Page Improvements — PartnerAI
+# Landing Page Improvements — PartnerBase AI
 
 > Specific, actionable improvements to the marketing site at `/marketing/index.html`.
 > Each section includes the exact copy, design direction, or implementation detail.
@@ -26,7 +26,7 @@ Attribution reimagined, with AI to understand and intelligence to calculate
 **Recommended (Option B — Outcome-Focused):**
 ```html
 <h1>Attribution that runs your entire partner operation</h1>
-<p class="subtitle">Most platforms treat attribution as a report. PartnerAI makes it the engine — powering commissions, program tiers, and revenue forecasting with real data.</p>
+<p class="subtitle">Most platforms treat attribution as a report. PartnerBase AI makes it the engine — powering commissions, program tiers, and revenue forecasting with real data.</p>
 ```
 
 **Recommended (Option C — Bold / Short):**
@@ -43,7 +43,7 @@ Attribution reimagined, with AI to understand and intelligence to calculate
 <span class="tag">AI-Powered Attribution</span>
 <h2>Seven attribution models. One clear answer.</h2>
 <p>From first-touch to AI-weighted, run every model side by side. See which partners actually drive revenue — not just who registered the deal.</p>
-<p>PartnerAI's ML model learns from your historical outcomes to recommend the attribution approach that best matches reality.</p>
+<p>PartnerBase AI's ML model learns from your historical outcomes to recommend the attribution approach that best matches reality.</p>
 ```
 
 **Feature 2 — Current:** "Every touchpoint, automatically tracked"
@@ -182,7 +182,7 @@ You don't have customers yet. Here's how to build credibility anyway:
   <div class="wrap">
     <div class="grid-3">
       <div class="testimonial-card">
-        <p>"We were spending 2 days per quarter manually calculating partner commissions in spreadsheets. PartnerAI got us to real-time."</p>
+        <p>"We were spending 2 days per quarter manually calculating partner commissions in spreadsheets. PartnerBase AI got us to real-time."</p>
         <div class="testimonial-author">
           <img src="..." alt="Sarah K." />
           <div>
@@ -281,15 +281,15 @@ The self-serve demo is highest priority. People want to see the product before t
 ### Quick Wins
 ```html
 <!-- Improved meta -->
-<title>PartnerAI — AI-Powered Partner Attribution Platform</title>
-<meta name="description" content="PartnerAI is the AI-powered partner attribution platform that tracks touchpoints, calculates fair credit splits, and automates partner commissions. Free to start.">
+<title>PartnerBase AI — AI-Powered Partner Attribution Platform</title>
+<meta name="description" content="PartnerBase AI is the AI-powered partner attribution platform that tracks touchpoints, calculates fair credit splits, and automates partner commissions. Free to start.">
 
 <!-- Add structured data -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "PartnerAI",
+  "name": "PartnerBase AI",
   "applicationCategory": "BusinessApplication",
   "description": "AI-powered partner attribution and commission management platform",
   "offers": {
@@ -310,7 +310,7 @@ The self-serve demo is highest priority. People want to see the product before t
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PartnerAI — AI-Powered Partner Attribution">
+<meta name="twitter:title" content="PartnerBase AI — AI-Powered Partner Attribution">
 <meta name="twitter:description" content="Track touchpoints. Calculate credit. Automate payouts.">
 <meta name="twitter:image" content="https://partnerai.com/og-image.png">
 ```
@@ -373,7 +373,7 @@ Create a `/blog` section with these initial posts:
 Headline: "Finally know which channel partners drive ARR"
 Pain: "Your resellers register deals, but you can't tell who influenced vs who just filled out a form"
 Solution: Multi-touch attribution across the entire SaaS lifecycle (trial → close → expand → renew)
-Key metric: "Companies using PartnerAI see 30% more accurate partner-attributed revenue" (placeholder — validate with beta)
+Key metric: "Companies using PartnerBase AI see 30% more accurate partner-attributed revenue" (placeholder — validate with beta)
 ```
 
 **2. Technology Alliances & ISVs**
@@ -397,7 +397,7 @@ Key metric: "Reduce commission disputes by 90%"
 Company: [Name]
 Industry: [SaaS / Marketplace / Services]
 Challenge: [2-3 sentences about their attribution pain]
-Solution: [How they use PartnerAI]
+Solution: [How they use PartnerBase AI]
 Results:
   - [Quantified metric 1: e.g., "Reduced commission calculation time from 2 days to 15 minutes"]
   - [Quantified metric 2: e.g., "Increased partner satisfaction scores by 40%"]

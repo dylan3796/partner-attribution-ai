@@ -197,7 +197,7 @@ function PortalSidebar() {
             Sign Out
           </button>
           <p style={{ fontSize: "0.7rem", color: "var(--muted)", marginTop: "0.75rem", opacity: 0.6 }}>
-            Powered by PartnerAI · Partner Intelligence Layer
+            Powered by PartnerBase AI · Partner Intelligence Layer
           </p>
         </div>
       </aside>

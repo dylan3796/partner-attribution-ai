@@ -1,4 +1,4 @@
-# PartnerAI — Five-Company Review
+# PartnerBase AI — Five-Company Review
 
 *Evaluation Date: February 12, 2026*
 *Evaluated by: Five fictional companies with real-world partner program needs*
@@ -148,7 +148,7 @@ The partner type "integration" exists, which is a start. But the deal model (nam
 - Developer-facing partner portal with API docs and sandbox
 
 ### Overall Verdict: **PASS**
-The platform is built for a channel sales model. We need an ecosystem/product-led partnership platform. This isn't a feature gap — it's a fundamental model mismatch. We'd need to look at solutions like Crossbeam (for account mapping), a custom-built attribution system on top of Segment, or potentially work with the PartnerAI team on a product-led partnership module. The vision doc mentions "Marketplace Operators" as a target segment, but the actual product has zero marketplace features built.
+The platform is built for a channel sales model. We need an ecosystem/product-led partnership platform. This isn't a feature gap — it's a fundamental model mismatch. We'd need to look at solutions like Crossbeam (for account mapping), a custom-built attribution system on top of Segment, or potentially work with the PartnerBase AI team on a product-led partnership module. The vision doc mentions "Marketplace Operators" as a target segment, but the actual product has zero marketplace features built.
 
 ### Price Sensitivity
 N/A — wouldn't purchase in current form. If they built product-led attribution with Segment integration, we'd pay $500-1,500/mo for the Growth/Enterprise tier depending on partner count limits.
@@ -277,7 +277,7 @@ This is the best fit of all five companies. The referral workflow, partner porta
 
 ---
 
-## Key Takeaways for PartnerAI Product Team
+## Key Takeaways for PartnerBase AI Product Team
 
 ### Critical (Blocks All 5 Companies)
 1. **Ship a production backend.** Every company hit the same wall: demo data, no persistence. The Convex schema is ready; initialize it and connect the frontend.
@@ -296,7 +296,7 @@ This is the best fit of all five companies. The referral workflow, partner porta
 
 ### Lower Priority (But Strategic)
 10. **Event/usage-based attribution** — opens the entire product-led/marketplace segment.
-11. **Segment integration** — lets platform companies use PartnerAI.
+11. **Segment integration** — lets platform companies use PartnerBase AI.
 12. **SSO/SAML** — enterprise requirement but not needed for initial traction.
 
 ### What's Already Good
@@ -308,4 +308,4 @@ This is the best fit of all five companies. The referral workflow, partner porta
 
 ---
 
-*Reviews based on source code examination of the PartnerAI codebase at `/Users/dylanram/partner-attribution-ai` including schema definitions, frontend pages, demo data, attribution algorithms, and product documentation.*
+*Reviews based on source code examination of the PartnerBase AI codebase at `/Users/dylanram/partner-attribution-ai` including schema definitions, frontend pages, demo data, attribution algorithms, and product documentation.*

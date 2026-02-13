@@ -285,7 +285,7 @@ Sample payouts included for testing:
 
 ## Acknowledgments
 
-Built as part of PartnerAI development sprint focusing on the **Incentives & Payouts** pillar. This feature enables partner managers to efficiently process commission payments while maintaining full audit trails for compliance.
+Built as part of PartnerBase AI development sprint focusing on the **Incentives & Payouts** pillar. This feature enables partner managers to efficiently process commission payments while maintaining full audit trails for compliance.
 
 **Next Feature**: Revenue Intelligence & Forecasting (from 6-pillar roadmap)
 

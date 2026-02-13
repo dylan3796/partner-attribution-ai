@@ -5,7 +5,7 @@ import { StoreProvider } from "@/lib/store";
 import { PlatformConfigProvider } from "@/lib/platform-config";
 import { Providers } from "./providers";
 import Nav from "@/components/Nav";
-import AskPartnerAI from "@/components/AskPartnerAI";
+import AskPartnerBaseAI from "@/components/AskPartnerBaseAI";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PartnerAI — The Partner Intelligence Layer for Your CRM",
+  title: "PartnerBase AI — The Partner Intelligence Layer for Your CRM",
   description:
     "Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use. Works with Salesforce, HubSpot, and Pipedrive.",
   icons: {
@@ -22,14 +22,14 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "PartnerAI — The Partner Intelligence Layer for Your CRM",
+    title: "PartnerBase AI — The Partner Intelligence Layer for Your CRM",
     description: "Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use. Works with Salesforce, HubSpot, and Pipedrive.",
     type: "website",
-    siteName: "PartnerAI",
+    siteName: "PartnerBase AI",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PartnerAI — The Partner Intelligence Layer for Your CRM",
+    title: "PartnerBase AI — The Partner Intelligence Layer for Your CRM",
     description: "Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use.",
   },
 };
@@ -54,7 +54,7 @@ export default function RootLayout({
             <PlatformConfigProvider>
               <Nav />
               {children}
-              <AskPartnerAI />
+              <AskPartnerBaseAI />
             </PlatformConfigProvider>
           </StoreProvider>
         </Providers>
