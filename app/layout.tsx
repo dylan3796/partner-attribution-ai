@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/lib/store";
 import { PlatformConfigProvider } from "@/lib/platform-config";
+import { Providers } from "./providers";
 import Nav from "@/components/Nav";
 import AskPartnerAI from "@/components/AskPartnerAI";
 
@@ -48,13 +49,15 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <StoreProvider>
-          <PlatformConfigProvider>
-            <Nav />
-            {children}
-            <AskPartnerAI />
-          </PlatformConfigProvider>
-        </StoreProvider>
+        <Providers>
+          <StoreProvider>
+            <PlatformConfigProvider>
+              <Nav />
+              {children}
+              <AskPartnerAI />
+            </PlatformConfigProvider>
+          </StoreProvider>
+        </Providers>
       </body>
     </html>
   );
