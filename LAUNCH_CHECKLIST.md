@@ -1,4 +1,4 @@
-# Launch Checklist — PartnerBase AI
+# Launch Checklist — PartnerBase
 
 > Everything needed to go from prototype to first 5 paying customers.
 > Status: 🔴 Not started · 🟡 In progress · 🟢 Done
@@ -36,11 +36,11 @@
 - [ ] **Mutual NDA template** — For sales conversations with enterprise prospects. Keep it simple, mutual, 2-year term.
 
 ### IP & Brand
-- [ ] **Trademark search for "PartnerBase AI"** — Check USPTO TESS database. Risk: "Partner" is generic in this space, "AI" is descriptive. Consider:
+- [ ] **Trademark search for "PartnerBase"** — Check USPTO TESS database. Risk: "Partner" is generic in this space, "AI" is descriptive. Consider:
   - Search [USPTO TESS](https://tess2.uspto.gov/)
   - Also check [Namechk](https://namechk.com/) for social handles
   - If clear, file intent-to-use trademark application (~$350/class via USPTO, or $1,500-2,500 via attorney)
-  - **Backup names** if "PartnerBase AI" is contested: PartnerGraph, Attribly, PartnerIntel
+  - **Backup names** if "PartnerBase" is contested: PartnerGraph, Attribly, PartnerIntel
 - [ ] **Domain acquisition** — Secure:
   - `partnerai.com` (primary — check availability / broker if taken)
   - `getpartnerai.com` (fallback)
@@ -241,7 +241,7 @@ These are the must-haves. Everything else is "nice to have."
   - "Talk to sales" for Enterprise
   - FAQ section addressing common pricing questions
 - [ ] **Invoice generation** — Stripe handles this automatically:
-  - Customize invoice template with PartnerBase AI branding
+  - Customize invoice template with PartnerBase branding
   - Auto-email invoices to billing contacts
   - Support for net-30 terms (enterprise)
 

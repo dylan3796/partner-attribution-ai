@@ -70,7 +70,7 @@ export default function Nav() {
     <>
       <nav className="site-nav">
         <div className="nav-inner">
-          <Link href="/" className="logo">PartnerBase<span> AI</span></Link>
+          <Link href="/" className="logo">PartnerBase</Link>
 
           {isDashboard ? (
             <div className="nav-links-dash">

@@ -1,7 +1,7 @@
 # ✅ Feature Shipped: Payout Management System
 
 ## Summary
-Built and shipped a **production-ready payout management system** for PartnerBase AI, completing the **Incentives & Payouts** pillar.
+Built and shipped a **production-ready payout management system** for PartnerBase, completing the **Incentives & Payouts** pillar.
 
 ---
 

@@ -64,7 +64,7 @@ export default function SettingsPage() {
             Built for YOUR partner program
           </h3>
           <p style={{ fontSize: ".85rem", color: "#4338ca", lineHeight: 1.5, margin: 0 }}>
-            PartnerBase AI is the intelligence layer on top of your CRM. Connect your deal data, then toggle features, adjust complexity, and customize the UI — make it yours.
+            PartnerBase is the intelligence layer on top of your CRM. Connect your deal data, then toggle features, adjust complexity, and customize the UI — make it yours.
             Enable only what you need, from simple partner attribution to enterprise-grade multi-model program management.
           </p>
         </div>
@@ -163,7 +163,7 @@ export default function SettingsPage() {
           🔗 CRM Connection
         </h2>
         <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.5rem", lineHeight: 1.5 }}>
-          PartnerBase AI layers on top of your CRM. Connect your system of record to automatically sync deals, contacts, and pipeline data. We add partner attribution and program intelligence on top.
+          PartnerBase layers on top of your CRM. Connect your system of record to automatically sync deals, contacts, and pipeline data. We add partner attribution and program intelligence on top.
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
@@ -450,7 +450,7 @@ export default function SettingsPage() {
           </button>
         </div>
         <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.5rem", lineHeight: 1.5 }}>
-          Configure PartnerBase AI&apos;s intelligence layer for your workflow. Toggle complexity, enable only the modules you use, and adapt the platform as your partner program grows. Your CRM stays your system of record — we add the partner ops on top.
+          Configure PartnerBase&apos;s intelligence layer for your workflow. Toggle complexity, enable only the modules you use, and adapt the platform as your partner program grows. Your CRM stays your system of record — we add the partner ops on top.
         </p>
 
         {/* Configuration Tips */}
@@ -593,7 +593,7 @@ export default function SettingsPage() {
             <Server size={18} /> MCP Integration
           </h2>
           <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1rem" }}>
-            Use the Model Context Protocol (MCP) to query your PartnerBase AI data with natural language through any MCP-compatible LLM client.
+            Use the Model Context Protocol (MCP) to query your PartnerBase data with natural language through any MCP-compatible LLM client.
           </p>
           <div style={{ background: "var(--subtle)", borderRadius: 8, padding: "1rem", fontFamily: "monospace", fontSize: ".8rem", border: "1px solid var(--border)" }}>
             <p style={{ fontWeight: 600, marginBottom: ".5rem", fontFamily: "inherit" }}>Connection Instructions:</p>

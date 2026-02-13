@@ -5,7 +5,7 @@ import { StoreProvider } from "@/lib/store";
 import { PlatformConfigProvider } from "@/lib/platform-config";
 import { Providers } from "./providers";
 import Nav from "@/components/Nav";
-import AskPartnerBaseAI from "@/components/AskPartnerBaseAI";
+import AskPartnerBase from "@/components/AskPartnerBase";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -13,24 +13,24 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PartnerBase AI — The Partner Intelligence Layer for Your CRM",
+  title: "PartnerBase — AI-Powered Partner Intelligence for Your CRM",
   description:
-    "Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use. Works with Salesforce, HubSpot, and Pipedrive.",
+    "AI-powered partner attribution and program management that layers on top of your CRM. Measure partner impact, automate commissions, and run world-class partner programs. Works with Salesforce, HubSpot, and Pipedrive.",
   icons: {
     icon: [
       { url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "PartnerBase AI — The Partner Intelligence Layer for Your CRM",
-    description: "Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use. Works with Salesforce, HubSpot, and Pipedrive.",
+    title: "PartnerBase — AI-Powered Partner Intelligence for Your CRM",
+    description: "AI-powered partner attribution and program management that layers on top of your CRM. Measure partner impact, automate commissions, and run world-class partner programs.",
     type: "website",
-    siteName: "PartnerBase AI",
+    siteName: "PartnerBase",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PartnerBase AI — The Partner Intelligence Layer for Your CRM",
-    description: "Measure partner impact, automate attribution, and run world-class partner programs — on top of the tools you already use.",
+    title: "PartnerBase — AI-Powered Partner Intelligence for Your CRM",
+    description: "AI-powered partner attribution and program management that layers on top of your CRM. Measure partner impact, automate commissions, and run world-class partner programs.",
   },
 };
 
@@ -54,7 +54,7 @@ export default function RootLayout({
             <PlatformConfigProvider>
               <Nav />
               {children}
-              <AskPartnerBaseAI />
+              <AskPartnerBase />
             </PlatformConfigProvider>
           </StoreProvider>
         </Providers>
