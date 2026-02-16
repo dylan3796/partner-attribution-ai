@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import PricingTiers from "@/components/PricingTiers";
+import ROICalculator from "@/components/ROICalculator";
 
 export default function LandingPage() {
   const captureLead = useMutation(api.leads.captureLead);
@@ -71,10 +73,10 @@ export default function LandingPage() {
       {/* Hero */}
       <section className="hero" id="product">
         <div className="wrap">
-          <div className="tag">Early Access – Launching March 7, 2026</div>
-          <h1>The Partner Intelligence Layer for Your CRM</h1>
+          <div className="tag">Partner Intelligence Platform – Accepting Early Access Applications</div>
+          <h1>Stop Guessing Which Partners Drive Revenue</h1>
           <p className="subtitle" style={{ maxWidth: 700, margin: "0 auto 2.5rem" }}>
-            Whether you run reseller programs, referral networks, or co-sell motions — PartnerBase adapts to your playbook. Configure attribution models, tier structures, and incentive plans that match how you actually work.
+            Your best partners are invisible in your CRM. Your worst partners are invisible in your spreadsheets. PartnerBase makes partner ROI measurable for the first time — so you invest MDF in the right places, cut the dead weight, and grow partner-sourced revenue 30% in 12 months.
           </p>
           <form className="waitlist" onSubmit={handleWaitlist}>
             <div style={{ flex: 1, position: "relative" }}>
@@ -507,45 +509,35 @@ export default function LandingPage() {
         <div className="wrap grid-3">
           <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>AI-native, not AI-bolted</h3><p className="muted" style={{ lineHeight: 1.6 }}>Not a legacy PRM with AI tacked on. Built from the ground up for the AI era. Attribution is the brain, not a feature.</p></div>
           <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>15 minutes to value</h3><p className="muted" style={{ lineHeight: 1.6 }}>Connect your CRM, import partners, and see your first partner attribution report. Onboard a partner rep in minutes, not months.</p></div>
-          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>Enterprise security</h3><p className="muted" style={{ lineHeight: 1.6 }}>Your data is never used to train models. SOC 2 compliant. Full audit trail on every action.</p></div>
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>Enterprise security</h3><p className="muted" style={{ lineHeight: 1.6 }}>Your data is never used to train models. SOC 2 Type II in progress (target Q2 2026). Full audit trail on every action.</p></div>
+        </div>
+      </section>
+
+      {/* ROI Calculator */}
+      <section style={{ padding: "6rem 0", background: "#000" }} id="roi">
+        <div className="wrap">
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <div className="tag">Calculate Your ROI</div>
+            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem", color: "#fff" }}>
+              See What PartnerBase Is Worth to You
+            </h2>
+            <p style={{ fontSize: "1.1rem", color: "#a0a0a0", maxWidth: 640, margin: "0 auto" }}>
+              Most customers see 8-12x ROI in the first year. Calculate yours.
+            </p>
+          </div>
+          <ROICalculator />
         </div>
       </section>
 
       {/* Pricing */}
-      <section id="pricing" style={{ padding: "5rem 0", background: "var(--subtle)" }}>
-        <div className="wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <div className="tag">Pricing</div>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Simple, transparent pricing</h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 640, margin: "0 auto" }}>Start free. Upgrade when you need more.</p>
-        </div>
-        <div className="wrap grid-3" style={{ gap: "1.5rem" }}>
-          <div className="card" style={{ textAlign: "center" }}>
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Starter</h3>
-            <p style={{ fontSize: "2rem", fontWeight: 800, marginBottom: ".5rem" }}>Free</p>
-            <p className="muted" style={{ fontSize: ".9rem", marginBottom: "1.5rem" }}>Up to 10 partners, 1 user</p>
-            <Link href="/dashboard" className="btn-outline" style={{ width: "100%", justifyContent: "center" }}>Get started</Link>
-          </div>
-          <div className="card" style={{ textAlign: "center", border: "2px solid var(--fg)" }}>
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Professional</h3>
-            <p style={{ fontSize: "2rem", fontWeight: 800, marginBottom: ".5rem" }}>$499<span className="muted" style={{ fontSize: "1rem", fontWeight: 400 }}>/mo</span></p>
-            <p className="muted" style={{ fontSize: ".9rem", marginBottom: "1.5rem" }}>Unlimited partners, 10 users, all features</p>
-            <Link href="/dashboard" className="btn" style={{ width: "100%", justifyContent: "center" }}>Start free trial</Link>
-          </div>
-          <div className="card" style={{ textAlign: "center" }}>
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Enterprise</h3>
-            <p style={{ fontSize: "2rem", fontWeight: 800, marginBottom: ".5rem" }}>$999<span className="muted" style={{ fontSize: "1rem", fontWeight: 400 }}>+/mo</span></p>
-            <p className="muted" style={{ fontSize: ".9rem", marginBottom: "1.5rem" }}>SSO, custom models, dedicated support, SLA</p>
-            <a href="mailto:sales@partnerbase.app" className="btn-outline" style={{ width: "100%", justifyContent: "center" }}>Contact sales</a>
-          </div>
-        </div>
-      </section>
+      <PricingTiers />
 
       {/* CTA */}
       <section className="cta">
         <div className="wrap">
-          <h2>Stop guessing which partners drive revenue</h2>
-          <p className="subtitle">Add the partner intelligence layer to your CRM. Your partners deserve transparency. So does your team.</p>
-          <Link href="/dashboard" className="btn btn-lg">Get started free</Link>
+          <h2>Partner programs are either a cost center or a revenue engine</h2>
+          <p className="subtitle">PartnerBase turns yours into an engine. Add the partner intelligence layer to your CRM. Your partners deserve transparency. So does your team.</p>
+          <Link href="/dashboard" className="btn btn-lg">Start 14-day free trial</Link>
         </div>
       </section>
 
