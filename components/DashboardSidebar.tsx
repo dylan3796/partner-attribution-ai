@@ -22,6 +22,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Percent,
+  SlidersHorizontal,
 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -48,6 +49,7 @@ const allLinks: SidebarLink[] = [
   { name: "Activity", href: "/dashboard/activity", icon: Activity, featureFlag: "auditLog" },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
   { name: "Commission Setup", href: "/dashboard/settings/commissions", icon: Percent },
+  { name: "Attribution Settings", href: "/dashboard/settings/attribution", icon: SlidersHorizontal },
 ];
 
 export default function DashboardSidebar() {
