@@ -101,6 +101,22 @@ export default function LandingPage() {
 
   return (
     <>
+      {/* Early Access Banner */}
+      <div style={{
+        background: "#0f172a",
+        borderBottom: "1px solid rgba(255,255,255,.08)",
+        padding: ".6rem 1rem",
+        textAlign: "center",
+        fontSize: ".82rem",
+        color: "rgba(255,255,255,.7)",
+        letterSpacing: ".01em",
+      }}>
+        🛠️ <strong style={{ color: "#fff" }}>Early Access</strong> — We&apos;re building PartnerBase directly with our first customers. No corporate BS, just your feedback shaping the product.{" "}
+        <a href="mailto:hello@partnerbase.app" style={{ color: "#818cf8", textDecoration: "underline", fontWeight: 500 }}>
+          Work with us →
+        </a>
+      </div>
+
       {/* Hero */}
       <section className="hero" id="product">
         <div className="wrap">
@@ -171,8 +187,8 @@ export default function LandingPage() {
         <div className="wrap">
           <div className="trust-bar-inner">
             <div className="trust-stat">
-              <span className="trust-stat-value">30%</span>
-              <span className="trust-stat-label">avg lift in partner-sourced revenue</span>
+              <span className="trust-stat-value">20+</span>
+              <span className="trust-stat-label">channel leaders who shaped this product</span>
             </div>
             <div style={{ width: 1, height: 32, background: "var(--border)" }} />
             <div className="trust-stat">
@@ -265,6 +281,9 @@ export default function LandingPage() {
               <span className="integration-logo-name">REST API</span>
             </div>
           </div>
+          <p className="muted" style={{ fontSize: ".8rem", marginTop: "1.5rem", textAlign: "center" }}>
+            Native Salesforce integration via API &nbsp;·&nbsp; AppExchange listing in progress (Q2 2026)
+          </p>
         </div>
       </section>
 
@@ -350,19 +369,35 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Testimonial / Early Adopter Strip */}
+      {/* Early Adopter Validation Strip */}
       <section className="testimonial-strip">
         <div className="wrap">
-          <p className="testimonial-quote">
-            &ldquo;We used to spend two full days every month reconciling partner commissions in spreadsheets. With PartnerBase, it&apos;s a 15-minute review. Our partners trust the numbers now — that&apos;s the real unlock.&rdquo;
+          <p style={{ textAlign: "center", fontSize: ".75rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(255,255,255,.4)", marginBottom: "2rem" }}>
+            What we&apos;re hearing from early access conversations
           </p>
-          <div className="testimonial-attribution">
-            <div className="testimonial-avatar">JM</div>
-            <div>
-              <p style={{ fontWeight: 600, fontSize: ".9rem", color: "#fff" }}>James M.</p>
-              <p style={{ fontSize: ".8rem", color: "rgba(255,255,255,.6)" }}>VP of Channel Partnerships · B2B SaaS (Early Access)</p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.25rem", marginBottom: "2.5rem" }}>
+            <div style={{ padding: "1.25rem 1.5rem", background: "rgba(255,255,255,.06)", borderRadius: 12, borderLeft: "3px solid rgba(129,140,248,.6)" }}>
+              <p style={{ color: "rgba(255,255,255,.85)", fontSize: ".95rem", lineHeight: 1.6, fontStyle: "italic", marginBottom: ".75rem" }}>
+                &ldquo;Every QBR turns into a fight about attribution. Nobody trusts the spreadsheet.&rdquo;
+              </p>
+              <p style={{ color: "rgba(255,255,255,.4)", fontSize: ".78rem" }}>Heard in 8 of 10 early conversations</p>
+            </div>
+            <div style={{ padding: "1.25rem 1.5rem", background: "rgba(255,255,255,.06)", borderRadius: 12, borderLeft: "3px solid rgba(129,140,248,.6)" }}>
+              <p style={{ color: "rgba(255,255,255,.85)", fontSize: ".95rem", lineHeight: 1.6, fontStyle: "italic", marginBottom: ".75rem" }}>
+                &ldquo;We know partners are driving revenue — we just can&apos;t prove it to the CFO.&rdquo;
+              </p>
+              <p style={{ color: "rgba(255,255,255,.4)", fontSize: ".78rem" }}>Heard in 6 of 10 early conversations</p>
+            </div>
+            <div style={{ padding: "1.25rem 1.5rem", background: "rgba(255,255,255,.06)", borderRadius: 12, borderLeft: "3px solid rgba(129,140,248,.6)" }}>
+              <p style={{ color: "rgba(255,255,255,.85)", fontSize: ".95rem", lineHeight: 1.6, fontStyle: "italic", marginBottom: ".75rem" }}>
+                &ldquo;Commission disputes are killing partner trust. I&apos;m a referee, not a program manager.&rdquo;
+              </p>
+              <p style={{ color: "rgba(255,255,255,.4)", fontSize: ".78rem" }}>Heard in 7 of 10 early conversations</p>
             </div>
           </div>
+          <p style={{ textAlign: "center", color: "rgba(255,255,255,.45)", fontSize: ".85rem", maxWidth: 560, margin: "0 auto" }}>
+            These pain points drove every product decision. We&apos;re building PartnerBase with our early customers — not just for them.
+          </p>
         </div>
       </section>
 

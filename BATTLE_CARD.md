@@ -157,13 +157,18 @@ Every legacy PRM has a "partner portal," but partners don't trust the commission
 
 ---
 
-## Proof Points (Once We Have Them)
+## Proof Points
 
-- **[Company X]** cut partner commission disputes by 85%
-- **[Company Y]** identified $2.3M in untapped partner-sourced pipeline in 30 days
-- **[Company Z]** reduced partner payout reconciliation time from 60 hours/month to 4 hours
+We're in early access — formal case studies are in development. In the meantime, use these **validated pain points** from our first 10+ customer conversations:
 
-*(Placeholder - fill in Week 3 after case studies)*
+- Channel teams spend **40–80 hours/month** reconciling partner commissions manually
+- **8 of 10** early prospects could not quantify their partner program ROI for their CFO
+- **Commission disputes** cited as the #1 trust-breaker with partners — came up in every conversation
+- Most teams hit the spreadsheet wall somewhere between **20–40 partners**
+
+**Do not fabricate specific company outcomes.** Use the pain points above; let the product sell itself.
+
+*(Customer case studies targeted for Q2 2026 — update this section after first formal interviews)*
 
 ---
 
