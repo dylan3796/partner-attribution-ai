@@ -73,18 +73,8 @@ export default function Nav() {
           <Link href="/" className="logo">PartnerBase</Link>
 
           {isDashboard ? (
-            <div className="nav-links-dash">
-              {dashboardLinks.map((link) => {
-                const isActive = pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href));
-                const Icon = link.icon;
-                return (
-                  <Link key={link.name} href={link.href} className={isActive ? "active" : ""}>
-                    <Icon size={16} />
-                    <span className="nav-link-label">{link.name}</span>
-                  </Link>
-                );
-              })}
-            </div>
+            // Sidebar handles all dashboard navigation
+            <div style={{ flex: 1 }} />
           ) : (
             <div className="nav-links">
               {marketingLinks.map((link) => (
@@ -95,13 +85,8 @@ export default function Nav() {
 
           <div className="nav-actions">
             {isDashboard ? (
-              <>
-                <Link href="/dashboard/settings#platform-config" className="btn-outline" style={{ fontSize: ".8rem", padding: ".4rem .8rem", display: "flex", alignItems: "center", gap: ".3rem" }}>
-                  <Sliders size={13} /> Customize
-                </Link>
-                <Link href="/portal" className="btn-outline" style={{ fontSize: ".8rem", padding: ".4rem .8rem" }}>Partner Portal</Link>
-                <Link href="/" className="nav-back-link" style={{ fontSize: ".85rem", fontWeight: 500 }}>← Site</Link>
-              </>
+              // Sidebar handles navigation; keep nav minimal
+              null
             ) : (
               <>
                 <Link href="/dashboard" className="link nav-login-link" style={{ fontWeight: 500, fontSize: ".9rem" }}>View Demo</Link>
@@ -125,6 +110,7 @@ export default function Nav() {
         <div className="mobile-menu-overlay" onClick={() => setMobileOpen(false)}>
           <div className="mobile-menu" onClick={(e) => e.stopPropagation()}>
             {isDashboard ? (
+              // Dashboard uses sidebar for navigation
               <>
                 {dashboardLinks.map((link) => {
                   const isActive = pathname === link.href || (link.href !== "/dashboard" && pathname.startsWith(link.href));
@@ -137,10 +123,6 @@ export default function Nav() {
                   );
                 })}
                 <div className="mobile-menu-divider" />
-                <Link href="/dashboard/settings#platform-config" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
-                  <Sliders size={18} />
-                  Customize Platform
-                </Link>
                 <Link href="/portal" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
                   Partner Portal
                 </Link>

@@ -165,7 +165,7 @@ function PortalSidebar() {
         {/* Footer */}
         <div style={{ padding: "1rem 1.25rem", borderTop: "1px solid var(--border)" }}>
           <Link
-            href="/dashboard"
+            href="/"
             style={{
               display: "flex",
               alignItems: "center",
@@ -197,7 +197,7 @@ function PortalSidebar() {
             Sign Out
           </button>
           <p style={{ fontSize: "0.7rem", color: "var(--muted)", marginTop: "0.75rem", opacity: 0.6 }}>
-            Powered by PartnerBase · Partner Intelligence Layer
+            PartnerBase © 2026
           </p>
         </div>
       </aside>

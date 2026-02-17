@@ -63,20 +63,24 @@ export default function DashboardPage() {
       {/* Demo Environment Banner */}
       <div
         style={{
-          padding: "1.25rem 1.5rem",
+          padding: "1rem 1.5rem",
           borderRadius: 10,
-          border: "2px solid #fbbf24",
-          background: "linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)",
+          border: "1px solid #c7d2fe",
+          background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)",
           marginBottom: "2rem",
-          textAlign: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "1rem",
+          flexWrap: "wrap",
         }}
       >
-        <p style={{ fontWeight: 700, fontSize: "1rem", color: "#78350f", marginBottom: ".25rem" }}>
-          🎬 Demo Environment – Early Access Preview
+        <p style={{ fontSize: ".875rem", color: "#3730a3" }}>
+          <strong>🎬 Interactive Demo</strong> — This dashboard is pre-loaded with sample data. Explore the full platform, then request a demo with your data.
         </p>
-        <p style={{ fontSize: ".85rem", color: "#92400e" }}>
-          You're viewing a live demo of PartnerBase. Full product launches <strong>March 7, 2026</strong>. <Link href="/" style={{ textDecoration: "underline", fontWeight: 600 }}>Request early access →</Link>
-        </p>
+        <Link href="/" style={{ fontSize: ".8rem", fontWeight: 600, color: "#4338ca", whiteSpace: "nowrap", textDecoration: "underline" }}>
+          Book a demo →
+        </Link>
       </div>
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
