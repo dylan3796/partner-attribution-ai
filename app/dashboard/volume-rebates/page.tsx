@@ -1,10 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatNumber } from "@/lib/utils";
 import { getVolumeTier } from "@/lib/distributor-demo-data";
-import { TrendingUp, Award, Target, ChevronRight, BarChart3, Trophy } from "lucide-react";
+import { TrendingUp, Award, Target, ChevronRight, BarChart3, Trophy, Plus } from "lucide-react";
 
 function ProgressBar({ value, max, color = "#6366f1" }: { value: number; max: number; color?: string }) {
   const pct = Math.min(100, (value / max) * 100);
@@ -35,16 +36,21 @@ export default function VolumeRebatesPage() {
           <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Volume Rebates</h1>
           <p className="muted" style={{ marginTop: "0.25rem" }}>Track volume-based incentive programs and partner progress</p>
         </div>
-        <select
-          className="input"
-          value={selectedProgram}
-          onChange={(e) => setSelectedProgram(e.target.value)}
-          style={{ maxWidth: 320 }}
-        >
-          {volumePrograms.map((p) => (
-            <option key={p._id} value={p._id}>{p.name}</option>
-          ))}
-        </select>
+        <div style={{ display: "flex", gap: ".75rem", alignItems: "center", flexWrap: "wrap" }}>
+          <select
+            className="input"
+            value={selectedProgram}
+            onChange={(e) => setSelectedProgram(e.target.value)}
+            style={{ maxWidth: 280 }}
+          >
+            {volumePrograms.map((p) => (
+              <option key={p._id} value={p._id}>{p.name}</option>
+            ))}
+          </select>
+          <Link href="/dashboard/volume-rebates/create" className="btn-outline" style={{ fontSize: ".875rem", whiteSpace: "nowrap" }}>
+            <Plus size={15} /> Create Program
+          </Link>
+        </div>
       </div>
 
       {/* Program Stats */}

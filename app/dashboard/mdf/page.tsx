@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { useToast } from "@/components/ui/toast";
@@ -14,6 +15,7 @@ import {
   TrendingUp,
   Megaphone,
   Eye,
+  Settings2,
 } from "lucide-react";
 import type { MDFRequest, MDFStatus } from "@/lib/types";
 import { MDF_CAMPAIGN_LABELS, MDF_STATUS_LABELS } from "@/lib/types";
@@ -67,9 +69,14 @@ export default function MDFPage() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
-      <div>
-        <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Market Development Funds</h1>
-        <p className="muted" style={{ marginTop: "0.25rem" }}>Manage MDF budgets, requests, and campaign performance</p>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem" }}>
+        <div>
+          <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Market Development Funds</h1>
+          <p className="muted" style={{ marginTop: "0.25rem" }}>Manage MDF budgets, requests, and campaign performance</p>
+        </div>
+        <Link href="/dashboard/mdf/setup" className="btn-outline" style={{ fontSize: ".875rem" }}>
+          <Settings2 size={15} /> Setup Program
+        </Link>
       </div>
 
       {/* MDF Overview Stats */}
