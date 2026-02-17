@@ -229,13 +229,13 @@ These are the must-haves. Everything else is "nice to have."
 
 ### Billing Setup
 - [ ] **Stripe account** — Use Stripe Billing for subscriptions:
-  - Create products: Starter ($49/mo), Growth ($299/mo), Enterprise (custom)
+  - Create products: Launch ($299/mo), Scale ($799/mo), Program ($1,999/mo), Enterprise (custom)
   - Configure subscription plans (monthly + annual with 20% discount)
   - Set up Stripe Customer Portal (self-service plan management)
   - Test webhooks: `checkout.session.completed`, `invoice.payment_succeeded`, `customer.subscription.deleted`
   - Connect to your Mercury bank account for payouts
 - [ ] **Pricing page** — Implement on marketing site:
-  - 3-tier pricing table (Starter / Growth / Enterprise)
+  - 4-tier pricing table (Launch / Scale / Program / Enterprise) — priced on tracked partner ARR
   - Feature comparison matrix
   - Annual toggle showing savings
   - "Talk to sales" for Enterprise

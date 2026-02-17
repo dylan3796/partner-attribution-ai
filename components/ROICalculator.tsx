@@ -12,19 +12,28 @@ export default function ROICalculator() {
   const [revenueImprovementPct, setRevenueImprovementPct] = useState(5);
 
   // Derived
-  const partnerRevenue = totalARR * (partnerInfluencedPct / 100);
+  const partnerARR = totalARR * (partnerInfluencedPct / 100);
 
-  // --- Tier logic ---
-  const getTier = (p: number) => {
-    if (p <= 10) return { name: "Starter", monthly: 49, annual: 588 };
-    if (p <= 25) return { name: "Professional", monthly: 199, annual: 2388 };
-    return { name: "Business", monthly: 499, annual: 5988 };
+  // --- Tier logic: based on tracked partner ARR ---
+  type Tier =
+    | { name: "Launch"; monthly: 299; annual: 3588 }
+    | { name: "Scale"; monthly: 799; annual: 9588 }
+    | { name: "Program"; monthly: 1999; annual: 23988 }
+    | { name: "Enterprise"; monthly: null; annual: null };
+
+  const getTier = (arr: number): Tier => {
+    if (arr <= 1_000_000) return { name: "Launch", monthly: 299, annual: 3588 };
+    if (arr <= 10_000_000) return { name: "Scale", monthly: 799, annual: 9588 };
+    if (arr <= 50_000_000) return { name: "Program", monthly: 1999, annual: 23988 };
+    return { name: "Enterprise", monthly: null, annual: null };
   };
-  const tier = getTier(partners);
+
+  const tier = getTier(partnerARR);
+  const isEnterprise = tier.name === "Enterprise";
 
   // --- Value drivers ---
   const timeSavings = hoursPerMonth * 12 * hourlyRate;
-  const revenueImprovement = partnerRevenue * (revenueImprovementPct / 100);
+  const revenueImprovement = partnerARR * (revenueImprovementPct / 100);
   const disputesPerYear = Math.max(1, Math.round(partners / 10)) * 4;
   const disputeResolutionSavings =
     Math.max(1, Math.round(partners / 10)) * 4 * 6 * hourlyRate;
@@ -32,17 +41,36 @@ export default function ROICalculator() {
 
   const totalAnnualValue =
     timeSavings + revenueImprovement + disputeResolutionSavings + mdfEfficiencyGain;
-  const costPerYear = tier.annual;
-  const netROI = totalAnnualValue - costPerYear;
-  const roiMultiple = (totalAnnualValue / costPerYear).toFixed(1);
+  const costPerYear = tier.annual ?? 0;
+  const netROI = isEnterprise ? null : totalAnnualValue - costPerYear;
+  const roiMultiple = isEnterprise
+    ? null
+    : (totalAnnualValue / (costPerYear || 1)).toFixed(1);
 
   // Payback periods (in weeks)
   const timeSavingsPaybackWeeks =
-    timeSavings > 0 ? Math.round((costPerYear / timeSavings) * 52) : null;
+    !isEnterprise && timeSavings > 0
+      ? Math.round((costPerYear / timeSavings) * 52)
+      : null;
   const totalPaybackWeeks =
-    totalAnnualValue > 0 ? Math.round((costPerYear / totalAnnualValue) * 52) : null;
+    !isEnterprise && totalAnnualValue > 0
+      ? Math.round((costPerYear / totalAnnualValue) * 52)
+      : null;
 
   const fmt = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
+  const fmtARR = (n: number) => {
+    if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
+    if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}K`;
+    return fmt(n);
+  };
+
+  // Tier selection indicator
+  const tierBadgeColor: Record<string, string> = {
+    Launch: "#6366f1",
+    Scale: "#10b981",
+    Program: "#f59e0b",
+    Enterprise: "#a0a0a0",
+  };
 
   return (
     <div className="roi-calculator">
@@ -52,7 +80,7 @@ export default function ROICalculator() {
           <h3>Your Partnership Program</h3>
 
           <div className="input-group">
-            <label>Total annual revenue</label>
+            <label>Total annual revenue (ARR)</label>
             <div className="input-prefix-wrap">
               <span className="input-prefix">$</span>
               <input
@@ -82,7 +110,9 @@ export default function ROICalculator() {
               />
               <span className="input-suffix">%</span>
             </div>
-            <div className="input-derived">= {fmt(partnerRevenue)} partner revenue</div>
+            <div className="input-derived">
+              = <strong>{fmtARR(partnerARR)}</strong> tracked partner ARR
+            </div>
           </div>
 
           <div className="input-group">
@@ -132,6 +162,20 @@ export default function ROICalculator() {
                 min="0"
                 step="10000"
               />
+            </div>
+          </div>
+
+          {/* Tier auto-select callout */}
+          <div className="tier-callout" style={{ borderColor: tierBadgeColor[tier.name] }}>
+            <div className="tier-callout-label">Recommended plan</div>
+            <div className="tier-callout-name" style={{ color: tierBadgeColor[tier.name] }}>
+              {tier.name}
+            </div>
+            <div className="tier-callout-basis">
+              {fmtARR(partnerARR)} tracked partner ARR
+              {!isEnterprise && tier.monthly !== null
+                ? ` → ${fmt(tier.monthly)}/mo`
+                : " → Contact sales"}
             </div>
           </div>
         </div>
@@ -201,32 +245,54 @@ export default function ROICalculator() {
               <span>Total Annual Value</span>
               <span>{fmt(totalAnnualValue)}</span>
             </div>
-            <div className="total-row cost">
-              <span>
-                PartnerBase Cost ({tier.name} · ${tier.monthly}/mo)
-              </span>
-              <span>-{fmt(costPerYear)}</span>
-            </div>
-            <div className="total-row net">
-              <span>Net ROI (Year 1)</span>
-              <span className="highlight">{fmt(netROI)}</span>
-            </div>
-            <div className="roi-multiple">{roiMultiple}× return on investment</div>
+            {isEnterprise ? (
+              <div className="total-row cost">
+                <span>PartnerBase Cost ({tier.name})</span>
+                <span>Contact sales</span>
+              </div>
+            ) : (
+              <>
+                <div className="total-row cost">
+                  <span>
+                    PartnerBase Cost ({tier.name} ·{" "}
+                    {fmt(tier.monthly!)}/mo · billed annually)
+                  </span>
+                  <span>-{fmt(costPerYear)}</span>
+                </div>
+                <div className="total-row net">
+                  <span>Net ROI (Year 1)</span>
+                  <span className="highlight">{fmt(netROI!)}</span>
+                </div>
+                <div className="roi-multiple">{roiMultiple}× return on investment</div>
 
-            <div className="payback-section">
-              <div className="payback-primary">
-                ⏱ Your time savings alone pay for PartnerBase in{" "}
-                <strong>
-                  {timeSavingsPaybackWeeks !== null ? timeSavingsPaybackWeeks : "—"} weeks
-                </strong>
+                <div className="payback-section">
+                  <div className="payback-primary">
+                    ⏱ Your time savings alone pay for PartnerBase in{" "}
+                    <strong>
+                      {timeSavingsPaybackWeeks !== null
+                        ? timeSavingsPaybackWeeks
+                        : "—"}{" "}
+                      weeks
+                    </strong>
+                  </div>
+                  <div className="payback-secondary">
+                    Total payback with all value drivers:{" "}
+                    <strong>
+                      {totalPaybackWeeks !== null ? totalPaybackWeeks : "—"} weeks
+                    </strong>
+                  </div>
+                </div>
+              </>
+            )}
+            {isEnterprise && (
+              <div className="enterprise-cta">
+                <p>Your program tracks {fmtARR(partnerARR)} in partner ARR.</p>
+                <p>
+                  Let&apos;s build a custom ROI model together.{" "}
+                  <a href="mailto:sales@partnerbase.app">Talk to sales →</a>
+                </p>
               </div>
-              <div className="payback-secondary">
-                Total payback with all value drivers:{" "}
-                <strong>
-                  {totalPaybackWeeks !== null ? totalPaybackWeeks : "—"} weeks
-                </strong>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
@@ -267,6 +333,10 @@ export default function ROICalculator() {
           font-size: 0.75rem;
           color: #666;
           margin-top: 0.35rem;
+        }
+
+        .input-derived strong {
+          color: #10b981;
         }
 
         .input-prefix-wrap {
@@ -319,6 +389,35 @@ export default function ROICalculator() {
         .input-group input:focus {
           outline: none;
           border-color: #fff;
+        }
+
+        /* Tier callout */
+        .tier-callout {
+          margin-top: 0.5rem;
+          padding: 1rem 1.25rem;
+          border: 1px solid;
+          border-radius: 8px;
+          background: #0f0f0f;
+        }
+
+        .tier-callout-label {
+          font-size: 0.7rem;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: #555;
+          margin-bottom: 0.35rem;
+        }
+
+        .tier-callout-name {
+          font-size: 1.25rem;
+          font-weight: 700;
+          margin-bottom: 0.25rem;
+        }
+
+        .tier-callout-basis {
+          font-size: 0.8rem;
+          color: #666;
         }
 
         .roi-metric {
@@ -439,6 +538,20 @@ export default function ROICalculator() {
         .payback-secondary {
           font-size: 0.8rem;
           color: #a0a0a0;
+        }
+
+        .enterprise-cta {
+          margin-top: 1rem;
+          padding-top: 1rem;
+          border-top: 1px solid #333;
+          font-size: 0.875rem;
+          color: #777;
+          line-height: 1.7;
+        }
+
+        .enterprise-cta a {
+          color: #a0a0a0;
+          text-decoration: underline;
         }
 
         @media (max-width: 768px) {

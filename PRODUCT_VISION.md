@@ -278,13 +278,14 @@ Strategic intelligence for partner leadership.
 
 ---
 
-## Pricing Direction
+## Pricing Direction (v2 — tracked ARR model)
 
 | Tier | Target | Price | Includes |
 |------|--------|-------|----------|
-| **Starter** | Early-stage, <20 partners | Free / $49/mo | Attribution engine, basic dashboard, 5 partners |
-| **Growth** | Scaling, 20-200 partners | $299/mo | Full platform, partner portal, integrations |
-| **Enterprise** | Large programs, 200+ | Custom | Multi-tier, custom models, SSO, dedicated support |
+| **Launch** | Early programs, <$1M partner ARR | $299/mo | Core attribution, 5 models, basic portal, 10 partners |
+| **Scale** | Growing programs, <$10M partner ARR | $799/mo | Custom rules, commission automation, MDF mgmt, 50 partners |
+| **Program** | Mature programs, <$50M partner ARR | $1,999/mo | Everything + custom models, SPIF builder, white-label, unlimited partners |
+| **Enterprise** | Large programs, $50M+ partner ARR | Custom | Multi-tier, SSO/SAML, SLA, on-prem, dedicated infrastructure |
 
 ---
 

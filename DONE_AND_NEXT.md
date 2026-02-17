@@ -9,9 +9,10 @@
 
 ### 1. **4-Tier Pricing Model** ✅
 Replaced the broken "Free → Enterprise" pricing with proper SaaS tiers:
-- **Starter:** $49/mo (5 partners, basic attribution)
-- **Professional:** $199/mo (25 partners, all models, portal) ← Most popular
-- **Business:** $499/mo (unlimited, API, white-label)
+- **Launch:** $299/mo (up to $1M tracked partner ARR, 10 partners)
+- **Scale:** $799/mo (up to $10M tracked partner ARR, 50 partners) ← Most popular
+- **Program:** $1,999/mo (up to $50M tracked partner ARR, unlimited partners)
+- **Enterprise:** Custom ($50M+ tracked ARR)
 - **Enterprise:** Custom (SSO, SLA, CSM)
 
 **Location:** `components/PricingTiers.tsx` + integrated into landing page

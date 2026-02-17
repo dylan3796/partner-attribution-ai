@@ -12,13 +12,14 @@
 - **Week 2:** First case study with real ROI numbers
 - **Owner:** Dylan (sales + outreach)
 
-### 2. Broken Pricing ✅ (IN PROGRESS)
-**Fix:** 4-tier SaaS model
-- Starter: $49/mo (5 partners, basic attribution)
-- Professional: $199/mo (25 partners, all models, portal)
-- Business: $499/mo (unlimited, API, white-label)
-- Enterprise: Custom (SSO, SLA, CSM)
-- **Owner:** Fingerz (landing page rebuild)
+### 2. Broken Pricing ✅ (UPDATED — Benioff ARR model)
+**Fix:** 4-tier SaaS model, priced on tracked partner ARR
+- Launch: $299/mo (up to $1M tracked partner ARR, 10 partners)
+- Scale: $799/mo (up to $10M tracked partner ARR, 50 partners) ← Most popular
+- Program: $1,999/mo (up to $50M tracked partner ARR, unlimited partners)
+- Enterprise: Custom ($50M+ tracked ARR — SSO, SLA, CSM, on-prem)
+- Annual billing = 20% discount (default view)
+- **Owner:** Fingerz (pricing v2 complete)
 
 ### 3. Weak Salesforce Integration ❌
 **Fix:** AppExchange native integration

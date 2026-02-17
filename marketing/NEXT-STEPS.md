@@ -74,10 +74,11 @@ Dashboard shows attribution
 
 ## Phase 3: Get First 10 Customers (Weeks 3-6, <$100)
 
-### Pricing Strategy
-- **Free tier**: Up to 5 partners, 50 deals/month (get people in the door)
-- **Pro**: $99/mo — unlimited partners, all attribution models, API access
-- **Enterprise**: $499/mo — custom models, dedicated support, SSO
+### Pricing Strategy (v2 — tracked ARR model)
+- **Launch**: $299/mo — up to $1M tracked partner ARR, 10 partners, core attribution
+- **Scale**: $799/mo — up to $10M tracked partner ARR, 50 partners, automation + MDF
+- **Program**: $1,999/mo — up to $50M tracked partner ARR, unlimited partners, white-label
+- **Enterprise**: Custom — $50M+ tracked ARR, SSO/SAML, SLA, on-prem option
 
 ### Where to Find Customers
 1. **SaaS companies with partner programs** — they all have this problem
