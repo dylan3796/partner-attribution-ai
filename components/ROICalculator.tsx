@@ -1,29 +1,47 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ROICalculator() {
   const [partners, setPartners] = useState(25);
+  const [annualPartnerRevenue, setAnnualPartnerRevenue] = useState(2000000);
   const [hoursPerMonth, setHoursPerMonth] = useState(40);
-  const [avgDealSize, setAvgDealSize] = useState(50000);
-  const [partnerRevPercent, setPartnerRevPercent] = useState(30);
+  const [disputesPerQuarter, setDisputesPerQuarter] = useState(
+    Math.max(1, Math.round(25 / 10))
+  );
+  const [hourlyRate, setHourlyRate] = useState(85);
+  const [mdfBudget, setMdfBudget] = useState(0);
+  const [disputesManuallyEdited, setDisputesManuallyEdited] = useState(false);
 
-  // Calculations
-  const hourlyRate = 75; // Average ops team hourly cost
-  const monthlyTimeCost = hoursPerMonth * hourlyRate;
-  const annualTimeSaved = monthlyTimeCost * 12;
-  
-  // Assume 15% lift in partner-influenced revenue from better targeting
-  const currentPartnerRev = (avgDealSize * partners * (partnerRevPercent / 100)) * 12;
-  const projectedLift = currentPartnerRev * 0.15;
-  
-  // Dispute reduction (assume 2 disputes/month @ 8 hours each)
-  const disputesSaved = 2 * 8 * hourlyRate * 12;
-  
-  const totalROI = annualTimeSaved + projectedLift + disputesSaved;
-  const costPerYear = 199 * 12; // Pro tier
-  const netROI = totalROI - costPerYear;
-  const roiMultiple = (totalROI / costPerYear).toFixed(1);
+  // Auto-suggest disputes when partners change (unless user has manually overridden)
+  useEffect(() => {
+    if (!disputesManuallyEdited) {
+      setDisputesPerQuarter(Math.max(1, Math.round(partners / 10)));
+    }
+  }, [partners, disputesManuallyEdited]);
+
+  // --- Tier logic ---
+  const getTier = (p: number) => {
+    if (p <= 10) return { name: "Starter", monthly: 49, annual: 588 };
+    if (p <= 25) return { name: "Professional", monthly: 199, annual: 2388 };
+    return { name: "Business", monthly: 499, annual: 5988 };
+  };
+  const tier = getTier(partners);
+
+  // --- Value drivers ---
+  const timeSavings = hoursPerMonth * 12 * hourlyRate;
+  const dealVisibilityRecovery = annualPartnerRevenue * 0.18;
+  const disputeResolutionSavings = disputesPerQuarter * 4 * 6 * hourlyRate;
+  const mdfEfficiencyGain = mdfBudget > 0 ? mdfBudget * 0.2 : 0;
+
+  const totalAnnualValue =
+    timeSavings + dealVisibilityRecovery + disputeResolutionSavings + mdfEfficiencyGain;
+  const costPerYear = tier.annual;
+  const netROI = totalAnnualValue - costPerYear;
+  const roiMultiple = (totalAnnualValue / costPerYear).toFixed(1);
+
+  const fmt = (n: number) =>
+    "$" + Math.round(n).toLocaleString("en-US");
 
   return (
     <div className="roi-calculator">
@@ -31,88 +49,151 @@ export default function ROICalculator() {
         {/* Left: Inputs */}
         <div className="roi-inputs">
           <h3>Your Partnership Program</h3>
-          
+
           <div className="input-group">
             <label>Number of active partners</label>
             <input
               type="number"
               value={partners}
-              onChange={(e) => setPartners(Number(e.target.value))}
+              onChange={(e) => setPartners(Math.max(1, Number(e.target.value)))}
               min="1"
               max="500"
             />
           </div>
 
           <div className="input-group">
-            <label>Hours/month on commission reconciliation</label>
+            <label>Annual partner-influenced revenue</label>
+            <div className="input-prefix-wrap">
+              <span className="input-prefix">$</span>
+              <input
+                type="number"
+                value={annualPartnerRevenue}
+                onChange={(e) =>
+                  setAnnualPartnerRevenue(Math.max(0, Number(e.target.value)))
+                }
+                min="0"
+                step="100000"
+              />
+            </div>
+          </div>
+
+          <div className="input-group">
+            <label>Hours/month on manual reconciliation &amp; reporting</label>
             <input
               type="number"
               value={hoursPerMonth}
-              onChange={(e) => setHoursPerMonth(Number(e.target.value))}
+              onChange={(e) => setHoursPerMonth(Math.max(0, Number(e.target.value)))}
               min="0"
               max="200"
             />
           </div>
 
           <div className="input-group">
-            <label>Average deal size ($)</label>
+            <label>
+              Avg disputes per quarter
+              <span className="label-hint"> (auto-suggested: 1 per 10 partners)</span>
+            </label>
             <input
               type="number"
-              value={avgDealSize}
-              onChange={(e) => setAvgDealSize(Number(e.target.value))}
-              min="1000"
-              step="1000"
+              value={disputesPerQuarter}
+              onChange={(e) => {
+                setDisputesManuallyEdited(true);
+                setDisputesPerQuarter(Math.max(0, Number(e.target.value)));
+              }}
+              min="0"
             />
           </div>
 
           <div className="input-group">
-            <label>Partner-influenced revenue (%)</label>
-            <input
-              type="number"
-              value={partnerRevPercent}
-              onChange={(e) => setPartnerRevPercent(Number(e.target.value))}
-              min="0"
-              max="100"
-            />
+            <label>Team hourly cost (fully loaded)</label>
+            <div className="input-prefix-wrap">
+              <span className="input-prefix">$</span>
+              <input
+                type="number"
+                value={hourlyRate}
+                onChange={(e) =>
+                  setHourlyRate(Math.max(1, Number(e.target.value)))
+                }
+                min="1"
+                step="5"
+              />
+            </div>
+          </div>
+
+          <div className="input-group">
+            <label>Annual MDF budget (optional)</label>
+            <div className="input-prefix-wrap">
+              <span className="input-prefix">$</span>
+              <input
+                type="number"
+                value={mdfBudget}
+                onChange={(e) =>
+                  setMdfBudget(Math.max(0, Number(e.target.value)))
+                }
+                min="0"
+                step="10000"
+              />
+            </div>
           </div>
         </div>
 
         {/* Right: Results */}
         <div className="roi-results">
           <h3>Your ROI with PartnerBase</h3>
-          
+
           <div className="roi-metric">
             <div className="metric-label">Time savings (annual)</div>
-            <div className="metric-value">${annualTimeSaved.toLocaleString()}</div>
-            <div className="metric-detail">{hoursPerMonth * 12} hours saved @ ${hourlyRate}/hr</div>
+            <div className="metric-value">{fmt(timeSavings)}</div>
+            <div className="metric-detail">
+              {hoursPerMonth * 12} hours/year freed from manual work
+            </div>
           </div>
 
           <div className="roi-metric">
-            <div className="metric-label">Revenue lift (15% from better targeting)</div>
-            <div className="metric-value">${projectedLift.toLocaleString()}</div>
-            <div className="metric-detail">Invest MDF in high-performing partners</div>
+            <div className="metric-label">
+              Deal visibility recovery (18% misattribution rate)
+            </div>
+            <div className="metric-value">{fmt(dealVisibilityRecovery)}</div>
+            <div className="metric-detail">
+              Industry average: 18% of partner deals aren&apos;t properly tracked in CRM
+              (Forrester, 2024). Better attribution captures this.
+            </div>
           </div>
 
           <div className="roi-metric">
-            <div className="metric-label">Dispute reduction</div>
-            <div className="metric-value">${disputesSaved.toLocaleString()}</div>
-            <div className="metric-detail">Transparent attribution = fewer disputes</div>
+            <div className="metric-label">Dispute resolution savings</div>
+            <div className="metric-value">{fmt(disputeResolutionSavings)}</div>
+            <div className="metric-detail">
+              {disputesPerQuarter * 4} disputes/year × ~6 hrs each to resolve
+            </div>
           </div>
+
+          {mdfBudget > 0 && (
+            <div className="roi-metric">
+              <div className="metric-label">MDF efficiency improvement</div>
+              <div className="metric-value">{fmt(mdfEfficiencyGain)}</div>
+              <div className="metric-detail">
+                20% of MDF typically goes to underperformers without attribution data
+              </div>
+            </div>
+          )}
 
           <div className="roi-total">
             <div className="total-row">
               <span>Total Annual Value</span>
-              <span>${totalROI.toLocaleString()}</span>
+              <span>{fmt(totalAnnualValue)}</span>
             </div>
             <div className="total-row cost">
-              <span>PartnerBase Cost (Pro)</span>
-              <span>-${costPerYear.toLocaleString()}</span>
+              <span>
+                PartnerBase Cost ({tier.name} · ${tier.monthly}/mo)
+              </span>
+              <span>-{fmt(costPerYear)}</span>
             </div>
             <div className="total-row net">
               <span>Net ROI (Year 1)</span>
-              <span className="highlight">${netROI.toLocaleString()}</span>
+              <span className="highlight">{fmt(netROI)}</span>
             </div>
-            <div className="roi-multiple">{roiMultiple}x return on investment</div>
+            <div className="roi-multiple">{roiMultiple}× return on investment</div>
           </div>
         </div>
       </div>
@@ -125,7 +206,7 @@ export default function ROICalculator() {
           border-radius: 8px;
           border: 1px solid #333;
         }
-        
+
         .roi-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -149,6 +230,29 @@ export default function ROICalculator() {
           margin-bottom: 0.5rem;
         }
 
+        .label-hint {
+          font-size: 0.75rem;
+          color: #555;
+        }
+
+        .input-prefix-wrap {
+          position: relative;
+          display: flex;
+          align-items: center;
+        }
+
+        .input-prefix {
+          position: absolute;
+          left: 0.75rem;
+          color: #666;
+          font-size: 1rem;
+          pointer-events: none;
+        }
+
+        .input-prefix-wrap input {
+          padding-left: 1.75rem !important;
+        }
+
         .input-group input {
           width: 100%;
           background: #1a1a1a;
@@ -157,6 +261,7 @@ export default function ROICalculator() {
           padding: 0.75rem;
           border-radius: 4px;
           font-size: 1rem;
+          box-sizing: border-box;
         }
 
         .input-group input:focus {
