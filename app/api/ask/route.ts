@@ -2,10 +2,12 @@
  * Ask PartnerBase — AI-powered API Route
  *
  * Accepts POST { question: string, context?: object }
- * Calls Claude with rich partner data context and returns a markdown answer.
+ * Tries Kimi K2.5 (via NVIDIA NIM, free) first, then falls back to Claude.
+ * Returns { answer, model: "kimi-k2.5" | "claude", aiPowered: true }
  */
 
 import { NextRequest, NextResponse } from "next/server";
+import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
 import {
   demoPartners,
@@ -147,16 +149,53 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Missing question" }, { status: 400 });
     }
 
-    const apiKey = process.env.ANTHROPIC_API_KEY;
-    if (!apiKey) {
+    const context = buildContext();
+    const userContent = `Here is the current partner program data:\n\n<data>\n${context}\n</data>\n\nQuestion: ${question}`;
+
+    // ── 1. Try Kimi K2.5 via NVIDIA NIM (free) ──────────────────────────────
+    const nvidiaKey = process.env.NVIDIA_NIM_API_KEY;
+    if (nvidiaKey) {
+      try {
+        const nvidia = new OpenAI({
+          apiKey: nvidiaKey,
+          baseURL: "https://integrate.api.nvidia.com/v1",
+        });
+
+        const response = await nvidia.chat.completions.create({
+          model: "moonshotai/kimi-k2.5",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userContent },
+          ],
+          max_tokens: 1024,
+          temperature: 0.7,
+        });
+
+        const answer = response.choices[0]?.message?.content;
+        if (answer) {
+          return NextResponse.json({
+            answer,
+            model: "kimi-k2.5",
+            aiPowered: true,
+          });
+        }
+      } catch (kimiErr) {
+        console.warn("[ask/route] Kimi K2.5 failed, falling back to Claude:", kimiErr);
+      }
+    } else {
+      console.info("[ask/route] NVIDIA_NIM_API_KEY not set — skipping Kimi, trying Claude");
+    }
+
+    // ── 2. Fall back to Claude ───────────────────────────────────────────────
+    const anthropicKey = process.env.ANTHROPIC_API_KEY;
+    if (!anthropicKey) {
       return NextResponse.json(
-        { error: "ANTHROPIC_API_KEY not configured", fallback: true },
+        { error: "No AI provider configured (NVIDIA_NIM_API_KEY or ANTHROPIC_API_KEY required)", fallback: true },
         { status: 503 }
       );
     }
 
-    const client = new Anthropic({ apiKey });
-    const context = buildContext();
+    const client = new Anthropic({ apiKey: anthropicKey });
 
     const message = await client.messages.create({
       model: "claude-sonnet-4-6",
@@ -165,7 +204,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `Here is the current partner program data:\n\n<data>\n${context}\n</data>\n\nQuestion: ${question}`,
+          content: userContent,
         },
       ],
     });
@@ -177,7 +216,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       answer: content.text,
-      model: message.model,
+      model: "claude",
       aiPowered: true,
     });
   } catch (err: unknown) {
@@ -185,11 +224,11 @@ export async function POST(req: NextRequest) {
 
     const status =
       err instanceof Anthropic.APIError ? err.status ?? 500 : 500;
-    const message =
+    const errMessage =
       err instanceof Error ? err.message : "Internal server error";
 
     return NextResponse.json(
-      { error: message, fallback: true },
+      { error: errMessage, fallback: true },
       { status }
     );
   }

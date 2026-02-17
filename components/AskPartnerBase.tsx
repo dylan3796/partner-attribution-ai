@@ -12,6 +12,7 @@ type Message = {
   content: string;
   timestamp: number;
   aiPowered?: boolean;
+  model?: string;
 };
 
 const EXAMPLE_QUERIES = [
@@ -89,6 +90,7 @@ export default function AskPartnerBase() {
         content: result.answer,
         timestamp: Date.now(),
         aiPowered: result.aiPowered,
+        model: result.model,
       };
 
       setMessages((prev) => [...prev, assistantMsg]);
@@ -132,6 +134,7 @@ export default function AskPartnerBase() {
         content: result.answer,
         timestamp: Date.now(),
         aiPowered: result.aiPowered,
+        model: result.model,
       };
       setMessages((prev) => [...prev, assistantMsg]);
     } catch {
@@ -296,7 +299,7 @@ export default function AskPartnerBase() {
                 }}
               >
                 <Zap size={9} />
-                Claude AI
+                AI
               </span>
               {messages.length > 0 && (
                 <button
@@ -498,7 +501,7 @@ export default function AskPartnerBase() {
                           }}
                         >
                           <Zap size={8} />
-                          Claude
+                          {msg.model === "kimi-k2.5" ? "Kimi K2.5" : "Claude"}
                         </span>
                       )}
                       {msg.role === "assistant" && !msg.aiPowered && (
@@ -550,7 +553,7 @@ export default function AskPartnerBase() {
                         }}
                       >
                         <Zap size={10} style={{ color: "#6366f1" }} />
-                        Claude is thinking…
+                        AI is thinking…
                       </span>
                     </div>
                   </div>
@@ -637,7 +640,7 @@ export default function AskPartnerBase() {
               }}
             >
               <Zap size={9} style={{ color: "#6366f1" }} />
-              Powered by Claude · answers may contain errors
+              Powered by Kimi K2.5 · answers may contain errors
             </div>
           </div>
         </div>
