@@ -1,9 +1,13 @@
 /**
- * Ask PartnerBase — Natural Language Query Engine
+ * Ask PartnerBase — Query Engine
  *
- * Parses user questions and resolves them against in-memory store data.
- * Returns markdown-formatted answers. No LLM needed — pattern matching + data logic.
+ * Primary: calls /api/ask (Claude AI) for natural language answers.
+ * Fallback: regex pattern matcher against in-memory store data.
+ *
+ * Set USE_AI = false to force regex-only mode (e.g. offline dev).
  */
+
+const USE_AI = true;
 
 import type {
   Partner,
@@ -37,6 +41,12 @@ export type QueryContext = {
     totalCommissions: number;
     pendingPayouts: number;
   };
+};
+
+export type AskResult = {
+  answer: string;
+  aiPowered: boolean;
+  model?: string;
 };
 
 const DAY_MS = 86_400_000;
@@ -81,7 +91,50 @@ function partnerCommissions(pid: string, attributions: Attribution[]): number {
     .reduce((s, a) => s + a.commissionAmount, 0);
 }
 
-// ── Query Matchers ──────────────────────────────────
+// ── AI Entry Point ───────────────────────────────────
+
+/**
+ * Ask PartnerBase a question using Claude AI.
+ * Falls back to the regex engine if the API call fails or key is missing.
+ */
+export async function askPartnerBase(question: string, ctx?: QueryContext): Promise<AskResult> {
+  if (USE_AI) {
+    try {
+      const res = await fetch("/api/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question }),
+      });
+
+      const data = await res.json();
+
+      // If API returned fallback flag or no answer, fall through to regex
+      if (res.ok && data.answer && !data.fallback) {
+        return {
+          answer: data.answer,
+          aiPowered: true,
+          model: data.model,
+        };
+      }
+    } catch (err) {
+      console.warn("[ask-engine] AI call failed, falling back to regex:", err);
+    }
+  }
+
+  // ── Fallback: regex engine ──
+  if (ctx) {
+    const answer = processQuery(question, ctx);
+    return { answer, aiPowered: false };
+  }
+
+  return {
+    answer:
+      "I'm not able to answer that right now. Please check the AI configuration or try one of the example questions.",
+    aiPowered: false,
+  };
+}
+
+// ── Query Matchers (Regex Fallback) ─────────────────
 
 type Matcher = {
   patterns: RegExp[];
@@ -389,7 +442,6 @@ const matchers: Matcher[] = [
       /(?:who\s*is|what\s*about)\s+(.+)/i,
     ],
     handler: (q, ctx) => {
-      // Try to find a partner by name
       const nameMatch = q.match(/(?:about|on|for|is)\s+(?:partner\s+)?(.+?)(?:\?|$)/i);
       const searchTerm = nameMatch ? nameMatch[1].trim().toLowerCase() : "";
       const partner = ctx.partners.find(
@@ -448,8 +500,7 @@ const matchers: Matcher[] = [
       for (const entry of recent) {
         const meta = entry.metadata ? JSON.parse(entry.metadata) : {};
         const changes = entry.changes ? entry.changes : "";
-        const desc =
-          meta.deal || meta.partner || changes || entry.entityId;
+        const desc = meta.deal || meta.partner || changes || entry.entityId;
         md += `- **${entry.action}** — ${desc} (${relTime(entry.createdAt)})\n`;
       }
       return md;
@@ -542,7 +593,7 @@ const matchers: Matcher[] = [
   },
 ];
 
-// ── Main Entry ──────────────────────────────────────
+// ── Regex-only Entry Point (used as fallback) ────────
 
 export function processQuery(question: string, ctx: QueryContext): string {
   const q = question.trim();

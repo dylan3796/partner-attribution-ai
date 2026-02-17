@@ -1,16 +1,17 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { MessageCircle, X, Send, Sparkles, Trash2 } from "lucide-react";
+import { MessageCircle, X, Send, Sparkles, Trash2, Zap } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { useStore } from "@/lib/store";
-import { processQuery, type QueryContext } from "@/lib/ask-engine";
+import { askPartnerBase, processQuery, type QueryContext } from "@/lib/ask-engine";
 
 type Message = {
   id: string;
   role: "user" | "assistant";
   content: string;
   timestamp: number;
+  aiPowered?: boolean;
 };
 
 const EXAMPLE_QUERIES = [
@@ -78,59 +79,76 @@ export default function AskPartnerBase() {
     setInput("");
     setIsProcessing(true);
 
-    // Simulate a slight delay for natural feel
-    await new Promise((r) => setTimeout(r, 300 + Math.random() * 400));
+    try {
+      const ctx = buildContext();
+      const result = await askPartnerBase(q, ctx);
 
-    const ctx = buildContext();
-    const answer = processQuery(q, ctx);
+      const assistantMsg: Message = {
+        id: `a_${Date.now()}`,
+        role: "assistant",
+        content: result.answer,
+        timestamp: Date.now(),
+        aiPowered: result.aiPowered,
+      };
 
-    const assistantMsg: Message = {
-      id: `a_${Date.now()}`,
-      role: "assistant",
-      content: answer,
-      timestamp: Date.now(),
-    };
-
-    setMessages((prev) => [...prev, assistantMsg]);
-    setIsProcessing(false);
+      setMessages((prev) => [...prev, assistantMsg]);
+    } catch (err) {
+      // Last-resort fallback
+      const ctx = buildContext();
+      const answer = processQuery(q, ctx);
+      const assistantMsg: Message = {
+        id: `a_${Date.now()}`,
+        role: "assistant",
+        content: answer,
+        timestamp: Date.now(),
+        aiPowered: false,
+      };
+      setMessages((prev) => [...prev, assistantMsg]);
+    } finally {
+      setIsProcessing(false);
+    }
   }, [input, isProcessing, buildContext]);
 
-  const handleExampleClick = useCallback((query: string) => {
-    setInput(query);
-    // Auto-send after setting
-    setTimeout(() => {
-      const userMsg: Message = {
-        id: `u_${Date.now()}`,
-        role: "user",
-        content: query,
-        timestamp: Date.now(),
-      };
-      setMessages((prev) => [...prev, userMsg]);
-      setIsProcessing(true);
+  const handleExampleClick = useCallback(async (query: string) => {
+    if (isProcessing) return;
+    setInput("");
 
-      setTimeout(() => {
-        const ctx: QueryContext = {
-          partners: store.partners,
-          deals: store.deals,
-          touchpoints: store.touchpoints,
-          attributions: store.attributions,
-          payouts: store.payouts,
-          auditLog: store.auditLog,
-          stats: store.stats,
-        };
-        const answer = processQuery(query, ctx);
-        const assistantMsg: Message = {
-          id: `a_${Date.now()}`,
-          role: "assistant",
-          content: answer,
-          timestamp: Date.now(),
-        };
-        setMessages((prev) => [...prev, assistantMsg]);
-        setIsProcessing(false);
-        setInput("");
-      }, 400 + Math.random() * 400);
-    }, 50);
-  }, [store]);
+    const userMsg: Message = {
+      id: `u_${Date.now()}`,
+      role: "user",
+      content: query,
+      timestamp: Date.now(),
+    };
+    setMessages((prev) => [...prev, userMsg]);
+    setIsProcessing(true);
+
+    try {
+      const ctx = buildContext();
+      const result = await askPartnerBase(query, ctx);
+
+      const assistantMsg: Message = {
+        id: `a_${Date.now()}`,
+        role: "assistant",
+        content: result.answer,
+        timestamp: Date.now(),
+        aiPowered: result.aiPowered,
+      };
+      setMessages((prev) => [...prev, assistantMsg]);
+    } catch {
+      const ctx = buildContext();
+      const answer = processQuery(query, ctx);
+      const assistantMsg: Message = {
+        id: `a_${Date.now()}`,
+        role: "assistant",
+        content: answer,
+        timestamp: Date.now(),
+        aiPowered: false,
+      };
+      setMessages((prev) => [...prev, assistantMsg]);
+    } finally {
+      setIsProcessing(false);
+    }
+  }, [isProcessing, buildContext]);
 
   const clearHistory = useCallback(() => {
     setMessages([]);
@@ -260,6 +278,26 @@ export default function AskPartnerBase() {
               </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+              {/* Claude badge */}
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 3,
+                  fontSize: "0.6rem",
+                  fontWeight: 600,
+                  color: "#6366f1",
+                  background: "rgba(99,102,241,0.08)",
+                  border: "1px solid rgba(99,102,241,0.2)",
+                  borderRadius: 6,
+                  padding: "2px 6px",
+                  letterSpacing: "0.02em",
+                  flexShrink: 0,
+                }}
+              >
+                <Zap size={9} />
+                Claude AI
+              </span>
               {messages.length > 0 && (
                 <button
                   onClick={clearHistory}
@@ -362,6 +400,7 @@ export default function AskPartnerBase() {
                     <button
                       key={eq}
                       onClick={() => handleExampleClick(eq)}
+                      disabled={isProcessing}
                       style={{
                         padding: "8px 12px",
                         borderRadius: 10,
@@ -370,14 +409,17 @@ export default function AskPartnerBase() {
                         color: "var(--fg, #000)",
                         fontSize: "0.8rem",
                         fontWeight: 500,
-                        cursor: "pointer",
+                        cursor: isProcessing ? "default" : "pointer",
                         textAlign: "left",
                         transition: "all 0.15s",
                         fontFamily: "inherit",
+                        opacity: isProcessing ? 0.5 : 1,
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.background = "var(--subtle, #f8f9fa)";
-                        e.currentTarget.style.borderColor = "var(--muted, #6c757d)";
+                        if (!isProcessing) {
+                          e.currentTarget.style.background = "var(--subtle, #f8f9fa)";
+                          e.currentTarget.style.borderColor = "var(--muted, #6c757d)";
+                        }
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = "var(--bg, #fff)";
@@ -424,25 +466,62 @@ export default function AskPartnerBase() {
                         msg.content
                       )}
                     </div>
-                    <span
+                    <div
                       style={{
-                        fontSize: "0.65rem",
-                        color: "var(--muted, #6c757d)",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 6,
                         padding: "0 4px",
                       }}
                     >
-                      {new Date(msg.timestamp).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </span>
+                      <span
+                        style={{
+                          fontSize: "0.65rem",
+                          color: "var(--muted, #6c757d)",
+                        }}
+                      >
+                        {new Date(msg.timestamp).toLocaleTimeString([], {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                      </span>
+                      {msg.role === "assistant" && msg.aiPowered && (
+                        <span
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 2,
+                            fontSize: "0.6rem",
+                            fontWeight: 600,
+                            color: "#6366f1",
+                            opacity: 0.8,
+                          }}
+                        >
+                          <Zap size={8} />
+                          Claude
+                        </span>
+                      )}
+                      {msg.role === "assistant" && !msg.aiPowered && (
+                        <span
+                          style={{
+                            fontSize: "0.6rem",
+                            color: "var(--muted, #6c757d)",
+                            opacity: 0.6,
+                          }}
+                        >
+                          pattern match
+                        </span>
+                      )}
+                    </div>
                   </div>
                 ))}
                 {isProcessing && (
                   <div
                     style={{
                       display: "flex",
+                      flexDirection: "column",
                       alignItems: "flex-start",
+                      gap: 4,
                     }}
                   >
                     <div
@@ -453,7 +532,7 @@ export default function AskPartnerBase() {
                         border: "1px solid var(--border, #e9ecef)",
                         display: "flex",
                         alignItems: "center",
-                        gap: 6,
+                        gap: 8,
                       }}
                     >
                       <div className="ask-typing">
@@ -461,6 +540,18 @@ export default function AskPartnerBase() {
                         <span />
                         <span />
                       </div>
+                      <span
+                        style={{
+                          fontSize: "0.72rem",
+                          color: "var(--muted, #6c757d)",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 4,
+                        }}
+                      >
+                        <Zap size={10} style={{ color: "#6366f1" }} />
+                        Claude is thinking…
+                      </span>
                     </div>
                   </div>
                 )}
@@ -518,10 +609,10 @@ export default function AskPartnerBase() {
                   width: 34,
                   height: 34,
                   borderRadius: 10,
-                  background: input.trim() ? "#000" : "var(--border, #e9ecef)",
-                  color: input.trim() ? "#fff" : "var(--muted, #6c757d)",
+                  background: input.trim() && !isProcessing ? "#000" : "var(--border, #e9ecef)",
+                  color: input.trim() && !isProcessing ? "#fff" : "var(--muted, #6c757d)",
                   border: "none",
-                  cursor: input.trim() ? "pointer" : "default",
+                  cursor: input.trim() && !isProcessing ? "pointer" : "default",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -532,6 +623,22 @@ export default function AskPartnerBase() {
                 <Send size={16} />
               </button>
             </form>
+            {/* Footer badge */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 4,
+                marginTop: 8,
+                fontSize: "0.62rem",
+                color: "var(--muted, #6c757d)",
+                opacity: 0.7,
+              }}
+            >
+              <Zap size={9} style={{ color: "#6366f1" }} />
+              Powered by Claude · answers may contain errors
+            </div>
           </div>
         </div>
       )}
@@ -575,7 +682,7 @@ export default function AskPartnerBase() {
         .ask-typing span:nth-child(3) { animation-delay: 0.3s; }
 
         .ask-fab:hover {
-          transform: ${isOpen ? "rotate(90deg)" : "rotate(0deg)"} scale(1.08) !important;
+          transform: ${false ? "rotate(90deg)" : "rotate(0deg)"} scale(1.08) !important;
           box-shadow: 0 6px 32px rgba(0,0,0,0.3) !important;
         }
 
