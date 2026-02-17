@@ -1,24 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 export default function ROICalculator() {
+  const [totalARR, setTotalARR] = useState(10000000);
+  const [partnerInfluencedPct, setPartnerInfluencedPct] = useState(30);
   const [partners, setPartners] = useState(25);
-  const [annualPartnerRevenue, setAnnualPartnerRevenue] = useState(2000000);
   const [hoursPerMonth, setHoursPerMonth] = useState(40);
-  const [disputesPerQuarter, setDisputesPerQuarter] = useState(
-    Math.max(1, Math.round(25 / 10))
-  );
   const [hourlyRate, setHourlyRate] = useState(85);
   const [mdfBudget, setMdfBudget] = useState(0);
-  const [disputesManuallyEdited, setDisputesManuallyEdited] = useState(false);
+  const [revenueImprovementPct, setRevenueImprovementPct] = useState(5);
 
-  // Auto-suggest disputes when partners change (unless user has manually overridden)
-  useEffect(() => {
-    if (!disputesManuallyEdited) {
-      setDisputesPerQuarter(Math.max(1, Math.round(partners / 10)));
-    }
-  }, [partners, disputesManuallyEdited]);
+  // Derived
+  const partnerRevenue = totalARR * (partnerInfluencedPct / 100);
 
   // --- Tier logic ---
   const getTier = (p: number) => {
@@ -30,18 +24,25 @@ export default function ROICalculator() {
 
   // --- Value drivers ---
   const timeSavings = hoursPerMonth * 12 * hourlyRate;
-  const dealVisibilityRecovery = annualPartnerRevenue * 0.18;
-  const disputeResolutionSavings = disputesPerQuarter * 4 * 6 * hourlyRate;
-  const mdfEfficiencyGain = mdfBudget > 0 ? mdfBudget * 0.2 : 0;
+  const revenueImprovement = partnerRevenue * (revenueImprovementPct / 100);
+  const disputesPerYear = Math.max(1, Math.round(partners / 10)) * 4;
+  const disputeResolutionSavings =
+    Math.max(1, Math.round(partners / 10)) * 4 * 6 * hourlyRate;
+  const mdfEfficiencyGain = mdfBudget > 0 ? mdfBudget * 0.15 : 0;
 
   const totalAnnualValue =
-    timeSavings + dealVisibilityRecovery + disputeResolutionSavings + mdfEfficiencyGain;
+    timeSavings + revenueImprovement + disputeResolutionSavings + mdfEfficiencyGain;
   const costPerYear = tier.annual;
   const netROI = totalAnnualValue - costPerYear;
   const roiMultiple = (totalAnnualValue / costPerYear).toFixed(1);
 
-  const fmt = (n: number) =>
-    "$" + Math.round(n).toLocaleString("en-US");
+  // Payback periods (in weeks)
+  const timeSavingsPaybackWeeks =
+    timeSavings > 0 ? Math.round((costPerYear / timeSavings) * 52) : null;
+  const totalPaybackWeeks =
+    totalAnnualValue > 0 ? Math.round((costPerYear / totalAnnualValue) * 52) : null;
+
+  const fmt = (n: number) => "$" + Math.round(n).toLocaleString("en-US");
 
   return (
     <div className="roi-calculator">
@@ -49,6 +50,40 @@ export default function ROICalculator() {
         {/* Left: Inputs */}
         <div className="roi-inputs">
           <h3>Your Partnership Program</h3>
+
+          <div className="input-group">
+            <label>Total annual revenue</label>
+            <div className="input-prefix-wrap">
+              <span className="input-prefix">$</span>
+              <input
+                type="number"
+                value={totalARR}
+                onChange={(e) => setTotalARR(Math.max(0, Number(e.target.value)))}
+                min="0"
+                step="1000000"
+              />
+            </div>
+          </div>
+
+          <div className="input-group">
+            <label>% of revenue partner-influenced</label>
+            <div className="input-suffix-wrap">
+              <input
+                type="number"
+                value={partnerInfluencedPct}
+                onChange={(e) =>
+                  setPartnerInfluencedPct(
+                    Math.min(100, Math.max(0, Number(e.target.value)))
+                  )
+                }
+                min="0"
+                max="100"
+                step="1"
+              />
+              <span className="input-suffix">%</span>
+            </div>
+            <div className="input-derived">= {fmt(partnerRevenue)} partner revenue</div>
+          </div>
 
           <div className="input-group">
             <label>Number of active partners</label>
@@ -62,23 +97,7 @@ export default function ROICalculator() {
           </div>
 
           <div className="input-group">
-            <label>Annual partner-influenced revenue</label>
-            <div className="input-prefix-wrap">
-              <span className="input-prefix">$</span>
-              <input
-                type="number"
-                value={annualPartnerRevenue}
-                onChange={(e) =>
-                  setAnnualPartnerRevenue(Math.max(0, Number(e.target.value)))
-                }
-                min="0"
-                step="100000"
-              />
-            </div>
-          </div>
-
-          <div className="input-group">
-            <label>Hours/month on manual reconciliation &amp; reporting</label>
+            <label>Hours/month on manual partner ops</label>
             <input
               type="number"
               value={hoursPerMonth}
@@ -89,31 +108,13 @@ export default function ROICalculator() {
           </div>
 
           <div className="input-group">
-            <label>
-              Avg disputes per quarter
-              <span className="label-hint"> (auto-suggested: 1 per 10 partners)</span>
-            </label>
-            <input
-              type="number"
-              value={disputesPerQuarter}
-              onChange={(e) => {
-                setDisputesManuallyEdited(true);
-                setDisputesPerQuarter(Math.max(0, Number(e.target.value)));
-              }}
-              min="0"
-            />
-          </div>
-
-          <div className="input-group">
             <label>Team hourly cost (fully loaded)</label>
             <div className="input-prefix-wrap">
               <span className="input-prefix">$</span>
               <input
                 type="number"
                 value={hourlyRate}
-                onChange={(e) =>
-                  setHourlyRate(Math.max(1, Number(e.target.value)))
-                }
+                onChange={(e) => setHourlyRate(Math.max(1, Number(e.target.value)))}
                 min="1"
                 step="5"
               />
@@ -127,9 +128,7 @@ export default function ROICalculator() {
               <input
                 type="number"
                 value={mdfBudget}
-                onChange={(e) =>
-                  setMdfBudget(Math.max(0, Number(e.target.value)))
-                }
+                onChange={(e) => setMdfBudget(Math.max(0, Number(e.target.value)))}
                 min="0"
                 step="10000"
               />
@@ -151,20 +150,39 @@ export default function ROICalculator() {
 
           <div className="roi-metric">
             <div className="metric-label">
-              Deal visibility recovery (18% misattribution rate)
+              Revenue improvement{" "}
+              <span className="label-adjustable">(adjustable)</span>
             </div>
-            <div className="metric-value">{fmt(dealVisibilityRecovery)}</div>
+            <div className="metric-value-row">
+              <div className="metric-value">{fmt(revenueImprovement)}</div>
+              <div className="metric-pct-input">
+                <input
+                  type="number"
+                  value={revenueImprovementPct}
+                  onChange={(e) =>
+                    setRevenueImprovementPct(
+                      Math.min(50, Math.max(0.1, Number(e.target.value)))
+                    )
+                  }
+                  min="0.1"
+                  max="50"
+                  step="0.5"
+                />
+                <span className="pct-label">%</span>
+              </div>
+            </div>
             <div className="metric-detail">
-              Industry average: 18% of partner deals aren&apos;t properly tracked in CRM
-              (Forrester, 2024). Better attribution captures this.
+              {revenueImprovementPct}% improvement in partner close rates from better
+              targeting
             </div>
           </div>
 
           <div className="roi-metric">
-            <div className="metric-label">Dispute resolution savings</div>
+            <div className="metric-label">Dispute reduction</div>
             <div className="metric-value">{fmt(disputeResolutionSavings)}</div>
             <div className="metric-detail">
-              {disputesPerQuarter * 4} disputes/year × ~6 hrs each to resolve
+              ~{disputesPerYear} disputes/year × 6 hrs each to resolve (auto-calculated
+              from partner count)
             </div>
           </div>
 
@@ -173,7 +191,7 @@ export default function ROICalculator() {
               <div className="metric-label">MDF efficiency improvement</div>
               <div className="metric-value">{fmt(mdfEfficiencyGain)}</div>
               <div className="metric-detail">
-                20% of MDF typically goes to underperformers without attribution data
+                15% of MDF typically goes to underperformers without attribution data
               </div>
             </div>
           )}
@@ -194,6 +212,21 @@ export default function ROICalculator() {
               <span className="highlight">{fmt(netROI)}</span>
             </div>
             <div className="roi-multiple">{roiMultiple}× return on investment</div>
+
+            <div className="payback-section">
+              <div className="payback-primary">
+                ⏱ Your time savings alone pay for PartnerBase in{" "}
+                <strong>
+                  {timeSavingsPaybackWeeks !== null ? timeSavingsPaybackWeeks : "—"} weeks
+                </strong>
+              </div>
+              <div className="payback-secondary">
+                Total payback with all value drivers:{" "}
+                <strong>
+                  {totalPaybackWeeks !== null ? totalPaybackWeeks : "—"} weeks
+                </strong>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -230,9 +263,10 @@ export default function ROICalculator() {
           margin-bottom: 0.5rem;
         }
 
-        .label-hint {
+        .input-derived {
           font-size: 0.75rem;
-          color: #555;
+          color: #666;
+          margin-top: 0.35rem;
         }
 
         .input-prefix-wrap {
@@ -251,6 +285,24 @@ export default function ROICalculator() {
 
         .input-prefix-wrap input {
           padding-left: 1.75rem !important;
+        }
+
+        .input-suffix-wrap {
+          position: relative;
+          display: flex;
+          align-items: center;
+        }
+
+        .input-suffix {
+          position: absolute;
+          right: 0.75rem;
+          color: #666;
+          font-size: 1rem;
+          pointer-events: none;
+        }
+
+        .input-suffix-wrap input {
+          padding-right: 1.75rem !important;
         }
 
         .input-group input {
@@ -281,10 +333,52 @@ export default function ROICalculator() {
           margin-bottom: 0.5rem;
         }
 
+        .label-adjustable {
+          font-size: 0.75rem;
+          color: #555;
+          font-style: italic;
+        }
+
+        .metric-value-row {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          margin-bottom: 0.25rem;
+        }
+
         .metric-value {
           font-size: 1.75rem;
           font-weight: 600;
           margin-bottom: 0.25rem;
+        }
+
+        .metric-value-row .metric-value {
+          margin-bottom: 0;
+        }
+
+        .metric-pct-input {
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+          background: #1a1a1a;
+          border: 1px solid #444;
+          border-radius: 4px;
+          padding: 0.3rem 0.6rem;
+        }
+
+        .metric-pct-input input {
+          width: 3rem;
+          background: transparent;
+          border: none;
+          color: #fff;
+          font-size: 0.875rem;
+          text-align: right;
+          outline: none;
+        }
+
+        .pct-label {
+          font-size: 0.875rem;
+          color: #a0a0a0;
         }
 
         .metric-detail {
@@ -327,6 +421,23 @@ export default function ROICalculator() {
           text-align: center;
           margin-top: 1rem;
           font-size: 0.875rem;
+          color: #a0a0a0;
+        }
+
+        .payback-section {
+          margin-top: 1.25rem;
+          padding-top: 1.25rem;
+          border-top: 1px solid #333;
+        }
+
+        .payback-primary {
+          font-size: 0.9rem;
+          color: #10b981;
+          margin-bottom: 0.5rem;
+        }
+
+        .payback-secondary {
+          font-size: 0.8rem;
           color: #a0a0a0;
         }
 
