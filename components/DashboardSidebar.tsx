@@ -21,6 +21,7 @@ import {
   ExternalLink,
   ChevronLeft,
   ChevronRight,
+  Percent,
 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -46,6 +47,7 @@ const allLinks: SidebarLink[] = [
   { name: "Conflicts", href: "/dashboard/conflicts", icon: AlertTriangle, featureFlag: "channelConflict" },
   { name: "Activity", href: "/dashboard/activity", icon: Activity, featureFlag: "auditLog" },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
+  { name: "Commission Setup", href: "/dashboard/settings/commissions", icon: Percent },
 ];
 
 export default function DashboardSidebar() {
