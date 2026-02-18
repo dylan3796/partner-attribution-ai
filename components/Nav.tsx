@@ -3,7 +3,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { LayoutDashboard, Users, Briefcase, PieChart, Settings, Activity, DollarSign, Trophy, Award, Menu, X, Sliders, BarChart3, Megaphone, AlertTriangle, Package } from "lucide-react";
-import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
 
@@ -93,7 +92,6 @@ export default function Nav() {
                 <Link href="/dashboard" className="btn nav-cta-btn">Try Demo</Link>
               </>
             )}
-            <DarkModeToggle />
             <button
               className="menu-toggle"
               onClick={() => setMobileOpen(!mobileOpen)}

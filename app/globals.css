@@ -3,14 +3,14 @@
 /* === PartnerAI Design System === */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --bg:#000;
+  --bg:#0c0c0c;
   --fg:#fff;
-  --muted:rgba(255,255,255,.5);
-  --subtle:rgba(255,255,255,.04);
-  --border:rgba(255,255,255,.08);
+  --muted:rgba(255,255,255,.48);
+  --subtle:rgba(255,255,255,.05);
+  --border:rgba(255,255,255,.1);
   --radius:16px;
-  --card-bg:#0d0d0d;
-  --card-border:rgba(255,255,255,.08);
+  --card-bg:#161616;
+  --card-border:rgba(255,255,255,.1);
   --success:#065f46;
   --success-bg:#ecfdf5;
   --danger:#991b1b;
@@ -25,7 +25,7 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
 
@@ -324,8 +324,8 @@ select.input{appearance:auto;cursor:pointer}
 /* Testimonial */
 .testimonial-strip{
   padding:5rem 0;
-  background:var(--fg);
-  color:var(--bg);
+  background:#1a1a1a;
+  color:#fff;
 }
 .testimonial-quote{
   font-size:1.3rem;font-weight:500;line-height:1.6;
@@ -487,7 +487,7 @@ html.dark .dash-sidebar-toggle{border-color:var(--border);color:var(--muted)}
 html.dark .dash-sidebar-toggle:hover{background:var(--subtle);color:var(--fg)}
 html.dark .integration-logo{background:var(--subtle);border-color:var(--border)}
 html.dark .integration-logo:hover{border-color:var(--fg)}
-html.dark .testimonial-strip{background:#0a0a0a}
+html.dark .testimonial-strip{background:#1a1a1a;color:#fff}
 html.dark .trust-bar{background:var(--subtle);border-color:var(--border)}
 html.dark select.input{color-scheme:dark}
 
