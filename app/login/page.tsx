@@ -61,7 +61,7 @@ function LoginForm() {
               letterSpacing: "-.02em",
             }}
           >
-            PartnerBase
+            Covant
           </span>
           <p style={{ color: "#555", fontSize: ".85rem", marginTop: ".4rem" }}>
             Sign in to your dashboard
@@ -121,7 +121,7 @@ function LoginForm() {
         </form>
 
         <p style={{ textAlign: "center", marginTop: "1.5rem", fontSize: ".78rem", color: "#333" }}>
-          PartnerBase Early Access
+          Covant Early Access
         </p>
       </div>
     </div>

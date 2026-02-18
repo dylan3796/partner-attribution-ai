@@ -8,7 +8,7 @@ const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
 
 /**
  * POST /api/integrations/salesforce/sync
- * Syncs closed-won opportunities from Salesforce to PartnerBase deals
+ * Syncs closed-won opportunities from Salesforce to Covant deals
  */
 export async function POST(request: Request) {
   try {

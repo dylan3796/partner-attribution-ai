@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
         partner.stripeAccountId,
         payout.amount,
         "usd",
-        `PartnerBase payout - ${payout.period || "Commission"}`,
+        `Covant payout - ${payout.period || "Commission"}`,
         {
           payout_id: payoutId,
           partner_id: payout.partnerId,

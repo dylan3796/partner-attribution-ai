@@ -69,7 +69,7 @@ export default function Nav() {
     <>
       <nav className="site-nav">
         <div className="nav-inner">
-          <Link href="/" className="logo">PartnerBase</Link>
+          <Link href="/" className="logo">Covant</Link>
 
           {isDashboard ? (
             // Sidebar handles all dashboard navigation

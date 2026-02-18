@@ -1,5 +1,5 @@
 /**
- * Ask PartnerBase — AI-powered API Route
+ * Ask Covant — AI-powered API Route
  *
  * Accepts POST { question: string, context?: object }
  * Tries Kimi K2.5 (via NVIDIA NIM, free) first, then falls back to Claude.
@@ -17,7 +17,7 @@ import {
   demoPayouts,
 } from "@/lib/demo-data";
 
-const SYSTEM_PROMPT = `You are the PartnerBase AI assistant — a partner intelligence analyst.
+const SYSTEM_PROMPT = `You are the Covant AI assistant — a partner intelligence analyst.
 You have access to the company's partner program data including partners, deals, attribution, commissions, and activity.
 
 Answer questions about partner performance, attribution, revenue, commissions, deal pipeline, and program health.

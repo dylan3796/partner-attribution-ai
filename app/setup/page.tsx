@@ -84,7 +84,7 @@ export default function SetupWizard() {
         {step === 1 && (
           <div>
             <h1 style={{ fontSize: "2.5rem", fontWeight: 800, letterSpacing: "-.02em", marginBottom: ".5rem" }}>
-              Welcome to PartnerBase
+              Welcome to Covant
             </h1>
             <p className="muted" style={{ fontSize: "1.1rem", marginBottom: "3rem" }}>
               Let's set up your partner program in 60 seconds

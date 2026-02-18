@@ -1,5 +1,5 @@
 /**
- * Ask PartnerBase — Query Engine
+ * Ask Covant — Query Engine
  *
  * Primary: calls /api/ask (Claude AI) for natural language answers.
  * Fallback: regex pattern matcher against in-memory store data.
@@ -94,10 +94,10 @@ function partnerCommissions(pid: string, attributions: Attribution[]): number {
 // ── AI Entry Point ───────────────────────────────────
 
 /**
- * Ask PartnerBase a question using Claude AI.
+ * Ask Covant a question using Claude AI.
  * Falls back to the regex engine if the API call fails or key is missing.
  */
-export async function askPartnerBase(question: string, ctx?: QueryContext): Promise<AskResult> {
+export async function askCovant(question: string, ctx?: QueryContext): Promise<AskResult> {
   if (USE_AI) {
     try {
       const res = await fetch("/api/ask", {

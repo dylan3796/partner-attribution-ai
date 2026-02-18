@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "PartnerBase — AI-Powered Partner Intelligence for Your CRM",
+  title: "Covant — AI-Powered Partner Intelligence for Your CRM",
   description:
     "AI-powered partner attribution and program management that layers on top of your CRM. Measure partner impact, automate commissions, and run world-class partner programs. Works with Salesforce, HubSpot, and Pipedrive.",
   icons: {
@@ -22,14 +22,14 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "PartnerBase — AI-Powered Partner Intelligence for Your CRM",
+    title: "Covant — AI-Powered Partner Intelligence for Your CRM",
     description: "AI-powered partner attribution and program management that layers on top of your CRM. Measure partner impact, automate commissions, and run world-class partner programs.",
     type: "website",
-    siteName: "PartnerBase",
+    siteName: "Covant",
   },
   twitter: {
     card: "summary_large_image",
-    title: "PartnerBase — AI-Powered Partner Intelligence for Your CRM",
+    title: "Covant — AI-Powered Partner Intelligence for Your CRM",
     description: "AI-powered partner attribution and program management that layers on top of your CRM. Measure partner impact, automate commissions, and run world-class partner programs.",
   },
 };

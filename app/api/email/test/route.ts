@@ -80,7 +80,7 @@ export async function POST(request: NextRequest) {
           to,
           "Test Partner",
           "Acme Corp",
-          "https://partnerbase.app/invite/test-123"
+          "https://covant.ai/invite/test-123"
         );
         break;
 

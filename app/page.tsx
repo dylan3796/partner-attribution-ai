@@ -128,7 +128,7 @@ export default function LandingPage() {
           <div className="orb"></div>
           <div className="card demo-card">
             <div className="demo-header">
-              <strong>Ask PartnerBase AI</strong>
+              <strong>Ask Covant AI</strong>
               <span className="chip">VP Partnerships · Acme Inc</span>
             </div>
             <p className="demo-q">
@@ -253,7 +253,7 @@ export default function LandingPage() {
               </h3>
               <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
                 Import your resellers and referral partners in minutes. Connect to Salesforce
-                or HubSpot and PartnerBase starts mapping deals automatically.
+                or HubSpot and Covant starts mapping deals automatically.
               </p>
             </div>
 
@@ -422,7 +422,7 @@ export default function LandingPage() {
               margin: "0 auto",
             }}
           >
-            These pain points drove every product decision. We&apos;re building PartnerBase
+            These pain points drove every product decision. We&apos;re building Covant
             with our early customers — not just for them.
           </p>
         </div>
@@ -436,7 +436,7 @@ export default function LandingPage() {
             Plugs into your stack, not the other way around
           </h2>
           <p className="muted" style={{ fontSize: "1.05rem", maxWidth: 600, margin: "0 auto 3rem", lineHeight: 1.6 }}>
-            Keep using Salesforce, HubSpot, or Pipedrive. PartnerBase layers partner intelligence on top — measuring influence, calculating attribution, and automating payouts based on YOUR rules.
+            Keep using Salesforce, HubSpot, or Pipedrive. Covant layers partner intelligence on top — measuring influence, calculating attribution, and automating payouts based on YOUR rules.
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", alignItems: "center", flexWrap: "wrap" }}>
             <div className="integration-logo">
@@ -515,7 +515,7 @@ export default function LandingPage() {
           <div>
             <div className="tag">Full Visibility</div>
             <h2>Every partner touchpoint, captured</h2>
-            <p>PartnerBase tracks all partner interactions across your ecosystem — referrals, demos, co-sell meetings, content shares, deal registrations. The complete paper trail layered on top of your CRM deals.</p>
+            <p>Covant tracks all partner interactions across your ecosystem — referrals, demos, co-sell meetings, content shares, deal registrations. The complete paper trail layered on top of your CRM deals.</p>
             <p>Partners see their activity history. Your team sees the full picture. Everyone stays aligned.</p>
             <Link href="/dashboard/deals" className="arrow-link">View deal timelines →</Link>
           </div>
@@ -555,7 +555,7 @@ export default function LandingPage() {
         <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
           <div className="tag">Your strategy, your rules</div>
           <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
-            Configure PartnerBase to Match Your Playbook
+            Configure Covant to Match Your Playbook
           </h2>
           <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 700, margin: "0 auto" }}>
             Every company runs partnerships differently. We give you the tools to design your program exactly how you want it.
@@ -654,7 +654,7 @@ export default function LandingPage() {
               letterSpacing: "-.01em",
             }}
           >
-            PartnerBase grows with your program
+            Covant grows with your program
           </h3>
           <p
             style={{
@@ -724,7 +724,7 @@ export default function LandingPage() {
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
             <div className="tag">Calculate Your ROI</div>
             <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem", color: "#fff" }}>
-              See What PartnerBase Is Worth to You
+              See What Covant Is Worth to You
             </h2>
             <p style={{ fontSize: "1.1rem", color: "#a0a0a0", maxWidth: 640, margin: "0 auto" }}>
               Most customers see 8–12x ROI in the first year. Calculate yours.
@@ -1065,7 +1065,7 @@ export default function LandingPage() {
                 ))}
               </ul>
               <a
-                href="mailto:hello@partnerbase.app"
+                href="mailto:hello@covant.ai"
                 style={{
                   display: "block",
                   textAlign: "center",
@@ -1087,7 +1087,7 @@ export default function LandingPage() {
           <p style={{ textAlign: "center", fontSize: ".85rem", color: "#444" }}>
             Tracking &gt;$50M partner ARR?{" "}
             <a
-              href="mailto:hello@partnerbase.app"
+              href="mailto:hello@covant.ai"
               style={{ color: "#818cf8", textDecoration: "underline" }}
             >
               Talk to us about Enterprise
@@ -1162,7 +1162,7 @@ export default function LandingPage() {
         <div className="wrap-wide footer-grid">
           <div>
             <span className="logo" style={{ color: "white" }}>
-              PartnerBase
+              Covant
             </span>
             <p className="muted" style={{ marginTop: ".8rem", fontSize: ".8rem", lineHeight: 1.6 }}>
               Track attribution.
@@ -1172,7 +1172,7 @@ export default function LandingPage() {
               Pay your partners on time.
             </p>
             <p className="muted" style={{ marginTop: ".8rem", fontSize: ".75rem" }}>
-              © 2026 PartnerBase, Inc.
+              © 2026 Covant, Inc.
             </p>
           </div>
           <div className="footer-links">
@@ -1186,14 +1186,14 @@ export default function LandingPage() {
             <div>
               <h4>Resources</h4>
               <Link href="/dashboard">Live Demo</Link>
-              <a href="mailto:hello@partnerbase.app">API Access</a>
-              <a href="mailto:hello@partnerbase.app">Security</a>
+              <a href="mailto:hello@covant.ai">API Access</a>
+              <a href="mailto:hello@covant.ai">Security</a>
             </div>
             <div>
               <h4>Company</h4>
-              <a href="mailto:hello@partnerbase.app">About</a>
-              <a href="mailto:hello@partnerbase.app">Careers</a>
-              <a href="mailto:hello@partnerbase.app">Contact</a>
+              <a href="mailto:hello@covant.ai">About</a>
+              <a href="mailto:hello@covant.ai">Careers</a>
+              <a href="mailto:hello@covant.ai">Contact</a>
             </div>
           </div>
         </div>

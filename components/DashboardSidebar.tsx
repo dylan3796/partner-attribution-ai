@@ -101,7 +101,7 @@ export default function DashboardSidebar() {
       <div className="dash-sidebar-header">
         {!collapsed && (
           <Link href="/dashboard" className="dash-sidebar-brand">
-            PartnerBase
+            Covant
           </Link>
         )}
         <button

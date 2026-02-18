@@ -6,7 +6,7 @@
 // Environment variables (set these in your .env.local)
 const SALESFORCE_CLIENT_ID = process.env.SALESFORCE_CLIENT_ID || '';
 const SALESFORCE_CLIENT_SECRET = process.env.SALESFORCE_CLIENT_SECRET || '';
-const SALESFORCE_REDIRECT_URI = process.env.SALESFORCE_REDIRECT_URI || 'https://www.partnerbase.app/api/integrations/salesforce/callback';
+const SALESFORCE_REDIRECT_URI = process.env.SALESFORCE_REDIRECT_URI || 'https://covant.ai/api/integrations/salesforce/callback';
 const SALESFORCE_LOGIN_URL = process.env.SALESFORCE_LOGIN_URL || 'https://login.salesforce.com';
 
 // Types

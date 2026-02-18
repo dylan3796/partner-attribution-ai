@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { MessageCircle, X, Send, Sparkles, Trash2, Zap } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { useStore } from "@/lib/store";
-import { askPartnerBase, processQuery, type QueryContext } from "@/lib/ask-engine";
+import { askCovant, processQuery, type QueryContext } from "@/lib/ask-engine";
 
 type Message = {
   id: string;
@@ -82,7 +82,7 @@ export default function AskPartnerBase() {
 
     try {
       const ctx = buildContext();
-      const result = await askPartnerBase(q, ctx);
+      const result = await askCovant(q, ctx);
 
       const assistantMsg: Message = {
         id: `a_${Date.now()}`,
@@ -126,7 +126,7 @@ export default function AskPartnerBase() {
 
     try {
       const ctx = buildContext();
-      const result = await askPartnerBase(query, ctx);
+      const result = await askCovant(query, ctx);
 
       const assistantMsg: Message = {
         id: `a_${Date.now()}`,
@@ -163,7 +163,7 @@ export default function AskPartnerBase() {
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="ask-fab"
-        aria-label={isOpen ? "Close Ask PartnerBase" : "Open Ask PartnerBase"}
+        aria-label={isOpen ? "Close Ask Covant" : "Open Ask Covant"}
         style={{
           position: "fixed",
           bottom: 24,
@@ -267,7 +267,7 @@ export default function AskPartnerBase() {
                     color: "var(--fg, #000)",
                   }}
                 >
-                  Ask PartnerBase
+                  Ask Covant
                 </h3>
                 <p
                   style={{

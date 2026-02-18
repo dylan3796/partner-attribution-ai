@@ -182,7 +182,7 @@ export default function ROICalculator() {
 
         {/* Right: Results */}
         <div className="roi-results">
-          <h3>Your ROI with PartnerBase</h3>
+          <h3>Your ROI with Covant</h3>
 
           <div className="roi-metric">
             <div className="metric-label">Time savings (annual)</div>
@@ -247,14 +247,14 @@ export default function ROICalculator() {
             </div>
             {isEnterprise ? (
               <div className="total-row cost">
-                <span>PartnerBase Cost ({tier.name})</span>
+                <span>Covant Cost ({tier.name})</span>
                 <span>Contact sales</span>
               </div>
             ) : (
               <>
                 <div className="total-row cost">
                   <span>
-                    PartnerBase Cost ({tier.name} ·{" "}
+                    Covant Cost ({tier.name} ·{" "}
                     {fmt(tier.monthly!)}/mo · billed annually)
                   </span>
                   <span>-{fmt(costPerYear)}</span>
@@ -267,7 +267,7 @@ export default function ROICalculator() {
 
                 <div className="payback-section">
                   <div className="payback-primary">
-                    ⏱ Your time savings alone pay for PartnerBase in{" "}
+                    ⏱ Your time savings alone pay for Covant in{" "}
                     <strong>
                       {timeSavingsPaybackWeeks !== null
                         ? timeSavingsPaybackWeeks
@@ -289,7 +289,7 @@ export default function ROICalculator() {
                 <p>Your program tracks {fmtARR(partnerARR)} in partner ARR.</p>
                 <p>
                   Let&apos;s build a custom ROI model together.{" "}
-                  <a href="mailto:sales@partnerbase.app">Talk to sales →</a>
+                  <a href="mailto:sales@covant.ai">Talk to sales →</a>
                 </p>
               </div>
             )}

@@ -9,8 +9,8 @@ function getResend() {
   return new Resend(apiKey);
 }
 
-const FROM_ADDRESS = "PartnerBase <notifications@partnerbase.app>";
-const PORTAL_URL = process.env.NEXT_PUBLIC_APP_URL || "https://partnerbase.app";
+const FROM_ADDRESS = "Covant <notifications@covant.ai>";
+const PORTAL_URL = process.env.NEXT_PUBLIC_APP_URL || "https://covant.ai";
 
 // Format currency
 function formatCurrency(amount: number): string {
@@ -47,7 +47,7 @@ function emailTemplate(content: string): string {
         <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width: 560px; background-color: #141414; border-radius: 12px; border: 1px solid #262626;">
           <tr>
             <td style="padding: 32px 32px 24px 32px; border-bottom: 1px solid #262626;">
-              <span style="font-size: 20px; font-weight: 700; color: #ffffff;">PartnerBase</span>
+              <span style="font-size: 20px; font-weight: 700; color: #ffffff;">Covant</span>
             </td>
           </tr>
           <tr>
@@ -55,8 +55,8 @@ function emailTemplate(content: string): string {
           </tr>
           <tr>
             <td style="padding: 24px 32px; border-top: 1px solid #262626;">
-              <p style="margin: 0; font-size: 12px; color: #737373;">This email was sent by PartnerBase.</p>
-              <p style="margin: 12px 0 0 0; font-size: 12px; color: #525252;">© ${new Date().getFullYear()} PartnerBase</p>
+              <p style="margin: 0; font-size: 12px; color: #737373;">This email was sent by Covant.</p>
+              <p style="margin: 12px 0 0 0; font-size: 12px; color: #525252;">© ${new Date().getFullYear()} Covant</p>
             </td>
           </tr>
         </table>
@@ -215,13 +215,13 @@ export const sendPartnerInviteEmail = action({
 <h1 style="margin: 0 0 16px 0; font-size: 24px; font-weight: 700; color: #ffffff;">You're Invited! 🤝</h1>
 <p style="margin: 0 0 24px 0; font-size: 16px; color: #d4d4d4; line-height: 1.6;">
   Hey ${args.partnerName},<br><br>
-  <strong style="color: #ffffff;">${args.orgName}</strong> has invited you to join their partner program on PartnerBase.
+  <strong style="color: #ffffff;">${args.orgName}</strong> has invited you to join their partner program on Covant.
 </p>
 <table role="presentation" width="100%" style="background-color: #1a1a1a; border-radius: 8px; border: 1px solid #262626; margin-bottom: 24px;">
   <tr><td style="padding: 20px;">
-    <p style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600; color: #ffffff;">What is PartnerBase?</p>
+    <p style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600; color: #ffffff;">What is Covant?</p>
     <p style="margin: 0; font-size: 14px; color: #a3a3a3; line-height: 1.6;">
-      PartnerBase is a partner relationship management platform. As a partner, you'll be able to:
+      Covant is a partner relationship management platform. As a partner, you'll be able to:
     </p>
     <ul style="margin: 12px 0 0 0; padding-left: 20px; color: #d4d4d4; font-size: 14px; line-height: 1.8;">
       <li>Register deals and track their progress</li>

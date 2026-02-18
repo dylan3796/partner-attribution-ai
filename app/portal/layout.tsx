@@ -185,7 +185,7 @@ function PortalSidebar() {
             Sign Out
           </button>
           <p style={{ fontSize: "0.7rem", color: "var(--muted)", marginTop: "0.75rem", opacity: 0.6 }}>
-            PartnerBase © 2026
+            Covant © 2026
           </p>
         </div>
       </aside>

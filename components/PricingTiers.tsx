@@ -81,7 +81,7 @@ export default function PricingTiers() {
         "Legal & security review support"
       ],
       cta: "Contact sales",
-      href: "mailto:sales@partnerbase.app",
+      href: "mailto:sales@covant.ai",
       popular: false
     }
   ];
@@ -208,7 +208,7 @@ export default function PricingTiers() {
             <span className="addon-icon">🤖</span>
             <div>
               <strong>AI credits</strong> — All plans include <strong>500 AI credits/month</strong>.
-              Additional credits: <strong>$0.01/credit</strong>. Credits power Ask PartnerBase,
+              Additional credits: <strong>$0.01/credit</strong>. Credits power Ask Covant,
               smart attribution recommendations, and partner matching.
             </div>
           </div>
@@ -219,7 +219,7 @@ export default function PricingTiers() {
           <p>🔒 SOC 2 Type II in progress (target Q2 2026) · Your data is never used to train models</p>
           <p style={{ marginTop: ".5rem" }}>
             Need a custom plan?{" "}
-            <a href="mailto:sales@partnerbase.app" style={{ color: "#a0a0a0", textDecoration: "underline" }}>
+            <a href="mailto:sales@covant.ai" style={{ color: "#a0a0a0", textDecoration: "underline" }}>
               Talk to sales
             </a>
           </p>

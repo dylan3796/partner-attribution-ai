@@ -156,7 +156,7 @@ export async function createPayout(
     destination: connectedAccountId,
     description,
     metadata: {
-      source: "partnerbase",
+      source: "covant",
       ...metadata,
     },
   });
