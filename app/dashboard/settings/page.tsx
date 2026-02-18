@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -11,7 +11,7 @@ import { usePlatformConfig } from "@/lib/platform-config";
 import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles, FileUp, Mail, CheckCircle, XCircle, Check, Loader2, Unplug, CreditCard, Zap, ExternalLink, AlertCircle } from "lucide-react";
 import CSVImport from "@/components/CSVImport";
 
-export default function SettingsPage() {
+function SettingsPageInner() {
   const { org, updateOrg } = useStore();
   const { toast } = useToast();
   const searchParams = useSearchParams();
@@ -1097,5 +1097,13 @@ npm start
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: "2rem", color: "#fff" }}>Loading settings…</div>}>
+      <SettingsPageInner />
+    </Suspense>
   );
 }
