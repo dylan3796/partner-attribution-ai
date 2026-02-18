@@ -1,103 +1,176 @@
 "use client";
-
+import { useState } from "react";
+import Link from "next/link";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { useState } from "react";
+import { Database, Trash2, CheckCircle, AlertTriangle, ArrowLeft, Loader2 } from "lucide-react";
 
 export default function SeedPage() {
-  const clearData = useMutation(api.seedDemo.clearDemoData);
-  const seedData = useMutation(api.seedDemo.seedDemoData);
-  const [status, setStatus] = useState("");
-  const [loading, setLoading] = useState(false);
+  const seedMutation = useMutation(api.seedDemo.seedDemoData);
+  const clearMutation = useMutation(api.seedDemo.clearDemoData);
 
-  async function handleClearAndSeed() {
-    setLoading(true);
-    setStatus("Clearing existing data...");
-    
+  const [seedStatus, setSeedStatus] = useState<"idle" | "running" | "done" | "error">("idle");
+  const [clearStatus, setClearStatus] = useState<"idle" | "running" | "done" | "error">("idle");
+  const [result, setResult] = useState<any>(null);
+  const [clearResult, setClearResult] = useState<any>(null);
+
+  async function handleSeed() {
+    setSeedStatus("running");
+    setResult(null);
     try {
-      const clearResult = await clearData();
-      setStatus(`✓ ${clearResult.message}\nSeeding demo data...`);
-      
-      const seedResult = await seedData();
-      setStatus(`✓ ${clearResult.message}\n✓ ${seedResult.message}\n\nCreated:\n- ${seedResult.partnersCreated} partners\n- ${seedResult.dealsCreated} deals`);
-    } catch (error: any) {
-      setStatus(`❌ Error: ${error.message}`);
-    } finally {
-      setLoading(false);
+      const res = await seedMutation({});
+      setResult(res);
+      setSeedStatus("done");
+    } catch (err: any) {
+      setResult({ error: err?.message ?? String(err) });
+      setSeedStatus("error");
     }
   }
 
-  async function handleClearOnly() {
-    setLoading(true);
-    setStatus("Clearing all data...");
-    
+  async function handleClear() {
+    if (!window.confirm("This will DELETE ALL data from the database. Are you sure?")) return;
+    setClearStatus("running");
+    setClearResult(null);
     try {
-      const result = await clearData();
-      setStatus(`✓ ${result.message}`);
-    } catch (error: any) {
-      setStatus(`❌ Error: ${error.message}`);
-    } finally {
-      setLoading(false);
+      const res = await clearMutation({});
+      setClearResult(res);
+      setClearStatus("done");
+    } catch (err: any) {
+      setClearResult({ error: err?.message ?? String(err) });
+      setClearStatus("error");
     }
   }
 
   return (
-    <div style={{ maxWidth: "800px", margin: "4rem auto", padding: "2rem" }}>
-      <h1 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: "1rem" }}>
-        Demo Data Seed
-      </h1>
-      <p className="muted" style={{ marginBottom: "2rem" }}>
-        Manage demo data for PartnerBase
-      </p>
+    <div style={{ maxWidth: 600, margin: "0 auto", padding: "2rem 1rem" }}>
+      <Link
+        href="/dashboard"
+        style={{ display: "inline-flex", alignItems: "center", gap: ".4rem", color: "var(--muted)", fontSize: ".85rem", marginBottom: "2rem" }}
+      >
+        <ArrowLeft size={14} /> Back to Dashboard
+      </Link>
 
-      <div className="card" style={{ padding: "2rem", marginBottom: "2rem" }}>
-        <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "1rem" }}>
-          Demo Data Preview
-        </h2>
-        <p style={{ marginBottom: "1.5rem" }}>
-          This will create 4 realistic partner companies:
+      <div style={{ marginBottom: "2rem" }}>
+        <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em", marginBottom: ".5rem" }}>
+          🌱 Database Admin
+        </h1>
+        <p className="muted">
+          Manage demo data in the Convex database. This page lets you populate sample
+          data so the app isn&apos;t empty on first load.
         </p>
-        <ul style={{ marginBottom: "2rem", marginLeft: "1.5rem" }}>
-          <li><strong>TechStar Solutions</strong> — Reseller (Gold) - 2 deals, $245k pipeline</li>
-          <li><strong>CloudBridge Partners</strong> — Referral (Silver) - 2 deals, $320k pipeline</li>
-          <li><strong>DataPipe Agency</strong> — Integration (Gold) - 1 deal, $175k won</li>
-          <li><strong>NexGen Resellers</strong> — Reseller (Platinum) - 1 deal, $95k won</li>
-        </ul>
+      </div>
 
-        <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
-          <button
-            onClick={handleClearAndSeed}
-            disabled={loading}
-            className="btn"
-            style={{ flex: 1 }}
-          >
-            {loading ? "Processing..." : "Clear & Seed Demo Data"}
-          </button>
-          <button
-            onClick={handleClearOnly}
-            disabled={loading}
-            className="btn"
-            style={{ flex: 1, background: "#dc2626" }}
-          >
-            {loading ? "Clearing..." : "Clear All Data"}
-          </button>
+      {/* Seed Card */}
+      <div className="card" style={{ marginBottom: "1.5rem" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem", marginBottom: "1.5rem" }}>
+          <div style={{ background: "#ecfdf5", padding: ".75rem", borderRadius: 12 }}>
+            <Database size={24} color="#059669" />
+          </div>
+          <div>
+            <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".3rem" }}>Seed Demo Data</h2>
+            <p className="muted" style={{ fontSize: ".9rem" }}>
+              Creates a demo organization with 4 partner companies, 6 realistic deals,
+              touchpoints, attributions, and payouts.
+            </p>
+          </div>
         </div>
 
-        {status && (
-          <pre style={{ 
-            background: "#f9fafb", 
-            padding: "1rem", 
-            borderRadius: "6px", 
-            fontSize: ".85rem",
-            whiteSpace: "pre-wrap"
-          }}>
-            {status}
-          </pre>
+        <ul style={{ marginBottom: "1.5rem", paddingLeft: "1.5rem", lineHeight: 1.8 }}>
+          <li style={{ fontSize: ".9rem" }}>4 partners (TechStar, CloudBridge, DataPipe, NexGen)</li>
+          <li style={{ fontSize: ".9rem" }}>6 deals across won/open stages</li>
+          <li style={{ fontSize: ".9rem" }}>Touchpoints and attribution records</li>
+          <li style={{ fontSize: ".9rem" }}>Pending and paid commission payouts</li>
+        </ul>
+
+        <button
+          className="btn"
+          style={{ width: "100%", padding: ".75rem", fontSize: "1rem", gap: ".5rem" }}
+          onClick={handleSeed}
+          disabled={seedStatus === "running"}
+        >
+          {seedStatus === "running" ? (
+            <><Loader2 size={18} /> Seeding…</>
+          ) : (
+            <><Database size={18} /> Seed Demo Data</>
+          )}
+        </button>
+
+        {seedStatus === "done" && result && (
+          <div style={{ marginTop: "1rem", padding: "1rem", background: "#ecfdf5", borderRadius: 8, border: "1px solid #6ee7b7" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginBottom: ".5rem" }}>
+              <CheckCircle size={18} color="#059669" />
+              <strong style={{ color: "#065f46" }}>Seed complete!</strong>
+            </div>
+            <p style={{ fontSize: ".85rem", color: "#065f46" }}>
+              Created {result.partnersCreated} partners and {result.dealsCreated} deals.
+            </p>
+            <Link href="/dashboard" style={{ fontSize: ".85rem", color: "#059669", fontWeight: 600, marginTop: ".5rem", display: "inline-block" }}>
+              → Go to Dashboard
+            </Link>
+          </div>
+        )}
+
+        {seedStatus === "error" && result && (
+          <div style={{ marginTop: "1rem", padding: "1rem", background: "#fef2f2", borderRadius: 8, border: "1px solid #fca5a5" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
+              <AlertTriangle size={18} color="#dc2626" />
+              <strong style={{ color: "#991b1b" }}>Error: {result.error}</strong>
+            </div>
+          </div>
         )}
       </div>
 
-      <p className="muted" style={{ fontSize: ".85rem" }}>
-        ⚠️ <strong>Warning:</strong> "Clear All Data" will permanently delete all organizations, partners, deals, and related data.
+      {/* Clear Card */}
+      <div className="card" style={{ border: "1px solid #fca5a5" }}>
+        <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem", marginBottom: "1.5rem" }}>
+          <div style={{ background: "#fef2f2", padding: ".75rem", borderRadius: 12 }}>
+            <Trash2 size={24} color="#dc2626" />
+          </div>
+          <div>
+            <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".3rem", color: "#991b1b" }}>
+              Clear All Data
+            </h2>
+            <p className="muted" style={{ fontSize: ".9rem" }}>
+              Permanently deletes all organizations, partners, deals, payouts, and related
+              records from the database. Use before re-seeding.
+            </p>
+          </div>
+        </div>
+
+        <button
+          className="btn"
+          style={{ width: "100%", padding: ".75rem", fontSize: "1rem", gap: ".5rem", background: "#dc2626" }}
+          onClick={handleClear}
+          disabled={clearStatus === "running"}
+        >
+          {clearStatus === "running" ? (
+            <><Loader2 size={18} /> Clearing…</>
+          ) : (
+            <><Trash2 size={18} /> Clear All Data</>
+          )}
+        </button>
+
+        {clearStatus === "done" && clearResult && (
+          <div style={{ marginTop: "1rem", padding: "1rem", background: "#ecfdf5", borderRadius: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
+              <CheckCircle size={18} color="#059669" />
+              <span style={{ fontSize: ".85rem", color: "#065f46" }}>{clearResult.message}</span>
+            </div>
+          </div>
+        )}
+
+        {clearStatus === "error" && clearResult && (
+          <div style={{ marginTop: "1rem", padding: "1rem", background: "#fef2f2", borderRadius: 8 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
+              <AlertTriangle size={18} color="#dc2626" />
+              <strong style={{ color: "#991b1b" }}>Error: {clearResult.error}</strong>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <p className="muted" style={{ fontSize: ".8rem", marginTop: "1.5rem", textAlign: "center" }}>
+        Convex deployment: <code style={{ fontSize: ".75rem", background: "var(--subtle)", padding: "2px 6px", borderRadius: 4 }}>{process.env.NEXT_PUBLIC_CONVEX_URL}</code>
       </p>
     </div>
   );

@@ -2,10 +2,13 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
 import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
+import type { Deal, Partner, Payout, AuditEntry } from "@/lib/types";
 
 /** Mini sparkline SVG component */
 function Sparkline({ data, color = "#10b981", width = 80, height = 28 }: { data: number[]; color?: string; width?: number; height?: number }) {
@@ -18,7 +21,6 @@ function Sparkline({ data, color = "#10b981", width = 80, height = 28 }: { data:
     const y = height - ((v - min) / range) * (height - 4) - 2;
     return `${x},${y}`;
   }).join(" ");
-  // Fill area
   const areaPoints = `0,${height} ${points} ${width},${height}`;
   return (
     <svg width={width} height={height} style={{ display: "block", overflow: "visible" }}>
@@ -34,7 +36,6 @@ function Sparkline({ data, color = "#10b981", width = 80, height = 28 }: { data:
   );
 }
 
-// Simulated trend data for sparklines
 const REVENUE_TREND = [42, 55, 48, 67, 73, 80, 92, 85, 102, 110, 95, 125];
 const PIPELINE_TREND = [180, 160, 200, 220, 195, 210, 240, 230, 250, 215, 270, 290];
 const PARTNERS_TREND = [3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7];
@@ -42,41 +43,43 @@ const WINRATE_TREND = [50, 55, 48, 60, 58, 62, 55, 67, 65, 70, 68, 72];
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { stats, deals, partners, payouts, auditLog, channelConflicts, mdfRequests, partnerVolumes } = useStore();
+
+  // ── Convex real data ───────────────────────────────────────────────────
+  const convexStats = useQuery(api.dashboard.getStats);
+  const convexRecentDeals = useQuery(api.dashboard.getRecentDeals);
+  const convexTopPartners = useQuery(api.dashboard.getTopPartners);
+  const convexPendingPayouts = useQuery(api.dashboard.getPendingPayouts);
+  const convexAuditLog = useQuery(api.dashboard.getRecentAuditLog);
+
+  // ── Store (for non-wired modules only) ─────────────────────────────────
+  const { stats: storeStats, deals: storeDeals, partners: storePartners, payouts: storePayouts, auditLog: storeAuditLog, channelConflicts, mdfRequests } = useStore();
   const { config, isFeatureEnabled } = usePlatformConfig();
+
+  // Prefer Convex data; fall back to in-memory store while loading
+  const stats = convexStats ?? storeStats;
+  const recentDeals = (convexRecentDeals ?? [...storeDeals].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5)) as unknown as Deal[];
+  const topPartners = (convexTopPartners ?? storePartners.filter((p) => p.status === "active").slice(0, 5)) as unknown as Partner[];
+  const pendingPayouts = (convexPendingPayouts ?? storePayouts.filter((p) => p.status === "pending_approval")) as unknown as (Payout & { partner?: Partner })[];
+  const auditLog = (convexAuditLog ?? storeAuditLog.slice(0, 5)) as unknown as AuditEntry[];
+
+  // These stay on the in-memory store (not in scope)
   const openConflicts = channelConflicts.filter((c) => c.status === "open" || c.status === "under_review");
   const pendingMDF = mdfRequests.filter((r) => r.status === "pending");
-  const recentDeals = [...deals].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5);
-  const topPartners = partners.filter((p) => p.status === "active").slice(0, 5);
-  const pendingPayouts = payouts.filter((p) => p.status === "pending_approval");
 
-  // First-run detection: redirect to setup if new user
+  // First-run detection: redirect to setup if truly empty (no Convex data loaded yet, no store data)
   useEffect(() => {
     const setupComplete = localStorage.getItem("partnerai_setup_complete");
-    if (!setupComplete && partners.length === 0 && deals.length === 0) {
+    if (!setupComplete && storePartners.length === 0 && storeDeals.length === 0 && convexStats !== undefined && convexStats.totalPartners === 0) {
       router.push("/setup");
     }
-  }, [partners.length, deals.length, router]);
+  }, [storePartners.length, storeDeals.length, convexStats, router]);
 
   return (
     <>
       {/* Demo Environment Banner */}
-      <div
-        style={{
-          padding: "1rem 1.5rem",
-          borderRadius: 10,
-          border: "1px solid #c7d2fe",
-          background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)",
-          marginBottom: "2rem",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "1rem",
-          flexWrap: "wrap",
-        }}
-      >
+      <div style={{ padding: "1rem 1.5rem", borderRadius: 10, border: "1px solid #c7d2fe", background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)", marginBottom: "2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
         <p style={{ fontSize: ".875rem", color: "#3730a3" }}>
-          <strong>🎬 Interactive Demo</strong> — This dashboard is pre-loaded with sample data. Explore the full platform, then request a demo with your data.
+          <strong>🚀 Live Database</strong> — This dashboard is powered by real data from Convex. Use <Link href="/admin/seed" style={{ color: "#4338ca", fontWeight: 700 }}>Seed Demo Data</Link> to populate sample records.
         </p>
         <Link href="/" style={{ fontSize: ".8rem", fontWeight: 600, color: "#4338ca", whiteSpace: "nowrap", textDecoration: "underline" }}>
           Book a demo →
@@ -88,32 +91,20 @@ export default function DashboardPage() {
           <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Dashboard</h1>
           <p className="muted">Partner-influenced revenue &amp; program overview</p>
         </div>
-        <Link
-          href="/dashboard/settings#platform-config"
-          className="btn-outline"
-          style={{ fontSize: ".8rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}
-        >
-          <Sliders size={14} />
-          Customize Platform
-        </Link>
+        <div style={{ display: "flex", gap: ".75rem" }}>
+          <Link href="/admin/seed" className="btn-outline" style={{ fontSize: ".8rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
+            🌱 Seed Data
+          </Link>
+          <Link href="/dashboard/settings#platform-config" className="btn-outline" style={{ fontSize: ".8rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
+            <Sliders size={14} />
+            Customize Platform
+          </Link>
+        </div>
       </div>
 
       {/* Customization Callout */}
       {config.complexityLevel === "standard" && (
-        <div
-          style={{
-            padding: "1rem 1.25rem",
-            borderRadius: 10,
-            border: "1px solid #c7d2fe",
-            background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)",
-            marginBottom: "1.5rem",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "1rem",
-            flexWrap: "wrap",
-          }}
-        >
+        <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #c7d2fe", background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)", marginBottom: "1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
             <Sliders size={18} color="#4338ca" />
             <div>
@@ -121,13 +112,11 @@ export default function DashboardPage() {
               <p style={{ fontSize: ".8rem", color: "#4338ca" }}>Toggle features, adjust complexity, and enable only what you need in Platform Configuration.</p>
             </div>
           </div>
-          <Link href="/dashboard/settings#platform-config" className="btn" style={{ fontSize: ".8rem", padding: ".4rem 1rem", background: "#6366f1", whiteSpace: "nowrap" }}>
-            Configure →
-          </Link>
+          <Link href="/dashboard/settings#platform-config" className="btn" style={{ fontSize: ".8rem", padding: ".4rem 1rem", background: "#6366f1", whiteSpace: "nowrap" }}>Configure →</Link>
         </div>
       )}
 
-      {/* Channel Conflict Alert */}
+      {/* Channel Conflict Alert (in-memory store) */}
       {isFeatureEnabled("channelConflict") && openConflicts.length > 0 && (
         <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #fca5a5", background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: ".5rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
@@ -141,7 +130,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Pending MDF Alert */}
+      {/* Pending MDF Alert (in-memory store) */}
       {isFeatureEnabled("mdf") && pendingMDF.length > 0 && (
         <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #fbbf24", background: "#fffbeb", display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: ".5rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
@@ -221,9 +210,9 @@ export default function DashboardPage() {
           {recentDeals.length === 0 ? (
             <div className="empty-state" style={{ padding: "2rem" }}>
               <Briefcase size={32} color="var(--muted)" style={{ marginBottom: ".5rem" }} />
-              <p className="muted">No deals yet. Import from your CRM or add manually.</p>
-              <Link href="/dashboard/settings#platform-config" style={{ fontSize: ".75rem", color: "#6366f1", fontWeight: 500, marginTop: ".5rem" }}>
-                ⚙️ Configure deal features in Platform Configuration
+              <p className="muted">No deals yet.</p>
+              <Link href="/admin/seed" style={{ fontSize: ".8rem", color: "#6366f1", fontWeight: 600, marginTop: ".5rem", display: "inline-block" }}>
+                🌱 Seed demo data →
               </Link>
             </div>
           ) : (
@@ -253,45 +242,53 @@ export default function DashboardPage() {
             {pendingPayouts.length === 0 ? (
               <p className="muted" style={{ fontSize: ".85rem" }}>All clear! No pending approvals.</p>
             ) : (
-              pendingPayouts.map((p) => {
-                const partner = partners.find((pr) => pr._id === p.partnerId);
-                return (
-                  <div key={p._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: ".6rem 0", borderBottom: "1px solid var(--border)" }}>
-                    <div>
-                      <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{partner?.name}</p>
-                      <p className="muted" style={{ fontSize: ".75rem" }}>Payout · {p.period}</p>
-                    </div>
-                    <strong style={{ fontSize: ".9rem" }}>{formatCurrency(p.amount)}</strong>
+              pendingPayouts.map((p) => (
+                <div key={p._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: ".6rem 0", borderBottom: "1px solid var(--border)" }}>
+                  <div>
+                    <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{p.partner?.name ?? "Unknown"}</p>
+                    <p className="muted" style={{ fontSize: ".75rem" }}>Payout · {p.period}</p>
                   </div>
-                );
-              })
+                  <strong style={{ fontSize: ".9rem" }}>{formatCurrency(p.amount)}</strong>
+                </div>
+              ))
             )}
+            <Link href="/dashboard/payouts" style={{ fontSize: ".8rem", color: "#6366f1", fontWeight: 500, marginTop: ".75rem", display: "block" }}>
+              View all payouts →
+            </Link>
           </div>
 
           {/* Top Partners */}
           <div className="card">
             <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1rem" }}>Top Partners</h3>
-            {topPartners.map((p) => (
-              <Link key={p._id} href={`/dashboard/partners/${p._id}`} style={{ display: "flex", alignItems: "center", gap: ".8rem", padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
-                <div className="avatar">{p.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{p.name}</p>
-                  <p className="muted" style={{ fontSize: ".75rem" }}>{p.type} · {p.tier || "—"}</p>
-                </div>
-                <span className="badge badge-success" style={{ fontSize: ".7rem" }}>{p.commissionRate}%</span>
-              </Link>
-            ))}
+            {topPartners.length === 0 ? (
+              <p className="muted" style={{ fontSize: ".85rem" }}>No active partners yet.</p>
+            ) : (
+              topPartners.map((p) => (
+                <Link key={p._id} href={`/dashboard/partners/${p._id}`} style={{ display: "flex", alignItems: "center", gap: ".8rem", padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
+                  <div className="avatar">{p.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{p.name}</p>
+                    <p className="muted" style={{ fontSize: ".75rem" }}>{p.type} · {p.tier || "—"}</p>
+                  </div>
+                  <span className="badge badge-success" style={{ fontSize: ".7rem" }}>{p.commissionRate}%</span>
+                </Link>
+              ))
+            )}
           </div>
 
           {/* Audit Trail */}
           <div className="card">
             <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1rem" }}>Recent Activity</h3>
-            {auditLog.slice(0, 5).map((entry) => (
-              <div key={entry._id} style={{ padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
-                <p style={{ fontSize: ".85rem" }}><strong>{entry.action}</strong></p>
-                <p className="muted" style={{ fontSize: ".75rem" }}>{new Date(entry.createdAt).toLocaleString()} {entry.changes && `· ${entry.changes}`}</p>
-              </div>
-            ))}
+            {auditLog.length === 0 ? (
+              <p className="muted" style={{ fontSize: ".85rem" }}>No activity yet.</p>
+            ) : (
+              auditLog.map((entry) => (
+                <div key={entry._id} style={{ padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
+                  <p style={{ fontSize: ".85rem" }}><strong>{entry.action}</strong></p>
+                  <p className="muted" style={{ fontSize: ".75rem" }}>{new Date(entry.createdAt).toLocaleString()}</p>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
