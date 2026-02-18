@@ -1,6 +1,8 @@
 "use client";
 import { usePortal } from "@/lib/portal-context";
-import { Mail, Phone, MapPin, Award, ArrowUp, Globe } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { Mail, Phone, MapPin, Award, ArrowUp, Globe, CreditCard, CheckCircle, ExternalLink, Loader2, Zap, LinkIcon, AlertCircle } from "lucide-react";
 
 import { formatCurrencyCompact as fmt, formatCurrency } from "@/lib/utils";
 const TIER_LABELS: Record<string, string> = { bronze: "Bronze", silver: "Silver", gold: "Gold", platinum: "Platinum" };
@@ -8,11 +10,70 @@ const TYPE_LABELS: Record<string, string> = { reseller: "Reseller", referral: "R
 
 export default function PortalProfilePage() {
   const { partner, setPartnerId, allPartners, myDeals, myAttributions, stats } = usePortal();
+  const searchParams = useSearchParams();
+  const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(null);
+  const [connectingStripe, setConnectingStripe] = useState(false);
+  const [stripeSuccess, setStripeSuccess] = useState(false);
+
+  // Check if returning from Stripe onboarding
+  useEffect(() => {
+    if (searchParams.get("stripe_connected") === "true") {
+      setStripeSuccess(true);
+      // Clear the URL param without reload
+      window.history.replaceState({}, "", "/portal/profile");
+    }
+  }, [searchParams]);
+
+  // Check Stripe configuration
+  useEffect(() => {
+    fetch("/api/stripe/status")
+      .then((res) => res.json())
+      .then((data) => setStripeConfigured(data.configured))
+      .catch(() => setStripeConfigured(false));
+  }, []);
 
   if (!partner) return <div style={{ textAlign: "center", padding: "3rem" }}><p className="muted">Select a partner to view profile.</p></div>;
 
   const totalRevenue = myAttributions.reduce((s, a) => s + a.amount, 0);
   const totalCommission = myAttributions.reduce((s, a) => s + a.commissionAmount, 0);
+
+  // Note: In demo mode, we simulate the Stripe connection status
+  // In production, this would come from the partner's stripeOnboarded field
+  const stripeOnboarded = partner.stripeOnboarded || stripeSuccess;
+  const stripeAccountId = partner.stripeAccountId;
+
+  async function handleConnectStripe() {
+    setConnectingStripe(true);
+    try {
+      // In production, use the actual partner ID from Convex
+      // For demo, we'll use the linkedPartnerIds
+      const partnerId = partner.linkedPartnerIds?.[0] || partner.id;
+      
+      const res = await fetch("/api/stripe/connect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ 
+          partnerId,
+          returnUrl: `${window.location.origin}/portal/profile?stripe_connected=true`,
+        }),
+      });
+      
+      const data = await res.json();
+      
+      if (res.ok && data.onboardingUrl) {
+        // Redirect to Stripe onboarding
+        window.location.href = data.onboardingUrl;
+      } else {
+        console.error("Failed to start Stripe onboarding:", data.error);
+        alert(data.error || "Failed to start Stripe onboarding. Please try again.");
+      }
+    } catch (err) {
+      console.error("Stripe connect error:", err);
+      alert("Failed to connect to Stripe. Please try again.");
+    } finally {
+      setConnectingStripe(false);
+    }
+  }
 
   return (
     <div style={{ maxWidth: 800 }}>

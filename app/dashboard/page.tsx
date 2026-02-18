@@ -6,9 +6,21 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { Deal, Partner, Payout, AuditEntry } from "@/lib/types";
+
+/** Format relative time for sync indicator */
+function formatRelativeTime(timestamp: number): string {
+  const seconds = Math.floor((Date.now() - timestamp) / 1000);
+  if (seconds < 60) return 'just now';
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  return `${days}d ago`;
+}
 
 /** Mini sparkline SVG component */
 function Sparkline({ data, color = "#10b981", width = 80, height = 28 }: { data: number[]; color?: string; width?: number; height?: number }) {
@@ -52,8 +64,15 @@ export default function DashboardPage() {
   const convexAuditLog = useQuery(api.dashboard.getRecentAuditLog);
 
   // ── Store (for non-wired modules only) ─────────────────────────────────
-  const { stats: storeStats, deals: storeDeals, partners: storePartners, payouts: storePayouts, auditLog: storeAuditLog, channelConflicts, mdfRequests } = useStore();
+  const { org, stats: storeStats, deals: storeDeals, partners: storePartners, payouts: storePayouts, auditLog: storeAuditLog, channelConflicts, mdfRequests } = useStore();
   const { config, isFeatureEnabled } = usePlatformConfig();
+  
+  // ── Salesforce connection status ───────────────────────────────────────
+  const demoOrgId = org?._id;
+  const sfStatus = useQuery(
+    api.integrations.getSalesforceStatus,
+    demoOrgId ? { organizationId: demoOrgId as any } : "skip"
+  );
 
   // Prefer Convex data; fall back to in-memory store while loading
   const stats = convexStats ?? storeStats;
@@ -88,7 +107,46 @@ export default function DashboardPage() {
 
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
         <div>
-          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Dashboard</h1>
+          <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
+            <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Dashboard</h1>
+            {/* Salesforce Connection Indicator */}
+            {sfStatus?.connected ? (
+              <Link 
+                href="/dashboard/settings#crm-connection" 
+                style={{ 
+                  display: "flex", alignItems: "center", gap: ".35rem",
+                  background: "#dcfce7", border: "1px solid #22c55e", 
+                  padding: "4px 10px", borderRadius: 6, 
+                  fontSize: ".7rem", fontWeight: 600, color: "#166534",
+                  textDecoration: "none",
+                }}
+                title={`Salesforce connected · ${sfStatus.syncedDeals} deals synced`}
+              >
+                <Cloud size={13} />
+                SF
+                {sfStatus.lastSyncedAt && (
+                  <span style={{ color: "#22c55e", marginLeft: ".2rem" }}>
+                    · {formatRelativeTime(sfStatus.lastSyncedAt)}
+                  </span>
+                )}
+              </Link>
+            ) : sfStatus === undefined ? null : (
+              <Link 
+                href="/dashboard/settings#crm-connection" 
+                style={{ 
+                  display: "flex", alignItems: "center", gap: ".35rem",
+                  background: "var(--subtle)", border: "1px solid var(--border)", 
+                  padding: "4px 10px", borderRadius: 6, 
+                  fontSize: ".7rem", fontWeight: 500, color: "var(--muted)",
+                  textDecoration: "none",
+                }}
+                title="Connect your CRM to sync deals automatically"
+              >
+                <Link2 size={12} />
+                Connect CRM
+              </Link>
+            )}
+          </div>
           <p className="muted">Partner-influenced revenue &amp; program overview</p>
         </div>
         <div style={{ display: "flex", gap: ".75rem" }}>

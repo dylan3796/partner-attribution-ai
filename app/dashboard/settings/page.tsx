@@ -273,43 +273,109 @@ export default function SettingsPage() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           {/* Salesforce */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-              <div style={{ width: 40, height: 40, borderRadius: 10, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>☁️</div>
-              <div>
-                <p style={{ fontWeight: 600, fontSize: ".9rem" }}>Salesforce</p>
-                <p className="muted" style={{ fontSize: ".8rem" }}>Sync deals, accounts, and opportunities</p>
+          {sfStatus?.connected ? (
+            <div style={{ padding: "1rem", border: "2px solid #22c55e", borderRadius: 10, background: "#f0fdf4" }}>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: ".75rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                  <div style={{ width: 40, height: 40, borderRadius: 10, background: "#dcfce7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>☁️</div>
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
+                      <p style={{ fontWeight: 600, fontSize: ".9rem" }}>Salesforce</p>
+                      <span style={{ background: "#22c55e", color: "white", fontSize: ".65rem", padding: "2px 6px", borderRadius: 4, fontWeight: 600 }}>CONNECTED</span>
+                    </div>
+                    <p className="muted" style={{ fontSize: ".8rem" }}>
+                      {sfStatus.salesforceOrgName || sfStatus.salesforceOrgId} · {sfStatus.syncedDeals} deals synced
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: ".75rem", borderTop: "1px solid #bbf7d0" }}>
+                <p style={{ fontSize: ".75rem", color: "#166534" }}>
+                  {sfStatus.lastSyncedAt 
+                    ? `Last synced ${new Date(sfStatus.lastSyncedAt).toLocaleString()}`
+                    : 'Never synced'}
+                </p>
+                <div style={{ display: "flex", gap: ".5rem" }}>
+                  <button 
+                    className="btn" 
+                    style={{ fontSize: ".8rem", padding: ".4rem .75rem", background: "#22c55e", display: "flex", alignItems: "center", gap: ".3rem" }} 
+                    onClick={handleSalesforceSync}
+                    disabled={sfSyncing}
+                  >
+                    {sfSyncing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
+                    {sfSyncing ? 'Syncing...' : 'Sync Now'}
+                  </button>
+                  <button 
+                    className="btn-outline" 
+                    style={{ fontSize: ".8rem", padding: ".4rem .75rem", color: "#dc2626", borderColor: "#fca5a5", display: "flex", alignItems: "center", gap: ".3rem" }} 
+                    onClick={handleSalesforceDisconnect}
+                    disabled={sfDisconnecting}
+                  >
+                    {sfDisconnecting ? <Loader2 size={14} className="animate-spin" /> : <Unplug size={14} />}
+                    Disconnect
+                  </button>
+                </div>
               </div>
             </div>
-            <button className="btn-outline" style={{ fontSize: ".8rem" }} onClick={() => toast("Salesforce integration coming soon! Deals can be imported manually for now.", "info")}>
-              Connect
-            </button>
-          </div>
+          ) : (
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>☁️</div>
+                <div>
+                  <p style={{ fontWeight: 600, fontSize: ".9rem" }}>Salesforce</p>
+                  <p className="muted" style={{ fontSize: ".8rem" }}>Sync deals, accounts, and opportunities</p>
+                </div>
+              </div>
+              <button 
+                className="btn" 
+                style={{ fontSize: ".8rem", background: "#0176d3" }} 
+                onClick={() => {
+                  if (!demoOrgId) {
+                    toast("Organization ID not available. Please set up your organization first.", "error");
+                    return;
+                  }
+                  if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
+                    toast("Salesforce integration requires Convex backend. Demo mode shows the UI but won't connect.", "info");
+                    return;
+                  }
+                  window.location.href = `/api/integrations/salesforce/connect?orgId=${demoOrgId}`;
+                }}
+              >
+                Connect Salesforce
+              </button>
+            </div>
+          )}
 
           {/* HubSpot */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)", opacity: 0.7 }}>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
               <div style={{ width: 40, height: 40, borderRadius: 10, background: "#fff7ed", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>🟠</div>
               <div>
-                <p style={{ fontWeight: 600, fontSize: ".9rem" }}>HubSpot</p>
+                <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
+                  <p style={{ fontWeight: 600, fontSize: ".9rem" }}>HubSpot</p>
+                  <span style={{ background: "#fbbf24", color: "#78350f", fontSize: ".6rem", padding: "2px 6px", borderRadius: 4, fontWeight: 600 }}>COMING SOON</span>
+                </div>
                 <p className="muted" style={{ fontSize: ".8rem" }}>Sync deals, contacts, and pipeline stages</p>
               </div>
             </div>
-            <button className="btn-outline" style={{ fontSize: ".8rem" }} onClick={() => toast("HubSpot integration coming soon! Deals can be imported manually for now.", "info")}>
+            <button className="btn-outline" style={{ fontSize: ".8rem" }} disabled>
               Connect
             </button>
           </div>
 
           {/* Pipedrive */}
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)" }}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)", opacity: 0.7 }}>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
               <div style={{ width: 40, height: 40, borderRadius: 10, background: "#ecfdf5", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>🟢</div>
               <div>
-                <p style={{ fontWeight: 600, fontSize: ".9rem" }}>Pipedrive</p>
+                <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
+                  <p style={{ fontWeight: 600, fontSize: ".9rem" }}>Pipedrive</p>
+                  <span style={{ background: "#fbbf24", color: "#78350f", fontSize: ".6rem", padding: "2px 6px", borderRadius: 4, fontWeight: 600 }}>COMING SOON</span>
+                </div>
                 <p className="muted" style={{ fontSize: ".8rem" }}>Sync deals and pipeline data</p>
               </div>
             </div>
-            <button className="btn-outline" style={{ fontSize: ".8rem" }} onClick={() => toast("Pipedrive integration coming soon! Deals can be imported manually for now.", "info")}>
+            <button className="btn-outline" style={{ fontSize: ".8rem" }} disabled>
               Connect
             </button>
           </div>

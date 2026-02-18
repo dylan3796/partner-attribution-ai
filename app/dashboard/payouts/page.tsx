@@ -360,6 +360,23 @@ export default function PayoutsPage() {
                   <td style={{ padding: ".8rem", textAlign: "right" }}>
                     <span style={{ fontWeight: 700, fontSize: ".95rem" }}>{fmtFull(payout.amount)}</span>
                   </td>
+                  <td style={{ padding: ".8rem", textAlign: "center" }}>
+                    {payout.paidVia === "stripe" ? (
+                      <span className="badge badge-success" style={{ fontSize: ".7rem", display: "inline-flex", alignItems: "center", gap: ".25rem" }}>
+                        <Zap size={10} /> Stripe
+                      </span>
+                    ) : payout.paidVia === "manual" ? (
+                      <span className="badge badge-neutral" style={{ fontSize: ".7rem" }}>Manual</span>
+                    ) : payout.partner?.stripeOnboarded ? (
+                      <span className="badge badge-info" style={{ fontSize: ".7rem", display: "inline-flex", alignItems: "center", gap: ".25rem" }}>
+                        <LinkIcon size={10} /> Connected
+                      </span>
+                    ) : payout.partner?.stripeAccountId ? (
+                      <span className="badge badge-neutral" style={{ fontSize: ".7rem" }}>Pending</span>
+                    ) : (
+                      <span className="muted" style={{ fontSize: ".75rem" }}>—</span>
+                    )}
+                  </td>
                   <td style={{ padding: ".8rem" }}>
                     <span className={`badge ${meta.badge}`} style={{ display: "inline-flex", alignItems: "center", gap: ".3rem", fontSize: ".75rem" }}>
                       <StatusIcon size={12} />
@@ -396,17 +413,54 @@ export default function PayoutsPage() {
                         </>
                       )}
                       {payout.status === "approved" && (
-                        <button
-                          className="btn"
-                          style={{ fontSize: ".75rem", padding: ".35rem .7rem" }}
-                          onClick={() => setConfirmAction({ id: payout._id, action: "pay" })}
+                        <>
+                          {stripeConfigured && payout.partner?.stripeOnboarded && (
+                            <button
+                              className="btn"
+                              style={{ fontSize: ".75rem", padding: ".35rem .7rem", background: "#6366f1" }}
+                              onClick={() => setConfirmAction({ id: payout._id, action: "stripe_pay" })}
+                              disabled={stripeProcessing === payout._id}
+                            >
+                              {stripeProcessing === payout._id ? (
+                                <><Loader2 size={12} className="animate-spin" /> Processing...</>
+                              ) : (
+                                <><Zap size={12} /> Pay via Stripe</>
+                              )}
+                            </button>
+                          )}
+                          <button
+                            className="btn-outline"
+                            style={{ fontSize: ".75rem", padding: ".35rem .7rem" }}
+                            onClick={() => setConfirmAction({ id: payout._id, action: "pay" })}
+                          >
+                            <CreditCard size={12} /> Mark Paid
+                          </button>
+                        </>
+                      )}
+                      {payout.status === "processing" && (
+                        <span className="muted" style={{ fontSize: ".8rem", display: "flex", alignItems: "center", gap: ".3rem" }}>
+                          <Loader2 size={12} className="animate-spin" /> Processing...
+                        </span>
+                      )}
+                      {payout.status === "paid" && payout.stripeTransferId && (
+                        <a
+                          href={`https://dashboard.stripe.com/transfers/${payout.stripeTransferId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="btn-outline"
+                          style={{ fontSize: ".75rem", padding: ".35rem .7rem", display: "inline-flex", alignItems: "center", gap: ".3rem" }}
                         >
-                          <CreditCard size={12} /> Mark Paid
-                        </button>
+                          <ExternalLink size={12} /> View in Stripe
+                        </a>
                       )}
-                      {(payout.status === "paid" || payout.status === "rejected") && (
+                      {payout.status === "failed" && (
+                        <span className="badge badge-danger" style={{ fontSize: ".7rem" }} title={payout.stripeError}>
+                          Failed
+                        </span>
+                      )}
+                      {(payout.status === "paid" && !payout.stripeTransferId) || payout.status === "rejected" ? (
                         <span className="muted" style={{ fontSize: ".8rem" }}>—</span>
-                      )}
+                      ) : null}
                     </div>
                   </td>
                 </tr>
@@ -485,6 +539,17 @@ export default function PayoutsPage() {
                   <strong>{payouts.find((p) => p._id === confirmAction.id)?.partner?.name}</strong>.
                 </p>
               </>
+            ) : confirmAction.action === "stripe_pay" ? (
+              <>
+                <div style={{ width: 48, height: 48, borderRadius: 12, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem" }}>
+                  <Zap size={24} color="#6366f1" />
+                </div>
+                <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Pay via Stripe?</h2>
+                <p className="muted" style={{ marginBottom: "1.5rem" }}>
+                  This will immediately transfer <strong>{fmtFull(payouts.find((p) => p._id === confirmAction.id)?.amount || 0)}</strong> to{" "}
+                  <strong>{payouts.find((p) => p._id === confirmAction.id)?.partner?.name}</strong>&apos;s connected Stripe account.
+                </p>
+              </>
             ) : (
               <>
                 <div style={{ width: 48, height: 48, borderRadius: 12, background: "#ecfdf5", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem" }}>
@@ -493,7 +558,7 @@ export default function PayoutsPage() {
                 <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Mark as Paid?</h2>
                 <p className="muted" style={{ marginBottom: "1.5rem" }}>
                   Confirm that <strong>{fmtFull(payouts.find((p) => p._id === confirmAction.id)?.amount || 0)}</strong> has been paid to{" "}
-                  <strong>{payouts.find((p) => p._id === confirmAction.id)?.partner?.name}</strong>.
+                  <strong>{payouts.find((p) => p._id === confirmAction.id)?.partner?.name}</strong> manually.
                 </p>
               </>
             )}
@@ -501,11 +566,24 @@ export default function PayoutsPage() {
               <button className="btn-outline" style={{ flex: 1 }} onClick={() => setConfirmAction(null)}>Cancel</button>
               <button
                 className="btn"
-                style={{ flex: 1, background: confirmAction.action === "approve" ? "#059669" : "var(--fg)" }}
+                style={{ 
+                  flex: 1, 
+                  background: confirmAction.action === "approve" 
+                    ? "#059669" 
+                    : confirmAction.action === "stripe_pay" 
+                    ? "#6366f1" 
+                    : "var(--fg)" 
+                }}
                 onClick={handleConfirmAction}
                 disabled={saving}
               >
-                {saving ? "Saving…" : confirmAction.action === "approve" ? "Approve" : "Confirm Paid"}
+                {saving 
+                  ? "Processing…" 
+                  : confirmAction.action === "approve" 
+                  ? "Approve" 
+                  : confirmAction.action === "stripe_pay"
+                  ? "Pay via Stripe"
+                  : "Confirm Paid"}
               </button>
             </div>
           </div>
