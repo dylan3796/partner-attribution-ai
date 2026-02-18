@@ -340,6 +340,80 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── AS YOU GROW ──────────────────────────────────── */}
+      <section
+        style={{
+          padding: "3.5rem 0",
+          borderTop: "1px solid rgba(255,255,255,.06)",
+          borderBottom: "1px solid rgba(255,255,255,.06)",
+          background: "rgba(255,255,255,.015)",
+        }}
+      >
+        <div className="wrap" style={{ textAlign: "center" }}>
+          <h3
+            style={{
+              fontSize: "1.05rem",
+              fontWeight: 600,
+              color: "rgba(255,255,255,.55)",
+              marginBottom: ".5rem",
+              letterSpacing: "-.01em",
+            }}
+          >
+            PartnerBase grows with your program
+          </h3>
+          <p
+            style={{
+              fontSize: ".85rem",
+              color: "rgba(255,255,255,.3)",
+              marginBottom: "1.75rem",
+              maxWidth: 440,
+              margin: "0 auto 1.75rem",
+            }}
+          >
+            Start with attribution and payouts. Unlock more as your partner program scales.
+          </p>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: ".5rem",
+              justifyContent: "center",
+              maxWidth: 640,
+              margin: "0 auto",
+            }}
+          >
+            {[
+              { icon: "💰", label: "MDF Management" },
+              { icon: "📈", label: "Volume Rebates" },
+              { icon: "🏆", label: "Partner Tiering" },
+              { icon: "🎓", label: "Certifications" },
+              { icon: "🗺️", label: "Territory Management" },
+              { icon: "⚖️", label: "Channel Conflict Resolution" },
+              { icon: "🔀", label: "Custom Attribution Rules" },
+              { icon: "🏷️", label: "White-Label Portal" },
+            ].map(({ icon, label }) => (
+              <span
+                key={label}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: ".35rem",
+                  padding: ".3rem .8rem",
+                  background: "rgba(255,255,255,.04)",
+                  border: "1px solid rgba(255,255,255,.07)",
+                  borderRadius: 20,
+                  fontSize: ".78rem",
+                  color: "rgba(255,255,255,.35)",
+                }}
+              >
+                <span style={{ fontSize: ".82rem" }}>{icon}</span>
+                {label}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── PRICING ──────────────────────────────────────── */}
       <section
         style={{ padding: "6rem 0", background: "linear-gradient(180deg, #000 0%, #0a0a0a 100%)" }}

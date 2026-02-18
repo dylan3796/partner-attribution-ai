@@ -31,9 +31,19 @@ const coreLinks: SidebarLink[] = [
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
+const lockedModules = [
+  "Partner Scoring",
+  "MDF Management",
+  "Volume Rebates",
+  "Certifications",
+  "Channel Conflicts",
+];
+
 export default function DashboardSidebar() {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const [moreExpanded, setMoreExpanded] = useState(false);
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
   useEffect(() => {
     const saved = localStorage.getItem("pb_sidebar_collapsed");
@@ -85,6 +95,86 @@ export default function DashboardSidebar() {
           );
         })}
       </nav>
+
+      {/* More Modules */}
+      {!collapsed && (
+        <div style={{ padding: "0 .75rem .25rem" }}>
+          <button
+            onClick={() => {
+              setMoreExpanded(!moreExpanded);
+              setActiveTooltip(null);
+            }}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "rgba(255,255,255,.28)",
+              fontSize: ".72rem",
+              padding: ".4rem .5rem",
+              width: "100%",
+              textAlign: "left",
+              display: "flex",
+              alignItems: "center",
+              gap: ".3rem",
+              letterSpacing: ".01em",
+            }}
+          >
+            <span style={{ fontSize: ".85rem", lineHeight: 1 }}>
+              {moreExpanded ? "−" : "+"}
+            </span>
+            More modules
+          </button>
+          {moreExpanded && (
+            <div style={{ display: "flex", flexDirection: "column", paddingLeft: ".25rem" }}>
+              {lockedModules.map((mod) => (
+                <div key={mod}>
+                  <button
+                    onClick={() =>
+                      setActiveTooltip(activeTooltip === mod ? null : mod)
+                    }
+                    style={{
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      color: "rgba(255,255,255,.28)",
+                      fontSize: ".78rem",
+                      padding: ".3rem .5rem",
+                      width: "100%",
+                      textAlign: "left",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: ".4rem",
+                      borderRadius: 6,
+                    }}
+                  >
+                    <span style={{ fontSize: ".75rem" }}>🔒</span>
+                    {mod}
+                  </button>
+                  {activeTooltip === mod && (
+                    <div
+                      style={{
+                        fontSize: ".7rem",
+                        color: "rgba(255,255,255,.35)",
+                        padding: ".1rem .5rem .3rem 2rem",
+                        lineHeight: 1.5,
+                      }}
+                    >
+                      Available on Growth plan ·{" "}
+                      <a
+                        href="mailto:hello@partnerbase.app"
+                        style={{ color: "#818cf8", textDecoration: "none" }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Contact us →
+                      </a>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Footer */}
       {!collapsed && (
