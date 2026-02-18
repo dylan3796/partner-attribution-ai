@@ -96,6 +96,22 @@ export default function LandingPage() {
 
   return (
     <>
+      {/* ── EARLY ACCESS BANNER ──────────────────────────── */}
+      <div style={{
+        background: "#0f172a",
+        borderBottom: "1px solid rgba(255,255,255,.08)",
+        padding: ".6rem 1rem",
+        textAlign: "center",
+        fontSize: ".82rem",
+        color: "rgba(255,255,255,.7)",
+        letterSpacing: ".01em",
+      }}>
+        🛠️ <strong style={{ color: "#fff" }}>Early Access</strong> — We&apos;re building PartnerBase directly with our first customers. No corporate BS, just your feedback shaping the product.{" "}
+        <a href="mailto:hello@partnerbase.app" style={{ color: "#818cf8", textDecoration: "underline", fontWeight: 500 }}>
+          Work with us →
+        </a>
+      </div>
+
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="hero" id="product">
         <div className="wrap">
@@ -547,6 +563,163 @@ export default function LandingPage() {
             <div className="payout"><div className="avatar">CB</div><span>CloudBridge Partners</span><strong>$8,920</strong></div>
             <div className="payout"><div className="avatar">DP</div><span>DataPipe Agency</span><strong>$5,630</strong></div>
             <p className="muted" style={{ marginTop: ".8rem", fontSize: ".85rem" }}>Total: $26,700 · Based on role-based attribution · Auto-approved</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── YOUR STRATEGY ────────────────────────────────── */}
+      <section style={{ padding: "5rem 0" }} id="solutions">
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div className="tag">Your strategy, your rules</div>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
+            Configure PartnerBase to Match Your Playbook
+          </h2>
+          <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 700, margin: "0 auto" }}>
+            Every company runs partnerships differently. We give you the tools to design your program exactly how you want it.
+          </p>
+        </div>
+        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem" }}>
+          <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>🏢</div>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Reseller Programs</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Volume tiers, deal reg protection, MDF budgets, co-sell workflows</p>
+            <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
+              <li>✓ Deal registration with conflict resolution</li>
+              <li>✓ Tiered commission structures</li>
+              <li>✓ Volume rebates & SPIFFs</li>
+            </ul>
+          </div>
+          <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "#fff7ed", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>🤝</div>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Referral Networks</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Simple payouts, first-touch attribution, partner portal access</p>
+            <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
+              <li>✓ One-time or recurring commissions</li>
+              <li>✓ Automated payout scheduling</li>
+              <li>✓ Partner self-service portal</li>
+            </ul>
+          </div>
+          <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>🔌</div>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Integration Partners</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Multi-touch attribution, influence tracking, shared pipeline</p>
+            <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
+              <li>✓ Technical enablement tracking</li>
+              <li>✓ Joint GTM campaign measurement</li>
+              <li>✓ Bi-directional data sync</li>
+            </ul>
+          </div>
+          <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "#fef2f2", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>📊</div>
+            <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Agency & Affiliate</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Performance-based payouts, transparent reporting, dispute workflows</p>
+            <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
+              <li>✓ Custom attribution models</li>
+              <li>✓ Multi-currency payouts</li>
+              <li>✓ White-label partner portal</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FULLY CUSTOMIZABLE ───────────────────────────── */}
+      <section className="customizable" id="customizable">
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div className="tag">Fully Customizable</div>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Configure for your workflow — not the other way around</h2>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 700, margin: "0 auto", lineHeight: 1.6 }}>Every partnerships org operates differently. PartnerBase layers onto your existing CRM and adapts to your process — toggle features on or off, choose your complexity level, and enable only what you need.</p>
+        </div>
+        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem", marginBottom: "4rem" }}>
+          <div className="card" style={{ textAlign: "center", padding: "2rem 1.5rem" }}>
+            <p style={{ fontSize: "2rem", marginBottom: ".8rem" }}>🎛️</p>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem", fontSize: "1.05rem" }}>Toggle Complexity</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>Simple, Standard, or Advanced — toggle complexity based on your team&apos;s needs. No unused features cluttering the UI.</p>
+          </div>
+          <div className="card" style={{ textAlign: "center", padding: "2rem 1.5rem" }}>
+            <p style={{ fontSize: "2rem", marginBottom: ".8rem" }}>✅</p>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem", fontSize: "1.05rem" }}>Enable Only What You Use</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>12 toggleable feature modules — from scoring to certifications to API integration. Turn on what matters, turn off what doesn&apos;t.</p>
+          </div>
+          <div className="card" style={{ textAlign: "center", padding: "2rem 1.5rem" }}>
+            <p style={{ fontSize: "2rem", marginBottom: ".8rem" }}>📈</p>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem", fontSize: "1.05rem" }}>Works for 5 Partners or 500</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>Simple tracking to enterprise-grade attribution. Built for YOUR partner program, not a generic template.</p>
+          </div>
+        </div>
+        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem" }}>
+          <div className="card" style={{ border: "2px solid #e5e7eb", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: "#6366f1" }} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+              <div>
+                <span className="badge" style={{ background: "#eef2ff", color: "#4338ca", marginBottom: ".5rem", display: "inline-block" }}>Simple Mode</span>
+                <h3 style={{ fontWeight: 700, fontSize: "1.15rem" }}>Lean partner tracking</h3>
+              </div>
+              <span style={{ fontSize: "1.5rem" }}>🎯</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: ".6rem" }}>
+              {["Partner directory & contacts", "Basic deal attribution", "Simple commission payouts"].map(f => (
+                <div key={f} style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                  <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                  <span style={{ fontSize: ".9rem" }}>{f}</span>
+                </div>
+              ))}
+              {["Scoring & tier management", "Certifications & badges", "MCP / API integrations"].map(f => (
+                <div key={f} style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8, opacity: 0.4 }}>
+                  <span style={{ color: "var(--muted)" }}>—</span>
+                  <span style={{ fontSize: ".9rem", color: "var(--muted)" }}>{f}</span>
+                </div>
+              ))}
+            </div>
+            <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem", fontStyle: "italic" }}>Perfect for small teams getting started with partner tracking</p>
+          </div>
+          <div className="card" style={{ border: "2px solid var(--fg)", position: "relative", overflow: "hidden" }}>
+            <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 4, background: "var(--fg)" }} />
+            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem" }}>
+              <div>
+                <span className="badge" style={{ marginBottom: ".5rem", display: "inline-block" }}>Advanced Mode</span>
+                <h3 style={{ fontWeight: 700, fontSize: "1.15rem" }}>Full-power partner platform</h3>
+              </div>
+              <span style={{ fontSize: "1.5rem" }}>⚡</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: ".6rem" }}>
+              {["Everything in Simple, plus:", "Multi-model AI attribution (5 models)", "Partner scoring & tier automation", "Certifications, badges & training", "MCP integration & API access", "Deal registration & dispute workflows"].map(f => (
+                <div key={f} style={{ display: "flex", alignItems: "center", gap: ".6rem", padding: ".6rem .8rem", background: "var(--subtle)", borderRadius: 8 }}>
+                  <span style={{ color: "#059669", fontWeight: 700 }}>✓</span>
+                  <span style={{ fontSize: ".9rem" }}>{f}</span>
+                </div>
+              ))}
+            </div>
+            <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem", fontStyle: "italic" }}>Enterprise-grade for complex multi-tier partner programs</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── WHO IT'S FOR ─────────────────────────────────── */}
+      <section className="benefits">
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Built for how you run partnerships</h2>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 640, margin: "0 auto" }}>Whether you manage channel partners, alliances, resellers, or referral networks — one intelligence layer sits on top of your CRM and adapts to your motion.</p>
+        </div>
+        <div className="wrap-wide grid-4">
+          <div className="card" style={{ background: "var(--bg)" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>SaaS Channel</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Resellers, VARs, co-sell partners. Measure partner-influenced ARR on your Salesforce or HubSpot deals.</p>
+            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Salesforce, HubSpot, AWS</p>
+          </div>
+          <div className="card" style={{ background: "var(--bg)" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Marketplaces</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>App ecosystems and plugin marketplaces. Measure which partners drive platform adoption.</p>
+            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Shopify, Atlassian, Stripe</p>
+          </div>
+          <div className="card" style={{ background: "var(--bg)" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Distribution</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Multi-tier channel networks. Attribution across distributor → reseller → end customer chains.</p>
+            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Dell, Cisco, HP</p>
+          </div>
+          <div className="card" style={{ background: "var(--bg)" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Agencies & Services</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Referral networks and consulting partners. Track lead quality and relationship value.</p>
+            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Deloitte, boutique agencies</p>
           </div>
         </div>
       </section>

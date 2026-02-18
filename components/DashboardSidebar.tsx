@@ -1,54 +1,79 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
 import {
   LayoutDashboard,
   Users,
   Briefcase,
   PieChart,
   Settings,
+  Activity,
   DollarSign,
+  Trophy,
+  Award,
+  BarChart3,
+  Megaphone,
+  AlertTriangle,
+  Package,
   ExternalLink,
   ChevronLeft,
   ChevronRight,
-  Sliders,
+  SlidersHorizontal,
+  PlusCircle,
+  Layers,
+  ChevronDown,
+  ChevronUp,
 } from "lucide-react";
+import { usePlatformConfig } from "@/lib/platform-config";
+import type { FeatureFlags } from "@/lib/types";
 
 type SidebarLink = {
   name: string;
   href: string;
   icon: typeof LayoutDashboard;
+  featureFlag?: keyof FeatureFlags;
 };
 
-const coreLinks: SidebarLink[] = [
+const allLinks: SidebarLink[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Partners", href: "/dashboard/partners", icon: Users },
   { name: "Deals", href: "/dashboard/deals", icon: Briefcase },
-  { name: "Payouts", href: "/dashboard/payouts", icon: DollarSign },
-  { name: "Reports", href: "/dashboard/reports", icon: PieChart },
+  { name: "Reports", href: "/dashboard/reports", icon: PieChart, featureFlag: "reports" },
+  { name: "Payouts", href: "/dashboard/payouts", icon: DollarSign, featureFlag: "payouts" },
+  { name: "Scoring", href: "/dashboard/scoring", icon: Trophy, featureFlag: "scoring" },
+  { name: "Certifications", href: "/dashboard/certifications", icon: Award, featureFlag: "certifications" },
+  { name: "Volume Rebates", href: "/dashboard/volume-rebates", icon: BarChart3, featureFlag: "volumeRebates" },
+  { name: "MDF", href: "/dashboard/mdf", icon: Megaphone, featureFlag: "mdf" },
+  { name: "Products", href: "/dashboard/products", icon: Package, featureFlag: "productCatalog" },
+  { name: "Conflicts", href: "/dashboard/conflicts", icon: AlertTriangle, featureFlag: "channelConflict" },
+  { name: "Activity", href: "/dashboard/activity", icon: Activity, featureFlag: "auditLog" },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
-const lockedModules = [
-  "Partner Scoring",
-  "MDF Management",
-  "Volume Rebates",
-  "Certifications",
-  "Channel Conflicts",
+const setupLinks: SidebarLink[] = [
+  { name: "Tier Criteria", href: "/dashboard/settings/tiers", icon: SlidersHorizontal },
+  { name: "MDF Setup", href: "/dashboard/mdf/setup", icon: PlusCircle, featureFlag: "mdf" },
+  { name: "Rebate Creator", href: "/dashboard/volume-rebates/create", icon: Layers, featureFlag: "volumeRebates" },
 ];
 
 export default function DashboardSidebar() {
   const pathname = usePathname();
+  const { isFeatureEnabled } = usePlatformConfig();
   const [collapsed, setCollapsed] = useState(false);
-  const [moreExpanded, setMoreExpanded] = useState(false);
-  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
+  const [setupOpen, setSetupOpen] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("pb_sidebar_collapsed");
     if (saved === "true") setCollapsed(true);
   }, []);
+
+  // Auto-open setup section if on a setup page
+  useEffect(() => {
+    const isOnSetup = setupLinks.some((l) => pathname.startsWith(l.href));
+    if (isOnSetup) setSetupOpen(true);
+  }, [pathname]);
 
   function toggleCollapsed() {
     const next = !collapsed;
@@ -56,19 +81,27 @@ export default function DashboardSidebar() {
     localStorage.setItem("pb_sidebar_collapsed", String(next));
   }
 
+  const visibleLinks = allLinks.filter(
+    (l) => !l.featureFlag || isFeatureEnabled(l.featureFlag)
+  );
+
+  const visibleSetupLinks = setupLinks.filter(
+    (l) => !l.featureFlag || isFeatureEnabled(l.featureFlag)
+  );
+
   return (
     <aside className={`dash-sidebar ${collapsed ? "dash-sidebar-collapsed" : ""}`}>
       {/* Header */}
       <div className="dash-sidebar-header">
         {!collapsed && (
-          <Link href="/" className="dash-sidebar-logo">
+          <Link href="/dashboard" className="dash-sidebar-brand">
             PartnerBase
           </Link>
         )}
         <button
           onClick={toggleCollapsed}
-          className="dash-sidebar-toggle"
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          className="dash-sidebar-collapse-btn"
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
         >
           {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </button>
@@ -76,12 +109,13 @@ export default function DashboardSidebar() {
 
       {/* Nav */}
       <nav className="dash-sidebar-nav">
-        {coreLinks.map((link) => {
+        {visibleLinks.map((link) => {
           const Icon = link.icon;
           const isActive =
             link.href === "/dashboard"
               ? pathname === "/dashboard"
-              : pathname.startsWith(link.href);
+              : pathname.startsWith(link.href) &&
+                !setupLinks.some((sl) => pathname.startsWith(sl.href));
           return (
             <Link
               key={link.name}
@@ -94,107 +128,93 @@ export default function DashboardSidebar() {
             </Link>
           );
         })}
+
+        {/* Program Setup section */}
+        {!collapsed && visibleSetupLinks.length > 0 && (
+          <div style={{ marginTop: ".5rem" }}>
+            <button
+              onClick={() => setSetupOpen(!setupOpen)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".5rem",
+                width: "100%",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: ".45rem .65rem",
+                borderRadius: 8,
+                color: "var(--muted)",
+                fontSize: ".75rem",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: ".06em",
+                justifyContent: "space-between",
+                transition: "all .15s",
+              }}
+            >
+              <span>Program Setup</span>
+              {setupOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+            </button>
+
+            {setupOpen &&
+              visibleSetupLinks.map((link) => {
+                const Icon = link.icon;
+                const isActive = pathname.startsWith(link.href);
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    className={`dash-sidebar-link ${isActive ? "active" : ""}`}
+                    style={{ paddingLeft: "1.25rem" }}
+                    title={collapsed ? link.name : undefined}
+                  >
+                    <Icon size={16} />
+                    <span>{link.name}</span>
+                  </Link>
+                );
+              })}
+          </div>
+        )}
+
+        {/* Collapsed: show setup icons without label */}
+        {collapsed && visibleSetupLinks.map((link) => {
+          const Icon = link.icon;
+          const isActive = pathname.startsWith(link.href);
+          return (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`dash-sidebar-link ${isActive ? "active" : ""}`}
+              title={link.name}
+            >
+              <Icon size={18} />
+            </Link>
+          );
+        })}
       </nav>
 
-      {/* More Modules */}
-      {!collapsed && (
-        <div style={{ padding: "0 .75rem .25rem" }}>
-          <button
-            onClick={() => {
-              setMoreExpanded(!moreExpanded);
-              setActiveTooltip(null);
-            }}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "rgba(255,255,255,.28)",
-              fontSize: ".72rem",
-              padding: ".4rem .5rem",
-              width: "100%",
-              textAlign: "left",
-              display: "flex",
-              alignItems: "center",
-              gap: ".3rem",
-              letterSpacing: ".01em",
-            }}
-          >
-            <span style={{ fontSize: ".85rem", lineHeight: 1 }}>
-              {moreExpanded ? "−" : "+"}
-            </span>
-            More modules
-          </button>
-          {moreExpanded && (
-            <div style={{ display: "flex", flexDirection: "column", paddingLeft: ".25rem" }}>
-              {lockedModules.map((mod) => (
-                <div key={mod}>
-                  <button
-                    onClick={() =>
-                      setActiveTooltip(activeTooltip === mod ? null : mod)
-                    }
-                    style={{
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                      color: "rgba(255,255,255,.28)",
-                      fontSize: ".78rem",
-                      padding: ".3rem .5rem",
-                      width: "100%",
-                      textAlign: "left",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: ".4rem",
-                      borderRadius: 6,
-                    }}
-                  >
-                    <span style={{ fontSize: ".75rem" }}>🔒</span>
-                    {mod}
-                  </button>
-                  {activeTooltip === mod && (
-                    <div
-                      style={{
-                        fontSize: ".7rem",
-                        color: "rgba(255,255,255,.35)",
-                        padding: ".1rem .5rem .3rem 2rem",
-                        lineHeight: 1.5,
-                      }}
-                    >
-                      Available on Growth plan ·{" "}
-                      <a
-                        href="mailto:hello@partnerbase.app"
-                        style={{ color: "#818cf8", textDecoration: "none" }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        Contact us →
-                      </a>
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
       {/* Footer */}
-      {!collapsed && (
-        <div className="dash-sidebar-footer">
-          <Link
-            href="/dashboard/settings#platform-config"
-            className="dash-sidebar-footer-link"
-          >
-            <Sliders size={14} />
-            Customize Platform
-          </Link>
-          <Link href="/portal" className="dash-sidebar-footer-link">
-            <ExternalLink size={14} />
-            Partner Portal
-          </Link>
-          <Link href="/" className="dash-sidebar-footer-link muted-link">
-            ← Back to Site
-          </Link>
-        </div>
-      )}
+      <div className="dash-sidebar-footer">
+        {!collapsed && (
+          <>
+            <Link
+              href="/dashboard/settings#platform-config"
+              className="dash-sidebar-footer-link"
+            >
+              <SlidersHorizontal size={15} />
+              <span>Customize Platform</span>
+            </Link>
+            <Link href="/portal" className="dash-sidebar-footer-link" target="_blank">
+              <ExternalLink size={15} />
+              <span>Partner Portal</span>
+            </Link>
+            <Link href="/" className="dash-sidebar-footer-link">
+              <span>← Back to Site</span>
+            </Link>
+          </>
+        )}
+      </div>
     </aside>
   );
 }
