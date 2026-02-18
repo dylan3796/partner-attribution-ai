@@ -27,6 +27,7 @@ import {
   ChevronUp,
   Gift,
   Rocket,
+  GitBranch,
 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -42,6 +43,7 @@ const allLinks: SidebarLink[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Partners", href: "/dashboard/partners", icon: Users },
   { name: "Deals", href: "/dashboard/deals", icon: Briefcase },
+  { name: "Pipeline & Co-Sell", href: "/dashboard/pipeline", icon: GitBranch, featureFlag: "coSell" },
   { name: "Reports", href: "/dashboard/reports", icon: PieChart, featureFlag: "reports" },
   { name: "Payouts", href: "/dashboard/payouts", icon: DollarSign, featureFlag: "payouts" },
   { name: "Scoring", href: "/dashboard/scoring", icon: Trophy, featureFlag: "scoring" },
