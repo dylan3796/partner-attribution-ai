@@ -1,14 +1,14 @@
 "use client";
 import { usePortal } from "@/lib/portal-context";
 import { useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Mail, Phone, MapPin, Award, ArrowUp, Globe, CreditCard, CheckCircle, ExternalLink, Loader2, Zap, LinkIcon, AlertCircle } from "lucide-react";
 
 import { formatCurrencyCompact as fmt, formatCurrency } from "@/lib/utils";
 const TIER_LABELS: Record<string, string> = { bronze: "Bronze", silver: "Silver", gold: "Gold", platinum: "Platinum" };
 const TYPE_LABELS: Record<string, string> = { reseller: "Reseller", referral: "Referral", affiliate: "Affiliate", integration: "Integration" };
 
-export default function PortalProfilePage() {
+function PortalProfilePageInner() {
   const { partner, setPartnerId, allPartners, myDeals, myAttributions, stats } = usePortal();
   const searchParams = useSearchParams();
   const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(null);
@@ -282,5 +282,13 @@ export default function PortalProfilePage() {
           </div>
         </div>
     </div>
+  );
+}
+
+export default function PortalProfilePage() {
+  return (
+    <Suspense fallback={<div style={{ padding: "2rem", color: "#fff" }}>Loading…</div>}>
+      <PortalProfilePageInner />
+    </Suspense>
   );
 }
