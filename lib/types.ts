@@ -35,6 +35,10 @@ export type Partner = {
   contactPhone?: string;
   territory?: string;
   notes?: string;
+  // Stripe Connect fields
+  stripeAccountId?: string;
+  stripeOnboarded?: boolean;
+  stripeOnboardingUrl?: string;
   createdAt: number;
 };
 
@@ -112,6 +116,10 @@ export type Payout = {
   period?: string;
   notes?: string;
   paidAt?: number;
+  // Stripe payout fields
+  stripeTransferId?: string;
+  paidVia?: "stripe" | "manual";
+  stripeError?: string;
   createdAt: number;
   partner?: Partner;
 };

@@ -64,11 +64,16 @@ export default defineSchema({
     contactPhone: v.optional(v.string()),
     territory: v.optional(v.string()),
     notes: v.optional(v.string()),
+    // Stripe Connect fields
+    stripeAccountId: v.optional(v.string()),
+    stripeOnboarded: v.optional(v.boolean()),
+    stripeOnboardingUrl: v.optional(v.string()),
     createdAt: v.number(),
   })
     .index("by_organization", ["organizationId"])
     .index("by_email", ["email"])
-    .index("by_org_and_status", ["organizationId", "status"]),
+    .index("by_org_and_status", ["organizationId", "status"])
+    .index("by_stripe_account", ["stripeAccountId"]),
 
   // Deals (sales opportunities)
   deals: defineTable({
@@ -91,13 +96,21 @@ export default defineSchema({
       v.literal("approved"),
       v.literal("rejected")
     )),
+    // CRM integration fields
+    salesforceId: v.optional(v.string()),
+    source: v.optional(v.union(
+      v.literal("manual"),
+      v.literal("salesforce"),
+      v.literal("hubspot")
+    )),
     createdAt: v.number(),
   })
     .index("by_organization", ["organizationId"])
     .index("by_status", ["status"])
     .index("by_org_and_status", ["organizationId", "status"])
     .index("by_org_and_date", ["organizationId", "createdAt"])
-    .index("by_registered_partner", ["registeredBy"]),
+    .index("by_registered_partner", ["registeredBy"])
+    .index("by_salesforce_id", ["salesforceId"]),
 
   // Touchpoints (partner interactions with deals)
   touchpoints: defineTable({
@@ -165,12 +178,17 @@ export default defineSchema({
     period: v.optional(v.string()),
     notes: v.optional(v.string()),
     paidAt: v.optional(v.number()),
+    // Stripe payout fields
+    stripeTransferId: v.optional(v.string()),
+    paidVia: v.optional(v.union(v.literal("stripe"), v.literal("manual"))),
+    stripeError: v.optional(v.string()),
     createdAt: v.number(),
   })
     .index("by_partner", ["partnerId"])
     .index("by_status", ["status"])
     .index("by_organization", ["organizationId"])
-    .index("by_org_and_status", ["organizationId", "status"]),
+    .index("by_org_and_status", ["organizationId", "status"])
+    .index("by_stripe_transfer", ["stripeTransferId"]),
 
   // Audit log
   audit_log: defineTable({
@@ -236,6 +254,20 @@ export default defineSchema({
     .index("by_partner", ["partnerId"])
     .index("by_deal", ["dealId"])
     .index("by_status", ["status"]),
+
+  // Salesforce CRM connections
+  salesforceConnections: defineTable({
+    organizationId: v.id("organizations"),
+    accessToken: v.string(),
+    refreshToken: v.string(),
+    instanceUrl: v.string(),
+    salesforceOrgId: v.string(),
+    salesforceOrgName: v.optional(v.string()),
+    lastSyncedAt: v.optional(v.number()),
+    connectedAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_salesforce_org", ["salesforceOrgId"]),
 
   // Leads (from landing page)
   leads: defineTable({

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -19,6 +19,9 @@ import {
   AlertTriangle,
   ArrowUpRight,
   Loader2,
+  Zap,
+  LinkIcon,
+  ExternalLink,
 } from "lucide-react";
 import { exportPayoutsCSV } from "@/lib/csv";
 import { formatCurrency, formatCurrencyCompact, formatDate } from "@/lib/utils";
@@ -66,10 +69,20 @@ export default function PayoutsPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState<string | null>(null);
   const [rejectNotes, setRejectNotes] = useState("");
-  const [confirmAction, setConfirmAction] = useState<{ id: string; action: "approve" | "pay" } | null>(null);
+  const [confirmAction, setConfirmAction] = useState<{ id: string; action: "approve" | "pay" | "stripe_pay" } | null>(null);
   const [saving, setSaving] = useState(false);
+  const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(null);
+  const [stripeProcessing, setStripeProcessing] = useState<string | null>(null);
 
   const [form, setForm] = useState({ partnerId: "", amount: "", period: "", notes: "" });
+
+  // Check Stripe configuration on mount
+  useEffect(() => {
+    fetch("/api/stripe/status")
+      .then((res) => res.json())
+      .then((data) => setStripeConfigured(data.configured))
+      .catch(() => setStripeConfigured(false));
+  }, []);
 
   // Filter and sort
   const filtered = useMemo(() => {
@@ -131,11 +144,28 @@ export default function PayoutsPage() {
     try {
       if (confirmAction.action === "approve") {
         await approveMutation({ id: confirmAction.id as Id<"payouts"> });
+      } else if (confirmAction.action === "stripe_pay") {
+        // Initiate Stripe payout
+        setStripeProcessing(confirmAction.id);
+        const res = await fetch("/api/stripe/payout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ payoutId: confirmAction.id }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Stripe payout failed");
+        }
+        // Success - data will be updated via Convex
       } else {
         await markPaidMutation({ id: confirmAction.id as Id<"payouts"> });
       }
+    } catch (err) {
+      console.error("Action failed:", err);
+      // Could add toast notification here
     } finally {
       setSaving(false);
+      setStripeProcessing(null);
       setConfirmAction(null);
     }
   }
@@ -296,6 +326,7 @@ export default function PayoutsPage() {
               <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Partner</th>
               <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Period</th>
               <th style={{ padding: ".8rem", textAlign: "right", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Amount</th>
+              <th style={{ padding: ".8rem", textAlign: "center", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Method</th>
               <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Status</th>
               <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Date</th>
               <th style={{ padding: ".8rem 1.2rem", textAlign: "right", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Actions</th>

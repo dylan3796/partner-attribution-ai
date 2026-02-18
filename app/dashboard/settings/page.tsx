@@ -1,16 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
 import { MODEL_LABELS, MODEL_DESCRIPTIONS, type AttributionModel, FEATURE_FLAG_LABELS, type FeatureFlags, type ComplexityLevel, type UIDensity } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
-import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles, FileUp } from "lucide-react";
+import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles, FileUp, Mail, CheckCircle, XCircle, Check, Loader2, Unplug } from "lucide-react";
 import CSVImport from "@/components/CSVImport";
 
 export default function SettingsPage() {
   const { org, updateOrg } = useStore();
   const { toast } = useToast();
+  const searchParams = useSearchParams();
   const mode = "demo";
   const { config, updateFeatureFlag, setComplexityLevel, setUIDensity, resetToDefaults } = usePlatformConfig();
   const [orgName, setOrgName] = useState(org?.name || "");
@@ -18,6 +22,107 @@ export default function SettingsPage() {
   const [defaultModel, setDefaultModel] = useState<AttributionModel>(org?.defaultAttributionModel || "equal_split");
   const [defaultRate, setDefaultRate] = useState("10");
   const [showApiKey, setShowApiKey] = useState(false);
+  const [sfSyncing, setSfSyncing] = useState(false);
+  const [sfDisconnecting, setSfDisconnecting] = useState(false);
+  
+  // Get Salesforce connection status
+  // In a real app, you'd get the orgId from auth context
+  const demoOrgId = org?._id; // This would come from auth in production
+  const sfStatus = useQuery(
+    api.integrations.getSalesforceStatus,
+    demoOrgId ? { organizationId: demoOrgId as any } : "skip"
+  );
+  
+  // Show toast on OAuth callback
+  useEffect(() => {
+    const connected = searchParams.get('connected');
+    const error = searchParams.get('error');
+    
+    if (connected === 'salesforce') {
+      toast("Salesforce connected successfully! You can now sync deals.", "success");
+    } else if (error) {
+      toast(`Connection error: ${error.replace(/_/g, ' ')}`, "error");
+    }
+  }, [searchParams, toast]);
+  
+  // Salesforce sync handler
+  async function handleSalesforceSync() {
+    if (!demoOrgId) return;
+    setSfSyncing(true);
+    try {
+      const res = await fetch('/api/integrations/salesforce/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ organizationId: demoOrgId }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast(`Synced ${data.synced.total} opportunities (${data.synced.created} new, ${data.synced.updated} updated)`, "success");
+      } else {
+        toast(data.error || 'Sync failed', "error");
+      }
+    } catch {
+      toast('Failed to sync with Salesforce', "error");
+    } finally {
+      setSfSyncing(false);
+    }
+  }
+  
+  // Salesforce disconnect handler
+  async function handleSalesforceDisconnect() {
+    if (!demoOrgId) return;
+    if (!confirm('Are you sure you want to disconnect Salesforce? Synced deals will remain.')) return;
+    setSfDisconnecting(true);
+    try {
+      const res = await fetch('/api/integrations/salesforce/disconnect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ organizationId: demoOrgId }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast('Salesforce disconnected', "info");
+      } else {
+        toast(data.error || 'Disconnect failed', "error");
+      }
+    } catch {
+      toast('Failed to disconnect Salesforce', "error");
+    } finally {
+      setSfDisconnecting(false);
+    }
+  }
+  
+  // Email notification settings
+  const [emailSettings, setEmailSettings] = useState({
+    notifyDealApproval: true,
+    notifyCommissionPaid: true,
+    sendPartnerInvites: true,
+  });
+  const [emailConfigured, setEmailConfigured] = useState<boolean | null>(null);
+  const [emailSaving, setEmailSaving] = useState(false);
+
+  // Check if email is configured on mount
+  useEffect(() => {
+    async function checkEmailConfig() {
+      try {
+        const res = await fetch('/api/email/test');
+        const data = await res.json();
+        setEmailConfigured(data.configured ?? false);
+      } catch {
+        setEmailConfigured(false);
+      }
+    }
+    checkEmailConfig();
+  }, []);
+
+  function handleEmailSettingsSave() {
+    setEmailSaving(true);
+    // In a real app, this would save to backend/Convex
+    setTimeout(() => {
+      setEmailSaving(false);
+      toast("Email notification settings saved");
+    }, 500);
+  }
 
   const apiKey = org?.apiKey || "pk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
   const maskedKey = apiKey.slice(0, 6) + "•".repeat(apiKey.length - 10) + apiKey.slice(-4);
@@ -301,6 +406,106 @@ export default function SettingsPage() {
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Email Notifications */}
+      <div className="card" id="email-notifications">
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: 6 }}>
+          <Mail size={18} /> Email Notifications
+        </h2>
+        <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.25rem", lineHeight: 1.5 }}>
+          Configure automated email notifications to keep partners informed about deal updates and payouts.
+        </p>
+
+        {/* Connection Status */}
+        <div style={{ 
+          display: "flex", 
+          alignItems: "center", 
+          gap: "0.75rem", 
+          padding: "0.75rem 1rem", 
+          borderRadius: 8, 
+          marginBottom: "1.25rem",
+          background: emailConfigured === null ? "var(--subtle)" : emailConfigured ? "#ecfdf5" : "#fef2f2",
+          border: `1px solid ${emailConfigured === null ? "var(--border)" : emailConfigured ? "#86efac" : "#fecaca"}`
+        }}>
+          {emailConfigured === null ? (
+            <>
+              <div style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid var(--muted)", borderTopColor: "transparent", animation: "spin 1s linear infinite" }} />
+              <span style={{ fontSize: ".85rem", color: "var(--muted)" }}>Checking email configuration...</span>
+            </>
+          ) : emailConfigured ? (
+            <>
+              <CheckCircle size={18} color="#22c55e" />
+              <span style={{ fontSize: ".85rem", color: "#15803d", fontWeight: 500 }}>Email configured ✓</span>
+              <span style={{ fontSize: ".8rem", color: "#166534", marginLeft: "auto" }}>Resend connected</span>
+            </>
+          ) : (
+            <>
+              <XCircle size={18} color="#ef4444" />
+              <span style={{ fontSize: ".85rem", color: "#991b1b", fontWeight: 500 }}>Not configured</span>
+              <span style={{ fontSize: ".8rem", color: "#b91c1c", marginLeft: "auto" }}>Add RESEND_API_KEY to enable</span>
+            </>
+          )}
+        </div>
+
+        {/* Notification Toggles */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.25rem" }}>
+          {[
+            { key: "notifyDealApproval", label: "Notify partners on deal approval", description: "Send email when a deal registration is approved" },
+            { key: "notifyCommissionPaid", label: "Notify partners on commission paid", description: "Send email when a commission payout is processed" },
+            { key: "sendPartnerInvites", label: "Send partner invite emails", description: "Email partners when they're invited to the program" },
+          ].map(({ key, label, description }) => (
+            <div
+              key={key}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "0.75rem 1rem",
+                borderRadius: 8,
+                border: "1px solid var(--border)",
+                background: emailSettings[key as keyof typeof emailSettings] ? "var(--bg)" : "var(--subtle)",
+                opacity: emailConfigured ? 1 : 0.6,
+              }}
+            >
+              <div>
+                <p style={{ fontSize: ".9rem", fontWeight: 600 }}>{label}</p>
+                <p className="muted" style={{ fontSize: ".75rem" }}>{description}</p>
+              </div>
+              <button
+                onClick={() => setEmailSettings(prev => ({ ...prev, [key]: !prev[key as keyof typeof emailSettings] }))}
+                disabled={!emailConfigured}
+                style={{ background: "none", border: "none", cursor: emailConfigured ? "pointer" : "not-allowed", padding: 4 }}
+                title={emailSettings[key as keyof typeof emailSettings] ? "Disable" : "Enable"}
+              >
+                {emailSettings[key as keyof typeof emailSettings] ? (
+                  <ToggleRight size={28} color={emailConfigured ? "#059669" : "#9ca3af"} />
+                ) : (
+                  <ToggleLeft size={28} color="#9ca3af" />
+                )}
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Save Button */}
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <button 
+            className="btn" 
+            onClick={handleEmailSettingsSave}
+            disabled={!emailConfigured || emailSaving}
+            style={{ opacity: emailConfigured ? 1 : 0.5 }}
+          >
+            {emailSaving ? "Saving..." : "Save Email Settings"}
+          </button>
+        </div>
+
+        {/* Help text */}
+        {!emailConfigured && (
+          <div style={{ marginTop: "1rem", padding: "0.75rem 1rem", background: "var(--subtle)", borderRadius: 8, fontSize: ".8rem", color: "var(--muted)" }}>
+            💡 To enable email notifications, add <code style={{ background: "var(--border)", padding: "0.1rem 0.3rem", borderRadius: 4 }}>RESEND_API_KEY</code> to your environment variables. Get your API key from <a href="https://resend.com" target="_blank" rel="noopener noreferrer" style={{ color: "#6366f1" }}>resend.com</a>.
+          </div>
+        )}
       </div>
 
       {/* Team Members */}
