@@ -35,6 +35,10 @@ export type PortalPartnerProfile = {
   website: string;
   /** Maps to one or more partnerId entries in demoPartners */
   linkedPartnerIds: string[];
+  // Stripe Connect fields
+  stripeAccountId?: string;
+  stripeOnboarded?: boolean;
+  stripeOnboardingUrl?: string;
 };
 
 export const portalPartners: PortalPartnerProfile[] = [

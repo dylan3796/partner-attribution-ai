@@ -8,7 +8,7 @@ import { useStore } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
 import { MODEL_LABELS, MODEL_DESCRIPTIONS, type AttributionModel, FEATURE_FLAG_LABELS, type FeatureFlags, type ComplexityLevel, type UIDensity } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
-import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles, FileUp, Mail, CheckCircle, XCircle, Check, Loader2, Unplug } from "lucide-react";
+import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles, FileUp, Mail, CheckCircle, XCircle, Check, Loader2, Unplug, CreditCard, Zap, ExternalLink, AlertCircle } from "lucide-react";
 import CSVImport from "@/components/CSVImport";
 
 export default function SettingsPage() {
@@ -100,8 +100,11 @@ export default function SettingsPage() {
   });
   const [emailConfigured, setEmailConfigured] = useState<boolean | null>(null);
   const [emailSaving, setEmailSaving] = useState(false);
+  
+  // Stripe payout settings
+  const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(null);
 
-  // Check if email is configured on mount
+  // Check if email and Stripe are configured on mount
   useEffect(() => {
     async function checkEmailConfig() {
       try {
@@ -112,7 +115,17 @@ export default function SettingsPage() {
         setEmailConfigured(false);
       }
     }
+    async function checkStripeConfig() {
+      try {
+        const res = await fetch('/api/stripe/status');
+        const data = await res.json();
+        setStripeConfigured(data.configured ?? false);
+      } catch {
+        setStripeConfigured(false);
+      }
+    }
     checkEmailConfig();
+    checkStripeConfig();
   }, []);
 
   function handleEmailSettingsSave() {
@@ -570,6 +583,88 @@ export default function SettingsPage() {
         {!emailConfigured && (
           <div style={{ marginTop: "1rem", padding: "0.75rem 1rem", background: "var(--subtle)", borderRadius: 8, fontSize: ".8rem", color: "var(--muted)" }}>
             💡 To enable email notifications, add <code style={{ background: "var(--border)", padding: "0.1rem 0.3rem", borderRadius: 4 }}>RESEND_API_KEY</code> to your environment variables. Get your API key from <a href="https://resend.com" target="_blank" rel="noopener noreferrer" style={{ color: "#6366f1" }}>resend.com</a>.
+          </div>
+        )}
+      </div>
+
+      {/* Payouts & Stripe */}
+      <div className="card" id="payouts">
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: 6 }}>
+          <CreditCard size={18} /> Payouts
+        </h2>
+        <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.25rem", lineHeight: 1.5 }}>
+          Configure how partner commissions are paid out. Connect Stripe to enable automatic bank transfers.
+        </p>
+
+        {/* Stripe Connection Status */}
+        <div style={{ 
+          display: "flex", 
+          alignItems: "center", 
+          gap: "0.75rem", 
+          padding: "0.75rem 1rem", 
+          borderRadius: 8, 
+          marginBottom: "1.25rem",
+          background: stripeConfigured === null ? "var(--subtle)" : stripeConfigured ? "#eef2ff" : "#fef2f2",
+          border: `1px solid ${stripeConfigured === null ? "var(--border)" : stripeConfigured ? "#c7d2fe" : "#fecaca"}`
+        }}>
+          {stripeConfigured === null ? (
+            <>
+              <div style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid var(--muted)", borderTopColor: "transparent", animation: "spin 1s linear infinite" }} />
+              <span style={{ fontSize: ".85rem", color: "var(--muted)" }}>Checking Stripe configuration...</span>
+            </>
+          ) : stripeConfigured ? (
+            <>
+              <Zap size={18} color="#6366f1" />
+              <span style={{ fontSize: ".85rem", color: "#4338ca", fontWeight: 500 }}>Stripe Connect enabled ✓</span>
+              <a 
+                href="https://dashboard.stripe.com/connect/accounts/overview" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ fontSize: ".8rem", color: "#6366f1", marginLeft: "auto", display: "flex", alignItems: "center", gap: ".25rem" }}
+              >
+                View Dashboard <ExternalLink size={12} />
+              </a>
+            </>
+          ) : (
+            <>
+              <AlertCircle size={18} color="#ef4444" />
+              <span style={{ fontSize: ".85rem", color: "#991b1b", fontWeight: 500 }}>Not configured</span>
+              <span style={{ fontSize: ".8rem", color: "#b91c1c", marginLeft: "auto" }}>Add STRIPE_SECRET_KEY to enable</span>
+            </>
+          )}
+        </div>
+
+        {/* Payout Settings */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.25rem" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0.75rem 1rem",
+              borderRadius: 8,
+              border: "1px solid var(--border)",
+              background: stripeConfigured ? "var(--bg)" : "var(--subtle)",
+              opacity: stripeConfigured ? 1 : 0.6,
+            }}
+          >
+            <div>
+              <p style={{ fontSize: ".9rem", fontWeight: 600 }}>Require Stripe Connect for payouts</p>
+              <p className="muted" style={{ fontSize: ".75rem" }}>When enabled, only partners with connected Stripe accounts can receive payouts</p>
+            </div>
+            <button
+              disabled={!stripeConfigured}
+              style={{ background: "none", border: "none", cursor: stripeConfigured ? "pointer" : "not-allowed", padding: 4 }}
+            >
+              <ToggleLeft size={28} color="#9ca3af" />
+            </button>
+          </div>
+        </div>
+
+        {/* Help text */}
+        {!stripeConfigured && (
+          <div style={{ padding: "0.75rem 1rem", background: "var(--subtle)", borderRadius: 8, fontSize: ".8rem", color: "var(--muted)" }}>
+            💡 To enable Stripe payouts, add <code style={{ background: "var(--border)", padding: "0.1rem 0.3rem", borderRadius: 4 }}>STRIPE_SECRET_KEY</code> to your environment variables. Get your API key from <a href="https://dashboard.stripe.com/apikeys" target="_blank" rel="noopener noreferrer" style={{ color: "#6366f1" }}>stripe.com</a>. For webhooks, also add <code style={{ background: "var(--border)", padding: "0.1rem 0.3rem", borderRadius: 4 }}>STRIPE_WEBHOOK_SECRET</code>.
           </div>
         )}
       </div>

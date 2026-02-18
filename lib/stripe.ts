@@ -23,7 +23,7 @@ function getStripeKey(): string {
 function getStripe(): Stripe {
   if (!stripeClient) {
     stripeClient = new Stripe(getStripeKey(), {
-      apiVersion: "2025-01-27.acacia",
+      apiVersion: "2026-01-28.clover",
       typescript: true,
     });
   }
@@ -105,7 +105,7 @@ export async function getAccountStatus(accountId: string): Promise<{
     chargesEnabled: account.charges_enabled,
     payoutsEnabled: account.payouts_enabled,
     detailsSubmitted: account.details_submitted,
-    requirements: account.requirements,
+    requirements: account.requirements ?? null,
   };
 }
 

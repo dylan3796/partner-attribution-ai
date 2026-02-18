@@ -43,6 +43,8 @@ export default function PortalProfilePage() {
   const stripeAccountId = partner.stripeAccountId;
 
   async function handleConnectStripe() {
+    if (!partner) return;
+    
     setConnectingStripe(true);
     try {
       // In production, use the actual partner ID from Convex
@@ -154,6 +156,117 @@ export default function PortalProfilePage() {
             <span className="muted" style={{ fontSize: ".75rem" }}>Gold</span>
             <span className="muted" style={{ fontSize: ".75rem" }}>Platinum</span>
           </div>
+        </div>
+
+        {/* Bank Account & Payouts */}
+        <div className="card" style={{ marginBottom: "1.5rem" }}>
+          <h3 style={{ fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: ".5rem" }}>
+            <CreditCard size={18} /> Bank Account & Payouts
+          </h3>
+          
+          {stripeConfigured === null ? (
+            <div style={{ display: "flex", alignItems: "center", gap: ".5rem", color: "var(--muted)" }}>
+              <Loader2 size={16} className="animate-spin" /> Checking payout configuration...
+            </div>
+          ) : !stripeConfigured ? (
+            <div style={{ background: "#fef3c7", padding: "1rem", borderRadius: 8, border: "1px solid #fde68a" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: ".75rem" }}>
+                <AlertCircle size={20} color="#92400e" style={{ flexShrink: 0, marginTop: 2 }} />
+                <div>
+                  <p style={{ fontWeight: 600, color: "#92400e", marginBottom: ".25rem" }}>
+                    Automatic payouts not available
+                  </p>
+                  <p style={{ fontSize: ".85rem", color: "#a16207" }}>
+                    Your organization hasn&apos;t enabled Stripe payouts yet. Contact your partner manager to discuss payout options.
+                  </p>
+                </div>
+              </div>
+            </div>
+          ) : stripeOnboarded ? (
+            <div style={{ background: "#ecfdf5", padding: "1rem", borderRadius: 8, border: "1px solid #a7f3d0" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: ".75rem" }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#059669", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <CheckCircle size={20} color="white" />
+                </div>
+                <div>
+                  <p style={{ fontWeight: 700, color: "#065f46" }}>Bank account connected</p>
+                  <p style={{ fontSize: ".85rem", color: "#047857" }}>
+                    Your payouts will be automatically deposited to your account.
+                  </p>
+                </div>
+              </div>
+              <div style={{ display: "flex", gap: ".75rem", marginTop: "1rem" }}>
+                <button 
+                  className="btn-outline" 
+                  style={{ fontSize: ".85rem" }}
+                  onClick={() => {
+                    // In production, this would open the Stripe Express dashboard
+                    window.open("https://connect.stripe.com/express_login", "_blank");
+                  }}
+                >
+                  <ExternalLink size={14} /> View Stripe Dashboard
+                </button>
+              </div>
+            </div>
+          ) : stripeAccountId ? (
+            <div style={{ background: "#fef3c7", padding: "1rem", borderRadius: 8, border: "1px solid #fde68a" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: ".75rem" }}>
+                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#d97706", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <LinkIcon size={20} color="white" />
+                </div>
+                <div>
+                  <p style={{ fontWeight: 700, color: "#92400e" }}>Complete your setup</p>
+                  <p style={{ fontSize: ".85rem", color: "#a16207" }}>
+                    You started connecting your bank account but haven&apos;t finished yet.
+                  </p>
+                </div>
+              </div>
+              <button 
+                className="btn" 
+                style={{ marginTop: ".5rem" }}
+                onClick={handleConnectStripe}
+                disabled={connectingStripe}
+              >
+                {connectingStripe ? (
+                  <><Loader2 size={16} className="animate-spin" /> Redirecting...</>
+                ) : (
+                  <><Zap size={16} /> Continue Setup</>
+                )}
+              </button>
+            </div>
+          ) : (
+            <div style={{ background: "var(--subtle)", padding: "1.25rem", borderRadius: 8, border: "1px solid var(--border)" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
+                <div style={{ width: 48, height: 48, borderRadius: 10, background: "#6366f1", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Zap size={24} color="white" />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <p style={{ fontWeight: 700, fontSize: "1rem", marginBottom: ".25rem" }}>
+                    Get paid automatically
+                  </p>
+                  <p style={{ fontSize: ".9rem", color: "var(--muted)", marginBottom: "1rem", lineHeight: 1.5 }}>
+                    Connect your bank account to receive commission payouts automatically. 
+                    Powered by Stripe — the same payment platform used by millions of businesses worldwide.
+                  </p>
+                  <button 
+                    className="btn" 
+                    style={{ background: "#6366f1" }}
+                    onClick={handleConnectStripe}
+                    disabled={connectingStripe}
+                  >
+                    {connectingStripe ? (
+                      <><Loader2 size={16} className="animate-spin" /> Connecting...</>
+                    ) : (
+                      <><Zap size={16} /> Connect with Stripe</>
+                    )}
+                  </button>
+                  <p className="muted" style={{ fontSize: ".75rem", marginTop: ".75rem" }}>
+                    Takes about 5 minutes. You&apos;ll need your bank account details.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Partner Manager */}

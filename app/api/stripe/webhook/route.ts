@@ -46,79 +46,76 @@ export async function POST(req: NextRequest) {
   console.log(`Stripe webhook received: ${event.type}`);
 
   try {
-    switch (event.type) {
-      case "transfer.paid": {
-        // A transfer to a connected account was paid
-        const transfer = event.data.object as Stripe.Transfer;
-        console.log(`Transfer paid: ${transfer.id} to ${transfer.destination}`);
+    // Handle events by string type to avoid TypeScript strict enum checking
+    // Cast to string to work around Stripe's limited type definitions
+    const eventType = event.type as string;
+    
+    if (eventType === "transfer.paid" || eventType === "transfer.created") {
+      // A transfer to a connected account was paid
+      const transfer = event.data.object as Stripe.Transfer;
+      console.log(`Transfer ${eventType}: ${transfer.id} to ${transfer.destination}`);
 
-        // Find the payout by transfer ID
-        const payout = await convex.query(api.payouts.getPayoutByStripeTransfer, {
+      // Find the payout by transfer ID
+      const payout = await convex.query(api.payouts.getPayoutByStripeTransfer, {
+        stripeTransferId: transfer.id,
+      });
+
+      if (payout && payout.status !== "paid") {
+        // Update payout status to paid
+        await convex.mutation(api.payouts.markPaidViaStripe, {
+          id: payout._id,
           stripeTransferId: transfer.id,
         });
-
-        if (payout && payout.status !== "paid") {
-          // Update payout status to paid
-          await convex.mutation(api.payouts.markPaidViaStripe, {
-            id: payout._id,
-            stripeTransferId: transfer.id,
-          });
-          console.log(`Payout ${payout._id} marked as paid`);
-        }
-        break;
+        console.log(`Payout ${payout._id} marked as paid`);
       }
+    } else if (eventType === "transfer.failed" || eventType === "transfer.reversed") {
+      // A transfer failed
+      const transfer = event.data.object as Stripe.Transfer;
+      console.log(`Transfer ${eventType}: ${transfer.id}`);
 
-      case "transfer.failed": {
-        // A transfer failed
-        const transfer = event.data.object as Stripe.Transfer;
-        console.log(`Transfer failed: ${transfer.id}`);
+      const payout = await convex.query(api.payouts.getPayoutByStripeTransfer, {
+        stripeTransferId: transfer.id,
+      });
 
-        const payout = await convex.query(api.payouts.getPayoutByStripeTransfer, {
-          stripeTransferId: transfer.id,
+      if (payout) {
+        await convex.mutation(api.payouts.markFailed, {
+          id: payout._id,
+          error: `Stripe transfer ${eventType.replace("transfer.", "")}`,
         });
+        console.log(`Payout ${payout._id} marked as failed`);
+      }
+    } else if (eventType === "account.updated") {
+      // A connected account was updated (onboarding status may have changed)
+      const account = event.data.object as Stripe.Account;
+      console.log(`Account updated: ${account.id}, payouts_enabled: ${account.payouts_enabled}`);
 
-        if (payout) {
-          await convex.mutation(api.payouts.markFailed, {
-            id: payout._id,
-            error: "Stripe transfer failed",
+      // Find the partner by Stripe account ID
+      const partner = await convex.query(api.payouts.getPartnerByStripeAccount, {
+        stripeAccountId: account.id,
+      });
+
+      if (partner) {
+        // Check if onboarding is complete
+        const isOnboarded = account.payouts_enabled && account.details_submitted;
+        
+        if (isOnboarded !== partner.stripeOnboarded) {
+          await convex.mutation(api.payouts.updatePartnerStripeOnboarded, {
+            partnerId: partner._id,
+            stripeOnboarded: isOnboarded,
           });
-          console.log(`Payout ${payout._id} marked as failed`);
+          console.log(`Partner ${partner._id} stripe onboarded status: ${isOnboarded}`);
         }
-        break;
       }
+    } else if (eventType === "account.application.deauthorized") {
+      // Partner disconnected their Stripe account
+      // The object here is an Application, not Account - we need to handle it differently
+      const application = event.data.object;
+      const accountId = (application as { account?: string }).account;
+      console.log(`Account deauthorized: ${accountId}`);
 
-      case "account.updated": {
-        // A connected account was updated (onboarding status may have changed)
-        const account = event.data.object as Stripe.Account;
-        console.log(`Account updated: ${account.id}, payouts_enabled: ${account.payouts_enabled}`);
-
-        // Find the partner by Stripe account ID
+      if (accountId) {
         const partner = await convex.query(api.payouts.getPartnerByStripeAccount, {
-          stripeAccountId: account.id,
-        });
-
-        if (partner) {
-          // Check if onboarding is complete
-          const isOnboarded = account.payouts_enabled && account.details_submitted;
-          
-          if (isOnboarded !== partner.stripeOnboarded) {
-            await convex.mutation(api.payouts.updatePartnerStripeOnboarded, {
-              partnerId: partner._id,
-              stripeOnboarded: isOnboarded,
-            });
-            console.log(`Partner ${partner._id} stripe onboarded status: ${isOnboarded}`);
-          }
-        }
-        break;
-      }
-
-      case "account.application.deauthorized": {
-        // Partner disconnected their Stripe account
-        const account = event.data.object as Stripe.Account;
-        console.log(`Account deauthorized: ${account.id}`);
-
-        const partner = await convex.query(api.payouts.getPartnerByStripeAccount, {
-          stripeAccountId: account.id,
+          stripeAccountId: accountId,
         });
 
         if (partner) {
@@ -128,12 +125,10 @@ export async function POST(req: NextRequest) {
           });
           console.log(`Partner ${partner._id} Stripe account disconnected`);
         }
-        break;
       }
-
-      default:
-        // Unhandled event type
-        console.log(`Unhandled event type: ${event.type}`);
+    } else {
+      // Unhandled event type
+      console.log(`Unhandled event type: ${eventType}`);
     }
 
     return NextResponse.json({ received: true });
