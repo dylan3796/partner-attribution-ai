@@ -762,9 +762,9 @@ export default function LandingPage() {
           <div
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
               gap: "1.5rem",
-              maxWidth: 780,
+              maxWidth: 1100,
               margin: "0 auto 2rem",
             }}
           >
@@ -983,10 +983,109 @@ export default function LandingPage() {
                 Start free trial
               </Link>
             </div>
+
+            {/* Scale */}
+            <div
+              style={{
+                background: "#0d0d0d",
+                border: "1px solid #1a1a1a",
+                borderRadius: 16,
+                padding: "2rem",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <p
+                style={{
+                  fontSize: ".7rem",
+                  fontWeight: 700,
+                  textTransform: "uppercase",
+                  letterSpacing: ".1em",
+                  color: "#555",
+                  marginBottom: "1rem",
+                }}
+              >
+                Scale
+              </p>
+              <div style={{ marginBottom: "1.5rem" }}>
+                <span
+                  style={{
+                    fontSize: "3rem",
+                    fontWeight: 800,
+                    color: "#fff",
+                    letterSpacing: "-.03em",
+                    lineHeight: 1,
+                  }}
+                >
+                  $1,999
+                </span>
+                <span style={{ fontSize: ".875rem", color: "#444" }}>/mo</span>
+                <p style={{ fontSize: ".8rem", color: "#555", marginTop: ".4rem" }}>
+                  Up to $50M tracked partner ARR
+                </p>
+              </div>
+              <ul
+                style={{
+                  listStyle: "none",
+                  padding: 0,
+                  margin: "0 0 2rem",
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: ".55rem",
+                }}
+              >
+                {[
+                  "Unlimited partners",
+                  "Everything in Growth, plus:",
+                  "MDF management",
+                  "Volume rebates & SPIFFs",
+                  "Territory management",
+                  "White-label partner portal",
+                  "Dedicated success manager",
+                ].map((f) => (
+                  <li
+                    key={f}
+                    style={{
+                      display: "flex",
+                      alignItems: "flex-start",
+                      gap: ".6rem",
+                      fontSize: ".85rem",
+                      color: f.endsWith(":") ? "#fff" : "#aaa",
+                      fontWeight: f.endsWith(":") ? 700 : 400,
+                    }}
+                  >
+                    {!f.endsWith(":") && (
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: ".15rem" }}>
+                        <path d="M13.5 4L6 11.5L2.5 8" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="mailto:hello@partnerbase.app"
+                style={{
+                  display: "block",
+                  textAlign: "center",
+                  padding: ".875rem",
+                  borderRadius: 10,
+                  border: "1px solid #333",
+                  color: "#aaa",
+                  fontWeight: 600,
+                  fontSize: ".9rem",
+                  textDecoration: "none",
+                  transition: "all .2s",
+                }}
+              >
+                Talk to us →
+              </a>
+            </div>
           </div>
 
           <p style={{ textAlign: "center", fontSize: ".85rem", color: "#444" }}>
-            Larger program?{" "}
+            Tracking &gt;$50M partner ARR?{" "}
             <a
               href="mailto:hello@partnerbase.app"
               style={{ color: "#818cf8", textDecoration: "underline" }}

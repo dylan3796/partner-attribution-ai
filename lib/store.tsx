@@ -1,9 +1,10 @@
 "use client";
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import type { Organization, Partner, Deal, Touchpoint, Attribution, Payout, AuditEntry, AttributionModel, Certification, Badge, TrainingCompletion, SkillEndorsement, VolumeProgram, PartnerVolumeRecord, MDFBudget, MDFRequest, Product, ProductRebate, PartnerProductCertification, Territory, ChannelConflict } from "./types";
+import type { Organization, Partner, Deal, Touchpoint, Attribution, Payout, AuditEntry, AttributionModel, Certification, Badge, TrainingCompletion, SkillEndorsement, VolumeProgram, PartnerVolumeRecord, MDFBudget, MDFRequest, Product, ProductRebate, PartnerProductCertification, Territory, ChannelConflict, IncentiveProgram, IncentiveEnrollment } from "./types";
 import { demoOrg, demoPartners, demoDeals, demoTouchpoints, demoAttributions, demoPayouts, demoAuditLog, enrichTouchpoints, enrichAttributions, generateAttributionsForDeal } from "./demo-data";
 import { demoCertifications, demoBadges, demoTrainingCompletions, demoSkillEndorsements } from "./certifications-data";
 import { demoVolumePrograms, demoPartnerVolumes, demoMDFBudgets, demoMDFRequests, demoProducts, demoProductRebates, demoPartnerProductCerts, demoTerritories, demoChannelConflicts } from "./distributor-demo-data";
+import { demoIncentivePrograms, demoIncentiveEnrollments } from "./incentive-demo-data";
 
 type StoreContextType = {
   org: Organization;
@@ -54,6 +55,8 @@ type StoreContextType = {
   addTerritory: (t: Omit<Territory, "_id" | "organizationId" | "createdAt">) => Territory;
   updateTerritory: (id: string, updates: Partial<Territory>) => void;
   channelConflicts: ChannelConflict[];
+  incentivePrograms: IncentiveProgram[];
+  incentiveEnrollments: IncentiveEnrollment[];
   updateConflict: (id: string, updates: Partial<ChannelConflict>) => void;
   addConflict: (c: Omit<ChannelConflict, "_id" | "organizationId" | "createdAt">) => ChannelConflict;
 
@@ -97,6 +100,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [partnerProductCerts] = useState<PartnerProductCertification[]>(demoPartnerProductCerts);
   const [territories, setTerritories] = useState<Territory[]>(demoTerritories);
   const [channelConflicts, setChannelConflicts] = useState<ChannelConflict[]>(demoChannelConflicts);
+  const [incentivePrograms] = useState<IncentiveProgram[]>(demoIncentivePrograms);
+  const [incentiveEnrollments] = useState<IncentiveEnrollment[]>(demoIncentiveEnrollments);
   const [auditLog, setAuditLog] = useState<AuditEntry[]>(demoAuditLog);
 
   const updateOrg = useCallback((updates: Partial<Organization>) => {
@@ -260,7 +265,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <StoreContext.Provider value={{ org, updateOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, certifications, getCertificationsByPartner, badges, getBadgesByPartner, trainingCompletions, getTrainingByPartner, skillEndorsements, getEndorsementsByPartner, payouts, approvePayout, rejectPayout, markPayoutPaid, createPayout, volumePrograms, partnerVolumes, mdfBudgets, mdfRequests, updateMDFRequest, addMDFRequest, products, addProduct, updateProduct, productRebates, partnerProductCerts, territories, addTerritory, updateTerritory, channelConflicts, updateConflict, addConflict, auditLog, addAuditEntry, stats }}>
+    <StoreContext.Provider value={{ org, updateOrg, partners, getPartner, addPartner, updatePartner, deals, getDeal, addDeal, updateDeal, closeDeal, touchpoints, getTouchpointsByDeal, getTouchpointsByPartner, addTouchpoint, attributions, getAttributionsByDeal, getAttributionsByPartner, getAttributionsByModel, certifications, getCertificationsByPartner, badges, getBadgesByPartner, trainingCompletions, getTrainingByPartner, skillEndorsements, getEndorsementsByPartner, payouts, approvePayout, rejectPayout, markPayoutPaid, createPayout, volumePrograms, partnerVolumes, mdfBudgets, mdfRequests, updateMDFRequest, addMDFRequest, products, addProduct, updateProduct, productRebates, partnerProductCerts, territories, addTerritory, updateTerritory, channelConflicts, updateConflict, addConflict, incentivePrograms, incentiveEnrollments, auditLog, addAuditEntry, stats }}>
       {children}
     </StoreContext.Provider>
   );

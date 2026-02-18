@@ -16,15 +16,15 @@ export default function ROICalculator() {
 
   // --- Tier logic: based on tracked partner ARR ---
   type Tier =
-    | { name: "Launch"; monthly: 299; annual: 3588 }
-    | { name: "Scale"; monthly: 799; annual: 9588 }
-    | { name: "Program"; monthly: 1999; annual: 23988 }
+    | { name: "Starter"; monthly: 299; annual: 3588 }
+    | { name: "Growth"; monthly: 799; annual: 9588 }
+    | { name: "Scale"; monthly: 1999; annual: 23988 }
     | { name: "Enterprise"; monthly: null; annual: null };
 
   const getTier = (arr: number): Tier => {
-    if (arr <= 1_000_000) return { name: "Launch", monthly: 299, annual: 3588 };
-    if (arr <= 10_000_000) return { name: "Scale", monthly: 799, annual: 9588 };
-    if (arr <= 50_000_000) return { name: "Program", monthly: 1999, annual: 23988 };
+    if (arr <= 1_000_000) return { name: "Starter", monthly: 299, annual: 3588 };
+    if (arr <= 10_000_000) return { name: "Growth", monthly: 799, annual: 9588 };
+    if (arr <= 50_000_000) return { name: "Scale", monthly: 1999, annual: 23988 };
     return { name: "Enterprise", monthly: null, annual: null };
   };
 
@@ -66,9 +66,9 @@ export default function ROICalculator() {
 
   // Tier selection indicator
   const tierBadgeColor: Record<string, string> = {
-    Launch: "#6366f1",
-    Scale: "#10b981",
-    Program: "#f59e0b",
+    Starter: "#6366f1",
+    Growth: "#10b981",
+    Scale: "#f59e0b",
     Enterprise: "#a0a0a0",
   };
 

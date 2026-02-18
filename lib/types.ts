@@ -278,6 +278,7 @@ export type FeatureFlags = {
   productCatalog: boolean;
   channelConflict: boolean;
   territories: boolean;
+  incentivePrograms: boolean;
 };
 
 export type PlatformConfig = {
@@ -309,6 +310,7 @@ export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   productCatalog: true,
   channelConflict: true,
   territories: true,
+  incentivePrograms: true,
 };
 
 export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
@@ -344,6 +346,7 @@ export const FEATURE_FLAG_LABELS: Record<keyof FeatureFlags, { label: string; de
   productCatalog: { label: "Product Catalog", description: "Product/SKU management with distributor pricing" },
   channelConflict: { label: "Channel Conflict Detection", description: "Territory management and conflict resolution" },
   territories: { label: "Territory Management", description: "Assign and manage partner territories" },
+  incentivePrograms: { label: "Incentive Programs", description: "SPIFs, bonuses, accelerators, and partner incentive management" },
 };
 
 // ── Volume-Based Incentive Programs ──
@@ -520,4 +523,59 @@ export const CONFLICT_RESOLUTION_LABELS: Record<string, string> = {
   split_credit: "Split Credit",
   escalated: "Escalated to Management",
   dismissed: "Dismissed",
+};
+
+// ── Incentive Programs ──────────────────────────────────────────────────────
+
+export type IncentiveProgramType = "spif" | "bonus" | "accelerator" | "mdf_match" | "deal_reg_bonus";
+
+export type IncentiveProgram = {
+  _id: string;
+  name: string;
+  type: IncentiveProgramType;
+  description: string;
+  status: "draft" | "active" | "paused" | "ended";
+  startDate: number;
+  endDate: number;
+  budget: number;
+  spent: number;
+  rules: IncentiveRule[];
+  eligiblePartnerTiers: string[]; // e.g. ["gold", "platinum"]
+  eligiblePartnerTypes: string[]; // e.g. ["reseller", "referral"]
+  createdAt: number;
+};
+
+export type IncentiveRule = {
+  metric: "deals_closed" | "revenue" | "new_logos" | "certifications" | "deal_registrations";
+  threshold: number;
+  reward: number; // flat $ or percentage
+  rewardType: "flat" | "percentage";
+  description: string;
+};
+
+export type IncentiveEnrollment = {
+  _id: string;
+  programId: string;
+  partnerId: string;
+  partnerName: string;
+  enrolledAt: number;
+  progress: { metric: string; current: number; target: number }[];
+  earned: number;
+  paid: number;
+  status: "enrolled" | "achieved" | "partially_achieved" | "expired";
+};
+
+export const INCENTIVE_TYPE_LABELS: Record<IncentiveProgramType, string> = {
+  spif: "SPIF",
+  bonus: "Performance Bonus",
+  accelerator: "Accelerator",
+  mdf_match: "MDF Match",
+  deal_reg_bonus: "Deal Reg Bonus",
+};
+
+export const INCENTIVE_STATUS_LABELS: Record<IncentiveProgram["status"], string> = {
+  draft: "Draft",
+  active: "Active",
+  paused: "Paused",
+  ended: "Ended",
 };

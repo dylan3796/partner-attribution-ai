@@ -25,6 +25,7 @@ import {
   Layers,
   ChevronDown,
   ChevronUp,
+  Gift,
 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -44,6 +45,7 @@ const allLinks: SidebarLink[] = [
   { name: "Payouts", href: "/dashboard/payouts", icon: DollarSign, featureFlag: "payouts" },
   { name: "Scoring", href: "/dashboard/scoring", icon: Trophy, featureFlag: "scoring" },
   { name: "Certifications", href: "/dashboard/certifications", icon: Award, featureFlag: "certifications" },
+  { name: "Incentives", href: "/dashboard/incentives", icon: Gift, featureFlag: "incentivePrograms" },
   { name: "Volume Rebates", href: "/dashboard/volume-rebates", icon: BarChart3, featureFlag: "volumeRebates" },
   { name: "MDF", href: "/dashboard/mdf", icon: Megaphone, featureFlag: "mdf" },
   { name: "Products", href: "/dashboard/products", icon: Package, featureFlag: "productCatalog" },
