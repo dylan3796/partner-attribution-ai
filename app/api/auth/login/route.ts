@@ -3,9 +3,9 @@ import type { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
   const { password } = await request.json();
-  const expected = process.env.DASHBOARD_PASSWORD;
+  const expected = process.env.DASHBOARD_PASSWORD?.trim();
 
-  if (!expected || password !== expected) {
+  if (!expected || password.trim() !== expected) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
