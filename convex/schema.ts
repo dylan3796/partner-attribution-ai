@@ -371,4 +371,51 @@ export default defineSchema({
   })
     .index("by_agent", ["agentRole"])
     .index("by_timestamp", ["timestamp"]),
+
+  // Event Sources (webhook/integration endpoints)
+  eventSources: defineTable({
+    organizationId: v.id("organizations"),
+    name: v.string(), // "Shopify", "Stripe", "Custom Webhook", etc.
+    type: v.union(
+      v.literal("shopify"),
+      v.literal("stripe"),
+      v.literal("webhook"),
+      v.literal("manual")
+    ),
+    webhookUrl: v.string(), // unique inbound URL for this source
+    webhookSecret: v.optional(v.string()), // for signature verification
+    eventMapping: v.string(), // JSON config mapping source fields to Covant event fields
+    status: v.union(v.literal("active"), v.literal("paused")),
+    createdAt: v.number(),
+    lastEventAt: v.optional(v.number()),
+    eventCount: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_status", ["status"])
+    .index("by_org_and_status", ["organizationId", "status"]),
+
+  // Inbound Events (received webhook payloads)
+  inboundEvents: defineTable({
+    organizationId: v.id("organizations"),
+    sourceId: v.id("eventSources"),
+    rawPayload: v.string(), // JSON stringified raw webhook payload
+    eventType: v.string(), // e.g. "order.completed", "charge.succeeded"
+    mappedFields: v.string(), // JSON of extracted: partnerId, amount, dealName, customerId
+    status: v.union(
+      v.literal("pending"),
+      v.literal("matched"),
+      v.literal("ignored"),
+      v.literal("error")
+    ),
+    partnerMatch: v.optional(v.id("partners")), // if we could match to a partner
+    dealCreated: v.optional(v.id("deals")), // if we created a deal from this event
+    errorMessage: v.optional(v.string()), // error details if status is "error"
+    receivedAt: v.number(),
+    processedAt: v.optional(v.number()),
+  })
+    .index("by_source", ["sourceId"])
+    .index("by_organization", ["organizationId"])
+    .index("by_status", ["status"])
+    .index("by_org_and_status", ["organizationId", "status"])
+    .index("by_received", ["receivedAt"]),
 });

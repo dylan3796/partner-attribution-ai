@@ -546,6 +546,63 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── GROW YOUR ECOSYSTEM ──────────────────────────── */}
+      <section style={{ padding: "6rem 0", background: "linear-gradient(180deg, rgba(255,255,255,.02) 0%, transparent 100%)" }}>
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div className="tag">Grow Your Ecosystem</div>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
+            A partner program that grows itself
+          </h2>
+          <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 700, margin: "0 auto", lineHeight: 1.6 }}>
+            Most partner programs track what partners did. Covant makes partners want to do more.
+          </p>
+        </div>
+        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }}>
+          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
+            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>📈</div>
+            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Engaged partners produce more</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
+              When partners can see their impact — real numbers, real deals — they sell harder. Visibility changes behavior.
+            </p>
+          </div>
+          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
+            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>🎯</div>
+            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Recruit better partners</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
+              Tell prospects your program pays on time, attribution is transparent, and they get a real portal. You&apos;ll win the conversation.
+            </p>
+          </div>
+          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
+            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>💎</div>
+            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Keep your best performers</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
+              Good partners churn when they don&apos;t trust the numbers. Transparent attribution and on-time payouts build the loyalty that compounds.
+            </p>
+          </div>
+          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
+            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>🔍</div>
+            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Know who to invest in</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
+              Ramp scores and pipeline data tell you who&apos;s climbing before it&apos;s obvious. Put MDF and co-sell resources behind the right partners early.
+            </p>
+          </div>
+          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
+            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>🏆</div>
+            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Tiers that actually motivate</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
+              Partners can see their progress toward the next tier in real time. That visibility drives action in a way a quarterly email never will.
+            </p>
+          </div>
+          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
+            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>💵</div>
+            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>MDF that proves its ROI</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
+              Track what every MDF dollar produced. Stop guessing which investments worked. Reallocate to what actually drives revenue.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* ── YOUR STRATEGY ────────────────────────────────── */}
       <section style={{ padding: "6rem 0" }} id="solutions">
         <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>

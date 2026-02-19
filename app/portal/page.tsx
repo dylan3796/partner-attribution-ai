@@ -20,9 +20,25 @@ import {
   Megaphone,
   Package,
   MapPin,
+  Trophy,
 } from "lucide-react";
 
 import { formatCurrency, formatNumber } from "@/lib/utils";
+
+// Tier thresholds based on won deals
+const TIER_THRESHOLDS = {
+  bronze: { minDeals: 0, maxDeals: 2, next: "silver" as const, label: "Bronze" },
+  silver: { minDeals: 3, maxDeals: 5, next: "gold" as const, label: "Silver" },
+  gold: { minDeals: 6, maxDeals: 9, next: "platinum" as const, label: "Gold" },
+  platinum: { minDeals: 10, maxDeals: Infinity, next: null, label: "Platinum" },
+};
+
+const TIER_COLORS = {
+  bronze: { bg: "#92400e", text: "#fef3c7" },
+  silver: { bg: "#6b7280", text: "#f3f4f6" },
+  gold: { bg: "#d97706", text: "#fef3c7" },
+  platinum: { bg: "#6366f1", text: "#e0e7ff" },
+};
 
 function timeAgo(ts: number) {
   const diff = Date.now() - ts;
@@ -84,6 +100,29 @@ export default function PortalDashboard() {
     },
   ];
 
+  // Tier progress calculations
+  const currentTierKey = partner.tier;
+  const currentTier = TIER_THRESHOLDS[currentTierKey];
+  const nextTierKey = currentTier.next;
+  const nextTier = nextTierKey ? TIER_THRESHOLDS[nextTierKey] : null;
+  
+  // Calculate progress toward next tier
+  const dealsNeededForNext = nextTier ? nextTier.minDeals : currentTier.minDeals;
+  const dealsInCurrentRange = stats.wonDeals - currentTier.minDeals;
+  const dealsRangeSize = nextTier 
+    ? nextTier.minDeals - currentTier.minDeals 
+    : 1;
+  const tierProgress = nextTier 
+    ? Math.min(100, Math.round((dealsInCurrentRange / dealsRangeSize) * 100))
+    : 100;
+  const dealsToNextTier = nextTier 
+    ? Math.max(0, nextTier.minDeals - stats.wonDeals)
+    : 0;
+
+  // Get current quarter for display
+  const now = new Date();
+  const quarterLabel = `Q${Math.ceil((now.getMonth() + 1) / 3)} ${now.getFullYear()}`;
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       {/* Welcome */}
@@ -94,6 +133,96 @@ export default function PortalDashboard() {
         <p style={{ color: "var(--muted)", fontSize: "0.95rem", marginTop: "0.25rem" }}>
           Track your influence, commissions, and deal registrations
         </p>
+      </div>
+
+      {/* Tier Progress Card */}
+      <div 
+        className="card" 
+        style={{ 
+          padding: "1.5rem 2rem",
+          background: `linear-gradient(135deg, ${TIER_COLORS[currentTierKey].bg}22 0%, var(--card-bg) 100%)`,
+          border: `1px solid ${TIER_COLORS[currentTierKey].bg}44`,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: "2rem", flexWrap: "wrap" }}>
+          {/* Left: Tier info */}
+          <div style={{ flex: "1 1 300px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: "1rem" }}>
+              <div 
+                style={{ 
+                  width: 44, 
+                  height: 44, 
+                  borderRadius: 12, 
+                  background: TIER_COLORS[currentTierKey].bg,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Trophy size={22} color={TIER_COLORS[currentTierKey].text} />
+              </div>
+              <div>
+                <p style={{ fontSize: "0.8rem", color: "var(--muted)", marginBottom: "0.15rem" }}>Your Tier</p>
+                <p style={{ fontSize: "1.4rem", fontWeight: 800, letterSpacing: "-0.01em" }}>{currentTier.label}</p>
+              </div>
+            </div>
+            
+            {/* Progress bar */}
+            {nextTier ? (
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: ".4rem" }}>
+                  <span style={{ fontSize: ".85rem", color: "var(--muted)" }}>Progress to {nextTier.label}</span>
+                  <span style={{ fontSize: ".85rem", fontWeight: 600 }}>{tierProgress}%</span>
+                </div>
+                <div 
+                  style={{ 
+                    width: "100%", 
+                    height: 8, 
+                    background: "rgba(255,255,255,.1)", 
+                    borderRadius: 4, 
+                    overflow: "hidden" 
+                  }}
+                >
+                  <div 
+                    style={{ 
+                      width: `${tierProgress}%`, 
+                      height: "100%", 
+                      background: TIER_COLORS[currentTierKey].bg,
+                      borderRadius: 4,
+                      transition: "width 0.5s ease",
+                    }} 
+                  />
+                </div>
+                <p style={{ fontSize: ".85rem", color: "var(--muted)", marginTop: ".5rem" }}>
+                  <strong style={{ color: "var(--fg)" }}>{dealsToNextTier} more closed deal{dealsToNextTier !== 1 ? "s" : ""}</strong> to reach {nextTier.label}
+                </p>
+              </div>
+            ) : (
+              <p style={{ fontSize: ".9rem", color: "#10b981", fontWeight: 600 }}>
+                🎉 You&apos;ve reached the highest tier!
+              </p>
+            )}
+          </div>
+
+          {/* Right: Key metrics */}
+          <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
+            <div style={{ textAlign: "center" }}>
+              <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{stats.wonDeals}</p>
+              <p style={{ fontSize: ".8rem", color: "var(--muted)" }}>Deals Won</p>
+              <p style={{ fontSize: ".75rem", color: "var(--muted)" }}>{quarterLabel}</p>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{formatCurrency(stats.totalRevenue)}</p>
+              <p style={{ fontSize: ".8rem", color: "var(--muted)" }}>Revenue Influenced</p>
+              <p style={{ fontSize: ".75rem", color: "var(--muted)" }}>{quarterLabel}</p>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{formatCurrency(stats.totalEarned)}</p>
+              <p style={{ fontSize: ".8rem", color: "var(--muted)" }}>Commission Earned</p>
+              <p style={{ fontSize: ".75rem", color: "var(--muted)" }}>YTD</p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Stat cards */}
