@@ -69,6 +69,7 @@ const allLinks: SidebarLink[] = [
   { name: "Activity", href: "/dashboard/activity", icon: Activity, featureFlag: "auditLog" },
   { name: "Email Triggers", href: "/dashboard/emails", icon: Mail },
   { name: "Contracts", href: "/dashboard/contracts", icon: FileText },
+  { name: "Benchmarks", href: "/dashboard/benchmarks", icon: BarChart3 },
   { name: "Integrations", href: "/dashboard/integrations", icon: Plug2 },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
