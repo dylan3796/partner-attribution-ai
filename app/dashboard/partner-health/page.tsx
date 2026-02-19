@@ -188,7 +188,7 @@ export default function PartnerHealthPage() {
           { label: "At Risk", value: `${atRiskCount}`, icon: <AlertTriangle size={18} />, color: "#f59e0b", sub: "need attention" },
           { label: "Churn Risk", value: `${churningCount}`, icon: <AlertTriangle size={18} />, color: "#ef4444", sub: "urgent" },
         ].map((card, i) => (
-          <div key={i} style={{ padding: 18, borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)" }}>
+          <div key={i} className="card" style={{ padding: "1.25rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
               <span style={{ fontSize: ".7rem", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".03em" }}>{card.label}</span>
               <span style={{ color: card.color }}>{card.icon}</span>

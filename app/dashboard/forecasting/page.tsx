@@ -222,12 +222,8 @@ export default function ForecastingPage() {
         ].map((card, i) => (
           <div
             key={i}
-            style={{
-              padding: 20,
-              borderRadius: 12,
-              border: "1px solid var(--border)",
-              background: "var(--subtle)",
-            }}
+            className="card"
+            style={{ padding: "1.25rem" }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
               <span style={{ fontSize: ".75rem", color: "var(--muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".03em" }}>
@@ -242,7 +238,7 @@ export default function ForecastingPage() {
       </div>
 
       {/* ── Forecast Chart (bar chart) ── */}
-      <div style={{ padding: 24, borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)", marginBottom: 28 }}>
+      <div className="card" style={{ marginBottom: 28 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
           <h2 style={{ fontSize: "1rem", fontWeight: 700, margin: 0 }}>
             <BarChart3 size={16} style={{ marginRight: 6, verticalAlign: "middle" }} />
@@ -283,7 +279,7 @@ export default function ForecastingPage() {
 
       {/* ── Historical Trend ── */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 28 }}>
-        <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)" }}>
+        <div className="card">
           <h3 style={{ fontSize: ".85rem", fontWeight: 700, margin: "0 0 12px" }}>
             <Clock size={14} style={{ marginRight: 6, verticalAlign: "middle" }} />
             Historical Trend (6mo)
@@ -313,7 +309,7 @@ export default function ForecastingPage() {
         </div>
 
         {/* ── Scenario Comparison ── */}
-        <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)" }}>
+        <div className="card">
           <h3 style={{ fontSize: ".85rem", fontWeight: 700, margin: "0 0 12px" }}>Scenario Comparison (6mo total)</h3>
           {(["conservative", "base", "optimistic"] as Scenario[]).map((s) => {
             const mult = SCENARIO_MULTIPLIERS[s];
@@ -344,7 +340,7 @@ export default function ForecastingPage() {
       </div>
 
       {/* ── Pipeline Deals Table ── */}
-      <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)" }}>
+      <div className="card">
         <button
           onClick={() => setExpandedDeals(!expandedDeals)}
           style={{

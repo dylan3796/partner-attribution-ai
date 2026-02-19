@@ -144,7 +144,7 @@ export default function CohortsPage() {
           { label: "Avg Time to First Deal", value: `${avgFirstDeal}d`, icon: <Clock size={18} />, color: "#3b82f6", sub: `${recentAvg}d recent vs ${olderAvg}d older` },
           { label: "Total Cohort Revenue", value: fmt(totalRevenue), icon: <DollarSign size={18} />, color: "#f59e0b", sub: `${fmt(Math.round(totalRevenue / totalPartners))}/partner avg` },
         ].map((card, i) => (
-          <div key={i} style={{ padding: 18, borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)" }}>
+          <div key={i} className="card" style={{ padding: "1.25rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
               <span style={{ fontSize: ".7rem", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".03em" }}>{card.label}</span>
               <span style={{ color: card.color }}>{card.icon}</span>
@@ -188,7 +188,7 @@ export default function CohortsPage() {
 
       {/* ── Retention Heatmap ── */}
       {metricView === "retention" && (
-        <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)", overflowX: "auto", marginBottom: 24 }}>
+        <div className="card" style={{ overflowX: "auto", marginBottom: 24 }}>
           <h3 style={{ fontSize: ".9rem", fontWeight: 700, margin: "0 0 16px" }}>
             Monthly Retention by Cohort
           </h3>
@@ -234,7 +234,7 @@ export default function CohortsPage() {
 
       {/* ── Revenue Curves ── */}
       {metricView === "revenue" && (
-        <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)", marginBottom: 24 }}>
+        <div className="card" style={{ marginBottom: 24 }}>
           <h3 style={{ fontSize: ".9rem", fontWeight: 700, margin: "0 0 16px" }}>
             Cumulative Revenue by Cohort (per month)
           </h3>
@@ -295,7 +295,7 @@ export default function CohortsPage() {
 
       {/* ── Deal Velocity ── */}
       {metricView === "deals" && (
-        <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)", marginBottom: 24 }}>
+        <div className="card" style={{ marginBottom: 24 }}>
           <h3 style={{ fontSize: ".9rem", fontWeight: 700, margin: "0 0 16px" }}>
             Deal Velocity & Activation
           </h3>
@@ -380,7 +380,7 @@ export default function CohortsPage() {
       )}
 
       {/* ── Cohort Summary Table ── */}
-      <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)" }}>
+      <div className="card">
         <h3 style={{ fontSize: ".9rem", fontWeight: 700, margin: "0 0 14px" }}>Cohort Summary</h3>
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".78rem" }}>
