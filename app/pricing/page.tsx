@@ -184,7 +184,7 @@ export default function PricingPage() {
 
       {/* Plan Cards */}
       <section style={{ padding: "0 1.5rem 6rem", maxWidth: 1100, margin: "0 auto" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, alignItems: "start" }}>
+        <div className="pricing-grid" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, alignItems: "start" }}>
           {PLANS.map((plan) => {
             const price = annual ? plan.priceAnnual : plan.price;
             return (
@@ -377,6 +377,21 @@ export default function PricingPage() {
           Get Early Access <ArrowRight size={18} />
         </Link>
       </section>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .pricing-grid {
+            grid-template-columns: 1fr !important;
+            max-width: 440px;
+            margin: 0 auto;
+          }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .pricing-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+        }
+      `}</style>
     </div>
   );
 }
