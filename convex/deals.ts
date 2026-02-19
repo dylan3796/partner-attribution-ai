@@ -117,6 +117,18 @@ export const approveDealRegistration = mutation({
       createdAt: Date.now(),
     });
 
+    // Create notification
+    const partner = deal.registeredBy ? await ctx.db.get(deal.registeredBy) : null;
+    const partnerName = partner?.name ?? "Partner";
+    await ctx.db.insert("notifications", {
+      type: "deal_approved",
+      title: "Deal Registration Approved",
+      body: `Deal approved: ${deal.name} (${partnerName}) — $${deal.amount.toLocaleString()}`,
+      read: false,
+      link: `/dashboard/deals`,
+      createdAt: Date.now(),
+    });
+
     return { success: true };
   },
 });
