@@ -256,6 +256,13 @@ select.input{appearance:auto;cursor:pointer}
 .dash-sidebar-link.active{background:var(--subtle);color:var(--fg)}
 .dash-sidebar-link:hover{background:var(--subtle);color:var(--fg)}
 .dash-sidebar-collapsed .dash-sidebar-link{justify-content:center;padding:.65rem}
+.dash-sidebar-section-label{
+  font-size:.65rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--muted);
+  padding:.25rem .75rem .2rem;opacity:.5;display:block;
+}
+.dash-sidebar-section{margin-top:1rem}
+.dash-sidebar-collapsed .dash-sidebar-section-label{display:none}
 .dash-sidebar-footer{
   padding:.75rem;
   border-top:1px solid var(--border);
@@ -420,7 +427,7 @@ select.input{appearance:auto;cursor:pointer}
   .stat-grid{grid-template-columns:repeat(2,1fr)}
   .dash-grid-2{grid-template-columns:1fr}
   .dash-sidebar{width:60px}
-  .dash-sidebar-logo,.dash-sidebar-footer,.dash-sidebar-link span{display:none}
+  .dash-sidebar-logo,.dash-sidebar-footer,.dash-sidebar-link span,.dash-sidebar-section-label{display:none}
   .dash-sidebar-link{justify-content:center;padding:.65rem}
   .dash-sidebar-header{justify-content:center}
   .dash-sidebar-toggle{display:none}

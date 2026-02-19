@@ -9,79 +9,109 @@ import {
   Briefcase,
   PieChart,
   Settings,
-  Activity,
   DollarSign,
   Trophy,
   Award,
-  BarChart3,
   Megaphone,
-  AlertTriangle,
-  Package,
   ExternalLink,
   ChevronLeft,
   ChevronRight,
   SlidersHorizontal,
-  PlusCircle,
-  Layers,
-  ChevronDown,
-  ChevronUp,
   Gift,
   Rocket,
   GitBranch,
-  Shield,
-  Zap,
   UserPlus,
-  Mail,
   Plug2,
-  FileText,
   TrendingUp,
+  FileText,
+  BarChart2,
+  Target,
   Heart,
+  Scale,
+  Star,
 } from "lucide-react";
-import { usePlatformConfig } from "@/lib/platform-config";
-import type { FeatureFlags } from "@/lib/types";
 
-type SidebarLink = {
+// ─── Nav structure ───────────────────────────────────────────────────────────
+// Designed around the VP of Partnerships job-to-be-done:
+// 1. Understand program health at a glance
+// 2. Manage partners & their pipeline
+// 3. Handle revenue & payouts
+// 4. Run the program (incentives, certs, MDF)
+// 5. Analyze & report
+// ─────────────────────────────────────────────────────────────────────────────
+
+type NavItem = {
   name: string;
   href: string;
   icon: typeof LayoutDashboard;
-  featureFlag?: keyof FeatureFlags;
+  exact?: boolean;
 };
 
-const allLinks: SidebarLink[] = [
-  { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Program Health", href: "/dashboard/health", icon: Heart },
-  { name: "Partners", href: "/dashboard/partners", icon: Users },
-  { name: "Applications", href: "/dashboard/partner-applications", icon: UserPlus },
-  { name: "Leads", href: "/dashboard/leads", icon: TrendingUp },
-  { name: "Deals", href: "/dashboard/deals", icon: Briefcase },
-  { name: "Pipeline & Co-Sell", href: "/dashboard/pipeline", icon: GitBranch, featureFlag: "coSell" },
-  { name: "Reports", href: "/dashboard/reports", icon: PieChart, featureFlag: "reports" },
-  { name: "Payouts", href: "/dashboard/payouts", icon: DollarSign, featureFlag: "payouts" },
-  { name: "Scoring", href: "/dashboard/scoring", icon: Trophy, featureFlag: "scoring" },
-  { name: "Tier Reviews", href: "/dashboard/scoring/tier-reviews", icon: Shield, featureFlag: "scoring" },
-  { name: "Certifications", href: "/dashboard/certifications", icon: Award, featureFlag: "certifications" },
-  { name: "Onboarding", href: "/dashboard/onboarding", icon: Rocket, featureFlag: "certifications" },
-  { name: "Incentives", href: "/dashboard/incentives", icon: Gift, featureFlag: "incentivePrograms" },
-  { name: "Volume Rebates", href: "/dashboard/volume-rebates", icon: BarChart3, featureFlag: "volumeRebates" },
-  { name: "MDF", href: "/dashboard/mdf", icon: Megaphone, featureFlag: "mdf" },
-  { name: "Products", href: "/dashboard/products", icon: Package, featureFlag: "productCatalog" },
-  { name: "Conflicts", href: "/dashboard/conflicts", icon: AlertTriangle, featureFlag: "channelConflict" },
-  { name: "Activity", href: "/dashboard/activity", icon: Activity, featureFlag: "auditLog" },
-  { name: "Email Triggers", href: "/dashboard/emails", icon: Mail },
-  { name: "Contracts", href: "/dashboard/contracts", icon: FileText },
-  { name: "Benchmarks", href: "/dashboard/benchmarks", icon: BarChart3 },
-  { name: "Forecasting", href: "/dashboard/forecasting", icon: TrendingUp },
-  { name: "Cohort Analytics", href: "/dashboard/cohorts", icon: Users },
-  { name: "Integrations", href: "/dashboard/integrations", icon: Plug2 },
-  { name: "Settings", href: "/dashboard/settings", icon: Settings },
+type NavSection = {
+  label: string;
+  items: NavItem[];
+};
+
+const navSections: NavSection[] = [
+  {
+    label: "",
+    items: [
+      { name: "Dashboard",      href: "/dashboard",         icon: LayoutDashboard, exact: true },
+      { name: "Program Health", href: "/dashboard/health",  icon: Heart },
+    ],
+  },
+  {
+    label: "Partners",
+    items: [
+      { name: "All Partners",  href: "/dashboard/partners",             icon: Users },
+      { name: "Applications",  href: "/dashboard/partner-applications", icon: UserPlus },
+      { name: "Leads",         href: "/dashboard/leads",                icon: Star },
+      { name: "Onboarding",    href: "/dashboard/onboarding",           icon: Rocket },
+    ],
+  },
+  {
+    label: "Revenue",
+    items: [
+      { name: "Deals",         href: "/dashboard/deals",       icon: Briefcase },
+      { name: "Pipeline",      href: "/dashboard/pipeline",    icon: GitBranch },
+      { name: "Payouts",       href: "/dashboard/payouts",     icon: DollarSign },
+      { name: "Contracts",     href: "/dashboard/contracts",   icon: FileText },
+    ],
+  },
+  {
+    label: "Program",
+    items: [
+      { name: "Scoring & Tiers",  href: "/dashboard/scoring",       icon: Trophy },
+      { name: "Incentives",       href: "/dashboard/incentives",    icon: Gift },
+      { name: "Certifications",   href: "/dashboard/certifications", icon: Award },
+      { name: "MDF",              href: "/dashboard/mdf",           icon: Megaphone },
+      { name: "Volume Rebates",   href: "/dashboard/volume-rebates", icon: Scale },
+    ],
+  },
+  {
+    label: "Analytics",
+    items: [
+      { name: "Reports",      href: "/dashboard/reports",     icon: PieChart },
+      { name: "Forecasting",  href: "/dashboard/forecasting", icon: TrendingUp },
+      { name: "Benchmarks",   href: "/dashboard/benchmarks",  icon: Target },
+      { name: "Cohorts",      href: "/dashboard/cohorts",     icon: BarChart2 },
+    ],
+  },
+  {
+    label: "Settings",
+    items: [
+      { name: "Integrations", href: "/dashboard/integrations", icon: Plug2 },
+      { name: "Settings",     href: "/dashboard/settings",     icon: Settings },
+    ],
+  },
 ];
 
-const setupLinks: SidebarLink[] = [
-  { name: "Tier Criteria", href: "/dashboard/settings/tiers", icon: SlidersHorizontal },
-  { name: "MDF Setup", href: "/dashboard/mdf/setup", icon: PlusCircle, featureFlag: "mdf" },
-  { name: "Rebate Creator", href: "/dashboard/volume-rebates/create", icon: Layers, featureFlag: "volumeRebates" },
-  { name: "Event Sources", href: "/dashboard/settings/event-sources", icon: Zap, featureFlag: "eventSources" },
-];
+// Pages moved out of main nav (still accessible via direct URL or Settings):
+// - Tier Reviews     → /dashboard/scoring/tier-reviews  (accessible from Scoring)
+// - Conflicts        → /dashboard/conflicts             (accessible from dashboard alerts)
+// - Activity Log     → /dashboard/activity              (accessible from Settings)
+// - Email Triggers   → /dashboard/emails                (accessible from Settings)
+// - Products         → /dashboard/products              (accessible from Settings)
 
 type SidebarProps = {
   mobileOpen?: boolean;
@@ -90,27 +120,18 @@ type SidebarProps = {
 
 export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
   const pathname = usePathname();
-  const { isFeatureEnabled } = usePlatformConfig();
   const [collapsed, setCollapsed] = useState(false);
-  const [setupOpen, setSetupOpen] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("pb_sidebar_collapsed");
     if (saved === "true") setCollapsed(true);
   }, []);
 
-  // Close mobile menu on route change
   useEffect(() => {
     if (mobileOpen && onMobileClose) {
       onMobileClose();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
-
-  // Auto-open setup section if on a setup page
-  useEffect(() => {
-    const isOnSetup = setupLinks.some((l) => pathname.startsWith(l.href));
-    if (isOnSetup) setSetupOpen(true);
   }, [pathname]);
 
   function toggleCollapsed() {
@@ -119,163 +140,106 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
     localStorage.setItem("pb_sidebar_collapsed", String(next));
   }
 
-  const visibleLinks = allLinks.filter(
-    (l) => !l.featureFlag || isFeatureEnabled(l.featureFlag)
-  );
+  function isActive(item: NavItem) {
+    if (item.exact) return pathname === item.href;
+    return pathname.startsWith(item.href);
+  }
 
-  const visibleSetupLinks = setupLinks.filter(
-    (l) => !l.featureFlag || isFeatureEnabled(l.featureFlag)
-  );
+  const showLabels = !collapsed || mobileOpen;
 
   return (
     <>
-      {/* Mobile overlay */}
       {mobileOpen && (
-        <div 
-          className="dash-sidebar-overlay" 
+        <div
+          className="dash-sidebar-overlay"
           onClick={onMobileClose}
           style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.5)",
-            zIndex: 89,
-            display: "none",
+            position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)",
+            zIndex: 89, display: "block",
           }}
         />
       )}
-      <aside className={`dash-sidebar ${collapsed ? "dash-sidebar-collapsed" : ""} ${mobileOpen ? "dash-sidebar-mobile-open" : ""}`} role="navigation" aria-label="Dashboard navigation">
-      {/* Header */}
-      <div className="dash-sidebar-header">
-        {(!collapsed || mobileOpen) && (
-          <Link href="/dashboard" className="dash-sidebar-brand">
-            Covant
-          </Link>
-        )}
-        <button
-          onClick={toggleCollapsed}
-          className="dash-sidebar-collapse-btn"
-          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
-        </button>
-      </div>
 
-      {/* Nav */}
-      <nav className="dash-sidebar-nav" aria-label="Main menu">
-        {visibleLinks.map((link) => {
-          const Icon = link.icon;
-          const isActive =
-            link.href === "/dashboard"
-              ? pathname === "/dashboard"
-              : pathname.startsWith(link.href) &&
-                !setupLinks.some((sl) => pathname.startsWith(sl.href));
-          return (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={`dash-sidebar-link ${isActive ? "active" : ""}`}
-              title={collapsed ? link.name : undefined}
-            >
-              <Icon size={18} />
-              {(!collapsed || mobileOpen) && <span>{link.name}</span>}
-            </Link>
-          );
-        })}
+      <aside
+        className={`dash-sidebar ${collapsed ? "dash-sidebar-collapsed" : ""} ${mobileOpen ? "dash-sidebar-mobile-open" : ""}`}
+        role="navigation"
+        aria-label="Dashboard navigation"
+      >
+        {/* Header */}
+        <div className="dash-sidebar-header">
+          {showLabels && (
+            <Link href="/dashboard" className="dash-sidebar-brand">Covant</Link>
+          )}
+          <button
+            onClick={toggleCollapsed}
+            className="dash-sidebar-collapse-btn"
+            title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
+          </button>
+        </div>
 
-        {/* Program Setup section */}
-        {(!collapsed || mobileOpen) && visibleSetupLinks.length > 0 && (
-          <div style={{ marginTop: ".5rem" }}>
-            <button
-              onClick={() => setSetupOpen(!setupOpen)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: ".5rem",
-                width: "100%",
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                padding: ".45rem .65rem",
-                borderRadius: 8,
-                color: "var(--muted)",
-                fontSize: ".75rem",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: ".06em",
-                justifyContent: "space-between",
-                transition: "all .15s",
-              }}
-            >
-              <span>Program Setup</span>
-              {setupOpen ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
-            </button>
-
-            {setupOpen &&
-              visibleSetupLinks.map((link) => {
-                const Icon = link.icon;
-                const isActive = pathname.startsWith(link.href);
+        {/* Nav sections */}
+        <nav className="dash-sidebar-nav" aria-label="Main menu">
+          {navSections.map((section, si) => (
+            <div key={si} className={section.label ? "dash-sidebar-section" : "dash-sidebar-section-bare"}>
+              {section.label && showLabels && (
+                <p className="dash-sidebar-section-label">{section.label}</p>
+              )}
+              {section.items.map((item) => {
+                const Icon = item.icon;
+                const active = isActive(item);
                 return (
                   <Link
-                    key={link.name}
-                    href={link.href}
-                    className={`dash-sidebar-link ${isActive ? "active" : ""}`}
-                    style={{ paddingLeft: "1.25rem" }}
-                    title={collapsed ? link.name : undefined}
+                    key={item.href}
+                    href={item.href}
+                    className={`dash-sidebar-link ${active ? "active" : ""}`}
+                    title={collapsed && !mobileOpen ? item.name : undefined}
                   >
-                    <Icon size={16} />
-                    <span>{link.name}</span>
+                    <Icon size={18} />
+                    {showLabels && <span>{item.name}</span>}
                   </Link>
                 );
               })}
-          </div>
-        )}
+            </div>
+          ))}
+        </nav>
 
-        {/* Collapsed: show setup icons without label (skip on mobile — already shown above) */}
-        {collapsed && !mobileOpen && visibleSetupLinks.map((link) => {
-          const Icon = link.icon;
-          const isActive = pathname.startsWith(link.href);
-          return (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={`dash-sidebar-link ${isActive ? "active" : ""}`}
-              title={link.name}
-            >
-              <Icon size={18} />
-            </Link>
-          );
-        })}
-      </nav>
+        {/* Footer */}
+        <div className="dash-sidebar-footer">
+          {showLabels && (
+            <>
+              <Link href="/dashboard/settings#platform-config" className="dash-sidebar-footer-link">
+                <SlidersHorizontal size={15} />
+                <span>Customize Platform</span>
+              </Link>
+              <Link href="/portal" className="dash-sidebar-footer-link" target="_blank">
+                <ExternalLink size={15} />
+                <span>Partner Portal</span>
+              </Link>
+            </>
+          )}
+        </div>
+      </aside>
 
-      {/* Footer */}
-      <div className="dash-sidebar-footer">
-        {(!collapsed || mobileOpen) && (
-          <>
-            <Link
-              href="/dashboard/settings#platform-config"
-              className="dash-sidebar-footer-link"
-            >
-              <SlidersHorizontal size={15} />
-              <span>Customize Platform</span>
-            </Link>
-            <Link href="/portal" className="dash-sidebar-footer-link" target="_blank">
-              <ExternalLink size={15} />
-              <span>Partner Portal</span>
-            </Link>
-            <Link href="/" className="dash-sidebar-footer-link">
-              <span>← Back to Site</span>
-            </Link>
-          </>
-        )}
-      </div>
       <style jsx>{`
-        @media (max-width: 768px) {
-          .dash-sidebar-overlay {
-            display: block !important;
-          }
+        .dash-sidebar-section {
+          margin-top: 1.25rem;
+        }
+        .dash-sidebar-section-bare {
+          margin-top: 0;
+        }
+        .dash-sidebar-section-label {
+          font-size: .65rem;
+          font-weight: 700;
+          letter-spacing: .08em;
+          text-transform: uppercase;
+          color: var(--muted);
+          padding: 0 .75rem .35rem;
+          opacity: 0.5;
+          margin: 0;
         }
       `}</style>
-    </aside>
     </>
   );
 }
