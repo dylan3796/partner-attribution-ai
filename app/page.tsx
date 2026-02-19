@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import ROICalculator from "@/components/ROICalculator";
+import InsightDemo from "@/components/InsightDemo";
 
 // Real SVG logos for integration partners
 function SalesforceLogo() {
@@ -43,35 +44,7 @@ export default function LandingPage() {
   const [submitted, setSubmitted] = useState(false);
   const [emailError, setEmailError] = useState("");
 
-  // Typing animation for demo card
-  const DEMO_QUERY = "Show me Q1 partner performance and recommend tier promotions";
-  const [typedText, setTypedText] = useState("");
-  const [showResponse, setShowResponse] = useState(false);
-  const typingStarted = useRef(false);
-  const demoRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (typingStarted.current) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !typingStarted.current) {
-          typingStarted.current = true;
-          let i = 0;
-          const interval = setInterval(() => {
-            i++;
-            setTypedText(DEMO_QUERY.slice(0, i));
-            if (i >= DEMO_QUERY.length) {
-              clearInterval(interval);
-              setTimeout(() => setShowResponse(true), 400);
-            }
-          }, 35);
-        }
-      },
-      { threshold: 0.3 }
-    );
-    if (demoRef.current) observer.observe(demoRef.current);
-    return () => observer.disconnect();
-  }, []);
+  // Demo animation is now in InsightDemo component
 
   async function handleWaitlist(e: React.FormEvent) {
     e.preventDefault();
@@ -124,64 +97,8 @@ export default function LandingPage() {
         </div>
 
         {/* ── AI DEMO CARD ── */}
-        <div className="hero-demo wrap-wide" id="demo" ref={demoRef}>
-          <div className="orb"></div>
-          <div className="card demo-card">
-            <div className="demo-header">
-              <strong>Ask Covant AI</strong>
-              <span className="chip">VP Partnerships · Horizon Software</span>
-            </div>
-            <p className="demo-q">
-              {typedText || <span style={{ opacity: 0.4 }}>Ask about attribution...</span>}
-              {typedText && typedText.length < DEMO_QUERY.length && (
-                <span
-                  className="typing-cursor"
-                  style={{
-                    display: "inline-block",
-                    width: 2,
-                    height: "1.1em",
-                    background: "var(--fg)",
-                    marginLeft: 2,
-                    verticalAlign: "text-bottom",
-                    animation: "blink 0.8s step-end infinite",
-                  }}
-                />
-              )}
-            </p>
-            <div
-              className="demo-response"
-              style={{
-                opacity: showResponse ? 1 : 0,
-                maxHeight: showResponse ? 600 : 0,
-                overflow: "hidden",
-                transition: "opacity 0.5s ease, max-height 0.6s ease",
-              }}
-            >
-              <div className="demo-meta">
-                <span className="badge">AI</span> Analyzed 24 partners, 142 deals, 847 touchpoints
-              </div>
-              <div className="demo-results">
-                <p>
-                  <strong>TechStar Solutions (Reseller)</strong> — $124k attributed revenue (↑32%).
-                  Exceeded Gold tier threshold by 40%.{" "}
-                  <em>Recommend: Platinum promotion + $15k MDF increase.</em>
-                </p>
-                <p>
-                  <strong>CloudBridge Partners (Referral)</strong> — $89k attributed, $215k pipeline
-                  open. Highest first-touch conversion rate.{" "}
-                  <em>Recommend: Co-sell enablement + joint webinar.</em>
-                </p>
-                <p>
-                  <strong>3 partners flagged at-risk</strong> — No activity in 30+ days.
-                  Re-engagement sequences auto-triggered via partner portal.
-                </p>
-              </div>
-              <p className="demo-conf">
-                Full report exported to dashboard · Tier promotions queued for approval ·
-                Commissions recalculated
-              </p>
-            </div>
-          </div>
+        <div className="hero-demo wrap-wide" id="demo">
+          <InsightDemo />
         </div>
       </section>
 
