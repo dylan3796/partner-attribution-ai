@@ -136,12 +136,28 @@ export const markPaidViaStripe = mutation({
     stripeTransferId: v.string(),
   },
   handler: async (ctx, args) => {
+    const payout = await ctx.db.get(args.id);
+    if (!payout) throw new Error("Payout not found");
+    
     await ctx.db.patch(args.id, {
       status: "paid",
       paidAt: Date.now(),
       paidVia: "stripe",
       stripeTransferId: args.stripeTransferId,
     });
+    
+    // Create notification
+    const partner = await ctx.db.get(payout.partnerId);
+    const partnerName = partner?.name ?? "Partner";
+    await ctx.db.insert("notifications", {
+      type: "commission_paid",
+      title: "Commission Payment Processed",
+      body: `Stripe payment of $${payout.amount.toLocaleString()} processed for ${partnerName}`,
+      read: false,
+      link: `/dashboard/payouts`,
+      createdAt: Date.now(),
+    });
+    
     return { success: true };
   },
 });
