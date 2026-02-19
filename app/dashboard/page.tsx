@@ -95,16 +95,6 @@ export default function DashboardPage() {
 
   return (
     <>
-      {/* Demo Environment Banner */}
-      <div style={{ padding: "1rem 1.5rem", borderRadius: 10, border: "1px solid #c7d2fe", background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)", marginBottom: "2rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap" }}>
-        <p style={{ fontSize: ".875rem", color: "#3730a3" }}>
-          <strong>🚀 Live Database</strong> — This dashboard is powered by real data from Convex. Use <Link href="/admin/seed" style={{ color: "#4338ca", fontWeight: 700 }}>Seed Demo Data</Link> to populate sample records.
-        </p>
-        <Link href="/" style={{ fontSize: ".8rem", fontWeight: 600, color: "#4338ca", whiteSpace: "nowrap", textDecoration: "underline" }}>
-          Book a demo →
-        </Link>
-      </div>
-
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
@@ -150,9 +140,6 @@ export default function DashboardPage() {
           <p className="muted">Partner-influenced revenue &amp; program overview</p>
         </div>
         <div style={{ display: "flex", gap: ".75rem" }}>
-          <Link href="/admin/seed" className="btn-outline" style={{ fontSize: ".8rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
-            🌱 Seed Data
-          </Link>
           <Link href="/dashboard/settings#platform-config" className="btn-outline" style={{ fontSize: ".8rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
             <Sliders size={14} />
             Customize Platform
@@ -306,10 +293,7 @@ export default function DashboardPage() {
           {recentDeals.length === 0 ? (
             <div className="empty-state" style={{ padding: "2rem" }}>
               <Briefcase size={32} color="var(--muted)" style={{ marginBottom: ".5rem" }} />
-              <p className="muted">No deals yet.</p>
-              <Link href="/admin/seed" style={{ fontSize: ".8rem", color: "#6366f1", fontWeight: 600, marginTop: ".5rem", display: "inline-block" }}>
-                🌱 Seed demo data →
-              </Link>
+              <p className="muted">No deals yet. Add your first deal from the Deals page.</p>
             </div>
           ) : (
             recentDeals.map((deal) => (

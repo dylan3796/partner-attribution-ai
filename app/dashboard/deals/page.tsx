@@ -63,7 +63,7 @@ export default function DealsPage() {
       setFormErrors({});
       toast("Deal imported successfully");
     } catch {
-      toast("Failed to add deal — seed demo data first", "error");
+      toast("Failed to add deal. Please try again.", "error");
     } finally {
       setSaving(false);
     }
@@ -111,10 +111,7 @@ export default function DealsPage() {
           ))}
           {items.length === 0 && (
             <div style={{ textAlign: "center", padding: "2rem", color: "var(--muted)" }}>
-              <p style={{ fontSize: ".85rem" }}>No partner-touched deals</p>
-              <Link href="/admin/seed" style={{ fontSize: ".75rem", color: "#6366f1", fontWeight: 500 }}>
-                Seed demo data →
-              </Link>
+              <p style={{ fontSize: ".85rem" }}>No partner-touched deals yet.</p>
             </div>
           )}
         </div>
@@ -212,7 +209,7 @@ export default function DealsPage() {
           </div>
           {filtered.length === 0 && (
             <div className="empty-state" style={{ padding: "2rem", textAlign: "center" }}>
-              <p className="muted">No deals yet. <Link href="/admin/seed" style={{ color: "#6366f1" }}>Seed demo data</Link> or import a deal.</p>
+              <p className="muted">No deals yet. Add your first deal using the button above.</p>
             </div>
           )}
         </div>

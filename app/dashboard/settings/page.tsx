@@ -348,7 +348,7 @@ function SettingsPageInner() {
                     return;
                   }
                   if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
-                    toast("Salesforce integration requires Convex backend. Demo mode shows the UI but won't connect.", "info");
+                    toast("Salesforce OAuth requires configuration. Contact support to enable.", "info");
                     return;
                   }
                   window.location.href = `/api/integrations/salesforce/connect?orgId=${demoOrgId}`;

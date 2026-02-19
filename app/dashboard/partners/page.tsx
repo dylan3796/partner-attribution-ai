@@ -83,7 +83,7 @@ export default function PartnersPage() {
       setFormErrors({});
       toast("Partner added successfully");
     } catch (err) {
-      toast("Failed to add partner — seed demo data first", "error");
+      toast("Failed to add partner. Please try again.", "error");
     } finally {
       setSaving(false);
     }
@@ -224,14 +224,9 @@ export default function PartnersPage() {
               <Search size={32} color="var(--muted)" style={{ marginBottom: ".5rem" }} />
               <p className="muted">
                 {partners.length === 0
-                  ? "No partners yet. Seed demo data or add a partner manually."
+                  ? "No partners yet. Add your first partner using the button above."
                   : "No partners match your filters."}
               </p>
-              {partners.length === 0 && (
-                <Link href="/admin/seed" style={{ fontSize: ".8rem", color: "#6366f1", fontWeight: 600, marginTop: ".5rem", display: "inline-block" }}>
-                  → Seed demo data
-                </Link>
-              )}
             </div>
           )}
         </div>

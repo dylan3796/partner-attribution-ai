@@ -357,7 +357,7 @@ export default function DocsPage() {
               All API requests require an API key passed in the <code style={{ background: "#1a1a1a", padding: "2px 6px", borderRadius: 4, fontSize: ".85rem" }}>Authorization</code> header.
             </p>
             <CodeBlock label="Example" code={`curl ${BASE_URL}/partners \\
-  -H "Authorization: Bearer cv_live_abc123def456" \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json"`} />
             <p style={{ color: "#666", fontSize: ".8rem", marginTop: ".75rem" }}>
               Find your API key in <Link href="/dashboard/settings" style={{ color: "#6366f1" }}>Dashboard → Settings</Link>. Use <code style={{ background: "#1a1a1a", padding: "1px 4px", borderRadius: 3 }}>cv_test_</code> prefix for sandbox, <code style={{ background: "#1a1a1a", padding: "1px 4px", borderRadius: 3 }}>cv_live_</code> for production.

@@ -474,7 +474,7 @@ export default function PayoutsPage() {
             <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>No payouts found</h3>
             <p className="muted" style={{ fontSize: ".9rem" }}>
               {payouts.length === 0 ? (
-                <>No payouts yet. <Link href="/admin/seed" style={{ color: "#6366f1" }}>Seed demo data</Link> or create a payout.</>
+                <>No payouts yet. Payouts are created automatically when deals close.</>
               ) : (
                 "Try adjusting your filters or create a new payout."
               )}
