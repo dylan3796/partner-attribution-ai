@@ -52,7 +52,7 @@ export default function SetupWizard() {
       // Auto-seed realistic example data so the dashboard isn't empty
       try { await seedDemoData(); } catch { /* non-critical */ }
       
-      localStorage.setItem("partnerai_setup_complete", "true");
+      localStorage.setItem("covant_setup_complete", "true");
       router.push("/dashboard");
     } catch (error) {
       console.error("Failed to apply template:", error);

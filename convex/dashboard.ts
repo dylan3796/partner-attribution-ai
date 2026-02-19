@@ -321,3 +321,153 @@ export const getAllAttributions = query({
     }));
   },
 });
+
+/**
+ * Get pipeline deals with partner enrichment for the Pipeline page
+ */
+export const getPipelineDeals = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return { open: [], won: [], lost: [], total: 0, openValue: 0, wonValue: 0, lostValue: 0 };
+    
+    const [deals, touchpoints, partners, attributions] = await Promise.all([
+      ctx.db.query("deals")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+      ctx.db.query("touchpoints")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+      ctx.db.query("partners")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+      ctx.db.query("attributions")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+    ]);
+    
+    const partnerMap = new Map(partners.map((p: any) => [p._id, p]));
+    
+    // Enrich deals with partner info and touchpoints
+    const enriched = deals.map((d: any) => {
+      const dealTouchpoints = touchpoints.filter((t: any) => t.dealId === d._id);
+      const dealAttributions = attributions.filter((a: any) => a.dealId === d._id);
+      const registeredPartner = d.registeredBy ? partnerMap.get(d.registeredBy) : null;
+      
+      // Get all partners who touched this deal
+      const involvedPartners = [...new Set(dealTouchpoints.map((t: any) => t.partnerId))]
+        .map((pid: any) => {
+          const partner = partnerMap.get(pid);
+          const attr = dealAttributions.find((a: any) => a.partnerId === pid);
+          return partner ? {
+            _id: partner._id,
+            name: partner.name,
+            tier: partner.tier,
+            type: partner.type,
+            attributionPct: attr?.percentage ?? 0,
+          } : null;
+        })
+        .filter(Boolean);
+      
+      return {
+        ...d,
+        registeredPartner: registeredPartner ? {
+          _id: registeredPartner._id,
+          name: registeredPartner.name,
+          tier: registeredPartner.tier,
+        } : null,
+        touchpoints: dealTouchpoints.map((t: any) => ({
+          _id: t._id,
+          type: t.type,
+          partnerId: t.partnerId,
+          partnerName: partnerMap.get(t.partnerId)?.name ?? "Unknown",
+          createdAt: t.createdAt,
+        })),
+        involvedPartners,
+      };
+    });
+    
+    const open = enriched.filter((d: any) => d.status === "open");
+    const won = enriched.filter((d: any) => d.status === "won");
+    const lost = enriched.filter((d: any) => d.status === "lost");
+    
+    return {
+      open,
+      won,
+      lost,
+      total: enriched.length,
+      openValue: open.reduce((s: number, d: any) => s + d.amount, 0),
+      wonValue: won.reduce((s: number, d: any) => s + d.amount, 0),
+      lostValue: lost.reduce((s: number, d: any) => s + d.amount, 0),
+    };
+  },
+});
+
+/**
+ * Get partner performance data for Incentives page (calculated from real data)
+ */
+export const getPartnerPerformance = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return [];
+    
+    const [partners, deals, touchpoints, attributions] = await Promise.all([
+      ctx.db.query("partners")
+        .withIndex("by_org_and_status", (q: any) => q.eq("organizationId", org._id).eq("status", "active"))
+        .collect(),
+      ctx.db.query("deals")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+      ctx.db.query("touchpoints")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+      ctx.db.query("attributions")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+    ]);
+    
+    return partners.map((partner: any) => {
+      const partnerTouchpoints = touchpoints.filter((t: any) => t.partnerId === partner._id);
+      const dealIds = [...new Set(partnerTouchpoints.map((t: any) => t.dealId))];
+      const partnerDeals = dealIds.map((id: any) => deals.find((d: any) => d._id === id)).filter(Boolean);
+      const partnerAttributions = attributions.filter((a: any) => a.partnerId === partner._id);
+      
+      const wonDeals = partnerDeals.filter((d: any) => d.status === "won");
+      const openDeals = partnerDeals.filter((d: any) => d.status === "open");
+      const registeredDeals = deals.filter((d: any) => d.registeredBy === partner._id);
+      
+      const totalRevenue = partnerAttributions.reduce((s: number, a: any) => s + a.amount, 0);
+      const totalCommission = partnerAttributions.reduce((s: number, a: any) => s + a.commissionAmount, 0);
+      const openPipeline = openDeals.reduce((s: number, d: any) => s + d.amount, 0);
+      
+      // Calculate incentive eligibility thresholds
+      const metrics = {
+        dealsWon: wonDeals.length,
+        dealsOpen: openDeals.length,
+        dealsRegistered: registeredDeals.length,
+        totalRevenue,
+        totalCommission,
+        openPipeline,
+        touchpointCount: partnerTouchpoints.length,
+        avgDealSize: wonDeals.length > 0 ? totalRevenue / wonDeals.length : 0,
+      };
+      
+      // Determine incentive eligibility based on performance
+      const incentives = {
+        spifEligible: metrics.dealsWon >= 3, // SPIF for 3+ closed deals
+        bonusEligible: metrics.totalRevenue >= 100000, // Bonus for $100k+ revenue
+        acceleratorEligible: metrics.dealsWon >= 5 && metrics.totalRevenue >= 200000, // Top performers
+        dealRegBonus: metrics.dealsRegistered >= 2, // Deal registration bonus
+      };
+      
+      return {
+        ...partner,
+        metrics,
+        incentives,
+        rank: 0, // Will be calculated after sorting
+      };
+    }).sort((a: any, b: any) => b.metrics.totalRevenue - a.metrics.totalRevenue)
+      .map((p: any, idx: number) => ({ ...p, rank: idx + 1 }));
+  },
+});

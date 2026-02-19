@@ -17,7 +17,7 @@ type PlatformConfigContextType = {
 
 const PlatformConfigContext = createContext<PlatformConfigContextType | null>(null);
 
-const STORAGE_KEY = "partnerai_platform_config";
+const STORAGE_KEY = "covant_platform_config";
 
 function loadConfig(): PlatformConfig {
   if (typeof window === "undefined") return DEFAULT_PLATFORM_CONFIG;

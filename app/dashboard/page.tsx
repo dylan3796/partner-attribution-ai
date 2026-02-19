@@ -87,7 +87,7 @@ export default function DashboardPage() {
 
   // First-run detection: redirect to setup if truly empty (no Convex data loaded yet, no store data)
   useEffect(() => {
-    const setupComplete = localStorage.getItem("partnerai_setup_complete");
+    const setupComplete = localStorage.getItem("covant_setup_complete");
     if (!setupComplete && storePartners.length === 0 && storeDeals.length === 0 && convexStats !== undefined && convexStats.totalPartners === 0) {
       router.push("/setup");
     }
