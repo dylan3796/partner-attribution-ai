@@ -27,7 +27,6 @@ import {
   BarChart2,
   Target,
   Heart,
-  HeartPulse,
   Scale,
   Star,
 } from "lucide-react";
@@ -65,7 +64,6 @@ const navSections: NavSection[] = [
     label: "Partners",
     items: [
       { name: "All Partners",  href: "/dashboard/partners",             icon: Users },
-      { name: "Partner Health", href: "/dashboard/partner-health",     icon: HeartPulse },
       { name: "Applications",  href: "/dashboard/partner-applications", icon: UserPlus },
       { name: "Leads",         href: "/dashboard/leads",                icon: Star },
       { name: "Onboarding",    href: "/dashboard/onboarding",           icon: Rocket },
