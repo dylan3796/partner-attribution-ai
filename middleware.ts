@@ -4,14 +4,14 @@ import type { NextRequest } from "next/server";
 const PROTECTED_PATHS = ["/dashboard", "/admin", "/portal/admin"];
 const AUTH_COOKIE = "pb_auth";
 const LOGIN_PATH = "/login";
+// Internal salt — never exposed to client. Security comes from DASHBOARD_PASSWORD itself.
+const SALT = "covant-auth-v1-2026";
 
-// Use Web Crypto API (works in Edge Runtime + Node.js 18+)
 async function computeToken(password: string): Promise<string> {
-  const secret = process.env.AUTH_SECRET || "covant-session-secret-2026";
   const enc = new TextEncoder();
   const key = await crypto.subtle.importKey(
     "raw",
-    enc.encode(secret),
+    enc.encode(SALT),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
@@ -29,9 +29,7 @@ export async function middleware(request: NextRequest) {
   const authCookie = request.cookies.get(AUTH_COOKIE);
   const dashboardPassword = process.env.DASHBOARD_PASSWORD;
 
-  if (!dashboardPassword) {
-    return NextResponse.next();
-  }
+  if (!dashboardPassword) return NextResponse.next(); // dev fallback
 
   const expectedToken = await computeToken(dashboardPassword);
 

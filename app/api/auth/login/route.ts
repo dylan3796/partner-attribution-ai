@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Web Crypto API — works in both Edge and Node.js 18+
+const SALT = "covant-auth-v1-2026";
+
 async function computeToken(password: string): Promise<string> {
-  const secret = process.env.AUTH_SECRET || "covant-session-secret-2026";
   const enc = new TextEncoder();
   const key = await crypto.subtle.importKey(
     "raw",
-    enc.encode(secret),
+    enc.encode(SALT),
     { name: "HMAC", hash: "SHA-256" },
     false,
     ["sign"]
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: 60 * 60 * 24 * 7,
     path: "/",
   });
 
