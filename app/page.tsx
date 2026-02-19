@@ -1238,6 +1238,7 @@ export default function LandingPage() {
               <Link href="/dashboard">Live Demo</Link>
               <Link href="/docs">API Docs</Link>
               <Link href="/changelog">Changelog</Link>
+              <Link href="/use-cases">Use Cases</Link>
               <Link href="/program">Partner Program</Link>
             </div>
             <div>
