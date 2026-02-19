@@ -11,10 +11,15 @@ export const list = query({
       .order("desc")
       .collect();
     // Enrich with partner names
-    return Promise.all(requests.map(async (r: any) => {
-      const partner = await ctx.db.get(r.partnerId);
+    const partners = await ctx.db.query("partners")
+      .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      .collect();
+    const partnerMap = new Map(partners.map((p: any) => [p._id, p]));
+    
+    return requests.map((r: any) => {
+      const partner = partnerMap.get(r.partnerId);
       return { ...r, partnerName: partner?.name ?? "Unknown" };
-    }));
+    });
   },
 });
 

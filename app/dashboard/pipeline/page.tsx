@@ -2,9 +2,9 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useStore } from "@/lib/store";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
-import type { Deal, Partner, Touchpoint, Attribution } from "@/lib/types";
 import {
   GitBranch,
   DollarSign,
@@ -19,30 +19,8 @@ import {
   Filter,
   BarChart3,
   Handshake,
+  Inbox,
 } from "lucide-react";
-
-/* ── helpers ── */
-
-type PartnerAccountSummary = {
-  partner: Partner;
-  accounts: AccountRollup[];
-  totalRevenue: number;
-  totalPipeline: number;
-  dealsWon: number;
-  dealsOpen: number;
-  dealsLost: number;
-  touchpointCount: number;
-  avgDealSize: number;
-  influence: number; // % of total org revenue this partner touches
-};
-
-type AccountRollup = {
-  accountName: string;
-  accountEmail: string;
-  deals: (Deal & { touchpoints: Touchpoint[]; attributionPct?: number })[];
-  totalValue: number;
-  status: "active" | "won" | "lost";
-};
 
 function statusIcon(status: string) {
   if (status === "won") return <CheckCircle2 size={13} style={{ color: "#22c55e" }} />;
@@ -61,17 +39,6 @@ function StatCard({ icon, label, value, sub, accent }: { icon: React.ReactNode; 
         <div style={{ fontSize: "1.5rem", fontWeight: 800, letterSpacing: "-0.02em" }}>{value}</div>
         {sub && <div className="muted" style={{ fontSize: ".8rem" }}>{sub}</div>}
       </div>
-    </div>
-  );
-}
-
-function InfluenceBar({ pct }: { pct: number }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-      <div style={{ width: 80, height: 6, background: "var(--border)", borderRadius: 3, overflow: "hidden" }}>
-        <div style={{ width: `${Math.min(100, pct)}%`, height: "100%", background: "#6366f1", borderRadius: 3 }} />
-      </div>
-      <span style={{ fontSize: ".75rem", fontWeight: 700 }}>{pct.toFixed(1)}%</span>
     </div>
   );
 }
@@ -98,89 +65,209 @@ function TouchpointBadge({ type }: { type: string }) {
   );
 }
 
+function TierBadge({ tier }: { tier?: string }) {
+  if (!tier) return null;
+  const colors: Record<string, { bg: string; fg: string }> = {
+    platinum: { bg: "#a78bfa22", fg: "#a78bfa" },
+    gold: { bg: "#eab30822", fg: "#eab308" },
+    silver: { bg: "#94a3b822", fg: "#94a3b8" },
+    bronze: { bg: "#d9770622", fg: "#d97706" },
+  };
+  const c = colors[tier] || colors.bronze;
+  return (
+    <span style={{ padding: "1px 8px", borderRadius: 999, fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", background: c.bg, color: c.fg }}>
+      {tier}
+    </span>
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div>
+          <div style={{ width: 280, height: 32, background: "var(--border)", borderRadius: 8, marginBottom: 8 }} />
+          <div style={{ width: 320, height: 16, background: "var(--border)", borderRadius: 4 }} />
+        </div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
+        {[1,2,3,4].map(i => (
+          <div key={i} className="card" style={{ padding: "1.25rem", display: "flex", gap: "1rem" }}>
+            <div style={{ width: 44, height: 44, background: "var(--border)", borderRadius: 12 }} />
+            <div>
+              <div style={{ width: 80, height: 12, background: "var(--border)", borderRadius: 4, marginBottom: 8 }} />
+              <div style={{ width: 60, height: 24, background: "var(--border)", borderRadius: 4 }} />
+            </div>
+          </div>
+        ))}
+      </div>
+      {[1,2,3].map(i => (
+        <div key={i} className="card" style={{ padding: "1.25rem" }}>
+          <div style={{ width: 120, height: 20, background: "var(--border)", borderRadius: 4, marginBottom: 12 }} />
+          <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+            {[1,2,3].map(j => (
+              <div key={j} style={{ width: 280, height: 100, background: "var(--border)", borderRadius: 8 }} />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="card" style={{ padding: "4rem 2rem", textAlign: "center" }}>
+      <Inbox size={48} style={{ color: "var(--muted)", margin: "0 auto 1rem" }} />
+      <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: ".5rem" }}>No Pipeline Data Yet</h3>
+      <p className="muted" style={{ marginBottom: "1.5rem", maxWidth: 400, margin: "0 auto 1.5rem" }}>
+        Your partner-influenced pipeline will appear here once deals with partner touchpoints are created.
+      </p>
+      <Link href="/dashboard/deals" className="btn">
+        <Target size={16} /> View All Deals
+      </Link>
+    </div>
+  );
+}
+
+function DealCard({ deal, isExpanded, onToggle }: { deal: any; isExpanded: boolean; onToggle: () => void }) {
+  const statusColors: Record<string, { bg: string; fg: string }> = {
+    open: { bg: "#fef3c7", fg: "#92400e" },
+    won: { bg: "#dcfce7", fg: "#166534" },
+    lost: { bg: "#fee2e2", fg: "#991b1b" },
+  };
+  const c = statusColors[deal.status] || statusColors.open;
+
+  return (
+    <div 
+      className="card" 
+      onClick={onToggle}
+      style={{ 
+        padding: "1rem", 
+        cursor: "pointer",
+        border: isExpanded ? "1px solid #6366f1" : "1px solid var(--border)",
+        transition: "border-color 0.15s",
+      }}
+    >
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+        <div style={{ flex: 1 }}>
+          <Link 
+            href={`/dashboard/deals/${deal._id}`} 
+            onClick={(e) => e.stopPropagation()}
+            style={{ fontWeight: 700, fontSize: ".95rem", textDecoration: "none" }}
+          >
+            {deal.name}
+          </Link>
+          {deal.contactName && <p className="muted" style={{ fontSize: ".8rem" }}>{deal.contactName}</p>}
+        </div>
+        <span style={{ padding: "2px 8px", borderRadius: 999, fontSize: ".7rem", fontWeight: 700, background: c.bg, color: c.fg }}>
+          {deal.status}
+        </span>
+      </div>
+      
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+        <span style={{ fontSize: "1.1rem", fontWeight: 800 }}>{formatCurrency(deal.amount)}</span>
+        <span className="muted" style={{ fontSize: ".75rem" }}>{formatDate(deal.createdAt)}</span>
+      </div>
+      
+      {/* Partner info */}
+      {deal.involvedPartners && deal.involvedPartners.length > 0 && (
+        <div style={{ marginTop: 8, paddingTop: 8, borderTop: "1px solid var(--border)" }}>
+          <div style={{ display: "flex", gap: 4, flexWrap: "wrap", alignItems: "center" }}>
+            <Handshake size={13} style={{ color: "#6366f1" }} />
+            {deal.involvedPartners.slice(0, 2).map((p: any) => (
+              <span key={p._id} style={{ fontSize: ".75rem", fontWeight: 600 }}>
+                {p.name}
+                {p.attributionPct > 0 && <span style={{ color: "#6366f1" }}> ({p.attributionPct}%)</span>}
+              </span>
+            ))}
+            {deal.involvedPartners.length > 2 && (
+              <span className="muted" style={{ fontSize: ".75rem" }}>+{deal.involvedPartners.length - 2} more</span>
+            )}
+          </div>
+        </div>
+      )}
+      
+      {/* Expanded details */}
+      {isExpanded && (
+        <div style={{ marginTop: 12, paddingTop: 12, borderTop: "1px solid var(--border)" }}>
+          {/* All partners */}
+          {deal.involvedPartners && deal.involvedPartners.length > 0 && (
+            <div style={{ marginBottom: 12 }}>
+              <p className="muted" style={{ fontSize: ".7rem", fontWeight: 600, marginBottom: 6 }}>PARTNERS</p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                {deal.involvedPartners.map((p: any) => (
+                  <div key={p._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                      <span style={{ fontSize: ".85rem", fontWeight: 600 }}>{p.name}</span>
+                      <TierBadge tier={p.tier} />
+                    </div>
+                    {p.attributionPct > 0 && (
+                      <span style={{ fontSize: ".8rem", fontWeight: 700, color: "#6366f1" }}>{p.attributionPct}%</span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* Touchpoints */}
+          {deal.touchpoints && deal.touchpoints.length > 0 && (
+            <div>
+              <p className="muted" style={{ fontSize: ".7rem", fontWeight: 600, marginBottom: 6 }}>TOUCHPOINTS</p>
+              <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                {deal.touchpoints.map((tp: any) => (
+                  <TouchpointBadge key={tp._id} type={tp.type} />
+                ))}
+              </div>
+            </div>
+          )}
+          
+          <div style={{ marginTop: 12 }}>
+            <Link 
+              href={`/dashboard/deals/${deal._id}`}
+              className="btn-outline"
+              style={{ fontSize: ".8rem", padding: ".4rem .8rem" }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              View Deal <ArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function PipelinePage() {
-  const { partners, deals, touchpoints, attributions } = useStore();
-  const [expandedPartner, setExpandedPartner] = useState<string | null>(null);
+  const pipelineData = useQuery(api.dashboard.getPipelineDeals);
   const [filterStatus, setFilterStatus] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<"revenue" | "pipeline" | "influence" | "deals">("revenue");
+  const [expandedDealId, setExpandedDealId] = useState<string | null>(null);
 
-  const totalOrgRevenue = useMemo(() => deals.filter((d) => d.status === "won").reduce((s, d) => s + d.amount, 0), [deals]);
+  if (pipelineData === undefined) {
+    return <LoadingSkeleton />;
+  }
 
-  const partnerSummaries = useMemo(() => {
-    return partners.map((partner): PartnerAccountSummary => {
-      // Get touchpoints for this partner
-      const partnerTouchpoints = touchpoints.filter((t) => t.partnerId === partner._id);
-      const dealIds = [...new Set(partnerTouchpoints.map((t) => t.dealId))];
-      const partnerDeals = dealIds.map((id) => deals.find((d) => d._id === id)).filter(Boolean) as Deal[];
+  const { open, won, lost, total, openValue, wonValue, lostValue } = pipelineData;
+  
+  // Filter to only show deals with partner involvement
+  const partnerDeals = {
+    open: open.filter((d: any) => d.involvedPartners && d.involvedPartners.length > 0),
+    won: won.filter((d: any) => d.involvedPartners && d.involvedPartners.length > 0),
+    lost: lost.filter((d: any) => d.involvedPartners && d.involvedPartners.length > 0),
+  };
+  
+  const hasPartnerDeals = partnerDeals.open.length > 0 || partnerDeals.won.length > 0 || partnerDeals.lost.length > 0;
+  
+  // Calculate partner-influenced metrics
+  const partnerOpenValue = partnerDeals.open.reduce((s: number, d: any) => s + d.amount, 0);
+  const partnerWonValue = partnerDeals.won.reduce((s: number, d: any) => s + d.amount, 0);
+  const partnerTotalDeals = partnerDeals.open.length + partnerDeals.won.length + partnerDeals.lost.length;
 
-      // Group by account (contactEmail or contactName)
-      const accountMap = new Map<string, AccountRollup>();
-      for (const deal of partnerDeals) {
-        const key = deal.contactEmail || deal.contactName || deal.name;
-        const name = deal.contactName || deal.name;
-        const email = deal.contactEmail || "";
-
-        const existing = accountMap.get(key);
-        const dealTouchpoints = partnerTouchpoints.filter((t) => t.dealId === deal._id);
-        const attr = attributions.find((a) => a.partnerId === partner._id && a.dealId === deal._id);
-
-        const enrichedDeal = { ...deal, touchpoints: dealTouchpoints, attributionPct: attr?.percentage };
-
-        if (existing) {
-          existing.deals.push(enrichedDeal);
-          existing.totalValue += deal.amount;
-          if (deal.status === "open") existing.status = "active";
-        } else {
-          accountMap.set(key, {
-            accountName: name,
-            accountEmail: email,
-            deals: [enrichedDeal],
-            totalValue: deal.amount,
-            status: deal.status === "open" ? "active" : deal.status === "won" ? "won" : "lost",
-          });
-        }
-      }
-
-      const wonDeals = partnerDeals.filter((d) => d.status === "won");
-      const openDeals = partnerDeals.filter((d) => d.status === "open");
-      const totalRevenue = wonDeals.reduce((s, d) => s + d.amount, 0);
-      const totalPipeline = openDeals.reduce((s, d) => s + d.amount, 0);
-
-      return {
-        partner,
-        accounts: [...accountMap.values()].sort((a, b) => b.totalValue - a.totalValue),
-        totalRevenue,
-        totalPipeline,
-        dealsWon: wonDeals.length,
-        dealsOpen: openDeals.length,
-        dealsLost: partnerDeals.filter((d) => d.status === "lost").length,
-        touchpointCount: partnerTouchpoints.length,
-        avgDealSize: wonDeals.length > 0 ? totalRevenue / wonDeals.length : 0,
-        influence: totalOrgRevenue > 0 ? (totalRevenue / totalOrgRevenue) * 100 : 0,
-      };
-    }).filter((s) => s.touchpointCount > 0); // Only show partners with deal involvement
-  }, [partners, deals, touchpoints, attributions, totalOrgRevenue]);
-
-  const filtered = useMemo(() => {
-    let result = partnerSummaries;
-    if (filterStatus === "has_pipeline") result = result.filter((s) => s.dealsOpen > 0);
-    if (filterStatus === "has_revenue") result = result.filter((s) => s.totalRevenue > 0);
-    if (filterStatus === "no_deals") result = result.filter((s) => s.dealsWon === 0 && s.dealsOpen === 0);
-
-    result.sort((a, b) => {
-      if (sortBy === "revenue") return b.totalRevenue - a.totalRevenue;
-      if (sortBy === "pipeline") return b.totalPipeline - a.totalPipeline;
-      if (sortBy === "influence") return b.influence - a.influence;
-      return (b.dealsWon + b.dealsOpen) - (a.dealsWon + a.dealsOpen);
-    });
-    return result;
-  }, [partnerSummaries, filterStatus, sortBy]);
-
-  // Aggregate stats
-  const totalPartnerRevenue = partnerSummaries.reduce((s, p) => s + p.totalRevenue, 0);
-  const totalPipeline = partnerSummaries.reduce((s, p) => s + p.totalPipeline, 0);
-  const totalAccounts = new Set(partnerSummaries.flatMap((p) => p.accounts.map((a) => a.accountName))).size;
-  const avgInfluence = partnerSummaries.length > 0 ? partnerSummaries.reduce((s, p) => s + p.influence, 0) / partnerSummaries.length : 0;
+  // Get unique partners involved
+  const allPartners = [...partnerDeals.open, ...partnerDeals.won, ...partnerDeals.lost]
+    .flatMap((d: any) => d.involvedPartners || []);
+  const uniquePartnerIds = [...new Set(allPartners.map((p: any) => p._id))];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
@@ -188,157 +275,189 @@ export default function PipelinePage() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem" }}>
         <div>
           <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Pipeline & Co-Sell</h1>
-          <p className="muted" style={{ marginTop: "0.25rem" }}>Partner relationships to revenue-driving accounts</p>
+          <p className="muted" style={{ marginTop: "0.25rem" }}>Partner-influenced deals and revenue pipeline</p>
         </div>
-        <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap" }}>
-          <select className="input" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} style={{ maxWidth: 180 }}>
-            <option value="all">All Partners</option>
-            <option value="has_pipeline">Active Pipeline</option>
-            <option value="has_revenue">Revenue Producing</option>
-            <option value="no_deals">No Closed Deals</option>
-          </select>
-          <select className="input" value={sortBy} onChange={(e) => setSortBy(e.target.value as any)} style={{ maxWidth: 160 }}>
-            <option value="revenue">Sort: Revenue</option>
-            <option value="pipeline">Sort: Pipeline</option>
-            <option value="influence">Sort: Influence</option>
-            <option value="deals">Sort: Deal Count</option>
+        <div style={{ display: "flex", gap: ".75rem" }}>
+          <select 
+            className="input" 
+            value={filterStatus} 
+            onChange={(e) => setFilterStatus(e.target.value)} 
+            style={{ maxWidth: 160 }}
+          >
+            <option value="all">All Stages</option>
+            <option value="open">Open Only</option>
+            <option value="won">Won Only</option>
+            <option value="lost">Lost Only</option>
           </select>
         </div>
       </div>
 
       {/* Stats */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
-        <StatCard icon={<DollarSign size={22} />} label="Partner-Sourced Revenue" value={formatCurrency(totalPartnerRevenue)} accent="#22c55e" />
-        <StatCard icon={<Target size={22} />} label="Active Pipeline" value={formatCurrency(totalPipeline)} sub={`${filtered.filter(f => f.dealsOpen > 0).length} partners with open deals`} accent="#6366f1" />
-        <StatCard icon={<Briefcase size={22} />} label="Accounts Touched" value={String(totalAccounts)} accent="#f59e0b" />
-        <StatCard icon={<Handshake size={22} />} label="Active Partners" value={`${partnerSummaries.length}`} sub={`of ${partners.length} total`} accent="#8b5cf6" />
+        <StatCard 
+          icon={<Target size={22} />} 
+          label="Open Pipeline" 
+          value={formatCurrency(partnerOpenValue)} 
+          sub={`${partnerDeals.open.length} deals`}
+          accent="#6366f1" 
+        />
+        <StatCard 
+          icon={<DollarSign size={22} />} 
+          label="Partner-Won Revenue" 
+          value={formatCurrency(partnerWonValue)} 
+          sub={`${partnerDeals.won.length} closed won`}
+          accent="#22c55e" 
+        />
+        <StatCard 
+          icon={<Briefcase size={22} />} 
+          label="Total Deals" 
+          value={String(partnerTotalDeals)} 
+          sub={`of ${total} total deals`}
+          accent="#f59e0b" 
+        />
+        <StatCard 
+          icon={<Handshake size={22} />} 
+          label="Active Partners" 
+          value={String(uniquePartnerIds.length)} 
+          sub="with pipeline involvement"
+          accent="#8b5cf6" 
+        />
       </div>
 
-      {/* Partner Revenue Influence Chart */}
-      <div className="card" style={{ padding: "1.25rem" }}>
-        <div style={{ fontSize: ".875rem", fontWeight: 700, marginBottom: 12 }}>Revenue Influence by Partner</div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-          {partnerSummaries
-            .sort((a, b) => b.influence - a.influence)
-            .slice(0, 8)
-            .map((s) => (
-              <div key={s.partner._id} style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <span style={{ width: 140, fontSize: ".8rem", fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{s.partner.name}</span>
-                <div style={{ flex: 1, height: 20, background: "var(--border)", borderRadius: 4, overflow: "hidden", position: "relative" }}>
-                  <div style={{
-                    width: `${Math.max(2, s.influence)}%`,
-                    height: "100%",
-                    background: `linear-gradient(90deg, #6366f1, #8b5cf6)`,
-                    borderRadius: 4,
-                    transition: "width 0.5s",
-                  }} />
-                  <span style={{ position: "absolute", right: 8, top: 2, fontSize: ".7rem", fontWeight: 700 }}>
-                    {formatCurrency(s.totalRevenue)}
-                  </span>
-                </div>
-                <span style={{ fontSize: ".75rem", fontWeight: 700, width: 45, textAlign: "right" }}>{s.influence.toFixed(1)}%</span>
-              </div>
-            ))}
-        </div>
-      </div>
-
-      {/* Partner-Account Cards */}
-      <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
-        {filtered.map((summary) => {
-          const isExpanded = expandedPartner === summary.partner._id;
-          return (
-            <div key={summary.partner._id}>
-              <div
-                className="card"
-                onClick={() => setExpandedPartner(isExpanded ? null : summary.partner._id)}
-                style={{ padding: "1rem 1.25rem", cursor: "pointer", border: isExpanded ? "1px solid #6366f1" : "1px solid var(--border)" }}
+      {/* Pipeline visualization */}
+      {hasPartnerDeals && (
+        <div className="card" style={{ padding: "1.25rem" }}>
+          <div style={{ fontSize: ".875rem", fontWeight: 700, marginBottom: 12 }}>Pipeline by Stage</div>
+          <div style={{ display: "flex", gap: 4, height: 32, borderRadius: 8, overflow: "hidden" }}>
+            {partnerDeals.open.length > 0 && (
+              <div 
+                style={{ 
+                  flex: partnerOpenValue, 
+                  background: "#6366f1",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  fontSize: ".75rem",
+                  fontWeight: 700,
+                }}
+                title={`Open: ${formatCurrency(partnerOpenValue)}`}
               >
-                {/* Partner header */}
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <span style={{ fontSize: "1.05rem", fontWeight: 700 }}>{summary.partner.name}</span>
-                    <span className="muted" style={{ fontSize: ".8rem" }}>{summary.partner.type}</span>
-                    {summary.partner.tier && (
-                      <span style={{
-                        padding: "1px 8px", borderRadius: 999, fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase",
-                        background: summary.partner.tier === "platinum" ? "#a78bfa22" : summary.partner.tier === "gold" ? "#eab30822" : "#94a3b822",
-                        color: summary.partner.tier === "platinum" ? "#a78bfa" : summary.partner.tier === "gold" ? "#eab308" : "#94a3b8",
-                      }}>
-                        {summary.partner.tier}
-                      </span>
-                    )}
-                  </div>
-                  <InfluenceBar pct={summary.influence} />
-                </div>
-
-                {/* Stats row */}
-                <div style={{ display: "flex", gap: "1.5rem", marginTop: 10, fontSize: ".8rem", flexWrap: "wrap" }}>
-                  <span style={{ fontWeight: 700, color: "#22c55e" }}>
-                    <DollarSign size={13} style={{ verticalAlign: -2 }} /> {formatCurrency(summary.totalRevenue)} won
-                  </span>
-                  <span style={{ fontWeight: 600, color: "#6366f1" }}>
-                    <Target size={13} style={{ verticalAlign: -2 }} /> {formatCurrency(summary.totalPipeline)} pipeline
-                  </span>
-                  <span className="muted">
-                    <CheckCircle2 size={13} style={{ verticalAlign: -2 }} /> {summary.dealsWon} won
-                  </span>
-                  <span className="muted">
-                    <Clock size={13} style={{ verticalAlign: -2 }} /> {summary.dealsOpen} open
-                  </span>
-                  <span className="muted">
-                    <Briefcase size={13} style={{ verticalAlign: -2 }} /> {summary.accounts.length} accounts
-                  </span>
-                  <span className="muted">
-                    <GitBranch size={13} style={{ verticalAlign: -2 }} /> {summary.touchpointCount} touchpoints
-                  </span>
-                </div>
+                Open
               </div>
-
-              {/* Expanded: Account breakdown */}
-              {isExpanded && (
-                <div style={{ marginTop: 4, display: "flex", flexDirection: "column", gap: 4 }}>
-                  {summary.accounts.map((acct, i) => (
-                    <div key={i} className="card" style={{ padding: "1rem 1.25rem", borderLeft: "3px solid #6366f1" }}>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-                        <div>
-                          <span style={{ fontWeight: 700, fontSize: ".95rem" }}>{acct.accountName}</span>
-                          {acct.accountEmail && <span className="muted" style={{ fontSize: ".8rem", marginLeft: 8 }}>{acct.accountEmail}</span>}
-                        </div>
-                        <span style={{ fontWeight: 700, fontSize: ".9rem" }}>{formatCurrency(acct.totalValue)}</span>
-                      </div>
-
-                      {/* Deals under this account */}
-                      {acct.deals.map((deal) => (
-                        <div key={deal._id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "6px 0", borderTop: "1px solid var(--border)", fontSize: ".85rem" }}>
-                          {statusIcon(deal.status)}
-                          <Link href={`/dashboard/deals/${deal._id}`} style={{ fontWeight: 600, flex: 1, textDecoration: "none" }}>
-                            {deal.name}
-                          </Link>
-                          <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                            {deal.touchpoints.map((tp, j) => (
-                              <TouchpointBadge key={j} type={tp.type} />
-                            ))}
-                          </div>
-                          {deal.attributionPct !== undefined && (
-                            <span style={{ fontSize: ".75rem", fontWeight: 700, color: "#6366f1" }}>{deal.attributionPct}%</span>
-                          )}
-                          <span style={{ fontWeight: 600, width: 90, textAlign: "right" }}>{formatCurrency(deal.amount)}</span>
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
-
-        {filtered.length === 0 && (
-          <div className="card" style={{ padding: "3rem", textAlign: "center" }}>
-            <p className="muted">No partners match the current filter</p>
+            )}
+            {partnerDeals.won.length > 0 && (
+              <div 
+                style={{ 
+                  flex: partnerWonValue, 
+                  background: "#22c55e",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  fontSize: ".75rem",
+                  fontWeight: 700,
+                }}
+                title={`Won: ${formatCurrency(partnerWonValue)}`}
+              >
+                Won
+              </div>
+            )}
+            {partnerDeals.lost.length > 0 && (
+              <div 
+                style={{ 
+                  flex: lostValue, 
+                  background: "#ef4444",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  fontSize: ".75rem",
+                  fontWeight: 700,
+                }}
+                title={`Lost: ${formatCurrency(lostValue)}`}
+              >
+                Lost
+              </div>
+            )}
           </div>
-        )}
-      </div>
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8, fontSize: ".8rem" }}>
+            <span style={{ color: "#6366f1", fontWeight: 600 }}>{formatCurrency(partnerOpenValue)} open</span>
+            <span style={{ color: "#22c55e", fontWeight: 600 }}>{formatCurrency(partnerWonValue)} won</span>
+            <span style={{ color: "#ef4444", fontWeight: 600 }}>{formatCurrency(lostValue)} lost</span>
+          </div>
+        </div>
+      )}
+
+      {/* Empty state or deal cards */}
+      {!hasPartnerDeals ? (
+        <EmptyState />
+      ) : (
+        <>
+          {/* Open Deals */}
+          {(filterStatus === "all" || filterStatus === "open") && partnerDeals.open.length > 0 && (
+            <div>
+              <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".75rem", display: "flex", alignItems: "center", gap: 8 }}>
+                <Clock size={18} style={{ color: "#eab308" }} />
+                Open Pipeline
+                <span className="muted" style={{ fontSize: ".9rem", fontWeight: 400 }}>({partnerDeals.open.length})</span>
+              </h2>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: ".75rem" }}>
+                {partnerDeals.open.map((deal: any) => (
+                  <DealCard 
+                    key={deal._id} 
+                    deal={deal} 
+                    isExpanded={expandedDealId === deal._id}
+                    onToggle={() => setExpandedDealId(expandedDealId === deal._id ? null : deal._id)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Won Deals */}
+          {(filterStatus === "all" || filterStatus === "won") && partnerDeals.won.length > 0 && (
+            <div>
+              <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".75rem", display: "flex", alignItems: "center", gap: 8 }}>
+                <CheckCircle2 size={18} style={{ color: "#22c55e" }} />
+                Closed Won
+                <span className="muted" style={{ fontSize: ".9rem", fontWeight: 400 }}>({partnerDeals.won.length})</span>
+              </h2>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: ".75rem" }}>
+                {partnerDeals.won.map((deal: any) => (
+                  <DealCard 
+                    key={deal._id} 
+                    deal={deal} 
+                    isExpanded={expandedDealId === deal._id}
+                    onToggle={() => setExpandedDealId(expandedDealId === deal._id ? null : deal._id)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Lost Deals */}
+          {(filterStatus === "all" || filterStatus === "lost") && partnerDeals.lost.length > 0 && (
+            <div>
+              <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".75rem", display: "flex", alignItems: "center", gap: 8 }}>
+                <XCircle size={18} style={{ color: "#ef4444" }} />
+                Closed Lost
+                <span className="muted" style={{ fontSize: ".9rem", fontWeight: 400 }}>({partnerDeals.lost.length})</span>
+              </h2>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: ".75rem" }}>
+                {partnerDeals.lost.map((deal: any) => (
+                  <DealCard 
+                    key={deal._id} 
+                    deal={deal} 
+                    isExpanded={expandedDealId === deal._id}
+                    onToggle={() => setExpandedDealId(expandedDealId === deal._id ? null : deal._id)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+        </>
+      )}
     </div>
   );
 }

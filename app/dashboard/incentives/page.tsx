@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { useStore } from "@/lib/store";
+import { useState } from "react";
+import Link from "next/link";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { formatCurrency } from "@/lib/utils";
-import { INCENTIVE_TYPE_LABELS, INCENTIVE_STATUS_LABELS } from "@/lib/types";
-import type { IncentiveProgram, IncentiveEnrollment } from "@/lib/types";
 import {
   Gift,
   Zap,
@@ -12,50 +12,21 @@ import {
   DollarSign,
   Users,
   Target,
-  ChevronRight,
   Award,
-  Clock,
   CheckCircle2,
-  PauseCircle,
-  XCircle,
+  Clock,
+  Trophy,
+  Star,
+  Inbox,
+  ArrowRight,
 } from "lucide-react";
 
 function ProgressBar({ value, max, color = "#6366f1" }: { value: number; max: number; color?: string }) {
-  const pct = Math.min(100, (value / max) * 100);
+  const pct = Math.min(100, max > 0 ? (value / max) * 100 : 0);
   return (
     <div style={{ width: "100%", height: 8, background: "var(--border)", borderRadius: 4, overflow: "hidden" }}>
       <div style={{ width: `${pct}%`, height: "100%", background: color, borderRadius: 4, transition: "width 0.5s ease" }} />
     </div>
-  );
-}
-
-function StatusBadge({ status }: { status: IncentiveProgram["status"] }) {
-  const colors: Record<string, { bg: string; fg: string; icon: React.ReactNode }> = {
-    active: { bg: "rgba(34,197,94,0.15)", fg: "#22c55e", icon: <CheckCircle2 size={12} /> },
-    draft: { bg: "rgba(148,163,184,0.15)", fg: "#94a3b8", icon: <Clock size={12} /> },
-    paused: { bg: "rgba(234,179,8,0.15)", fg: "#eab308", icon: <PauseCircle size={12} /> },
-    ended: { bg: "rgba(239,68,68,0.15)", fg: "#ef4444", icon: <XCircle size={12} /> },
-  };
-  const c = colors[status] || colors.draft;
-  return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "2px 10px", borderRadius: 999, fontSize: ".75rem", fontWeight: 600, background: c.bg, color: c.fg }}>
-      {c.icon} {INCENTIVE_STATUS_LABELS[status]}
-    </span>
-  );
-}
-
-function TypeBadge({ type }: { type: IncentiveProgram["type"] }) {
-  const colors: Record<string, string> = {
-    spif: "#8b5cf6",
-    bonus: "#3b82f6",
-    accelerator: "#f59e0b",
-    mdf_match: "#10b981",
-    deal_reg_bonus: "#ec4899",
-  };
-  return (
-    <span style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "2px 10px", borderRadius: 999, fontSize: ".75rem", fontWeight: 600, background: `${colors[type]}22`, color: colors[type] }}>
-      {INCENTIVE_TYPE_LABELS[type]}
-    </span>
   );
 }
 
@@ -74,37 +45,184 @@ function StatCard({ icon, label, value, sub }: { icon: React.ReactNode; label: s
   );
 }
 
-function daysRemaining(endDate: number): string {
-  const days = Math.ceil((endDate - Date.now()) / 86400000);
-  if (days < 0) return "Ended";
-  if (days === 0) return "Ends today";
-  return `${days}d left`;
+function TierBadge({ tier }: { tier?: string }) {
+  if (!tier) return null;
+  const colors: Record<string, { bg: string; fg: string }> = {
+    platinum: { bg: "#a78bfa22", fg: "#a78bfa" },
+    gold: { bg: "#eab30822", fg: "#eab308" },
+    silver: { bg: "#94a3b822", fg: "#94a3b8" },
+    bronze: { bg: "#d9770622", fg: "#d97706" },
+  };
+  const c = colors[tier] || colors.bronze;
+  return (
+    <span style={{ padding: "2px 10px", borderRadius: 999, fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", background: c.bg, color: c.fg }}>
+      {tier}
+    </span>
+  );
 }
 
+function IncentiveBadge({ type, eligible }: { type: string; eligible: boolean }) {
+  const config: Record<string, { label: string; color: string; icon: React.ReactNode }> = {
+    spif: { label: "SPIF Eligible", color: "#8b5cf6", icon: <Zap size={12} /> },
+    bonus: { label: "Bonus Eligible", color: "#3b82f6", icon: <DollarSign size={12} /> },
+    accelerator: { label: "Accelerator", color: "#f59e0b", icon: <TrendingUp size={12} /> },
+    dealReg: { label: "Deal Reg Bonus", color: "#ec4899", icon: <Target size={12} /> },
+  };
+  const c = config[type] || { label: type, color: "#6366f1", icon: <Gift size={12} /> };
+  
+  return (
+    <span style={{
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 4,
+      padding: "2px 8px",
+      borderRadius: 999,
+      fontSize: ".7rem",
+      fontWeight: 700,
+      background: eligible ? `${c.color}22` : "var(--border)",
+      color: eligible ? c.color : "var(--muted)",
+      opacity: eligible ? 1 : 0.6,
+    }}>
+      {c.icon} {c.label}
+    </span>
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <div>
+        <div style={{ width: 280, height: 32, background: "var(--border)", borderRadius: 8, marginBottom: 8 }} />
+        <div style={{ width: 320, height: 16, background: "var(--border)", borderRadius: 4 }} />
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
+        {[1,2,3,4].map(i => (
+          <div key={i} className="card" style={{ padding: "1.25rem", display: "flex", gap: "1rem" }}>
+            <div style={{ width: 44, height: 44, background: "var(--border)", borderRadius: 12 }} />
+            <div>
+              <div style={{ width: 80, height: 12, background: "var(--border)", borderRadius: 4, marginBottom: 8 }} />
+              <div style={{ width: 60, height: 24, background: "var(--border)", borderRadius: 4 }} />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="card" style={{ padding: "1.25rem" }}>
+        <div style={{ width: 200, height: 20, background: "var(--border)", borderRadius: 4, marginBottom: 16 }} />
+        {[1,2,3].map(i => (
+          <div key={i} style={{ display: "flex", gap: "1rem", padding: "1rem 0", borderTop: "1px solid var(--border)" }}>
+            <div style={{ width: 40, height: 40, background: "var(--border)", borderRadius: 8 }} />
+            <div style={{ flex: 1 }}>
+              <div style={{ width: 150, height: 16, background: "var(--border)", borderRadius: 4, marginBottom: 8 }} />
+              <div style={{ width: 200, height: 12, background: "var(--border)", borderRadius: 4 }} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div className="card" style={{ padding: "4rem 2rem", textAlign: "center" }}>
+      <Inbox size={48} style={{ color: "var(--muted)", margin: "0 auto 1rem" }} />
+      <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: ".5rem" }}>No Active Partners</h3>
+      <p className="muted" style={{ marginBottom: "1.5rem", maxWidth: 400, margin: "0 auto 1.5rem" }}>
+        Partner incentive eligibility is calculated based on deal performance. Add partners and deals to see incentive tracking.
+      </p>
+      <Link href="/dashboard/partners" className="btn">
+        <Users size={16} /> View Partners
+      </Link>
+    </div>
+  );
+}
+
+// Incentive program definitions (these would eventually be configurable)
+const INCENTIVE_PROGRAMS = [
+  {
+    id: "spif",
+    name: "Q1 SPIF Program",
+    type: "spif",
+    description: "Close 3+ deals to earn a $500 SPIF bonus",
+    threshold: 3,
+    metric: "dealsWon",
+    reward: 500,
+    rewardType: "flat" as const,
+  },
+  {
+    id: "bonus",
+    name: "Revenue Bonus",
+    type: "bonus",
+    description: "Earn 2% bonus on revenue exceeding $100,000",
+    threshold: 100000,
+    metric: "totalRevenue",
+    reward: 2,
+    rewardType: "percentage" as const,
+  },
+  {
+    id: "accelerator",
+    name: "Top Performer Accelerator",
+    type: "accelerator",
+    description: "5+ deals AND $200k+ revenue unlocks 1.5x commission multiplier",
+    threshold: { deals: 5, revenue: 200000 },
+    metric: "combined",
+    reward: 1.5,
+    rewardType: "multiplier" as const,
+  },
+  {
+    id: "dealReg",
+    name: "Deal Registration Bonus",
+    type: "dealReg",
+    description: "Register 2+ deals to earn $250 bonus",
+    threshold: 2,
+    metric: "dealsRegistered",
+    reward: 250,
+    rewardType: "flat" as const,
+  },
+];
+
 export default function IncentivesPage() {
-  const { incentivePrograms, incentiveEnrollments } = useStore();
-  const [selectedProgramId, setSelectedProgramId] = useState<string | null>(null);
-  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const partnerPerformance = useQuery(api.dashboard.getPartnerPerformance);
+  const [selectedPartnerId, setSelectedPartnerId] = useState<string | null>(null);
+  const [filterType, setFilterType] = useState<string>("all");
 
-  const filteredPrograms = useMemo(() => {
-    if (filterStatus === "all") return incentivePrograms;
-    return incentivePrograms.filter((p) => p.status === filterStatus);
-  }, [incentivePrograms, filterStatus]);
+  if (partnerPerformance === undefined) {
+    return <LoadingSkeleton />;
+  }
 
-  const selectedProgram = selectedProgramId ? incentivePrograms.find((p) => p._id === selectedProgramId) : null;
-  const enrollments = selectedProgramId
-    ? incentiveEnrollments.filter((e) => e.programId === selectedProgramId)
-    : [];
+  if (partnerPerformance.length === 0) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <div>
+          <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Incentive Programs</h1>
+          <p className="muted" style={{ marginTop: "0.25rem" }}>Partner performance and incentive eligibility</p>
+        </div>
+        <EmptyState />
+      </div>
+    );
+  }
 
-  // Summary stats
-  const activePrograms = incentivePrograms.filter((p) => p.status === "active");
-  const totalBudget = activePrograms.reduce((s, p) => s + p.budget, 0);
-  const totalSpent = activePrograms.reduce((s, p) => s + p.spent, 0);
-  const totalEnrollments = incentiveEnrollments.filter((e) =>
-    activePrograms.some((p) => p._id === e.programId)
-  ).length;
-  const totalEarned = incentiveEnrollments.reduce((s, e) => s + e.earned, 0);
-  const totalPaid = incentiveEnrollments.reduce((s, e) => s + e.paid, 0);
+  // Calculate summary stats
+  const eligibleForSpif = partnerPerformance.filter((p: any) => p.incentives.spifEligible).length;
+  const eligibleForBonus = partnerPerformance.filter((p: any) => p.incentives.bonusEligible).length;
+  const eligibleForAccelerator = partnerPerformance.filter((p: any) => p.incentives.acceleratorEligible).length;
+  const totalCommissions = partnerPerformance.reduce((s: number, p: any) => s + p.metrics.totalCommission, 0);
+  const totalRevenue = partnerPerformance.reduce((s: number, p: any) => s + p.metrics.totalRevenue, 0);
+
+  // Filter partners
+  const filtered = filterType === "all" 
+    ? partnerPerformance 
+    : partnerPerformance.filter((p: any) => {
+        if (filterType === "spif") return p.incentives.spifEligible;
+        if (filterType === "bonus") return p.incentives.bonusEligible;
+        if (filterType === "accelerator") return p.incentives.acceleratorEligible;
+        if (filterType === "dealReg") return p.incentives.dealRegBonus;
+        return true;
+      });
+
+  const selectedPartner = selectedPartnerId 
+    ? partnerPerformance.find((p: any) => p._id === selectedPartnerId)
+    : null;
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
@@ -112,181 +230,207 @@ export default function IncentivesPage() {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem" }}>
         <div>
           <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Incentive Programs</h1>
-          <p className="muted" style={{ marginTop: "0.25rem" }}>Manage SPIFs, bonuses, accelerators, and partner incentives</p>
+          <p className="muted" style={{ marginTop: "0.25rem" }}>Partner performance and incentive eligibility based on real deal data</p>
         </div>
-        <div style={{ display: "flex", gap: ".75rem", alignItems: "center" }}>
-          <select
-            className="input"
-            value={filterStatus}
-            onChange={(e) => setFilterStatus(e.target.value)}
-            style={{ maxWidth: 180 }}
-          >
-            <option value="all">All Programs</option>
-            <option value="active">Active</option>
-            <option value="draft">Draft</option>
-            <option value="paused">Paused</option>
-            <option value="ended">Ended</option>
-          </select>
-        </div>
+        <select
+          className="input"
+          value={filterType}
+          onChange={(e) => setFilterType(e.target.value)}
+          style={{ maxWidth: 200 }}
+        >
+          <option value="all">All Partners</option>
+          <option value="spif">SPIF Eligible</option>
+          <option value="bonus">Bonus Eligible</option>
+          <option value="accelerator">Accelerator Tier</option>
+          <option value="dealReg">Deal Reg Bonus</option>
+        </select>
       </div>
 
       {/* Stats Row */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
-        <StatCard icon={<Zap size={22} />} label="Active Programs" value={String(activePrograms.length)} sub={`${incentivePrograms.length} total`} />
-        <StatCard icon={<DollarSign size={22} />} label="Total Budget" value={formatCurrency(totalBudget)} sub={`${formatCurrency(totalSpent)} spent (${totalBudget > 0 ? Math.round((totalSpent / totalBudget) * 100) : 0}%)`} />
-        <StatCard icon={<Users size={22} />} label="Enrollments" value={String(totalEnrollments)} sub="across active programs" />
-        <StatCard icon={<Award size={22} />} label="Partner Earnings" value={formatCurrency(totalEarned)} sub={`${formatCurrency(totalPaid)} paid out`} />
+        <StatCard icon={<Zap size={22} />} label="SPIF Eligible" value={String(eligibleForSpif)} sub={`of ${partnerPerformance.length} partners`} />
+        <StatCard icon={<DollarSign size={22} />} label="Total Revenue" value={formatCurrency(totalRevenue)} sub={`from ${partnerPerformance.length} partners`} />
+        <StatCard icon={<Award size={22} />} label="Top Performers" value={String(eligibleForAccelerator)} sub="accelerator eligible" />
+        <StatCard icon={<Gift size={22} />} label="Total Commissions" value={formatCurrency(totalCommissions)} sub="earned to date" />
       </div>
 
-      {/* Budget Utilization Bar */}
+      {/* Programs Overview */}
       <div className="card" style={{ padding: "1.25rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 8 }}>
-          <span style={{ fontSize: ".875rem", fontWeight: 600 }}>Overall Budget Utilization</span>
-          <span className="muted" style={{ fontSize: ".875rem" }}>{formatCurrency(totalSpent)} / {formatCurrency(totalBudget)}</span>
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem" }}>Active Incentive Programs</h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
+          {INCENTIVE_PROGRAMS.map((program) => {
+            const eligibleCount = partnerPerformance.filter((p: any) => {
+              const inv = p.incentives;
+              if (program.id === "spif") return inv.spifEligible;
+              if (program.id === "bonus") return inv.bonusEligible;
+              if (program.id === "accelerator") return inv.acceleratorEligible;
+              if (program.id === "dealReg") return inv.dealRegBonus;
+              return false;
+            }).length;
+            
+            return (
+              <div key={program.id} style={{ padding: "1rem", borderRadius: 12, border: "1px solid var(--border)", background: "var(--subtle)" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 8 }}>
+                  <h3 style={{ fontSize: ".95rem", fontWeight: 700 }}>{program.name}</h3>
+                  <IncentiveBadge type={program.id} eligible={true} />
+                </div>
+                <p className="muted" style={{ fontSize: ".85rem", marginBottom: 12, lineHeight: 1.4 }}>{program.description}</p>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                  <span className="muted" style={{ fontSize: ".8rem" }}>
+                    <Users size={13} style={{ verticalAlign: -2 }} /> {eligibleCount} eligible
+                  </span>
+                  <span style={{ fontSize: ".85rem", fontWeight: 700, color: "#22c55e" }}>
+                    {program.rewardType === "flat" && `$${program.reward}`}
+                    {program.rewardType === "percentage" && `${program.reward}% bonus`}
+                    {program.rewardType === "multiplier" && `${program.reward}x multiplier`}
+                  </span>
+                </div>
+              </div>
+            );
+          })}
         </div>
-        <ProgressBar value={totalSpent} max={totalBudget} color="#6366f1" />
       </div>
 
-      {/* Programs Grid */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-        {filteredPrograms.map((program) => {
-          const progEnrollments = incentiveEnrollments.filter((e) => e.programId === program._id);
-          const achieved = progEnrollments.filter((e) => e.status === "achieved").length;
-          const isSelected = selectedProgramId === program._id;
-
-          return (
-            <div
-              key={program._id}
-              className="card"
-              onClick={() => setSelectedProgramId(isSelected ? null : program._id)}
-              style={{
-                padding: "1.25rem",
-                cursor: "pointer",
-                border: isSelected ? "1px solid #6366f1" : "1px solid var(--border)",
-                transition: "border-color 0.15s",
-              }}
-            >
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-                <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
-                  <TypeBadge type={program.type} />
-                  <StatusBadge status={program.status} />
-                </div>
-                <span className="muted" style={{ fontSize: ".75rem", fontWeight: 600 }}>{daysRemaining(program.endDate)}</span>
-              </div>
-
-              <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 4 }}>{program.name}</h3>
-              <p className="muted" style={{ fontSize: ".85rem", marginBottom: 12, lineHeight: 1.4 }}>{program.description}</p>
-
-              {/* Budget progress */}
-              <div style={{ marginBottom: 8 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: ".8rem", marginBottom: 4 }}>
-                  <span className="muted">Budget</span>
-                  <span style={{ fontWeight: 600 }}>{formatCurrency(program.spent)} / {formatCurrency(program.budget)}</span>
-                </div>
-                <ProgressBar
-                  value={program.spent}
-                  max={program.budget}
-                  color={program.spent / program.budget > 0.9 ? "#ef4444" : program.spent / program.budget > 0.7 ? "#eab308" : "#22c55e"}
-                />
-              </div>
-
-              {/* Footer stats */}
-              <div style={{ display: "flex", gap: "1.5rem", fontSize: ".8rem", marginTop: 8 }}>
-                <span className="muted"><Users size={13} style={{ verticalAlign: -2 }} /> {progEnrollments.length} enrolled</span>
-                <span className="muted"><CheckCircle2 size={13} style={{ verticalAlign: -2 }} /> {achieved} achieved</span>
-                <span className="muted"><Target size={13} style={{ verticalAlign: -2 }} /> {program.rules.length} rules</span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Enrollment Detail Panel */}
-      {selectedProgram && (
-        <div className="card" style={{ padding: "1.5rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-            <h2 style={{ fontSize: "1.25rem", fontWeight: 700 }}>
-              <Gift size={18} style={{ verticalAlign: -3, marginRight: 8 }} />
-              {selectedProgram.name} — Partner Enrollments
-            </h2>
-            <StatusBadge status={selectedProgram.status} />
-          </div>
-
-          {/* Rules */}
-          <div style={{ marginBottom: "1.25rem", padding: "1rem", background: "rgba(99,102,241,0.06)", borderRadius: 12 }}>
-            <div style={{ fontSize: ".8rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 8, color: "#6366f1" }}>Program Rules</div>
-            {selectedProgram.rules.map((rule, i) => (
-              <div key={i} style={{ display: "flex", gap: 8, alignItems: "center", fontSize: ".875rem", padding: "4px 0" }}>
-                <ChevronRight size={14} style={{ color: "#6366f1", flexShrink: 0 }} />
-                <span>{rule.description}</span>
-              </div>
-            ))}
-          </div>
-
-          {/* Enrollments table */}
-          {enrollments.length === 0 ? (
-            <p className="muted" style={{ textAlign: "center", padding: "2rem" }}>No enrollments yet</p>
-          ) : (
-            <div style={{ overflowX: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".875rem" }}>
-                <thead>
-                  <tr style={{ borderBottom: "1px solid var(--border)" }}>
-                    <th style={{ textAlign: "left", padding: "8px 12px", fontWeight: 600, fontSize: ".75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Partner</th>
-                    <th style={{ textAlign: "left", padding: "8px 12px", fontWeight: 600, fontSize: ".75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Progress</th>
-                    <th style={{ textAlign: "right", padding: "8px 12px", fontWeight: 600, fontSize: ".75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Earned</th>
-                    <th style={{ textAlign: "right", padding: "8px 12px", fontWeight: 600, fontSize: ".75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Paid</th>
-                    <th style={{ textAlign: "center", padding: "8px 12px", fontWeight: 600, fontSize: ".75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Status</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {enrollments.map((enr) => (
-                    <tr key={enr._id} style={{ borderBottom: "1px solid var(--border)" }}>
-                      <td style={{ padding: "10px 12px", fontWeight: 600 }}>{enr.partnerName}</td>
-                      <td style={{ padding: "10px 12px" }}>
-                        {enr.progress.map((p, i) => (
-                          <div key={i} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                            <div style={{ flex: 1, minWidth: 100 }}>
-                              <ProgressBar
-                                value={p.current}
-                                max={p.target}
-                                color={p.current >= p.target ? "#22c55e" : "#6366f1"}
-                              />
-                            </div>
-                            <span style={{ fontSize: ".8rem", fontWeight: 600, whiteSpace: "nowrap" }}>
-                              {p.current}/{p.target} {p.metric.replace(/_/g, " ")}
-                            </span>
-                          </div>
-                        ))}
-                      </td>
-                      <td style={{ padding: "10px 12px", textAlign: "right", fontWeight: 600 }}>{formatCurrency(enr.earned)}</td>
-                      <td style={{ padding: "10px 12px", textAlign: "right" }}>
-                        {formatCurrency(enr.paid)}
-                        {enr.earned > enr.paid && (
-                          <div style={{ fontSize: ".75rem", color: "#eab308" }}>
-                            {formatCurrency(enr.earned - enr.paid)} pending
-                          </div>
-                        )}
-                      </td>
-                      <td style={{ padding: "10px 12px", textAlign: "center" }}>
-                        <span style={{
-                          padding: "2px 8px",
-                          borderRadius: 999,
-                          fontSize: ".75rem",
-                          fontWeight: 600,
-                          background: enr.status === "achieved" ? "rgba(34,197,94,0.15)" : enr.status === "enrolled" ? "rgba(99,102,241,0.15)" : "rgba(148,163,184,0.15)",
-                          color: enr.status === "achieved" ? "#22c55e" : enr.status === "enrolled" ? "#6366f1" : "#94a3b8",
-                        }}>
-                          {enr.status === "achieved" ? "✓ Achieved" : enr.status === "enrolled" ? "In Progress" : enr.status.replace(/_/g, " ")}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
+      {/* Partner Leaderboard */}
+      <div className="card" style={{ padding: "1.25rem" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 700 }}>Partner Performance Leaderboard</h2>
+          <span className="muted" style={{ fontSize: ".85rem" }}>{filtered.length} partners</span>
         </div>
-      )}
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {filtered.map((partner: any, idx: number) => {
+            const isSelected = selectedPartnerId === partner._id;
+            const isTop3 = partner.rank <= 3;
+            
+            return (
+              <div key={partner._id}>
+                <div
+                  onClick={() => setSelectedPartnerId(isSelected ? null : partner._id)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "1rem",
+                    padding: "1rem",
+                    cursor: "pointer",
+                    borderTop: idx > 0 ? "1px solid var(--border)" : "none",
+                    background: isSelected ? "rgba(99,102,241,0.05)" : "transparent",
+                    borderRadius: isSelected ? 8 : 0,
+                  }}
+                >
+                  {/* Rank */}
+                  <div style={{ 
+                    width: 32, 
+                    height: 32, 
+                    borderRadius: 8, 
+                    display: "flex", 
+                    alignItems: "center", 
+                    justifyContent: "center",
+                    background: isTop3 ? (partner.rank === 1 ? "#eab308" : partner.rank === 2 ? "#94a3b8" : "#d97706") : "var(--border)",
+                    color: isTop3 ? "white" : "var(--fg)",
+                    fontSize: ".9rem",
+                    fontWeight: 800,
+                  }}>
+                    {isTop3 ? <Trophy size={16} /> : partner.rank}
+                  </div>
+                  
+                  {/* Partner info */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                      <span style={{ fontSize: ".95rem", fontWeight: 700 }}>{partner.name}</span>
+                      <TierBadge tier={partner.tier} />
+                    </div>
+                    <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                      <IncentiveBadge type="spif" eligible={partner.incentives.spifEligible} />
+                      <IncentiveBadge type="bonus" eligible={partner.incentives.bonusEligible} />
+                      <IncentiveBadge type="accelerator" eligible={partner.incentives.acceleratorEligible} />
+                      <IncentiveBadge type="dealReg" eligible={partner.incentives.dealRegBonus} />
+                    </div>
+                  </div>
+                  
+                  {/* Metrics */}
+                  <div style={{ textAlign: "right" }}>
+                    <div style={{ fontSize: "1.1rem", fontWeight: 800, color: "#22c55e" }}>
+                      {formatCurrency(partner.metrics.totalRevenue)}
+                    </div>
+                    <div className="muted" style={{ fontSize: ".8rem" }}>
+                      {partner.metrics.dealsWon} won · {partner.metrics.dealsOpen} open
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Expanded details */}
+                {isSelected && (
+                  <div style={{ padding: "0 1rem 1rem", background: "rgba(99,102,241,0.05)", borderRadius: "0 0 8px 8px", marginTop: -8 }}>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem", paddingTop: "1rem", borderTop: "1px dashed var(--border)" }}>
+                      <div>
+                        <p className="muted" style={{ fontSize: ".75rem", marginBottom: 4 }}>Total Revenue</p>
+                        <p style={{ fontSize: "1.2rem", fontWeight: 800, color: "#22c55e" }}>{formatCurrency(partner.metrics.totalRevenue)}</p>
+                      </div>
+                      <div>
+                        <p className="muted" style={{ fontSize: ".75rem", marginBottom: 4 }}>Open Pipeline</p>
+                        <p style={{ fontSize: "1.2rem", fontWeight: 800, color: "#6366f1" }}>{formatCurrency(partner.metrics.openPipeline)}</p>
+                      </div>
+                      <div>
+                        <p className="muted" style={{ fontSize: ".75rem", marginBottom: 4 }}>Commission Earned</p>
+                        <p style={{ fontSize: "1.2rem", fontWeight: 800 }}>{formatCurrency(partner.metrics.totalCommission)}</p>
+                      </div>
+                      <div>
+                        <p className="muted" style={{ fontSize: ".75rem", marginBottom: 4 }}>Avg Deal Size</p>
+                        <p style={{ fontSize: "1.2rem", fontWeight: 800 }}>{formatCurrency(partner.metrics.avgDealSize)}</p>
+                      </div>
+                    </div>
+                    
+                    {/* Progress toward incentives */}
+                    <div style={{ marginTop: "1.25rem" }}>
+                      <p className="muted" style={{ fontSize: ".75rem", fontWeight: 600, marginBottom: 8 }}>INCENTIVE PROGRESS</p>
+                      
+                      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                        {/* SPIF Progress */}
+                        <div>
+                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: ".8rem", marginBottom: 4 }}>
+                            <span>SPIF (3 deals)</span>
+                            <span style={{ fontWeight: 600 }}>{partner.metrics.dealsWon}/3</span>
+                          </div>
+                          <ProgressBar value={partner.metrics.dealsWon} max={3} color={partner.incentives.spifEligible ? "#22c55e" : "#6366f1"} />
+                        </div>
+                        
+                        {/* Bonus Progress */}
+                        <div>
+                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: ".8rem", marginBottom: 4 }}>
+                            <span>Revenue Bonus ($100k)</span>
+                            <span style={{ fontWeight: 600 }}>{formatCurrency(partner.metrics.totalRevenue)}</span>
+                          </div>
+                          <ProgressBar value={partner.metrics.totalRevenue} max={100000} color={partner.incentives.bonusEligible ? "#22c55e" : "#6366f1"} />
+                        </div>
+                        
+                        {/* Deal Reg Progress */}
+                        <div>
+                          <div style={{ display: "flex", justifyContent: "space-between", fontSize: ".8rem", marginBottom: 4 }}>
+                            <span>Deal Registrations (2)</span>
+                            <span style={{ fontWeight: 600 }}>{partner.metrics.dealsRegistered}/2</span>
+                          </div>
+                          <ProgressBar value={partner.metrics.dealsRegistered} max={2} color={partner.incentives.dealRegBonus ? "#22c55e" : "#6366f1"} />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div style={{ marginTop: "1rem" }}>
+                      <Link 
+                        href={`/dashboard/partners/${partner._id}`}
+                        className="btn-outline"
+                        style={{ fontSize: ".8rem", padding: ".4rem .8rem" }}
+                      >
+                        View Partner Profile <ArrowRight size={14} />
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

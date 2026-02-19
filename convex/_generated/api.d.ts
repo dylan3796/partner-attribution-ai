@@ -25,6 +25,7 @@ import type * as lib_attribution_index from "../lib/attribution/index.js";
 import type * as lib_attribution_models from "../lib/attribution/models.js";
 import type * as lib_helpers from "../lib/helpers.js";
 import type * as lib_validation from "../lib/validation.js";
+import type * as mdf from "../mdf.js";
 import type * as notifications from "../notifications.js";
 import type * as organizations_mutations from "../organizations/mutations.js";
 import type * as organizations_queries from "../organizations/queries.js";
@@ -61,6 +62,7 @@ declare const fullApi: ApiFromModules<{
   "lib/attribution/models": typeof lib_attribution_models;
   "lib/helpers": typeof lib_helpers;
   "lib/validation": typeof lib_validation;
+  mdf: typeof mdf;
   notifications: typeof notifications;
   "organizations/mutations": typeof organizations_mutations;
   "organizations/queries": typeof organizations_queries;
