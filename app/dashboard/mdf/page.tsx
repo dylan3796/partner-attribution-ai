@@ -121,6 +121,18 @@ export default function MDFPage() {
     return <LoadingSkeleton />;
   }
 
+  // Safely destructure stats with defaults
+  const {
+    totalRequested = 0,
+    pendingAmount = 0,
+    approvedAmount = 0,
+    pendingCount = 0,
+    approvedCount = 0,
+    rejectedCount = 0,
+    completedCount = 0,
+    totalCount = 0,
+  } = mdfStats;
+
   const filtered = filter === "all" ? mdfRequests : mdfRequests.filter((r) => r.status === filter);
   const detail = detailId ? mdfRequests.find((r) => r._id === detailId) : null;
 
@@ -202,33 +214,33 @@ export default function MDFPage() {
         <div className="card" style={{ textAlign: "center" }}>
           <DollarSign size={22} color="#4338ca" style={{ margin: "0 auto .5rem" }} />
           <p className="muted" style={{ fontSize: ".75rem" }}>Total Requested</p>
-          <p style={{ fontSize: "1.3rem", fontWeight: 800 }}>{formatCurrency(mdfStats.totalRequested)}</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800 }}>{formatCurrency(totalRequested)}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
           <Clock size={22} color="#d97706" style={{ margin: "0 auto .5rem" }} />
           <p className="muted" style={{ fontSize: ".75rem" }}>Pending Review</p>
-          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#d97706" }}>{mdfStats.pendingCount}</p>
-          <p className="muted" style={{ fontSize: ".7rem" }}>{formatCurrency(mdfStats.pendingAmount)}</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#d97706" }}>{pendingCount}</p>
+          <p className="muted" style={{ fontSize: ".7rem" }}>{formatCurrency(pendingAmount)}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
           <FileCheck size={22} color="#059669" style={{ margin: "0 auto .5rem" }} />
           <p className="muted" style={{ fontSize: ".75rem" }}>Approved</p>
-          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#059669" }}>{mdfStats.approvedCount + mdfStats.completedCount}</p>
-          <p className="muted" style={{ fontSize: ".7rem" }}>{formatCurrency(mdfStats.approvedAmount)}</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#059669" }}>{approvedCount + completedCount}</p>
+          <p className="muted" style={{ fontSize: ".7rem" }}>{formatCurrency(approvedAmount)}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
           <TrendingUp size={22} color="#6366f1" style={{ margin: "0 auto .5rem" }} />
           <p className="muted" style={{ fontSize: ".75rem" }}>Total Requests</p>
-          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#6366f1" }}>{mdfStats.totalCount}</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#6366f1" }}>{totalCount}</p>
         </div>
       </div>
 
       {/* Pending Alert */}
-      {mdfStats.pendingCount > 0 && (
+      {pendingCount > 0 && (
         <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #fbbf24", background: "#fffbeb", display: "flex", alignItems: "center", gap: "1rem" }}>
           <Clock size={20} color="#92400e" />
           <div style={{ flex: 1 }}>
-            <p style={{ fontWeight: 600, fontSize: ".9rem", color: "#78350f" }}>{mdfStats.pendingCount} MDF request{mdfStats.pendingCount !== 1 ? "s" : ""} pending approval</p>
+            <p style={{ fontWeight: 600, fontSize: ".9rem", color: "#78350f" }}>{pendingCount} MDF request{pendingCount !== 1 ? "s" : ""} pending approval</p>
             <p style={{ fontSize: ".8rem", color: "#92400e" }}>Review and approve partner marketing campaigns</p>
           </div>
         </div>
