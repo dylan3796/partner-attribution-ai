@@ -287,6 +287,7 @@ export type FeatureFlags = {
   channelConflict: boolean;
   territories: boolean;
   incentivePrograms: boolean;
+  eventSources: boolean;
 };
 
 export type PlatformConfig = {
@@ -319,6 +320,7 @@ export const DEFAULT_FEATURE_FLAGS: FeatureFlags = {
   channelConflict: true,
   territories: true,
   incentivePrograms: true,
+  eventSources: true,
 };
 
 export const DEFAULT_PLATFORM_CONFIG: PlatformConfig = {
@@ -355,6 +357,7 @@ export const FEATURE_FLAG_LABELS: Record<keyof FeatureFlags, { label: string; de
   channelConflict: { label: "Channel Conflict Detection", description: "Territory management and conflict resolution" },
   territories: { label: "Territory Management", description: "Assign and manage partner territories" },
   incentivePrograms: { label: "Incentive Programs", description: "SPIFs, bonuses, accelerators, and partner incentive management" },
+  eventSources: { label: "Event Sources", description: "Generic webhook ingestion for Shopify, Stripe, and custom integrations" },
 };
 
 // ── Volume-Based Incentive Programs ──
@@ -586,4 +589,90 @@ export const INCENTIVE_STATUS_LABELS: Record<IncentiveProgram["status"], string>
   active: "Active",
   paused: "Paused",
   ended: "Ended",
+};
+
+// ── Event Sources (Webhook Ingestion) ───────────────────────────────────────
+
+export type EventSourceType = "shopify" | "stripe" | "webhook" | "manual";
+export type EventSourceStatus = "active" | "paused";
+export type InboundEventStatus = "pending" | "matched" | "ignored" | "error";
+
+export type EventSource = {
+  _id: string;
+  organizationId: string;
+  name: string;
+  type: EventSourceType;
+  webhookUrl: string;
+  webhookSecret?: string;
+  eventMapping: string; // JSON config
+  status: EventSourceStatus;
+  createdAt: number;
+  lastEventAt?: number;
+  eventCount: number;
+};
+
+export type EventMappingConfig = {
+  partnerId?: string; // JSON path to partner identifier
+  amount?: string; // JSON path to amount
+  dealName?: string; // JSON path to deal name
+  customerId?: string; // JSON path to customer ID
+  eventType?: string; // JSON path to event type
+  referralCode?: string; // JSON path to referral/promo code
+  email?: string; // JSON path to email for partner matching
+};
+
+export type InboundEvent = {
+  _id: string;
+  organizationId: string;
+  sourceId: string;
+  rawPayload: string;
+  eventType: string;
+  mappedFields: string; // JSON
+  status: InboundEventStatus;
+  partnerMatch?: string;
+  dealCreated?: string;
+  errorMessage?: string;
+  receivedAt: number;
+  processedAt?: number;
+  // Enriched fields
+  source?: EventSource;
+  partner?: Partner;
+  deal?: Deal;
+};
+
+export const EVENT_SOURCE_TYPE_LABELS: Record<EventSourceType, string> = {
+  shopify: "Shopify",
+  stripe: "Stripe",
+  webhook: "Custom Webhook",
+  manual: "Manual",
+};
+
+export const EVENT_SOURCE_STATUS_LABELS: Record<EventSourceStatus, string> = {
+  active: "Active",
+  paused: "Paused",
+};
+
+export const INBOUND_EVENT_STATUS_LABELS: Record<InboundEventStatus, string> = {
+  pending: "Pending",
+  matched: "Matched",
+  ignored: "Ignored",
+  error: "Error",
+};
+
+export const DEFAULT_EVENT_MAPPINGS: Record<EventSourceType, EventMappingConfig> = {
+  stripe: {
+    eventType: "type",
+    amount: "data.object.amount",
+    customerId: "data.object.customer",
+    email: "data.object.customer_email",
+  },
+  shopify: {
+    eventType: "topic",
+    amount: "total_price",
+    customerId: "customer.id",
+    email: "customer.email",
+    referralCode: "discount_codes.0.code",
+  },
+  webhook: {},
+  manual: {},
 };

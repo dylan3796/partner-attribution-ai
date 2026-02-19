@@ -29,6 +29,7 @@ import {
   Rocket,
   GitBranch,
   Shield,
+  Zap,
 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -64,6 +65,7 @@ const setupLinks: SidebarLink[] = [
   { name: "Tier Criteria", href: "/dashboard/settings/tiers", icon: SlidersHorizontal },
   { name: "MDF Setup", href: "/dashboard/mdf/setup", icon: PlusCircle, featureFlag: "mdf" },
   { name: "Rebate Creator", href: "/dashboard/volume-rebates/create", icon: Layers, featureFlag: "volumeRebates" },
+  { name: "Event Sources", href: "/dashboard/settings/event-sources", icon: Zap, featureFlag: "eventSources" },
 ];
 
 export default function DashboardSidebar() {
