@@ -34,6 +34,7 @@ import {
   Mail,
   Plug2,
   TrendingUp,
+  Heart,
 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -47,6 +48,7 @@ type SidebarLink = {
 
 const allLinks: SidebarLink[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Program Health", href: "/dashboard/health", icon: Heart },
   { name: "Partners", href: "/dashboard/partners", icon: Users },
   { name: "Applications", href: "/dashboard/partner-applications", icon: UserPlus },
   { name: "Leads", href: "/dashboard/leads", icon: TrendingUp },
