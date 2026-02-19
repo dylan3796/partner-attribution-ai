@@ -1,73 +1,86 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 
-// This seed script creates realistic demo data for 4 partner companies
+// This seed script creates realistic demo data for Horizon Software
 export const seedDemoData = mutation({
   args: {},
   handler: async (ctx) => {
-    // Create demo organization
+    // Create demo organization - Horizon Software
     const orgId = await ctx.db.insert("organizations", {
-      name: "Acme Inc",
-      email: "admin@acme.com",
+      name: "Horizon Software",
+      email: "admin@horizonsoftware.com",
       apiKey: "demo-api-key-" + Date.now(),
       plan: "growth",
       defaultAttributionModel: "time_decay",
       createdAt: Date.now() - 180 * 24 * 60 * 60 * 1000, // 6 months ago
     });
 
-    // Create 4 realistic partner companies
+    // Create 5 realistic partner companies
     const partners = [
       {
-        name: "TechStar Solutions",
-        email: "james@techstar.com",
+        name: "TechBridge Partners",
+        email: "sarah.chen@techbridge.io",
         type: "reseller" as const,
         tier: "gold" as const,
         commissionRate: 18,
-        contactName: "James Chen",
+        contactName: "Sarah Chen",
         contactPhone: "+1-415-555-0142",
-        territory: "West Coast USA",
+        territory: "West Coast",
         status: "active" as const,
-        notes: "Premier reseller partner since 2023. Excellent technical team.",
-        createdAt: Date.now() - 120 * 24 * 60 * 60 * 1000, // 4 months ago
+        notes: "Premier reseller partner since 2024. Strong enterprise relationships in Silicon Valley.",
+        createdAt: Date.now() - 150 * 24 * 60 * 60 * 1000,
       },
       {
-        name: "CloudBridge Partners",
-        email: "sarah@cloudbridge.io",
+        name: "Apex Growth Group",
+        email: "marcus.webb@apexgrowth.com",
         type: "referral" as const,
+        tier: "platinum" as const,
+        commissionRate: 20,
+        contactName: "Marcus Webb",
+        contactPhone: "+1-212-555-0193",
+        territory: "National",
+        status: "active" as const,
+        notes: "Top-tier strategic partner. Largest referral volume. Executive relationships at Fortune 500.",
+        createdAt: Date.now() - 200 * 24 * 60 * 60 * 1000,
+      },
+      {
+        name: "Stackline Agency",
+        email: "priya.patel@stackline.co",
+        type: "reseller" as const,
         tier: "silver" as const,
         commissionRate: 15,
-        contactName: "Sarah Martinez",
-        contactPhone: "+1-650-555-0193",
-        territory: "California",
+        contactName: "Priya Patel",
+        contactPhone: "+1-617-555-0287",
+        territory: "East Coast",
         status: "active" as const,
-        notes: "Specializes in enterprise cloud migrations. High-quality leads.",
-        createdAt: Date.now() - 90 * 24 * 60 * 60 * 1000, // 3 months ago
+        notes: "Growing mid-market focus. Strong technical implementation team.",
+        createdAt: Date.now() - 120 * 24 * 60 * 60 * 1000,
       },
       {
-        name: "DataPipe Agency",
-        email: "alex@datapipe.com",
+        name: "Northlight Solutions",
+        email: "james.kim@northlight.io",
         type: "integration" as const,
         tier: "gold" as const,
         commissionRate: 12,
-        contactName: "Alex Johnson",
-        contactPhone: "+1-510-555-0287",
-        territory: "North America",
+        contactName: "James Kim",
+        contactPhone: "+65-8555-0341",
+        territory: "APAC",
         status: "active" as const,
-        notes: "Integration partner with strong data pipeline expertise.",
-        createdAt: Date.now() - 150 * 24 * 60 * 60 * 1000, // 5 months ago
+        notes: "Key integration partner for Asia-Pacific expansion. Deep technical expertise.",
+        createdAt: Date.now() - 90 * 24 * 60 * 60 * 1000,
       },
       {
-        name: "NexGen Resellers",
-        email: "michael@nexgen.co",
-        type: "reseller" as const,
-        tier: "platinum" as const,
-        commissionRate: 20,
-        contactName: "Michael Foster",
-        contactPhone: "+1-408-555-0341",
-        territory: "Global",
+        name: "Clearpath Consulting",
+        email: "elena.torres@clearpath.io",
+        type: "referral" as const,
+        tier: "bronze" as const,
+        commissionRate: 10,
+        contactName: "Elena Torres",
+        contactPhone: "+1-312-555-0456",
+        territory: "Midwest",
         status: "active" as const,
-        notes: "Top-tier partner with $2M+ annual revenue. Strategic relationship.",
-        createdAt: Date.now() - 200 * 24 * 60 * 60 * 1000, // 6.5 months ago
+        notes: "Emerging partner in Midwest region. Building pipeline steadily.",
+        createdAt: Date.now() - 60 * 24 * 60 * 60 * 1000,
       },
     ];
 
@@ -80,19 +93,19 @@ export const seedDemoData = mutation({
       partnerIds[partner.name] = id;
     }
 
-    // Create realistic deals
+    // Create 7 realistic deals
     const deals = [
-      // TechStar Solutions deals
+      // Won deals
       {
-        name: "Security Audit Tool — Stark Industries",
-        amount: 95000,
+        name: "CloudSync Enterprise License",
+        amount: 85000,
         status: "won" as const,
-        closedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
-        contactName: "Tony Stark",
-        contactEmail: "tstark@stark.com",
-        registeredBy: partnerIds["TechStar Solutions"],
+        closedAt: Date.now() - 5 * 24 * 60 * 60 * 1000,
+        contactName: "David Mitchell",
+        contactEmail: "dmitchell@accenture.com",
+        registeredBy: partnerIds["TechBridge Partners"],
         registrationStatus: "approved" as const,
-        partner: "TechStar Solutions",
+        partner: "TechBridge Partners",
         touchpoints: [
           { type: "deal_registration" as const, daysAgo: 45 },
           { type: "demo" as const, daysAgo: 30 },
@@ -101,80 +114,96 @@ export const seedDemoData = mutation({
         ],
       },
       {
-        name: "Monitoring Solution — Wayne Enterprises",
-        amount: 150000,
-        status: "open" as const,
-        expectedCloseDate: Date.now() + 15 * 24 * 60 * 60 * 1000,
-        contactName: "Bruce Wayne",
-        contactEmail: "bwayne@wayne.com",
-        registeredBy: partnerIds["TechStar Solutions"],
-        registrationStatus: "approved" as const,
-        partner: "TechStar Solutions",
-        touchpoints: [
-          { type: "referral" as const, daysAgo: 20 },
-          { type: "demo" as const, daysAgo: 12 },
-        ],
-      },
-
-      // CloudBridge Partners deals
-      {
-        name: "Enterprise CRM Suite — Globex Corp",
-        amount: 120000,
+        name: "DevOps Transformation Suite",
+        amount: 42000,
         status: "won" as const,
-        closedAt: Date.now() - 15 * 24 * 60 * 60 * 1000,
-        contactName: "Hank Scorpio",
-        contactEmail: "hscorpio@globex.com",
-        partner: "CloudBridge Partners",
+        closedAt: Date.now() - 12 * 24 * 60 * 60 * 1000,
+        contactName: "Rachel Green",
+        contactEmail: "rgreen@zendesk.com",
+        partner: "Apex Growth Group",
         touchpoints: [
           { type: "referral" as const, daysAgo: 60 },
           { type: "introduction" as const, daysAgo: 50 },
-          { type: "technical_enablement" as const, daysAgo: 40 },
+          { type: "demo" as const, daysAgo: 35 },
+          { type: "proposal" as const, daysAgo: 20 },
+        ],
+      },
+
+      // Open deals
+      {
+        name: "Data Analytics Platform",
+        amount: 67000,
+        status: "open" as const,
+        expectedCloseDate: Date.now() + 21 * 24 * 60 * 60 * 1000,
+        contactName: "Jennifer Wu",
+        contactEmail: "jwu@salesforce.com",
+        registeredBy: partnerIds["Stackline Agency"],
+        registrationStatus: "approved" as const,
+        partner: "Stackline Agency",
+        touchpoints: [
+          { type: "deal_registration" as const, daysAgo: 28 },
+          { type: "demo" as const, daysAgo: 14 },
+          { type: "technical_enablement" as const, daysAgo: 7 },
         ],
       },
       {
-        name: "Data Pipeline — Umbrella Inc",
-        amount: 200000,
+        name: "Enterprise SSO Integration",
+        amount: 28000,
+        status: "open" as const,
+        expectedCloseDate: Date.now() + 14 * 24 * 60 * 60 * 1000,
+        contactName: "Michael Chang",
+        contactEmail: "mchang@stripe.com",
+        partner: "Northlight Solutions",
+        touchpoints: [
+          { type: "referral" as const, daysAgo: 21 },
+          { type: "demo" as const, daysAgo: 10 },
+        ],
+      },
+      {
+        name: "Revenue Intelligence Platform",
+        amount: 95000,
         status: "open" as const,
         expectedCloseDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
-        contactName: "Alex Wesker",
-        contactEmail: "awesker@umbrella.com",
-        partner: "CloudBridge Partners",
-        touchpoints: [
-          { type: "referral" as const, daysAgo: 10 },
-          { type: "demo" as const, daysAgo: 3 },
-        ],
-      },
-
-      // DataPipe Agency deals
-      {
-        name: "DevOps Suite — Massive Dynamic",
-        amount: 175000,
-        status: "won" as const,
-        closedAt: Date.now() - 7 * 24 * 60 * 60 * 1000,
-        contactName: "Nina Sharp",
-        contactEmail: "nsharp@massivedynamic.com",
-        partner: "DataPipe Agency",
-        touchpoints: [
-          { type: "co_sell" as const, daysAgo: 35 },
-          { type: "demo" as const, daysAgo: 25 },
-          { type: "proposal" as const, daysAgo: 14 },
-        ],
-      },
-
-      // NexGen Resellers deals
-      {
-        name: "Security Audit Tool — Stark Industries",
-        amount: 95000,
-        status: "won" as const,
-        closedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
-        contactName: "Pepper Potts",
-        contactEmail: "ppotts@stark.com",
-        partner: "NexGen Resellers",
-        registeredBy: partnerIds["NexGen Resellers"],
+        contactName: "Amanda Foster",
+        contactEmail: "afoster@hubspot.com",
+        registeredBy: partnerIds["Apex Growth Group"],
         registrationStatus: "approved" as const,
+        partner: "Apex Growth Group",
         touchpoints: [
-          { type: "deal_registration" as const, daysAgo: 50 },
-          { type: "co_sell" as const, daysAgo: 40 },
+          { type: "deal_registration" as const, daysAgo: 35 },
+          { type: "co_sell" as const, daysAgo: 20 },
+          { type: "proposal" as const, daysAgo: 8 },
+        ],
+      },
+      {
+        name: "Infrastructure Modernization",
+        amount: 120000,
+        status: "open" as const,
+        expectedCloseDate: Date.now() + 45 * 24 * 60 * 60 * 1000,
+        contactName: "Robert Kim",
+        contactEmail: "rkim@snowflake.com",
+        registeredBy: partnerIds["TechBridge Partners"],
+        registrationStatus: "pending" as const,
+        partner: "TechBridge Partners",
+        touchpoints: [
+          { type: "deal_registration" as const, daysAgo: 14 },
+          { type: "demo" as const, daysAgo: 7 },
+        ],
+      },
+
+      // Lost deal
+      {
+        name: "Partner Portal Deployment",
+        amount: 38000,
+        status: "lost" as const,
+        closedAt: Date.now() - 20 * 24 * 60 * 60 * 1000,
+        contactName: "Kevin Park",
+        contactEmail: "kpark@docusign.com",
+        partner: "Clearpath Consulting",
+        touchpoints: [
+          { type: "referral" as const, daysAgo: 55 },
+          { type: "demo" as const, daysAgo: 40 },
+          { type: "proposal" as const, daysAgo: 30 },
         ],
       },
     ];
@@ -240,12 +269,16 @@ export const seedDemoData = mutation({
       }
     }
 
-    // Create activity log entries
+    // Create realistic activity log entries
     const activities = [
-      { action: "deal.closed", entity: "deals", timestamp: Date.now() - 3 * 24 * 60 * 60 * 1000 },
-      { action: "attribution.calculated", entity: "attributions", timestamp: Date.now() - 3 * 24 * 60 * 60 * 1000 },
-      { action: "payout.created", entity: "payouts", timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000 },
-      { action: "touchpoint.created", entity: "touchpoints", timestamp: Date.now() - 2 * 60 * 60 * 1000 },
+      { action: "deal.closed", entity: "deals", timestamp: Date.now() - 5 * 24 * 60 * 60 * 1000, metadata: '{"deal":"CloudSync Enterprise License","amount":"$85,000"}' },
+      { action: "attribution.calculated", entity: "attributions", timestamp: Date.now() - 5 * 24 * 60 * 60 * 1000, metadata: '{"model":"time_decay","partner":"TechBridge Partners"}' },
+      { action: "deal.closed", entity: "deals", timestamp: Date.now() - 12 * 24 * 60 * 60 * 1000, metadata: '{"deal":"DevOps Transformation Suite","amount":"$42,000"}' },
+      { action: "payout.created", entity: "payouts", timestamp: Date.now() - 4 * 24 * 60 * 60 * 1000, metadata: '{"partner":"TechBridge Partners","amount":"$15,300"}' },
+      { action: "payout.created", entity: "payouts", timestamp: Date.now() - 11 * 24 * 60 * 60 * 1000, metadata: '{"partner":"Apex Growth Group","amount":"$8,400"}' },
+      { action: "deal.registered", entity: "deals", timestamp: Date.now() - 14 * 24 * 60 * 60 * 1000, metadata: '{"deal":"Infrastructure Modernization","partner":"TechBridge Partners"}' },
+      { action: "touchpoint.created", entity: "touchpoints", timestamp: Date.now() - 7 * 24 * 60 * 60 * 1000, metadata: '{"type":"demo","deal":"Infrastructure Modernization"}' },
+      { action: "partner.created", entity: "partners", timestamp: Date.now() - 60 * 24 * 60 * 60 * 1000, metadata: '{"partner":"Clearpath Consulting","tier":"bronze"}' },
     ];
 
     for (const activity of activities) {
@@ -254,13 +287,14 @@ export const seedDemoData = mutation({
         action: activity.action,
         entityType: activity.entity,
         entityId: "demo-" + Math.random().toString(36).slice(2),
+        metadata: activity.metadata,
         createdAt: activity.timestamp,
       });
     }
 
     return {
       success: true,
-      message: "Demo data created successfully",
+      message: "Demo data created successfully for Horizon Software",
       partnersCreated: Object.keys(partnerIds).length,
       dealsCreated: deals.length,
     };

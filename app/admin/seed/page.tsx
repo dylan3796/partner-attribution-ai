@@ -76,8 +76,8 @@ export default function SeedPage() {
         </div>
 
         <ul style={{ marginBottom: "1.5rem", paddingLeft: "1.5rem", lineHeight: 1.8 }}>
-          <li style={{ fontSize: ".9rem" }}>4 partners (TechStar, CloudBridge, DataPipe, NexGen)</li>
-          <li style={{ fontSize: ".9rem" }}>6 deals across won/open stages</li>
+          <li style={{ fontSize: ".9rem" }}>5 partners (TechBridge, Apex Growth, Stackline, Northlight, Clearpath)</li>
+          <li style={{ fontSize: ".9rem" }}>7 deals across won/open/lost stages</li>
           <li style={{ fontSize: ".9rem" }}>Touchpoints and attribution records</li>
           <li style={{ fontSize: ".9rem" }}>Pending and paid commission payouts</li>
         </ul>
