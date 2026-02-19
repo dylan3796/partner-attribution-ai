@@ -471,4 +471,36 @@ export default defineSchema({
     .index("by_status", ["status"])
     .index("by_email", ["email"])
     .index("by_submitted", ["submittedAt"]),
+
+  // Email notification templates
+  email_templates: defineTable({
+    organizationId: v.id("organizations"),
+    trigger: v.string(), // e.g. "deal_won", "payout_approved", "tier_change"
+    subject: v.string(),
+    bodyHtml: v.string(),
+    enabled: v.boolean(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_trigger", ["trigger"]),
+
+  // Outbound email queue / log
+  email_queue: defineTable({
+    organizationId: v.id("organizations"),
+    trigger: v.string(),
+    to: v.string(),
+    toName: v.optional(v.string()),
+    subject: v.string(),
+    bodyHtml: v.string(),
+    status: v.union(v.literal("queued"), v.literal("sent"), v.literal("failed")),
+    metadata: v.optional(v.string()),
+    sentAt: v.optional(v.number()),
+    error: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_status", ["status"])
+    .index("by_trigger", ["trigger"])
+    .index("by_created", ["createdAt"]),
 });

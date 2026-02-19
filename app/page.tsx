@@ -1235,9 +1235,13 @@ export default function LandingPage() {
             <div>
               <h4>Resources</h4>
               <Link href="/dashboard">Live Demo</Link>
-              <Link href="/program">View our partner program →</Link>
               <a href="mailto:hello@covant.ai">API Access</a>
               <a href="mailto:hello@covant.ai">Security</a>
+            </div>
+            <div>
+              <h4>Partners</h4>
+              <Link href="/partners/apply">Become a Partner →</Link>
+              <Link href="/portal">Partner Portal</Link>
             </div>
             <div>
               <h4>Company</h4>
