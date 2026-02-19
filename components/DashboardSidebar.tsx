@@ -71,6 +71,7 @@ const allLinks: SidebarLink[] = [
   { name: "Contracts", href: "/dashboard/contracts", icon: FileText },
   { name: "Benchmarks", href: "/dashboard/benchmarks", icon: BarChart3 },
   { name: "Forecasting", href: "/dashboard/forecasting", icon: TrendingUp },
+  { name: "Cohort Analytics", href: "/dashboard/cohorts", icon: Users },
   { name: "Integrations", href: "/dashboard/integrations", icon: Plug2 },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
