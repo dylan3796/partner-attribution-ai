@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { PortalProvider, usePortal } from "@/lib/portal-context";
 import PortalGate from "@/components/PortalGate";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 
 const sidebarLinks = [
   { name: "Dashboard", href: "/portal", icon: LayoutDashboard },
@@ -206,9 +207,10 @@ function PortalSidebar() {
             <LogOut size={14} />
             Sign Out
           </button>
-          <p style={{ fontSize: "0.7rem", color: "var(--muted)", marginTop: "0.75rem", opacity: 0.6 }}>
-            Covant © 2026
-          </p>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "0.75rem" }}>
+            <p style={{ fontSize: "0.7rem", color: "var(--muted)", opacity: 0.6 }}>Covant © 2026</p>
+            <DarkModeToggle />
+          </div>
         </div>
       </aside>
 

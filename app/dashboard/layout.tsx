@@ -6,6 +6,7 @@ import { KeyboardShortcuts } from "@/components/ui/keyboard-shortcuts";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { NotificationBell } from "@/components/NotificationBell";
 import { CommandPalette } from "@/components/ui/command-palette";
+import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { Menu, X } from "lucide-react";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -41,6 +42,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 Search...
                 <kbd>⌘K</kbd>
               </button>
+              <DarkModeToggle />
               <NotificationBell />
             </div>
           </div>
