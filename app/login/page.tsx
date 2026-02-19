@@ -1,35 +1,43 @@
-"use client";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-import { useState, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+async function computeToken(password: string): Promise<string> {
+  const enc = new TextEncoder();
+  const hash = await crypto.subtle.digest("SHA-256", enc.encode("covant:" + password));
+  return Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, "0")).join("");
+}
 
-function LoginForm() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const next = searchParams.get("next") ?? "/dashboard";
+async function loginAction(formData: FormData) {
+  "use server";
+  const password = (formData.get("password") as string) ?? "";
+  const next = (formData.get("next") as string) || "/dashboard";
+  const expected = process.env.DASHBOARD_PASSWORD?.trim() ?? "";
 
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    const res = await fetch("/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ password }),
-    });
-
-    if (res.ok) {
-      window.location.href = next;
-    } else {
-      setError("Incorrect password.");
-      setLoading(false);
-    }
+  if (!expected || password.trim() !== expected) {
+    redirect(`/login?error=1&next=${encodeURIComponent(next)}`);
   }
+
+  const token = await computeToken(expected);
+  const cookieStore = await cookies();
+  cookieStore.set("pb_auth", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7,
+    path: "/",
+  });
+
+  redirect(next);
+}
+
+interface LoginPageProps {
+  searchParams: Promise<{ error?: string; next?: string }>;
+}
+
+export default async function LoginPage({ searchParams }: LoginPageProps) {
+  const params = await searchParams;
+  const hasError = params.error === "1";
+  const next = params.next ?? "/dashboard";
 
   return (
     <div
@@ -53,14 +61,7 @@ function LoginForm() {
         }}
       >
         <div style={{ marginBottom: "2rem", textAlign: "center" }}>
-          <span
-            style={{
-              fontSize: "1.3rem",
-              fontWeight: 800,
-              color: "#fff",
-              letterSpacing: "-.02em",
-            }}
-          >
+          <span style={{ fontSize: "1.3rem", fontWeight: 800, color: "#fff", letterSpacing: "-.02em" }}>
             Covant
           </span>
           <p style={{ color: "#555", fontSize: ".85rem", marginTop: ".4rem" }}>
@@ -68,7 +69,9 @@ function LoginForm() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <form action={loginAction} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <input type="hidden" name="next" value={next} />
+
           <div>
             <label
               htmlFor="password"
@@ -78,17 +81,16 @@ function LoginForm() {
             </label>
             <input
               id="password"
+              name="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
               required
-              autoFocus
+              autoComplete="current-password"
               style={{
                 width: "100%",
                 padding: ".75rem 1rem",
                 background: "#111",
-                border: `1px solid ${error ? "#dc2626" : "#222"}`,
+                border: `1px solid ${hasError ? "#dc2626" : "#222"}`,
                 borderRadius: 10,
                 color: "#fff",
                 fontSize: ".95rem",
@@ -96,27 +98,28 @@ function LoginForm() {
                 boxSizing: "border-box",
               }}
             />
-            {error && (
-              <p style={{ color: "#dc2626", fontSize: ".78rem", marginTop: ".4rem" }}>{error}</p>
+            {hasError && (
+              <p style={{ color: "#dc2626", fontSize: ".78rem", marginTop: ".4rem" }}>
+                Incorrect password.
+              </p>
             )}
           </div>
 
           <button
             type="submit"
-            disabled={loading || !password}
             style={{
               padding: ".875rem",
-              background: loading || !password ? "#1a1a1a" : "#fff",
-              color: loading || !password ? "#444" : "#000",
+              background: "#fff",
+              color: "#000",
               border: "none",
               borderRadius: 10,
               fontWeight: 700,
               fontSize: ".9rem",
-              cursor: loading || !password ? "not-allowed" : "pointer",
+              cursor: "pointer",
               transition: "all .2s",
             }}
           >
-            {loading ? "Signing in…" : "Sign In"}
+            Sign In
           </button>
         </form>
 
@@ -125,13 +128,5 @@ function LoginForm() {
         </p>
       </div>
     </div>
-  );
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense>
-      <LoginForm />
-    </Suspense>
   );
 }
