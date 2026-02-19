@@ -139,7 +139,7 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
       <aside className={`dash-sidebar ${collapsed ? "dash-sidebar-collapsed" : ""} ${mobileOpen ? "dash-sidebar-mobile-open" : ""}`} role="navigation" aria-label="Dashboard navigation">
       {/* Header */}
       <div className="dash-sidebar-header">
-        {!collapsed && (
+        {(!collapsed || mobileOpen) && (
           <Link href="/dashboard" className="dash-sidebar-brand">
             Covant
           </Link>
@@ -170,13 +170,13 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
               title={collapsed ? link.name : undefined}
             >
               <Icon size={18} />
-              {!collapsed && <span>{link.name}</span>}
+              {(!collapsed || mobileOpen) && <span>{link.name}</span>}
             </Link>
           );
         })}
 
         {/* Program Setup section */}
-        {!collapsed && visibleSetupLinks.length > 0 && (
+        {(!collapsed || mobileOpen) && visibleSetupLinks.length > 0 && (
           <div style={{ marginTop: ".5rem" }}>
             <button
               onClick={() => setSetupOpen(!setupOpen)}
@@ -223,8 +223,8 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
           </div>
         )}
 
-        {/* Collapsed: show setup icons without label */}
-        {collapsed && visibleSetupLinks.map((link) => {
+        {/* Collapsed: show setup icons without label (skip on mobile — already shown above) */}
+        {collapsed && !mobileOpen && visibleSetupLinks.map((link) => {
           const Icon = link.icon;
           const isActive = pathname.startsWith(link.href);
           return (
@@ -242,7 +242,7 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
 
       {/* Footer */}
       <div className="dash-sidebar-footer">
-        {!collapsed && (
+        {(!collapsed || mobileOpen) && (
           <>
             <Link
               href="/dashboard/settings#platform-config"
