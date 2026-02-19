@@ -32,6 +32,7 @@ import {
   Zap,
   UserPlus,
   Mail,
+  Plug2,
 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -62,6 +63,7 @@ const allLinks: SidebarLink[] = [
   { name: "Conflicts", href: "/dashboard/conflicts", icon: AlertTriangle, featureFlag: "channelConflict" },
   { name: "Activity", href: "/dashboard/activity", icon: Activity, featureFlag: "auditLog" },
   { name: "Email Triggers", href: "/dashboard/emails", icon: Mail },
+  { name: "Integrations", href: "/dashboard/integrations", icon: Plug2 },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
