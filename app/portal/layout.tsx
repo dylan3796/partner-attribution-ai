@@ -16,6 +16,7 @@ import {
   Rocket,
   HelpCircle,
   Link2,
+  Wallet,
 } from "lucide-react";
 import { PortalProvider, usePortal } from "@/lib/portal-context";
 import PortalGate from "@/components/PortalGate";
@@ -28,6 +29,7 @@ const sidebarLinks = [
   { name: "My Commissions", href: "/portal/commissions", icon: DollarSign },
   { name: "My Performance", href: "/portal/performance", icon: Trophy },
   { name: "Referral Links", href: "/portal/referrals", icon: Link2 },
+  { name: "Payouts", href: "/portal/payouts", icon: Wallet },
   { name: "Notifications", href: "/portal/notifications", icon: Bell },
   { name: "Help & Support", href: "/portal/support", icon: HelpCircle },
   { name: "Profile", href: "/portal/profile", icon: User },
