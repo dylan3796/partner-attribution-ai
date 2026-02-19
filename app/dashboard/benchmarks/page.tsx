@@ -66,7 +66,7 @@ const PARTNERS: PartnerBenchmark[] = [
     metrics: { revenue: 340000, deals: 14, winRate: 48, avgDealSize: 24286, avgCycleTime: 38, certifications: 5, nps: 68, activationRate: 72, yoyGrowth: 15, pipelineValue: 420000 },
   },
   {
-    id: "P-111", name: "Apex Digital LATAM", tier: "Silver", region: "LATAM",
+    id: "P-111", name: "Apex Growth LATAM", tier: "Silver", region: "LATAM",
     metrics: { revenue: 290000, deals: 16, winRate: 42, avgDealSize: 18125, avgCycleTime: 45, certifications: 3, nps: 60, activationRate: 65, yoyGrowth: 28, pipelineValue: 370000 },
   },
 ];

@@ -42,16 +42,16 @@ interface MonthForecast {
 
 /* ── Demo Data ── */
 const PIPELINE_DEALS: PipelineDeal[] = [
-  { id: "d1", partnerName: "CloudFirst Solutions", dealName: "Enterprise SSO Migration", value: 185000, commissionRate: 0.15, probability: 0.85, expectedClose: "2026-03", stage: "Negotiation" },
-  { id: "d2", partnerName: "DataBridge Corp", dealName: "Analytics Platform Rollout", value: 92000, commissionRate: 0.12, probability: 0.70, expectedClose: "2026-03", stage: "Proposal" },
-  { id: "d3", partnerName: "TechNova Partners", dealName: "Multi-tenant SaaS Deal", value: 340000, commissionRate: 0.18, probability: 0.45, expectedClose: "2026-04", stage: "Discovery" },
-  { id: "d4", partnerName: "CloudFirst Solutions", dealName: "API Gateway Upsell", value: 67000, commissionRate: 0.15, probability: 0.90, expectedClose: "2026-03", stage: "Closing" },
-  { id: "d5", partnerName: "Apex Digital", dealName: "Compliance Suite License", value: 128000, commissionRate: 0.10, probability: 0.60, expectedClose: "2026-04", stage: "Proposal" },
-  { id: "d6", partnerName: "NorthStar IT", dealName: "Cloud Migration Phase 2", value: 215000, commissionRate: 0.14, probability: 0.55, expectedClose: "2026-05", stage: "Discovery" },
-  { id: "d7", partnerName: "DataBridge Corp", dealName: "Data Warehouse Expansion", value: 156000, commissionRate: 0.12, probability: 0.75, expectedClose: "2026-04", stage: "Negotiation" },
-  { id: "d8", partnerName: "Apex Digital", dealName: "Security Audit Tooling", value: 74000, commissionRate: 0.10, probability: 0.80, expectedClose: "2026-05", stage: "Proposal" },
-  { id: "d9", partnerName: "CloudFirst Solutions", dealName: "DevOps Platform License", value: 290000, commissionRate: 0.15, probability: 0.35, expectedClose: "2026-06", stage: "Qualification" },
-  { id: "d10", partnerName: "TechNova Partners", dealName: "IoT Data Pipeline", value: 108000, commissionRate: 0.18, probability: 0.50, expectedClose: "2026-06", stage: "Discovery" },
+  { id: "d1", partnerName: "TechBridge", dealName: "Enterprise SSO Migration", value: 185000, commissionRate: 0.15, probability: 0.85, expectedClose: "2026-03", stage: "Negotiation" },
+  { id: "d2", partnerName: "Stackline", dealName: "Analytics Platform Rollout", value: 92000, commissionRate: 0.12, probability: 0.70, expectedClose: "2026-03", stage: "Proposal" },
+  { id: "d3", partnerName: "Northlight", dealName: "Multi-tenant SaaS Deal", value: 340000, commissionRate: 0.18, probability: 0.45, expectedClose: "2026-04", stage: "Discovery" },
+  { id: "d4", partnerName: "TechBridge", dealName: "API Gateway Upsell", value: 67000, commissionRate: 0.15, probability: 0.90, expectedClose: "2026-03", stage: "Closing" },
+  { id: "d5", partnerName: "Apex Growth", dealName: "Compliance Suite License", value: 128000, commissionRate: 0.10, probability: 0.60, expectedClose: "2026-04", stage: "Proposal" },
+  { id: "d6", partnerName: "Clearpath", dealName: "Cloud Migration Phase 2", value: 215000, commissionRate: 0.14, probability: 0.55, expectedClose: "2026-05", stage: "Discovery" },
+  { id: "d7", partnerName: "Stackline", dealName: "Data Warehouse Expansion", value: 156000, commissionRate: 0.12, probability: 0.75, expectedClose: "2026-04", stage: "Negotiation" },
+  { id: "d8", partnerName: "Apex Growth", dealName: "Security Audit Tooling", value: 74000, commissionRate: 0.10, probability: 0.80, expectedClose: "2026-05", stage: "Proposal" },
+  { id: "d9", partnerName: "TechBridge", dealName: "DevOps Platform License", value: 290000, commissionRate: 0.15, probability: 0.35, expectedClose: "2026-06", stage: "Qualification" },
+  { id: "d10", partnerName: "Northlight", dealName: "IoT Data Pipeline", value: 108000, commissionRate: 0.18, probability: 0.50, expectedClose: "2026-06", stage: "Discovery" },
 ];
 
 const HISTORICAL_MONTHLY = [

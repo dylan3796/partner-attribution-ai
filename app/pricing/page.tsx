@@ -44,7 +44,7 @@ const PLANS: Plan[] = [
     price: 299,
     priceAnnual: 249,
     description: "For companies launching their first partner program",
-    cta: "Start Free Trial",
+    cta: "Get Early Access",
     ctaHref: "/setup",
     features: [
       { name: "Up to 50 partners", included: true },
@@ -69,7 +69,7 @@ const PLANS: Plan[] = [
     price: 799,
     priceAnnual: 649,
     description: "For scaling programs with advanced attribution needs",
-    cta: "Start Free Trial",
+    cta: "Get Early Access",
     ctaHref: "/setup",
     popular: true,
     features: [
@@ -147,7 +147,7 @@ export default function PricingPage() {
           Pay for what you use.<br />Scale when you&apos;re ready.
         </h1>
         <p style={{ fontSize: "1.1rem", color: "rgba(255,255,255,.55)", maxWidth: 560, margin: "0 auto 32px", lineHeight: 1.6 }}>
-          Every plan includes commission automation, partner portal, and attribution tracking. No hidden fees. 14-day free trial on all plans.
+          Every plan includes commission automation, partner portal, and attribution tracking. No hidden fees. All plans include a 14-day trial.
         </p>
 
         {/* Billing toggle */}
@@ -364,7 +364,7 @@ export default function PricingPage() {
           Ready to automate your partner payouts?
         </h2>
         <p style={{ color: "rgba(255,255,255,.45)", fontSize: "1rem", marginBottom: 24 }}>
-          Start your 14-day free trial. No credit card required.
+          Start your 14-day trial · No credit card required.
         </p>
         <Link
           href="/setup"
@@ -374,7 +374,7 @@ export default function PricingPage() {
             fontWeight: 700, fontSize: "1rem", textDecoration: "none",
           }}
         >
-          Get Started Free <ArrowRight size={18} />
+          Get Early Access <ArrowRight size={18} />
         </Link>
       </section>
     </div>

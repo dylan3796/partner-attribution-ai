@@ -130,12 +130,12 @@ const demoTriggers: EmailTrigger[] = [
 ];
 
 const demoQueue: QueueEntry[] = [
-  { id: "q1", trigger: "payout_approved", to: "partner@cloudfirst.io", toName: "CloudFirst Solutions", subject: "Payout Approved — $4,200", status: "sent", createdAt: now - 2 * 3600000, sentAt: now - 2 * 3600000 + 5000 },
-  { id: "q2", trigger: "deal_won", to: "deals@cloudfirst.io", toName: "CloudFirst Solutions", subject: "🎉 Deal Won: CloudSync Cloud Migration — $85,000", status: "sent", createdAt: now - 8 * 3600000, sentAt: now - 8 * 3600000 + 3000 },
-  { id: "q3", trigger: "new_incentive", to: "partner@databridge.co", toName: "DataBridge Partners", subject: "New Program: Q1 Cloud Migration SPIF — You're Eligible!", status: "sent", createdAt: now - 1 * DAY, sentAt: now - 1 * DAY + 4000 },
+  { id: "q1", trigger: "payout_approved", to: "partner@techbridge.io", toName: "TechBridge", subject: "Payout Approved — $4,200", status: "sent", createdAt: now - 2 * 3600000, sentAt: now - 2 * 3600000 + 5000 },
+  { id: "q2", trigger: "deal_won", to: "deals@techbridge.io", toName: "TechBridge", subject: "🎉 Deal Won: CloudSync Cloud Migration — $85,000", status: "sent", createdAt: now - 8 * 3600000, sentAt: now - 8 * 3600000 + 3000 },
+  { id: "q3", trigger: "new_incentive", to: "partner@stackline.io", toName: "Stackline", subject: "New Program: Q1 Cloud Migration SPIF — You're Eligible!", status: "sent", createdAt: now - 1 * DAY, sentAt: now - 1 * DAY + 4000 },
   { id: "q4", trigger: "tier_upgrade", to: "admin@techreach.com", toName: "TechReach Inc", subject: "🏆 Tier Upgrade: Gold → Platinum", status: "sent", createdAt: now - 2 * DAY, sentAt: now - 2 * DAY + 2000 },
   { id: "q5", trigger: "deal_registered", to: "partner@nexusdigital.io", toName: "Nexus Digital", subject: "Deal Registration Approved: Globex Industries Data Platform", status: "sent", createdAt: now - 3 * DAY, sentAt: now - 3 * DAY + 6000 },
-  { id: "q6", trigger: "cert_expiring", to: "team@databridge.co", toName: "DataBridge Partners", subject: "Certification Expiring: Advanced API Integration", status: "failed", createdAt: now - 5 * DAY, error: "Mailbox full (550 5.2.2)" },
+  { id: "q6", trigger: "cert_expiring", to: "team@stackline.io", toName: "Stackline", subject: "Certification Expiring: Advanced API Integration", status: "failed", createdAt: now - 5 * DAY, error: "Mailbox full (550 5.2.2)" },
   { id: "q7", trigger: "welcome_partner", to: "onboarding@horizontech.io", toName: "Horizon Tech Group", subject: "Welcome to the Covant Partner Program!", status: "queued", createdAt: now - 300000 },
 ];
 

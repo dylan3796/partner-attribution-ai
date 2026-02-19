@@ -54,8 +54,8 @@ const API_SECTIONS: Section[] = [
   "data": [
     {
       "id": "ptr_abc123",
-      "name": "CloudFirst Solutions",
-      "email": "partner@cloudfirst.io",
+      "name": "TechBridge",
+      "email": "partner@techbridge.io",
       "type": "reseller",
       "tier": "gold",
       "commission_rate": 0.10,
@@ -243,7 +243,7 @@ const API_SECTIONS: Section[] = [
     "deal_id": "sf_opp_001",
     "amount": 85000,
     "account_name": "CloudSync Corp",
-    "partner_email": "partner@cloudfirst.io"
+    "partner_email": "partner@techbridge.io"
   }
 }`,
         responseExample: `{
