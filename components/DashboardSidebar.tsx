@@ -31,6 +31,7 @@ import {
   Shield,
   Zap,
   UserPlus,
+  Mail,
 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -60,6 +61,7 @@ const allLinks: SidebarLink[] = [
   { name: "Products", href: "/dashboard/products", icon: Package, featureFlag: "productCatalog" },
   { name: "Conflicts", href: "/dashboard/conflicts", icon: AlertTriangle, featureFlag: "channelConflict" },
   { name: "Activity", href: "/dashboard/activity", icon: Activity, featureFlag: "auditLog" },
+  { name: "Email Triggers", href: "/dashboard/emails", icon: Mail },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
