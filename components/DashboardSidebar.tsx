@@ -28,6 +28,7 @@ import {
   Gift,
   Rocket,
   GitBranch,
+  Shield,
 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -47,6 +48,7 @@ const allLinks: SidebarLink[] = [
   { name: "Reports", href: "/dashboard/reports", icon: PieChart, featureFlag: "reports" },
   { name: "Payouts", href: "/dashboard/payouts", icon: DollarSign, featureFlag: "payouts" },
   { name: "Scoring", href: "/dashboard/scoring", icon: Trophy, featureFlag: "scoring" },
+  { name: "Tier Reviews", href: "/dashboard/scoring/tier-reviews", icon: Shield, featureFlag: "scoring" },
   { name: "Certifications", href: "/dashboard/certifications", icon: Award, featureFlag: "certifications" },
   { name: "Onboarding", href: "/dashboard/onboarding", icon: Rocket, featureFlag: "certifications" },
   { name: "Incentives", href: "/dashboard/incentives", icon: Gift, featureFlag: "incentivePrograms" },
