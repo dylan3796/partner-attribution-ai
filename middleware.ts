@@ -4,20 +4,12 @@ import type { NextRequest } from "next/server";
 const PROTECTED_PATHS = ["/dashboard", "/admin", "/portal/admin"];
 const AUTH_COOKIE = "pb_auth";
 const LOGIN_PATH = "/login";
-// Internal salt — never exposed to client. Security comes from DASHBOARD_PASSWORD itself.
-const SALT = "covant-auth-v1-2026";
 
+// SHA-256 hex — safe cookie characters, no base64 encoding issues
 async function computeToken(password: string): Promise<string> {
   const enc = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    "raw",
-    enc.encode(SALT),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(password));
-  return btoa(String.fromCharCode(...new Uint8Array(sig)));
+  const hash = await crypto.subtle.digest("SHA-256", enc.encode("covant:" + password));
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
 export async function middleware(request: NextRequest) {
@@ -29,7 +21,7 @@ export async function middleware(request: NextRequest) {
   const authCookie = request.cookies.get(AUTH_COOKIE);
   const dashboardPassword = process.env.DASHBOARD_PASSWORD;
 
-  if (!dashboardPassword) return NextResponse.next(); // dev fallback
+  if (!dashboardPassword) return NextResponse.next();
 
   const expectedToken = await computeToken(dashboardPassword);
 

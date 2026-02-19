@@ -1,19 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const SALT = "covant-auth-v1-2026";
-
 async function computeToken(password: string): Promise<string> {
   const enc = new TextEncoder();
-  const key = await crypto.subtle.importKey(
-    "raw",
-    enc.encode(SALT),
-    { name: "HMAC", hash: "SHA-256" },
-    false,
-    ["sign"]
-  );
-  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(password));
-  return btoa(String.fromCharCode(...new Uint8Array(sig)));
+  const hash = await crypto.subtle.digest("SHA-256", enc.encode("covant:" + password));
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
 export async function POST(request: NextRequest) {
