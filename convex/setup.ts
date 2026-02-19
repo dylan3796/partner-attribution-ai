@@ -24,7 +24,7 @@ export const applyTemplate = mutation({
     const orgId = await ctx.db.insert("organizations", {
       name: args.orgName,
       email: `admin@${args.orgName.toLowerCase().replace(/\s+/g, "")}.com`, // Placeholder
-      apiKey: `pk_${Math.random().toString(36).substring(7)}`, // Simple API key generation
+      apiKey: `pk_live_${crypto.randomUUID().replace(/-/g, "")}`, // Cryptographically secure API key
       plan: "growth",
       defaultAttributionModel: args.attributionModel,
       createdAt: Date.now(),

@@ -2,7 +2,9 @@
 
 import { use, useState, useCallback } from "react";
 import Link from "next/link";
-import { useStore } from "@/lib/store";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
 import {
   formatCurrency,
@@ -43,36 +45,69 @@ const statusBadgeClass: Record<string, string> = {
   lost: "badge-danger",
 };
 
+function LoadingSkeleton() {
+  return (
+    <div style={{ padding: "2rem" }}>
+      <div style={{ height: 20, width: 120, background: "var(--border)", borderRadius: 4, marginBottom: "1rem" }} />
+      <div style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
+        <div style={{ height: 36, width: 200, background: "var(--border)", borderRadius: 4 }} />
+        <div style={{ height: 36, width: 80, background: "var(--border)", borderRadius: 20 }} />
+      </div>
+      <div className="stat-grid" style={{ marginBottom: "2rem" }}>
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="card" style={{ height: 100 }}>
+            <div style={{ height: 16, width: 80, background: "var(--border)", borderRadius: 4, marginBottom: 12 }} />
+            <div style={{ height: 32, width: 100, background: "var(--border)", borderRadius: 4 }} />
+          </div>
+        ))}
+      </div>
+      <div className="card" style={{ height: 200, display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ width: 40, height: 40, border: "3px solid var(--border)", borderTopColor: "#6366f1", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
+      </div>
+      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
+}
+
 export default function DealDetailPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  const {
-    getDeal,
-    getTouchpointsByDeal,
-    getAttributionsByDeal,
-    partners,
-    closeDeal,
-    addTouchpoint,
-  } = useStore();
+  
+  // Convex queries and mutations
+  const dealData = useQuery(api.deals.getById, { id: id as Id<"deals"> });
+  const closeDealMutation = useMutation(api.dealsCrud.closeDeal);
 
   const { toast } = useToast();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showTouchpointModal, setShowTouchpointModal] = useState(false);
   const [isRecalculating, setIsRecalculating] = useState(false);
 
-  // Touchpoint form
+  // Touchpoint form (for now, touchpoint add is not wired - would need a mutation)
   const [tpPartnerId, setTpPartnerId] = useState("");
   const [tpType, setTpType] = useState<TouchpointType>("referral");
   const [tpNotes, setTpNotes] = useState("");
 
-  const deal = getDeal(id);
-  const touchpoints = getTouchpointsByDeal(id);
-  const allAttributions = getAttributionsByDeal(id);
+  const fireConfetti = useCallback(() => {
+    const duration = 2500;
+    const end = Date.now() + duration;
+    const colors = ["#10b981", "#6366f1", "#f59e0b", "#ec4899", "#06b6d4"];
+    (function frame() {
+      confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors });
+      confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors });
+      if (Date.now() < end) requestAnimationFrame(frame);
+    })();
+  }, []);
 
-  if (!deal) {
+  // Loading state
+  if (dealData === undefined) {
+    return <LoadingSkeleton />;
+  }
+
+  // Not found state
+  if (dealData === null) {
     return (
       <div style={{ padding: "3rem", textAlign: "center" }}>
         <p className="muted">Deal not found</p>
@@ -90,10 +125,12 @@ export default function DealDetailPage({
     );
   }
 
-  const partnerIds = [...new Set(touchpoints.map((tp) => tp.partnerId))];
-  const involvedPartners = partnerIds
-    .map((pid) => partners.find((p) => p._id === pid))
-    .filter(Boolean);
+  const deal = dealData;
+  const touchpoints = deal.touchpoints || [];
+  const allAttributions = deal.attributions || [];
+  const partners = (deal.partners || []).filter((p): p is NonNullable<typeof p> => p !== null);
+
+  const involvedPartners = partners;
   const timeline = [...touchpoints].sort((a, b) => a.createdAt - b.createdAt);
 
   // Attribution comparison data
@@ -113,48 +150,40 @@ export default function DealDetailPage({
     })
   );
 
-  const fireConfetti = useCallback(() => {
-    const duration = 2500;
-    const end = Date.now() + duration;
-    const colors = ["#10b981", "#6366f1", "#f59e0b", "#ec4899", "#06b6d4"];
-    (function frame() {
-      confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors });
-      confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors });
-      if (Date.now() < end) requestAnimationFrame(frame);
-    })();
-  }, []);
-
-  function handleClose(status: "won" | "lost") {
+  async function handleClose(status: "won" | "lost") {
     setShowCloseModal(false);
     if (status === "won") {
       setIsRecalculating(true);
       // Simulate attribution recalculation delay for dramatic effect
-      setTimeout(() => {
-        closeDeal(id, status);
-        setIsRecalculating(false);
-        toast(`🎉 Deal closed as Won! Attribution calculated.`, "success");
-        fireConfetti();
+      setTimeout(async () => {
+        try {
+          await closeDealMutation({ id: id as Id<"deals">, status });
+          setIsRecalculating(false);
+          toast(`🎉 Deal closed as Won! Attribution calculated.`, "success");
+          fireConfetti();
+        } catch (err: any) {
+          setIsRecalculating(false);
+          toast(err.message || "Failed to close deal", "error");
+        }
       }, 1800);
     } else {
-      closeDeal(id, status);
-      toast("Deal closed as Lost", "info");
+      try {
+        await closeDealMutation({ id: id as Id<"deals">, status });
+        toast("Deal closed as Lost", "info");
+      } catch (err: any) {
+        toast(err.message || "Failed to close deal", "error");
+      }
     }
   }
 
   function handleAddTouchpoint(e: React.FormEvent) {
     e.preventDefault();
-    if (!tpPartnerId || !deal) return;
-    addTouchpoint({
-      dealId: deal!._id,
-      partnerId: tpPartnerId,
-      type: tpType,
-      notes: tpNotes || undefined,
-    });
+    // TODO: Add Convex mutation for adding touchpoints
     setShowTouchpointModal(false);
     setTpPartnerId("");
     setTpType("referral");
     setTpNotes("");
-    toast("Touchpoint added successfully", "success");
+    toast("Touchpoint feature coming soon", "info");
   }
 
   // Active partners for selection
@@ -353,9 +382,7 @@ export default function DealDetailPage({
               }}
             >
               {timeline.map((tp) => {
-                const partner = partners.find(
-                  (p) => p._id === tp.partnerId
-                );
+                const partner = tp.partner;
                 return (
                   <div
                     key={tp._id}
@@ -411,7 +438,7 @@ export default function DealDetailPage({
                             textTransform: "uppercase",
                           }}
                         >
-                          {TOUCHPOINT_LABELS[tp.type]}
+                          {TOUCHPOINT_LABELS[tp.type as keyof typeof TOUCHPOINT_LABELS] || tp.type}
                         </span>
                         <p
                           style={{
@@ -752,7 +779,7 @@ export default function DealDetailPage({
                     .sort((a, b) =>
                       a.partnerId !== b.partnerId
                         ? a.partnerId.localeCompare(b.partnerId)
-                        : MODELS.indexOf(a.model) - MODELS.indexOf(b.model)
+                        : MODELS.indexOf(a.model as AttributionModel) - MODELS.indexOf(b.model as AttributionModel)
                     )
                     .map((attr) => {
                       const partner = partners.find(
@@ -811,11 +838,11 @@ export default function DealDetailPage({
                                   width: 8,
                                   height: 8,
                                   borderRadius: "50%",
-                                  background: MODEL_COLORS[attr.model],
+                                  background: MODEL_COLORS[attr.model as AttributionModel],
                                 }}
                               />
                               <span style={{ fontSize: "0.85rem" }}>
-                                {MODEL_LABELS[attr.model]}
+                                {MODEL_LABELS[attr.model as AttributionModel]}
                               </span>
                             </div>
                           </td>

@@ -7,7 +7,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
 import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star } from "lucide-react";
-import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS, CERTIFICATION_LEVEL_LABELS } from "@/lib/types";
+import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS, CERTIFICATION_LEVEL_LABELS, type CertificationLevel } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
 
 function LoadingSkeleton() {
@@ -187,7 +187,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                     <span className="muted" style={{ fontSize: ".75rem" }}>· {c.issuer}</span>
                   </div>
                   <span style={{ display: "inline-flex", padding: "2px 8px", borderRadius: 10, fontSize: ".7rem", fontWeight: 700, background: c.level === "expert" ? "#ecfdf5" : c.level === "advanced" ? "#fef3c7" : "#dbeafe", color: c.level === "expert" ? "#065f46" : c.level === "advanced" ? "#92400e" : "#1e40af", textTransform: "uppercase" }}>
-                    {CERTIFICATION_LEVEL_LABELS[c.level]}
+                    {CERTIFICATION_LEVEL_LABELS[c.level as CertificationLevel]}
                   </span>
                 </div>
               ))}

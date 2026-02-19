@@ -1,6 +1,9 @@
 "use client";
 
-import React, { createContext, useContext, useState, useMemo, type ReactNode } from "react";
+import React, { createContext, useContext, useState, useEffect, useMemo, type ReactNode } from "react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 import {
   portalPartners,
   type PortalPartnerProfile,
@@ -14,7 +17,15 @@ import {
   getPartnerCommissions,
   getPartnerStats,
 } from "./portal-demo-data";
-import type { Deal, Touchpoint, Attribution, Payout } from "./types";
+import type { Deal, Touchpoint, Attribution } from "./types";
+
+const SESSION_KEY = "covant_portal_session";
+
+type PortalSession = {
+  partnerId: string;
+  partnerName: string;
+  email: string;
+};
 
 type PortalStats = {
   totalEarned: number;
@@ -41,8 +52,10 @@ type PortalPayout = {
 
 type PortalContextType = {
   partner: PortalPartnerProfile | null;
+  session: PortalSession | null;
   setPartner: (p: PortalPartnerProfile | null) => void;
   setPartnerId: (id: string) => void;
+  logout: () => void;
   allPartners: PortalPartnerProfile[];
   dealRegistrations: DealRegistration[];
   addDealRegistration: (reg: Omit<DealRegistration, "id" | "status" | "submittedAt">) => void;
@@ -70,13 +83,75 @@ const emptyStats: PortalStats = {
 };
 
 export function PortalProvider({ children }: { children: ReactNode }) {
-  const [partner, setPartner] = useState<PortalPartnerProfile | null>(portalPartners[0]);
+  const [session, setSession] = useState<PortalSession | null>(null);
+  const [partner, setPartner] = useState<PortalPartnerProfile | null>(null);
   const [dealRegistrations, setDealRegistrations] = useState<DealRegistration[]>(demoDealRegistrations);
   const [disputes, setDisputes] = useState<Dispute[]>(demoDisputes);
+  const [sessionLoaded, setSessionLoaded] = useState(false);
+
+  // Load session from localStorage on mount
+  useEffect(() => {
+    const stored = localStorage.getItem(SESSION_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as PortalSession;
+        setSession(parsed);
+      } catch {
+        localStorage.removeItem(SESSION_KEY);
+      }
+    }
+    setSessionLoaded(true);
+  }, []);
+
+  // Fetch partner data from Convex when session exists
+  const convexPartner = useQuery(
+    api.partners.get,
+    session?.partnerId ? { id: session.partnerId as Id<"partners"> } : "skip"
+  );
+
+  // Map Convex partner to PortalPartnerProfile when available
+  useEffect(() => {
+    if (convexPartner && session) {
+      // Create a PortalPartnerProfile from Convex data
+      const profile: PortalPartnerProfile = {
+        id: convexPartner._id,
+        companyName: convexPartner.name,
+        contactName: convexPartner.contactName || "Partner",
+        contactEmail: convexPartner.email,
+        phone: "",
+        type: convexPartner.type as "reseller" | "referral" | "affiliate" | "integration",
+        tier: (convexPartner.tier || "bronze") as "bronze" | "silver" | "gold" | "platinum",
+        status: convexPartner.status as "active" | "inactive" | "pending",
+        commissionRate: convexPartner.commissionRate * 100, // Convert to percentage
+        joinedAt: convexPartner.createdAt,
+        partnerManager: {
+          name: "Partner Team",
+          email: "partners@covant.ai",
+          phone: "",
+        },
+        address: "",
+        website: "",
+        linkedPartnerIds: [convexPartner._id],
+        stripeAccountId: convexPartner.stripeAccountId,
+        stripeOnboarded: convexPartner.stripeOnboarded,
+        stripeOnboardingUrl: convexPartner.stripeOnboardingUrl,
+      };
+      setPartner(profile);
+    } else if (!session && sessionLoaded) {
+      // Fallback to demo data when no session (for backwards compatibility)
+      setPartner(portalPartners[0]);
+    }
+  }, [convexPartner, session, sessionLoaded]);
 
   const setPartnerId = (id: string) => {
     const found = portalPartners.find((p) => p.id === id);
     if (found) setPartner(found);
+  };
+
+  const logout = () => {
+    localStorage.removeItem(SESSION_KEY);
+    setSession(null);
+    setPartner(null);
   };
 
   const addDealRegistration = (reg: Omit<DealRegistration, "id" | "status" | "submittedAt">) => {
@@ -126,8 +201,10 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     <PortalContext.Provider
       value={{
         partner,
+        session,
         setPartner,
         setPartnerId,
+        logout,
         allPartners: portalPartners,
         dealRegistrations,
         addDealRegistration,

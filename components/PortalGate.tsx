@@ -1,129 +1,249 @@
 "use client";
 
-import { usePortal } from "@/lib/portal-context";
-import { Building2, ChevronRight, Shield } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Shield } from "lucide-react";
+
+const SESSION_KEY = "covant_portal_session";
+
+export type PortalSession = {
+  partnerId: string;
+  partnerName: string;
+  email: string;
+};
+
+export function usePortalSession() {
+  const [session, setSession] = useState<PortalSession | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const stored = localStorage.getItem(SESSION_KEY);
+    if (stored) {
+      try {
+        setSession(JSON.parse(stored));
+      } catch {
+        localStorage.removeItem(SESSION_KEY);
+      }
+    }
+    setLoading(false);
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem(SESSION_KEY);
+    setSession(null);
+  };
+
+  return { session, loading, logout };
+}
 
 export default function PortalGate({ children }: { children: React.ReactNode }) {
-  const { partner, setPartner, allPartners } = usePortal();
+  const [email, setEmail] = useState("");
+  const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
+  const [session, setSession] = useState<PortalSession | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-  if (partner) return <>{children}</>;
+  // Check for existing session on mount
+  useEffect(() => {
+    const stored = localStorage.getItem(SESSION_KEY);
+    if (stored) {
+      try {
+        setSession(JSON.parse(stored));
+      } catch {
+        localStorage.removeItem(SESSION_KEY);
+      }
+    }
+    setLoading(false);
+  }, []);
 
-  return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "linear-gradient(135deg, var(--subtle) 0%, var(--border) 100%)",
-        padding: "2rem",
-      }}
-    >
-      <div style={{ width: "100%", maxWidth: 480 }}>
-        {/* Logo */}
-        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 56,
-              height: 56,
-              background: "#000",
-              borderRadius: 14,
-              marginBottom: "1rem",
-            }}
-          >
-            <Shield size={28} color="#fff" />
-          </div>
-          <h1 style={{ fontSize: "1.6rem", fontWeight: 800, letterSpacing: "-0.02em" }}>
-            Partner<span style={{ fontWeight: 400 }}>AI</span> Portal
-          </h1>
-          <p style={{ color: "var(--muted)", fontSize: "0.95rem", marginTop: "0.5rem" }}>
-            Sign in to access your partner dashboard
-          </p>
-        </div>
+  // Look up partner by email when submitted
+  const partnerByEmail = useQuery(
+    api.partners.getByEmail,
+    submittedEmail ? { email: submittedEmail } : "skip"
+  );
 
-        {/* Partner selection card */}
-        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-          <div
-            style={{
-              padding: "1rem 1.5rem",
-              borderBottom: "1px solid var(--border)",
-              background: "var(--subtle)",
-            }}
-          >
-            <p style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
-              Select your company
-            </p>
-          </div>
-          {allPartners.map((p) => (
-            <button
-              key={p.id}
-              onClick={() => setPartner(p)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                width: "100%",
-                padding: "1rem 1.5rem",
-                borderBottom: "1px solid var(--border)",
-                background: "none",
-                border: "none",
-                borderBottomWidth: 1,
-                borderBottomStyle: "solid",
-                borderBottomColor: "var(--border)",
-                cursor: "pointer",
-                transition: "background 0.15s",
-                textAlign: "left",
-                fontFamily: "inherit",
-              }}
-              onMouseOver={(e) => (e.currentTarget.style.background = "var(--subtle)")}
-              onMouseOut={(e) => (e.currentTarget.style.background = "none")}
-            >
-              <div
-                style={{
-                  width: 42,
-                  height: 42,
-                  borderRadius: 10,
-                  background: "#000",
-                  color: "#fff",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 700,
-                  fontSize: "0.85rem",
-                  flexShrink: 0,
-                }}
-              >
-                {p.companyName
-                  .split(" ")
-                  .map((w) => w[0])
-                  .join("")
-                  .slice(0, 2)}
-              </div>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontWeight: 600, fontSize: "0.95rem" }}>{p.companyName}</p>
-                <p style={{ color: "var(--muted)", fontSize: "0.8rem" }}>
-                  {p.contactName} · {p.type.charAt(0).toUpperCase() + p.type.slice(1)} · {p.tier.charAt(0).toUpperCase() + p.tier.slice(1)} Tier
-                </p>
-              </div>
-              <ChevronRight size={18} color="var(--muted)" />
-            </button>
-          ))}
-        </div>
+  // When Convex returns a result for the email lookup
+  useEffect(() => {
+    if (submittedEmail && partnerByEmail !== undefined) {
+      if (partnerByEmail) {
+        const newSession: PortalSession = {
+          partnerId: partnerByEmail._id,
+          partnerName: partnerByEmail.name,
+          email: partnerByEmail.email,
+        };
+        localStorage.setItem(SESSION_KEY, JSON.stringify(newSession));
+        setSession(newSession);
+        setError("");
+      } else {
+        setError("No partner account found with that email. Contact your program manager.");
+        setSubmittedEmail(null);
+      }
+    }
+  }, [partnerByEmail, submittedEmail]);
 
-        <p
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setError("");
+    setSubmittedEmail(email.trim().toLowerCase());
+  }
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          background: "#0c0c0c",
+          color: "#fff",
+        }}
+      >
+        Loading...
+      </div>
+    );
+  }
+
+  if (!session) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          minHeight: "100vh",
+          background: "#0c0c0c",
+          padding: "2rem",
+        }}
+      >
+        <div
           style={{
-            textAlign: "center",
-            color: "var(--muted)",
-            fontSize: "0.8rem",
-            marginTop: "1.5rem",
+            width: "100%",
+            maxWidth: 420,
+            background: "#161616",
+            border: "1px solid #2a2a2a",
+            borderRadius: 16,
+            padding: "2.5rem",
           }}
         >
-          Partners sign in with their credentials to access their portal.
-        </p>
+          {/* Logo */}
+          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 56,
+                height: 56,
+                background: "#000",
+                borderRadius: 14,
+                marginBottom: "1rem",
+                border: "1px solid #333",
+              }}
+            >
+              <Shield size={28} color="#fff" />
+            </div>
+            <div
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: 700,
+                color: "#fff",
+                marginBottom: ".5rem",
+              }}
+            >
+              Partner Portal
+            </div>
+            <p style={{ color: "#888", fontSize: ".9rem" }}>
+              Enter your email to access your partner dashboard.
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div style={{ marginBottom: "1rem" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: ".85rem",
+                  color: "#aaa",
+                  marginBottom: ".5rem",
+                }}
+              >
+                Email address
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@company.com"
+                style={{
+                  width: "100%",
+                  padding: ".75rem 1rem",
+                  background: "#0c0c0c",
+                  border: "1px solid #333",
+                  borderRadius: 8,
+                  color: "#fff",
+                  fontSize: ".9rem",
+                  boxSizing: "border-box",
+                  outline: "none",
+                }}
+                required
+                autoFocus
+              />
+            </div>
+            {error && (
+              <p
+                style={{
+                  color: "#f87171",
+                  fontSize: ".85rem",
+                  marginBottom: ".75rem",
+                }}
+              >
+                {error}
+              </p>
+            )}
+            <button
+              type="submit"
+              disabled={!email.trim() || submittedEmail !== null}
+              style={{
+                width: "100%",
+                padding: ".75rem",
+                background:
+                  !email.trim() || submittedEmail !== null ? "#333" : "#6366f1",
+                color: "#fff",
+                border: "none",
+                borderRadius: 8,
+                fontSize: ".95rem",
+                fontWeight: 600,
+                cursor:
+                  !email.trim() || submittedEmail !== null
+                    ? "not-allowed"
+                    : "pointer",
+                transition: "background 0.15s",
+              }}
+            >
+              {submittedEmail ? "Checking..." : "Access Portal"}
+            </button>
+          </form>
+          <p
+            style={{
+              marginTop: "1.5rem",
+              textAlign: "center",
+              fontSize: ".8rem",
+              color: "#555",
+            }}
+          >
+            Don&apos;t have an account?{" "}
+            <a href="/apply" style={{ color: "#6366f1" }}>
+              Apply to join
+            </a>
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  // Logged in — render children
+  return <>{children}</>;
 }
