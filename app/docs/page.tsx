@@ -242,7 +242,7 @@ const API_SECTIONS: Section[] = [
   "payload": {
     "deal_id": "sf_opp_001",
     "amount": 85000,
-    "account_name": "Acme Corp",
+    "account_name": "CloudSync Corp",
     "partner_email": "partner@cloudfirst.io"
   }
 }`,

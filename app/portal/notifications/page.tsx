@@ -44,8 +44,8 @@ function generateDemoNotifications(): Notification[] {
       actionUrl: "/portal/commissions", actionLabel: "View Commissions",
     },
     {
-      id: "n2", type: "deal_update", title: "Deal Won: Acme Corp Cloud Migration",
-      body: "The Acme Corp Cloud Migration deal ($85,000) has been marked as won. Your attributed commission of $8,500 (10%) has been calculated.",
+      id: "n2", type: "deal_update", title: "Deal Won: CloudSync Cloud Migration",
+      body: "The CloudSync Cloud Migration deal ($85,000) has been marked as won. Your attributed commission of $8,500 (10%) has been calculated.",
       timestamp: now - 8 * 3600000, read: false,
       actionUrl: "/portal/deals", actionLabel: "View Deals",
       meta: { amount: "$85,000", commission: "$8,500" },

@@ -55,7 +55,7 @@ export const portalPartners: PortalPartnerProfile[] = [
     joinedAt: now - 365 * day,
     partnerManager: {
       name: "Amanda Foster",
-      email: "amanda.foster@acmesaas.io",
+      email: "amanda.foster@covant.ai",
       phone: "+1 (555) 100-2000",
     },
     address: "450 Tech Blvd, Suite 300, San Francisco, CA 94105",
@@ -75,7 +75,7 @@ export const portalPartners: PortalPartnerProfile[] = [
     joinedAt: now - 200 * day,
     partnerManager: {
       name: "Amanda Foster",
-      email: "amanda.foster@acmesaas.io",
+      email: "amanda.foster@covant.ai",
       phone: "+1 (555) 100-2000",
     },
     address: "88 Startup Ave, Austin, TX 78701",
@@ -95,7 +95,7 @@ export const portalPartners: PortalPartnerProfile[] = [
     joinedAt: now - 150 * day,
     partnerManager: {
       name: "Ryan Mitchell",
-      email: "ryan.mitchell@acmesaas.io",
+      email: "ryan.mitchell@covant.ai",
       phone: "+1 (555) 100-3000",
     },
     address: "200 Content Way, New York, NY 10001",

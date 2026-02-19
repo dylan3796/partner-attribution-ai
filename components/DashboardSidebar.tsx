@@ -33,6 +33,7 @@ import {
   UserPlus,
   Mail,
   Plug2,
+  TrendingUp,
 } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
@@ -48,6 +49,7 @@ const allLinks: SidebarLink[] = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Partners", href: "/dashboard/partners", icon: Users },
   { name: "Applications", href: "/dashboard/partner-applications", icon: UserPlus },
+  { name: "Leads", href: "/dashboard/leads", icon: TrendingUp },
   { name: "Deals", href: "/dashboard/deals", icon: Briefcase },
   { name: "Pipeline & Co-Sell", href: "/dashboard/pipeline", icon: GitBranch, featureFlag: "coSell" },
   { name: "Reports", href: "/dashboard/reports", icon: PieChart, featureFlag: "reports" },

@@ -1,0 +1,186 @@
+"use client";
+import { useState } from "react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
+import { Mail, Building2, Clock, TrendingUp, Users, CheckCircle2, XCircle, Calendar } from "lucide-react";
+
+const STATUS_LABELS: Record<string, string> = {
+  new: "New",
+  contacted: "Contacted",
+  demo_scheduled: "Demo Scheduled",
+  demo_completed: "Demo Done",
+  qualified: "Qualified",
+  customer: "Customer",
+  lost: "Lost",
+};
+
+const STATUS_COLORS: Record<string, string> = {
+  new: "#6366f1",
+  contacted: "#f59e0b",
+  demo_scheduled: "#3b82f6",
+  demo_completed: "#8b5cf6",
+  qualified: "#10b981",
+  customer: "#22c55e",
+  lost: "#6b7280",
+};
+
+function formatRelTime(ts: number) {
+  const d = Math.floor((Date.now() - ts) / 86400000);
+  if (d === 0) return "Today";
+  if (d === 1) return "Yesterday";
+  return `${d}d ago`;
+}
+
+export default function LeadsPage() {
+  const leads = useQuery(api.leads.getLeads) ?? [];
+  const updateStatus = useMutation(api.leads.updateLeadStatus);
+  const [filter, setFilter] = useState("all");
+  const [updating, setUpdating] = useState<string | null>(null);
+
+  const filtered = filter === "all" ? leads : leads.filter(l => l.status === filter);
+
+  const stats = {
+    total: leads.length,
+    new: leads.filter(l => l.status === "new").length,
+    qualified: leads.filter(l => l.status === "qualified").length,
+    customers: leads.filter(l => l.status === "customer").length,
+  };
+
+  async function handleStatusChange(leadId: Id<"leads">, status: string) {
+    setUpdating(leadId);
+    try {
+      await updateStatus({ leadId, status: status as any });
+    } finally {
+      setUpdating(null);
+    }
+  }
+
+  return (
+    <div style={{ padding: "2rem 2.5rem", maxWidth: 1100 }}>
+      {/* Header */}
+      <div style={{ marginBottom: "2rem" }}>
+        <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#fff", marginBottom: ".25rem" }}>Leads</h1>
+        <p style={{ color: "#888", fontSize: ".9rem" }}>People who signed up for early access from the landing page.</p>
+      </div>
+
+      {/* Stats */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
+        {[
+          { label: "Total Leads", value: stats.total, icon: <Users size={16} />, color: "#6366f1" },
+          { label: "New", value: stats.new, icon: <Mail size={16} />, color: "#f59e0b" },
+          { label: "Qualified", value: stats.qualified, icon: <TrendingUp size={16} />, color: "#10b981" },
+          { label: "Customers", value: stats.customers, icon: <CheckCircle2 size={16} />, color: "#22c55e" },
+        ].map(stat => (
+          <div key={stat.label} style={{ background: "#161616", border: "1px solid #2a2a2a", borderRadius: 12, padding: "1.25rem" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: ".5rem", color: stat.color, marginBottom: ".5rem" }}>
+              {stat.icon}
+              <span style={{ fontSize: ".8rem", color: "#888" }}>{stat.label}</span>
+            </div>
+            <div style={{ fontSize: "1.75rem", fontWeight: 700, color: "#fff" }}>{stat.value}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Filter tabs */}
+      <div style={{ display: "flex", gap: ".5rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
+        {["all", "new", "contacted", "demo_scheduled", "qualified", "customer", "lost"].map(s => (
+          <button
+            key={s}
+            onClick={() => setFilter(s)}
+            style={{
+              padding: ".4rem .9rem",
+              borderRadius: 20,
+              border: "1px solid",
+              borderColor: filter === s ? "#6366f1" : "#2a2a2a",
+              background: filter === s ? "#6366f1" : "transparent",
+              color: filter === s ? "#fff" : "#888",
+              fontSize: ".8rem",
+              cursor: "pointer",
+              fontWeight: filter === s ? 600 : 400,
+            }}
+          >
+            {s === "all" ? `All (${leads.length})` : STATUS_LABELS[s]}
+          </button>
+        ))}
+      </div>
+
+      {/* Table */}
+      {filtered.length === 0 ? (
+        <div style={{ textAlign: "center", padding: "4rem 2rem", background: "#161616", border: "1px solid #2a2a2a", borderRadius: 16 }}>
+          <Mail size={32} style={{ color: "#444", marginBottom: "1rem" }} />
+          <p style={{ color: "#888" }}>
+            {leads.length === 0
+              ? "No leads yet. They'll appear here when someone signs up on the landing page."
+              : "No leads match this filter."}
+          </p>
+        </div>
+      ) : (
+        <div style={{ background: "#161616", border: "1px solid #2a2a2a", borderRadius: 16, overflow: "hidden" }}>
+          <div style={{ overflowX: "auto" }}>
+            <table style={{ width: "100%", borderCollapse: "collapse" }}>
+              <thead>
+                <tr style={{ borderBottom: "1px solid #2a2a2a" }}>
+                  {["Email", "Company", "Source", "Status", "First Seen", "Last Seen"].map(h => (
+                    <th key={h} style={{ padding: "1rem 1.25rem", textAlign: "left", fontSize: ".8rem", color: "#666", fontWeight: 500 }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {filtered.map((lead, i) => (
+                  <tr
+                    key={lead._id}
+                    style={{ borderBottom: i < filtered.length - 1 ? "1px solid #1e1e1e" : "none" }}
+                  >
+                    <td style={{ padding: "1rem 1.25rem" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
+                        <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#6366f120", display: "flex", alignItems: "center", justifyContent: "center", color: "#6366f1", fontSize: ".8rem", fontWeight: 600 }}>
+                          {lead.email[0].toUpperCase()}
+                        </div>
+                        <span style={{ color: "#fff", fontSize: ".9rem" }}>{lead.email}</span>
+                      </div>
+                    </td>
+                    <td style={{ padding: "1rem 1.25rem" }}>
+                      <span style={{ color: "#888", fontSize: ".9rem" }}>{lead.company || "—"}</span>
+                    </td>
+                    <td style={{ padding: "1rem 1.25rem" }}>
+                      <span style={{ fontSize: ".75rem", padding: "2px 8px", borderRadius: 10, background: "#1e1e1e", color: "#666" }}>
+                        {lead.source || "landing"}
+                      </span>
+                    </td>
+                    <td style={{ padding: "1rem 1.25rem" }}>
+                      <select
+                        value={lead.status}
+                        onChange={e => handleStatusChange(lead._id, e.target.value)}
+                        disabled={updating === lead._id}
+                        style={{
+                          background: "#0c0c0c",
+                          border: "1px solid #333",
+                          borderRadius: 6,
+                          color: STATUS_COLORS[lead.status] || "#fff",
+                          fontSize: ".8rem",
+                          padding: "4px 8px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        {Object.entries(STATUS_LABELS).map(([val, label]) => (
+                          <option key={val} value={val}>{label}</option>
+                        ))}
+                      </select>
+                    </td>
+                    <td style={{ padding: "1rem 1.25rem" }}>
+                      <span style={{ color: "#666", fontSize: ".85rem" }}>{formatRelTime(lead.createdAt)}</span>
+                    </td>
+                    <td style={{ padding: "1rem 1.25rem" }}>
+                      <span style={{ color: "#666", fontSize: ".85rem" }}>{formatRelTime(lead.lastSeenAt)}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

@@ -8,25 +8,25 @@ const day = 86400000;
 
 export const demoCertifications: Certification[] = [
   // TechStar Solutions (p_001)
-  { _id: "cert_001", partnerId: "p_001", name: "Certified Solutions Architect", issuer: "Acme SaaS Academy", dateEarned: now - 60 * day, expiryDate: now + 305 * day, level: "advanced", status: "active" },
-  { _id: "cert_002", partnerId: "p_001", name: "Sales Engineering Specialist", issuer: "Acme SaaS Academy", dateEarned: now - 45 * day, expiryDate: now + 320 * day, level: "expert", status: "active" },
-  { _id: "cert_003", partnerId: "p_001", name: "Partner Program Fundamentals", issuer: "Acme SaaS Academy", dateEarned: now - 80 * day, level: "beginner", status: "active" },
+  { _id: "cert_001", partnerId: "p_001", name: "Certified Solutions Architect", issuer: "Covant Academy", dateEarned: now - 60 * day, expiryDate: now + 305 * day, level: "advanced", status: "active" },
+  { _id: "cert_002", partnerId: "p_001", name: "Sales Engineering Specialist", issuer: "Covant Academy", dateEarned: now - 45 * day, expiryDate: now + 320 * day, level: "expert", status: "active" },
+  { _id: "cert_003", partnerId: "p_001", name: "Partner Program Fundamentals", issuer: "Covant Academy", dateEarned: now - 80 * day, level: "beginner", status: "active" },
 
   // CloudBridge Partners (p_002)
-  { _id: "cert_004", partnerId: "p_002", name: "Certified Solutions Architect", issuer: "Acme SaaS Academy", dateEarned: now - 70 * day, expiryDate: now + 295 * day, level: "intermediate", status: "active" },
+  { _id: "cert_004", partnerId: "p_002", name: "Certified Solutions Architect", issuer: "Covant Academy", dateEarned: now - 70 * day, expiryDate: now + 295 * day, level: "intermediate", status: "active" },
   { _id: "cert_005", partnerId: "p_002", name: "Enterprise Sales Methodology", issuer: "Sales Institute", dateEarned: now - 30 * day, expiryDate: now + 335 * day, level: "advanced", status: "active" },
 
   // DataPipe Agency (p_003)
-  { _id: "cert_006", partnerId: "p_003", name: "API Integration Expert", issuer: "Acme SaaS Academy", dateEarned: now - 50 * day, expiryDate: now + 315 * day, level: "expert", status: "active" },
+  { _id: "cert_006", partnerId: "p_003", name: "API Integration Expert", issuer: "Covant Academy", dateEarned: now - 50 * day, expiryDate: now + 315 * day, level: "expert", status: "active" },
   { _id: "cert_007", partnerId: "p_003", name: "Technical Implementation Specialist", issuer: "Cloud Alliance", dateEarned: now - 90 * day, expiryDate: now - 5 * day, level: "advanced", status: "expired" },
 
   // NexGen Resellers (p_004)
-  { _id: "cert_008", partnerId: "p_004", name: "Certified Solutions Architect", issuer: "Acme SaaS Academy", dateEarned: now - 40 * day, expiryDate: now + 325 * day, level: "expert", status: "active" },
+  { _id: "cert_008", partnerId: "p_004", name: "Certified Solutions Architect", issuer: "Covant Academy", dateEarned: now - 40 * day, expiryDate: now + 325 * day, level: "expert", status: "active" },
   { _id: "cert_009", partnerId: "p_004", name: "Enterprise Sales Methodology", issuer: "Sales Institute", dateEarned: now - 55 * day, expiryDate: now + 310 * day, level: "expert", status: "active" },
   { _id: "cert_010", partnerId: "p_004", name: "Channel Management Pro", issuer: "Channel Partners Alliance", dateEarned: now - 35 * day, level: "advanced", status: "active" },
 
   // GrowthLabs Co (p_005)
-  { _id: "cert_011", partnerId: "p_005", name: "Partner Program Fundamentals", issuer: "Acme SaaS Academy", dateEarned: now - 40 * day, level: "beginner", status: "active" },
+  { _id: "cert_011", partnerId: "p_005", name: "Partner Program Fundamentals", issuer: "Covant Academy", dateEarned: now - 40 * day, level: "beginner", status: "active" },
   { _id: "cert_012", partnerId: "p_005", name: "SMB Sales Specialist", issuer: "Sales Institute", dateEarned: now - 20 * day, expiryDate: now + 345 * day, level: "intermediate", status: "active" },
 ];
 

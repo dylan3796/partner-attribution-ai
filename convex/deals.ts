@@ -277,3 +277,60 @@ export const getDeal = query({
     };
   },
 });
+
+// Get deal by ID with full related data (touchpoints, partners, attributions)
+export const getById = query({
+  args: { id: v.id("deals") },
+  handler: async (ctx, args) => {
+    const deal = await ctx.db.get(args.id);
+    if (!deal) return null;
+
+    // Fetch touchpoints for this deal
+    const touchpoints = await ctx.db
+      .query("touchpoints")
+      .withIndex("by_deal", (q) => q.eq("dealId", args.id))
+      .collect();
+
+    // Fetch attributions for this deal
+    const attributions = await ctx.db
+      .query("attributions")
+      .withIndex("by_deal", (q) => q.eq("dealId", args.id))
+      .collect();
+
+    // Gather unique partner IDs from touchpoints
+    const partnerIds = [...new Set(touchpoints.map((tp) => tp.partnerId))];
+    
+    // Fetch all related partners
+    const partners = await Promise.all(
+      partnerIds.map((id) => ctx.db.get(id))
+    );
+    const partnersMap = Object.fromEntries(
+      partners.filter(Boolean).map((p) => [p!._id, p])
+    );
+
+    // Enrich touchpoints with partner info
+    const enrichedTouchpoints = touchpoints.map((tp) => ({
+      ...tp,
+      partner: partnersMap[tp.partnerId] || null,
+    }));
+
+    // Enrich attributions with partner info
+    const enrichedAttributions = attributions.map((attr) => ({
+      ...attr,
+      partner: partnersMap[attr.partnerId] || null,
+    }));
+
+    // Get registered-by partner info
+    const registeredByPartner = deal.registeredBy
+      ? await ctx.db.get(deal.registeredBy)
+      : null;
+
+    return {
+      ...deal,
+      touchpoints: enrichedTouchpoints,
+      attributions: enrichedAttributions,
+      partners: partners.filter(Boolean),
+      registeredByPartner,
+    };
+  },
+});

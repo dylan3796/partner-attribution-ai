@@ -1,59 +1,115 @@
 "use client";
-import { use, useState } from "react";
+import { use, useState, useEffect } from "react";
 import Link from "next/link";
-import { useStore } from "@/lib/store";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
 import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star } from "lucide-react";
 import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS, CERTIFICATION_LEVEL_LABELS } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
 
+function LoadingSkeleton() {
+  return (
+    <div style={{ padding: "2rem" }}>
+      <div style={{ height: 20, width: 120, background: "var(--border)", borderRadius: 4, marginBottom: "1.5rem" }} />
+      <div className="card" style={{ marginBottom: "1.5rem" }}>
+        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--border)" }} />
+          <div>
+            <div style={{ height: 24, width: 180, background: "var(--border)", borderRadius: 4, marginBottom: 8 }} />
+            <div style={{ height: 20, width: 240, background: "var(--border)", borderRadius: 4 }} />
+          </div>
+        </div>
+      </div>
+      <div className="stat-grid" style={{ marginBottom: "1.5rem" }}>
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="card" style={{ height: 80 }}>
+            <div style={{ height: 16, width: 100, background: "var(--border)", borderRadius: 4, marginBottom: 8 }} />
+            <div style={{ height: 28, width: 60, background: "var(--border)", borderRadius: 4 }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function PartnerDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const { getPartner, updatePartner, getTouchpointsByPartner, getAttributionsByPartner, payouts, getCertificationsByPartner, getBadgesByPartner, getTrainingByPartner, getEndorsementsByPartner } = useStore();
   const { toast } = useToast();
   const { isFeatureEnabled } = usePlatformConfig();
   const [editing, setEditing] = useState(false);
 
-  const partner = getPartner(id);
+  // Convex queries
+  const partnerData = useQuery(api.partners.getById, { id: id as Id<"partners"> });
+  const updatePartner = useMutation(api.partners.update);
 
   const [editForm, setEditForm] = useState({
-    name: partner?.name || "",
-    email: partner?.email || "",
-    commissionRate: partner?.commissionRate || 0,
-    territory: partner?.territory || "",
-    notes: partner?.notes || "",
+    name: "",
+    email: "",
+    commissionRate: 0,
+    territory: "",
+    notes: "",
   });
 
-  if (!partner) return (
-    <div style={{ textAlign: "center", padding: "3rem" }}>
-      <p className="muted" style={{ marginBottom: "1rem" }}>Partner not found.</p>
-      <Link href="/dashboard/partners" className="btn-outline">← Back to partners</Link>
-    </div>
-  );
+  // Update form when partner data loads
+  useEffect(() => {
+    if (partnerData) {
+      setEditForm({
+        name: partnerData.name || "",
+        email: partnerData.email || "",
+        commissionRate: partnerData.commissionRate || 0,
+        territory: partnerData.territory || "",
+        notes: partnerData.notes || "",
+      });
+    }
+  }, [partnerData]);
 
-  const touchpoints = getTouchpointsByPartner(id);
-  const attributions = getAttributionsByPartner(id).filter((a) => a.model === "role_based");
-  const partnerPayouts = payouts.filter((p) => p.partnerId === id);
+  // Loading state
+  if (partnerData === undefined) {
+    return <LoadingSkeleton />;
+  }
+
+  // Not found state
+  if (partnerData === null) {
+    return (
+      <div style={{ textAlign: "center", padding: "3rem" }}>
+        <p className="muted" style={{ marginBottom: "1rem" }}>Partner not found.</p>
+        <Link href="/dashboard/partners" className="btn-outline">← Back to partners</Link>
+      </div>
+    );
+  }
+
+  const partner = partnerData;
+  const touchpoints = partner.touchpoints || [];
+  const attributions = (partner.attributions || []).filter((a) => a.model === "role_based");
+  const partnerPayouts = partner.payouts || [];
   const totalRevenue = attributions.reduce((s, a) => s + a.amount, 0);
   const totalCommission = attributions.reduce((s, a) => s + a.commissionAmount, 0);
-  const certs = getCertificationsByPartner(id);
-  const partnerBadges = getBadgesByPartner(id);
-  const trainings = getTrainingByPartner(id);
-  const endorsements = getEndorsementsByPartner(id);
-  const activeCerts = certs.filter(c => c.status === "active");
-  const showCerts = isFeatureEnabled("certifications");
 
-  function handleSaveEdit() {
-    updatePartner(id, {
-      name: editForm.name,
-      email: editForm.email,
-      commissionRate: editForm.commissionRate,
-      territory: editForm.territory,
-      notes: editForm.notes,
-    });
-    setEditing(false);
-    toast("Partner updated successfully");
+  // For now, certs/badges/trainings/endorsements are not in Convex yet, so we'll show empty
+  const showCerts = isFeatureEnabled("certifications");
+  const activeCerts: any[] = [];
+  const partnerBadges: any[] = [];
+  const trainings: any[] = [];
+  const endorsements: any[] = [];
+
+  async function handleSaveEdit() {
+    try {
+      await updatePartner({
+        id: id as Id<"partners">,
+        name: editForm.name,
+        email: editForm.email,
+        commissionRate: editForm.commissionRate,
+        territory: editForm.territory || undefined,
+        notes: editForm.notes || undefined,
+      });
+      setEditing(false);
+      toast("Partner updated successfully");
+    } catch (err: any) {
+      toast(err.message || "Failed to update partner", "error");
+    }
   }
 
   return (
@@ -113,7 +169,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           {/* Badges row */}
           {partnerBadges.length > 0 && (
             <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap", marginBottom: activeCerts.length > 0 ? "1rem" : 0 }}>
-              {partnerBadges.map(b => (
+              {partnerBadges.map((b: any) => (
                 <span key={b._id} title={b.description} style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 16, fontSize: ".8rem", fontWeight: 600, background: "var(--subtle)", border: "1px solid var(--border)" }}>
                   {b.icon} {b.name}
                 </span>
@@ -123,7 +179,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           {/* Certs list */}
           {activeCerts.length > 0 && (
             <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
-              {activeCerts.map(c => (
+              {activeCerts.map((c: any) => (
                 <div key={c._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: ".5rem .75rem", borderRadius: 8, background: "var(--subtle)" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                     <Shield size={14} color="#059669" />
@@ -162,7 +218,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
               <div key={tp._id} className="tl-item">
                 <div className="tl-dot active"></div>
                 <div>
-                  <strong>{TOUCHPOINT_LABELS[tp.type]}</strong> — <Link href={`/dashboard/deals/${tp.dealId}`} style={{ fontWeight: 500 }}>{tp.deal?.name || tp.dealId}</Link>
+                  <strong>{TOUCHPOINT_LABELS[tp.type as keyof typeof TOUCHPOINT_LABELS] || tp.type}</strong> — <Link href={`/dashboard/deals/${tp.dealId}`} style={{ fontWeight: 500 }}>{tp.deal?.name || tp.dealId}</Link>
                   <br /><small className="muted">{new Date(tp.createdAt).toLocaleDateString()} {tp.notes && `· ${tp.notes}`}</small>
                 </div>
               </div>

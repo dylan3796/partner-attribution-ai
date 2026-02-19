@@ -155,7 +155,7 @@ export const seedDemoNotifications = mutation({
       {
         type: "deal_approved" as const,
         title: "Deal Approved",
-        body: "Deal approved: CloudBridge × Acme Corp ($85,000)",
+        body: "Deal approved: CloudBridge × CloudSync Corp ($85,000)",
         read: true,
         link: "/dashboard/deals",
         createdAt: now - 2 * day,

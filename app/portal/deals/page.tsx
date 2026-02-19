@@ -28,8 +28,8 @@ type DemoDeal = {
 
 const initialDeals: DemoDeal[] = [
   {
-    id: "d1", companyName: "Acme Corp", amount: 85000, status: "won", registrationStatus: "approved",
-    contactName: "Jane Smith", contactEmail: "jane@acme.com", expectedCloseDate: now - 10 * DAY,
+    id: "d1", companyName: "CloudSync Corp", amount: 85000, status: "won", registrationStatus: "approved",
+    contactName: "Jane Smith", contactEmail: "jane@cloudsync.com", expectedCloseDate: now - 10 * DAY,
     notes: "Cloud migration project, referred by our SE team", createdAt: now - 45 * DAY, approvedAt: now - 43 * DAY,
   },
   {

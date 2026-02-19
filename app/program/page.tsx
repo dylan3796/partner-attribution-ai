@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
-const COMPANY_NAME = "Acme Corp";
+const COMPANY_NAME = "Covant";
 
 const tiers = [
   {
@@ -476,8 +476,8 @@ export default function ProgramPage() {
 
           <p className="muted" style={{ marginTop: "1.5rem", fontSize: ".85rem" }}>
             Questions? Reach out at{" "}
-            <a href="mailto:partners@acmecorp.com" style={{ color: "#818cf8", textDecoration: "underline" }}>
-              partners@acmecorp.com
+            <a href="mailto:partners@covant.ai" style={{ color: "#818cf8", textDecoration: "underline" }}>
+              partners@covant.ai
             </a>
           </p>
         </div>
@@ -508,7 +508,7 @@ export default function ProgramPage() {
             </div>
             <div>
               <h4>Resources</h4>
-              <a href="mailto:partners@acmecorp.com">Partner Support</a>
+              <a href="mailto:partners@covant.ai">Partner Support</a>
               <a href="#">Marketing Materials</a>
               <a href="#">Product Documentation</a>
             </div>
@@ -516,7 +516,7 @@ export default function ProgramPage() {
               <h4>Company</h4>
               <a href="#">About</a>
               <a href="#">Careers</a>
-              <a href="mailto:partners@acmecorp.com">Contact</a>
+              <a href="mailto:partners@covant.ai">Contact</a>
             </div>
           </div>
         </div>
