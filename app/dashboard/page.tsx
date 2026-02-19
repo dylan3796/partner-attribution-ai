@@ -202,6 +202,44 @@ export default function DashboardPage() {
         </div>
       )}
 
+      {/* ── Action Items Widget ── */}
+      <div className="card" style={{ padding: "1.25rem", marginBottom: "1.5rem" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+          <h3 style={{ fontWeight: 700, fontSize: "1rem", display: "flex", alignItems: "center", gap: ".5rem" }}>
+            <span style={{ width: 8, height: 8, borderRadius: 4, background: "#ef4444", display: "inline-block" }} />
+            Action Items
+          </h3>
+          <span className="muted" style={{ fontSize: ".75rem" }}>Across your partner program</span>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: ".75rem" }}>
+          {[
+            { label: "Tier reviews pending", value: "3", href: "/dashboard/scoring/tier-reviews", color: "#8b5cf6", icon: "🏆" },
+            { label: "Partners in onboarding", value: "4", href: "/dashboard/onboarding", color: "#f97316", icon: "🚀" },
+            { label: "Unpaid commissions", value: "$12.4K", href: "/dashboard/payouts", color: "#ef4444", icon: "💰" },
+            { label: "Incentive enrollments", value: "8", href: "/dashboard/incentives", color: "#eab308", icon: "🎁" },
+            { label: "Email triggers active", value: "10/11", href: "/dashboard/emails", color: "#3b82f6", icon: "📧" },
+            { label: "Integrations connected", value: "4/12", href: "/dashboard/integrations", color: "#22c55e", icon: "🔌" },
+          ].map((item, i) => (
+            <Link
+              key={i}
+              href={item.href}
+              style={{
+                display: "flex", alignItems: "center", gap: 10, padding: "10px 12px",
+                borderRadius: 8, border: "1px solid var(--border)", textDecoration: "none",
+                transition: "border-color 0.15s",
+              }}
+            >
+              <span style={{ fontSize: "1.2rem" }}>{item.icon}</span>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: ".8rem", fontWeight: 700, color: item.color }}>{item.value}</div>
+                <div className="muted" style={{ fontSize: ".72rem" }}>{item.label}</div>
+              </div>
+              <ArrowUpRight size={14} style={{ color: "var(--muted)" }} />
+            </Link>
+          ))}
+        </div>
+      </div>
+
       {/* Stats */}
       <div className="stat-grid" style={{ marginBottom: "2rem" }}>
         <div className="card">
