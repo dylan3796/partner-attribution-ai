@@ -2,8 +2,9 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useStore } from "@/lib/store";
-import { Download, Search, Filter, Clock, Briefcase, Users, DollarSign, TrendingUp, Shield, AlertTriangle, Plus, Edit, CheckCircle, XCircle, RefreshCw } from "lucide-react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Download, Search, Filter, Clock, Briefcase, Users, DollarSign, TrendingUp, Shield, AlertTriangle, Plus, Edit, CheckCircle, XCircle, RefreshCw, Loader2 } from "lucide-react";
 
 function timeAgo(ts: number) {
   const diff = Date.now() - ts;
@@ -115,7 +116,17 @@ function parseMetadata(metadata?: string): Record<string, string> | null {
   return null;
 }
 
-function exportAuditCSV(entries: { _id: string; action: string; entityType: string; entityId: string; changes?: string; metadata?: string; createdAt: number }[]) {
+interface AuditEntry {
+  _id: string;
+  action: string;
+  entityType: string;
+  entityId: string;
+  changes?: string;
+  metadata?: string;
+  createdAt: number;
+}
+
+function exportAuditCSV(entries: AuditEntry[]) {
   const header = "Date,Time,Action,Entity Type,Entity ID,Changes,Metadata";
   const rows = entries.map((e) => {
     const date = new Date(e.createdAt);
@@ -140,7 +151,16 @@ function exportAuditCSV(entries: { _id: string; action: string; entityType: stri
 }
 
 export default function ActivityPage() {
-  const { auditLog, partners, deals } = useStore();
+  // ── Convex real data ───────────────────────────────────────────────────
+  const convexAuditLog = useQuery(api.dashboard.getAuditLog, { limit: 200 });
+  const convexDeals = useQuery(api.dashboard.getRecentDeals);
+  const convexPartners = useQuery(api.dashboard.getTopPartners);
+
+  const auditLog = (convexAuditLog ?? []) as AuditEntry[];
+  const deals = convexDeals ?? [];
+  const partners = convexPartners ?? [];
+  const isLoading = convexAuditLog === undefined;
+
   const [search, setSearch] = useState("");
   const [filterEntity, setFilterEntity] = useState("all");
   const [filterAction, setFilterAction] = useState("all");
@@ -208,14 +228,23 @@ export default function ActivityPage() {
 
   function getEntityName(entityType: string, entityId: string): string | null {
     if (entityType === "deal") {
-      const deal = deals.find((d) => d._id === entityId);
+      const deal = deals.find((d: any) => d._id === entityId);
       return deal?.name || null;
     }
     if (entityType === "partner") {
-      const partner = partners.find((p) => p._id === entityId);
+      const partner = partners.find((p: any) => p._id === entityId);
       return partner?.name || null;
     }
     return null;
+  }
+
+  if (isLoading) {
+    return (
+      <div style={{ textAlign: "center", padding: "4rem" }}>
+        <Loader2 size={28} color="var(--muted)" style={{ marginBottom: ".5rem" }} className="animate-spin" />
+        <p className="muted">Loading activity log…</p>
+      </div>
+    );
   }
 
   return (
@@ -321,8 +350,16 @@ export default function ActivityPage() {
             : `${filtered.length} of ${auditLog.length} events`}
         </p>
 
-        {/* Timeline */}
-        {grouped.length > 0 ? (
+        {/* Empty state */}
+        {auditLog.length === 0 ? (
+          <div className="card" style={{ textAlign: "center", padding: "3rem" }}>
+            <Clock size={48} color="var(--muted)" style={{ marginBottom: "1rem" }} />
+            <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>No activity yet</h3>
+            <p className="muted" style={{ fontSize: ".9rem", maxWidth: 400, margin: "0 auto" }}>
+              Actions will appear here as you use the platform. Create partners, register deals, and process payouts to see activity.
+            </p>
+          </div>
+        ) : grouped.length > 0 ? (
           <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
             {grouped.map((group) => (
               <div key={group.date}>

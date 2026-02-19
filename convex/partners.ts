@@ -194,3 +194,49 @@ export const remove = mutation({
     return { success: true };
   },
 });
+
+// ── Enhanced Queries ────────────────────────────────────────────────────────
+
+export const listWithStats = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return [];
+
+    const partners = await ctx.db
+      .query("partners")
+      .withIndex("by_organization", (q) => q.eq("organizationId", org._id))
+      .collect();
+
+    // For each partner, get their deal count and revenue
+    const result = await Promise.all(
+      partners.map(async (partner) => {
+        const deals = await ctx.db
+          .query("deals")
+          .withIndex("by_registered_partner", (q) => q.eq("registeredBy", partner._id))
+          .collect();
+
+        const wonDeals = deals.filter((d) => d.status === "won");
+        const revenue = wonDeals.reduce((s, d) => s + d.amount, 0);
+
+        const payouts = await ctx.db
+          .query("payouts")
+          .withIndex("by_partner", (q) => q.eq("partnerId", partner._id))
+          .collect();
+
+        return {
+          ...partner,
+          dealCount: deals.length,
+          wonDealCount: wonDeals.length,
+          revenue,
+          pendingPayouts: payouts.filter((p) => p.status === "pending_approval").length,
+          totalPaid: payouts
+            .filter((p) => p.status === "paid")
+            .reduce((s, p) => s + p.amount, 0),
+        };
+      })
+    );
+
+    return result;
+  },
+});

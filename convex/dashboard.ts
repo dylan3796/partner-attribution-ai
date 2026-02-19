@@ -2,6 +2,7 @@
  * Dashboard stats queries — reads from real Convex data.
  */
 import { query } from "./_generated/server";
+import { v } from "convex/values";
 
 async function defaultOrg(ctx: any) {
   return await ctx.db.query("organizations").first();
@@ -157,6 +158,28 @@ export const getRecentAuditLog = query({
       )
       .order("desc")
       .take(5);
+  },
+});
+
+export const getAuditLog = query({
+  args: { limit: v.optional(v.number()) },
+  handler: async (ctx, args) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return [];
+    return await ctx.db
+      .query("audit_log")
+      .withIndex("by_organization", (q: any) =>
+        q.eq("organizationId", org._id)
+      )
+      .order("desc")
+      .take(args.limit ?? 50);
+  },
+});
+
+export const getOrganization = query({
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.db.query("organizations").first();
   },
 });
 

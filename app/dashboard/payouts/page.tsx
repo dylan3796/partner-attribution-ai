@@ -474,7 +474,7 @@ export default function PayoutsPage() {
             <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>No payouts found</h3>
             <p className="muted" style={{ fontSize: ".9rem" }}>
               {payouts.length === 0 ? (
-                <>No payouts yet. Payouts are created automatically when deals close.</>
+                <>No payouts yet. Payouts are created automatically when deals close and commissions are calculated.</>
               ) : (
                 "Try adjusting your filters or create a new payout."
               )}

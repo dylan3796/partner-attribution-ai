@@ -12,11 +12,15 @@ import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb,
 import CSVImport from "@/components/CSVImport";
 
 function SettingsPageInner() {
-  const { org, updateOrg } = useStore();
+  const { org: storeOrg, updateOrg } = useStore();
   const { toast } = useToast();
   const searchParams = useSearchParams();
   const mode = "demo";
   const { config, updateFeatureFlag, setComplexityLevel, setUIDensity, resetToDefaults } = usePlatformConfig();
+  
+  // Get real organization from Convex
+  const convexOrg = useQuery(api.dashboard.getOrganization);
+  const org = convexOrg ?? storeOrg;
   const [orgName, setOrgName] = useState(org?.name || "");
   const [orgEmail, setOrgEmail] = useState(org?.email || "");
   const [defaultModel, setDefaultModel] = useState<AttributionModel>(org?.defaultAttributionModel || "equal_split");
