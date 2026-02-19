@@ -54,7 +54,7 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
             }}
           >
             <p style={{ fontSize: "0.8rem", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.04em" }}>
-              Demo — Select your company
+              Select your company
             </p>
           </div>
           {allPartners.map((p) => (
@@ -121,7 +121,7 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
             marginTop: "1.5rem",
           }}
         >
-          This is a demo environment. In production, partners would sign in with SSO.
+          Partners sign in with their credentials to access their portal.
         </p>
       </div>
     </div>

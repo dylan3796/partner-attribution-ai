@@ -55,8 +55,8 @@ export default function SeedPage() {
           🌱 Database Admin
         </h1>
         <p className="muted">
-          Manage demo data in the Convex database. This page lets you populate sample
-          data so the app isn&apos;t empty on first load.
+          Seed initial data for your organization. This page lets you populate sample
+          data to get started quickly.
         </p>
       </div>
 

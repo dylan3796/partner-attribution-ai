@@ -112,7 +112,8 @@ export default function PortalResourcesPage() {
 
   function handleDownload(id: string, title: string) {
     setDownloadCounts((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
-    alert(`"${title}" would download in production. This is a demo.`);
+    // In production, this would trigger actual file download
+    console.log(`Downloading: ${title}`);
   }
 
   function toggleBookmark(id: string) {

@@ -785,24 +785,6 @@ function SettingsPageInner() {
             Use this key to authenticate API requests. Keep it secret.
           </p>
         </div>
-        {mode === "demo" && (
-          <div
-            style={{
-              marginTop: "1rem",
-              padding: "0.75rem 1rem",
-              background: "var(--subtle)",
-              borderRadius: 8,
-              fontSize: "0.85rem",
-              color: "var(--muted)",
-            }}
-          >
-            ℹ️ Running in demo mode. Connect Convex backend by setting{" "}
-            <code style={{ background: "var(--border)", padding: "0.1rem 0.3rem", borderRadius: 4 }}>
-              NEXT_PUBLIC_CONVEX_URL
-            </code>{" "}
-            environment variable.
-          </div>
-        )}
       </div>
 
       {/* Platform Configuration */}
@@ -1058,7 +1040,7 @@ npm start
                 borderColor: "#fca5a5",
                 color: "#991b1b",
               }}
-              onClick={() => toast("This action is not available in demo mode", "error")}
+              onClick={() => toast("Coming soon. Contact support to enable this feature.", "info")}
             >
               Regenerate
             </button>
@@ -1089,7 +1071,7 @@ npm start
                 background: "#dc2626",
                 color: "white",
               }}
-              onClick={() => toast("This action is not available in demo mode", "error")}
+              onClick={() => toast("Coming soon. Contact support to enable this feature.", "info")}
             >
               Delete
             </button>

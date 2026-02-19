@@ -74,7 +74,12 @@ const setupLinks: SidebarLink[] = [
   { name: "Event Sources", href: "/dashboard/settings/event-sources", icon: Zap, featureFlag: "eventSources" },
 ];
 
-export default function DashboardSidebar() {
+type SidebarProps = {
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
+};
+
+export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
   const pathname = usePathname();
   const { isFeatureEnabled } = usePlatformConfig();
   const [collapsed, setCollapsed] = useState(false);
@@ -84,6 +89,14 @@ export default function DashboardSidebar() {
     const saved = localStorage.getItem("pb_sidebar_collapsed");
     if (saved === "true") setCollapsed(true);
   }, []);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    if (mobileOpen && onMobileClose) {
+      onMobileClose();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   // Auto-open setup section if on a setup page
   useEffect(() => {
@@ -106,7 +119,22 @@ export default function DashboardSidebar() {
   );
 
   return (
-    <aside className={`dash-sidebar ${collapsed ? "dash-sidebar-collapsed" : ""}`}>
+    <>
+      {/* Mobile overlay */}
+      {mobileOpen && (
+        <div 
+          className="dash-sidebar-overlay" 
+          onClick={onMobileClose}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.5)",
+            zIndex: 89,
+            display: "none",
+          }}
+        />
+      )}
+      <aside className={`dash-sidebar ${collapsed ? "dash-sidebar-collapsed" : ""} ${mobileOpen ? "dash-sidebar-mobile-open" : ""}`}>
       {/* Header */}
       <div className="dash-sidebar-header">
         {!collapsed && (
@@ -231,6 +259,14 @@ export default function DashboardSidebar() {
           </>
         )}
       </div>
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .dash-sidebar-overlay {
+            display: block !important;
+          }
+        }
+      `}</style>
     </aside>
+    </>
   );
 }
