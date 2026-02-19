@@ -1,43 +1,115 @@
 "use client";
-import { useState, useMemo } from "react";
+
+import { useMemo, useState } from "react";
 import Link from "next/link";
-import { useStore } from "@/lib/store";
-import {
-  calculatePartnerScores,
-  tierColor,
-  tierBgColor,
-  scoreColor,
-  DEFAULT_SCORING_CONFIG,
-  type PartnerScore,
-  type ScoringConfig,
-} from "@/lib/partner-scoring";
-import { TIER_LABELS } from "@/lib/types";
-import { ConfigTipBox } from "@/components/ui/config-tooltip";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import { formatCurrency } from "@/lib/utils";
 import {
   Trophy,
   TrendingUp,
-  TrendingDown,
-  Minus,
-  ArrowUpCircle,
-  ArrowDownCircle,
+  BarChart3,
+  Target,
   ChevronDown,
   ChevronUp,
-  Target,
-  Zap,
-  BarChart3,
-  AlertTriangle,
   Download,
-  Settings2,
-  Info,
+  Loader2,
+  Users,
+  Medal,
 } from "lucide-react";
 
-function ScoreBar({ score, color, height = 8 }: { score: number; color: string; height?: number }) {
+/* ── helpers ── */
+
+function tierColor(tier: string) {
+  const m: Record<string, string> = {
+    bronze: "#cd7f32",
+    silver: "#94a3b8",
+    gold: "#eab308",
+    platinum: "#a78bfa",
+  };
+  return m[tier] || "#64748b";
+}
+
+function tierBgColor(tier: string) {
+  const m: Record<string, string> = {
+    bronze: "#cd7f3218",
+    silver: "#94a3b818",
+    gold: "#eab30818",
+    platinum: "#a78bfa18",
+  };
+  return m[tier] || "#64748b18";
+}
+
+function scoreColor(score: number) {
+  if (score >= 80) return "#22c55e";
+  if (score >= 60) return "#6366f1";
+  if (score >= 40) return "#eab308";
+  return "#ef4444";
+}
+
+function getTierFromScore(score: number): string {
+  if (score >= 80) return "platinum";
+  if (score >= 60) return "gold";
+  if (score >= 40) return "silver";
+  return "bronze";
+}
+
+const TIER_LABELS: Record<string, string> = {
+  bronze: "Bronze",
+  silver: "Silver",
+  gold: "Gold",
+  platinum: "Platinum",
+};
+
+type PartnerWithStats = {
+  _id: Id<"partners">;
+  name: string;
+  email: string;
+  type: "affiliate" | "referral" | "reseller" | "integration";
+  tier?: "bronze" | "silver" | "gold" | "platinum";
+  status: "active" | "inactive" | "pending";
+  commissionRate: number;
+  createdAt: number;
+  dealCount: number;
+  wonDealCount: number;
+  revenue: number;
+  pendingPayouts: number;
+  totalPaid: number;
+};
+
+type PartnerScore = {
+  id: Id<"partners">;
+  name: string;
+  type: string;
+  currentTier: string;
+  calculatedTier: string;
+  overallScore: number;
+  revenueScore: number;
+  activityScore: number;
+  revenue: number;
+  dealCount: number;
+  wonDealCount: number;
+  rank: number;
+};
+
+/* ── components ── */
+
+function ScoreBar({
+  score,
+  color,
+  height = 8,
+}: {
+  score: number;
+  color: string;
+  height?: number;
+}) {
   return (
     <div
       style={{
         width: "100%",
         height,
-        background: "#e5e7eb",
+        background: "var(--border)",
         borderRadius: height / 2,
         overflow: "hidden",
       }}
@@ -78,18 +150,6 @@ function ScoreBadge({ score }: { score: number }) {
   );
 }
 
-function TrendIcon({ trend }: { trend: "up" | "down" | "stable" }) {
-  if (trend === "up") return <TrendingUp size={16} color="#059669" />;
-  if (trend === "down") return <TrendingDown size={16} color="#dc2626" />;
-  return <Minus size={16} color="#6b7280" />;
-}
-
-function TierChangeIcon({ change }: { change: "upgrade" | "downgrade" | "maintain" }) {
-  if (change === "upgrade") return <ArrowUpCircle size={16} color="#059669" />;
-  if (change === "downgrade") return <ArrowDownCircle size={16} color="#dc2626" />;
-  return null;
-}
-
 function TierBadge({ tier }: { tier: string }) {
   return (
     <span
@@ -109,6 +169,98 @@ function TierBadge({ tier }: { tier: string }) {
     >
       {TIER_LABELS[tier] || tier}
     </span>
+  );
+}
+
+function RankBadge({ rank }: { rank: number }) {
+  const color =
+    rank === 1 ? "#eab308" : rank === 2 ? "#94a3b8" : rank === 3 ? "#cd7f32" : "#6b7280";
+  const icon = rank <= 3 ? <Medal size={14} /> : null;
+  return (
+    <span
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 4,
+        width: 32,
+        height: 32,
+        borderRadius: "50%",
+        background: `${color}18`,
+        color,
+        fontWeight: 800,
+        fontSize: ".85rem",
+      }}
+    >
+      {icon || rank}
+    </span>
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <Loader2 size={24} className="animate-spin" style={{ color: "#6366f1" }} />
+        <span style={{ fontSize: "1.1rem", fontWeight: 600 }}>
+          Calculating partner scores...
+        </span>
+      </div>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+          gap: "1rem",
+        }}
+      >
+        {[1, 2, 3, 4].map((i) => (
+          <div
+            key={i}
+            className="card"
+            style={{ padding: "1.25rem", height: 90, background: "var(--subtle)" }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div
+      className="card"
+      style={{
+        padding: "3rem 2rem",
+        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "1rem",
+      }}
+    >
+      <div
+        style={{
+          width: 64,
+          height: 64,
+          borderRadius: 16,
+          background: "#6366f118",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Trophy size={32} style={{ color: "#6366f1" }} />
+      </div>
+      <div>
+        <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 4 }}>
+          No Partners to Score
+        </h3>
+        <p className="muted" style={{ maxWidth: 400 }}>
+          Partner scores will appear here once you have active partners with deal
+          activity.
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -135,7 +287,14 @@ function DimensionCard({
         background: "var(--bg)",
       }}
     >
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 8,
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
           {icon}
           <span style={{ fontWeight: 600, fontSize: ".85rem" }}>{label}</span>
@@ -144,14 +303,19 @@ function DimensionCard({
       </div>
       <ScoreBar score={score} color={color} />
       <div style={{ display: "flex", justifyContent: "space-between", marginTop: 6 }}>
-        <span className="muted" style={{ fontSize: ".75rem" }}>{detail}</span>
-        <span className="muted" style={{ fontSize: ".7rem" }}>{Math.round(weight * 100)}% weight</span>
+        <span className="muted" style={{ fontSize: ".75rem" }}>
+          {detail}
+        </span>
+        <span className="muted" style={{ fontSize: ".7rem" }}>
+          {Math.round(weight * 100)}% weight
+        </span>
       </div>
     </div>
   );
 }
 
 function ExpandedScorecard({ ps }: { ps: PartnerScore }) {
+  const tierMismatch = ps.currentTier !== ps.calculatedTier;
   return (
     <div
       style={{
@@ -169,65 +333,30 @@ function ExpandedScorecard({ ps }: { ps: PartnerScore }) {
         }}
       >
         <DimensionCard
-          label={ps.dimensions.revenue.label}
-          score={ps.dimensions.revenue.score}
-          detail={ps.dimensions.revenue.detail}
-          weight={ps.dimensions.revenue.weight}
+          label="Revenue Score"
+          score={ps.revenueScore}
+          detail={formatCurrency(ps.revenue)}
+          weight={0.6}
           icon={<BarChart3 size={15} color="#059669" />}
         />
         <DimensionCard
-          label={ps.dimensions.pipeline.label}
-          score={ps.dimensions.pipeline.score}
-          detail={ps.dimensions.pipeline.detail}
-          weight={ps.dimensions.pipeline.weight}
+          label="Activity Score"
+          score={ps.activityScore}
+          detail={`${ps.dealCount} deals registered`}
+          weight={0.4}
           icon={<Target size={15} color="#0284c7" />}
-        />
-        <DimensionCard
-          label={ps.dimensions.engagement.label}
-          score={ps.dimensions.engagement.score}
-          detail={ps.dimensions.engagement.detail}
-          weight={ps.dimensions.engagement.weight}
-          icon={<Zap size={15} color="#d97706" />}
-        />
-        <DimensionCard
-          label={ps.dimensions.velocity.label}
-          score={ps.dimensions.velocity.score}
-          detail={ps.dimensions.velocity.detail}
-          weight={ps.dimensions.velocity.weight}
-          icon={<TrendingUp size={15} color="#6366f1" />}
         />
       </div>
 
-      {ps.highlights.length > 0 && (
-        <div
-          style={{
-            padding: "1rem 1.2rem",
-            borderRadius: 10,
-            border: "1px solid var(--border)",
-            background: "var(--bg)",
-          }}
-        >
-          <p style={{ fontWeight: 700, fontSize: ".85rem", marginBottom: 8 }}>
-            <AlertTriangle size={14} style={{ display: "inline", verticalAlign: "-2px", marginRight: 4 }} />
-            Insights & Actions
-          </p>
-          {ps.highlights.map((h, i) => (
-            <p key={i} style={{ fontSize: ".85rem", padding: "3px 0", lineHeight: 1.5 }}>
-              {h}
-            </p>
-          ))}
-        </div>
-      )}
-
-      <div style={{ marginTop: "1rem", display: "flex", gap: "0.75rem" }}>
+      <div style={{ display: "flex", gap: "0.75rem", alignItems: "center" }}>
         <Link
-          href={`/dashboard/partners/${ps.partnerId}`}
+          href={`/dashboard/partners/${ps.id}`}
           className="btn-outline"
           style={{ fontSize: ".8rem", padding: "6px 14px" }}
         >
           View Partner →
         </Link>
-        {ps.tierChange !== "maintain" && (
+        {tierMismatch && (
           <span
             style={{
               display: "inline-flex",
@@ -237,12 +366,18 @@ function ExpandedScorecard({ ps }: { ps: PartnerScore }) {
               borderRadius: 8,
               fontSize: ".8rem",
               fontWeight: 600,
-              background: ps.tierChange === "upgrade" ? "#ecfdf5" : "#fef2f2",
-              color: ps.tierChange === "upgrade" ? "#059669" : "#dc2626",
+              background:
+                getTierFromScore(ps.overallScore) > ps.currentTier
+                  ? "#ecfdf5"
+                  : "#fef2f2",
+              color:
+                getTierFromScore(ps.overallScore) > ps.currentTier
+                  ? "#059669"
+                  : "#dc2626",
             }}
           >
-            <TierChangeIcon change={ps.tierChange} />
-            Recommend: {ps.currentTier} → {ps.recommendedTier}
+            <TrendingUp size={14} />
+            Recommend: {TIER_LABELS[ps.currentTier]} → {TIER_LABELS[ps.calculatedTier]}
           </span>
         )}
       </div>
@@ -255,27 +390,25 @@ function exportScorecardCSV(scores: PartnerScore[]) {
     "Rank",
     "Partner",
     "Current Tier",
-    "Recommended Tier",
+    "Calculated Tier",
     "Overall Score",
     "Revenue Score",
-    "Pipeline Score",
-    "Engagement Score",
-    "Velocity Score",
-    "Trend",
-    "Tier Change",
+    "Activity Score",
+    "Revenue",
+    "Deals",
+    "Won Deals",
   ];
   const rows = scores.map((s) => [
     s.rank,
-    s.partnerName,
+    s.name,
     s.currentTier,
-    s.recommendedTier,
+    s.calculatedTier,
     s.overallScore,
-    s.dimensions.revenue.score,
-    s.dimensions.pipeline.score,
-    s.dimensions.engagement.score,
-    s.dimensions.velocity.score,
-    s.trend,
-    s.tierChange,
+    s.revenueScore,
+    s.activityScore,
+    s.revenue,
+    s.dealCount,
+    s.wonDealCount,
   ]);
   const csv = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
   const blob = new Blob([csv], { type: "text/csv" });
@@ -288,179 +421,120 @@ function exportScorecardCSV(scores: PartnerScore[]) {
 }
 
 export default function ScoringPage() {
-  const { partners, deals, touchpoints, attributions } = useStore();
+  const partnersRaw = useQuery(api.partners.listWithStats);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [filterTier, setFilterTier] = useState<string>("all");
-  const [filterChange, setFilterChange] = useState<string>("all");
-  const [showConfig, setShowConfig] = useState(false);
-  const [config, setConfig] = useState<ScoringConfig>(DEFAULT_SCORING_CONFIG);
 
-  const scores = useMemo(
-    () => calculatePartnerScores(partners, deals, touchpoints, attributions, config),
-    [partners, deals, touchpoints, attributions, config]
-  );
+  const partners = partnersRaw as PartnerWithStats[] | undefined;
 
-  const filtered = scores.filter((s) => {
-    if (filterTier !== "all" && s.currentTier !== filterTier) return false;
-    if (filterChange !== "all" && s.tierChange !== filterChange) return false;
-    return true;
-  });
+  const { scores, stats } = useMemo(() => {
+    if (!partners)
+      return { scores: [], stats: { avgScore: 0, topPerformers: 0, total: 0 } };
 
-  const summary = useMemo(() => {
-    const upgrades = scores.filter((s) => s.tierChange === "upgrade").length;
-    const downgrades = scores.filter((s) => s.tierChange === "downgrade").length;
-    const avgScore = scores.length
-      ? Math.round(scores.reduce((s, p) => s + p.overallScore, 0) / scores.length)
-      : 0;
-    const topPerformer = scores[0];
-    return { upgrades, downgrades, avgScore, topPerformer, total: scores.length };
-  }, [scores]);
+    // Only score active partners
+    const activePartners = partners.filter((p) => p.status === "active");
+
+    if (activePartners.length === 0)
+      return { scores: [], stats: { avgScore: 0, topPerformers: 0, total: 0 } };
+
+    // Find max values for normalization
+    const maxRevenue = Math.max(...activePartners.map((p) => p.revenue), 1);
+    const maxDeals = Math.max(...activePartners.map((p) => p.dealCount), 1);
+
+    // Calculate scores
+    const scored: PartnerScore[] = activePartners.map((p) => {
+      const revenueScore = Math.round((p.revenue / maxRevenue) * 100);
+      const activityScore = Math.round((p.dealCount / maxDeals) * 100);
+      const overallScore = Math.round(revenueScore * 0.6 + activityScore * 0.4);
+      const calculatedTier = getTierFromScore(overallScore);
+
+      return {
+        id: p._id,
+        name: p.name,
+        type: p.type,
+        currentTier: p.tier || "bronze",
+        calculatedTier,
+        overallScore,
+        revenueScore,
+        activityScore,
+        revenue: p.revenue,
+        dealCount: p.dealCount,
+        wonDealCount: p.wonDealCount,
+        rank: 0, // Will be set after sorting
+      };
+    });
+
+    // Sort by overall score and assign ranks
+    scored.sort((a, b) => b.overallScore - a.overallScore);
+    scored.forEach((s, i) => (s.rank = i + 1));
+
+    const avgScore =
+      scored.length > 0
+        ? Math.round(scored.reduce((s, p) => s + p.overallScore, 0) / scored.length)
+        : 0;
+    const topPerformers = scored.filter((s) => s.overallScore >= 80).length;
+
+    return {
+      scores: scored,
+      stats: {
+        avgScore,
+        topPerformers,
+        total: scored.length,
+      },
+    };
+  }, [partners]);
+
+  const filteredScores = useMemo(() => {
+    if (filterTier === "all") return scores;
+    return scores.filter((s) => s.currentTier === filterTier);
+  }, [scores, filterTier]);
+
+  if (partners === undefined) {
+    return <LoadingSkeleton />;
+  }
+
+  if (partners.length === 0 || scores.length === 0) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <div>
+          <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>
+            Partner Scorecard
+          </h1>
+          <p className="muted" style={{ marginTop: "0.25rem" }}>
+            Automated partner scoring based on revenue and activity metrics
+          </p>
+        </div>
+        <EmptyState />
+      </div>
+    );
+  }
 
   return (
-    <>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       {/* Header */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: "1.5rem",
-            flexWrap: "wrap",
-            gap: "1rem",
-          }}
-        >
-          <div>
-            <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>
-              <Trophy size={24} style={{ display: "inline", verticalAlign: "-3px", marginRight: 8, color: "#d97706" }} />
-              Partner Scorecard
-            </h1>
-            <p className="muted">
-              Composite scoring across revenue, pipeline, engagement & velocity
-            </p>
-          </div>
-          <div style={{ display: "flex", gap: ".75rem" }}>
-            <button className="btn-outline" onClick={() => setShowConfig(!showConfig)}>
-              <Settings2 size={15} /> Weights
-            </button>
-            <button className="btn-outline" onClick={() => exportScorecardCSV(scores)}>
-              <Download size={15} /> Export
-            </button>
-          </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+          gap: "1rem",
+        }}
+      >
+        <div>
+          <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>
+            Partner Scorecard
+          </h1>
+          <p className="muted" style={{ marginTop: "0.25rem" }}>
+            Automated partner scoring based on revenue and activity metrics
+          </p>
         </div>
-
-        <ConfigTipBox
-          title="Scoring is Fully Customizable"
-          tips={[
-            "Adjust weight sliders to match what matters to your org (revenue vs engagement vs velocity)",
-            "Tier thresholds are configurable — adapt them to your partner program's criteria",
-            "Toggle Partner Scoring on/off entirely in Platform Configuration",
-          ]}
-        />
-
-        {/* Weight Config Panel */}
-        {showConfig && (
-          <div className="card" style={{ marginBottom: "1.5rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-              <h3 style={{ fontWeight: 700, fontSize: "1rem" }}>
-                <Settings2 size={16} style={{ display: "inline", verticalAlign: "-2px", marginRight: 6 }} />
-                Scoring Weights
-              </h3>
-              <button
-                className="btn-outline"
-                style={{ fontSize: ".75rem", padding: "4px 10px" }}
-                onClick={() => setConfig(DEFAULT_SCORING_CONFIG)}
-              >
-                Reset to defaults
-              </button>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
-              {(["revenue", "pipeline", "engagement", "velocity"] as const).map((key) => {
-                const labels = {
-                  revenue: "Revenue Impact",
-                  pipeline: "Pipeline Contribution",
-                  engagement: "Engagement",
-                  velocity: "Deal Velocity",
-                };
-                return (
-                  <div key={key}>
-                    <label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: 4 }}>
-                      {labels[key]} — {Math.round(config.weights[key] * 100)}%
-                    </label>
-                    <input
-                      type="range"
-                      min={5}
-                      max={60}
-                      value={Math.round(config.weights[key] * 100)}
-                      onChange={(e) => {
-                        const newVal = Number(e.target.value) / 100;
-                        const others = (["revenue", "pipeline", "engagement", "velocity"] as const).filter((k) => k !== key);
-                        const remaining = 1 - newVal;
-                        const currentOtherSum = others.reduce((s, k) => s + config.weights[k], 0);
-                        const newWeights = { ...config.weights, [key]: newVal };
-                        if (currentOtherSum > 0) {
-                          for (const k of others) {
-                            newWeights[k] = (config.weights[k] / currentOtherSum) * remaining;
-                          }
-                        }
-                        setConfig({ ...config, weights: newWeights });
-                      }}
-                      style={{ width: "100%" }}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-            <p className="muted" style={{ fontSize: ".75rem", marginTop: 8 }}>
-              <Info size={12} style={{ display: "inline", verticalAlign: "-2px" }} /> Adjusting one weight auto-rebalances the others to sum to 100%.
-            </p>
-          </div>
-        )}
-
-        {/* Summary Cards */}
-        <div className="stat-grid" style={{ marginBottom: "1.5rem" }}>
-          <div className="card" style={{ textAlign: "center" }}>
-            <p className="muted" style={{ fontSize: ".8rem" }}>Partners Scored</p>
-            <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{summary.total}</p>
-          </div>
-          <div className="card" style={{ textAlign: "center" }}>
-            <p className="muted" style={{ fontSize: ".8rem" }}>Avg Score</p>
-            <p style={{ fontSize: "1.8rem", fontWeight: 800, color: scoreColor(summary.avgScore) }}>
-              {summary.avgScore}
-            </p>
-          </div>
-          <div className="card" style={{ textAlign: "center" }}>
-            <p className="muted" style={{ fontSize: ".8rem" }}>Tier Upgrades</p>
-            <p style={{ fontSize: "1.8rem", fontWeight: 800, color: "#059669" }}>
-              {summary.upgrades}
-            </p>
-            <p className="muted" style={{ fontSize: ".75rem" }}>recommended</p>
-          </div>
-          <div className="card" style={{ textAlign: "center" }}>
-            <p className="muted" style={{ fontSize: ".8rem" }}>At Risk</p>
-            <p style={{ fontSize: "1.8rem", fontWeight: 800, color: "#dc2626" }}>
-              {summary.downgrades}
-            </p>
-            <p className="muted" style={{ fontSize: ".75rem" }}>tier downgrades</p>
-          </div>
-        </div>
-
-        {/* Filters */}
-        <div
-          className="card"
-          style={{
-            marginBottom: "1.5rem",
-            display: "flex",
-            gap: "1rem",
-            alignItems: "center",
-            flexWrap: "wrap",
-            padding: "1rem 1.5rem",
-          }}
-        >
+        <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap" }}>
           <select
             className="input"
-            style={{ width: "auto" }}
             value={filterTier}
             onChange={(e) => setFilterTier(e.target.value)}
+            style={{ maxWidth: 140 }}
           >
             <option value="all">All Tiers</option>
             <option value="platinum">Platinum</option>
@@ -468,272 +542,262 @@ export default function ScoringPage() {
             <option value="silver">Silver</option>
             <option value="bronze">Bronze</option>
           </select>
-          <select
-            className="input"
-            style={{ width: "auto" }}
-            value={filterChange}
-            onChange={(e) => setFilterChange(e.target.value)}
+          <button
+            onClick={() => exportScorecardCSV(scores)}
+            className="btn-outline"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "6px 14px",
+              fontSize: ".85rem",
+            }}
           >
-            <option value="all">All Recommendations</option>
-            <option value="upgrade">Upgrades Only</option>
-            <option value="downgrade">Downgrades Only</option>
-            <option value="maintain">No Change</option>
-          </select>
+            <Download size={14} /> Export CSV
+          </button>
+        </div>
+      </div>
+
+      {/* Stats */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gap: "1rem",
+        }}
+      >
+        <div
+          className="card"
+          style={{
+            padding: "1.25rem",
+            display: "flex",
+            gap: "1rem",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              background: "#6366f118",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#6366f1",
+            }}
+          >
+            <Users size={22} />
+          </div>
+          <div>
+            <div
+              className="muted"
+              style={{ fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase" }}
+            >
+              Partners Scored
+            </div>
+            <div style={{ fontSize: "1.5rem", fontWeight: 800 }}>{stats.total}</div>
+          </div>
+        </div>
+
+        <div
+          className="card"
+          style={{
+            padding: "1.25rem",
+            display: "flex",
+            gap: "1rem",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              background: `${scoreColor(stats.avgScore)}18`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: scoreColor(stats.avgScore),
+            }}
+          >
+            <BarChart3 size={22} />
+          </div>
+          <div>
+            <div
+              className="muted"
+              style={{ fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase" }}
+            >
+              Average Score
+            </div>
+            <div style={{ fontSize: "1.5rem", fontWeight: 800 }}>{stats.avgScore}</div>
+          </div>
+        </div>
+
+        <div
+          className="card"
+          style={{
+            padding: "1.25rem",
+            display: "flex",
+            gap: "1rem",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              width: 44,
+              height: 44,
+              borderRadius: 12,
+              background: "#22c55e18",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "#22c55e",
+            }}
+          >
+            <Trophy size={22} />
+          </div>
+          <div>
+            <div
+              className="muted"
+              style={{ fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase" }}
+            >
+              Top Performers
+            </div>
+            <div style={{ fontSize: "1.5rem", fontWeight: 800 }}>{stats.topPerformers}</div>
+            <div className="muted" style={{ fontSize: ".75rem" }}>
+              Score 80+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Leaderboard */}
+      <div className="card" style={{ overflow: "hidden" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "1rem 1.25rem",
+            borderBottom: "1px solid var(--border)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <Trophy size={18} style={{ color: "#eab308" }} />
+            <h2 style={{ fontSize: "1.1rem", fontWeight: 700 }}>Partner Leaderboard</h2>
+          </div>
           <span className="muted" style={{ fontSize: ".85rem" }}>
-            {filtered.length} of {scores.length} partners
+            Ranked by overall score (60% revenue, 40% activity)
           </span>
         </div>
 
-        {/* Scorecard Table */}
-        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".9rem" }}>
-            <thead>
-              <tr
+        {filteredScores.map((ps) => {
+          const isExpanded = expandedId === ps.id;
+          return (
+            <div key={ps.id}>
+              <div
+                onClick={() => setExpandedId(isExpanded ? null : ps.id)}
                 style={{
+                  display: "flex",
+                  alignItems: "center",
+                  padding: "1rem 1.25rem",
+                  gap: "1rem",
+                  cursor: "pointer",
                   borderBottom: "1px solid var(--border)",
-                  background: "var(--subtle)",
+                  transition: "background 0.15s",
                 }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.background = "var(--subtle)")
+                }
+                onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
               >
-                <th
-                  style={{
-                    padding: ".8rem 1.2rem",
-                    textAlign: "left",
-                    fontWeight: 600,
-                    fontSize: ".8rem",
-                    color: "var(--muted)",
-                    width: 50,
-                  }}
-                >
-                  #
-                </th>
-                <th
-                  style={{
-                    padding: ".8rem",
-                    textAlign: "left",
-                    fontWeight: 600,
-                    fontSize: ".8rem",
-                    color: "var(--muted)",
-                  }}
-                >
-                  Partner
-                </th>
-                <th
-                  style={{
-                    padding: ".8rem",
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontSize: ".8rem",
-                    color: "var(--muted)",
-                    width: 80,
-                  }}
-                >
-                  Score
-                </th>
-                <th
-                  style={{
-                    padding: ".8rem",
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontSize: ".8rem",
-                    color: "var(--muted)",
-                    width: 180,
-                  }}
-                >
-                  Breakdown
-                </th>
-                <th
-                  style={{
-                    padding: ".8rem",
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontSize: ".8rem",
-                    color: "var(--muted)",
-                  }}
-                >
-                  Current Tier
-                </th>
-                <th
-                  style={{
-                    padding: ".8rem",
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontSize: ".8rem",
-                    color: "var(--muted)",
-                  }}
-                >
-                  Recommended
-                </th>
-                <th
-                  style={{
-                    padding: ".8rem",
-                    textAlign: "center",
-                    fontWeight: 600,
-                    fontSize: ".8rem",
-                    color: "var(--muted)",
-                    width: 60,
-                  }}
-                >
-                  Trend
-                </th>
-                <th style={{ width: 40 }}></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((ps) => {
-                const isExpanded = expandedId === ps.partnerId;
-                return (
-                  <tbody key={ps.partnerId}>
-                    <tr
-                      style={{
-                        borderBottom: isExpanded ? "none" : "1px solid var(--border)",
-                        cursor: "pointer",
-                        transition: "background .15s",
-                      }}
-                      onMouseOver={(e) => (e.currentTarget.style.background = "var(--subtle)")}
-                      onMouseOut={(e) =>
-                        (e.currentTarget.style.background = isExpanded ? "var(--subtle)" : "")
-                      }
-                      onClick={() => setExpandedId(isExpanded ? null : ps.partnerId)}
-                    >
-                      <td
-                        style={{
-                          padding: ".8rem 1.2rem",
-                          fontWeight: 700,
-                          color: "var(--muted)",
-                          fontSize: ".85rem",
-                        }}
-                      >
-                        {ps.rank}
-                      </td>
-                      <td style={{ padding: ".8rem" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: ".8rem" }}>
-                          <div className="avatar">
-                            {ps.partnerName
-                              .split(" ")
-                              .map((w) => w[0])
-                              .join("")
-                              .slice(0, 2)}
-                          </div>
-                          <div>
-                            <p style={{ fontWeight: 600 }}>{ps.partnerName}</p>
-                            {ps.highlights.length > 0 && (
-                              <p
-                                className="muted"
-                                style={{ fontSize: ".75rem", maxWidth: 300, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
-                              >
-                                {ps.highlights[0]}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </td>
-                      <td style={{ padding: ".8rem", textAlign: "center" }}>
-                        <ScoreBadge score={ps.overallScore} />
-                      </td>
-                      <td style={{ padding: ".8rem 1rem" }}>
-                        <div style={{ display: "flex", gap: 3, height: 24, alignItems: "flex-end" }}>
-                          {[
-                            { s: ps.dimensions.revenue.score, c: "#059669", l: "R" },
-                            { s: ps.dimensions.pipeline.score, c: "#0284c7", l: "P" },
-                            { s: ps.dimensions.engagement.score, c: "#d97706", l: "E" },
-                            { s: ps.dimensions.velocity.score, c: "#6366f1", l: "V" },
-                          ].map(({ s, c, l }) => (
-                            <div
-                              key={l}
-                              style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 2 }}
-                            >
-                              <div
-                                style={{
-                                  width: "100%",
-                                  height: Math.max(3, (s / 100) * 24),
-                                  background: c,
-                                  borderRadius: 2,
-                                  opacity: s > 0 ? 1 : 0.2,
-                                }}
-                                title={`${l}: ${s}`}
-                              />
-                              <span style={{ fontSize: ".55rem", color: "var(--muted)" }}>{l}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </td>
-                      <td style={{ padding: ".8rem", textAlign: "center" }}>
-                        <TierBadge tier={ps.currentTier} />
-                      </td>
-                      <td style={{ padding: ".8rem", textAlign: "center" }}>
-                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
-                          <TierChangeIcon change={ps.tierChange} />
-                          <TierBadge tier={ps.recommendedTier} />
-                        </div>
-                      </td>
-                      <td style={{ padding: ".8rem", textAlign: "center" }}>
-                        <TrendIcon trend={ps.trend} />
-                      </td>
-                      <td style={{ padding: ".8rem", textAlign: "center" }}>
-                        {isExpanded ? (
-                          <ChevronUp size={16} color="var(--muted)" />
-                        ) : (
-                          <ChevronDown size={16} color="var(--muted)" />
-                        )}
-                      </td>
-                    </tr>
-                    {isExpanded && (
-                      <tr>
-                        <td colSpan={8} style={{ padding: 0 }}>
-                          <ExpandedScorecard ps={ps} />
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                );
-              })}
-            </tbody>
-          </table>
-          {filtered.length === 0 && (
-            <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>
-              No partners match the current filters.
-            </p>
-          )}
-        </div>
+                <RankBadge rank={ps.rank} />
+                <ScoreBadge score={ps.overallScore} />
 
-        {/* Legend */}
-        <div
-          className="card"
-          style={{ marginTop: "1.5rem", padding: "1rem 1.5rem" }}
-        >
-          <p style={{ fontWeight: 700, fontSize: ".85rem", marginBottom: 8 }}>
-            <Info size={14} style={{ display: "inline", verticalAlign: "-2px", marginRight: 4 }} />
-            How Scoring Works
-          </p>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontWeight: 700, fontSize: ".95rem" }}>
+                      {ps.name}
+                    </span>
+                    <TierBadge tier={ps.currentTier} />
+                    <span className="muted" style={{ fontSize: ".8rem" }}>
+                      {ps.type}
+                    </span>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: "1.5rem",
+                      marginTop: 4,
+                      fontSize: ".8rem",
+                    }}
+                  >
+                    <span className="muted">
+                      <BarChart3 size={12} style={{ verticalAlign: -2 }} />{" "}
+                      {formatCurrency(ps.revenue)} revenue
+                    </span>
+                    <span className="muted">
+                      <Target size={12} style={{ verticalAlign: -2 }} /> {ps.dealCount}{" "}
+                      deals
+                    </span>
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "2rem",
+                    alignItems: "center",
+                    fontSize: ".85rem",
+                  }}
+                >
+                  <div style={{ textAlign: "center", minWidth: 60 }}>
+                    <div
+                      className="muted"
+                      style={{ fontSize: ".7rem", fontWeight: 600, marginBottom: 2 }}
+                    >
+                      REVENUE
+                    </div>
+                    <span style={{ fontWeight: 700, color: scoreColor(ps.revenueScore) }}>
+                      {ps.revenueScore}
+                    </span>
+                  </div>
+                  <div style={{ textAlign: "center", minWidth: 60 }}>
+                    <div
+                      className="muted"
+                      style={{ fontSize: ".7rem", fontWeight: 600, marginBottom: 2 }}
+                    >
+                      ACTIVITY
+                    </div>
+                    <span style={{ fontWeight: 700, color: scoreColor(ps.activityScore) }}>
+                      {ps.activityScore}
+                    </span>
+                  </div>
+                  {isExpanded ? (
+                    <ChevronUp size={18} className="muted" />
+                  ) : (
+                    <ChevronDown size={18} className="muted" />
+                  )}
+                </div>
+              </div>
+
+              {isExpanded && <ExpandedScorecard ps={ps} />}
+            </div>
+          );
+        })}
+
+        {filteredScores.length === 0 && (
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-              gap: "1rem",
-              fontSize: ".8rem",
+              padding: "2rem",
+              textAlign: "center",
             }}
           >
-            <div>
-              <span style={{ color: "#059669", fontWeight: 600 }}>● Revenue Impact</span>
-              <span className="muted"> — Attributed revenue from won deals</span>
-            </div>
-            <div>
-              <span style={{ color: "#0284c7", fontWeight: 600 }}>● Pipeline Contribution</span>
-              <span className="muted"> — Value of active open deals</span>
-            </div>
-            <div>
-              <span style={{ color: "#d97706", fontWeight: 600 }}>● Engagement</span>
-              <span className="muted"> — Frequency & recency of touchpoints</span>
-            </div>
-            <div>
-              <span style={{ color: "#6366f1", fontWeight: 600 }}>● Deal Velocity</span>
-              <span className="muted"> — Speed of deal closure</span>
-            </div>
+            <p className="muted">No partners match the selected filter.</p>
           </div>
-          <p className="muted" style={{ fontSize: ".75rem", marginTop: 8 }}>
-            Tier thresholds: Platinum ≥ 85 · Gold ≥ 65 · Silver ≥ 40 · Bronze &lt; 40. Scores are normalized relative to peer partners.
-          </p>
-        </div>
-    </>
+        )}
+      </div>
+    </div>
   );
 }

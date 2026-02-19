@@ -331,9 +331,21 @@ export default function OnboardingPage() {
     await updatePartner({ id, status: "inactive" });
   };
 
-  const { pendingPartners, activePartners, stats, tierGroups } = useMemo(() => {
+  const { pendingPartners, activePartners, stats, tierGroups } = useMemo((): {
+    pendingPartners: PartnerWithStats[];
+    activePartners: PartnerWithStats[];
+    stats: { totalActive: number; pendingReview: number; totalRevenue: number } | null;
+    tierGroups: Record<string, PartnerWithStats[]>;
+  } => {
+    const emptyGroups: Record<string, PartnerWithStats[]> = {
+      platinum: [],
+      gold: [],
+      silver: [],
+      bronze: [],
+    };
+
     if (!partners)
-      return { pendingPartners: [], activePartners: [], stats: null, tierGroups: {} };
+      return { pendingPartners: [], activePartners: [], stats: null, tierGroups: emptyGroups };
 
     const pending = partners.filter((p) => p.status === "pending");
     const active = partners.filter((p) => p.status === "active");
