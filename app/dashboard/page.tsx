@@ -341,7 +341,10 @@ export default function DashboardPage() {
 
           {/* Top Partners */}
           <div className="card">
-            <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1rem" }}>Top Partners</h3>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+              <h3 style={{ fontWeight: 700, fontSize: "1rem", margin: 0 }}>Top Partners</h3>
+              <Link href="/dashboard/partners" className="muted" style={{ fontSize: ".8rem", fontWeight: 500 }}>View all →</Link>
+            </div>
             {topPartners.length === 0 ? (
               <p className="muted" style={{ fontSize: ".85rem" }}>No active partners yet.</p>
             ) : (
@@ -360,7 +363,10 @@ export default function DashboardPage() {
 
           {/* Audit Trail */}
           <div className="card">
-            <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1rem" }}>Recent Activity</h3>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+              <h3 style={{ fontWeight: 700, fontSize: "1rem", margin: 0 }}>Recent Activity</h3>
+              <Link href="/dashboard/activity" className="muted" style={{ fontSize: ".8rem", fontWeight: 500 }}>View all →</Link>
+            </div>
             {auditLog.length === 0 ? (
               <p className="muted" style={{ fontSize: ".85rem" }}>No activity yet.</p>
             ) : (

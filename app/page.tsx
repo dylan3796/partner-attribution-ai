@@ -844,7 +844,7 @@ export default function LandingPage() {
                 disabled={submitted}
                 style={{ whiteSpace: "nowrap" }}
               >
-                {submitted ? "✓ We'll be in touch!" : "Start Free"}
+                {submitted ? "✓ We'll be in touch!" : "Get Early Access"}
               </button>
             </form>
             <Link href="/dashboard" className="btn-outline" style={{ whiteSpace: "nowrap" }}>

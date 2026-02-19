@@ -231,7 +231,10 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
         <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
           {/* Attributions */}
           <div className="card">
-            <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>Attribution (Role-Based)</h3>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+              <h3 style={{ fontWeight: 700, margin: 0 }}>Attribution (Role-Based)</h3>
+              <Link href="/dashboard/deals" style={{ fontSize: ".78rem", color: "#6366f1", fontWeight: 600 }}>All Deals →</Link>
+            </div>
             {attributions.map((a) => (
               <div key={a._id} style={{ display: "flex", justifyContent: "space-between", padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
                 <div>
@@ -246,7 +249,10 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
 
           {/* Payouts */}
           <div className="card">
-            <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>Payouts</h3>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+              <h3 style={{ fontWeight: 700, margin: 0 }}>Payouts</h3>
+              <Link href="/dashboard/payouts" style={{ fontSize: ".78rem", color: "#6366f1", fontWeight: 600 }}>View All →</Link>
+            </div>
             {partnerPayouts.map((p) => (
               <div key={p._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
                 <div>
