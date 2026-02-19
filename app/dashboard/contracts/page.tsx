@@ -64,7 +64,7 @@ const STATUS_CONFIG: Record<ContractStatus, { label: string; color: string; icon
 
 const DEMO_CONTRACTS: Contract[] = [
   {
-    id: "CTR-001", partnerId: "P-101", partnerName: "Cloudflare Solutions", partnerTier: "Platinum",
+    id: "CTR-001", partnerId: "P-101", partnerName: "TechBridge", partnerTier: "Platinum",
     type: "partner_agreement", title: "Strategic Partner Agreement 2025",
     status: "active", startDate: "2025-01-15", endDate: "2026-01-14", autoRenew: true,
     value: 500000, commissionRate: 25, territory: "North America",
@@ -73,7 +73,7 @@ const DEMO_CONTRACTS: Contract[] = [
     daysUntilExpiry: 330,
   },
   {
-    id: "CTR-002", partnerId: "P-102", partnerName: "DataSync Partners", partnerTier: "Gold",
+    id: "CTR-002", partnerId: "P-102", partnerName: "Stackline", partnerTier: "Gold",
     type: "reseller", title: "Authorized Reseller Agreement",
     status: "expiring_soon", startDate: "2024-06-01", endDate: "2026-03-01", autoRenew: false,
     value: 250000, commissionRate: 20, territory: "EMEA",
@@ -82,7 +82,7 @@ const DEMO_CONTRACTS: Contract[] = [
     daysUntilExpiry: 10,
   },
   {
-    id: "CTR-003", partnerId: "P-103", partnerName: "TechBridge Inc", partnerTier: "Silver",
+    id: "CTR-003", partnerId: "P-103", partnerName: "TechBridge", partnerTier: "Silver",
     type: "referral", title: "Referral Partner Agreement",
     status: "active", startDate: "2025-06-01", endDate: "2026-05-31", autoRenew: true,
     value: 75000, commissionRate: 15, territory: "APAC",
@@ -91,7 +91,7 @@ const DEMO_CONTRACTS: Contract[] = [
     daysUntilExpiry: 101,
   },
   {
-    id: "CTR-004", partnerId: "P-104", partnerName: "InfraScale", partnerTier: "Gold",
+    id: "CTR-004", partnerId: "P-104", partnerName: "Northlight", partnerTier: "Gold",
     type: "oem", title: "OEM Embedding License",
     status: "pending_renewal", startDate: "2024-03-01", endDate: "2026-02-28", autoRenew: false,
     value: 1200000, commissionRate: 30, territory: "Global",
@@ -100,7 +100,7 @@ const DEMO_CONTRACTS: Contract[] = [
     daysUntilExpiry: 9,
   },
   {
-    id: "CTR-005", partnerId: "P-105", partnerName: "NexGen Consulting", partnerTier: "Bronze",
+    id: "CTR-005", partnerId: "P-105", partnerName: "Clearpath", partnerTier: "Bronze",
     type: "referral", title: "Referral Agreement (Trial)",
     status: "expired", startDate: "2025-01-01", endDate: "2025-12-31", autoRenew: false,
     value: 25000, commissionRate: 10, territory: "North America",
@@ -109,7 +109,7 @@ const DEMO_CONTRACTS: Contract[] = [
     daysUntilExpiry: -50,
   },
   {
-    id: "CTR-006", partnerId: "P-106", partnerName: "Meridian Systems", partnerTier: "Platinum",
+    id: "CTR-006", partnerId: "P-106", partnerName: "Apex Growth", partnerTier: "Platinum",
     type: "technology", title: "Technology Integration Partnership",
     status: "active", startDate: "2025-04-01", endDate: "2027-03-31", autoRenew: true,
     value: 800000, commissionRate: 22, territory: "North America + EMEA",
@@ -118,7 +118,7 @@ const DEMO_CONTRACTS: Contract[] = [
     daysUntilExpiry: 770,
   },
   {
-    id: "CTR-007", partnerId: "P-107", partnerName: "PivotPoint Analytics", partnerTier: "Silver",
+    id: "CTR-007", partnerId: "P-107", partnerName: "Stackline", partnerTier: "Silver",
     type: "co_sell", title: "Co-Sell Partnership Agreement",
     status: "draft", startDate: "", endDate: "", autoRenew: true,
     value: 150000, commissionRate: 18, territory: "North America",
@@ -127,7 +127,7 @@ const DEMO_CONTRACTS: Contract[] = [
     daysUntilExpiry: 999,
   },
   {
-    id: "CTR-008", partnerId: "P-108", partnerName: "CloudFirst GmbH", partnerTier: "Gold",
+    id: "CTR-008", partnerId: "P-108", partnerName: "Northlight", partnerTier: "Gold",
     type: "reseller", title: "DACH Region Reseller Agreement",
     status: "active", startDate: "2025-07-01", endDate: "2026-06-30", autoRenew: true,
     value: 350000, commissionRate: 20, territory: "DACH",

@@ -38,35 +38,35 @@ interface PartnerBenchmark {
 
 const PARTNERS: PartnerBenchmark[] = [
   {
-    id: "P-101", name: "Cloudflare Solutions", tier: "Platinum", region: "North America",
+    id: "P-101", name: "TechBridge", tier: "Platinum", region: "North America",
     metrics: { revenue: 1850000, deals: 47, winRate: 68, avgDealSize: 39362, avgCycleTime: 28, certifications: 12, nps: 82, activationRate: 95, yoyGrowth: 34, pipelineValue: 2400000 },
   },
   {
-    id: "P-102", name: "DataSync Partners", tier: "Gold", region: "EMEA",
+    id: "P-102", name: "Stackline", tier: "Gold", region: "EMEA",
     metrics: { revenue: 920000, deals: 31, winRate: 55, avgDealSize: 29677, avgCycleTime: 35, certifications: 8, nps: 71, activationRate: 82, yoyGrowth: 18, pipelineValue: 1100000 },
   },
   {
-    id: "P-103", name: "TechBridge Inc", tier: "Silver", region: "APAC",
+    id: "P-103", name: "Northlight", tier: "Silver", region: "APAC",
     metrics: { revenue: 410000, deals: 18, winRate: 44, avgDealSize: 22778, avgCycleTime: 42, certifications: 4, nps: 65, activationRate: 70, yoyGrowth: 12, pipelineValue: 580000 },
   },
   {
-    id: "P-106", name: "Meridian Systems", tier: "Platinum", region: "North America",
+    id: "P-106", name: "Apex Growth", tier: "Platinum", region: "North America",
     metrics: { revenue: 2100000, deals: 52, winRate: 72, avgDealSize: 40385, avgCycleTime: 25, certifications: 14, nps: 88, activationRate: 98, yoyGrowth: 41, pipelineValue: 3200000 },
   },
   {
-    id: "P-108", name: "CloudFirst GmbH", tier: "Gold", region: "DACH",
+    id: "P-108", name: "Stackline", tier: "Gold", region: "DACH",
     metrics: { revenue: 780000, deals: 24, winRate: 58, avgDealSize: 32500, avgCycleTime: 32, certifications: 7, nps: 74, activationRate: 85, yoyGrowth: 22, pipelineValue: 950000 },
   },
   {
-    id: "P-109", name: "NexGen Consulting", tier: "Bronze", region: "North America",
+    id: "P-109", name: "Clearpath", tier: "Bronze", region: "North America",
     metrics: { revenue: 125000, deals: 8, winRate: 32, avgDealSize: 15625, avgCycleTime: 55, certifications: 2, nps: 52, activationRate: 45, yoyGrowth: -5, pipelineValue: 180000 },
   },
   {
-    id: "P-110", name: "PivotPoint Analytics", tier: "Silver", region: "North America",
+    id: "P-110", name: "Northlight", tier: "Silver", region: "North America",
     metrics: { revenue: 340000, deals: 14, winRate: 48, avgDealSize: 24286, avgCycleTime: 38, certifications: 5, nps: 68, activationRate: 72, yoyGrowth: 15, pipelineValue: 420000 },
   },
   {
-    id: "P-111", name: "Apex Growth LATAM", tier: "Silver", region: "LATAM",
+    id: "P-111", name: "Clearpath", tier: "Silver", region: "LATAM",
     metrics: { revenue: 290000, deals: 16, winRate: 42, avgDealSize: 18125, avgCycleTime: 45, certifications: 3, nps: 60, activationRate: 65, yoyGrowth: 28, pipelineValue: 370000 },
   },
 ];
