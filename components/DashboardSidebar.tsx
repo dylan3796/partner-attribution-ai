@@ -70,6 +70,7 @@ const allLinks: SidebarLink[] = [
   { name: "Email Triggers", href: "/dashboard/emails", icon: Mail },
   { name: "Contracts", href: "/dashboard/contracts", icon: FileText },
   { name: "Benchmarks", href: "/dashboard/benchmarks", icon: BarChart3 },
+  { name: "Forecasting", href: "/dashboard/forecasting", icon: TrendingUp },
   { name: "Integrations", href: "/dashboard/integrations", icon: Plug2 },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
