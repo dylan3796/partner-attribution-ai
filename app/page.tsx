@@ -102,7 +102,7 @@ export default function LandingPage() {
           <div className="tag">Early Access</div>
           <h1>Stop Guessing Which Partners Drive Revenue</h1>
           <p className="subtitle" style={{ maxWidth: 680, margin: "0 auto 2.5rem" }}>
-            The partner intelligence layer for your CRM. Attribution that partners trust, commissions that calculate themselves, and a portal your channel team will actually use.
+            Your partners are driving more revenue than you think. Covant shows you exactly how much — and makes sure they get paid for it, automatically.
           </p>
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
@@ -119,7 +119,7 @@ export default function LandingPage() {
           </div>
 
           <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>
-            Free to start · Works with Salesforce &amp; HubSpot · Setup in 15 minutes
+            Free to start · Setup in 15 minutes
           </p>
         </div>
 
@@ -195,8 +195,8 @@ export default function LandingPage() {
             </div>
             <div style={{ width: 1, height: 32, background: "var(--border)" }} />
             <div className="trust-stat">
-              <span className="trust-stat-value">5</span>
-              <span className="trust-stat-label">AI attribution models, fully auditable</span>
+              <span className="trust-stat-value">Zero</span>
+              <span className="trust-stat-label">spreadsheets required for partner attribution</span>
             </div>
             <div style={{ width: 1, height: 32, background: "var(--border)" }} />
             <div className="trust-stat">
@@ -252,8 +252,7 @@ export default function LandingPage() {
                 Add your partners
               </h3>
               <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
-                Import your resellers and referral partners in minutes. Connect to Salesforce
-                or HubSpot and Covant starts mapping deals automatically.
+                Import your resellers and referral partners in minutes. Covant starts mapping deals automatically.
               </p>
             </div>
 
@@ -281,7 +280,7 @@ export default function LandingPage() {
               </h3>
               <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
                 Deal registrations, referrals, co-sell activities — every partner interaction
-                is logged and linked to CRM opportunities. Full paper trail, always.
+                is logged and linked to your deals. Full paper trail, always.
               </p>
             </div>
 
@@ -324,23 +323,23 @@ export default function LandingPage() {
             Every channel team is flying blind
           </h2>
           <p className="muted" style={{ fontSize: "1.05rem", maxWidth: 600, margin: "0 auto 3rem", lineHeight: 1.6 }}>
-            You have partners. You have a CRM. But between them? A pile of spreadsheets, manual reconciliation, and disputes that erode trust every quarter.
+            You have partners driving revenue. But proving it? A pile of spreadsheets, manual reconciliation, and disputes that erode trust every quarter.
           </p>
           <div className="grid-3">
             <div className="card" style={{ boxShadow: "none" }}>
               <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>📊</p>
               <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Spreadsheet hell</h3>
-              <p className="muted" style={{ lineHeight: 1.5 }}>Partner attribution scattered across 12 spreadsheets. Nobody trusts the numbers. Every QBR is a fire drill.</p>
+              <p className="muted" style={{ lineHeight: 1.5 }}>Your partner attribution lives in 12 spreadsheets nobody trusts. Every QBR is a fight. Every quarter-end is a scramble.</p>
             </div>
             <div className="card" style={{ boxShadow: "none" }}>
               <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>🤷</p>
               <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Which partner gets credit?</h3>
-              <p className="muted" style={{ lineHeight: 1.5 }}>Multiple partners touched the same deal. You&apos;re the referee with no data. Disputes erode trust.</p>
+              <p className="muted" style={{ lineHeight: 1.5 }}>Two partners touched the same deal. You&apos;re the referee with no rulebook. The relationship damage is real.</p>
             </div>
             <div className="card" style={{ boxShadow: "none" }}>
               <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>💸</p>
               <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Payout chaos</h3>
-              <p className="muted" style={{ lineHeight: 1.5 }}>Commissions calculated manually. Partners wait weeks. Finance flags errors. Everyone&apos;s frustrated.</p>
+              <p className="muted" style={{ lineHeight: 1.5 }}>Manual commission calculations. Partners waiting weeks. Finance finding errors. Trust eroding every cycle.</p>
             </div>
           </div>
         </div>
@@ -433,10 +432,10 @@ export default function LandingPage() {
         <div className="wrap" style={{ textAlign: "center" }}>
           <div className="tag">The Solution</div>
           <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
-            Plugs into your stack, not the other way around
+            Works with what you already use
           </h2>
           <p className="muted" style={{ fontSize: "1.05rem", maxWidth: 600, margin: "0 auto 3rem", lineHeight: 1.6 }}>
-            Keep using Salesforce, HubSpot, or Pipedrive. Covant layers partner intelligence on top — measuring influence, calculating attribution, and automating payouts based on YOUR rules.
+            Covant connects to your existing tools in minutes. Keep using what works — we handle the partner layer on top.
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", alignItems: "center", flexWrap: "wrap" }}>
             <div className="integration-logo">
@@ -463,7 +462,7 @@ export default function LandingPage() {
             </div>
           </div>
           <p className="muted" style={{ fontSize: ".8rem", marginTop: "1.5rem" }}>
-            Native Salesforce integration via API &nbsp;·&nbsp; AppExchange listing in progress (Q2 2026)
+            Connect in minutes &nbsp;·&nbsp; No rip-and-replace required
           </p>
         </div>
       </section>
@@ -473,19 +472,19 @@ export default function LandingPage() {
         <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
           <div className="tag">The Platform</div>
           <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
-            The partner ops platform that doesn&apos;t replace your stack
+            Everything your partner program needs
           </h2>
           <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 680, margin: "0 auto", lineHeight: 1.6 }}>
-            Bring your CRM data, we add the partner intelligence. Attribution, incentives, program management, and a partner portal — all layered on top of your existing tools.
+            Attribution that partners trust. Commissions that calculate themselves. A portal your team will actually use. All in one place.
           </p>
         </div>
         <div className="wrap-wide grid-6">
-          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>🧠</span></div><h3>AI Attribution</h3><p>5 built-in models plus custom attribution rules you define. Transparent, auditable, and trusted by every partner.</p></div></Link>
-          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>💰</span></div><h3>Incentives & Payouts</h3><p>Auto-calculated commissions, tiered structures, SPIFs, bonuses, and one-click payouts. Partners get paid on time.</p></div></Link>
-          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>📋</span></div><h3>Program Management</h3><p>Partner tiers, onboarding workflows, certifications, territory assignments. Run your program, not spreadsheets.</p></div></Link>
-          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>📊</span></div><h3>Partner-Influenced Revenue</h3><p>See which CRM deals your partners influenced. Deal registration, co-sell tracking, and attribution on every opportunity.</p></div></Link>
-          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>🌐</span></div><h3>Partner Portal</h3><p>Self-service portal for partners to submit leads, register deals, track their influence, and view commissions.</p></div></Link>
-          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>👁️</span></div><h3>Activity & Paper Trail</h3><p>Every touchpoint, every interaction, every decision — logged and auditable. Full transparency for partners and your team.</p></div></Link>
+          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>🧠</span></div><h3>Attribution everyone trusts</h3><p>Every deal traced back to the partners who touched it. Transparent, auditable, and impossible to dispute.</p></div></Link>
+          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>💰</span></div><h3>Commissions that calculate themselves</h3><p>Set your rules once. Covant handles the math, the approvals, and the payouts. Partners get paid on time, every time.</p></div></Link>
+          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>📋</span></div><h3>Run your program, not spreadsheets</h3><p>Partner tiers, onboarding workflows, deal registration — everything in one place instead of scattered across docs and DMs.</p></div></Link>
+          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>📊</span></div><h3>Prove partner ROI to your CFO</h3><p>See exactly which deals your partners influenced and by how much. The number you&apos;ve been trying to calculate manually.</p></div></Link>
+          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>🌐</span></div><h3>Partners who actually use their portal</h3><p>A self-service home for your partners. Submit deals, track commissions, access resources — without emailing your team.</p></div></Link>
+          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>👁️</span></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Every attribution decision auditable. When a partner asks &apos;why did I get that amount?&apos; — you have the answer.</p></div></Link>
         </div>
       </section>
 
@@ -495,9 +494,8 @@ export default function LandingPage() {
           <div>
             <div className="tag">AI-Powered Attribution</div>
             <h2>Attribution that partners actually trust</h2>
-            <p>Choose from 5 built-in attribution models — or build your own custom rules. Every calculation is explainable and auditable.</p>
-            <p>When a deal closes in your CRM, partners see exactly <em>why</em> they received their share. No black boxes. No disputes.</p>
-            <Link href="/dashboard/reports" className="arrow-link">Explore attribution models →</Link>
+            <p>Choose how attribution works for your program — first touch, last touch, equal split, or your own custom rules. Every calculation is explainable. Partners see the logic. Disputes disappear.</p>
+            <Link href="/dashboard/reports" className="arrow-link">Set up your attribution rules →</Link>
           </div>
           <div className="card">
             <h4 style={{ marginBottom: "1.2rem" }}>Deal: TechStar × CloudBridge</h4>
@@ -515,9 +513,8 @@ export default function LandingPage() {
           <div>
             <div className="tag">Full Visibility</div>
             <h2>Every partner touchpoint, captured</h2>
-            <p>Covant tracks all partner interactions across your ecosystem — referrals, demos, co-sell meetings, content shares, deal registrations. The complete paper trail layered on top of your CRM deals.</p>
-            <p>Partners see their activity history. Your team sees the full picture. Everyone stays aligned.</p>
-            <Link href="/dashboard/deals" className="arrow-link">View deal timelines →</Link>
+            <p>Covant builds a complete picture of every partner interaction — referrals, demos, deal registrations, co-sell meetings. When a deal closes, you know exactly who did what.</p>
+            <Link href="/dashboard/deals" className="arrow-link">See the full timeline →</Link>
           </div>
           <div className="card">
             <div className="timeline">
@@ -536,8 +533,7 @@ export default function LandingPage() {
           <div>
             <div className="tag">Incentives & Payouts</div>
             <h2>Fair splits, zero manual work</h2>
-            <p>Attribution powers automatic commission calculations. Set up tiered structures, SPIFs, bonuses — then let the platform handle the rest.</p>
-            <p>Partners see pending and paid commissions in real time. Finance gets clean reports. No more end-of-month scrambles.</p>
+            <p>Attribution drives automatic commission calculations. Partners see their earnings in real time. Finance gets clean reports. No more end-of-quarter surprises.</p>
             <Link href="/dashboard/payouts" className="arrow-link">Manage incentives →</Link>
           </div>
           <div className="card">
@@ -555,10 +551,10 @@ export default function LandingPage() {
         <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
           <div className="tag">Your strategy, your rules</div>
           <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
-            Configure Covant to Match Your Playbook
+            Built for how your program actually works
           </h2>
           <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 700, margin: "0 auto" }}>
-            Every company runs partnerships differently. We give you the tools to design your program exactly how you want it.
+            Whether you run resellers, referral networks, integration partners, or all three — Covant adapts to your program, not the other way around.
           </p>
         </div>
         <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem" }}>
@@ -608,29 +604,25 @@ export default function LandingPage() {
       {/* ── WHO IT'S FOR ─────────────────────────────────── */}
       <section className="benefits">
         <div className="wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Built for how you run partnerships</h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 640, margin: "0 auto" }}>Whether you manage channel partners, alliances, resellers, or referral networks — one intelligence layer sits on top of your CRM and adapts to your motion.</p>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Built for partner teams who are done with spreadsheets</h2>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 640, margin: "0 auto" }}>Whether you have 5 partners or 500, Covant gives you the visibility, automation, and trust your program needs to scale.</p>
         </div>
         <div className="wrap-wide grid-4">
           <div className="card">
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>SaaS Channel</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Resellers, VARs, co-sell partners. Measure partner-influenced ARR on your Salesforce or HubSpot deals.</p>
-            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Salesforce, HubSpot, AWS</p>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>SaaS & Tech</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>Resellers, VARs, integration partners. Track which deals your partners influenced and pay them automatically.</p>
           </div>
           <div className="card">
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Marketplaces</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>App ecosystems and plugin marketplaces. Measure which partners drive platform adoption.</p>
-            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Shopify, Atlassian, Stripe</p>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Marketplaces & Platforms</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>App ecosystems and plugin networks. Know which partners drive platform adoption and reward the ones who actually deliver.</p>
           </div>
           <div className="card">
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Distribution</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Multi-tier channel networks. Attribution across distributor → reseller → end customer chains.</p>
-            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Dell, Cisco, HP</p>
+            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Distribution Networks</h3>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>Multi-tier channel programs. Attribution across distributor → reseller → customer chains, without the spreadsheet.</p>
           </div>
           <div className="card">
             <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Agencies & Services</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5, marginBottom: ".5rem" }}>Referral networks and consulting partners. Track lead quality and relationship value.</p>
-            <p style={{ fontSize: ".8rem", color: "var(--muted)", fontStyle: "italic" }}>Deloitte, boutique agencies</p>
+            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>Referral networks and consulting partners. Track lead quality, measure relationship value, automate the payout.</p>
           </div>
         </div>
       </section>
@@ -712,9 +704,9 @@ export default function LandingPage() {
       {/* ── TRUST ────────────────────────────────────────── */}
       <section style={{ padding: "6rem 0" }}>
         <div className="wrap grid-3">
-          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>AI-native, not AI-bolted</h3><p className="muted" style={{ lineHeight: 1.6 }}>Not a legacy PRM with AI tacked on. Built from the ground up for the AI era. Attribution is the brain, not a feature.</p></div>
-          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>15 minutes to value</h3><p className="muted" style={{ lineHeight: 1.6 }}>Connect your CRM, import partners, and see your first partner attribution report. Onboard a partner rep in minutes, not months.</p></div>
-          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>Enterprise security</h3><p className="muted" style={{ lineHeight: 1.6 }}>Your data is never used to train models. SOC 2 Type II in progress (target Q2 2026). Full audit trail on every action.</p></div>
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>AI-native, not AI-bolted</h3><p className="muted" style={{ lineHeight: 1.6 }}>Not a legacy tool with AI features added later. Covant was built from the ground up to make attribution automatic and payout calculations instant.</p></div>
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>15 minutes to value</h3><p className="muted" style={{ lineHeight: 1.6 }}>Connect your first integration, import your partners, and see your first report — in the time it takes to have a meeting about it.</p></div>
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>Enterprise security</h3><p className="muted" style={{ lineHeight: 1.6 }}>Your data is never used to train models. SOC 2 Type II in progress. Full audit trail on every action, every calculation.</p></div>
         </div>
       </section>
 
