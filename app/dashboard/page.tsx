@@ -64,7 +64,11 @@ export default function DashboardPage() {
   const convexAuditLog = useQuery(api.dashboard.getRecentAuditLog);
 
   // ── Store (for non-wired modules only) ─────────────────────────────────
-  const { org, stats: storeStats, deals: storeDeals, partners: storePartners, payouts: storePayouts, auditLog: storeAuditLog, channelConflicts, mdfRequests } = useStore();
+  const { org, stats: storeStats, deals: storeDeals, partners: storePartners, payouts: storePayouts, auditLog: storeAuditLog } = useStore();
+  
+  // ── Convex data for alerts ─────────────────────────────────────────────
+  const convexChannelConflicts = useQuery(api.dashboard.getChannelConflicts);
+  const convexMdfRequests = useQuery(api.mdf.list);
   const { config, isFeatureEnabled } = usePlatformConfig();
   
   // ── Salesforce connection status ───────────────────────────────────────
@@ -81,9 +85,9 @@ export default function DashboardPage() {
   const pendingPayouts = (convexPendingPayouts ?? storePayouts.filter((p) => p.status === "pending_approval")) as unknown as (Payout & { partner?: Partner })[];
   const auditLog = (convexAuditLog ?? storeAuditLog.slice(0, 5)) as unknown as AuditEntry[];
 
-  // These stay on the in-memory store (not in scope)
-  const openConflicts = channelConflicts.filter((c) => c.status === "open" || c.status === "under_review");
-  const pendingMDF = mdfRequests.filter((r) => r.status === "pending");
+  // Use Convex data for alerts (or empty arrays if loading)
+  const openConflicts = convexChannelConflicts ?? [];
+  const pendingMDF = (convexMdfRequests ?? []).filter((r: any) => r.status === "pending");
 
   // First-run detection: redirect to setup if truly empty (no Convex data loaded yet, no store data)
   useEffect(() => {

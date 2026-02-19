@@ -471,3 +471,55 @@ export const getPartnerPerformance = query({
       .map((p: any, idx: number) => ({ ...p, rank: idx + 1 }));
   },
 });
+
+/**
+ * Get channel conflicts: deals with touchpoints from multiple partners
+ */
+export const getChannelConflicts = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return [];
+    
+    const deals = await ctx.db.query("deals")
+      .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      .filter((q: any) => q.eq(q.field("status"), "open"))
+      .collect();
+    
+    const touchpoints = await ctx.db.query("touchpoints")
+      .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      .collect();
+    
+    const partners = await ctx.db.query("partners")
+      .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      .collect();
+    
+    const partnerMap = new Map(partners.map((p: any) => [p._id.toString(), p]));
+    
+    // Find deals with multiple partner touchpoints
+    const conflicts: any[] = [];
+    
+    for (const deal of deals) {
+      const dealTouchpoints = touchpoints.filter((t: any) => t.dealId.toString() === deal._id.toString());
+      const partnerIds = [...new Set(dealTouchpoints.map((t: any) => t.partnerId.toString()))];
+      
+      if (partnerIds.length > 1) {
+        const involvedPartners = partnerIds.map((id: string) => {
+          const partner = partnerMap.get(id);
+          return partner ? { id, name: partner.name } : { id, name: "Unknown" };
+        });
+        
+        conflicts.push({
+          _id: deal._id,
+          dealName: deal.name,
+          dealAmount: deal.amount,
+          status: "open", // These are detected conflicts, not yet resolved
+          involvedPartners,
+          touchpointCount: dealTouchpoints.length,
+        });
+      }
+    }
+    
+    return conflicts;
+  },
+});
