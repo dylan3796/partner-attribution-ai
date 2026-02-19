@@ -136,7 +136,7 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
           }}
         />
       )}
-      <aside className={`dash-sidebar ${collapsed ? "dash-sidebar-collapsed" : ""} ${mobileOpen ? "dash-sidebar-mobile-open" : ""}`}>
+      <aside className={`dash-sidebar ${collapsed ? "dash-sidebar-collapsed" : ""} ${mobileOpen ? "dash-sidebar-mobile-open" : ""}`} role="navigation" aria-label="Dashboard navigation">
       {/* Header */}
       <div className="dash-sidebar-header">
         {!collapsed && (
@@ -154,7 +154,7 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
       </div>
 
       {/* Nav */}
-      <nav className="dash-sidebar-nav">
+      <nav className="dash-sidebar-nav" aria-label="Main menu">
         {visibleLinks.map((link) => {
           const Icon = link.icon;
           const isActive =

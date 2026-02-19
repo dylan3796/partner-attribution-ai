@@ -76,6 +76,8 @@ function PortalSidebar() {
       {/* Sidebar */}
       <aside
         className={`portal-sidebar ${mobileOpen ? "portal-sidebar-open" : ""}`}
+        role="navigation"
+        aria-label="Portal navigation"
         style={{
           position: "fixed",
           top: 0,

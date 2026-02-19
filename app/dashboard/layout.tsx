@@ -15,9 +15,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <ToastProvider>
       <KeyboardShortcuts />
       <CommandPalette />
+      <a href="#main-content" style={{
+        position: "fixed", left: 8, top: -60, zIndex: 9999, padding: "8px 16px",
+        background: "#6366f1", color: "#fff", borderRadius: 8, fontWeight: 700, fontSize: ".85rem",
+        textDecoration: "none", transition: "top 0.2s",
+      }} onFocus={(e) => { e.currentTarget.style.top = "8px"; }} onBlur={(e) => { e.currentTarget.style.top = "-60px"; }}>
+        Skip to content
+      </a>
       <div className="dash-layout-v2">
         <DashboardSidebar mobileOpen={mobileMenuOpen} onMobileClose={() => setMobileMenuOpen(false)} />
-        <main className="dash-main">
+        <main className="dash-main" id="main-content" tabIndex={-1}>
           <div className="dash-topbar">
             <button
               className="mobile-menu-btn"
