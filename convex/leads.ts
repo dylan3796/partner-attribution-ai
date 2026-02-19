@@ -47,6 +47,70 @@ export const getLeads = query({
   },
 });
 
+// Submit a lead from partner portal
+export const submitLead = mutation({
+  args: {
+    contactName: v.string(),
+    company: v.string(),
+    email: v.string(),
+    phone: v.optional(v.string()),
+    estimatedValue: v.optional(v.number()),
+    notes: v.optional(v.string()),
+    partnerEmail: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Look up partner by email
+    const partner = await ctx.db
+      .query("partners")
+      .withIndex("by_email", (q) => q.eq("email", args.partnerEmail))
+      .first();
+
+    if (!partner) {
+      throw new Error("Partner not found");
+    }
+
+    const leadId = await ctx.db.insert("leads", {
+      email: args.email,
+      company: args.company,
+      contactName: args.contactName,
+      phone: args.phone,
+      notes: args.notes,
+      estimatedValue: args.estimatedValue,
+      source: "partner_submitted",
+      submittedBy: partner._id,
+      partnerName: partner.name,
+      status: "new",
+      createdAt: Date.now(),
+      lastSeenAt: Date.now(),
+    });
+
+    return { leadId };
+  },
+});
+
+// Get leads submitted by a specific partner
+export const getByPartner = query({
+  args: {
+    partnerEmail: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const partner = await ctx.db
+      .query("partners")
+      .withIndex("by_email", (q) => q.eq("email", args.partnerEmail))
+      .first();
+
+    if (!partner) return [];
+
+    const leads = await ctx.db
+      .query("leads")
+      .withIndex("by_submittedBy", (q) => q.eq("submittedBy", partner._id))
+      .order("desc")
+      .collect();
+
+    return leads;
+  },
+});
+
 // Update lead status
 export const updateLeadStatus = mutation({
   args: {

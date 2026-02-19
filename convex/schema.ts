@@ -288,11 +288,11 @@ export default defineSchema({
     .index("by_read", ["read"])
     .index("by_created", ["createdAt"]),
 
-  // Leads (from landing page)
+  // Leads (from landing page + partner submissions)
   leads: defineTable({
     email: v.string(),
     company: v.optional(v.string()),
-    source: v.optional(v.string()),
+    source: v.optional(v.string()), // "landing", "organic", "partner_submitted", etc.
     status: v.union(
       v.literal("new"),
       v.literal("contacted"),
@@ -302,12 +302,19 @@ export default defineSchema({
       v.literal("customer"),
       v.literal("lost")
     ),
+    submittedBy: v.optional(v.string()), // partnerId
+    partnerName: v.optional(v.string()),
+    contactName: v.optional(v.string()),
+    phone: v.optional(v.string()),
+    notes: v.optional(v.string()),
+    estimatedValue: v.optional(v.number()),
     createdAt: v.number(),
     lastSeenAt: v.number(),
   })
     .index("by_email", ["email"])
     .index("by_status", ["status"])
-    .index("by_created", ["createdAt"]),
+    .index("by_created", ["createdAt"])
+    .index("by_submittedBy", ["submittedBy"]),
 
   // Agent task queue
   agent_tasks: defineTable({

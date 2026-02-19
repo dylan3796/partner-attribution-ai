@@ -36,9 +36,13 @@ export default function LeadsPage() {
   const leads = useQuery(api.leads.getLeads) ?? [];
   const updateStatus = useMutation(api.leads.updateLeadStatus);
   const [filter, setFilter] = useState("all");
+  const [sourceFilter, setSourceFilter] = useState("all");
   const [updating, setUpdating] = useState<string | null>(null);
 
-  const filtered = filter === "all" ? leads : leads.filter(l => l.status === filter);
+  const sourceFiltered = sourceFilter === "all" ? leads
+    : sourceFilter === "partner" ? leads.filter(l => l.source === "partner_submitted")
+    : leads.filter(l => l.source !== "partner_submitted");
+  const filtered = filter === "all" ? sourceFiltered : sourceFiltered.filter(l => l.status === filter);
 
   const stats = {
     total: leads.length,
@@ -79,6 +83,33 @@ export default function LeadsPage() {
             </div>
             <div style={{ fontSize: "1.75rem", fontWeight: 700, color: "#fff" }}>{stat.value}</div>
           </div>
+        ))}
+      </div>
+
+      {/* Source filter */}
+      <div style={{ display: "flex", gap: ".5rem", marginBottom: "1rem", flexWrap: "wrap" }}>
+        {[
+          { key: "all", label: `All Sources (${leads.length})` },
+          { key: "organic", label: `Organic (${leads.filter(l => l.source !== "partner_submitted").length})` },
+          { key: "partner", label: `Partner (${leads.filter(l => l.source === "partner_submitted").length})` },
+        ].map(s => (
+          <button
+            key={s.key}
+            onClick={() => setSourceFilter(s.key)}
+            style={{
+              padding: ".4rem .9rem",
+              borderRadius: 20,
+              border: "1px solid",
+              borderColor: sourceFilter === s.key ? "#10b981" : "#2a2a2a",
+              background: sourceFilter === s.key ? "#10b981" : "transparent",
+              color: sourceFilter === s.key ? "#fff" : "#888",
+              fontSize: ".8rem",
+              cursor: "pointer",
+              fontWeight: sourceFilter === s.key ? 600 : 400,
+            }}
+          >
+            {s.label}
+          </button>
         ))}
       </div>
 
@@ -144,9 +175,19 @@ export default function LeadsPage() {
                       <span style={{ color: "#888", fontSize: ".9rem" }}>{lead.company || "—"}</span>
                     </td>
                     <td style={{ padding: "1rem 1.25rem" }}>
-                      <span style={{ fontSize: ".75rem", padding: "2px 8px", borderRadius: 10, background: "#1e1e1e", color: "#666" }}>
-                        {lead.source || "landing"}
+                      <span style={{
+                        fontSize: ".75rem",
+                        padding: "2px 8px",
+                        borderRadius: 10,
+                        background: lead.source === "partner_submitted" ? "#6366f120" : "#1e1e1e",
+                        color: lead.source === "partner_submitted" ? "#6366f1" : "#666",
+                        fontWeight: lead.source === "partner_submitted" ? 600 : 400,
+                      }}>
+                        {lead.source === "partner_submitted" ? "Partner" : "Organic"}
                       </span>
+                      {lead.partnerName && (
+                        <div style={{ fontSize: ".7rem", color: "#888", marginTop: 2 }}>{lead.partnerName}</div>
+                      )}
                     </td>
                     <td style={{ padding: "1rem 1.25rem" }}>
                       <select
