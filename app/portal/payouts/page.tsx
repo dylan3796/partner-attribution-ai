@@ -175,7 +175,7 @@ export default function PayoutsPage() {
           { label: "Current Period", value: fmtExact(currentEarnings), icon: <TrendingUp size={18} />, color: "#6366f1", sub: "Feb 2026 (in progress)" },
           { label: "YTD Earnings", value: fmtExact(ytdEarnings), icon: <Calendar size={18} />, color: "#3b82f6", sub: "2026 year-to-date" },
         ].map((card, i) => (
-          <div key={i} style={{ padding: 18, borderRadius: 12, border: "1px solid var(--border)", background: "var(--bg)" }}>
+          <div key={i} className="card" style={{ padding: "1.25rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
               <span style={{ fontSize: ".7rem", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".03em" }}>{card.label}</span>
               <span style={{ color: card.color }}>{card.icon}</span>
@@ -189,7 +189,7 @@ export default function PayoutsPage() {
       {/* ── Earnings Trend + Current Breakdown ── */}
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 24 }}>
         {/* Earnings trend chart */}
-        <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--bg)" }}>
+        <div className="card">
           <h3 style={{ fontSize: ".85rem", fontWeight: 700, margin: "0 0 14px" }}>Earnings Trend</h3>
           <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 120 }}>
             {paidPayouts.map((p) => {
@@ -208,7 +208,7 @@ export default function PayoutsPage() {
         </div>
 
         {/* Current period breakdown */}
-        <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--bg)" }}>
+        <div className="card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
             <h3 style={{ fontSize: ".85rem", fontWeight: 700, margin: 0 }}>February Earnings Breakdown</h3>
             <span style={{ fontSize: ".85rem", fontWeight: 800, color: "#6366f1" }}>{fmtExact(currentEarnings)}</span>
@@ -267,7 +267,7 @@ export default function PayoutsPage() {
           const st = statusStyle(p.status);
           const isExpanded = expandedId === p.id;
           return (
-            <div key={p.id} style={{ borderRadius: 12, border: "1px solid var(--border)", background: "var(--bg)", overflow: "hidden" }}>
+            <div key={p.id} className="card" style={{ padding: 0, overflow: "hidden" }}>
               <button
                 onClick={() => setExpandedId(isExpanded ? null : p.id)}
                 style={{

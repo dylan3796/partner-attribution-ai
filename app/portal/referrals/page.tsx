@@ -154,7 +154,7 @@ export default function ReferralLinksPage() {
 
       {/* ── Create Link Form ── */}
       {showCreate && (
-        <div style={{ padding: 20, borderRadius: 12, border: "2px solid #6366f1", background: "var(--bg)", marginBottom: 20 }}>
+        <div className="card" style={{ border: "2px solid #6366f1", marginBottom: 20 }}>
           <h3 style={{ fontSize: ".9rem", fontWeight: 700, margin: "0 0 12px" }}>New Referral Link</h3>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr auto", gap: 12, alignItems: "end" }}>
             <div>
@@ -211,7 +211,7 @@ export default function ReferralLinksPage() {
           { label: "Revenue Generated", value: fmtMoney(totalRevenue), icon: <DollarSign size={18} />, color: "#3b82f6" },
           { label: "Avg Conv. Rate", value: `${avgConvRate.toFixed(1)}%`, icon: <TrendingUp size={18} />, color: "#f59e0b" },
         ].map((card, i) => (
-          <div key={i} style={{ padding: 18, borderRadius: 12, border: "1px solid var(--border)", background: "var(--bg)" }}>
+          <div key={i} className="card" style={{ padding: "1.25rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
               <span style={{ fontSize: ".7rem", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".03em" }}>{card.label}</span>
               <span style={{ color: card.color }}>{card.icon}</span>
@@ -222,7 +222,7 @@ export default function ReferralLinksPage() {
       </div>
 
       {/* ── Click Sparkline (7 days) ── */}
-      <div style={{ padding: 20, borderRadius: 12, border: "1px solid var(--border)", background: "var(--bg)", marginBottom: 24 }}>
+      <div className="card" style={{ marginBottom: 24 }}>
         <h3 style={{ fontSize: ".85rem", fontWeight: 700, margin: "0 0 14px" }}>
           <BarChart3 size={14} style={{ marginRight: 6, verticalAlign: "middle" }} />
           Clicks — Last 7 Days
@@ -265,12 +265,7 @@ export default function ReferralLinksPage() {
         {filteredLinks.map((link) => (
           <div
             key={link.id}
-            style={{
-              padding: 20,
-              borderRadius: 12,
-              border: "1px solid var(--border)",
-              background: "var(--bg)",
-            }}
+            className="card"
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 8 }}>
               <div>
@@ -330,7 +325,7 @@ export default function ReferralLinksPage() {
       </div>
 
       {/* ── Tips ── */}
-      <div style={{ marginTop: 24, padding: 16, borderRadius: 12, background: "#6366f108", border: "1px solid #6366f130" }}>
+      <div className="card" style={{ marginTop: 24, background: "#6366f108", border: "1px solid #6366f130" }}>
         <h4 style={{ fontSize: ".8rem", fontWeight: 700, margin: "0 0 8px", color: "#6366f1" }}>💡 Referral Tips</h4>
         <ul style={{ margin: 0, paddingLeft: 18, fontSize: ".78rem", color: "var(--muted)", lineHeight: 1.8 }}>
           <li>Use unique links per campaign to measure which channels convert best</li>
