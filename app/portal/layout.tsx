@@ -12,6 +12,7 @@ import {
   Menu,
   X,
   Bell,
+  Trophy,
 } from "lucide-react";
 import { PortalProvider, usePortal } from "@/lib/portal-context";
 import PortalGate from "@/components/PortalGate";
@@ -20,6 +21,7 @@ const sidebarLinks = [
   { name: "Dashboard", href: "/portal", icon: LayoutDashboard },
   { name: "My Deals", href: "/portal/deals", icon: Briefcase },
   { name: "My Commissions", href: "/portal/commissions", icon: DollarSign },
+  { name: "My Performance", href: "/portal/performance", icon: Trophy },
   { name: "Notifications", href: "/portal/notifications", icon: Bell },
   { name: "Profile", href: "/portal/profile", icon: User },
 ];
