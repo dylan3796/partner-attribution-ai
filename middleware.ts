@@ -1,17 +1,26 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { createHash } from "crypto";
 
 const PROTECTED_PATHS = ["/dashboard", "/admin", "/portal/admin"];
 const AUTH_COOKIE = "pb_auth";
 const LOGIN_PATH = "/login";
 
-function hashPassword(password: string): string {
+// Use Web Crypto API (works in Edge Runtime + Node.js 18+)
+async function computeToken(password: string): Promise<string> {
   const secret = process.env.AUTH_SECRET || "covant-session-secret-2026";
-  return createHash("sha256").update(`${password}:${secret}`).digest("hex");
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const sig = await crypto.subtle.sign("HMAC", key, enc.encode(password));
+  return btoa(String.fromCharCode(...new Uint8Array(sig)));
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   const isProtected = PROTECTED_PATHS.some((p) => pathname.startsWith(p));
@@ -21,11 +30,10 @@ export function middleware(request: NextRequest) {
   const dashboardPassword = process.env.DASHBOARD_PASSWORD;
 
   if (!dashboardPassword) {
-    // No password configured — allow access (dev fallback only)
     return NextResponse.next();
   }
 
-  const expectedToken = hashPassword(dashboardPassword);
+  const expectedToken = await computeToken(dashboardPassword);
 
   if (authCookie?.value === expectedToken) {
     return NextResponse.next();

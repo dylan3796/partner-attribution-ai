@@ -1,10 +1,18 @@
 "use client";
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useStore } from "@/lib/store";
-import { Award, Search, Shield, BookOpen, Star, Users } from "lucide-react";
-import { CERTIFICATION_LEVEL_LABELS } from "@/lib/types";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Award, Search, Shield, Users, Info } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+
+// Predefined certification types that partners can earn
+const CERTIFICATION_TYPES = [
+  { name: "Sales Fundamentals", level: "beginner", issuer: "Covant Academy" },
+  { name: "Solution Selling", level: "intermediate", issuer: "Covant Academy" },
+  { name: "Technical Integration", level: "advanced", issuer: "Covant Academy" },
+  { name: "Enterprise Strategy", level: "expert", issuer: "Covant Academy" },
+];
 
 function LevelBadge({ level }: { level: string }) {
   const colors: Record<string, { bg: string; fg: string }> = {
@@ -16,59 +24,44 @@ function LevelBadge({ level }: { level: string }) {
   const c = colors[level] || colors.beginner;
   return (
     <span style={{ display: "inline-flex", padding: "2px 8px", borderRadius: 10, fontSize: ".7rem", fontWeight: 700, background: c.bg, color: c.fg, textTransform: "uppercase", letterSpacing: ".04em" }}>
-      {CERTIFICATION_LEVEL_LABELS[level as keyof typeof CERTIFICATION_LEVEL_LABELS] || level}
+      {level}
+    </span>
+  );
+}
+
+function TierBadge({ tier }: { tier?: string }) {
+  const colors: Record<string, { bg: string; fg: string }> = {
+    platinum: { bg: "#e5e7eb", fg: "#1f2937" },
+    gold: { bg: "#fef3c7", fg: "#92400e" },
+    silver: { bg: "#f3f4f6", fg: "#4b5563" },
+    bronze: { bg: "#fef2f2", fg: "#991b1b" },
+  };
+  const c = colors[tier || "bronze"] || colors.bronze;
+  return (
+    <span style={{ display: "inline-flex", padding: "2px 8px", borderRadius: 10, fontSize: ".7rem", fontWeight: 700, background: c.bg, color: c.fg, textTransform: "uppercase" }}>
+      {tier || "bronze"}
     </span>
   );
 }
 
 export default function CertificationsPage() {
-  const { partners, certifications, badges, trainingCompletions, skillEndorsements } = useStore();
+  const partners = useQuery(api.partners.list) ?? [];
   const [search, setSearch] = useState("");
-  const [tab, setTab] = useState<"certs" | "badges" | "training" | "endorsements">("certs");
 
-  const activeCerts = certifications.filter(c => c.status === "active");
-  const expiredCerts = certifications.filter(c => c.status === "expired");
+  const activePartners = partners.filter(p => p.status === "active");
 
-  const partnerMap = useMemo(() => {
-    const map = new Map<string, string>();
-    partners.forEach(p => map.set(p._id, p.name));
-    return map;
-  }, [partners]);
-
-  // Summary stats
+  // Summary stats based on real partner data
   const stats = useMemo(() => ({
-    totalCerts: certifications.length,
-    activeCerts: activeCerts.length,
-    totalBadges: badges.length,
-    totalTrainings: trainingCompletions.length,
-    totalEndorsements: skillEndorsements.length,
-    avgTrainingScore: trainingCompletions.length > 0
-      ? Math.round(trainingCompletions.reduce((s, t) => s + (t.score || 0), 0) / trainingCompletions.length)
-      : 0,
-  }), [certifications, activeCerts, badges, trainingCompletions, skillEndorsements]);
+    totalPartners: partners.length,
+    activePartners: activePartners.length,
+    platinumTier: partners.filter(p => p.tier === "platinum").length,
+    goldTier: partners.filter(p => p.tier === "gold").length,
+  }), [partners, activePartners]);
 
-  const filteredCerts = certifications.filter(c => {
+  const filteredPartners = partners.filter(p => {
     if (!search) return true;
-    const pName = partnerMap.get(c.partnerId) || "";
-    return pName.toLowerCase().includes(search.toLowerCase()) || c.name.toLowerCase().includes(search.toLowerCase());
-  });
-
-  const filteredBadges = badges.filter(b => {
-    if (!search) return true;
-    const pName = partnerMap.get(b.partnerId) || "";
-    return pName.toLowerCase().includes(search.toLowerCase()) || b.name.toLowerCase().includes(search.toLowerCase());
-  });
-
-  const filteredTrainings = trainingCompletions.filter(t => {
-    if (!search) return true;
-    const pName = partnerMap.get(t.partnerId) || "";
-    return pName.toLowerCase().includes(search.toLowerCase()) || t.courseName.toLowerCase().includes(search.toLowerCase());
-  });
-
-  const filteredEndorsements = skillEndorsements.filter(e => {
-    if (!search) return true;
-    const pName = partnerMap.get(e.partnerId) || "";
-    return pName.toLowerCase().includes(search.toLowerCase()) || e.skill.toLowerCase().includes(search.toLowerCase());
+    return p.name.toLowerCase().includes(search.toLowerCase()) || 
+           p.email.toLowerCase().includes(search.toLowerCase());
   });
 
   return (
@@ -77,202 +70,143 @@ export default function CertificationsPage() {
         <div>
           <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>
             <Award size={24} style={{ display: "inline", verticalAlign: "-3px", marginRight: 8, color: "#6366f1" }} />
-            Certifications & Badges
+            Partner Certifications
           </h1>
-          <p className="muted">Partner learning ecosystem and skill tracking</p>
+          <p className="muted">Partner tiers and certification tracking</p>
+        </div>
+      </div>
+
+      {/* Coming Soon Banner */}
+      <div style={{ 
+        padding: "1rem 1.25rem", 
+        borderRadius: 10, 
+        border: "1px solid #a5b4fc", 
+        background: "#eef2ff", 
+        display: "flex", 
+        alignItems: "center", 
+        gap: "1rem",
+        marginBottom: "1.5rem"
+      }}>
+        <Info size={22} color="#4338ca" />
+        <div style={{ flex: 1 }}>
+          <p style={{ fontWeight: 700, fontSize: ".95rem", color: "#4338ca" }}>
+            Full Certification Tracking Coming Soon
+          </p>
+          <p style={{ fontSize: ".85rem", color: "#6366f1" }}>
+            Course completions, badges, and skill endorsements will be available in an upcoming release. 
+            Partner tier data shown below is live from your database.
+          </p>
         </div>
       </div>
 
       {/* Summary Cards */}
       <div className="stat-grid" style={{ marginBottom: "1.5rem" }}>
         <div className="card" style={{ textAlign: "center" }}>
-          <p className="muted" style={{ fontSize: ".8rem" }}>Active Certifications</p>
-          <p style={{ fontSize: "1.8rem", fontWeight: 800, color: "#059669" }}>{stats.activeCerts}</p>
-          {expiredCerts.length > 0 && <p className="muted" style={{ fontSize: ".7rem" }}>{expiredCerts.length} expired</p>}
+          <p className="muted" style={{ fontSize: ".8rem" }}>Total Partners</p>
+          <p style={{ fontSize: "1.8rem", fontWeight: 800, color: "#6366f1" }}>{stats.totalPartners}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
-          <p className="muted" style={{ fontSize: ".8rem" }}>Badges Earned</p>
-          <p style={{ fontSize: "1.8rem", fontWeight: 800, color: "#d97706" }}>{stats.totalBadges}</p>
+          <p className="muted" style={{ fontSize: ".8rem" }}>Active Partners</p>
+          <p style={{ fontSize: "1.8rem", fontWeight: 800, color: "#059669" }}>{stats.activePartners}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
-          <p className="muted" style={{ fontSize: ".8rem" }}>Trainings Completed</p>
-          <p style={{ fontSize: "1.8rem", fontWeight: 800, color: "#0284c7" }}>{stats.totalTrainings}</p>
-          <p className="muted" style={{ fontSize: ".7rem" }}>Avg score: {stats.avgTrainingScore}%</p>
+          <p className="muted" style={{ fontSize: ".8rem" }}>Platinum Tier</p>
+          <p style={{ fontSize: "1.8rem", fontWeight: 800, color: "#4b5563" }}>{stats.platinumTier}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
-          <p className="muted" style={{ fontSize: ".8rem" }}>Skill Endorsements</p>
-          <p style={{ fontSize: "1.8rem", fontWeight: 800, color: "#6366f1" }}>{stats.totalEndorsements}</p>
+          <p className="muted" style={{ fontSize: ".8rem" }}>Gold Tier</p>
+          <p style={{ fontSize: "1.8rem", fontWeight: 800, color: "#d97706" }}>{stats.goldTier}</p>
         </div>
       </div>
 
-      {/* Tab Bar + Search */}
+      {/* Search */}
       <div className="card" style={{ marginBottom: "1.5rem", display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap", padding: "1rem 1.5rem" }}>
-        <div style={{ display: "flex", gap: ".5rem", background: "var(--subtle)", borderRadius: 8, padding: 3 }}>
-          {([
-            { key: "certs", label: "Certifications", icon: <Shield size={14} /> },
-            { key: "badges", label: "Badges", icon: <Star size={14} /> },
-            { key: "training", label: "Training", icon: <BookOpen size={14} /> },
-            { key: "endorsements", label: "Endorsements", icon: <Users size={14} /> },
-          ] as const).map(t => (
-            <button
-              key={t.key}
-              onClick={() => setTab(t.key)}
-              style={{
-                display: "flex", alignItems: "center", gap: 4,
-                padding: "6px 12px", borderRadius: 6, fontSize: ".8rem", fontWeight: 600,
-                border: "none", cursor: "pointer",
-                background: tab === t.key ? "var(--bg)" : "transparent",
-                color: tab === t.key ? "var(--fg)" : "var(--muted)",
-                boxShadow: tab === t.key ? "0 1px 3px rgba(0,0,0,.1)" : "none",
-              }}
-            >
-              {t.icon} {t.label}
-            </button>
-          ))}
-        </div>
         <div style={{ flex: 1, position: "relative", minWidth: 200 }}>
           <Search size={16} style={{ position: "absolute", left: 12, top: 12, color: "var(--muted)" }} />
-          <input className="input" placeholder="Search..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ paddingLeft: 36 }} />
+          <input className="input" placeholder="Search partners..." value={search} onChange={(e) => setSearch(e.target.value)} style={{ paddingLeft: 36 }} />
         </div>
       </div>
 
-      {/* Certifications Tab */}
-      {tab === "certs" && (
-        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-          <div className="table-responsive">
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".9rem" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--subtle)" }}>
-                  <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Partner</th>
-                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Certification</th>
-                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Issuer</th>
-                  <th style={{ padding: ".8rem", textAlign: "center", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Level</th>
-                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Earned</th>
-                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Expiry</th>
-                  <th style={{ padding: ".8rem", textAlign: "center", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredCerts.sort((a, b) => b.dateEarned - a.dateEarned).map(cert => (
-                  <tr key={cert._id} style={{ borderBottom: "1px solid var(--border)" }}>
-                    <td style={{ padding: ".8rem 1.2rem" }}>
-                      <Link href={`/dashboard/partners/${cert.partnerId}`} style={{ fontWeight: 600 }}>
-                        {partnerMap.get(cert.partnerId) || cert.partnerId}
-                      </Link>
-                    </td>
-                    <td style={{ padding: ".8rem", fontWeight: 500 }}>{cert.name}</td>
-                    <td style={{ padding: ".8rem" }} className="muted">{cert.issuer}</td>
-                    <td style={{ padding: ".8rem", textAlign: "center" }}><LevelBadge level={cert.level} /></td>
-                    <td style={{ padding: ".8rem", fontSize: ".85rem" }}>{formatDate(cert.dateEarned)}</td>
-                    <td style={{ padding: ".8rem", fontSize: ".85rem" }} className="muted">{cert.expiryDate ? formatDate(cert.expiryDate) : "—"}</td>
-                    <td style={{ padding: ".8rem", textAlign: "center" }}>
-                      <span className={`badge badge-${cert.status === "active" ? "success" : "danger"}`}>{cert.status}</span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {filteredCerts.length === 0 && <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No certifications found.</p>}
+      {/* Partner Certification Status */}
+      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+        <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h2 style={{ fontWeight: 700, fontSize: "1.1rem", display: "flex", alignItems: "center", gap: ".5rem" }}>
+            <Users size={18} /> Partner Status & Tiers
+          </h2>
+          <span className="badge badge-info">{filteredPartners.length} partners</span>
         </div>
-      )}
+        <div className="table-responsive">
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".9rem" }}>
+            <thead>
+              <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--subtle)" }}>
+                <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Partner</th>
+                <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Type</th>
+                <th style={{ padding: ".8rem", textAlign: "center", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Tier</th>
+                <th style={{ padding: ".8rem", textAlign: "center", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Status</th>
+                <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Territory</th>
+                <th style={{ padding: ".8rem", textAlign: "right", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Commission</th>
+                <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Joined</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredPartners.map(partner => (
+                <tr key={partner._id} style={{ borderBottom: "1px solid var(--border)" }}>
+                  <td style={{ padding: ".8rem 1.2rem" }}>
+                    <Link href={`/dashboard/partners/${partner._id}`} style={{ fontWeight: 600 }}>
+                      {partner.name}
+                    </Link>
+                    <p className="muted" style={{ fontSize: ".75rem" }}>{partner.email}</p>
+                  </td>
+                  <td style={{ padding: ".8rem" }}>
+                    <span className="chip" style={{ fontSize: ".75rem", textTransform: "capitalize" }}>{partner.type}</span>
+                  </td>
+                  <td style={{ padding: ".8rem", textAlign: "center" }}>
+                    <TierBadge tier={partner.tier} />
+                  </td>
+                  <td style={{ padding: ".8rem", textAlign: "center" }}>
+                    <span className={`badge badge-${partner.status === "active" ? "success" : partner.status === "pending" ? "warning" : "danger"}`}>
+                      {partner.status}
+                    </span>
+                  </td>
+                  <td style={{ padding: ".8rem" }} className="muted">
+                    {partner.territory || "—"}
+                  </td>
+                  <td style={{ padding: ".8rem", textAlign: "right", fontWeight: 600 }}>
+                    {partner.commissionRate}%
+                  </td>
+                  <td style={{ padding: ".8rem 1.2rem", fontSize: ".85rem" }} className="muted">
+                    {formatDate(partner.createdAt)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {filteredPartners.length === 0 && (
+          <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No partners found.</p>
+        )}
+      </div>
 
-      {/* Badges Tab */}
-      {tab === "badges" && (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1rem" }}>
-          {filteredBadges.sort((a, b) => b.earnedAt - a.earnedAt).map(badge => (
-            <div key={badge._id} className="card" style={{ display: "flex", gap: "1rem", alignItems: "start" }}>
-              <div style={{ fontSize: "2rem", lineHeight: 1 }}>{badge.icon}</div>
-              <div style={{ flex: 1 }}>
-                <p style={{ fontWeight: 700, fontSize: ".95rem" }}>{badge.name}</p>
-                <p className="muted" style={{ fontSize: ".8rem", margin: "4px 0" }}>{badge.description}</p>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 8 }}>
-                  <Link href={`/dashboard/partners/${badge.partnerId}`} style={{ fontSize: ".8rem", fontWeight: 500 }}>
-                    {partnerMap.get(badge.partnerId)}
-                  </Link>
-                  <span className="chip" style={{ fontSize: ".7rem" }}>{badge.category}</span>
-                </div>
-                <p className="muted" style={{ fontSize: ".75rem", marginTop: 4 }}>{formatDate(badge.earnedAt)}</p>
+      {/* Available Certifications */}
+      <div className="card" style={{ marginTop: "1.5rem" }}>
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: ".5rem" }}>
+          <Shield size={18} /> Available Certifications
+        </h2>
+        <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1rem" }}>
+          These certifications will be trackable per partner in a future release.
+        </p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "1rem" }}>
+          {CERTIFICATION_TYPES.map((cert, i) => (
+            <div key={i} style={{ padding: "1rem", borderRadius: 10, border: "1px solid var(--border)", background: "var(--subtle)" }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: ".5rem" }}>
+                <p style={{ fontWeight: 700, fontSize: ".95rem" }}>{cert.name}</p>
+                <LevelBadge level={cert.level} />
               </div>
+              <p className="muted" style={{ fontSize: ".8rem" }}>Issued by: {cert.issuer}</p>
             </div>
           ))}
-          {filteredBadges.length === 0 && <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No badges found.</p>}
         </div>
-      )}
-
-      {/* Training Tab */}
-      {tab === "training" && (
-        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-          <div className="table-responsive">
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".9rem" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--subtle)" }}>
-                  <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Partner</th>
-                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Course</th>
-                  <th style={{ padding: ".8rem", textAlign: "center", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Score</th>
-                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Completed</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredTrainings.sort((a, b) => b.completedAt - a.completedAt).map(t => (
-                  <tr key={t._id} style={{ borderBottom: "1px solid var(--border)" }}>
-                    <td style={{ padding: ".8rem 1.2rem" }}>
-                      <Link href={`/dashboard/partners/${t.partnerId}`} style={{ fontWeight: 600 }}>{partnerMap.get(t.partnerId)}</Link>
-                    </td>
-                    <td style={{ padding: ".8rem", fontWeight: 500 }}>{t.courseName}</td>
-                    <td style={{ padding: ".8rem", textAlign: "center" }}>
-                      {t.score != null && (
-                        <span style={{ fontWeight: 700, color: t.score >= 90 ? "#059669" : t.score >= 70 ? "#0284c7" : "#d97706" }}>
-                          {t.score}%
-                        </span>
-                      )}
-                    </td>
-                    <td style={{ padding: ".8rem", fontSize: ".85rem" }} className="muted">{formatDate(t.completedAt)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {filteredTrainings.length === 0 && <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No training completions found.</p>}
-        </div>
-      )}
-
-      {/* Endorsements Tab */}
-      {tab === "endorsements" && (
-        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-          <div className="table-responsive">
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".9rem" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--subtle)" }}>
-                  <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Partner</th>
-                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Skill</th>
-                  <th style={{ padding: ".8rem", textAlign: "center", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Level</th>
-                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Endorsed By</th>
-                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredEndorsements.sort((a, b) => b.endorsedAt - a.endorsedAt).map(e => (
-                  <tr key={e._id} style={{ borderBottom: "1px solid var(--border)" }}>
-                    <td style={{ padding: ".8rem 1.2rem" }}>
-                      <Link href={`/dashboard/partners/${e.partnerId}`} style={{ fontWeight: 600 }}>{partnerMap.get(e.partnerId)}</Link>
-                    </td>
-                    <td style={{ padding: ".8rem", fontWeight: 500 }}>{e.skill}</td>
-                    <td style={{ padding: ".8rem", textAlign: "center" }}>
-                      <span className={`badge badge-${e.level === "expert" ? "success" : e.level === "proficient" ? "info" : "neutral"}`}>
-                        {e.level}
-                      </span>
-                    </td>
-                    <td style={{ padding: ".8rem" }} className="muted">{e.endorsedBy}</td>
-                    <td style={{ padding: ".8rem", fontSize: ".85rem" }} className="muted">{formatDate(e.endorsedAt)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {filteredEndorsements.length === 0 && <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>No endorsements found.</p>}
-        </div>
-      )}
+      </div>
     </>
   );
 }

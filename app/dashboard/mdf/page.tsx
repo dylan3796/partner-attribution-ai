@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useStore } from "@/lib/store";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { useToast } from "@/components/ui/toast";
 import {
@@ -11,60 +13,171 @@ import {
   Clock,
   CheckCircle2,
   XCircle,
-  ArrowRight,
   TrendingUp,
-  Megaphone,
-  Eye,
   Settings2,
+  Plus,
+  Loader2,
+  Inbox,
 } from "lucide-react";
-import type { MDFRequest, MDFStatus } from "@/lib/types";
-import { MDF_CAMPAIGN_LABELS, MDF_STATUS_LABELS } from "@/lib/types";
+
+type MDFStatus = "pending" | "approved" | "rejected" | "completed";
+
+const STATUS_LABELS: Record<MDFStatus, string> = {
+  pending: "Pending Review",
+  approved: "Approved",
+  rejected: "Rejected",
+  completed: "Completed",
+};
+
+const CATEGORY_LABELS: Record<string, string> = {
+  event: "Event / Trade Show",
+  content: "Content Creation",
+  advertising: "Advertising",
+  training: "Training / Enablement",
+};
 
 function StatusBadge({ status }: { status: MDFStatus }) {
   const colors: Record<MDFStatus, { bg: string; fg: string }> = {
     pending: { bg: "#fef3c7", fg: "#92400e" },
     approved: { bg: "#dbeafe", fg: "#1e40af" },
     rejected: { bg: "#fee2e2", fg: "#991b1b" },
-    executed: { bg: "#e0e7ff", fg: "#3730a3" },
-    paid: { bg: "#dcfce7", fg: "#166534" },
+    completed: { bg: "#dcfce7", fg: "#166534" },
   };
   const c = colors[status] || colors.pending;
   return (
     <span style={{ padding: ".2rem .65rem", borderRadius: 20, fontSize: ".75rem", fontWeight: 600, background: c.bg, color: c.fg }}>
-      {MDF_STATUS_LABELS[status]}
+      {STATUS_LABELS[status]}
     </span>
   );
 }
 
+function LoadingSkeleton() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+        <div>
+          <div style={{ width: 280, height: 32, background: "var(--border)", borderRadius: 8, marginBottom: 8 }} />
+          <div style={{ width: 320, height: 16, background: "var(--border)", borderRadius: 4 }} />
+        </div>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
+        {[1,2,3,4].map(i => (
+          <div key={i} className="card" style={{ padding: "1.5rem", textAlign: "center" }}>
+            <div style={{ width: 22, height: 22, background: "var(--border)", borderRadius: 4, margin: "0 auto .5rem" }} />
+            <div style={{ width: 60, height: 12, background: "var(--border)", borderRadius: 4, margin: "0 auto .5rem" }} />
+            <div style={{ width: 80, height: 24, background: "var(--border)", borderRadius: 4, margin: "0 auto" }} />
+          </div>
+        ))}
+      </div>
+      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+        {[1,2,3].map(i => (
+          <div key={i} style={{ padding: "1rem 1.5rem", borderBottom: "1px solid var(--border)", display: "flex", gap: "1rem", alignItems: "center" }}>
+            <div style={{ width: 200, height: 16, background: "var(--border)", borderRadius: 4 }} />
+            <div style={{ width: 100, height: 16, background: "var(--border)", borderRadius: 4 }} />
+            <div style={{ width: 80, height: 16, background: "var(--border)", borderRadius: 4 }} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function EmptyState({ onCreateClick }: { onCreateClick: () => void }) {
+  return (
+    <div className="card" style={{ padding: "4rem 2rem", textAlign: "center" }}>
+      <Inbox size={48} style={{ color: "var(--muted)", margin: "0 auto 1rem" }} />
+      <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: ".5rem" }}>No MDF Requests Yet</h3>
+      <p className="muted" style={{ marginBottom: "1.5rem", maxWidth: 400, margin: "0 auto 1.5rem" }}>
+        Market Development Fund requests help partners get funding for marketing activities. Create your first request to get started.
+      </p>
+      <button className="btn" onClick={onCreateClick}>
+        <Plus size={16} /> Create MDF Request
+      </button>
+    </div>
+  );
+}
+
 export default function MDFPage() {
-  const { mdfBudgets, mdfRequests, updateMDFRequest, partners } = useStore();
+  const mdfRequests = useQuery(api.mdf.list);
+  const mdfStats = useQuery(api.mdf.getStats);
+  const partners = useQuery(api.partners.list);
+  const createMDF = useMutation(api.mdf.create);
+  const updateMDFStatus = useMutation(api.mdf.updateStatus);
+  
   const { toast } = useToast();
   const [filter, setFilter] = useState<"all" | MDFStatus>("all");
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
+  
+  // Form state
+  const [formPartnerId, setFormPartnerId] = useState("");
+  const [formTitle, setFormTitle] = useState("");
+  const [formDescription, setFormDescription] = useState("");
+  const [formAmount, setFormAmount] = useState("");
+  const [formCategory, setFormCategory] = useState("event");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (mdfRequests === undefined || mdfStats === undefined || partners === undefined) {
+    return <LoadingSkeleton />;
+  }
 
   const filtered = filter === "all" ? mdfRequests : mdfRequests.filter((r) => r.status === filter);
-  const totalAllocated = mdfBudgets.reduce((s, b) => s + b.allocatedAmount, 0);
-  const totalSpent = mdfBudgets.reduce((s, b) => s + b.spentAmount, 0);
-  const totalRemaining = mdfBudgets.reduce((s, b) => s + b.remainingAmount, 0);
-  const pendingRequests = mdfRequests.filter((r) => r.status === "pending");
-  const totalLeads = mdfRequests.reduce((s, r) => s + (r.leadsGenerated || 0), 0);
-  const totalPipeline = mdfRequests.reduce((s, r) => s + (r.pipelineCreated || 0), 0);
-
   const detail = detailId ? mdfRequests.find((r) => r._id === detailId) : null;
 
-  function handleApprove(req: MDFRequest) {
-    updateMDFRequest(req._id, { status: "approved", approvedAmount: req.requestedAmount, reviewedBy: "Admin User", reviewedAt: Date.now() });
-    toast(`MDF request "${req.title}" approved`);
+  async function handleApprove(req: any) {
+    try {
+      await updateMDFStatus({ id: req._id as Id<"mdfRequests">, status: "approved" });
+      toast(`MDF request "${req.title}" approved`);
+    } catch (e) {
+      toast("Failed to approve request", "error");
+    }
   }
 
-  function handleReject(req: MDFRequest) {
-    updateMDFRequest(req._id, { status: "rejected", reviewedBy: "Admin User", reviewedAt: Date.now() });
-    toast(`MDF request "${req.title}" rejected`, "error");
+  async function handleReject(req: any) {
+    try {
+      await updateMDFStatus({ id: req._id as Id<"mdfRequests">, status: "rejected" });
+      toast(`MDF request "${req.title}" rejected`, "error");
+    } catch (e) {
+      toast("Failed to reject request", "error");
+    }
   }
 
-  function handleMarkPaid(req: MDFRequest) {
-    updateMDFRequest(req._id, { status: "paid", paidAt: Date.now() });
-    toast(`MDF payment processed for "${req.title}"`);
+  async function handleMarkComplete(req: any) {
+    try {
+      await updateMDFStatus({ id: req._id as Id<"mdfRequests">, status: "completed" });
+      toast(`MDF request "${req.title}" marked as completed`);
+    } catch (e) {
+      toast("Failed to update request", "error");
+    }
+  }
+
+  async function handleCreateSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!formPartnerId || !formTitle || !formAmount) {
+      toast("Please fill in all required fields", "error");
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      await createMDF({
+        partnerId: formPartnerId as Id<"partners">,
+        title: formTitle,
+        description: formDescription,
+        amount: parseFloat(formAmount),
+        category: formCategory,
+      });
+      toast("MDF request created successfully");
+      setShowCreateModal(false);
+      setFormPartnerId("");
+      setFormTitle("");
+      setFormDescription("");
+      setFormAmount("");
+      setFormCategory("event");
+    } catch (e) {
+      toast("Failed to create MDF request", "error");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -74,75 +187,48 @@ export default function MDFPage() {
           <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Market Development Funds</h1>
           <p className="muted" style={{ marginTop: "0.25rem" }}>Manage MDF budgets, requests, and campaign performance</p>
         </div>
-        <Link href="/dashboard/mdf/setup" className="btn-outline" style={{ fontSize: ".875rem" }}>
-          <Settings2 size={15} /> Setup Program
-        </Link>
+        <div style={{ display: "flex", gap: ".75rem" }}>
+          <button className="btn" onClick={() => setShowCreateModal(true)}>
+            <Plus size={16} /> New Request
+          </button>
+          <Link href="/dashboard/mdf/setup" className="btn-outline" style={{ fontSize: ".875rem" }}>
+            <Settings2 size={15} /> Setup Program
+          </Link>
+        </div>
       </div>
 
       {/* MDF Overview Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "1rem" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
         <div className="card" style={{ textAlign: "center" }}>
           <DollarSign size={22} color="#4338ca" style={{ margin: "0 auto .5rem" }} />
-          <p className="muted" style={{ fontSize: ".75rem" }}>Total Allocated</p>
-          <p style={{ fontSize: "1.3rem", fontWeight: 800 }}>{formatCurrency(totalAllocated)}</p>
+          <p className="muted" style={{ fontSize: ".75rem" }}>Total Requested</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800 }}>{formatCurrency(mdfStats.totalRequested)}</p>
+        </div>
+        <div className="card" style={{ textAlign: "center" }}>
+          <Clock size={22} color="#d97706" style={{ margin: "0 auto .5rem" }} />
+          <p className="muted" style={{ fontSize: ".75rem" }}>Pending Review</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#d97706" }}>{mdfStats.pendingCount}</p>
+          <p className="muted" style={{ fontSize: ".7rem" }}>{formatCurrency(mdfStats.pendingAmount)}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
           <FileCheck size={22} color="#059669" style={{ margin: "0 auto .5rem" }} />
-          <p className="muted" style={{ fontSize: ".75rem" }}>Total Spent</p>
-          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#059669" }}>{formatCurrency(totalSpent)}</p>
+          <p className="muted" style={{ fontSize: ".75rem" }}>Approved</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#059669" }}>{mdfStats.approvedCount + mdfStats.completedCount}</p>
+          <p className="muted" style={{ fontSize: ".7rem" }}>{formatCurrency(mdfStats.approvedAmount)}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
-          <DollarSign size={22} color="#d97706" style={{ margin: "0 auto .5rem" }} />
-          <p className="muted" style={{ fontSize: ".75rem" }}>Remaining</p>
-          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#d97706" }}>{formatCurrency(totalRemaining)}</p>
-        </div>
-        <div className="card" style={{ textAlign: "center" }}>
-          <Megaphone size={22} color="#7c3aed" style={{ margin: "0 auto .5rem" }} />
-          <p className="muted" style={{ fontSize: ".75rem" }}>Leads Generated</p>
-          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#7c3aed" }}>{totalLeads}</p>
-        </div>
-        <div className="card" style={{ textAlign: "center" }}>
-          <TrendingUp size={22} color="#0284c7" style={{ margin: "0 auto .5rem" }} />
-          <p className="muted" style={{ fontSize: ".75rem" }}>Pipeline Created</p>
-          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#0284c7" }}>{formatCurrency(totalPipeline)}</p>
-        </div>
-      </div>
-
-      {/* Budget by Partner */}
-      <div className="card">
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem" }}>Partner MDF Budgets</h2>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem" }}>
-          {mdfBudgets.map((budget) => {
-            const partner = partners.find((p) => p._id === budget.partnerId);
-            const utilization = budget.allocatedAmount > 0 ? (budget.spentAmount / budget.allocatedAmount) * 100 : 0;
-            return (
-              <div key={budget._id} style={{ padding: "1rem", borderRadius: 10, border: "1px solid var(--border)", background: "var(--subtle)" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: ".75rem" }}>
-                  <p style={{ fontWeight: 600, fontSize: ".9rem" }}>{partner?.name || "Unknown"}</p>
-                  <span className="muted" style={{ fontSize: ".75rem" }}>{budget.period}</span>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", fontSize: ".8rem", marginBottom: ".4rem" }}>
-                  <span>Spent: {formatCurrency(budget.spentAmount)}</span>
-                  <span>of {formatCurrency(budget.allocatedAmount)}</span>
-                </div>
-                <div style={{ width: "100%", height: 8, background: "var(--border)", borderRadius: 4, overflow: "hidden" }}>
-                  <div style={{ width: `${utilization}%`, height: "100%", background: utilization > 80 ? "#dc2626" : utilization > 50 ? "#d97706" : "#059669", borderRadius: 4 }} />
-                </div>
-                <p style={{ fontSize: ".75rem", color: "var(--muted)", marginTop: ".35rem" }}>
-                  {formatCurrency(budget.remainingAmount)} remaining · {Math.round(utilization)}% utilized
-                </p>
-              </div>
-            );
-          })}
+          <TrendingUp size={22} color="#6366f1" style={{ margin: "0 auto .5rem" }} />
+          <p className="muted" style={{ fontSize: ".75rem" }}>Total Requests</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#6366f1" }}>{mdfStats.totalCount}</p>
         </div>
       </div>
 
       {/* Pending Alert */}
-      {pendingRequests.length > 0 && (
+      {mdfStats.pendingCount > 0 && (
         <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #fbbf24", background: "#fffbeb", display: "flex", alignItems: "center", gap: "1rem" }}>
           <Clock size={20} color="#92400e" />
           <div style={{ flex: 1 }}>
-            <p style={{ fontWeight: 600, fontSize: ".9rem", color: "#78350f" }}>{pendingRequests.length} MDF request{pendingRequests.length !== 1 ? "s" : ""} pending approval</p>
+            <p style={{ fontWeight: 600, fontSize: ".9rem", color: "#78350f" }}>{mdfStats.pendingCount} MDF request{mdfStats.pendingCount !== 1 ? "s" : ""} pending approval</p>
             <p style={{ fontSize: ".8rem", color: "#92400e" }}>Review and approve partner marketing campaigns</p>
           </div>
         </div>
@@ -150,7 +236,7 @@ export default function MDFPage() {
 
       {/* Request Filters */}
       <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
-        {(["all", "pending", "approved", "executed", "paid", "rejected"] as const).map((f) => (
+        {(["all", "pending", "approved", "completed", "rejected"] as const).map((f) => (
           <button
             key={f}
             onClick={() => setFilter(f)}
@@ -171,41 +257,99 @@ export default function MDFPage() {
         ))}
       </div>
 
-      {/* MDF Request Detail Modal */}
+      {/* Empty State or Table */}
+      {mdfRequests.length === 0 ? (
+        <EmptyState onCreateClick={() => setShowCreateModal(true)} />
+      ) : (
+        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+            <thead>
+              <tr style={{ borderBottom: "1px solid var(--border)" }}>
+                <th style={{ padding: ".75rem 1.5rem", textAlign: "left", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Request</th>
+                <th style={{ padding: ".75rem .5rem", textAlign: "left", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Partner</th>
+                <th style={{ padding: ".75rem .5rem", textAlign: "left", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Category</th>
+                <th style={{ padding: ".75rem .5rem", textAlign: "right", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Amount</th>
+                <th style={{ padding: ".75rem .5rem", textAlign: "center", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Status</th>
+                <th style={{ padding: ".75rem 1.5rem", textAlign: "center", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((req) => (
+                <tr key={req._id} style={{ borderBottom: "1px solid var(--border)" }}>
+                  <td style={{ padding: ".75rem 1.5rem" }}>
+                    <p style={{ fontWeight: 600, fontSize: ".9rem" }}>{req.title}</p>
+                    <p className="muted" style={{ fontSize: ".75rem" }}>{formatDate(req.submittedAt)}</p>
+                  </td>
+                  <td style={{ padding: ".75rem .5rem", fontSize: ".9rem" }}>{req.partnerName}</td>
+                  <td style={{ padding: ".75rem .5rem", fontSize: ".85rem" }}>{CATEGORY_LABELS[req.category || "event"] || req.category}</td>
+                  <td style={{ padding: ".75rem .5rem", textAlign: "right", fontWeight: 600 }}>
+                    {formatCurrency(req.amount)}
+                  </td>
+                  <td style={{ padding: ".75rem .5rem", textAlign: "center" }}>
+                    <StatusBadge status={req.status} />
+                  </td>
+                  <td style={{ padding: ".75rem 1.5rem", textAlign: "center" }}>
+                    <div style={{ display: "flex", gap: ".5rem", justifyContent: "center" }}>
+                      <button className="btn-outline" style={{ fontSize: ".75rem", padding: ".25rem .5rem" }} onClick={() => setDetailId(req._id)}>
+                        View
+                      </button>
+                      {req.status === "pending" && (
+                        <>
+                          <button className="btn" style={{ fontSize: ".75rem", padding: ".25rem .5rem", background: "#059669" }} onClick={() => handleApprove(req)}>
+                            <CheckCircle2 size={13} />
+                          </button>
+                          <button className="btn" style={{ fontSize: ".75rem", padding: ".25rem .5rem", background: "#dc2626" }} onClick={() => handleReject(req)}>
+                            <XCircle size={13} />
+                          </button>
+                        </>
+                      )}
+                      {req.status === "approved" && (
+                        <button className="btn" style={{ fontSize: ".75rem", padding: ".25rem .5rem" }} onClick={() => handleMarkComplete(req)}>
+                          Complete
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Detail Modal */}
       {detail && (
         <div
           style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}
           onClick={() => setDetailId(null)}
         >
-          <div onClick={(e) => e.stopPropagation()} style={{ background: "var(--bg)", borderRadius: 16, padding: "2rem", maxWidth: 640, width: "90%", maxHeight: "80vh", overflow: "auto", boxShadow: "0 25px 50px rgba(0,0,0,0.2)" }}>
+          <div onClick={(e) => e.stopPropagation()} style={{ background: "var(--bg)", borderRadius: 16, padding: "2rem", maxWidth: 540, width: "90%", boxShadow: "0 25px 50px rgba(0,0,0,0.2)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "1.5rem" }}>
               <div>
                 <h2 style={{ fontSize: "1.3rem", fontWeight: 700, marginBottom: ".25rem" }}>{detail.title}</h2>
-                <p className="muted" style={{ fontSize: ".85rem" }}>{partners.find((p) => p._id === detail.partnerId)?.name}</p>
+                <p className="muted" style={{ fontSize: ".85rem" }}>{detail.partnerName}</p>
               </div>
               <StatusBadge status={detail.status} />
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1.5rem" }}>
-              <div><p className="muted" style={{ fontSize: ".75rem" }}>Campaign Type</p><p style={{ fontWeight: 600 }}>{MDF_CAMPAIGN_LABELS[detail.campaignType]}</p></div>
-              <div><p className="muted" style={{ fontSize: ".75rem" }}>Requested Amount</p><p style={{ fontWeight: 600 }}>{formatCurrency(detail.requestedAmount)}</p></div>
-              {detail.approvedAmount != null && <div><p className="muted" style={{ fontSize: ".75rem" }}>Approved Amount</p><p style={{ fontWeight: 600, color: "#059669" }}>{formatCurrency(detail.approvedAmount)}</p></div>}
-              <div><p className="muted" style={{ fontSize: ".75rem" }}>Campaign Dates</p><p style={{ fontWeight: 600 }}>{formatDate(detail.startDate)} – {formatDate(detail.endDate)}</p></div>
+              <div><p className="muted" style={{ fontSize: ".75rem" }}>Category</p><p style={{ fontWeight: 600 }}>{CATEGORY_LABELS[detail.category || "event"] || detail.category}</p></div>
+              <div><p className="muted" style={{ fontSize: ".75rem" }}>Requested Amount</p><p style={{ fontWeight: 600 }}>{formatCurrency(detail.amount)}</p></div>
+              <div><p className="muted" style={{ fontSize: ".75rem" }}>Submitted</p><p style={{ fontWeight: 600 }}>{formatDate(detail.submittedAt)}</p></div>
+              {detail.reviewedAt && <div><p className="muted" style={{ fontSize: ".75rem" }}>Reviewed</p><p style={{ fontWeight: 600 }}>{formatDate(detail.reviewedAt)}</p></div>}
             </div>
 
-            <div style={{ marginBottom: "1.5rem" }}>
-              <p className="muted" style={{ fontSize: ".75rem", marginBottom: ".25rem" }}>Description</p>
-              <p style={{ fontSize: ".9rem", lineHeight: 1.6 }}>{detail.description}</p>
-            </div>
+            {detail.description && (
+              <div style={{ marginBottom: "1.5rem" }}>
+                <p className="muted" style={{ fontSize: ".75rem", marginBottom: ".25rem" }}>Description</p>
+                <p style={{ fontSize: ".9rem", lineHeight: 1.6 }}>{detail.description}</p>
+              </div>
+            )}
 
-            {(detail.leadsGenerated || detail.pipelineCreated || detail.revenueInfluenced) && (
-              <div style={{ marginBottom: "1.5rem", padding: "1rem", borderRadius: 10, background: "#ecfdf5", border: "1px solid #a7f3d0" }}>
-                <p style={{ fontWeight: 700, fontSize: ".9rem", color: "#065f46", marginBottom: ".5rem" }}>Campaign Performance</p>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: ".75rem" }}>
-                  <div><p style={{ fontSize: ".75rem", color: "#065f46" }}>Leads</p><p style={{ fontSize: "1.2rem", fontWeight: 700, color: "#059669" }}>{detail.leadsGenerated || 0}</p></div>
-                  <div><p style={{ fontSize: ".75rem", color: "#065f46" }}>Pipeline</p><p style={{ fontSize: "1.2rem", fontWeight: 700, color: "#059669" }}>{formatCurrency(detail.pipelineCreated || 0)}</p></div>
-                  <div><p style={{ fontSize: ".75rem", color: "#065f46" }}>Revenue</p><p style={{ fontSize: "1.2rem", fontWeight: 700, color: "#059669" }}>{formatCurrency(detail.revenueInfluenced || 0)}</p></div>
-                </div>
+            {detail.notes && (
+              <div style={{ marginBottom: "1.5rem", padding: "1rem", borderRadius: 10, background: "#f1f5f9" }}>
+                <p className="muted" style={{ fontSize: ".75rem", marginBottom: ".25rem" }}>Notes</p>
+                <p style={{ fontSize: ".9rem" }}>{detail.notes}</p>
               </div>
             )}
 
@@ -220,9 +364,9 @@ export default function MDFPage() {
                   </button>
                 </>
               )}
-              {(detail.status === "approved" || detail.status === "executed") && (
-                <button className="btn" onClick={() => { handleMarkPaid(detail); setDetailId(null); }}>
-                  <DollarSign size={16} /> Mark as Paid
+              {detail.status === "approved" && (
+                <button className="btn" onClick={() => { handleMarkComplete(detail); setDetailId(null); }}>
+                  <CheckCircle2 size={16} /> Mark Complete
                 </button>
               )}
               <button className="btn-outline" onClick={() => setDetailId(null)}>Close</button>
@@ -231,67 +375,103 @@ export default function MDFPage() {
         </div>
       )}
 
-      {/* MDF Requests Table */}
-      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ borderBottom: "1px solid var(--border)" }}>
-              <th style={{ padding: ".75rem 1.5rem", textAlign: "left", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Request</th>
-              <th style={{ padding: ".75rem .5rem", textAlign: "left", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Partner</th>
-              <th style={{ padding: ".75rem .5rem", textAlign: "left", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Type</th>
-              <th style={{ padding: ".75rem .5rem", textAlign: "right", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Amount</th>
-              <th style={{ padding: ".75rem .5rem", textAlign: "center", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Status</th>
-              <th style={{ padding: ".75rem .5rem", textAlign: "center", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Performance</th>
-              <th style={{ padding: ".75rem 1.5rem", textAlign: "center", fontSize: ".8rem", fontWeight: 600, color: "var(--muted)" }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((req) => {
-              const partner = partners.find((p) => p._id === req.partnerId);
-              return (
-                <tr key={req._id} style={{ borderBottom: "1px solid var(--border)" }}>
-                  <td style={{ padding: ".75rem 1.5rem" }}>
-                    <p style={{ fontWeight: 600, fontSize: ".9rem" }}>{req.title}</p>
-                    <p className="muted" style={{ fontSize: ".75rem" }}>{formatDate(req.submittedAt)}</p>
-                  </td>
-                  <td style={{ padding: ".75rem .5rem", fontSize: ".9rem" }}>{partner?.name || "Unknown"}</td>
-                  <td style={{ padding: ".75rem .5rem", fontSize: ".85rem" }}>{MDF_CAMPAIGN_LABELS[req.campaignType]}</td>
-                  <td style={{ padding: ".75rem .5rem", textAlign: "right", fontWeight: 600 }}>
-                    {formatCurrency(req.approvedAmount || req.requestedAmount)}
-                  </td>
-                  <td style={{ padding: ".75rem .5rem", textAlign: "center" }}>
-                    <StatusBadge status={req.status} />
-                  </td>
-                  <td style={{ padding: ".75rem .5rem", textAlign: "center", fontSize: ".8rem" }}>
-                    {req.leadsGenerated ? (
-                      <span style={{ color: "#059669", fontWeight: 600 }}>{req.leadsGenerated} leads · {formatCurrency(req.pipelineCreated || 0)}</span>
-                    ) : (
-                      <span className="muted">—</span>
-                    )}
-                  </td>
-                  <td style={{ padding: ".75rem 1.5rem", textAlign: "center" }}>
-                    <div style={{ display: "flex", gap: ".5rem", justifyContent: "center" }}>
-                      <button className="btn-outline" style={{ fontSize: ".75rem", padding: ".25rem .5rem" }} onClick={() => setDetailId(req._id)}>
-                        <Eye size={13} /> View
-                      </button>
-                      {req.status === "pending" && (
-                        <>
-                          <button className="btn" style={{ fontSize: ".75rem", padding: ".25rem .5rem", background: "#059669" }} onClick={() => handleApprove(req)}>
-                            <CheckCircle2 size={13} />
-                          </button>
-                          <button className="btn" style={{ fontSize: ".75rem", padding: ".25rem .5rem", background: "#dc2626" }} onClick={() => handleReject(req)}>
-                            <XCircle size={13} />
-                          </button>
-                        </>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+      {/* Create Modal */}
+      {showCreateModal && (
+        <div
+          style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}
+          onClick={() => setShowCreateModal(false)}
+        >
+          <form 
+            onClick={(e) => e.stopPropagation()} 
+            onSubmit={handleCreateSubmit}
+            style={{ background: "var(--bg)", borderRadius: 16, padding: "2rem", maxWidth: 480, width: "90%", boxShadow: "0 25px 50px rgba(0,0,0,0.2)" }}
+          >
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 700, marginBottom: "1.5rem" }}>Create MDF Request</h2>
+            
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <div>
+                <label style={{ fontSize: ".85rem", fontWeight: 600, display: "block", marginBottom: ".35rem" }}>Partner *</label>
+                <select
+                  className="input"
+                  value={formPartnerId}
+                  onChange={(e) => setFormPartnerId(e.target.value)}
+                  required
+                  style={{ width: "100%" }}
+                >
+                  <option value="">Select a partner...</option>
+                  {partners.map((p) => (
+                    <option key={p._id} value={p._id}>{p.name}</option>
+                  ))}
+                </select>
+              </div>
+              
+              <div>
+                <label style={{ fontSize: ".85rem", fontWeight: 600, display: "block", marginBottom: ".35rem" }}>Title *</label>
+                <input
+                  type="text"
+                  className="input"
+                  value={formTitle}
+                  onChange={(e) => setFormTitle(e.target.value)}
+                  placeholder="e.g., Q1 Digital Marketing Campaign"
+                  required
+                  style={{ width: "100%" }}
+                />
+              </div>
+              
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                <div>
+                  <label style={{ fontSize: ".85rem", fontWeight: 600, display: "block", marginBottom: ".35rem" }}>Amount *</label>
+                  <input
+                    type="number"
+                    className="input"
+                    value={formAmount}
+                    onChange={(e) => setFormAmount(e.target.value)}
+                    placeholder="5000"
+                    required
+                    min="0"
+                    step="100"
+                    style={{ width: "100%" }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: ".85rem", fontWeight: 600, display: "block", marginBottom: ".35rem" }}>Category</label>
+                  <select
+                    className="input"
+                    value={formCategory}
+                    onChange={(e) => setFormCategory(e.target.value)}
+                    style={{ width: "100%" }}
+                  >
+                    <option value="event">Event / Trade Show</option>
+                    <option value="content">Content Creation</option>
+                    <option value="advertising">Advertising</option>
+                    <option value="training">Training / Enablement</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div>
+                <label style={{ fontSize: ".85rem", fontWeight: 600, display: "block", marginBottom: ".35rem" }}>Description</label>
+                <textarea
+                  className="input"
+                  value={formDescription}
+                  onChange={(e) => setFormDescription(e.target.value)}
+                  placeholder="Describe the marketing activity and expected outcomes..."
+                  rows={3}
+                  style={{ width: "100%", resize: "vertical" }}
+                />
+              </div>
+            </div>
+
+            <div style={{ display: "flex", gap: ".75rem", justifyContent: "flex-end", marginTop: "1.5rem" }}>
+              <button type="button" className="btn-outline" onClick={() => setShowCreateModal(false)}>Cancel</button>
+              <button type="submit" className="btn" disabled={isSubmitting}>
+                {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}
+                Create Request
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
