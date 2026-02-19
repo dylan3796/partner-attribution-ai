@@ -159,3 +159,142 @@ export const getRecentAuditLog = query({
       .take(5);
   },
 });
+
+// ============================================================================
+// Reports & Analytics Queries
+// ============================================================================
+
+type AttributionModel = "equal_split" | "first_touch" | "last_touch" | "time_decay" | "role_based";
+const MODELS: AttributionModel[] = ["equal_split", "first_touch", "last_touch", "time_decay", "role_based"];
+
+/**
+ * Get partner-by-model attribution data for leaderboards and radar charts
+ */
+export const getPartnerModelData = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return { partnerData: {}, partners: [] };
+
+    const [partners, attributions] = await Promise.all([
+      ctx.db
+        .query("partners")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+      ctx.db
+        .query("attributions")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+    ]);
+
+    // Aggregate by partner and model
+    const partnerData: Record<string, Record<string, {
+      revenue: number;
+      commission: number;
+      deals: string[];
+      pct: number;
+      count: number;
+    }>> = {};
+
+    for (const a of attributions) {
+      if (!partnerData[a.partnerId]) partnerData[a.partnerId] = {};
+      if (!partnerData[a.partnerId][a.model]) {
+        partnerData[a.partnerId][a.model] = {
+          revenue: 0,
+          commission: 0,
+          deals: [],
+          pct: 0,
+          count: 0,
+        };
+      }
+      const entry = partnerData[a.partnerId][a.model];
+      entry.revenue += a.amount;
+      entry.commission += a.commissionAmount;
+      if (!entry.deals.includes(a.dealId)) entry.deals.push(a.dealId);
+      entry.pct += a.percentage;
+      entry.count += 1;
+    }
+
+    return {
+      partnerData,
+      partners: partners.map((p: any) => ({
+        _id: p._id,
+        name: p.name,
+        type: p.type,
+        tier: p.tier,
+        commissionRate: p.commissionRate,
+      })),
+    };
+  },
+});
+
+/**
+ * Get model comparison totals for bar chart
+ */
+export const getModelComparison = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return [];
+
+    const attributions = await ctx.db
+      .query("attributions")
+      .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      .collect();
+
+    const totals: Record<string, { revenue: number; commission: number; deals: Set<string> }> = {};
+    for (const m of MODELS) {
+      totals[m] = { revenue: 0, commission: 0, deals: new Set() };
+    }
+
+    for (const a of attributions) {
+      if (totals[a.model]) {
+        totals[a.model].revenue += a.amount;
+        totals[a.model].commission += a.commissionAmount;
+        totals[a.model].deals.add(a.dealId);
+      }
+    }
+
+    return MODELS.map((m) => ({
+      model: m,
+      revenue: Math.round(totals[m].revenue),
+      commission: Math.round(totals[m].commission),
+      deals: totals[m].deals.size,
+    }));
+  },
+});
+
+/**
+ * Get all attributions for CSV export
+ */
+export const getAllAttributions = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return [];
+
+    const [attributions, partners, deals] = await Promise.all([
+      ctx.db
+        .query("attributions")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+      ctx.db
+        .query("partners")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+      ctx.db
+        .query("deals")
+        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .collect(),
+    ]);
+
+    const partnerMap = new Map(partners.map((p: any) => [p._id, p]));
+    const dealMap = new Map(deals.map((d: any) => [d._id, d]));
+
+    return attributions.map((a: any) => ({
+      ...a,
+      partner: partnerMap.get(a.partnerId),
+      deal: dealMap.get(a.dealId),
+    }));
+  },
+});

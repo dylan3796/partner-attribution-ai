@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useStore } from "@/lib/store";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { formatCurrency, formatPercent, MODEL_COLORS, CHART_COLORS } from "@/lib/utils";
 import { MODEL_LABELS, type AttributionModel } from "@/lib/types";
 import { exportAttributionsCSV } from "@/lib/csv";
@@ -43,54 +44,171 @@ type LeaderboardEntry = {
   avgPct: number;
 };
 
+function LoadingSkeleton() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+      <div>
+        <div
+          className="skeleton"
+          style={{ height: 32, width: 280, marginBottom: 8 }}
+        />
+        <div className="skeleton" style={{ height: 16, width: 400 }} />
+      </div>
+      <div className="card">
+        <div className="skeleton" style={{ height: 288 }} />
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem" }}>
+        <div className="card">
+          <div className="skeleton" style={{ height: 320 }} />
+        </div>
+        <div className="card">
+          <div className="skeleton" style={{ height: 320 }} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+      <div>
+        <h1
+          style={{
+            fontSize: "2rem",
+            fontWeight: 800,
+            letterSpacing: "-0.02em",
+          }}
+        >
+          Attribution Reports
+        </h1>
+        <p className="muted" style={{ marginTop: "0.25rem" }}>
+          Compare attribution models and analyze partner influence on CRM deals
+        </p>
+      </div>
+      <div
+        className="card"
+        style={{
+          padding: "4rem 2rem",
+          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "1rem",
+        }}
+      >
+        <div style={{ fontSize: "3rem" }}>📊</div>
+        <h2 style={{ fontSize: "1.25rem", fontWeight: 600 }}>
+          No Attribution Data Yet
+        </h2>
+        <p className="muted" style={{ maxWidth: 400 }}>
+          Attribution reports appear once partners close deals. Add partners,
+          register deals, and close them to see revenue attribution across
+          different models.
+        </p>
+        <div style={{ display: "flex", gap: "0.75rem", marginTop: "0.5rem" }}>
+          <a href="/dashboard/partners" className="btn-primary">
+            Manage Partners
+          </a>
+          <a href="/dashboard/deals" className="btn-outline">
+            View Deals
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ReportsPage() {
-  const { attributions, partners } = useStore();
+  const partnerModelResult = useQuery(api.dashboard.getPartnerModelData);
+  const modelComparisonData = useQuery(api.dashboard.getModelComparison);
+  const allAttributions = useQuery(api.dashboard.getAllAttributions);
+
   const [selectedModel, setSelectedModel] =
     useState<AttributionModel>("equal_split");
   const [sortBy, setSortBy] = useState<"revenue" | "commission" | "deals">(
     "revenue"
   );
 
-  // Aggregate by partner per model
-  const partnerModelData = useMemo(() => {
-    const data: Record<
-      string,
-      Record<
-        string,
-        {
-          revenue: number;
-          commission: number;
-          deals: Set<string>;
-          pct: number;
-          count: number;
-        }
-      >
-    > = {};
-    attributions.forEach((a) => {
-      const partner = partners.find((p) => p._id === a.partnerId);
-      if (!partner) return;
-      if (!data[a.partnerId]) data[a.partnerId] = {};
-      if (!data[a.partnerId][a.model])
-        data[a.partnerId][a.model] = {
-          revenue: 0,
-          commission: 0,
-          deals: new Set(),
-          pct: 0,
-          count: 0,
-        };
-      const entry = data[a.partnerId][a.model];
-      entry.revenue += a.amount;
-      entry.commission += a.commissionAmount;
-      entry.deals.add(a.dealId);
-      entry.pct += a.percentage;
-      entry.count += 1;
-    });
-    return data;
-  }, [attributions, partners]);
+  // Loading state
+  if (
+    partnerModelResult === undefined ||
+    modelComparisonData === undefined ||
+    allAttributions === undefined
+  ) {
+    return <LoadingSkeleton />;
+  }
+
+  const { partnerData, partners } = partnerModelResult;
+
+  // Empty state - no attribution data
+  const hasData =
+    modelComparisonData.some((m) => m.revenue > 0 || m.deals > 0);
+  if (!hasData) {
+    return <EmptyState />;
+  }
+
+  return (
+    <ReportsContent
+      partnerData={partnerData}
+      partners={partners}
+      modelComparisonData={modelComparisonData}
+      allAttributions={allAttributions}
+      selectedModel={selectedModel}
+      setSelectedModel={setSelectedModel}
+      sortBy={sortBy}
+      setSortBy={setSortBy}
+    />
+  );
+}
+
+function ReportsContent({
+  partnerData,
+  partners,
+  modelComparisonData,
+  allAttributions,
+  selectedModel,
+  setSelectedModel,
+  sortBy,
+  setSortBy,
+}: {
+  partnerData: Record<string, Record<string, {
+    revenue: number;
+    commission: number;
+    deals: string[];
+    pct: number;
+    count: number;
+  }>>;
+  partners: Array<{
+    _id: string;
+    name: string;
+    type: string;
+    tier?: string;
+    commissionRate: number;
+  }>;
+  modelComparisonData: Array<{
+    model: string;
+    revenue: number;
+    commission: number;
+    deals: number;
+  }>;
+  allAttributions: any[];
+  selectedModel: AttributionModel;
+  setSelectedModel: (m: AttributionModel) => void;
+  sortBy: "revenue" | "commission" | "deals";
+  setSortBy: (s: "revenue" | "commission" | "deals") => void;
+}) {
+  // Model comparison with labels
+  const modelComparison = useMemo(() => {
+    return modelComparisonData.map((m) => ({
+      ...m,
+      label: MODEL_LABELS[m.model as AttributionModel] || m.model,
+    }));
+  }, [modelComparisonData]);
 
   // Selected model leaderboard
   const leaderboard = useMemo(() => {
-    return Object.entries(partnerModelData)
+    return Object.entries(partnerData)
       .map(([partnerId, models]) => {
         const partner = partners.find((p) => p._id === partnerId);
         const data = models[selectedModel];
@@ -101,7 +219,7 @@ export default function ReportsPage() {
           type: partner.type,
           revenue: Math.round(data.revenue),
           commission: Math.round(data.commission),
-          deals: data.deals.size,
+          deals: data.deals.length,
           avgPct: data.count > 0 ? data.pct / data.count : 0,
         };
       })
@@ -111,31 +229,8 @@ export default function ReportsPage() {
         if (sortBy === "commission") return b.commission - a.commission;
         if (sortBy === "deals") return b.deals - a.deals;
         return b.revenue - a.revenue;
-      }) as unknown as LeaderboardEntry[];
-  }, [partnerModelData, selectedModel, partners, sortBy]);
-
-  // Model comparison
-  const modelComparison = useMemo(() => {
-    const totals: Record<
-      string,
-      { revenue: number; commission: number; deals: Set<string> }
-    > = {};
-    MODELS.forEach(
-      (m) => (totals[m] = { revenue: 0, commission: 0, deals: new Set() })
-    );
-    attributions.forEach((a) => {
-      totals[a.model].revenue += a.amount;
-      totals[a.model].commission += a.commissionAmount;
-      totals[a.model].deals.add(a.dealId);
-    });
-    return MODELS.map((m) => ({
-      model: m,
-      label: MODEL_LABELS[m],
-      revenue: Math.round(totals[m].revenue),
-      commission: Math.round(totals[m].commission),
-      deals: totals[m].deals.size,
-    }));
-  }, [attributions]);
+      }) as LeaderboardEntry[];
+  }, [partnerData, selectedModel, partners, sortBy]);
 
   // Radar data
   const radarData = useMemo(() => {
@@ -143,21 +238,21 @@ export default function ReportsPage() {
       const entry: Record<string, string | number> = {
         model: MODEL_LABELS[model],
       };
-      Object.entries(partnerModelData).forEach(([partnerId, models]) => {
+      Object.entries(partnerData).forEach(([partnerId, models]) => {
         const partner = partners.find((p) => p._id === partnerId);
         if (!partner || !models[model]) return;
         entry[partner.name] = Math.round(models[model].revenue);
       });
       return entry;
     });
-  }, [partnerModelData, partners]);
+  }, [partnerData, partners]);
 
   const partnerNames = useMemo(() => {
     return partners
-      .filter((p) => partnerModelData[p._id])
+      .filter((p) => partnerData[p._id])
       .map((p) => p.name)
       .slice(0, 5);
-  }, [partners, partnerModelData]);
+  }, [partners, partnerData]);
 
   // Pie data
   const pieData = leaderboard
@@ -165,15 +260,10 @@ export default function ReportsPage() {
     .map((p) => ({ name: p.name, value: p.revenue }));
 
   function handleExport() {
-    const selectedAttributions = attributions.filter(
-      (a) => a.model === selectedModel
+    const selectedAttributions = allAttributions.filter(
+      (a: any) => a.model === selectedModel
     );
-    // Enrich
-    const enriched = selectedAttributions.map((a) => ({
-      ...a,
-      partner: partners.find((p) => p._id === a.partnerId),
-    }));
-    exportAttributionsCSV(enriched);
+    exportAttributionsCSV(selectedAttributions);
   }
 
   return (
@@ -252,15 +342,11 @@ export default function ReportsPage() {
                 }}
               />
               <Legend />
-              <Bar
-                dataKey="revenue"
-                name="Revenue"
-                radius={[4, 4, 0, 0]}
-              >
+              <Bar dataKey="revenue" name="Revenue" radius={[4, 4, 0, 0]}>
                 {modelComparison.map((entry) => (
                   <Cell
                     key={entry.model}
-                    fill={MODEL_COLORS[entry.model]}
+                    fill={MODEL_COLORS[entry.model as AttributionModel]}
                   />
                 ))}
               </Bar>
@@ -291,12 +377,7 @@ export default function ReportsPage() {
           </h3>
           <div style={{ height: 320 }}>
             <ResponsiveContainer width="100%" height="100%">
-              <RadarChart
-                data={radarData}
-                cx="50%"
-                cy="50%"
-                outerRadius="70%"
-              >
+              <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="70%">
                 <PolarGrid stroke="var(--border)" />
                 <PolarAngleAxis
                   dataKey="model"
