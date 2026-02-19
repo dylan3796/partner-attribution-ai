@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import {
   DollarSign,
   Clock,
@@ -91,20 +91,54 @@ function typeStyle(type: EarningBreakdown["type"]): { bg: string; color: string 
 
 /* ── Component ── */
 export default function PayoutsPage() {
-  const { partner } = usePortal();
+  const { partner, myPayouts: portalPayouts, myAttributions, stats } = usePortal();
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "paid" | "pending">("all");
 
-  const totalEarned = PAYOUTS.filter((p) => p.status === "paid").reduce((s, p) => s + p.amount, 0);
-  const pendingAmount = PAYOUTS.filter((p) => p.status === "pending" || p.status === "processing").reduce((s, p) => s + p.amount, 0);
-  const currentEarnings = CURRENT_EARNINGS.reduce((s, e) => s + e.amount, 0);
-  const ytdEarnings = PAYOUTS.filter((p) => p.period.startsWith("2026")).reduce((s, p) => s + p.amount, 0);
+  // Build payouts from partner-scoped portal data
+  const payouts = useMemo<Payout[]>(() => {
+    if (!portalPayouts || portalPayouts.length === 0) return PAYOUTS; // fallback for demo
+    return portalPayouts.map((p, i) => {
+      const d = new Date(p.date);
+      const period = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
+      const periodLabel = d.toLocaleDateString("en-US", { month: "long", year: "numeric" });
+      return {
+        id: p.id || `p${i}`,
+        period,
+        periodLabel,
+        amount: p.commissionAmount,
+        status: p.status === "paid" ? "paid" : "pending",
+        paidDate: p.paidAt ? new Date(p.paidAt).toLocaleDateString() : null,
+        scheduledDate: new Date(p.date + 30 * 86400000).toLocaleDateString(),
+        method: "ACH Transfer",
+        deals: 1,
+        commissionRate: partner?.tier === "platinum" ? "15%" : partner?.tier === "gold" ? "12%" : partner?.tier === "silver" ? "10%" : "8%",
+        invoiceId: `INV-${period.replace("-", "-0")}${String(i + 1).padStart(2, "0")}`,
+      };
+    });
+  }, [portalPayouts, partner]);
+
+  // Build current earnings from partner-scoped attributions
+  const currentEarningsList = useMemo<EarningBreakdown[]>(() => {
+    if (!myAttributions || myAttributions.length === 0) return CURRENT_EARNINGS; // fallback
+    return myAttributions.slice(0, 5).map((a) => ({
+      source: a.deal?.name || "Deal Commission",
+      deals: 1,
+      amount: a.commissionAmount,
+      type: "commission" as const,
+    }));
+  }, [myAttributions]);
+
+  const totalEarned = payouts.filter((p) => p.status === "paid").reduce((s, p) => s + p.amount, 0);
+  const pendingAmount = payouts.filter((p) => p.status === "pending" || p.status === "processing").reduce((s, p) => s + p.amount, 0);
+  const currentEarnings = currentEarningsList.reduce((s, e) => s + e.amount, 0);
+  const ytdEarnings = payouts.filter((p) => p.period.startsWith("2026")).reduce((s, p) => s + p.amount, 0);
 
   // Monthly trend
-  const paidPayouts = PAYOUTS.filter((p) => p.status === "paid").reverse();
+  const paidPayouts = payouts.filter((p) => p.status === "paid").reverse();
   const maxPaid = Math.max(...paidPayouts.map((p) => p.amount));
 
-  const filteredPayouts = PAYOUTS.filter((p) => {
+  const filteredPayouts = payouts.filter((p) => {
     if (filter === "paid") return p.status === "paid";
     if (filter === "pending") return p.status !== "paid";
     return true;
@@ -179,10 +213,10 @@ export default function PayoutsPage() {
             <h3 style={{ fontSize: ".85rem", fontWeight: 700, margin: 0 }}>February Earnings Breakdown</h3>
             <span style={{ fontSize: ".85rem", fontWeight: 800, color: "#6366f1" }}>{fmtExact(currentEarnings)}</span>
           </div>
-          {CURRENT_EARNINGS.map((e, i) => {
+          {currentEarningsList.map((e, i) => {
             const ts = typeStyle(e.type);
             return (
-              <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: i < CURRENT_EARNINGS.length - 1 ? "1px solid var(--border)" : "none" }}>
+              <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 0", borderBottom: i < currentEarningsList.length - 1 ? "1px solid var(--border)" : "none" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <span style={{ padding: "2px 8px", borderRadius: 10, fontSize: ".65rem", fontWeight: 700, background: ts.bg, color: ts.color, textTransform: "capitalize" }}>
                     {e.type}
@@ -223,7 +257,7 @@ export default function PayoutsPage() {
               cursor: "pointer", textTransform: "capitalize", fontFamily: "inherit",
             }}
           >
-            {f} {f === "all" ? `(${PAYOUTS.length})` : f === "paid" ? `(${PAYOUTS.filter((p) => p.status === "paid").length})` : `(${PAYOUTS.filter((p) => p.status !== "paid").length})`}
+            {f} {f === "all" ? `(${payouts.length})` : f === "paid" ? `(${payouts.filter((p) => p.status === "paid").length})` : `(${payouts.filter((p) => p.status !== "paid").length})`}
           </button>
         ))}
       </div>

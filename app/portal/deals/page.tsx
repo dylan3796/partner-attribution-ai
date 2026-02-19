@@ -26,34 +26,6 @@ type DemoDeal = {
   approvedAt?: number;
 };
 
-const initialDeals: DemoDeal[] = [
-  {
-    id: "d1", companyName: "CloudSync Corp", amount: 85000, status: "won", registrationStatus: "approved",
-    contactName: "Jane Smith", contactEmail: "jane@cloudsync.com", expectedCloseDate: now - 10 * DAY,
-    notes: "Cloud migration project, referred by our SE team", createdAt: now - 45 * DAY, approvedAt: now - 43 * DAY,
-  },
-  {
-    id: "d2", companyName: "Globex Industries", amount: 120000, status: "open", registrationStatus: "approved",
-    contactName: "Bob Chen", contactEmail: "bob@globex.com", expectedCloseDate: now + 30 * DAY,
-    notes: "Data platform modernization, strong champion", createdAt: now - 20 * DAY, approvedAt: now - 18 * DAY,
-  },
-  {
-    id: "d3", companyName: "Initech", amount: 45000, status: "lost", registrationStatus: "approved",
-    contactName: "Mike Johnson", contactEmail: "mike@initech.com",
-    notes: "Budget frozen in Q4", createdAt: now - 60 * DAY, approvedAt: now - 58 * DAY,
-  },
-  {
-    id: "d4", companyName: "Umbrella Corp", amount: 95000, status: "open", registrationStatus: "pending",
-    contactName: "Sarah Lee", contactEmail: "sarah@umbrella.co", expectedCloseDate: now + 60 * DAY,
-    notes: "Security platform deal, waiting on procurement", createdAt: now - 3 * DAY,
-  },
-  {
-    id: "d5", companyName: "Stark Solutions", amount: 200000, status: "open", registrationStatus: "approved",
-    contactName: "Tony Park", contactEmail: "tony@stark.io", expectedCloseDate: now + 45 * DAY,
-    notes: "Enterprise license, multi-year", createdAt: now - 15 * DAY, approvedAt: now - 14 * DAY,
-  },
-];
-
 function StatusBadge({ status }: { status: string }) {
   const cfg: Record<string, { bg: string; fg: string; icon: React.ReactNode; label: string }> = {
     open: { bg: "#3b82f620", fg: "#3b82f6", icon: <Clock size={12} />, label: "Open" },
@@ -104,8 +76,27 @@ function PipelineBar({ deals }: { deals: DemoDeal[] }) {
 }
 
 export default function PortalDealsPage() {
-  const { partner } = usePortal();
-  const [deals, setDeals] = useState<DemoDeal[]>(initialDeals);
+  const { partner, myDeals } = usePortal();
+
+  // Derive deal registrations from partner-scoped deals
+  const partnerDeals = useMemo<DemoDeal[]>(() => {
+    return myDeals.map((deal) => ({
+      id: deal._id,
+      companyName: deal.name,
+      amount: deal.amount,
+      status: deal.status as "open" | "won" | "lost",
+      registrationStatus: "approved" as const,
+      contactName: deal.contactName || "—",
+      contactEmail: deal.contactEmail || "—",
+      expectedCloseDate: deal.expectedCloseDate,
+      notes: deal.notes || undefined,
+      createdAt: deal.createdAt,
+      approvedAt: deal.createdAt ? deal.createdAt + 2 * DAY : undefined,
+    }));
+  }, [myDeals]);
+
+  const [localDeals, setLocalDeals] = useState<DemoDeal[]>([]);
+  const deals = useMemo(() => [...localDeals, ...partnerDeals], [localDeals, partnerDeals]);
   const [showRegister, setShowRegister] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [search, setSearch] = useState("");
@@ -141,7 +132,7 @@ export default function PortalDealsPage() {
       notes: regForm.notes,
       createdAt: Date.now(),
     };
-    setDeals((prev) => [newDeal, ...prev]);
+    setLocalDeals((prev) => [newDeal, ...prev]);
     setSubmitted(true);
     setRegForm({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "", expectedCloseDate: "" });
   };
