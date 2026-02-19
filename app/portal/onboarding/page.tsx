@@ -164,7 +164,7 @@ function ProfileStep({
   onBack: () => void;
 }) {
   const fields = [
-    { key: "companyName", label: "Company Name", icon: Building2, placeholder: partner?.companyName || "Acme Corp", prefill: partner?.companyName },
+    { key: "companyName", label: "Company Name", icon: Building2, placeholder: partner?.companyName || "Your Company", prefill: partner?.companyName },
     { key: "contactName", label: "Your Name", icon: User, placeholder: "Jane Smith", prefill: partner?.contactName },
     { key: "email", label: "Email", icon: Mail, placeholder: "jane@acme.com", prefill: partner?.contactEmail },
     { key: "phone", label: "Phone", icon: Phone, placeholder: "+1 (555) 123-4567", prefill: "" },

@@ -23,7 +23,7 @@ const client = new ConvexHttpClient(process.env.CONVEX_URL || "https://quick-lem
 // ============================================================================
 
 const testOrganization = {
-  name: "Acme Partners Inc.",
+  name: "Clearpath Partners",
   email: "admin@acme-partners.com",
   plan: "growth" as const,
 };
@@ -63,7 +63,7 @@ const testPartners = [
 
 const testDeals = [
   // Won deals (will have attributions)
-  { name: "Acme Corp Annual Contract", amount: 50000, status: "won" as const },
+  { name: "Clearpath Annual Contract", amount: 50000, status: "won" as const },
   { name: "TechStart Pilot Program", amount: 15000, status: "won" as const },
   { name: "GlobalBank Enterprise Deal", amount: 120000, status: "won" as const },
   

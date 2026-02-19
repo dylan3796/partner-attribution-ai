@@ -71,7 +71,7 @@ const API_SECTIONS: Section[] = [
       {
         method: "POST", path: "/partners", description: "Create a new partner",
         requestExample: `{
-  "name": "Acme Consulting",
+  "name": "TechBridge Solutions",
   "email": "partners@acme.co",
   "type": "referral",
   "commission_rate": 0.08,
@@ -80,7 +80,7 @@ const API_SECTIONS: Section[] = [
 }`,
         responseExample: `{
   "id": "ptr_def456",
-  "name": "Acme Consulting",
+  "name": "TechBridge Solutions",
   "status": "pending",
   "tier": "bronze",
   "created_at": "2026-02-18T17:30:00Z"

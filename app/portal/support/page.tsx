@@ -34,7 +34,7 @@ const DAY = 86400000;
 const now = Date.now();
 
 const demoTickets: Ticket[] = [
-  { id: "T-1042", subject: "Commission discrepancy on Acme Corp deal", status: "resolved", createdAt: now - 12 * DAY },
+  { id: "T-1042", subject: "Commission discrepancy on TechBridge deal", status: "resolved", createdAt: now - 12 * DAY },
   { id: "T-1089", subject: "Deal registration not showing in portal", status: "in_progress", createdAt: now - 3 * DAY },
 ];
 

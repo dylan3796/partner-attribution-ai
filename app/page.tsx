@@ -129,7 +129,7 @@ export default function LandingPage() {
           <div className="card demo-card">
             <div className="demo-header">
               <strong>Ask Covant AI</strong>
-              <span className="chip">VP Partnerships · Acme Inc</span>
+              <span className="chip">VP Partnerships · Horizon Software</span>
             </div>
             <p className="demo-q">
               {typedText || <span style={{ opacity: 0.4 }}>Ask about attribution...</span>}
