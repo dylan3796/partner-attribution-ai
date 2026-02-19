@@ -64,7 +64,7 @@ export default function DashboardPage() {
   const convexAuditLog = useQuery(api.dashboard.getRecentAuditLog);
 
   // ── Store (for non-wired modules only) ─────────────────────────────────
-  const { org, stats: storeStats, deals: storeDeals, partners: storePartners, payouts: storePayouts, auditLog: storeAuditLog } = useStore();
+  const { stats: storeStats, deals: storeDeals, partners: storePartners, payouts: storePayouts, auditLog: storeAuditLog } = useStore();
   
   // ── Convex data for alerts ─────────────────────────────────────────────
   const convexChannelConflicts = useQuery(api.dashboard.getChannelConflicts);
@@ -72,11 +72,9 @@ export default function DashboardPage() {
   const { config, isFeatureEnabled } = usePlatformConfig();
   
   // ── Salesforce connection status ───────────────────────────────────────
-  const demoOrgId = org?._id;
-  const sfStatus = useQuery(
-    api.integrations.getSalesforceStatus,
-    demoOrgId ? { organizationId: demoOrgId as any } : "skip"
-  );
+  // Always skip — store org ID ("org_demo_001") is not a valid Convex ID and
+  // causes Convex to throw. Will enable once we have multi-org with real IDs.
+  const sfStatus = useQuery(api.integrations.getSalesforceStatus, "skip");
 
   // Prefer Convex data; fall back to in-memory store while loading
   const stats = convexStats ?? storeStats;

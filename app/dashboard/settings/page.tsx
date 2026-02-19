@@ -29,13 +29,9 @@ function SettingsPageInner() {
   const [sfSyncing, setSfSyncing] = useState(false);
   const [sfDisconnecting, setSfDisconnecting] = useState(false);
   
-  // Get Salesforce connection status
-  // In a real app, you'd get the orgId from auth context
-  const demoOrgId = org?._id; // This would come from auth in production
-  const sfStatus = useQuery(
-    api.integrations.getSalesforceStatus,
-    demoOrgId ? { organizationId: demoOrgId as any } : "skip"
-  );
+  // Salesforce status — skip for now (store org ID is not a valid Convex ID)
+  const demoOrgId: string | undefined = undefined; // Will come from real auth context
+  const sfStatus = useQuery(api.integrations.getSalesforceStatus, "skip");
   
   // Show toast on OAuth callback
   useEffect(() => {
