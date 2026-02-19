@@ -10,6 +10,7 @@ import { Check } from "lucide-react";
 export default function SetupWizard() {
   const router = useRouter();
   const applyTemplate = useMutation(api.setup.applyTemplate);
+  const seedDemoData = useMutation(api.seedDemo.seedDemoData);
   
   const [step, setStep] = useState(1);
   const [selectedTemplate, setSelectedTemplate] = useState<ProgramTemplate | null>(null);
@@ -47,6 +48,9 @@ export default function SetupWizard() {
         enableMDF: selectedTemplate.enableMDF,
         selectedTiers: config.selectedTiers,
       });
+
+      // Auto-seed realistic example data so the dashboard isn't empty
+      try { await seedDemoData(); } catch { /* non-critical */ }
       
       localStorage.setItem("partnerai_setup_complete", "true");
       router.push("/dashboard");

@@ -485,6 +485,24 @@ export default defineSchema({
     .index("by_organization", ["organizationId"])
     .index("by_trigger", ["trigger"]),
 
+  // MDF (Market Development Funds) requests
+  mdfRequests: defineTable({
+    organizationId: v.id("organizations"),
+    partnerId: v.id("partners"),
+    title: v.string(),
+    description: v.string(),
+    amount: v.number(),
+    status: v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected"), v.literal("completed")),
+    category: v.optional(v.string()), // "event", "content", "advertising", "training"
+    submittedAt: v.number(),
+    reviewedAt: v.optional(v.number()),
+    reviewedBy: v.optional(v.string()),
+    notes: v.optional(v.string()),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_partner", ["partnerId"])
+    .index("by_status", ["status"]),
+
   // Outbound email queue / log
   email_queue: defineTable({
     organizationId: v.id("organizations"),
