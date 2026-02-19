@@ -178,7 +178,7 @@ export const demoMDFRequests: MDFRequest[] = [
   {
     _id: "mdf_r_003", organizationId: ORG_ID, partnerId: "p_001", budgetId: "mdf_b_001",
     title: "Enterprise Webinar Series", campaignType: "content",
-    description: "3-part webinar series on cloud migration for enterprise. Joint TechStar + Acme SaaS branding.",
+    description: "3-part webinar series on cloud migration for enterprise. Joint TechStar + Covant branding.",
     requestedAmount: 8500, approvedAmount: 8500, status: "approved",
     startDate: now + 10 * day, endDate: now + 30 * day,
     submittedAt: now - 10 * day, reviewedBy: "Admin User", reviewedAt: now - 7 * day,

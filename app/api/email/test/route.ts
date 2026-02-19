@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
         result = await sendPartnerInvite(
           to,
           "Test Partner",
-          "Acme Corp",
+          "CloudSync Corp",
           "https://covant.ai/invite/test-123"
         );
         break;

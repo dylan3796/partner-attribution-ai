@@ -119,7 +119,7 @@ const API_SECTIONS: Section[] = [
   "data": [
     {
       "id": "deal_xyz789",
-      "name": "Acme Corp Cloud Migration",
+      "name": "CloudSync Enterprise Migration",
       "amount": 85000,
       "status": "won",
       "registered_by": "ptr_abc123",

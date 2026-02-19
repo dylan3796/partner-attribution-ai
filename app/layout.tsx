@@ -13,25 +13,27 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Covant — AI-Powered Partner Intelligence for Your CRM",
+  title: "Covant — Partner Payout Infrastructure",
   description:
-    "AI-powered partner attribution and program management that layers on top of your CRM. Measure partner impact, automate commissions, and run world-class partner programs. Works with Salesforce, HubSpot, and Pipedrive.",
+    "Covant is the rules engine that sits between 'someone did something' and 'someone gets paid.' Attribution, commission automation, and partner program management for any industry.",
   icons: {
     icon: [
-      { url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤝</text></svg>", type: "image/svg+xml" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "Covant — AI-Powered Partner Intelligence for Your CRM",
-    description: "AI-powered partner attribution and program management that layers on top of your CRM. Measure partner impact, automate commissions, and run world-class partner programs.",
+    title: "Covant — Partner Payout Infrastructure",
+    description: "Attribution, commission automation, and partner program management. Covant turns partner activity into automated, accurate payouts.",
     type: "website",
     siteName: "Covant",
+    url: "https://covant.ai",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — AI-Powered Partner Intelligence for Your CRM",
-    description: "AI-powered partner attribution and program management that layers on top of your CRM. Measure partner impact, automate commissions, and run world-class partner programs.",
+    title: "Covant — Partner Payout Infrastructure",
+    description: "Attribution, commission automation, and partner program management. The infrastructure layer for partner economics.",
   },
+  metadataBase: new URL("https://covant.ai"),
 };
 
 export default function RootLayout({
