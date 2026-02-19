@@ -19,7 +19,7 @@ export async function middleware(request: NextRequest) {
   if (!isProtected) return NextResponse.next();
 
   const authCookie = request.cookies.get(AUTH_COOKIE);
-  const dashboardPassword = process.env.DASHBOARD_PASSWORD;
+  const dashboardPassword = process.env.DASHBOARD_PASSWORD?.trim();
 
   if (!dashboardPassword) return NextResponse.next();
 
