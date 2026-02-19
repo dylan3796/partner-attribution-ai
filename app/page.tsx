@@ -1231,23 +1231,27 @@ export default function LandingPage() {
               <Link href="/dashboard/payouts">Payouts</Link>
               <Link href="/dashboard/deals">Deals</Link>
               <Link href="/portal">Partner Portal</Link>
+              <Link href="/dashboard/integrations">Integrations</Link>
             </div>
             <div>
               <h4>Resources</h4>
               <Link href="/dashboard">Live Demo</Link>
-              <a href="mailto:hello@covant.ai">API Access</a>
-              <a href="mailto:hello@covant.ai">Security</a>
+              <Link href="/docs">API Docs</Link>
+              <Link href="/changelog">Changelog</Link>
+              <Link href="/program">Partner Program</Link>
             </div>
             <div>
               <h4>Partners</h4>
               <Link href="/partners/apply">Become a Partner →</Link>
               <Link href="/portal">Partner Portal</Link>
+              <Link href="/portal/resources">Resource Hub</Link>
             </div>
             <div>
               <h4>Company</h4>
               <a href="mailto:hello@covant.ai">About</a>
               <a href="mailto:hello@covant.ai">Careers</a>
               <a href="mailto:hello@covant.ai">Contact</a>
+              <a href="mailto:hello@covant.ai">Security</a>
             </div>
           </div>
         </div>
