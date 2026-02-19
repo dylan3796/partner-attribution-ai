@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePortal } from "@/lib/portal-context";
 import {
@@ -123,8 +124,36 @@ export default function PortalDashboard() {
   const now = new Date();
   const quarterLabel = `Q${Math.ceil((now.getMonth() + 1) / 3)} ${now.getFullYear()}`;
 
+  const [showOnboardingBanner, setShowOnboardingBanner] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return localStorage.getItem("covant_onboarding_done") !== "true";
+  });
+
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      {/* Onboarding Banner */}
+      {showOnboardingBanner && (
+        <Link
+          href="/portal/onboarding"
+          style={{
+            display: "flex", alignItems: "center", justifyContent: "space-between",
+            padding: "16px 20px", borderRadius: 12,
+            background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
+            color: "#fff", textDecoration: "none",
+            boxShadow: "0 4px 16px rgba(99, 102, 241, 0.3)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <span style={{ fontSize: "1.5rem" }}>🚀</span>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: ".95rem" }}>Complete your onboarding</div>
+              <div style={{ fontSize: ".8rem", opacity: 0.85 }}>Set up your profile, learn about your benefits, and register your first deal</div>
+            </div>
+          </div>
+          <ArrowRight size={20} style={{ flexShrink: 0 }} />
+        </Link>
+      )}
+
       {/* Welcome */}
       <div>
         <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-0.02em" }}>

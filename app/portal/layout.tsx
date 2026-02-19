@@ -13,12 +13,14 @@ import {
   X,
   Bell,
   Trophy,
+  Rocket,
 } from "lucide-react";
 import { PortalProvider, usePortal } from "@/lib/portal-context";
 import PortalGate from "@/components/PortalGate";
 
 const sidebarLinks = [
   { name: "Dashboard", href: "/portal", icon: LayoutDashboard },
+  { name: "Getting Started", href: "/portal/onboarding", icon: Rocket },
   { name: "My Deals", href: "/portal/deals", icon: Briefcase },
   { name: "My Commissions", href: "/portal/commissions", icon: DollarSign },
   { name: "My Performance", href: "/portal/performance", icon: Trophy },
