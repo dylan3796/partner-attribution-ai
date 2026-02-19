@@ -415,7 +415,7 @@ select.input{appearance:auto;cursor:pointer}
 
 /* === Responsive === */
 @media(max-width:1024px){
-  .grid-2,.grid-3,.grid-4,.grid-6{grid-template-columns:1fr;gap:3rem}
+  .grid-2,.grid-3,.grid-4,.grid-6{grid-template-columns:1fr;gap:2.5rem}
   .grid-flip{direction:ltr}
   .stat-grid{grid-template-columns:repeat(2,1fr)}
   .dash-grid-2{grid-template-columns:1fr}
@@ -436,18 +436,106 @@ select.input{appearance:auto;cursor:pointer}
 }
 
 @media(max-width:768px){
+  /* Nav mobile menu */
   .nav-links,.nav-links-dash{display:none}
   .nav-back-link,.nav-login-link{display:none!important}
   .nav-cta-btn{display:none!important}
   .menu-toggle{display:flex!important}
-  .footer-grid{grid-template-columns:1fr}
-  .footer-links{grid-template-columns:repeat(2,1fr)}
-  .hero{padding:5rem 0 2rem}
-  .feature{padding:4rem 0}
-  .cta{padding:5rem 0}
+
+  /* Layout & containers */
+  .wrap{padding:0 1rem}
+  .wrap-wide{padding:0 1rem;max-width:100%}
+  
+  /* Hero */
+  .hero{padding:4rem 0 2rem}
+  .hero h1{font-size:2.2rem}
+  .subtitle{font-size:1rem;margin-bottom:2rem}
+  
+  /* Grids - all single column on mobile */
+  .grid-2,.grid-3,.grid-4,.grid-6{grid-template-columns:1fr!important;gap:1.5rem}
   .stat-grid{grid-template-columns:1fr}
+  
+  /* Feature sections */
+  .feature{padding:3rem 0}
+  .feature h2{font-size:1.8rem}
+  
+  /* CTA */
+  .cta{padding:4rem 0}
+  .cta h2{font-size:1.8rem}
+  
+  /* Cards */
+  .card{padding:1.5rem}
+  .demo-card{padding:1.25rem}
+  
+  /* Trust bar */
+  .trust-bar{padding:2.5rem 0}
+  .trust-bar-inner{flex-direction:column;gap:1.5rem;text-align:center}
+  .trust-bar-inner > div[style*="width: 1px"]{display:none}
+  .trust-stat{flex-direction:column;gap:.25rem}
+  
+  /* Waitlist form */
   .waitlist{flex-direction:column}
+  .waitlist .input{width:100%}
+  .waitlist .btn{width:100%}
+  
+  /* Footer */
+  .footer-grid{grid-template-columns:1fr;gap:2rem}
+  .footer-links{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+  
+  /* Dashboard */
   .dash-content{padding:1rem}
+  .dash-sidebar{display:none!important}
+  .dash-main{margin-left:0!important}
+  .dash-main-inner{padding:1rem}
+  .dash-layout-v2{margin-top:65px}
+  
+  /* Pricing cards */
+  .pricing-toggle{margin-bottom:2rem}
+  
+  /* Integration logos */
+  .integration-logo{min-width:80px;padding:.75rem 1rem}
+  .integration-logo-icon{width:40px;height:40px}
+  
+  /* Testimonial strip */
+  .testimonial-strip{padding:3rem 0}
+  
+  /* Module cards grid */
+  .modules .grid-6{gap:1rem}
+  .module-card{padding:1.5rem}
+  
+  /* ROI Calculator */
+  .roi-calculator .roi-grid{grid-template-columns:1fr!important}
+  
+  /* Timeline */
+  .timeline{padding:0}
+  .tl-item{gap:.8rem}
+  
+  /* Bar chart rows */
+  .bar-row>span:first-child{width:90px;font-size:.8rem}
+  .bar-row>span:last-child{width:35px;font-size:.8rem}
+  
+  /* Payout rows */
+  .payout{padding:.6rem;gap:.5rem}
+  .payout strong{font-size:.95rem}
+  .avatar{width:32px;height:32px;font-size:.7rem}
+  
+  /* Benefits section */
+  .benefits{padding:4rem 0}
+  .benefits .grid-4{gap:1rem}
+  
+  /* Problems section */
+  .problems{padding:4rem 0}
+}
+
+/* Extra small screens */
+@media(max-width:480px){
+  .hero h1{font-size:1.8rem}
+  .section-heading{font-size:1.6rem}
+  .cta h2{font-size:1.5rem}
+  .feature h2{font-size:1.5rem}
+  .card{padding:1.25rem}
+  .btn-lg{padding:.875rem 1.5rem;font-size:1rem}
+  .footer-links{grid-template-columns:1fr}
 }
 
 /* === Dark Mode === */

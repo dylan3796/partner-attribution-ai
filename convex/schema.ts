@@ -269,6 +269,25 @@ export default defineSchema({
     .index("by_organization", ["organizationId"])
     .index("by_salesforce_org", ["salesforceOrgId"]),
 
+  // In-app notifications
+  notifications: defineTable({
+    type: v.union(
+      v.literal("deal_approved"),
+      v.literal("commission_paid"),
+      v.literal("partner_joined"),
+      v.literal("tier_change"),
+      v.literal("deal_disputed"),
+      v.literal("system")
+    ),
+    title: v.string(),
+    body: v.string(),
+    read: v.boolean(),
+    link: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_read", ["read"])
+    .index("by_created", ["createdAt"]),
+
   // Leads (from landing page)
   leads: defineTable({
     email: v.string(),
@@ -418,4 +437,38 @@ export default defineSchema({
     .index("by_status", ["status"])
     .index("by_org_and_status", ["organizationId", "status"])
     .index("by_received", ["receivedAt"]),
+
+  // Partner Applications (public form submissions)
+  partnerApplications: defineTable({
+    name: v.string(), // Applicant name
+    title: v.optional(v.string()), // Job title
+    company: v.string(),
+    email: v.string(),
+    website: v.optional(v.string()),
+    partnerType: v.union(
+      v.literal("reseller"),
+      v.literal("referral"),
+      v.literal("integration"),
+      v.literal("agency")
+    ),
+    estimatedDeals: v.union(
+      v.literal("1-5"),
+      v.literal("6-20"),
+      v.literal("21-50"),
+      v.literal("50+")
+    ),
+    description: v.string(),
+    source: v.optional(v.string()), // "How did you hear about us?"
+    status: v.union(
+      v.literal("pending"),
+      v.literal("approved"),
+      v.literal("rejected")
+    ),
+    reviewedBy: v.optional(v.string()),
+    reviewedAt: v.optional(v.number()),
+    submittedAt: v.number(),
+  })
+    .index("by_status", ["status"])
+    .index("by_email", ["email"])
+    .index("by_submitted", ["submittedAt"]),
 });

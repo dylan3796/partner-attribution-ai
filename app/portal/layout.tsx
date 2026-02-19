@@ -211,7 +211,18 @@ function PortalSidebar() {
           .portal-mobile-bar { display: flex !important; }
           .portal-sidebar { transform: translateX(-100%); }
           .portal-sidebar.portal-sidebar-open { transform: translateX(0); }
-          .portal-main { margin-left: 0 !important; margin-top: 60px !important; }
+          .portal-main { margin-left: 0 !important; margin-top: 60px !important; padding: 1rem !important; }
+          .portal-main .card { padding: 1.25rem !important; }
+          .portal-main [style*="grid-template-columns: repeat(4"] { grid-template-columns: repeat(2, 1fr) !important; gap: 0.75rem !important; }
+          .portal-main [style*="grid-template-columns: repeat(3"] { grid-template-columns: 1fr !important; gap: 0.75rem !important; }
+          .portal-main [style*="grid-template-columns: 2fr 1fr"] { grid-template-columns: 1fr !important; gap: 1rem !important; }
+          .portal-main [style*="grid-template-columns: 3fr 2fr"] { grid-template-columns: 1fr !important; gap: 1rem !important; }
+          .portal-main [style*="flex: 1 1 300px"] { flex: 1 1 100% !important; }
+          .portal-main h1 { font-size: 1.5rem !important; }
+        }
+        @media (max-width: 480px) {
+          .portal-main [style*="grid-template-columns: repeat(4"] { grid-template-columns: 1fr !important; }
+          .portal-main [style*="grid-template-columns: repeat(2"] { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </>

@@ -40,13 +40,14 @@ function LoginForm() {
         alignItems: "center",
         justifyContent: "center",
         background: "#000",
+        padding: "1rem",
       }}
     >
       <div
         style={{
           width: "100%",
           maxWidth: 380,
-          padding: "2.5rem",
+          padding: "2rem",
           background: "#0d0d0d",
           border: "1px solid #1a1a1a",
           borderRadius: 16,
