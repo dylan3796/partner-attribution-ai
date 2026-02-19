@@ -33,6 +33,7 @@ import {
   UserPlus,
   Mail,
   Plug2,
+  FileText,
   TrendingUp,
   Heart,
 } from "lucide-react";
@@ -67,6 +68,7 @@ const allLinks: SidebarLink[] = [
   { name: "Conflicts", href: "/dashboard/conflicts", icon: AlertTriangle, featureFlag: "channelConflict" },
   { name: "Activity", href: "/dashboard/activity", icon: Activity, featureFlag: "auditLog" },
   { name: "Email Triggers", href: "/dashboard/emails", icon: Mail },
+  { name: "Contracts", href: "/dashboard/contracts", icon: FileText },
   { name: "Integrations", href: "/dashboard/integrations", icon: Plug2 },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
