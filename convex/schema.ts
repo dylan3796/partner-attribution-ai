@@ -13,7 +13,10 @@ export default defineSchema({
       v.literal("first_touch"),
       v.literal("last_touch"),
       v.literal("time_decay"),
-      v.literal("role_based")
+      v.literal("role_based"),
+      v.literal("deal_reg_protection"),
+      v.literal("source_wins"),
+      v.literal("role_split")
     )),
     stripeCustomerId: v.optional(v.string()),
     createdAt: v.number(),
@@ -142,12 +145,16 @@ export default defineSchema({
     organizationId: v.id("organizations"),
     dealId: v.id("deals"),
     partnerId: v.id("partners"),
+    // Supports: equal_split, first_touch, last_touch, time_decay, role_based, deal_reg_protection, source_wins, role_split
     model: v.union(
       v.literal("equal_split"),
       v.literal("first_touch"),
       v.literal("last_touch"),
       v.literal("time_decay"),
-      v.literal("role_based")
+      v.literal("role_based"),
+      v.literal("deal_reg_protection"),
+      v.literal("source_wins"),
+      v.literal("role_split")
     ),
     percentage: v.number(),
     amount: v.number(),
@@ -489,7 +496,7 @@ export default defineSchema({
       triggersAttribution: v.boolean(),
       triggersPayout: v.boolean(),
     })),
-    attributionModel: v.string(),
+    attributionModel: v.string(), // equal_split | first_touch | last_touch | time_decay | role_based | deal_reg_protection | source_wins | role_split
     commissionRules: v.array(v.object({
       type: v.string(),
       value: v.number(),

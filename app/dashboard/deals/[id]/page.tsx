@@ -32,11 +32,12 @@ import {
 import confetti from "canvas-confetti";
 
 const MODELS: AttributionModel[] = [
+  "deal_reg_protection",
+  "source_wins",
+  "role_split",
   "equal_split",
   "first_touch",
   "last_touch",
-  "time_decay",
-  "role_based",
 ];
 
 const statusBadgeClass: Record<string, string> = {
@@ -500,7 +501,24 @@ export default function DealDetailPage({
           negotiation: "Involved in negotiation — closing credit",
           content_share: "Shared content — awareness credit",
         };
-        const auditModel = allAttributions.some((a) => a.model === "role_based") ? "role_based" : "equal_split";
+        const activeModel: AttributionModel = allAttributions.find(a => a.model === "deal_reg_protection") ? "deal_reg_protection"
+          : allAttributions.find(a => a.model === "source_wins") ? "source_wins"
+          : allAttributions.find(a => a.model === "role_split") ? "role_split"
+          : allAttributions.find(a => a.model === "role_based") ? "role_based"
+          : "equal_split";
+
+        const modelExplanations: Record<string, string> = {
+          deal_reg_protection: "The partner who registered this deal holds full credit. All commission goes to the registering partner.",
+          source_wins: "The partner who sourced or first introduced this opportunity receives full credit.",
+          role_split: "Credit is split between partners based on their defined roles in the program.",
+          equal_split: "Credit is split equally among all partners who touched this deal.",
+          first_touch: "The first partner to engage with this deal receives full credit.",
+          last_touch: "The last partner to engage before close receives full credit.",
+          time_decay: "Partners receive weighted credit based on recency — more recent touches count more.",
+          role_based: "Credit is weighted by touchpoint type and partner role.",
+        };
+
+        const auditModel = activeModel;
         const auditAttributions = allAttributions.filter((a) => a.model === auditModel);
         const auditPartnerIds = [...new Set(auditAttributions.map((a) => a.partnerId))];
 
@@ -509,6 +527,12 @@ export default function DealDetailPage({
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem" }}>
               <h3 style={{ fontSize: "0.95rem", fontWeight: 600 }}>Attribution Audit Trail</h3>
               <span style={{ fontSize: "0.7rem", fontWeight: 600, background: "var(--subtle)", padding: "0.2rem 0.6rem", borderRadius: 12 }}>🔍 Fully auditable</span>
+            </div>
+
+            <div style={{ background: "var(--subtle)", borderRadius: 8, padding: ".75rem 1rem", fontSize: ".85rem", marginBottom: "1.25rem" }}>
+              <span style={{ fontWeight: 600 }}>{MODEL_LABELS[activeModel]}</span>
+              <span className="muted"> · </span>
+              <span className="muted">{modelExplanations[activeModel]}</span>
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>

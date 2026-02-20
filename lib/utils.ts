@@ -133,4 +133,7 @@ export const MODEL_COLORS: Record<string, string> = {
   last_touch: "#ec4899",
   time_decay: "#14b8a6",
   role_based: "#f59e0b",
+  deal_reg_protection: "#7c3aed",
+  source_wins: "#0891b2",
+  role_split: "#d97706",
 };

@@ -88,7 +88,10 @@ export type AttributionModel =
   | "first_touch"
   | "last_touch"
   | "time_decay"
-  | "role_based";
+  | "role_based"
+  | "deal_reg_protection"
+  | "source_wins"
+  | "role_split";
 
 export type Attribution = {
   _id: string;
@@ -170,6 +173,9 @@ export const MODEL_LABELS: Record<AttributionModel, string> = {
   last_touch: "Last Touch",
   time_decay: "Time Decay",
   role_based: "Role-Based",
+  deal_reg_protection: "Deal Reg Protection",
+  source_wins: "Source Wins",
+  role_split: "Role Split",
 };
 
 export const MODEL_DESCRIPTIONS: Record<AttributionModel, string> = {
@@ -178,6 +184,9 @@ export const MODEL_DESCRIPTIONS: Record<AttributionModel, string> = {
   last_touch: "100% credit to the last partner who touched the deal",
   time_decay: "More recent touchpoints get higher weight",
   role_based: "Different touchpoint types have different weights",
+  deal_reg_protection: "Partner who registered the deal gets full credit",
+  source_wins: "Partner who sourced or first introduced the opportunity gets full credit",
+  role_split: "Credit split between partners based on their defined roles",
 };
 
 export const TOUCHPOINT_LABELS: Record<TouchpointType, string> = {
