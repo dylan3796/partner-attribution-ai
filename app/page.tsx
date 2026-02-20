@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ReactNode } from "react";
+import { Brain, Coins, ClipboardList, BarChart2, Globe, Eye, TrendingUp, Target, Gem, Search, Trophy, Banknote, Building2, Handshake, Plug, HelpCircle, Wallet, GraduationCap, Map, Scale, GitBranch, Tag } from "lucide-react";
 import Link from "next/link";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -244,17 +245,17 @@ export default function LandingPage() {
           </p>
           <div className="grid-3">
             <div className="card" style={{ boxShadow: "none" }}>
-              <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>📊</p>
+              <p style={{ marginBottom: ".5rem" }}><BarChart2 size={24} strokeWidth={1.5} /></p>
               <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Spreadsheet hell</h3>
               <p className="muted" style={{ lineHeight: 1.5 }}>Your partner attribution lives in 12 spreadsheets nobody trusts. Every QBR is a fight. Every quarter-end is a scramble.</p>
             </div>
             <div className="card" style={{ boxShadow: "none" }}>
-              <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>🤷</p>
+              <p style={{ marginBottom: ".5rem" }}><HelpCircle size={24} strokeWidth={1.5} /></p>
               <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Which partner gets credit?</h3>
               <p className="muted" style={{ lineHeight: 1.5 }}>Two partners touched the same deal. You&apos;re the referee with no rulebook. The relationship damage is real.</p>
             </div>
             <div className="card" style={{ boxShadow: "none" }}>
-              <p style={{ fontSize: "1.5rem", marginBottom: ".5rem" }}>💸</p>
+              <p style={{ marginBottom: ".5rem" }}><Wallet size={24} strokeWidth={1.5} /></p>
               <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Payout chaos</h3>
               <p className="muted" style={{ lineHeight: 1.5 }}>Manual commission calculations. Partners waiting weeks. Finance finding errors. Trust eroding every cycle.</p>
             </div>
@@ -389,12 +390,12 @@ export default function LandingPage() {
           </p>
         </div>
         <div className="wrap-wide grid-6">
-          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>🧠</span></div><h3>Attribution everyone trusts</h3><p>Every deal traced back to the partners who touched it. Transparent, auditable, and impossible to dispute.</p></div></Link>
-          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>💰</span></div><h3>Commissions that calculate themselves</h3><p>Set your rules once. Covant handles the math, the approvals, and the payouts. Partners get paid on time, every time.</p></div></Link>
-          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>📋</span></div><h3>Run your program, not spreadsheets</h3><p>Partner tiers, onboarding workflows, deal registration — everything in one place instead of scattered across docs and DMs.</p></div></Link>
-          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>📊</span></div><h3>Prove partner ROI to your CFO</h3><p>See exactly which deals your partners influenced and by how much. The number you&apos;ve been trying to calculate manually.</p></div></Link>
-          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>🌐</span></div><h3>Partners who actually use their portal</h3><p>A self-service home for your partners. Submit deals, track commissions, access resources — without emailing your team.</p></div></Link>
-          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><span style={{ fontSize: '1.2rem' }}>👁️</span></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Every attribution decision auditable. When a partner asks &apos;why did I get that amount?&apos; — you have the answer.</p></div></Link>
+          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Brain size={20} strokeWidth={1.5} /></div><h3>Attribution everyone trusts</h3><p>Every deal traced back to the partners who touched it. Transparent, auditable, and impossible to dispute.</p></div></Link>
+          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Coins size={20} strokeWidth={1.5} /></div><h3>Commissions that calculate themselves</h3><p>Set your rules once. Covant handles the math, the approvals, and the payouts. Partners get paid on time, every time.</p></div></Link>
+          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><ClipboardList size={20} strokeWidth={1.5} /></div><h3>Run your program, not spreadsheets</h3><p>Partner tiers, onboarding workflows, deal registration — everything in one place instead of scattered across docs and DMs.</p></div></Link>
+          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><BarChart2 size={20} strokeWidth={1.5} /></div><h3>Prove partner ROI to your CFO</h3><p>See exactly which deals your partners influenced and by how much. The number you&apos;ve been trying to calculate manually.</p></div></Link>
+          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Globe size={20} strokeWidth={1.5} /></div><h3>Partners who actually use their portal</h3><p>A self-service home for your partners. Submit deals, track commissions, access resources — without emailing your team.</p></div></Link>
+          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Eye size={20} strokeWidth={1.5} /></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Every attribution decision auditable. When a partner asks &apos;why did I get that amount?&apos; — you have the answer.</p></div></Link>
         </div>
       </section>
 
@@ -469,42 +470,42 @@ export default function LandingPage() {
         </div>
         <div className="wrap-wide grid-3" style={{ gap: "1.5rem" }}>
           <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>📈</div>
+            <div style={{ marginBottom: ".75rem" }}><TrendingUp size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Engaged partners produce more</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
               When partners can see their impact — real numbers, real deals — they sell harder. Visibility changes behavior.
             </p>
           </div>
           <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>🎯</div>
+            <div style={{ marginBottom: ".75rem" }}><Target size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Recruit better partners</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
               Tell prospects your program pays on time, attribution is transparent, and they get a real portal. You&apos;ll win the conversation.
             </p>
           </div>
           <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>💎</div>
+            <div style={{ marginBottom: ".75rem" }}><Gem size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Keep your best performers</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
               Good partners churn when they don&apos;t trust the numbers. Transparent attribution and on-time payouts build the loyalty that compounds.
             </p>
           </div>
           <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>🔍</div>
+            <div style={{ marginBottom: ".75rem" }}><Search size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Know who to invest in</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
               Ramp scores and pipeline data tell you who&apos;s climbing before it&apos;s obvious. Put MDF and co-sell resources behind the right partners early.
             </p>
           </div>
           <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>🏆</div>
+            <div style={{ marginBottom: ".75rem" }}><Trophy size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Tiers that actually motivate</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
               Partners can see their progress toward the next tier in real time. That visibility drives action in a way a quarterly email never will.
             </p>
           </div>
           <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>💵</div>
+            <div style={{ marginBottom: ".75rem" }}><Banknote size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>MDF that proves its ROI</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
               Track what every MDF dollar produced. Stop guessing which investments worked. Reallocate to what actually drives revenue.
@@ -526,7 +527,7 @@ export default function LandingPage() {
         </div>
         <div className="wrap-wide grid-strategy" style={{ gap: "2rem" }}>
           <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
-            <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>🏢</div>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}><Building2 size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Reseller Programs</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Volume tiers, deal reg protection, MDF budgets, co-sell workflows</p>
             <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
@@ -536,7 +537,7 @@ export default function LandingPage() {
             </ul>
           </div>
           <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
-            <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>🤝</div>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}><Handshake size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Referral Networks</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Simple payouts, first-touch attribution, partner portal access</p>
             <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
@@ -546,7 +547,7 @@ export default function LandingPage() {
             </ul>
           </div>
           <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
-            <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>🔌</div>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}><Plug size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Integration Partners</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Multi-touch attribution, influence tracking, shared pipeline</p>
             <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
@@ -556,7 +557,7 @@ export default function LandingPage() {
             </ul>
           </div>
           <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
-            <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>📊</div>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}><BarChart2 size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Agency & Affiliate</h3>
             <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Performance-based payouts, transparent reporting, dispute workflows</p>
             <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
@@ -637,14 +638,14 @@ export default function LandingPage() {
             }}
           >
             {[
-              { icon: "💰", label: "MDF Management" },
-              { icon: "📈", label: "Volume Rebates" },
-              { icon: "🏆", label: "Partner Tiering" },
-              { icon: "🎓", label: "Certifications" },
-              { icon: "🗺️", label: "Territory Management" },
-              { icon: "⚖️", label: "Channel Conflict Resolution" },
-              { icon: "🔀", label: "Custom Attribution Rules" },
-              { icon: "🏷️", label: "White-Label Portal" },
+              { icon: <Coins size={14} strokeWidth={1.5} />, label: "MDF Management" },
+              { icon: <TrendingUp size={14} strokeWidth={1.5} />, label: "Volume Rebates" },
+              { icon: <Trophy size={14} strokeWidth={1.5} />, label: "Partner Tiering" },
+              { icon: <GraduationCap size={14} strokeWidth={1.5} />, label: "Certifications" },
+              { icon: <Map size={14} strokeWidth={1.5} />, label: "Territory Management" },
+              { icon: <Scale size={14} strokeWidth={1.5} />, label: "Channel Conflict Resolution" },
+              { icon: <GitBranch size={14} strokeWidth={1.5} />, label: "Custom Attribution Rules" },
+              { icon: <Tag size={14} strokeWidth={1.5} />, label: "White-Label Portal" },
             ].map(({ icon, label }) => (
               <span
                 key={label}
@@ -660,7 +661,7 @@ export default function LandingPage() {
                   color: "rgba(255,255,255,.35)",
                 }}
               >
-                <span style={{ fontSize: ".82rem" }}>{icon}</span>
+                {icon}
                 {label}
               </span>
             ))}
