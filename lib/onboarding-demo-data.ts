@@ -43,7 +43,7 @@ export const demoOnboardingData: PartnerOnboarding[] = [
   {
     _id: "onb_1",
     partnerId: "p1",
-    partnerName: "CloudFirst Solutions",
+    partnerName: "Stackline",
     partnerType: "reseller",
     tier: "gold",
     currentStage: "producing",
@@ -64,7 +64,7 @@ export const demoOnboardingData: PartnerOnboarding[] = [
   {
     _id: "onb_2",
     partnerId: "p2",
-    partnerName: "DataBridge Partners",
+    partnerName: "Clearpath",
     partnerType: "referral",
     tier: "silver",
     currentStage: "ramping",
@@ -85,7 +85,7 @@ export const demoOnboardingData: PartnerOnboarding[] = [
   {
     _id: "onb_3",
     partnerId: "p3",
-    partnerName: "TechReach Inc",
+    partnerName: "Apex Growth",
     partnerType: "reseller",
     tier: "platinum",
     currentStage: "producing",
@@ -106,7 +106,7 @@ export const demoOnboardingData: PartnerOnboarding[] = [
   {
     _id: "onb_4",
     partnerId: "p4",
-    partnerName: "Nexus Digital",
+    partnerName: "Northlight",
     partnerType: "integration",
     tier: "gold",
     currentStage: "training",
@@ -127,7 +127,7 @@ export const demoOnboardingData: PartnerOnboarding[] = [
   {
     _id: "onb_5",
     partnerId: "p5",
-    partnerName: "Summit Growth Co",
+    partnerName: "TechBridge",
     partnerType: "affiliate",
     tier: "bronze",
     currentStage: "kickoff",
@@ -148,7 +148,7 @@ export const demoOnboardingData: PartnerOnboarding[] = [
   {
     _id: "onb_6",
     partnerId: "p6",
-    partnerName: "Velocity Partners",
+    partnerName: "Northlight",
     partnerType: "reseller",
     tier: "silver",
     currentStage: "first_deal",
@@ -169,7 +169,7 @@ export const demoOnboardingData: PartnerOnboarding[] = [
   {
     _id: "onb_7",
     partnerId: "p7",
-    partnerName: "Horizon Tech Group",
+    partnerName: "Clearpath",
     partnerType: "referral",
     tier: "bronze",
     currentStage: "signed",
