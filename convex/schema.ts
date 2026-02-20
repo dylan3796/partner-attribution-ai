@@ -477,6 +477,31 @@ export default defineSchema({
     .index("by_partner", ["partnerId"])
     .index("by_status", ["status"]),
 
+  // Program configuration from setup wizard
+  programConfig: defineTable({
+    sessionId: v.string(),
+    programName: v.optional(v.string()),
+    programType: v.string(),
+    interactionTypes: v.array(v.object({
+      id: v.string(),
+      label: v.string(),
+      weight: v.number(),
+      triggersAttribution: v.boolean(),
+      triggersPayout: v.boolean(),
+    })),
+    attributionModel: v.string(),
+    commissionRules: v.array(v.object({
+      type: v.string(),
+      value: v.number(),
+      unit: v.string(),
+      label: v.string(),
+    })),
+    enabledModules: v.array(v.string()),
+    rawConfig: v.string(),
+    configuredAt: v.number(),
+  })
+    .index("by_session", ["sessionId"]),
+
   // Outbound email queue / log
   email_queue: defineTable({
     organizationId: v.id("organizations"),

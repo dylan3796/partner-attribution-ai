@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { Send, MessageSquare, Database, CheckCircle, ExternalLink } from "lucide-react";
 
 function SalesforceLogo() {
@@ -25,11 +27,28 @@ interface Message {
   content: string;
 }
 
+interface InteractionType {
+  id: string;
+  label: string;
+  weight: number;
+  triggersAttribution: boolean;
+  triggersPayout: boolean;
+}
+
+interface CommissionRule {
+  type: string;
+  value: number;
+  unit: string;
+  label: string;
+}
+
 interface ProgramConfig {
   programType: string;
-  tracking: string[];
-  attribution: string;
-  payouts: string;
+  programName?: string;
+  interactionTypes: InteractionType[];
+  attributionModel: string;
+  commissionRules: CommissionRule[];
+  enabledModules: string[];
 }
 
 function parseConfig(text: string): ProgramConfig | null {
@@ -37,22 +56,93 @@ function parseConfig(text: string): ProgramConfig | null {
   if (!match) return null;
   try {
     const parsed = JSON.parse(match[1]);
-    if (parsed.programType && parsed.tracking && parsed.attribution && parsed.payouts) {
+    if (
+      parsed.programType &&
+      Array.isArray(parsed.interactionTypes) &&
+      parsed.attributionModel &&
+      Array.isArray(parsed.commissionRules) &&
+      Array.isArray(parsed.enabledModules)
+    ) {
       return {
         programType: parsed.programType,
-        tracking: Array.isArray(parsed.tracking) ? parsed.tracking : [parsed.tracking],
-        attribution: parsed.attribution,
-        payouts: parsed.payouts,
+        programName: parsed.programName,
+        interactionTypes: parsed.interactionTypes,
+        attributionModel: parsed.attributionModel,
+        commissionRules: parsed.commissionRules,
+        enabledModules: parsed.enabledModules,
       };
     }
   } catch {
-    // ignore parse errors
+    // ignore parse errors during streaming
   }
   return null;
 }
 
+function getSessionId(): string {
+  if (typeof window === "undefined") return "";
+  let id = localStorage.getItem("covant_setup_session");
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem("covant_setup_session", id);
+  }
+  return id;
+}
+
+function LivePreview({ config }: { config: ProgramConfig | null }) {
+  return (
+    <div className="setup-preview" style={{ width: 280, flexShrink: 0, alignSelf: "flex-start" }}>
+      <div className="card" style={{ padding: "1rem" }}>
+        <p style={{ fontWeight: 700, fontSize: ".85rem", marginBottom: ".75rem" }}>Your program</p>
+
+        {!config ? (
+          <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
+            <span className="setup-pulse-dot" />
+            <span className="muted" style={{ fontSize: ".8rem" }}>Listening...</span>
+          </div>
+        ) : (
+          <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
+            <div>
+              <p className="muted" style={{ fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".25rem" }}>Type</p>
+              <span className="badge badge-info" style={{ fontSize: ".78rem", padding: ".25rem .6rem" }}>{config.programType}</span>
+            </div>
+
+            {config.interactionTypes.length > 0 && (
+              <div>
+                <p className="muted" style={{ fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".3rem" }}>Interactions</p>
+                <div style={{ display: "flex", gap: ".3rem", flexWrap: "wrap" }}>
+                  {config.interactionTypes.map((t) => (
+                    <span key={t.id} className="setup-chip">{t.label}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div>
+              <p className="muted" style={{ fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".25rem" }}>Attribution</p>
+              <p style={{ fontSize: ".82rem", fontWeight: 600 }}>{config.attributionModel.replace(/_/g, " ")}</p>
+            </div>
+
+            <div>
+              <p className="muted" style={{ fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".25rem" }}>Modules</p>
+              <p style={{ fontSize: ".82rem", fontWeight: 600 }}>{config.enabledModules.length} enabled</p>
+            </div>
+
+            {config.commissionRules.length > 0 && (
+              <div>
+                <p className="muted" style={{ fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".25rem" }}>Payouts</p>
+                <p style={{ fontSize: ".82rem", fontWeight: 600 }}>{config.commissionRules.map(r => r.label).join(", ")}</p>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function SetupPage() {
   const router = useRouter();
+  const saveProgramConfig = useMutation(api.programConfig.save);
   const [currentStep, setCurrentStep] = useState(1);
   const [messages, setMessages] = useState<Message[]>([
     { role: "assistant", content: "Tell me about your partner program — what kind of partners do you work with, what activities matter to you, and how do you typically pay them? The more you share, the better I can configure things." }
@@ -60,6 +150,7 @@ export default function SetupPage() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [config, setConfig] = useState<ProgramConfig | null>(null);
+  const [previewConfig, setPreviewConfig] = useState<ProgramConfig | null>(null);
   const [configReady, setConfigReady] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
@@ -67,11 +158,27 @@ export default function SetupPage() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  const saveToConvex = useCallback(async (parsed: ProgramConfig) => {
+    const sessionId = getSessionId();
+    try {
+      await saveProgramConfig({
+        sessionId,
+        programName: parsed.programName,
+        programType: parsed.programType,
+        interactionTypes: parsed.interactionTypes,
+        attributionModel: parsed.attributionModel,
+        commissionRules: parsed.commissionRules,
+        enabledModules: parsed.enabledModules,
+        rawConfig: JSON.stringify(parsed),
+      });
+    } catch (e) {
+      console.error("Failed to save config to Convex:", e);
+    }
+  }, [saveProgramConfig]);
+
   async function sendToAI(msgs: Message[]) {
     setLoading(true);
     try {
-      // Anthropic requires messages to start with 'user' — strip leading assistant messages
-      // (the seeded opening message is UI only, not a real API response)
       const firstUserIdx = msgs.findIndex(m => m.role === "user");
       const apiMessages = firstUserIdx >= 0 ? msgs.slice(firstUserIdx) : msgs;
 
@@ -87,7 +194,6 @@ export default function SetupPage() {
       const decoder = new TextDecoder();
       let fullText = "";
 
-      // Add empty assistant message to fill in
       const streamMessages = [...msgs, { role: "assistant" as const, content: "" }];
       setMessages(streamMessages);
 
@@ -96,14 +202,22 @@ export default function SetupPage() {
         if (done) break;
         fullText += decoder.decode(value, { stream: true });
         setMessages([...msgs, { role: "assistant" as const, content: fullText }]);
+
+        // Live preview: try parsing partial config
+        const partial = parseConfig(fullText);
+        if (partial) {
+          setPreviewConfig(partial);
+        }
       }
 
       // Check for config in final text
       const parsed = parseConfig(fullText);
       if (parsed) {
         setConfig(parsed);
+        setPreviewConfig(parsed);
         setConfigReady(true);
         localStorage.setItem("covant_setup_config", JSON.stringify(parsed));
+        await saveToConvex(parsed);
       }
     } catch {
       setMessages([...msgs, { role: "assistant", content: "Something went wrong. Please try again." }]);
@@ -173,9 +287,34 @@ export default function SetupPage() {
           50% { filter: drop-shadow(0 0 16px #10b981) drop-shadow(0 0 32px #10b98166); }
         }
         .pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
+        .setup-pulse-dot {
+          width: 8px; height: 8px;
+          border-radius: 50%;
+          background: var(--muted);
+          animation: setupPulse 1.5s ease-in-out infinite;
+        }
+        @keyframes setupPulse {
+          0%, 100% { opacity: .4; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.3); }
+        }
+        @media (max-width: 768px) {
+          .setup-preview { display: none !important; }
+          .setup-step1-layout { flex-direction: column !important; }
+        }
+        .setup-next-link {
+          color: var(--muted);
+          text-decoration: underline;
+          text-underline-offset: 3px;
+          font-size: .85rem;
+          cursor: pointer;
+          background: none;
+          border: none;
+          font-family: inherit;
+        }
+        .setup-next-link:hover { color: var(--fg); }
       `}</style>
 
-      <div style={{ maxWidth: "700px", width: "100%" }}>
+      <div style={{ maxWidth: currentStep === 1 ? "1020px" : "700px", width: "100%", transition: "max-width .3s" }}>
         {/* Progress */}
         <div style={{ marginBottom: "2rem" }}>
           <div style={{ display: "flex", gap: "1rem", marginBottom: ".5rem" }}>
@@ -199,40 +338,45 @@ export default function SetupPage() {
             </div>
             <p className="muted" style={{ marginBottom: "1.5rem" }}>Describe your program in your own words. We&apos;ll handle the rest.</p>
 
-            {/* Chat */}
-            <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-              <div style={{ height: "420px", overflowY: "auto", padding: "1.25rem", display: "flex", flexDirection: "column", gap: ".75rem" }}>
-                {messages.map((m, i) => (
-                  <div key={i} className={m.role === "user" ? "setup-msg-user" : "setup-msg-ai"} dangerouslySetInnerHTML={{ __html: m.content.replace(/```json[\s\S]*?```/g, "").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br/>") }} />
-                ))}
-                {loading && messages[messages.length - 1]?.content === "" && (
-                  <div className="setup-msg-ai setup-typing"><span /><span /><span /></div>
+            <div className="setup-step1-layout" style={{ display: "flex", gap: "1.25rem" }}>
+              {/* Chat */}
+              <div className="card" style={{ padding: 0, overflow: "hidden", flex: 1 }}>
+                <div style={{ height: "420px", overflowY: "auto", padding: "1.25rem", display: "flex", flexDirection: "column", gap: ".75rem" }}>
+                  {messages.map((m, i) => (
+                    <div key={i} className={m.role === "user" ? "setup-msg-user" : "setup-msg-ai"} dangerouslySetInnerHTML={{ __html: m.content.replace(/```json[\s\S]*?```/g, "").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br/>") }} />
+                  ))}
+                  {loading && messages[messages.length - 1]?.content === "" && (
+                    <div className="setup-msg-ai setup-typing"><span /><span /><span /></div>
+                  )}
+                  <div ref={chatEndRef} />
+                </div>
+
+                {!configReady ? (
+                  <div style={{ borderTop: "1px solid var(--border)", padding: ".75rem", display: "flex", gap: ".5rem" }}>
+                    <input
+                      className="setup-chat-input"
+                      value={input}
+                      onChange={(e) => setInput(e.target.value)}
+                      onKeyDown={(e) => e.key === "Enter" && handleSend()}
+                      placeholder="Type your answer..."
+                      disabled={loading}
+                      style={{ flex: 1, padding: ".65rem 1rem", border: "1px solid var(--border)", borderRadius: "10px", fontSize: ".95rem", fontFamily: "inherit", outline: "none", background: "var(--subtle)", color: "var(--fg)", transition: "border-color .2s, box-shadow .2s" }}
+                    />
+                    <button className="btn" onClick={handleSend} disabled={loading || !input.trim()} style={{ padding: ".65rem .9rem" }}>
+                      <Send size={18} />
+                    </button>
+                  </div>
+                ) : (
+                  <div style={{ borderTop: "1px solid var(--border)", padding: "1rem", textAlign: "center" }}>
+                    <button className="btn" onClick={() => setCurrentStep(2)} style={{ background: "var(--fg)", color: "var(--bg)", fontWeight: 700, padding: ".7rem 2rem" }}>
+                      Looks good →
+                    </button>
+                  </div>
                 )}
-                <div ref={chatEndRef} />
               </div>
 
-              {!configReady ? (
-                <div style={{ borderTop: "1px solid var(--border)", padding: ".75rem", display: "flex", gap: ".5rem" }}>
-                  <input
-                    className="setup-chat-input"
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                    onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                    placeholder="Type your answer..."
-                    disabled={loading}
-                    style={{ flex: 1, padding: ".65rem 1rem", border: "1px solid var(--border)", borderRadius: "10px", fontSize: ".95rem", fontFamily: "inherit", outline: "none", background: "var(--subtle)", color: "var(--fg)", transition: "border-color .2s, box-shadow .2s" }}
-                  />
-                  <button className="btn" onClick={handleSend} disabled={loading || !input.trim()} style={{ padding: ".65rem .9rem" }}>
-                    <Send size={18} />
-                  </button>
-                </div>
-              ) : (
-                <div style={{ borderTop: "1px solid var(--border)", padding: "1rem", textAlign: "center" }}>
-                  <button className="btn" onClick={() => setCurrentStep(2)} style={{ background: "var(--fg)", color: "var(--bg)", fontWeight: 700, padding: ".7rem 2rem" }}>
-                    Looks good →
-                  </button>
-                </div>
-              )}
+              {/* Live Preview (desktop only) */}
+              <LivePreview config={previewConfig} />
             </div>
           </div>
         )}
@@ -294,28 +438,50 @@ export default function SetupPage() {
               </div>
 
               <div style={{ marginBottom: "1.5rem" }}>
-                <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".5rem" }}>Tracking</p>
+                <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".5rem" }}>Interaction Types</p>
                 <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap" }}>
-                  {config.tracking.map((item) => (
-                    <span key={item} className="setup-chip">{item}</span>
+                  {config.interactionTypes.map((item) => (
+                    <span key={item.id} className="setup-chip">{item.label}</span>
                   ))}
                 </div>
               </div>
 
               <div style={{ marginBottom: "1.5rem", paddingTop: "1.5rem", borderTop: "1px solid var(--border)" }}>
                 <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".4rem" }}>Attribution Model</p>
-                <p style={{ fontSize: "1rem", fontWeight: 600 }}>{config.attribution}</p>
+                <p style={{ fontSize: "1rem", fontWeight: 600 }}>{config.attributionModel.replace(/_/g, " ")}</p>
+              </div>
+
+              <div style={{ marginBottom: "1.5rem", paddingTop: "1.5rem", borderTop: "1px solid var(--border)" }}>
+                <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".4rem" }}>Payout Structure</p>
+                {config.commissionRules.map((r, i) => (
+                  <p key={i} style={{ fontSize: "1rem", fontWeight: 600 }}>{r.label}</p>
+                ))}
               </div>
 
               <div style={{ paddingTop: "1.5rem", borderTop: "1px solid var(--border)" }}>
-                <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".4rem" }}>Payout Structure</p>
-                <p style={{ fontSize: "1rem", fontWeight: 600 }}>{config.payouts}</p>
+                <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".4rem" }}>Enabled Modules</p>
+                <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap" }}>
+                  {config.enabledModules.map((m) => (
+                    <span key={m} className="setup-chip">{m.replace(/_/g, " ")}</span>
+                  ))}
+                </div>
               </div>
             </div>
 
-            <button className="btn" onClick={() => { localStorage.setItem("covant_setup_complete", "true"); router.push("/dashboard"); }} style={{ width: "100%", background: "var(--fg)", color: "var(--bg)", fontWeight: 700, padding: ".85rem", fontSize: "1.1rem" }}>
+            <button className="btn" onClick={() => { localStorage.setItem("covant_setup_complete", "true"); router.push("/dashboard"); }} style={{ width: "100%", background: "var(--fg)", color: "var(--bg)", fontWeight: 700, padding: ".85rem", fontSize: "1.1rem", marginBottom: "1rem" }}>
               Open your dashboard →
             </button>
+
+            <p style={{ textAlign: "center", fontSize: ".85rem", color: "var(--muted)" }}>
+              Next:{" "}
+              <button className="setup-next-link" onClick={() => { localStorage.setItem("covant_setup_complete", "true"); router.push("/dashboard/partners"); }}>
+                Add your first partner →
+              </button>
+              {" "}or{" "}
+              <button className="setup-next-link" onClick={() => { localStorage.setItem("covant_setup_complete", "true"); router.push("/dashboard/integrations"); }}>
+                Import from CRM →
+              </button>
+            </p>
           </div>
         )}
       </div>

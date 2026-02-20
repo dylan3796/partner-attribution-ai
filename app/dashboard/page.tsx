@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
@@ -53,6 +53,30 @@ const PIPELINE_TREND = [180, 160, 200, 220, 195, 210, 240, 230, 250, 215, 270, 2
 const PARTNERS_TREND = [3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7];
 const WINRATE_TREND = [50, 55, 48, 60, 58, 62, 55, 67, 65, 70, 68, 72];
 
+function WelcomeBanner() {
+  const [visible, setVisible] = useState(true);
+  const [configData, setConfigData] = useState<{ programType: string; interactionTypes: { id: string }[]; attributionModel: string; commissionRules: { label: string }[] } | null>(null);
+
+  useEffect(() => {
+    const dismissed = localStorage.getItem("covant_welcome_dismissed");
+    if (dismissed) { setVisible(false); return; }
+    const raw = localStorage.getItem("covant_setup_config");
+    if (!raw) { setVisible(false); return; }
+    try { setConfigData(JSON.parse(raw)); } catch { setVisible(false); }
+  }, []);
+
+  if (!visible || !configData) return null;
+
+  return (
+    <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid var(--border)", background: "var(--subtle)", marginBottom: "1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
+      <p style={{ fontSize: ".85rem", color: "var(--fg)" }}>
+        <strong>Welcome!</strong> Your {configData.programType} program is configured. {configData.interactionTypes.length} interaction type{configData.interactionTypes.length !== 1 ? "s" : ""} · {configData.attributionModel.replace(/_/g, " ")} attribution{configData.commissionRules.length > 0 ? ` · ${configData.commissionRules[0].label}` : ""}
+      </p>
+      <button onClick={() => { setVisible(false); localStorage.setItem("covant_welcome_dismissed", "true"); }} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted)", fontSize: "1.1rem", lineHeight: 1, padding: "0 .25rem", fontFamily: "inherit" }}>×</button>
+    </div>
+  );
+}
+
 export default function DashboardPage() {
   const router = useRouter();
 
@@ -97,6 +121,7 @@ export default function DashboardPage() {
 
   return (
     <>
+      <WelcomeBanner />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
