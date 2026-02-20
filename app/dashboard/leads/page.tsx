@@ -64,8 +64,8 @@ export default function LeadsPage() {
     <div style={{ padding: "2rem 2.5rem", maxWidth: 1100 }}>
       {/* Header */}
       <div style={{ marginBottom: "2rem" }}>
-        <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "#fff", marginBottom: ".25rem" }}>Leads</h1>
-        <p style={{ color: "#888", fontSize: ".9rem" }}>People who signed up for early access from the landing page.</p>
+        <h1 style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--fg)", marginBottom: ".25rem" }}>Leads</h1>
+        <p style={{ color: "var(--muted)", fontSize: ".9rem" }}>People who signed up for early access from the landing page.</p>
       </div>
 
       {/* Stats */}
@@ -76,12 +76,12 @@ export default function LeadsPage() {
           { label: "Qualified", value: stats.qualified, icon: <TrendingUp size={16} />, color: "#10b981" },
           { label: "Customers", value: stats.customers, icon: <CheckCircle2 size={16} />, color: "#22c55e" },
         ].map(stat => (
-          <div key={stat.label} style={{ background: "#161616", border: "1px solid #2a2a2a", borderRadius: 12, padding: "1.25rem" }}>
+          <div key={stat.label} className="card" style={{ padding: "1.25rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: ".5rem", color: stat.color, marginBottom: ".5rem" }}>
               {stat.icon}
-              <span style={{ fontSize: ".8rem", color: "#888" }}>{stat.label}</span>
+              <span style={{ fontSize: ".8rem", color: "var(--muted)" }}>{stat.label}</span>
             </div>
-            <div style={{ fontSize: "1.75rem", fontWeight: 700, color: "#fff" }}>{stat.value}</div>
+            <div style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--fg)" }}>{stat.value}</div>
           </div>
         ))}
       </div>
@@ -100,9 +100,9 @@ export default function LeadsPage() {
               padding: ".4rem .9rem",
               borderRadius: 20,
               border: "1px solid",
-              borderColor: sourceFilter === s.key ? "#10b981" : "#2a2a2a",
+              borderColor: sourceFilter === s.key ? "#10b981" : "var(--border)",
               background: sourceFilter === s.key ? "#10b981" : "transparent",
-              color: sourceFilter === s.key ? "#fff" : "#888",
+              color: sourceFilter === s.key ? "#fff" : "var(--muted)",
               fontSize: ".8rem",
               cursor: "pointer",
               fontWeight: sourceFilter === s.key ? 600 : 400,
@@ -123,9 +123,9 @@ export default function LeadsPage() {
               padding: ".4rem .9rem",
               borderRadius: 20,
               border: "1px solid",
-              borderColor: filter === s ? "#6366f1" : "#2a2a2a",
+              borderColor: filter === s ? "#6366f1" : "var(--border)",
               background: filter === s ? "#6366f1" : "transparent",
-              color: filter === s ? "#fff" : "#888",
+              color: filter === s ? "#fff" : "var(--muted)",
               fontSize: ".8rem",
               cursor: "pointer",
               fontWeight: filter === s ? 600 : 400,
@@ -138,22 +138,22 @@ export default function LeadsPage() {
 
       {/* Table */}
       {filtered.length === 0 ? (
-        <div style={{ textAlign: "center", padding: "4rem 2rem", background: "#161616", border: "1px solid #2a2a2a", borderRadius: 16 }}>
-          <Mail size={32} style={{ color: "#444", marginBottom: "1rem" }} />
-          <p style={{ color: "#888" }}>
+        <div className="card" style={{ textAlign: "center", padding: "4rem 2rem" }}>
+          <Mail size={32} style={{ color: "var(--muted)", marginBottom: "1rem", opacity: 0.5 }} />
+          <p style={{ color: "var(--muted)" }}>
             {leads.length === 0
               ? "No leads yet. They'll appear here when someone signs up on the landing page."
               : "No leads match this filter."}
           </p>
         </div>
       ) : (
-        <div style={{ background: "#161616", border: "1px solid #2a2a2a", borderRadius: 16, overflow: "hidden" }}>
+        <div className="card" style={{ padding: 0, overflow: "hidden" }}>
           <div style={{ overflowX: "auto" }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid #2a2a2a" }}>
+                <tr style={{ borderBottom: "1px solid var(--border)" }}>
                   {["Email", "Company", "Source", "Status", "First Seen", "Last Seen"].map(h => (
-                    <th key={h} style={{ padding: "1rem 1.25rem", textAlign: "left", fontSize: ".8rem", color: "#666", fontWeight: 500 }}>{h}</th>
+                    <th key={h} style={{ padding: "1rem 1.25rem", textAlign: "left", fontSize: ".8rem", color: "var(--muted)", fontWeight: 500 }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -161,32 +161,32 @@ export default function LeadsPage() {
                 {filtered.map((lead, i) => (
                   <tr
                     key={lead._id}
-                    style={{ borderBottom: i < filtered.length - 1 ? "1px solid #1e1e1e" : "none" }}
+                    style={{ borderBottom: i < filtered.length - 1 ? "1px solid var(--border)" : "none" }}
                   >
                     <td style={{ padding: "1rem 1.25rem" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
                         <div style={{ width: 32, height: 32, borderRadius: "50%", background: "#6366f120", display: "flex", alignItems: "center", justifyContent: "center", color: "#6366f1", fontSize: ".8rem", fontWeight: 600 }}>
                           {lead.email[0].toUpperCase()}
                         </div>
-                        <span style={{ color: "#fff", fontSize: ".9rem" }}>{lead.email}</span>
+                        <span style={{ color: "var(--fg)", fontSize: ".9rem" }}>{lead.email}</span>
                       </div>
                     </td>
                     <td style={{ padding: "1rem 1.25rem" }}>
-                      <span style={{ color: "#888", fontSize: ".9rem" }}>{lead.company || "—"}</span>
+                      <span style={{ color: "var(--muted)", fontSize: ".9rem" }}>{lead.company || "—"}</span>
                     </td>
                     <td style={{ padding: "1rem 1.25rem" }}>
                       <span style={{
                         fontSize: ".75rem",
                         padding: "2px 8px",
                         borderRadius: 10,
-                        background: lead.source === "partner_submitted" ? "#6366f120" : "#1e1e1e",
-                        color: lead.source === "partner_submitted" ? "#6366f1" : "#666",
+                        background: lead.source === "partner_submitted" ? "#6366f120" : "var(--subtle)",
+                        color: lead.source === "partner_submitted" ? "#6366f1" : "var(--muted)",
                         fontWeight: lead.source === "partner_submitted" ? 600 : 400,
                       }}>
                         {lead.source === "partner_submitted" ? "Partner" : "Organic"}
                       </span>
                       {lead.partnerName && (
-                        <div style={{ fontSize: ".7rem", color: "#888", marginTop: 2 }}>{lead.partnerName}</div>
+                        <div style={{ fontSize: ".7rem", color: "var(--muted)", marginTop: 2 }}>{lead.partnerName}</div>
                       )}
                     </td>
                     <td style={{ padding: "1rem 1.25rem" }}>
@@ -195,10 +195,10 @@ export default function LeadsPage() {
                         onChange={e => handleStatusChange(lead._id, e.target.value)}
                         disabled={updating === lead._id}
                         style={{
-                          background: "#0c0c0c",
-                          border: "1px solid #333",
+                          background: "var(--bg)",
+                          border: "1px solid var(--border)",
                           borderRadius: 6,
-                          color: STATUS_COLORS[lead.status] || "#fff",
+                          color: STATUS_COLORS[lead.status] || "var(--fg)",
                           fontSize: ".8rem",
                           padding: "4px 8px",
                           cursor: "pointer",
@@ -210,10 +210,10 @@ export default function LeadsPage() {
                       </select>
                     </td>
                     <td style={{ padding: "1rem 1.25rem" }}>
-                      <span style={{ color: "#666", fontSize: ".85rem" }}>{formatRelTime(lead.createdAt)}</span>
+                      <span style={{ color: "var(--muted)", fontSize: ".85rem" }}>{formatRelTime(lead.createdAt)}</span>
                     </td>
                     <td style={{ padding: "1rem 1.25rem" }}>
-                      <span style={{ color: "#666", fontSize: ".85rem" }}>{formatRelTime(lead.lastSeenAt)}</span>
+                      <span style={{ color: "var(--muted)", fontSize: ".85rem" }}>{formatRelTime(lead.lastSeenAt)}</span>
                     </td>
                   </tr>
                 ))}
