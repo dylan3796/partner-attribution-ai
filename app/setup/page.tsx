@@ -70,10 +70,15 @@ export default function SetupPage() {
   async function sendToAI(msgs: Message[]) {
     setLoading(true);
     try {
+      // Anthropic requires messages to start with 'user' — strip leading assistant messages
+      // (the seeded opening message is UI only, not a real API response)
+      const firstUserIdx = msgs.findIndex(m => m.role === "user");
+      const apiMessages = firstUserIdx >= 0 ? msgs.slice(firstUserIdx) : msgs;
+
       const res = await fetch("/api/setup/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: msgs }),
+        body: JSON.stringify({ messages: apiMessages }),
       });
 
       const reader = res.body?.getReader();
