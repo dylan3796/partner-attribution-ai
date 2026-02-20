@@ -95,7 +95,7 @@ export default function ProgramPage() {
             Get the support, resources, and visibility you need to grow.
           </p>
 
-          <Link href="/partners/apply" className="btn btn-lg" style={{ textDecoration: "none" }}>
+          <Link href="/setup" className="btn btn-lg" style={{ textDecoration: "none" }}>
             Apply to become a partner →
           </Link>
 
@@ -466,7 +466,7 @@ export default function ProgramPage() {
           </p>
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-            <Link href="/partners/apply" className="btn btn-lg" style={{ textDecoration: "none" }}>
+            <Link href="/setup" className="btn btn-lg" style={{ textDecoration: "none" }}>
               Apply to become a partner →
             </Link>
             <Link href="/portal" className="btn-outline btn-lg" style={{ textDecoration: "none" }}>
@@ -503,7 +503,7 @@ export default function ProgramPage() {
             <div>
               <h4>Partner Program</h4>
               <Link href="/program">Overview</Link>
-              <Link href="/partners/apply">Apply Now</Link>
+              <Link href="/setup">Apply Now</Link>
               <Link href="/portal">Partner Portal</Link>
             </div>
             <div>

@@ -97,7 +97,7 @@ const PLANS: Plan[] = [
     priceLabel: "Custom",
     description: "For large programs with complex partner ecosystems",
     cta: "Contact Sales",
-    ctaHref: "/partners/apply",
+    ctaHref: "/setup",
     features: [
       { name: "Unlimited partners", included: true },
       { name: "Multi-touch attribution", included: true },
