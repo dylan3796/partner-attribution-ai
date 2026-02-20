@@ -191,18 +191,7 @@ export default function LandingPage() {
             ))}
           </div>
 
-          <p
-            style={{
-              textAlign: "center",
-              color: "rgba(255,255,255,.45)",
-              fontSize: ".85rem",
-              maxWidth: 560,
-              margin: "0 auto",
-            }}
-          >
-            These pain points drove every product decision. We&apos;re building Covant
-            with our early customers — not just for them.
-          </p>
+          {/* removed */}
         </div>
       </section>
 
@@ -214,16 +203,16 @@ export default function LandingPage() {
             Everything your partner program needs
           </h2>
           <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 680, margin: "0 auto", lineHeight: 1.6 }}>
-            Attribution that partners trust. Commissions that calculate themselves. A portal your team will actually use. All in one place.
+            Attribution, commissions, and a portal your team will actually use — all in one place.
           </p>
         </div>
         <div className="wrap-wide grid-6">
-          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Brain size={20} strokeWidth={1.5} /></div><h3>Attribution everyone trusts</h3><p>Every deal traced back to the partners who touched it. Transparent, auditable, and impossible to dispute.</p></div></Link>
-          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Coins size={20} strokeWidth={1.5} /></div><h3>Commissions that calculate themselves</h3><p>Set your rules once. Covant handles the math, the approvals, and the payouts. Partners get paid on time, every time.</p></div></Link>
-          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><ClipboardList size={20} strokeWidth={1.5} /></div><h3>Run your program, not spreadsheets</h3><p>Partner tiers, onboarding workflows, deal registration — everything in one place instead of scattered across docs and DMs.</p></div></Link>
-          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><BarChart2 size={20} strokeWidth={1.5} /></div><h3>Prove partner ROI to your CFO</h3><p>See exactly which deals your partners influenced and by how much. The number you&apos;ve been trying to calculate manually.</p></div></Link>
-          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Globe size={20} strokeWidth={1.5} /></div><h3>Partners who actually use their portal</h3><p>A self-service home for your partners. Submit deals, track commissions, access resources — without emailing your team.</p></div></Link>
-          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Eye size={20} strokeWidth={1.5} /></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Every attribution decision auditable. When a partner asks &apos;why did I get that amount?&apos; — you have the answer.</p></div></Link>
+          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Brain size={20} strokeWidth={1.5} /></div><h3>Attribution everyone trusts</h3><p>Every deal traced back, auditable, impossible to dispute.</p></div></Link>
+          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Coins size={20} strokeWidth={1.5} /></div><h3>Commissions that calculate themselves</h3><p>Set rules once. Math, approvals, and payouts handled.</p></div></Link>
+          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><ClipboardList size={20} strokeWidth={1.5} /></div><h3>Run your program, not spreadsheets</h3><p>Tiers, deal registration, onboarding — one place, not scattered docs.</p></div></Link>
+          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><BarChart2 size={20} strokeWidth={1.5} /></div><h3>Prove partner ROI to your CFO</h3><p>See exactly which deals partners influenced. Finally, a real number.</p></div></Link>
+          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Globe size={20} strokeWidth={1.5} /></div><h3>Partners who actually use their portal</h3><p>Self-service for partners. No more email chains.</p></div></Link>
+          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Eye size={20} strokeWidth={1.5} /></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Every decision auditable.</p></div></Link>
         </div>
       </section>
 
@@ -283,7 +272,7 @@ export default function LandingPage() {
                 Connect your stack
               </h3>
               <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
-                Import partners from your CRM, set attribution rules, and configure commission tiers. Covant maps every partner to every deal from day one.
+                Import partners from your CRM and set attribution rules. Covant maps every partner to every deal from day one.
               </p>
             </div>
 
@@ -310,7 +299,7 @@ export default function LandingPage() {
                 Every touchpoint, automatically attributed
               </h3>
               <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
-                Deal registrations, referrals, co-sell activities, and technical enablement — all logged, linked, and weighted. When partners overlap on a deal, Covant splits credit based on your rules, not gut feel.
+                Every partner interaction — logged, linked, and weighted. Overlapping deals split by your rules, not gut feel.
               </p>
             </div>
 
@@ -337,7 +326,7 @@ export default function LandingPage() {
                 Partners get paid. CFO gets proof.
               </h3>
               <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
-                Accurate commissions calculated automatically. Partners see their earnings in real time. Finance gets clean reports. Disputes drop to zero because the math is transparent.
+                Commissions calculated automatically. Partners see earnings in real time, finance gets clean reports.
               </p>
             </div>
           </div>
@@ -352,7 +341,7 @@ export default function LandingPage() {
             Works with what you already use
           </h2>
           <p className="muted" style={{ fontSize: "1.05rem", maxWidth: 600, margin: "0 auto 3rem", lineHeight: 1.6 }}>
-            Covant connects to your existing tools in minutes. Keep using what works — we handle the partner layer on top.
+            Connects to your existing tools in minutes. We handle the partner layer on top.
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", alignItems: "center", flexWrap: "wrap" }}>
             <div className="integration-logo">
@@ -390,7 +379,7 @@ export default function LandingPage() {
           <div>
             <div className="tag">AI-Powered Attribution</div>
             <h2>Attribution that partners actually trust</h2>
-            <p>Choose how attribution works for your program — first touch, last touch, equal split, or your own custom rules. Every calculation is explainable. Partners see the logic. Disputes disappear.</p>
+            <p>First touch, last touch, equal split, or custom rules. Every calculation explainable — disputes disappear.</p>
             <Link href="/dashboard/reports" className="arrow-link">Set up your attribution rules →</Link>
           </div>
           <div className="card">
@@ -408,7 +397,7 @@ export default function LandingPage() {
           <div>
             <div className="tag">Full Visibility</div>
             <h2>Every partner touchpoint, captured</h2>
-            <p>Covant builds a complete picture of every partner interaction — referrals, demos, deal registrations, co-sell meetings. When a deal closes, you know exactly who did what.</p>
+            <p>Every partner interaction — referrals, demos, deal reg, co-sell — logged and linked. When a deal closes, you know who did what.</p>
             <Link href="/dashboard/deals" className="arrow-link">See the full timeline →</Link>
           </div>
           <div className="card">
@@ -427,7 +416,7 @@ export default function LandingPage() {
           <div>
             <div className="tag">Incentives & Payouts</div>
             <h2>Fair splits, zero manual work</h2>
-            <p>Attribution drives automatic commission calculations. Partners see their earnings in real time. Finance gets clean reports. No more end-of-quarter surprises.</p>
+            <p>Attribution drives automatic commission calculations. No more end-of-quarter surprises.</p>
             <Link href="/dashboard/payouts" className="arrow-link">Manage incentives →</Link>
           </div>
           <div className="card">
@@ -448,14 +437,13 @@ export default function LandingPage() {
             Built for how your program actually works
           </h2>
           <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 700, margin: "0 auto" }}>
-            Whether you run resellers, referral networks, integration partners, or all three — Covant adapts to your program, not the other way around.
+            Covant adapts to your program, not the other way around.
           </p>
         </div>
         <div className="wrap-wide grid-strategy" style={{ gap: "2rem" }}>
           <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
             <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}><Building2 size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Reseller Programs</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Volume tiers, deal reg protection, MDF budgets, co-sell workflows</p>
             <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
               <li>✓ Deal registration with conflict resolution</li>
               <li>✓ Tiered commission structures</li>
@@ -465,7 +453,6 @@ export default function LandingPage() {
           <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
             <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}><Handshake size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Referral Networks</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Simple payouts, first-touch attribution, partner portal access</p>
             <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
               <li>✓ One-time or recurring commissions</li>
               <li>✓ Automated payout scheduling</li>
@@ -475,7 +462,6 @@ export default function LandingPage() {
           <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
             <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}><Plug size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Integration Partners</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Multi-touch attribution, influence tracking, shared pipeline</p>
             <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
               <li>✓ Technical enablement tracking</li>
               <li>✓ Joint GTM campaign measurement</li>
@@ -485,7 +471,6 @@ export default function LandingPage() {
           <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
             <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}><BarChart2 size={24} strokeWidth={1.5} /></div>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Agency & Affiliate</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6, marginBottom: "1rem" }}>Performance-based payouts, transparent reporting, dispute workflows</p>
             <ul style={{ fontSize: ".85rem", color: "var(--muted)", lineHeight: 1.8 }}>
               <li>✓ Custom attribution models</li>
               <li>✓ Multi-currency payouts</li>
@@ -572,9 +557,9 @@ export default function LandingPage() {
       {/* ── 11. TRUST ────────────────────────────────────── */}
       <section style={{ padding: "6rem 0" }}>
         <div className="wrap grid-3">
-          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>AI-native, not AI-bolted</h3><p className="muted" style={{ lineHeight: 1.6 }}>Not a legacy tool with AI features added later. Covant was built from the ground up to make attribution automatic and payout calculations instant.</p></div>
-          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>15 minutes to value</h3><p className="muted" style={{ lineHeight: 1.6 }}>Connect your first integration, import your partners, and see your first report — in the time it takes to have a meeting about it.</p></div>
-          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>Enterprise security</h3><p className="muted" style={{ lineHeight: 1.6 }}>Your data is never used to train models. SOC 2 Type II in progress. Full audit trail on every action, every calculation.</p></div>
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>AI-native, not AI-bolted</h3><p className="muted" style={{ lineHeight: 1.6 }}>Built from the ground up for automatic attribution and instant payout calculations.</p></div>
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>15 minutes to value</h3><p className="muted" style={{ lineHeight: 1.6 }}>First integration to first report — faster than a meeting about it.</p></div>
+          <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>Enterprise security</h3><p className="muted" style={{ lineHeight: 1.6 }}>Data never used for training. SOC 2 Type II in progress. Full audit trail on every action.</p></div>
         </div>
       </section>
 
