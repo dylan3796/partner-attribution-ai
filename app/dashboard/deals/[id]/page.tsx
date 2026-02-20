@@ -490,6 +490,99 @@ export default function DealDetailPage({
         )}
       </div>
 
+      {/* Attribution Audit Trail (only for won deals) */}
+      {deal.status === "won" && allAttributions.length > 0 && (() => {
+        const CONTRIBUTION_NOTES: Record<string, string> = {
+          referral: "Introduced the opportunity — counts as initial engagement",
+          demo: "Ran product demo — technical enablement credit",
+          introduction: "Made the introduction — first-touch credit",
+          proposal: "Submitted proposal — late-stage engagement credit",
+          negotiation: "Involved in negotiation — closing credit",
+          content_share: "Shared content — awareness credit",
+        };
+        const auditModel = allAttributions.some((a) => a.model === "role_based") ? "role_based" : "equal_split";
+        const auditAttributions = allAttributions.filter((a) => a.model === auditModel);
+        const auditPartnerIds = [...new Set(auditAttributions.map((a) => a.partnerId))];
+
+        return (
+          <div className="card">
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem" }}>
+              <h3 style={{ fontSize: "0.95rem", fontWeight: 600 }}>Attribution Audit Trail</h3>
+              <span style={{ fontSize: "0.7rem", fontWeight: 600, background: "var(--subtle)", padding: "0.2rem 0.6rem", borderRadius: 12 }}>🔍 Fully auditable</span>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              {auditPartnerIds.map((pid) => {
+                const partner = partners.find((p) => p._id === pid);
+                if (!partner) return null;
+                const attr = auditAttributions.find((a) => a.partnerId === pid);
+                if (!attr) return null;
+                const pTouchpoints = [...touchpoints.filter((tp) => tp.partnerId === pid)].sort((a, b) => a.createdAt - b.createdAt);
+                const partnerAmount = attr.amount;
+                const commissionAmount = attr.commissionAmount;
+
+                return (
+                  <div key={pid} style={{ background: "var(--subtle)", borderRadius: 8, padding: "1.25rem" }}>
+                    {/* Header */}
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1rem" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.6rem" }}>
+                        <div className="avatar" style={{ width: 32, height: 32, fontSize: "0.7rem" }}>
+                          {partner.name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2)}
+                        </div>
+                        <div>
+                          <span style={{ fontWeight: 600, fontSize: "0.9rem" }}>{partner.name}</span>
+                          <span className="muted" style={{ marginLeft: "0.5rem", fontSize: "0.8rem" }}>{formatPercent(attr.percentage)} credit</span>
+                        </div>
+                      </div>
+                      <span style={{ color: "#059669", fontWeight: 700, fontSize: "0.95rem" }}>{formatCurrency(commissionAmount)}</span>
+                    </div>
+
+                    {/* Touchpoint list */}
+                    {pTouchpoints.length > 0 && (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginBottom: "1rem" }}>
+                        {pTouchpoints.map((tp) => (
+                          <div key={tp._id}>
+                            <div style={{ fontSize: "0.85rem" }}>
+                              <span style={{ fontWeight: 500 }}>{formatDate(tp.createdAt)}</span>
+                              <span className="muted"> · </span>
+                              <span>{TOUCHPOINT_LABELS[tp.type as keyof typeof TOUCHPOINT_LABELS] || tp.type}</span>
+                              {tp.notes && <span className="muted"> · {tp.notes}</span>}
+                            </div>
+                            <div className="muted" style={{ fontSize: "0.78rem", paddingLeft: "0.75rem", marginTop: "0.15rem" }}>
+                              ↳ Attribution contribution: {CONTRIBUTION_NOTES[tp.type] || "Partner activity — attribution credit"}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Math summary */}
+                    <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.75rem", marginTop: "0.5rem" }}>
+                      <p className="muted" style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }}>
+                        {pTouchpoints.length} touchpoint{pTouchpoints.length !== 1 ? "s" : ""}  ×  {partner.commissionRate}% rate  =  {formatCurrency(commissionAmount)}
+                      </p>
+                      <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap", fontSize: "0.78rem" }}>
+                        <span style={{ background: "var(--bg)", padding: "0.25rem 0.6rem", borderRadius: 6, fontWeight: 500 }}>Deal value: {formatCurrency(deal.amount)}</span>
+                        <span className="muted">→</span>
+                        <span style={{ background: "var(--bg)", padding: "0.25rem 0.6rem", borderRadius: 6, fontWeight: 500 }}>Partner credit: {formatPercent(attr.percentage)}</span>
+                        <span className="muted">→</span>
+                        <span style={{ background: "var(--bg)", padding: "0.25rem 0.6rem", borderRadius: 6, fontWeight: 500 }}>Partner amount: {formatCurrency(partnerAmount)}</span>
+                        <span className="muted">→</span>
+                        <span style={{ background: "var(--bg)", padding: "0.25rem 0.6rem", borderRadius: 6, fontWeight: 500, color: "#059669" }}>Commission: {formatCurrency(commissionAmount)}</span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <p className="muted" style={{ fontSize: "0.75rem", marginTop: "1.25rem", fontStyle: "italic" }}>
+              This audit trail is generated from logged touchpoints. Each attribution decision is recorded and cannot be retroactively modified.
+            </p>
+          </div>
+        );
+      })()}
+
       {/* Attribution Results (only for won deals) */}
       {deal.status === "won" && allAttributions.length > 0 && (
         <>
