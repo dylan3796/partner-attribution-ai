@@ -22,7 +22,7 @@ export default function PricingTiers() {
         "14-day free trial"
       ],
       cta: "Get Early Access",
-      href: "/dashboard",
+      href: "/setup",
       popular: false
     },
     {
@@ -41,7 +41,7 @@ export default function PricingTiers() {
         "Priority support"
       ],
       cta: "Get Early Access",
-      href: "/dashboard",
+      href: "/setup",
       popular: true
     },
     {
@@ -61,7 +61,7 @@ export default function PricingTiers() {
         "API access & webhooks"
       ],
       cta: "Get Early Access",
-      href: "/dashboard",
+      href: "/setup",
       popular: false
     },
     {

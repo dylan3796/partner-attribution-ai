@@ -10,6 +10,7 @@ const marketingLinks = [
   { name: "Platform", href: "#platform" },
   { name: "Solutions", href: "#solutions" },
   { name: "Pricing", href: "/pricing" },
+  { name: "Get Started", href: "/setup" },
 ];
 
 type DashLink = {
@@ -88,7 +89,7 @@ export default function Nav() {
             ) : (
               <>
                 <Link href="/dashboard" className="link nav-login-link" style={{ fontWeight: 500, fontSize: ".9rem" }}>View Demo</Link>
-                <Link href="/dashboard" className="btn nav-cta-btn">Try Demo</Link>
+                <Link href="/setup" className="btn nav-cta-btn">Get Started</Link>
               </>
             )}
             <button
@@ -138,8 +139,8 @@ export default function Nav() {
                 <Link href="/dashboard" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
                   View Demo
                 </Link>
-                <Link href="/dashboard" className="btn" style={{ margin: "0.5rem 1rem", textAlign: "center" }} onClick={() => setMobileOpen(false)}>
-                  Try Demo
+                <Link href="/setup" className="btn" style={{ margin: "0.5rem 1rem", textAlign: "center" }} onClick={() => setMobileOpen(false)}>
+                  Get Started
                 </Link>
               </>
             )}
