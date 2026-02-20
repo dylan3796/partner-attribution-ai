@@ -10,7 +10,6 @@ const marketingLinks = [
   { name: "Platform", href: "#platform" },
   { name: "Solutions", href: "#solutions" },
   { name: "Pricing", href: "/pricing" },
-  { name: "Partners", href: "/partners/apply" },
 ];
 
 type DashLink = {

@@ -813,7 +813,6 @@ export default function LandingPage() {
             </div>
             <div>
               <h4>Partners</h4>
-              <Link href="/partners/apply">Become a Partner →</Link>
               <Link href="/portal">Partner Portal</Link>
               <Link href="/portal/resources">Resource Hub</Link>
             </div>

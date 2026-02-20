@@ -20,7 +20,6 @@ import {
   Gift,
   Rocket,
   GitBranch,
-  UserPlus,
   Plug2,
   TrendingUp,
   FileText,
@@ -64,7 +63,6 @@ const navSections: NavSection[] = [
     label: "Partners",
     items: [
       { name: "All Partners",  href: "/dashboard/partners",             icon: Users },
-      { name: "Applications",  href: "/dashboard/partner-applications", icon: UserPlus },
       { name: "Leads",         href: "/dashboard/leads",                icon: Star },
       { name: "Onboarding",    href: "/dashboard/onboarding",           icon: Rocket },
     ],
