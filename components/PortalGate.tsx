@@ -235,7 +235,7 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
             }}
           >
             Don&apos;t have an account?{" "}
-            <a href="/apply" style={{ color: "#6366f1" }}>
+            <a href="/setup" style={{ color: "#6366f1" }}>
               Apply to join
             </a>
           </p>
