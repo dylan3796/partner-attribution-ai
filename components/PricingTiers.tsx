@@ -21,7 +21,7 @@ export default function PricingTiers() {
         "Email support",
         "14-day free trial"
       ],
-      cta: "Start free trial",
+      cta: "Get Early Access",
       href: "/dashboard",
       popular: false
     },
@@ -40,7 +40,7 @@ export default function PricingTiers() {
         "Slack integration",
         "Priority support"
       ],
-      cta: "Start free trial",
+      cta: "Get Early Access",
       href: "/dashboard",
       popular: true
     },
@@ -60,7 +60,7 @@ export default function PricingTiers() {
         "Dedicated CSM",
         "API access & webhooks"
       ],
-      cta: "Start free trial",
+      cta: "Get Early Access",
       href: "/dashboard",
       popular: false
     },
