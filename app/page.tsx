@@ -74,7 +74,7 @@ export default function LandingPage() {
       <section className="hero" id="product">
         <div className="wrap">
           <div className="tag">Early Access</div>
-          <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(129,140,248,.8)", marginBottom: ".75rem" }}>Partner Payout Infrastructure</p>
+          <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(129,140,248,.8)", marginBottom: ".75rem" }}>Partner Intelligence Platform</p>
           <h1>Stop Guessing Which Partners Drive Revenue</h1>
           <p className="subtitle" style={{ maxWidth: 680, margin: "0 auto 2.5rem" }}>
             Your partners are driving more revenue than you think. Covant shows you exactly how much — and makes sure they get paid for it, automatically.

@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Covant — Partner Payout Infrastructure",
+  title: "Covant — Partner Intelligence Platform",
   description:
     "Covant is the rules engine that sits between 'someone did something' and 'someone gets paid.' Attribution, commission automation, and partner program management for any industry.",
   icons: {
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Covant — Partner Payout Infrastructure",
+    title: "Covant — Partner Intelligence Platform",
     description: "Attribution, commission automation, and partner program management. Covant turns partner activity into automated, accurate payouts.",
     type: "website",
     siteName: "Covant",
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — Partner Payout Infrastructure",
+    title: "Covant — Partner Intelligence Platform",
     description: "Attribution, commission automation, and partner program management. The infrastructure layer for partner economics.",
   },
   metadataBase: new URL("https://covant.ai"),
