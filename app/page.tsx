@@ -70,10 +70,11 @@ export default function LandingPage() {
 
   return (
     <>
-      {/* ── HERO ─────────────────────────────────────────── */}
+      {/* ── 1. HERO ──────────────────────────────────────── */}
       <section className="hero" id="product">
         <div className="wrap">
           <div className="tag">Early Access</div>
+          <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(129,140,248,.8)", marginBottom: ".75rem" }}>Partner Payout Infrastructure</p>
           <h1>Stop Guessing Which Partners Drive Revenue</h1>
           <p className="subtitle" style={{ maxWidth: 680, margin: "0 auto 2.5rem" }}>
             Your partners are driving more revenue than you think. Covant shows you exactly how much — and makes sure they get paid for it, automatically.
@@ -103,7 +104,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── TRUST BAR ────────────────────────────────────── */}
+      {/* ── 2. TRUST BAR ─────────────────────────────────── */}
       <section className="trust-bar">
         <div className="wrap">
           <div className="trust-bar-inner">
@@ -130,140 +131,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── HOW IT WORKS (3 beats) ───────────────────────── */}
-      <section style={{ padding: "6rem 0" }} id="how-it-works">
-        <div className="wrap" style={{ textAlign: "center" }}>
-          <div className="tag">How It Works</div>
-          <h2
-            style={{
-              fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
-              fontWeight: 800,
-              lineHeight: 1.1,
-              letterSpacing: "-.02em",
-              marginBottom: "3.5rem",
-            }}
-          >
-            Three steps. Zero spreadsheets.
-          </h2>
-
-          <div className="grid-3">
-            <div className="card" style={{ textAlign: "left", padding: "2rem" }}>
-              <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 10,
-                  background: "#1a1a2e",
-                  border: "1px solid #2a2a4a",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 800,
-                  fontSize: "1rem",
-                  color: "#818cf8",
-                  marginBottom: "1.25rem",
-                }}
-              >
-                1
-              </div>
-              <h3 style={{ fontWeight: 700, marginBottom: ".6rem", fontSize: "1.1rem" }}>
-                Add your partners
-              </h3>
-              <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
-                Import your resellers and referral partners in minutes. Covant starts mapping deals automatically.
-              </p>
-            </div>
-
-            <div className="card" style={{ textAlign: "left", padding: "2rem" }}>
-              <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 10,
-                  background: "#1a1a2e",
-                  border: "1px solid #2a2a4a",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 800,
-                  fontSize: "1rem",
-                  color: "#818cf8",
-                  marginBottom: "1.25rem",
-                }}
-              >
-                2
-              </div>
-              <h3 style={{ fontWeight: 700, marginBottom: ".6rem", fontSize: "1.1rem" }}>
-                We track every touchpoint
-              </h3>
-              <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
-                Deal registrations, referrals, co-sell activities — every partner interaction
-                is logged and linked to your deals. Full paper trail, always.
-              </p>
-            </div>
-
-            <div className="card" style={{ textAlign: "left", padding: "2rem" }}>
-              <div
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 10,
-                  background: "#1a1a2e",
-                  border: "1px solid #2a2a4a",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontWeight: 800,
-                  fontSize: "1rem",
-                  color: "#818cf8",
-                  marginBottom: "1.25rem",
-                }}
-              >
-                3
-              </div>
-              <h3 style={{ fontWeight: 700, marginBottom: ".6rem", fontSize: "1.1rem" }}>
-                Commissions calculated automatically
-              </h3>
-              <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
-                When a deal closes, attribution runs and commissions are calculated
-                instantly — no manual work, no disputes. Partners get paid on time.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── PROBLEMS ─────────────────────────────────────── */}
-      <section className="problems">
-        <div className="wrap" style={{ textAlign: "center" }}>
-          <div className="tag">The Problem</div>
-          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
-            Every channel team is flying blind
-          </h2>
-          <p className="muted" style={{ fontSize: "1.05rem", maxWidth: 600, margin: "0 auto 3rem", lineHeight: 1.6 }}>
-            You have partners driving revenue. But proving it? A pile of spreadsheets, manual reconciliation, and disputes that erode trust every quarter.
-          </p>
-          <div className="grid-3">
-            <div className="card" style={{ boxShadow: "none" }}>
-              <p style={{ marginBottom: ".5rem" }}><BarChart2 size={24} strokeWidth={1.5} /></p>
-              <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Spreadsheet hell</h3>
-              <p className="muted" style={{ lineHeight: 1.5 }}>Your partner attribution lives in 12 spreadsheets nobody trusts. Every QBR is a fight. Every quarter-end is a scramble.</p>
-            </div>
-            <div className="card" style={{ boxShadow: "none" }}>
-              <p style={{ marginBottom: ".5rem" }}><HelpCircle size={24} strokeWidth={1.5} /></p>
-              <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Which partner gets credit?</h3>
-              <p className="muted" style={{ lineHeight: 1.5 }}>Two partners touched the same deal. You&apos;re the referee with no rulebook. The relationship damage is real.</p>
-            </div>
-            <div className="card" style={{ boxShadow: "none" }}>
-              <p style={{ marginBottom: ".5rem" }}><Wallet size={24} strokeWidth={1.5} /></p>
-              <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>Payout chaos</h3>
-              <p className="muted" style={{ lineHeight: 1.5 }}>Manual commission calculations. Partners waiting weeks. Finance finding errors. Trust eroding every cycle.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── SOCIAL PROOF ────────────────────────────────── */}
+      {/* ── 3. SOCIAL PROOF ──────────────────────────────── */}
       <section className="testimonial-strip">
         <div className="wrap">
           <p
@@ -338,7 +206,145 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── CRM INTEGRATION ──────────────────────────────── */}
+      {/* ── 4. PLATFORM MODULES ──────────────────────────── */}
+      <section className="modules" id="platform">
+        <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
+          <div className="tag">The Platform</div>
+          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
+            Everything your partner program needs
+          </h2>
+          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 680, margin: "0 auto", lineHeight: 1.6 }}>
+            Attribution that partners trust. Commissions that calculate themselves. A portal your team will actually use. All in one place.
+          </p>
+        </div>
+        <div className="wrap-wide grid-6">
+          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Brain size={20} strokeWidth={1.5} /></div><h3>Attribution everyone trusts</h3><p>Every deal traced back to the partners who touched it. Transparent, auditable, and impossible to dispute.</p></div></Link>
+          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Coins size={20} strokeWidth={1.5} /></div><h3>Commissions that calculate themselves</h3><p>Set your rules once. Covant handles the math, the approvals, and the payouts. Partners get paid on time, every time.</p></div></Link>
+          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><ClipboardList size={20} strokeWidth={1.5} /></div><h3>Run your program, not spreadsheets</h3><p>Partner tiers, onboarding workflows, deal registration — everything in one place instead of scattered across docs and DMs.</p></div></Link>
+          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><BarChart2 size={20} strokeWidth={1.5} /></div><h3>Prove partner ROI to your CFO</h3><p>See exactly which deals your partners influenced and by how much. The number you&apos;ve been trying to calculate manually.</p></div></Link>
+          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Globe size={20} strokeWidth={1.5} /></div><h3>Partners who actually use their portal</h3><p>A self-service home for your partners. Submit deals, track commissions, access resources — without emailing your team.</p></div></Link>
+          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Eye size={20} strokeWidth={1.5} /></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Every attribution decision auditable. When a partner asks &apos;why did I get that amount?&apos; — you have the answer.</p></div></Link>
+        </div>
+      </section>
+
+      {/* ── 5. ROI CALCULATOR ────────────────────────────── */}
+      <section style={{ padding: "6rem 0", background: "#000" }} id="roi">
+        <div className="wrap">
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <div className="tag">Calculate Your ROI</div>
+            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem", color: "#fff" }}>
+              See What Covant Is Worth to You
+            </h2>
+            <p style={{ fontSize: "1.1rem", color: "#a0a0a0", maxWidth: 640, margin: "0 auto" }}>
+              Most customers see 8–12x ROI in the first year. Calculate yours.
+            </p>
+          </div>
+          <ROICalculator />
+        </div>
+      </section>
+
+      {/* ── 6. HOW IT WORKS ──────────────────────────────── */}
+      <section style={{ padding: "6rem 0" }} id="how-it-works">
+        <div className="wrap" style={{ textAlign: "center" }}>
+          <div className="tag">How It Works</div>
+          <h2
+            style={{
+              fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
+              fontWeight: 800,
+              lineHeight: 1.1,
+              letterSpacing: "-.02em",
+              marginBottom: "3.5rem",
+            }}
+          >
+            Three steps. Zero spreadsheets.
+          </h2>
+
+          <div className="grid-3">
+            <div className="card" style={{ textAlign: "left", padding: "2rem" }}>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 10,
+                  background: "#1a1a2e",
+                  border: "1px solid #2a2a4a",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 800,
+                  fontSize: "1rem",
+                  color: "#818cf8",
+                  marginBottom: "1.25rem",
+                }}
+              >
+                1
+              </div>
+              <h3 style={{ fontWeight: 700, marginBottom: ".6rem", fontSize: "1.1rem" }}>
+                Connect your stack
+              </h3>
+              <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
+                Import partners from your CRM, set attribution rules, and configure commission tiers. Covant maps every partner to every deal from day one.
+              </p>
+            </div>
+
+            <div className="card" style={{ textAlign: "left", padding: "2rem" }}>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 10,
+                  background: "#1a1a2e",
+                  border: "1px solid #2a2a4a",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 800,
+                  fontSize: "1rem",
+                  color: "#818cf8",
+                  marginBottom: "1.25rem",
+                }}
+              >
+                2
+              </div>
+              <h3 style={{ fontWeight: 700, marginBottom: ".6rem", fontSize: "1.1rem" }}>
+                Every touchpoint, automatically attributed
+              </h3>
+              <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
+                Deal registrations, referrals, co-sell activities, and technical enablement — all logged, linked, and weighted. When partners overlap on a deal, Covant splits credit based on your rules, not gut feel.
+              </p>
+            </div>
+
+            <div className="card" style={{ textAlign: "left", padding: "2rem" }}>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 10,
+                  background: "#1a1a2e",
+                  border: "1px solid #2a2a4a",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontWeight: 800,
+                  fontSize: "1rem",
+                  color: "#818cf8",
+                  marginBottom: "1.25rem",
+                }}
+              >
+                3
+              </div>
+              <h3 style={{ fontWeight: 700, marginBottom: ".6rem", fontSize: "1.1rem" }}>
+                Partners get paid. CFO gets proof.
+              </h3>
+              <p className="muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
+                Accurate commissions calculated automatically. Partners see their earnings in real time. Finance gets clean reports. Disputes drop to zero because the math is transparent.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 7. CRM INTEGRATION ───────────────────────────── */}
       <section style={{ padding: "6rem 0" }}>
         <div className="wrap" style={{ textAlign: "center" }}>
           <div className="tag">The Solution</div>
@@ -378,28 +384,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── PLATFORM MODULES ─────────────────────────────── */}
-      <section className="modules" id="platform">
-        <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <div className="tag">The Platform</div>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
-            Everything your partner program needs
-          </h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 680, margin: "0 auto", lineHeight: 1.6 }}>
-            Attribution that partners trust. Commissions that calculate themselves. A portal your team will actually use. All in one place.
-          </p>
-        </div>
-        <div className="wrap-wide grid-6">
-          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Brain size={20} strokeWidth={1.5} /></div><h3>Attribution everyone trusts</h3><p>Every deal traced back to the partners who touched it. Transparent, auditable, and impossible to dispute.</p></div></Link>
-          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Coins size={20} strokeWidth={1.5} /></div><h3>Commissions that calculate themselves</h3><p>Set your rules once. Covant handles the math, the approvals, and the payouts. Partners get paid on time, every time.</p></div></Link>
-          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><ClipboardList size={20} strokeWidth={1.5} /></div><h3>Run your program, not spreadsheets</h3><p>Partner tiers, onboarding workflows, deal registration — everything in one place instead of scattered across docs and DMs.</p></div></Link>
-          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><BarChart2 size={20} strokeWidth={1.5} /></div><h3>Prove partner ROI to your CFO</h3><p>See exactly which deals your partners influenced and by how much. The number you&apos;ve been trying to calculate manually.</p></div></Link>
-          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Globe size={20} strokeWidth={1.5} /></div><h3>Partners who actually use their portal</h3><p>A self-service home for your partners. Submit deals, track commissions, access resources — without emailing your team.</p></div></Link>
-          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Eye size={20} strokeWidth={1.5} /></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Every attribution decision auditable. When a partner asks &apos;why did I get that amount?&apos; — you have the answer.</p></div></Link>
-        </div>
-      </section>
-
-      {/* ── FEATURE: ATTRIBUTION ─────────────────────────── */}
+      {/* ── 8. FEATURE DEEP-DIVES ────────────────────────── */}
       <section className="feature">
         <div className="wrap-wide grid-2">
           <div>
@@ -418,7 +403,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── FEATURE: ACTIVITY ────────────────────────────── */}
       <section className="feature">
         <div className="wrap-wide grid-2 grid-flip">
           <div>
@@ -438,7 +422,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── FEATURE: INCENTIVES ──────────────────────────── */}
       <section className="feature">
         <div className="wrap-wide grid-2">
           <div>
@@ -457,64 +440,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── GROW YOUR ECOSYSTEM ──────────────────────────── */}
-      <section style={{ padding: "6rem 0", background: "linear-gradient(180deg, rgba(255,255,255,.02) 0%, transparent 100%)" }}>
-        <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <div className="tag">Grow Your Ecosystem</div>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>
-            A partner program that grows itself
-          </h2>
-          <p className="muted" style={{ fontSize: "1.1rem", maxWidth: 700, margin: "0 auto", lineHeight: 1.6 }}>
-            Most partner programs track what partners did. Covant makes partners want to do more.
-          </p>
-        </div>
-        <div className="wrap-wide grid-3" style={{ gap: "1.5rem" }}>
-          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ marginBottom: ".75rem" }}><TrendingUp size={24} strokeWidth={1.5} /></div>
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Engaged partners produce more</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
-              When partners can see their impact — real numbers, real deals — they sell harder. Visibility changes behavior.
-            </p>
-          </div>
-          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ marginBottom: ".75rem" }}><Target size={24} strokeWidth={1.5} /></div>
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Recruit better partners</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
-              Tell prospects your program pays on time, attribution is transparent, and they get a real portal. You&apos;ll win the conversation.
-            </p>
-          </div>
-          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ marginBottom: ".75rem" }}><Gem size={24} strokeWidth={1.5} /></div>
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Keep your best performers</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
-              Good partners churn when they don&apos;t trust the numbers. Transparent attribution and on-time payouts build the loyalty that compounds.
-            </p>
-          </div>
-          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ marginBottom: ".75rem" }}><Search size={24} strokeWidth={1.5} /></div>
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Know who to invest in</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
-              Ramp scores and pipeline data tell you who&apos;s climbing before it&apos;s obvious. Put MDF and co-sell resources behind the right partners early.
-            </p>
-          </div>
-          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ marginBottom: ".75rem" }}><Trophy size={24} strokeWidth={1.5} /></div>
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Tiers that actually motivate</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
-              Partners can see their progress toward the next tier in real time. That visibility drives action in a way a quarterly email never will.
-            </p>
-          </div>
-          <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
-            <div style={{ marginBottom: ".75rem" }}><Banknote size={24} strokeWidth={1.5} /></div>
-            <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>MDF that proves its ROI</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.6 }}>
-              Track what every MDF dollar produced. Stop guessing which investments worked. Reallocate to what actually drives revenue.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── YOUR STRATEGY ────────────────────────────────── */}
+      {/* ── 9. WHO IT'S FOR (consolidated) ────────────────── */}
       <section style={{ padding: "6rem 0" }} id="solutions">
         <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
           <div className="tag">Your strategy, your rules</div>
@@ -569,33 +495,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── WHO IT'S FOR ─────────────────────────────────── */}
-      <section className="benefits">
-        <div className="wrap" style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem" }}>Built for partner teams who are done with spreadsheets</h2>
-          <p style={{ fontSize: "1.1rem", color: "var(--muted)", maxWidth: 640, margin: "0 auto" }}>Whether you have 5 partners or 500, Covant gives you the visibility, automation, and trust your program needs to scale.</p>
-        </div>
-        <div className="wrap-wide grid-4">
-          <div className="card">
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>SaaS & Tech</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>Resellers, VARs, integration partners. Track which deals your partners influenced and pay them automatically.</p>
-          </div>
-          <div className="card">
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Marketplaces & Platforms</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>App ecosystems and plugin networks. Know which partners drive platform adoption and reward the ones who actually deliver.</p>
-          </div>
-          <div className="card">
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Distribution Networks</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>Multi-tier channel programs. Attribution across distributor → reseller → customer chains, without the spreadsheet.</p>
-          </div>
-          <div className="card">
-            <h3 style={{ fontWeight: 700, marginBottom: ".5rem" }}>Agencies & Services</h3>
-            <p className="muted" style={{ fontSize: ".9rem", lineHeight: 1.5 }}>Referral networks and consulting partners. Track lead quality, measure relationship value, automate the payout.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── AS YOU GROW ──────────────────────────────────── */}
+      {/* ── 10. AS YOU GROW ──────────────────────────────── */}
       <section
         style={{
           padding: "4rem 0",
@@ -669,7 +569,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── TRUST ────────────────────────────────────────── */}
+      {/* ── 11. TRUST ────────────────────────────────────── */}
       <section style={{ padding: "6rem 0" }}>
         <div className="wrap grid-3">
           <div><h3 style={{ fontWeight: 700, marginBottom: ".8rem" }}>AI-native, not AI-bolted</h3><p className="muted" style={{ lineHeight: 1.6 }}>Not a legacy tool with AI features added later. Covant was built from the ground up to make attribution automatic and payout calculations instant.</p></div>
@@ -678,23 +578,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── ROI CALCULATOR ───────────────────────────────── */}
-      <section style={{ padding: "6rem 0", background: "#000" }} id="roi">
-        <div className="wrap">
-          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <div className="tag">Calculate Your ROI</div>
-            <h2 style={{ fontSize: "clamp(2rem, 4vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem", color: "#fff" }}>
-              See What Covant Is Worth to You
-            </h2>
-            <p style={{ fontSize: "1.1rem", color: "#a0a0a0", maxWidth: 640, margin: "0 auto" }}>
-              Most customers see 8–12x ROI in the first year. Calculate yours.
-            </p>
-          </div>
-          <ROICalculator />
-        </div>
-      </section>
-
-      {/* ── PRICING ──────────────────────────────────────── */}
+      {/* ── 12. PRICING CTA ──────────────────────────────── */}
       <section style={{ padding: "5rem 0", background: "#000" }} id="pricing">
         <div className="wrap" style={{ textAlign: "center" }}>
           <div className="tag">Pricing</div>
@@ -710,7 +594,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-            {/* ── FINAL CTA ─────────────────────────────────────── */}
+      {/* ── 13. FINAL CTA ────────────────────────────────── */}
       <section className="cta">
         <div className="wrap">
           <h2>Your partners are driving revenue. Start proving it.</h2>
@@ -770,7 +654,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── FOOTER ───────────────────────────────────────── */}
+      {/* ── 14. FOOTER ───────────────────────────────────── */}
       <footer className="site-footer">
         <div className="wrap-wide footer-grid">
           <div>
