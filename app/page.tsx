@@ -279,14 +279,7 @@ export default function LandingPage() {
             What we&apos;re hearing from early access conversations
           </p>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-              gap: "1.25rem",
-              marginBottom: "2.5rem",
-            }}
-          >
+          <div className="grid-testimonials" style={{ marginBottom: "2.5rem" }}>
             {[
               {
                 quote:
@@ -474,7 +467,7 @@ export default function LandingPage() {
             Most partner programs track what partners did. Covant makes partners want to do more.
           </p>
         </div>
-        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.5rem" }}>
+        <div className="wrap-wide grid-3" style={{ gap: "1.5rem" }}>
           <div className="card" style={{ padding: "1.75rem", textAlign: "left" }}>
             <div style={{ fontSize: "1.5rem", marginBottom: ".75rem" }}>📈</div>
             <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Engaged partners produce more</h3>
@@ -531,7 +524,7 @@ export default function LandingPage() {
             Whether you run resellers, referral networks, integration partners, or all three — Covant adapts to your program, not the other way around.
           </p>
         </div>
-        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem" }}>
+        <div className="wrap-wide grid-strategy" style={{ gap: "2rem" }}>
           <div className="card" style={{ padding: "2rem", textAlign: "left" }}>
             <div style={{ width: 48, height: 48, borderRadius: 12, background: "rgba(255,255,255,.08)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", marginBottom: "1rem" }}>🏢</div>
             <h3 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".5rem" }}>Reseller Programs</h3>
@@ -727,7 +720,7 @@ export default function LandingPage() {
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <form
               onSubmit={handleWaitlist}
-              style={{ display: "flex", gap: ".5rem", maxWidth: 440 }}
+              className="cta-form"
             >
               <div style={{ flex: 1, position: "relative" }}>
                 <input

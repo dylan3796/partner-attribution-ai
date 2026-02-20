@@ -47,6 +47,7 @@ const nameStyle: React.CSSProperties = {
   fontSize: ".9rem",
   fontWeight: 600,
   color: "#e5e5e5",
+  minWidth: 0,
 };
 
 const numStyle: React.CSSProperties = {
@@ -84,9 +85,10 @@ export default function InsightDemo() {
       background: "#080808",
       border: "1px solid #1a1a1a",
       borderRadius: 20,
-      padding: "1.5rem",
+      padding: "clamp(.75rem, 3vw, 1.5rem)",
       maxWidth: 800,
       margin: "0 auto",
+      overflow: "hidden",
     }}>
       {/* Top bar */}
       <div style={{
@@ -119,13 +121,13 @@ export default function InsightDemo() {
           </div>
           {revenueData.map((r, i) => (
             <div key={r.name} style={{ ...rowBorder(i === revenueData.length - 1), display: "flex", alignItems: "center", gap: ".75rem" }}>
-              <span style={{ ...nameStyle, flex: "0 0 170px" }}>{r.name}</span>
-              <div style={{ flex: 1, height: 4, background: "#1a1a1a", borderRadius: 2, overflow: "hidden" }}>
+              <span style={{ ...nameStyle, flex: "1 1 120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}</span>
+              <div style={{ flex: "2 1 60px", height: 4, background: "#1a1a1a", borderRadius: 2, overflow: "hidden" }}>
                 <div style={{ width: `${r.pct}%`, height: "100%", background: "#6366f1", borderRadius: 2 }} />
               </div>
-              <span style={{ ...numStyle, flex: "0 0 75px", textAlign: "right" }}>{r.amount}</span>
+              <span style={{ ...numStyle, flex: "0 0 65px", textAlign: "right", fontSize: ".85rem" }}>{r.amount}</span>
               <span style={{
-                flex: "0 0 40px",
+                flex: "0 0 36px",
                 textAlign: "right",
                 fontSize: ".8rem",
                 fontWeight: 600,
@@ -149,8 +151,8 @@ export default function InsightDemo() {
           </div>
           {commissionData.map((c, i) => (
             <div key={c.name} style={{ ...rowBorder(i === commissionData.length - 1), display: "flex", alignItems: "center", gap: ".75rem" }}>
-              <span style={{ ...nameStyle, flex: "0 0 170px" }}>{c.name}</span>
-              <span style={{ ...numStyle, flex: "0 0 70px" }}>{c.amount}</span>
+              <span style={{ ...nameStyle, flex: "1 1 120px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{c.name}</span>
+              <span style={{ ...numStyle, flex: "0 0 60px", fontSize: ".85rem" }}>{c.amount}</span>
               <span style={{ flex: 1, fontSize: ".8rem", color: "#555" }}>{c.tier}</span>
               <span style={{
                 fontSize: ".75rem",

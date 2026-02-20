@@ -420,6 +420,11 @@ select.input{appearance:auto;cursor:pointer}
 .animate-in{animation:slideUp .3s ease}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
+/* Landing page grids */
+.grid-strategy{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr))}
+.grid-testimonials{display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:1.25rem}
+.cta-form{display:flex;gap:.5rem;max-width:440px}
+
 /* === Responsive === */
 @media(max-width:1024px){
   .grid-2,.grid-3,.grid-4,.grid-6{grid-template-columns:1fr;gap:2.5rem}
@@ -563,6 +568,18 @@ select.input{appearance:auto;cursor:pointer}
   
   /* Flexible flex wrap */
   [style*="display: flex"][style*="gap"]{flex-wrap:wrap}
+  
+  /* Landing grids mobile */
+  .grid-strategy{grid-template-columns:1fr!important}
+  .grid-testimonials{grid-template-columns:1fr!important}
+  
+  /* CTA form mobile */
+  .cta-form{flex-direction:column;max-width:100%}
+  .cta-form .input{width:100%}
+  .cta-form .btn{width:100%}
+  
+  /* InsightDemo mobile */
+  .hero-demo{overflow-x:hidden}
 }
 
 /* Extra small screens */
