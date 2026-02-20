@@ -29,7 +29,6 @@ import type * as mdf from "../mdf.js";
 import type * as notifications from "../notifications.js";
 import type * as organizations_mutations from "../organizations/mutations.js";
 import type * as organizations_queries from "../organizations/queries.js";
-import type * as partnerApplications from "../partnerApplications.js";
 import type * as partners from "../partners.js";
 import type * as payouts from "../payouts.js";
 import type * as queries_analytics from "../queries/analytics.js";
@@ -66,7 +65,6 @@ declare const fullApi: ApiFromModules<{
   notifications: typeof notifications;
   "organizations/mutations": typeof organizations_mutations;
   "organizations/queries": typeof organizations_queries;
-  partnerApplications: typeof partnerApplications;
   partners: typeof partners;
   payouts: typeof payouts;
   "queries/analytics": typeof queries_analytics;
