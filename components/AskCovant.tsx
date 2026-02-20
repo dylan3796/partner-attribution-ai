@@ -24,7 +24,7 @@ const EXAMPLE_QUERIES = [
   "Show me partner scores and rankings",
 ];
 
-export default function AskPartnerBase() {
+export default function AskCovant() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");

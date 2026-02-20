@@ -5,7 +5,7 @@ import { StoreProvider } from "@/lib/store";
 import { PlatformConfigProvider } from "@/lib/platform-config";
 import { Providers } from "./providers";
 import Nav from "@/components/Nav";
-import AskPartnerBase from "@/components/AskPartnerBase";
+import AskCovant from "@/components/AskCovant";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -56,7 +56,7 @@ export default function RootLayout({
             <PlatformConfigProvider>
               <Nav />
               {children}
-              <AskPartnerBase />
+              <AskCovant />
             </PlatformConfigProvider>
           </StoreProvider>
         </Providers>

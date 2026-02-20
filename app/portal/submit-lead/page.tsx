@@ -120,7 +120,7 @@ export default function SubmitLeadPage() {
         </div>
         <div>
           <label style={labelStyle}>Company Name *</label>
-          <input style={inputStyle} value={form.company} onChange={(e) => update("company", e.target.value)} required placeholder="Acme Corp" />
+          <input style={inputStyle} value={form.company} onChange={(e) => update("company", e.target.value)} required placeholder="Horizon Software" />
         </div>
         <div>
           <label style={labelStyle}>Email *</label>
