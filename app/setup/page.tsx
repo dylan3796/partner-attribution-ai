@@ -2,7 +2,23 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Send, MessageSquare, Database, CheckCircle, ExternalLink, Upload } from "lucide-react";
+import { Send, MessageSquare, Database, CheckCircle, ExternalLink } from "lucide-react";
+
+function SalesforceLogo() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13.3 7.2C14.3 5.9 15.9 5 17.7 5c2.5 0 4.7 1.6 5.5 3.9.6-.3 1.3-.5 2-.5 2.6 0 4.8 2.1 4.8 4.8 0 .5-.1 1-.2 1.4C31 15.2 32 16.8 32 18.6c0 2.7-2.2 4.8-4.8 4.8H8.8C5.6 23.4 3 20.8 3 17.6c0-2.5 1.6-4.6 3.8-5.4-.1-.4-.1-.8-.1-1.2 0-3.3 2.7-6 6-6 .6 0 .4.1.6.2z" fill="#00A1E0"/>
+    </svg>
+  );
+}
+
+function HubSpotLogo() {
+  return (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21 12.5V9.2c.9-.4 1.5-1.3 1.5-2.4 0-1.4-1.1-2.6-2.5-2.6S17.5 5.4 17.5 6.8c0 1.1.6 2 1.5 2.4v3.3c-1.4.2-2.7.8-3.7 1.8L6.7 8.4c.1-.2.1-.4.1-.6C6.8 6.3 5.7 5 4.3 5 2.9 5 1.8 6.1 1.8 7.6c0 1.5 1.1 2.6 2.5 2.6.4 0 .8-.1 1.1-.3l8.4 5.7C13.3 16.4 13 17.2 13 18c0 .9.3 1.8.8 2.5L9.5 24.8c-.3-.1-.6-.2-.9-.2-1.5 0-2.6 1.2-2.6 2.6 0 1.4 1.2 2.6 2.6 2.6 1.4 0 2.6-1.2 2.6-2.6 0-.4-.1-.8-.3-1.1l4.1-4.4c.9.5 1.9.8 3 .8 3.3 0 5.9-2.7 5.9-6S24.3 10.5 21 12.5z" fill="#FF7A59"/>
+    </svg>
+  );
+}
 
 interface Message {
   role: "user" | "assistant";
@@ -11,23 +27,26 @@ interface Message {
 
 interface ProgramConfig {
   programType: string;
-  tracking: string;
+  tracking: string[];
   attribution: string;
   payouts: string;
 }
 
 function parseConfig(text: string): ProgramConfig | null {
-  const pt = text.match(/\*\*Program type:\*\*\s*(.+)/i);
-  const tr = text.match(/\*\*Tracking:\*\*\s*(.+)/i);
-  const at = text.match(/\*\*Attribution:\*\*\s*(.+)/i);
-  const pa = text.match(/\*\*Payouts:\*\*\s*(.+)/i);
-  if (pt && tr && at && pa) {
-    return {
-      programType: pt[1].trim(),
-      tracking: tr[1].trim(),
-      attribution: at[1].trim(),
-      payouts: pa[1].trim(),
-    };
+  const match = text.match(/```json\s*([\s\S]*?)```/);
+  if (!match) return null;
+  try {
+    const parsed = JSON.parse(match[1]);
+    if (parsed.programType && parsed.tracking && parsed.attribution && parsed.payouts) {
+      return {
+        programType: parsed.programType,
+        tracking: Array.isArray(parsed.tracking) ? parsed.tracking : [parsed.tracking],
+        attribution: parsed.attribution,
+        payouts: parsed.payouts,
+      };
+    }
+  } catch {
+    // ignore parse errors
   }
   return null;
 }
@@ -35,20 +54,14 @@ function parseConfig(text: string): ProgramConfig | null {
 export default function SetupPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([
+    { role: "assistant", content: "Tell me about your partner program — what kind of partners do you work with, what activities matter to you, and how do you typically pay them? The more you share, the better I can configure things." }
+  ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [config, setConfig] = useState<ProgramConfig | null>(null);
   const [configReady, setConfigReady] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
-
-  // Start conversation on mount
-  useEffect(() => {
-    if (messages.length === 0) {
-      sendToAI([]);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -62,12 +75,26 @@ export default function SetupPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: msgs }),
       });
-      const data = await res.json();
-      const newMessages = [...msgs, { role: "assistant" as const, content: data.content }];
-      setMessages(newMessages);
 
-      // Check if the response contains the config summary
-      const parsed = parseConfig(data.content);
+      const reader = res.body?.getReader();
+      if (!reader) throw new Error("No reader");
+
+      const decoder = new TextDecoder();
+      let fullText = "";
+
+      // Add empty assistant message to fill in
+      const streamMessages = [...msgs, { role: "assistant" as const, content: "" }];
+      setMessages(streamMessages);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        fullText += decoder.decode(value, { stream: true });
+        setMessages([...msgs, { role: "assistant" as const, content: fullText }]);
+      }
+
+      // Check for config in final text
+      const parsed = parseConfig(fullText);
       if (parsed) {
         setConfig(parsed);
         setConfigReady(true);
@@ -136,6 +163,11 @@ export default function SetupPage() {
         .setup-typing span:nth-child(2) { animation-delay: .2s; }
         .setup-typing span:nth-child(3) { animation-delay: .4s; }
         @keyframes setupBounce { to { transform: translateY(-4px); opacity: .4; } }
+        @keyframes pulseGlow {
+          0%, 100% { filter: drop-shadow(0 0 4px #10b981); }
+          50% { filter: drop-shadow(0 0 16px #10b981) drop-shadow(0 0 32px #10b98166); }
+        }
+        .pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
       `}</style>
 
       <div style={{ maxWidth: "700px", width: "100%" }}>
@@ -160,15 +192,15 @@ export default function SetupPage() {
               <MessageSquare size={20} />
               <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Set up your program</h1>
             </div>
-            <p className="muted" style={{ marginBottom: "1.5rem" }}>Tell us about your partner program and we'll configure everything.</p>
+            <p className="muted" style={{ marginBottom: "1.5rem" }}>Describe your program in your own words. We&apos;ll handle the rest.</p>
 
             {/* Chat */}
             <div className="card" style={{ padding: 0, overflow: "hidden" }}>
               <div style={{ height: "420px", overflowY: "auto", padding: "1.25rem", display: "flex", flexDirection: "column", gap: ".75rem" }}>
                 {messages.map((m, i) => (
-                  <div key={i} className={m.role === "user" ? "setup-msg-user" : "setup-msg-ai"} dangerouslySetInnerHTML={{ __html: m.content.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br/>") }} />
+                  <div key={i} className={m.role === "user" ? "setup-msg-user" : "setup-msg-ai"} dangerouslySetInnerHTML={{ __html: m.content.replace(/```json[\s\S]*?```/g, "").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br/>") }} />
                 ))}
-                {loading && (
+                {loading && messages[messages.length - 1]?.content === "" && (
                   <div className="setup-msg-ai setup-typing"><span /><span /><span /></div>
                 )}
                 <div ref={chatEndRef} />
@@ -212,7 +244,7 @@ export default function SetupPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               <button className="card setup-connect-btn" onClick={() => router.push("/dashboard/integrations")} style={{ display: "flex", alignItems: "center", gap: "1rem", cursor: "pointer", border: "1px solid var(--border)", transition: "all .2s", textAlign: "left" }}>
                 <div style={{ width: 44, height: 44, borderRadius: 10, background: "#0070f3", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <span style={{ color: "#fff", fontWeight: 800, fontSize: "1.1rem" }}>S</span>
+                  <SalesforceLogo />
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontWeight: 700, fontSize: "1.05rem" }}>Connect Salesforce</p>
@@ -223,7 +255,7 @@ export default function SetupPage() {
 
               <button className="card setup-connect-btn" onClick={() => router.push("/dashboard/integrations")} style={{ display: "flex", alignItems: "center", gap: "1rem", cursor: "pointer", border: "1px solid var(--border)", transition: "all .2s", textAlign: "left" }}>
                 <div style={{ width: 44, height: 44, borderRadius: 10, background: "#ff7a59", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <span style={{ color: "#fff", fontWeight: 800, fontSize: "1.1rem" }}>H</span>
+                  <HubSpotLogo />
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontWeight: 700, fontSize: "1.05rem" }}>Connect HubSpot</p>
@@ -231,16 +263,6 @@ export default function SetupPage() {
                 </div>
                 <ExternalLink size={16} style={{ color: "var(--muted)" }} />
               </button>
-
-              <div className="card" style={{ display: "flex", alignItems: "center", gap: "1rem", opacity: .5, cursor: "not-allowed", position: "relative" }} title="Coming soon">
-                <div style={{ width: 44, height: 44, borderRadius: 10, background: "var(--subtle)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Upload size={20} style={{ color: "var(--muted)" }} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontWeight: 700, fontSize: "1.05rem" }}>Upload CSV</p>
-                  <p className="muted" style={{ fontSize: ".85rem" }}>Coming soon</p>
-                </div>
-              </div>
             </div>
 
             <div style={{ marginTop: "2rem", textAlign: "center" }}>
@@ -254,11 +276,11 @@ export default function SetupPage() {
         {/* Step 3: Ready */}
         {currentStep === 3 && config && (
           <div>
-            <div style={{ display: "flex", alignItems: "center", gap: ".6rem", marginBottom: ".5rem" }}>
-              <CheckCircle size={20} style={{ color: "#10b981" }} />
-              <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Your program is ready</h1>
+            <div style={{ display: "flex", alignItems: "center", gap: ".6rem", marginBottom: ".25rem" }}>
+              <CheckCircle size={24} style={{ color: "#10b981" }} className="pulse-glow" />
+              <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>You&apos;re live.</h1>
             </div>
-            <p className="muted" style={{ marginBottom: "2rem" }}>Here's what we configured based on your answers.</p>
+            <p className="muted" style={{ marginBottom: "2rem" }}>Covant is configured for your program. Here&apos;s what we set up:</p>
 
             <div className="card" style={{ marginBottom: "1.5rem" }}>
               <div style={{ marginBottom: "1.5rem" }}>
@@ -269,8 +291,8 @@ export default function SetupPage() {
               <div style={{ marginBottom: "1.5rem" }}>
                 <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".5rem" }}>Tracking</p>
                 <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap" }}>
-                  {config.tracking.split(",").map((item) => (
-                    <span key={item.trim()} className="setup-chip">{item.trim()}</span>
+                  {config.tracking.map((item) => (
+                    <span key={item} className="setup-chip">{item}</span>
                   ))}
                 </div>
               </div>
@@ -286,8 +308,8 @@ export default function SetupPage() {
               </div>
             </div>
 
-            <button className="btn" onClick={() => { localStorage.setItem("covant_setup_complete", "true"); router.push("/dashboard"); }} style={{ width: "100%", background: "var(--fg)", color: "var(--bg)", fontWeight: 700, padding: ".85rem", fontSize: "1.05rem" }}>
-              Go to dashboard →
+            <button className="btn" onClick={() => { localStorage.setItem("covant_setup_complete", "true"); router.push("/dashboard"); }} style={{ width: "100%", background: "var(--fg)", color: "var(--bg)", fontWeight: 700, padding: ".85rem", fontSize: "1.1rem" }}>
+              Open your dashboard →
             </button>
           </div>
         )}
