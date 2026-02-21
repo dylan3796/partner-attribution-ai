@@ -583,7 +583,7 @@ export default function DealDetailPage({
                     {/* Math summary */}
                     <div style={{ borderTop: "1px solid var(--border)", paddingTop: "0.75rem", marginTop: "0.5rem" }}>
                       <p className="muted" style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }}>
-                        {pTouchpoints.length} touchpoint{pTouchpoints.length !== 1 ? "s" : ""}  ×  {partner.commissionRate}% rate  =  {formatCurrency(commissionAmount)}
+                        {formatCurrency(deal.amount)} deal  ×  {formatPercent(attr.percentage)} credit  ×  {partner.commissionRate}% commission rate  =  {formatCurrency(commissionAmount)}
                       </p>
                       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap", fontSize: "0.78rem" }}>
                         <span style={{ background: "var(--bg)", padding: "0.25rem 0.6rem", borderRadius: 6, fontWeight: 500 }}>Deal value: {formatCurrency(deal.amount)}</span>
