@@ -484,6 +484,26 @@ export default defineSchema({
     .index("by_partner", ["partnerId"])
     .index("by_status", ["status"]),
 
+  // Partner invitations
+  partnerInvites: defineTable({
+    organizationId: v.id("organizations"),
+    token: v.string(),
+    email: v.optional(v.string()), // pre-fill if known
+    partnerType: v.optional(v.union(
+      v.literal("affiliate"),
+      v.literal("referral"),
+      v.literal("reseller"),
+      v.literal("integration")
+    )),
+    status: v.union(v.literal("pending"), v.literal("accepted"), v.literal("expired")),
+    acceptedBy: v.optional(v.id("partners")),
+    createdAt: v.number(),
+    expiresAt: v.number(),
+  })
+    .index("by_token", ["token"])
+    .index("by_organization", ["organizationId"])
+    .index("by_status", ["status"]),
+
   // Program configuration from setup wizard
   programConfig: defineTable({
     sessionId: v.string(),

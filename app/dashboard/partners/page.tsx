@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
-import { Plus, Download, Upload, Search, X, Shield, Award, Loader2 } from "lucide-react";
+import { Plus, Download, Upload, Search, X, Shield, Award, Loader2, Send, Copy, Check } from "lucide-react";
 import { exportPartnersCSV, parsePartnersCSV } from "@/lib/csv";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
 import type { Partner } from "@/lib/types";
@@ -17,6 +17,7 @@ export default function PartnersPage() {
   // ── Convex ──────────────────────────────────────────────────────────────
   const convexPartners = useQuery(api.partners.list);
   const createPartner = useMutation(api.partners.create);
+  const createInvite = useMutation(api.invites.create);
 
   // Cast to Partner[] — Convex Id types are string subtypes so this is safe at runtime
   const partners = (convexPartners ?? []) as unknown as Partner[];
@@ -32,6 +33,10 @@ export default function PartnersPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
+  const [showInvite, setShowInvite] = useState(false);
+  const [inviteLink, setInviteLink] = useState("");
+  const [inviteCopied, setInviteCopied] = useState(false);
+  const [inviteLoading, setInviteLoading] = useState(false);
 
   const [form, setForm] = useState({
     name: "",
@@ -129,6 +134,17 @@ export default function PartnersPage() {
           <button className="btn-outline" onClick={() => { exportPartnersCSV(partners); toast("Partners exported"); }}><Download size={15} /> Export</button>
           <button className="btn-outline" onClick={() => fileRef.current?.click()}><Upload size={15} /> Import</button>
           <input ref={fileRef} type="file" accept=".csv" onChange={handleImport} style={{ display: "none" }} />
+          <button className="btn-outline" onClick={async () => {
+            setInviteLoading(true);
+            try {
+              const result = await createInvite({});
+              const origin = typeof window !== "undefined" ? window.location.origin : "https://covant.ai";
+              setInviteLink(`${origin}/invite/${result.token}`);
+              setInviteCopied(false);
+              setShowInvite(true);
+            } catch { toast("Failed to create invite"); }
+            setInviteLoading(false);
+          }} disabled={inviteLoading}><Send size={15} /> {inviteLoading ? "Creating..." : "Invite Partner"}</button>
           <button className="btn" onClick={() => setShowAdd(true)}><Plus size={15} /> Add Partner</button>
         </div>
       </div>
@@ -287,6 +303,42 @@ export default function PartnersPage() {
               </div>
               <button className="btn" style={{ width: "100%", marginTop: ".5rem" }} onClick={handleAdd} disabled={!form.name || !form.email || saving}>
                 {saving ? "Saving…" : "Add Partner"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Invite Link Modal */}
+      {showInvite && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.5)", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={() => setShowInvite(false)}>
+          <div className="card" style={{ width: 480, padding: "2rem" }} onClick={(e) => e.stopPropagation()}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+              <h2 style={{ fontSize: "1.2rem", fontWeight: 700 }}>Partner Invite Link</h2>
+              <button className="btn-ghost" onClick={() => setShowInvite(false)}><X size={18} /></button>
+            </div>
+            <p style={{ color: "var(--muted)", fontSize: "0.9rem", marginBottom: "1rem" }}>
+              Share this link with your partner. They&apos;ll create their own profile and get instant portal access. Link expires in 7 days.
+            </p>
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              <input
+                className="input"
+                value={inviteLink}
+                readOnly
+                style={{ flex: 1, fontSize: "0.85rem" }}
+                onFocus={(e) => e.target.select()}
+              />
+              <button
+                className="btn"
+                onClick={() => {
+                  navigator.clipboard.writeText(inviteLink);
+                  setInviteCopied(true);
+                  toast("Link copied!");
+                  setTimeout(() => setInviteCopied(false), 2000);
+                }}
+                style={{ whiteSpace: "nowrap" }}
+              >
+                {inviteCopied ? <><Check size={15} /> Copied</> : <><Copy size={15} /> Copy</>}
               </button>
             </div>
           </div>

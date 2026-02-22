@@ -18,6 +18,7 @@ import type * as emailNotifications from "../emailNotifications.js";
 import type * as emailTemplates from "../emailTemplates.js";
 import type * as eventSources from "../eventSources.js";
 import type * as integrations from "../integrations.js";
+import type * as invites from "../invites.js";
 import type * as leads from "../leads.js";
 import type * as lib_attribution from "../lib/attribution.js";
 import type * as lib_attribution_calculator from "../lib/attribution/calculator.js";
@@ -55,6 +56,7 @@ declare const fullApi: ApiFromModules<{
   emailTemplates: typeof emailTemplates;
   eventSources: typeof eventSources;
   integrations: typeof integrations;
+  invites: typeof invites;
   leads: typeof leads;
   "lib/attribution": typeof lib_attribution;
   "lib/attribution/calculator": typeof lib_attribution_calculator;
