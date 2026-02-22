@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   DollarSign,
   Plus,
@@ -288,6 +289,17 @@ export default function CommissionsPage() {
         <button className="btn" onClick={handleSave}>
           <CheckCircle size={15} /> Save Commission Structure
         </button>
+      </div>
+
+      {/* Link to commission rules */}
+      <div className="card" style={{ padding: "1rem 1.25rem", marginBottom: "1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <div>
+          <p style={{ fontWeight: 600, fontSize: "0.9rem" }}>Tiered Commission Rules</p>
+          <p style={{ fontSize: "0.8rem", color: "var(--muted)" }}>Set different rates by partner type, tier, product line, and deal size</p>
+        </div>
+        <Link href="/dashboard/settings/commission-rules" className="btn-outline" style={{ whiteSpace: "nowrap" }}>
+          Manage Rules →
+        </Link>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", maxWidth: 860 }}>
