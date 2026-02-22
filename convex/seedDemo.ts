@@ -292,6 +292,26 @@ export const seedDemoData = mutation({
       });
     }
 
+    // ── Commission Rules ──────────────────────────────────────────────────
+    const commissionRuleData = [
+      { name: "Gold Reseller", partnerType: "reseller" as const, partnerTier: "gold" as const, rate: 0.2, priority: 1 },
+      { name: "Reseller Standard", partnerType: "reseller" as const, rate: 0.15, priority: 2 },
+      { name: "Referral Partner", partnerType: "referral" as const, rate: 0.1, priority: 3 },
+      { name: "Enterprise Deals (>$100k)", rate: 0.12, minDealSize: 100000, priority: 4 },
+    ];
+    for (const rule of commissionRuleData) {
+      await ctx.db.insert("commissionRules", {
+        organizationId: orgId,
+        name: rule.name,
+        partnerType: rule.partnerType,
+        partnerTier: rule.partnerTier,
+        rate: rule.rate,
+        minDealSize: rule.minDealSize,
+        priority: rule.priority,
+        createdAt: Date.now(),
+      });
+    }
+
     return {
       success: true,
       message: "Demo data created successfully for Horizon Software",
@@ -316,6 +336,7 @@ export const clearDemoData = mutation({
       "audit_log",
       "approvals",
       "disputes",
+      "commissionRules",
     ];
 
     let totalDeleted = 0;

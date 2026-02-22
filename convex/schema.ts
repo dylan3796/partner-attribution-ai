@@ -504,6 +504,31 @@ export default defineSchema({
     .index("by_organization", ["organizationId"])
     .index("by_status", ["status"]),
 
+  // Commission rules (complex/tiered)
+  commissionRules: defineTable({
+    organizationId: v.id("organizations"),
+    name: v.string(),
+    partnerType: v.optional(v.union(
+      v.literal("affiliate"),
+      v.literal("referral"),
+      v.literal("reseller"),
+      v.literal("integration")
+    )),
+    partnerTier: v.optional(v.union(
+      v.literal("bronze"),
+      v.literal("silver"),
+      v.literal("gold"),
+      v.literal("platinum")
+    )),
+    productLine: v.optional(v.string()),
+    rate: v.number(), // 0.0–1.0
+    minDealSize: v.optional(v.number()),
+    priority: v.number(), // lower = checked first
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_priority", ["organizationId", "priority"]),
+
   // Program configuration from setup wizard
   programConfig: defineTable({
     sessionId: v.string(),
