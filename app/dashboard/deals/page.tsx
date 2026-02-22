@@ -6,7 +6,7 @@ import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { Plus, Download, LayoutGrid, List, X, Search, Loader2 } from "lucide-react";
+import { Plus, Download, LayoutGrid, List, X, Search, Loader2, CheckCircle, XCircle, Clock } from "lucide-react";
 import { exportDealsCSV } from "@/lib/csv";
 import type { Deal, Partner } from "@/lib/types";
 
@@ -15,6 +15,10 @@ export default function DealsPage() {
   const convexDeals = useQuery(api.dealsCrud.list);
   const convexPartners = useQuery(api.partners.list);
   const addDealMutation = useMutation(api.dealsCrud.create);
+
+  // Deal registration approvals
+  const approveDeal = useMutation(api.deals.approveDealRegistration);
+  const rejectDeal = useMutation(api.deals.rejectDealRegistration);
 
   const deals = (convexDeals ?? []) as unknown as Deal[];
   const partners = (convexPartners ?? []) as unknown as Partner[];
@@ -163,6 +167,59 @@ export default function DealsPage() {
           </button>
         </div>
       </div>
+
+      {/* Pending Deal Registrations */}
+      {(() => {
+        const pending = deals.filter((d: any) => d.registrationStatus === "pending");
+        if (pending.length === 0) return null;
+        return (
+          <div className="card" style={{ padding: "1.25rem", marginBottom: "1.5rem", border: "1px solid #eab30840" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1rem" }}>
+              <Clock size={16} style={{ color: "#eab308" }} />
+              <h3 style={{ fontSize: "0.95rem", fontWeight: 700 }}>Pending Deal Registrations ({pending.length})</h3>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+              {pending.map((deal: any) => (
+                <div key={deal._id} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.75rem 1rem", borderRadius: 8, background: "var(--subtle)", gap: "1rem", flexWrap: "wrap" }}>
+                  <div style={{ flex: 1, minWidth: 200 }}>
+                    <p style={{ fontWeight: 600, fontSize: "0.9rem" }}>{deal.name}</p>
+                    <p style={{ fontSize: "0.8rem", color: "var(--muted)" }}>
+                      {deal.contactName} · {formatCurrency(deal.amount)}
+                      {deal.registeredBy ? ` · Registered by partner` : ""}
+                    </p>
+                  </div>
+                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                    <button
+                      className="btn"
+                      style={{ fontSize: "0.8rem", padding: "0.4rem 0.75rem" }}
+                      onClick={async () => {
+                        try {
+                          await approveDeal({ dealId: deal._id as Id<"deals">, reviewerId: "admin" });
+                          toast("Deal registration approved");
+                        } catch (err: any) { toast(err.message); }
+                      }}
+                    >
+                      <CheckCircle size={13} /> Approve
+                    </button>
+                    <button
+                      className="btn-outline"
+                      style={{ fontSize: "0.8rem", padding: "0.4rem 0.75rem", color: "#ef4444", borderColor: "#ef444440" }}
+                      onClick={async () => {
+                        try {
+                          await rejectDeal({ dealId: deal._id as Id<"deals">, reviewerId: "admin", reason: "Rejected by admin" });
+                          toast("Deal registration rejected");
+                        } catch (err: any) { toast(err.message); }
+                      }}
+                    >
+                      <XCircle size={13} /> Reject
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
 
       {isLoading ? (
         <div style={{ textAlign: "center", padding: "4rem" }}>

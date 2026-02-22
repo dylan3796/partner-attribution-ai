@@ -2,6 +2,9 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 import { usePortal } from "@/lib/portal-context";
 import { formatCurrency, formatCurrencyCompact as fmt } from "@/lib/utils";
 import {
@@ -76,27 +79,36 @@ function PipelineBar({ deals }: { deals: DemoDeal[] }) {
 }
 
 export default function PortalDealsPage() {
-  const { partner, myDeals } = usePortal();
+  const { partner, myDeals, session } = usePortal();
 
-  // Derive deal registrations from partner-scoped deals
-  const partnerDeals = useMemo<DemoDeal[]>(() => {
-    return myDeals.map((deal) => ({
+  // Fetch real deals + partner record from Convex
+  const convexDeals = useQuery(
+    api.deals.getPartnerDeals,
+    session?.partnerId ? { partnerId: session.partnerId as Id<"partners"> } : "skip"
+  );
+  const convexPartner = useQuery(
+    api.partners.get,
+    session?.partnerId ? { id: session.partnerId as Id<"partners"> } : "skip"
+  );
+  const registerDeal = useMutation(api.deals.registerDeal);
+
+  // Use Convex deals if available, fall back to portal-context demo deals
+  const deals = useMemo<DemoDeal[]>(() => {
+    const source = convexDeals ?? myDeals;
+    return source.map((deal: any) => ({
       id: deal._id,
       companyName: deal.name,
       amount: deal.amount,
       status: deal.status as "open" | "won" | "lost",
-      registrationStatus: "approved" as const,
+      registrationStatus: (deal.registrationStatus || "approved") as "pending" | "approved" | "rejected",
       contactName: deal.contactName || "—",
       contactEmail: deal.contactEmail || "—",
       expectedCloseDate: deal.expectedCloseDate,
       notes: deal.notes || undefined,
       createdAt: deal.createdAt,
-      approvedAt: deal.createdAt ? deal.createdAt + 2 * DAY : undefined,
+      approvedAt: deal.registrationStatus === "approved" ? deal.createdAt + 2 * DAY : undefined,
     }));
-  }, [myDeals]);
-
-  const [localDeals, setLocalDeals] = useState<DemoDeal[]>([]);
-  const deals = useMemo(() => [...localDeals, ...partnerDeals], [localDeals, partnerDeals]);
+  }, [convexDeals, myDeals]);
   const [showRegister, setShowRegister] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [search, setSearch] = useState("");
@@ -119,22 +131,32 @@ export default function PortalDealsPage() {
   const wonRevenue = deals.filter(d => d.status === "won").reduce((s, d) => s + d.amount, 0);
   const pendingReg = deals.filter(d => d.registrationStatus === "pending").length;
 
-  const handleSubmit = () => {
-    const newDeal: DemoDeal = {
-      id: `d${Date.now()}`,
-      companyName: regForm.companyName,
-      amount: parseFloat(regForm.estimatedValue) || 0,
-      status: "open",
-      registrationStatus: "pending",
-      contactName: regForm.contactName,
-      contactEmail: regForm.contactEmail,
-      expectedCloseDate: regForm.expectedCloseDate ? new Date(regForm.expectedCloseDate).getTime() : undefined,
-      notes: regForm.notes,
-      createdAt: Date.now(),
-    };
-    setLocalDeals((prev) => [newDeal, ...prev]);
-    setSubmitted(true);
-    setRegForm({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "", expectedCloseDate: "" });
+  const [regError, setRegError] = useState("");
+  const [regSaving, setRegSaving] = useState(false);
+
+  const handleSubmit = async () => {
+    if (!partner) return;
+    setRegError("");
+    setRegSaving(true);
+    try {
+      if (session?.partnerId && convexPartner) {
+        await registerDeal({
+          partnerId: session.partnerId as Id<"partners">,
+          organizationId: convexPartner.organizationId,
+          name: regForm.companyName,
+          amount: parseFloat(regForm.estimatedValue) || 0,
+          contactName: regForm.contactName,
+          contactEmail: regForm.contactEmail,
+          expectedCloseDate: regForm.expectedCloseDate ? new Date(regForm.expectedCloseDate).getTime() : undefined,
+          notes: regForm.notes || undefined,
+        });
+      }
+      setSubmitted(true);
+      setRegForm({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "", expectedCloseDate: "" });
+    } catch (err: any) {
+      setRegError(err.message || "Failed to register deal");
+    }
+    setRegSaving(false);
   };
 
   return (
