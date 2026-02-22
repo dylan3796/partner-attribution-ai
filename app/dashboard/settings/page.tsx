@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, Suspense, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
 import { MODEL_LABELS, MODEL_DESCRIPTIONS, type AttributionModel, FEATURE_FLAG_LABELS, type FeatureFlags, type ComplexityLevel, type UIDensity } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
-import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles, FileUp, Mail, CheckCircle, XCircle, Check, Loader2, Unplug, CreditCard, Zap, ExternalLink, AlertCircle } from "lucide-react";
+import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles, FileUp, Mail, CheckCircle, XCircle, Check, Loader2, Unplug, CreditCard, Zap, ExternalLink, AlertCircle, Settings2, Plus, Trash2, Save } from "lucide-react";
 import CSVImport from "@/components/CSVImport";
 
 function SettingsPageInner() {
@@ -21,6 +21,53 @@ function SettingsPageInner() {
   // Get real organization from Convex
   const convexOrg = useQuery(api.dashboard.getOrganization);
   const org = convexOrg ?? storeOrg;
+
+  // Program Config
+  const programConfig = useQuery(api.programConfig.getLatest);
+  const updateProgramConfig = useMutation(api.programConfig.update);
+  const [editingConfig, setEditingConfig] = useState(false);
+  const [configDraft, setConfigDraft] = useState<{
+    programName: string;
+    programType: string;
+    attributionModel: string;
+    interactionTypes: Array<{ id: string; label: string; weight: number; triggersAttribution: boolean; triggersPayout: boolean }>;
+    commissionRules: Array<{ type: string; value: number; unit: string; label: string }>;
+  } | null>(null);
+  const [configSaving, setConfigSaving] = useState(false);
+
+  const startEditingConfig = useCallback(() => {
+    if (!programConfig) return;
+    setConfigDraft({
+      programName: programConfig.programName || "",
+      programType: programConfig.programType,
+      attributionModel: programConfig.attributionModel,
+      interactionTypes: [...programConfig.interactionTypes],
+      commissionRules: [...programConfig.commissionRules],
+    });
+    setEditingConfig(true);
+  }, [programConfig]);
+
+  async function saveConfigChanges() {
+    if (!configDraft || !programConfig?._id) return;
+    setConfigSaving(true);
+    try {
+      await updateProgramConfig({
+        id: programConfig._id,
+        programName: configDraft.programName,
+        programType: configDraft.programType,
+        attributionModel: configDraft.attributionModel,
+        interactionTypes: configDraft.interactionTypes,
+        commissionRules: configDraft.commissionRules,
+      });
+      setEditingConfig(false);
+      setConfigDraft(null);
+      toast("Program configuration updated");
+    } catch {
+      toast("Failed to save configuration", "error");
+    } finally {
+      setConfigSaving(false);
+    }
+  }
   const [orgName, setOrgName] = useState(org?.name || "");
   const [orgEmail, setOrgEmail] = useState(org?.email || "");
   const [defaultModel, setDefaultModel] = useState<AttributionModel>(org?.defaultAttributionModel || "equal_split");
@@ -187,6 +234,251 @@ function SettingsPageInner() {
           </p>
         </div>
       </div>
+
+      {/* Program Configuration (from AI Setup) */}
+      {programConfig && (
+        <div className="card" id="program-config">
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+            <h2 style={{ fontSize: "1.1rem", fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+              <Settings2 size={18} /> Program Configuration
+            </h2>
+            {!editingConfig ? (
+              <button className="btn-outline" onClick={startEditingConfig} style={{ fontSize: ".8rem", padding: "4px 12px" }}>
+                Edit Config
+              </button>
+            ) : (
+              <div style={{ display: "flex", gap: ".5rem" }}>
+                <button className="btn-outline" onClick={() => { setEditingConfig(false); setConfigDraft(null); }} style={{ fontSize: ".8rem", padding: "4px 12px" }}>
+                  Cancel
+                </button>
+                <button className="btn" onClick={saveConfigChanges} disabled={configSaving} style={{ fontSize: ".8rem", padding: "4px 12px", display: "flex", alignItems: "center", gap: 4 }}>
+                  {configSaving ? <Loader2 size={13} className="animate-spin" /> : <Save size={13} />}
+                  Save
+                </button>
+              </div>
+            )}
+          </div>
+          <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.25rem" }}>
+            These settings were configured during your AI-powered setup. Edit them anytime as your program evolves.
+          </p>
+
+          {!editingConfig ? (
+            /* Read-only view */
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
+                <div style={{ padding: "1rem", background: "var(--subtle)", borderRadius: 8 }}>
+                  <p className="muted" style={{ fontSize: ".7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: ".25rem" }}>Program Name</p>
+                  <p style={{ fontSize: ".9rem", fontWeight: 600 }}>{programConfig.programName || "Unnamed Program"}</p>
+                </div>
+                <div style={{ padding: "1rem", background: "var(--subtle)", borderRadius: 8 }}>
+                  <p className="muted" style={{ fontSize: ".7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: ".25rem" }}>Program Type</p>
+                  <p style={{ fontSize: ".9rem", fontWeight: 600, textTransform: "capitalize" }}>{programConfig.programType}</p>
+                </div>
+                <div style={{ padding: "1rem", background: "var(--subtle)", borderRadius: 8 }}>
+                  <p className="muted" style={{ fontSize: ".7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: ".25rem" }}>Attribution Model</p>
+                  <p style={{ fontSize: ".9rem", fontWeight: 600, textTransform: "capitalize" }}>{programConfig.attributionModel.replace(/_/g, " ")}</p>
+                </div>
+              </div>
+
+              {/* Interaction Types */}
+              <div>
+                <p style={{ fontSize: ".85rem", fontWeight: 600, marginBottom: ".5rem" }}>Interaction Types</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem" }}>
+                  {programConfig.interactionTypes.map((it) => (
+                    <span key={it.id} style={{ padding: "4px 10px", borderRadius: 6, fontSize: ".8rem", fontWeight: 500, background: "var(--subtle)", border: "1px solid var(--border)" }}>
+                      {it.label} <span className="muted">(w:{it.weight})</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Commission Rules */}
+              <div>
+                <p style={{ fontSize: ".85rem", fontWeight: 600, marginBottom: ".5rem" }}>Commission Rules</p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem" }}>
+                  {programConfig.commissionRules.map((rule, i) => (
+                    <span key={i} style={{ padding: "4px 10px", borderRadius: 6, fontSize: ".8rem", fontWeight: 500, background: "#ecfdf5", border: "1px solid #bbf7d0", color: "#166534" }}>
+                      {rule.label}: {rule.value}{rule.unit === "percent" ? "%" : ` ${rule.unit}`}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <p className="muted" style={{ fontSize: ".75rem" }}>
+                Last configured: {new Date(programConfig.configuredAt).toLocaleString()}
+              </p>
+            </div>
+          ) : configDraft ? (
+            /* Edit mode */
+            <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+              {/* Basic fields */}
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                <div>
+                  <label style={{ display: "block", fontSize: ".85rem", fontWeight: 500, marginBottom: ".3rem" }}>Program Name</label>
+                  <input className="input" value={configDraft.programName} onChange={(e) => setConfigDraft({ ...configDraft, programName: e.target.value })} />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: ".85rem", fontWeight: 500, marginBottom: ".3rem" }}>Attribution Model</label>
+                  <select className="input" value={configDraft.attributionModel} onChange={(e) => setConfigDraft({ ...configDraft, attributionModel: e.target.value })}>
+                    <option value="deal_reg_protection">Deal Reg Protection</option>
+                    <option value="source_wins">Source Wins</option>
+                    <option value="role_split">Role Split</option>
+                    <option value="equal_split">Equal Split</option>
+                    <option value="first_touch">First Touch</option>
+                    <option value="last_touch">Last Touch</option>
+                    <option value="time_decay">Time Decay</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Interaction Types */}
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: ".5rem" }}>
+                  <label style={{ fontSize: ".85rem", fontWeight: 600 }}>Interaction Types</label>
+                  <button
+                    className="btn-outline"
+                    style={{ fontSize: ".75rem", padding: "2px 8px", display: "flex", alignItems: "center", gap: 3 }}
+                    onClick={() => setConfigDraft({
+                      ...configDraft,
+                      interactionTypes: [...configDraft.interactionTypes, { id: `it_${Date.now()}`, label: "", weight: 1, triggersAttribution: true, triggersPayout: false }],
+                    })}
+                  >
+                    <Plus size={12} /> Add
+                  </button>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
+                  {configDraft.interactionTypes.map((it, idx) => (
+                    <div key={it.id} style={{ display: "flex", gap: ".5rem", alignItems: "center", padding: ".5rem", background: "var(--subtle)", borderRadius: 8 }}>
+                      <input
+                        className="input"
+                        placeholder="Label"
+                        value={it.label}
+                        onChange={(e) => {
+                          const updated = [...configDraft.interactionTypes];
+                          updated[idx] = { ...it, label: e.target.value };
+                          setConfigDraft({ ...configDraft, interactionTypes: updated });
+                        }}
+                        style={{ flex: 2 }}
+                      />
+                      <input
+                        className="input"
+                        type="number"
+                        min="0"
+                        max="10"
+                        step="0.1"
+                        value={it.weight}
+                        onChange={(e) => {
+                          const updated = [...configDraft.interactionTypes];
+                          updated[idx] = { ...it, weight: parseFloat(e.target.value) || 0 };
+                          setConfigDraft({ ...configDraft, interactionTypes: updated });
+                        }}
+                        style={{ width: 70 }}
+                        title="Weight"
+                      />
+                      <label style={{ fontSize: ".75rem", display: "flex", alignItems: "center", gap: 3, whiteSpace: "nowrap" }}>
+                        <input
+                          type="checkbox"
+                          checked={it.triggersAttribution}
+                          onChange={(e) => {
+                            const updated = [...configDraft.interactionTypes];
+                            updated[idx] = { ...it, triggersAttribution: e.target.checked };
+                            setConfigDraft({ ...configDraft, interactionTypes: updated });
+                          }}
+                        />
+                        Attribution
+                      </label>
+                      <label style={{ fontSize: ".75rem", display: "flex", alignItems: "center", gap: 3, whiteSpace: "nowrap" }}>
+                        <input
+                          type="checkbox"
+                          checked={it.triggersPayout}
+                          onChange={(e) => {
+                            const updated = [...configDraft.interactionTypes];
+                            updated[idx] = { ...it, triggersPayout: e.target.checked };
+                            setConfigDraft({ ...configDraft, interactionTypes: updated });
+                          }}
+                        />
+                        Payout
+                      </label>
+                      <button
+                        onClick={() => setConfigDraft({ ...configDraft, interactionTypes: configDraft.interactionTypes.filter((_, i) => i !== idx) })}
+                        style={{ background: "none", border: "none", cursor: "pointer", padding: 4, color: "#ef4444" }}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Commission Rules */}
+              <div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: ".5rem" }}>
+                  <label style={{ fontSize: ".85rem", fontWeight: 600 }}>Commission Rules</label>
+                  <button
+                    className="btn-outline"
+                    style={{ fontSize: ".75rem", padding: "2px 8px", display: "flex", alignItems: "center", gap: 3 }}
+                    onClick={() => setConfigDraft({
+                      ...configDraft,
+                      commissionRules: [...configDraft.commissionRules, { type: "flat", value: 10, unit: "percent", label: "" }],
+                    })}
+                  >
+                    <Plus size={12} /> Add Rule
+                  </button>
+                </div>
+                <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
+                  {configDraft.commissionRules.map((rule, idx) => (
+                    <div key={idx} style={{ display: "flex", gap: ".5rem", alignItems: "center", padding: ".5rem", background: "#ecfdf5", borderRadius: 8, border: "1px solid #bbf7d0" }}>
+                      <input
+                        className="input"
+                        placeholder="Rule label"
+                        value={rule.label}
+                        onChange={(e) => {
+                          const updated = [...configDraft.commissionRules];
+                          updated[idx] = { ...rule, label: e.target.value };
+                          setConfigDraft({ ...configDraft, commissionRules: updated });
+                        }}
+                        style={{ flex: 2 }}
+                      />
+                      <input
+                        className="input"
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        value={rule.value}
+                        onChange={(e) => {
+                          const updated = [...configDraft.commissionRules];
+                          updated[idx] = { ...rule, value: parseFloat(e.target.value) || 0 };
+                          setConfigDraft({ ...configDraft, commissionRules: updated });
+                        }}
+                        style={{ width: 80 }}
+                      />
+                      <select
+                        className="input"
+                        value={rule.unit}
+                        onChange={(e) => {
+                          const updated = [...configDraft.commissionRules];
+                          updated[idx] = { ...rule, unit: e.target.value };
+                          setConfigDraft({ ...configDraft, commissionRules: updated });
+                        }}
+                        style={{ width: 100 }}
+                      >
+                        <option value="percent">%</option>
+                        <option value="USD">USD</option>
+                      </select>
+                      <button
+                        onClick={() => setConfigDraft({ ...configDraft, commissionRules: configDraft.commissionRules.filter((_, i) => i !== idx) })}
+                        style={{ background: "none", border: "none", cursor: "pointer", padding: 4, color: "#ef4444" }}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      )}
 
       {/* Organization Settings */}
       <div className="card">
