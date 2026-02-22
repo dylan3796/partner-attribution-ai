@@ -49,6 +49,13 @@ function SettingsPageInner() {
 
   async function saveConfigChanges() {
     if (!configDraft || !programConfig?._id) return;
+    // Warn if attribution model changed — this affects how future deals are calculated
+    if (configDraft.attributionModel !== programConfig.attributionModel) {
+      const confirmed = confirm(
+        `Changing attribution model from "${programConfig.attributionModel.replace(/_/g, " ")}" to "${configDraft.attributionModel.replace(/_/g, " ")}". This will affect how future deals are attributed. Existing deal attributions won't change retroactively. Continue?`
+      );
+      if (!confirmed) return;
+    }
     setConfigSaving(true);
     try {
       await updateProgramConfig({
