@@ -47,37 +47,37 @@ interface ClickDay {
 const REFERRAL_LINKS: ReferralLink[] = [
   {
     id: "rl1", name: "Main Website Banner", slug: "website-main", campaign: "Q1 Push",
-    url: "https://covant.ai/?ref=cf-website-main", clicks: 2847, uniqueVisitors: 2103,
+    url: "https://horizonsoftware.com/?ref=cf-website-main", clicks: 2847, uniqueVisitors: 2103,
     signups: 186, conversions: 42, revenue: 58400, conversionRate: 1.47,
     createdAt: "2025-11-15", lastClickAt: "2026-02-19", status: "active",
   },
   {
     id: "rl2", name: "LinkedIn Campaign", slug: "linkedin-q1", campaign: "Q1 Push",
-    url: "https://covant.ai/?ref=cf-linkedin-q1", clicks: 1523, uniqueVisitors: 1290,
+    url: "https://horizonsoftware.com/?ref=cf-linkedin-q1", clicks: 1523, uniqueVisitors: 1290,
     signups: 97, conversions: 28, revenue: 34200, conversionRate: 1.84,
     createdAt: "2026-01-05", lastClickAt: "2026-02-18", status: "active",
   },
   {
     id: "rl3", name: "Newsletter CTA", slug: "newsletter", campaign: "Evergreen",
-    url: "https://covant.ai/?ref=cf-newsletter", clicks: 892, uniqueVisitors: 745,
+    url: "https://horizonsoftware.com/?ref=cf-newsletter", clicks: 892, uniqueVisitors: 745,
     signups: 63, conversions: 19, revenue: 22800, conversionRate: 2.13,
     createdAt: "2025-10-20", lastClickAt: "2026-02-17", status: "active",
   },
   {
     id: "rl4", name: "Webinar Follow-up", slug: "webinar-jan", campaign: "Events",
-    url: "https://covant.ai/?ref=cf-webinar-jan", clicks: 634, uniqueVisitors: 578,
+    url: "https://horizonsoftware.com/?ref=cf-webinar-jan", clicks: 634, uniqueVisitors: 578,
     signups: 45, conversions: 12, revenue: 15600, conversionRate: 1.89,
     createdAt: "2026-01-20", lastClickAt: "2026-02-15", status: "active",
   },
   {
     id: "rl5", name: "Holiday Promo (Ended)", slug: "holiday-2025", campaign: "Holiday 2025",
-    url: "https://covant.ai/?ref=cf-holiday-2025", clicks: 1205, uniqueVisitors: 980,
+    url: "https://horizonsoftware.com/?ref=cf-holiday-2025", clicks: 1205, uniqueVisitors: 980,
     signups: 78, conversions: 22, revenue: 27500, conversionRate: 1.83,
     createdAt: "2025-11-28", lastClickAt: "2026-01-02", status: "paused",
   },
   {
     id: "rl6", name: "Blog Post - ROI Guide", slug: "blog-roi", campaign: "Content",
-    url: "https://covant.ai/?ref=cf-blog-roi", clicks: 456, uniqueVisitors: 398,
+    url: "https://horizonsoftware.com/?ref=cf-blog-roi", clicks: 456, uniqueVisitors: 398,
     signups: 34, conversions: 8, revenue: 9600, conversionRate: 1.75,
     createdAt: "2026-02-01", lastClickAt: "2026-02-18", status: "active",
   },
@@ -197,7 +197,7 @@ export default function ReferralLinksPage() {
           <p style={{ fontSize: ".75rem", color: "var(--muted)", marginTop: 8 }}>
             <Globe size={12} style={{ verticalAlign: "middle", marginRight: 4 }} />
             Your link will be: <code style={{ background: "var(--subtle)", padding: "1px 6px", borderRadius: 4 }}>
-              covant.ai/?ref={partner?.companyName?.toLowerCase().replace(/\s+/g, "").slice(0, 4) || "partner"}-{newLinkName.toLowerCase().replace(/\s+/g, "-").slice(0, 20) || "new-link"}
+              horizonsoftware.com/?ref={partner?.companyName?.toLowerCase().replace(/\s+/g, "").slice(0, 4) || "partner"}-{newLinkName.toLowerCase().replace(/\s+/g, "-").slice(0, 20) || "new-link"}
             </code>
           </p>
         </div>

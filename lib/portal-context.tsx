@@ -53,6 +53,7 @@ type PortalPayout = {
 type PortalContextType = {
   partner: PortalPartnerProfile | null;
   session: PortalSession | null;
+  orgName: string;
   setPartner: (p: PortalPartnerProfile | null) => void;
   setPartnerId: (id: string) => void;
   logout: () => void;
@@ -126,7 +127,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         joinedAt: convexPartner.createdAt,
         partnerManager: {
           name: "Partner Team",
-          email: "partners@covant.ai",
+          email: "partners@horizonsoftware.com",
           phone: "",
         },
         address: "",
@@ -202,6 +203,7 @@ export function PortalProvider({ children }: { children: ReactNode }) {
       value={{
         partner,
         session,
+        orgName: "Horizon Software",
         setPartner,
         setPartnerId,
         logout,

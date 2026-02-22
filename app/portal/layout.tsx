@@ -218,7 +218,7 @@ function PortalSidebar() {
             Sign Out
           </button>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "0.75rem" }}>
-            <p style={{ fontSize: "0.7rem", color: "var(--muted)", opacity: 0.6 }}>Covant © 2026</p>
+            <p style={{ fontSize: "0.7rem", color: "var(--muted)", opacity: 0.6 }}>Partner Portal © {new Date().getFullYear()}</p>
             <DarkModeToggle />
           </div>
         </div>

@@ -45,7 +45,7 @@ type OnboardingStep = {
 };
 
 const STEPS: OnboardingStep[] = [
-  { id: "welcome", title: "Welcome", subtitle: "Get to know Covant", icon: Sparkles, color: "#6366f1" },
+  { id: "welcome", title: "Welcome", subtitle: "Get started", icon: Sparkles, color: "#6366f1" },
   { id: "profile", title: "Your Profile", subtitle: "Complete your details", icon: User, color: "#3b82f6" },
   { id: "tier", title: "Tier & Benefits", subtitle: "Understand your perks", icon: Trophy, color: "#eab308" },
   { id: "resources", title: "Resources", subtitle: "Tools to succeed", icon: BookOpen, color: "#8b5cf6" },
@@ -103,7 +103,7 @@ function WelcomeStep({ partner, onNext }: { partner: any; onNext: () => void }) 
       </div>
 
       <h2 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-.03em", marginBottom: 8 }}>
-        Welcome to Covant, {partner?.contactName?.split(" ")[0] || "Partner"}!
+        Welcome, {partner?.contactName?.split(" ")[0] || "Partner"}!
       </h2>
       <p className="muted" style={{ fontSize: "1.05rem", lineHeight: 1.6, marginBottom: "2rem" }}>
         You've joined a network of top-performing partners driving revenue together.
@@ -522,7 +522,7 @@ function DoneStep({ partner }: { partner: any }) {
         You're All Set!
       </h2>
       <p className="muted" style={{ fontSize: "1.05rem", lineHeight: 1.6, marginBottom: "2rem" }}>
-        Your portal is ready. Start registering deals, track your commissions, and grow with Covant.
+        Your portal is ready. Start registering deals, track your commissions, and grow your partnership.
       </p>
 
       {/* Quick actions */}

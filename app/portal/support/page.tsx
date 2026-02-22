@@ -74,10 +74,10 @@ export default function SupportPage() {
       {/* Quick Contact Cards */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem" }}>
         {[
-          { icon: <MessageSquare size={20} />, label: "Channel Manager", value: "Sarah Chen", sub: "sarah@covant.ai", color: "#6366f1" },
-          { icon: <Mail size={20} />, label: "Support Email", value: "support@covant.ai", sub: "Avg response: 4h", color: "#22c55e" },
+          { icon: <MessageSquare size={20} />, label: "Channel Manager", value: "Sarah Chen", sub: "sarah@horizonsoftware.com", color: "#6366f1" },
+          { icon: <Mail size={20} />, label: "Support Email", value: "support@horizonsoftware.com", sub: "Avg response: 4h", color: "#22c55e" },
           { icon: <Phone size={20} />, label: "Priority Line", value: "+1 (888) 555-0199", sub: "Gold+ tier only", color: "#f59e0b" },
-          { icon: <Book size={20} />, label: "Documentation", value: "docs.covant.ai", sub: "API & guides", color: "#8b5cf6" },
+          { icon: <Book size={20} />, label: "Documentation", value: "docs.horizonsoftware.com", sub: "API & guides", color: "#8b5cf6" },
         ].map((c, i) => (
           <div key={i} className="card" style={{ padding: "1rem", display: "flex", gap: ".75rem", alignItems: "center" }}>
             <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.color}15`, display: "flex", alignItems: "center", justifyContent: "center", color: c.color }}>{c.icon}</div>
