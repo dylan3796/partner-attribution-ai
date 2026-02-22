@@ -107,24 +107,41 @@ export async function calculateDealAttribution(
     }
   }
 
-  // 4. Enrich touchpoints with partner data
+  // 4. Fetch commission rules for this org (ordered by priority)
+  const commissionRules = await ctx.db
+    .query("commissionRules")
+    .withIndex("by_org_priority", (q) => q.eq("organizationId", organizationId))
+    .collect();
+
+  // 5. Enrich touchpoints with partner data + commission rule matching
   const enrichedTouchpoints: TouchpointInput[] = touchpoints.map((tp) => {
     const partner = partnerMap.get(tp.partnerId);
     if (!partner) {
       throw new Error(`Partner ${tp.partnerId} not found`);
     }
+
+    // Find best matching commission rule
+    let commissionRate = partner.commissionRate; // fallback: partner's flat rate
+    for (const rule of commissionRules) {
+      if (rule.partnerType && rule.partnerType !== partner.type) continue;
+      if (rule.partnerTier && rule.partnerTier !== (partner.tier ?? "bronze")) continue;
+      if (rule.productLine) continue; // product line matching requires deal metadata we don't have yet
+      if (rule.minDealSize && deal.amount < rule.minDealSize) continue;
+      commissionRate = rule.rate * 100; // rules store 0.0-1.0, models expect 0-100
+      break;
+    }
     
     return {
       partnerId: tp.partnerId,
       partnerName: partner.name,
-      commissionRate: partner.commissionRate,
+      commissionRate,
       type: tp.type,
       createdAt: tp.createdAt,
       weight: tp.weight,
     };
   });
 
-  // 5. Delete existing attributions if requested
+  // 6. Delete existing attributions if requested
   if (replaceExisting) {
     const existingAttributions = await ctx.db
       .query("attributions")
@@ -138,7 +155,7 @@ export async function calculateDealAttribution(
     }
   }
 
-  // 6. Calculate attribution for each model
+  // 7. Calculate attribution for each model
   const attributionsByModel: Record<string, AttributionResult[]> = {};
   let totalAttributionsCreated = 0;
 
@@ -177,7 +194,7 @@ export async function calculateDealAttribution(
     results = normalizeAttributions(results);
     attributionsByModel[model] = results;
 
-    // 7. Store attribution results
+    // 8. Store attribution results
     for (const result of results) {
       await ctx.db.insert("attributions", {
         organizationId,
