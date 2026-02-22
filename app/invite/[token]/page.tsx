@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Building2, User, Mail, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
@@ -55,15 +55,18 @@ export default function InvitePage() {
     );
   }
 
-  // Pre-fill email from invite if available
-  if (invite.email && !form.email) {
-    setForm((f) => ({ ...f, email: invite.email! }));
-  }
-
-  // Pre-fill type from invite if available
-  if (invite.partnerType && form.type === "reseller" && invite.partnerType !== "reseller") {
-    setForm((f) => ({ ...f, type: invite.partnerType! }));
-  }
+  // Pre-fill from invite data (once)
+  const [prefilled, setPrefilled] = useState(false);
+  useEffect(() => {
+    if (prefilled || !invite || invite.expired) return;
+    const updates: Partial<typeof form> = {};
+    if (invite.email) updates.email = invite.email;
+    if (invite.partnerType) updates.type = invite.partnerType;
+    if (Object.keys(updates).length > 0) {
+      setForm((f) => ({ ...f, ...updates }));
+    }
+    setPrefilled(true);
+  }, [invite, prefilled]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
