@@ -509,13 +509,13 @@ export default function ProgramPage() {
             <div>
               <h4>Resources</h4>
               <a href="mailto:partners@covant.ai">Partner Support</a>
-              <a href="#">Marketing Materials</a>
-              <a href="#">Product Documentation</a>
+              <a href="/portal/resources">Marketing Materials</a>
+              <a href="/docs">Product Documentation</a>
             </div>
             <div>
               <h4>Company</h4>
-              <a href="#">About</a>
-              <a href="#">Careers</a>
+              <a href="mailto:hello@covant.ai">About</a>
+              <a href="mailto:hello@covant.ai">Careers</a>
               <a href="mailto:partners@covant.ai">Contact</a>
             </div>
           </div>

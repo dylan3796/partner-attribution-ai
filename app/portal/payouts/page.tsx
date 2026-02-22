@@ -320,9 +320,9 @@ export default function PayoutsPage() {
                     </div>
                     <div>
                       <div style={{ fontSize: ".65rem", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase" }}>Invoice</div>
-                      <a href="#" style={{ fontWeight: 600, fontSize: ".85rem", color: "#6366f1", display: "flex", alignItems: "center", gap: 4 }}>
+                      <span style={{ fontWeight: 600, fontSize: ".85rem", color: "#6366f1", display: "flex", alignItems: "center", gap: 4, cursor: "default" }}>
                         <FileText size={13} /> {p.invoiceId}
-                      </a>
+                      </span>
                     </div>
                   </div>
                 </div>
