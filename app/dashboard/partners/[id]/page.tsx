@@ -43,6 +43,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
 
   // Convex queries
   const partnerData = useQuery(api.partners.getById, { id: id as Id<"partners"> });
+  const auditLog = useQuery(api.dashboard.getAuditLog, {});
   const updatePartner = useMutation(api.partners.update);
 
   const [editForm, setEditForm] = useState({
@@ -85,8 +86,17 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
   const touchpoints = partner.touchpoints || [];
   const attributions = (partner.attributions || []).filter((a) => a.model === "role_based");
   const partnerPayouts = partner.payouts || [];
+  const partnerDeals = partner.deals || [];
   const totalRevenue = attributions.reduce((s, a) => s + a.amount, 0);
   const totalCommission = attributions.reduce((s, a) => s + a.commissionAmount, 0);
+
+  // Onboarding progress
+  const hasProfile = !!(partner.contactName && partner.email);
+  const hasDeal = partnerDeals.length > 0 || touchpoints.length > 0;
+  const hasCommission = totalCommission > 0;
+  const onboardingSteps = [hasProfile, hasDeal, hasCommission].filter(Boolean).length;
+  const onboardingPct = Math.round((onboardingSteps / 3) * 100);
+  const obColor = onboardingPct === 100 ? "#22c55e" : onboardingPct >= 66 ? "#eab308" : "#ef4444";
 
   // For now, certs/badges/trainings/endorsements are not in Convex yet, so we'll show empty
   const showCerts = isFeatureEnabled("certifications");
@@ -159,6 +169,24 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{touchpoints.length}</p>
         </div>
       </div>
+
+      {/* Onboarding Progress */}
+      {onboardingPct < 100 && (
+        <div className="card" style={{ marginBottom: "1.5rem", padding: "1.25rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
+            <h3 style={{ fontWeight: 700, margin: 0, fontSize: "0.95rem" }}>Onboarding Progress</h3>
+            <span style={{ fontSize: "0.85rem", fontWeight: 700, color: obColor }}>{onboardingPct}%</span>
+          </div>
+          <div style={{ width: "100%", height: 8, borderRadius: 4, background: "var(--border)", marginBottom: "0.75rem", overflow: "hidden" }}>
+            <div style={{ width: `${onboardingPct}%`, height: "100%", borderRadius: 4, background: obColor, transition: "width 0.3s" }} />
+          </div>
+          <div style={{ display: "flex", gap: "1.5rem", fontSize: "0.85rem" }}>
+            <span style={{ color: hasProfile ? "#22c55e" : "var(--muted)" }}>{hasProfile ? "✓" : "○"} Profile complete</span>
+            <span style={{ color: hasDeal ? "#22c55e" : "var(--muted)" }}>{hasDeal ? "✓" : "○"} First deal registered</span>
+            <span style={{ color: hasCommission ? "#22c55e" : "var(--muted)" }}>{hasCommission ? "✓" : "○"} First commission earned</span>
+          </div>
+        </div>
+      )}
 
       {/* Certifications & Badges Section */}
       {showCerts && (activeCerts.length > 0 || partnerBadges.length > 0) && (
@@ -266,6 +294,26 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           </div>
         </div>
       </div>
+
+      {/* Audit Trail */}
+      {(() => {
+        const partnerAudit = (auditLog ?? []).filter((e: any) => e.entityId === id || e.userId === id).slice(0, 10);
+        if (partnerAudit.length === 0) return null;
+        return (
+          <div className="card" style={{ marginTop: "1.5rem" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>Audit Trail</h3>
+            {partnerAudit.map((entry: any, i: number) => (
+              <div key={entry._id || i} style={{ display: "flex", justifyContent: "space-between", padding: ".5rem 0", borderBottom: "1px solid var(--border)", fontSize: ".85rem" }}>
+                <div>
+                  <span style={{ fontWeight: 600 }}>{entry.action.replace(/_/g, " ")}</span>
+                  <span className="muted" style={{ marginLeft: ".5rem" }}>{entry.entityType}</span>
+                </div>
+                <span className="muted">{new Date(entry.createdAt).toLocaleDateString()}</span>
+              </div>
+            ))}
+          </div>
+        );
+      })()}
 
       {/* Edit Modal */}
       {editing && (
