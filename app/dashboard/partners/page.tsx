@@ -16,6 +16,8 @@ import { getActiveCertCount, getBadgeCount } from "@/lib/certifications-data";
 export default function PartnersPage() {
   // ── Convex ──────────────────────────────────────────────────────────────
   const convexPartners = useQuery(api.partners.list);
+  const convexDeals = useQuery(api.dealsCrud.list);
+  const convexAttributions = useQuery(api.dashboard.getAllAttributions);
   const createPartner = useMutation(api.partners.create);
   const createInvite = useMutation(api.invites.create);
 
@@ -47,6 +49,16 @@ export default function PartnersPage() {
     contactName: "",
     territory: "",
   });
+
+  // Onboarding progress: profile complete, first deal, first commission
+  const onboardingMap = new Map<string, { profile: boolean; deal: boolean; commission: boolean; pct: number }>();
+  for (const p of partners) {
+    const hasProfile = !!(p.contactName && p.email);
+    const hasDeal = (convexDeals ?? []).some((d: any) => d.registeredBy === p._id);
+    const hasCommission = (convexAttributions ?? []).some((a: any) => a.partnerId === p._id && a.commissionAmount > 0);
+    const steps = [hasProfile, hasDeal, hasCommission].filter(Boolean).length;
+    onboardingMap.set(p._id, { profile: hasProfile, deal: hasDeal, commission: hasCommission, pct: Math.round((steps / 3) * 100) });
+  }
 
   const filtered = partners.filter((p) => {
     if (
@@ -196,6 +208,7 @@ export default function PartnersPage() {
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Tier</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Commission</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Territory</th>
+                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Onboarding</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Status</th>
                 </tr>
               </thead>
@@ -227,6 +240,21 @@ export default function PartnersPage() {
                     <td style={{ padding: ".8rem" }}><span className="badge badge-neutral">{p.tier ? TIER_LABELS[p.tier] : "—"}</span></td>
                     <td style={{ padding: ".8rem", fontWeight: 600 }}>{p.commissionRate}%</td>
                     <td style={{ padding: ".8rem" }} className="muted">{p.territory || "—"}</td>
+                    <td style={{ padding: ".8rem" }}>
+                      {(() => {
+                        const ob = onboardingMap.get(p._id);
+                        if (!ob) return "—";
+                        const color = ob.pct === 100 ? "#22c55e" : ob.pct >= 66 ? "#eab308" : "#ef4444";
+                        return (
+                          <div title={`Profile: ${ob.profile ? "✓" : "✗"} | Deal: ${ob.deal ? "✓" : "✗"} | Commission: ${ob.commission ? "✓" : "✗"}`} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                            <div style={{ width: 48, height: 6, borderRadius: 3, background: "var(--border)", overflow: "hidden" }}>
+                              <div style={{ width: `${ob.pct}%`, height: "100%", borderRadius: 3, background: color, transition: "width 0.3s" }} />
+                            </div>
+                            <span style={{ fontSize: ".75rem", fontWeight: 600, color }}>{ob.pct}%</span>
+                          </div>
+                        );
+                      })()}
+                    </td>
                     <td style={{ padding: ".8rem" }}>
                       <span className={`badge badge-${p.status === "active" ? "success" : p.status === "pending" ? "info" : "danger"}`}>{p.status}</span>
                     </td>
