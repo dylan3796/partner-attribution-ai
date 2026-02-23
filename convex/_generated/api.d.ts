@@ -10,6 +10,7 @@
 
 import type * as agents from "../agents.js";
 import type * as commissionRules from "../commissionRules.js";
+import type * as contracts from "../contracts.js";
 import type * as dashboard from "../dashboard.js";
 import type * as deals from "../deals.js";
 import type * as deals_mutations from "../deals/mutations.js";
@@ -49,6 +50,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   agents: typeof agents;
   commissionRules: typeof commissionRules;
+  contracts: typeof contracts;
   dashboard: typeof dashboard;
   deals: typeof deals;
   "deals/mutations": typeof deals_mutations;

@@ -572,4 +572,39 @@ export default defineSchema({
     .index("by_status", ["status"])
     .index("by_trigger", ["trigger"])
     .index("by_created", ["createdAt"]),
+
+  contracts: defineTable({
+    organizationId: v.id("organizations"),
+    partnerId: v.id("partners"),
+    title: v.string(),
+    type: v.union(
+      v.literal("partner_agreement"),
+      v.literal("reseller"),
+      v.literal("referral"),
+      v.literal("oem"),
+      v.literal("technology"),
+      v.literal("co_sell")
+    ),
+    status: v.union(
+      v.literal("active"),
+      v.literal("expiring_soon"),
+      v.literal("expired"),
+      v.literal("pending_renewal"),
+      v.literal("draft"),
+      v.literal("terminated")
+    ),
+    value: v.number(),
+    commissionRate: v.number(),
+    territory: v.optional(v.string()),
+    autoRenew: v.boolean(),
+    startDate: v.optional(v.string()),
+    endDate: v.optional(v.string()),
+    signedBy: v.optional(v.string()),
+    notes: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_partner", ["partnerId"])
+    .index("by_status", ["status"]),
 });

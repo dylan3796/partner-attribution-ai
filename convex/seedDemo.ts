@@ -312,6 +312,35 @@ export const seedDemoData = mutation({
       });
     }
 
+    // Seed contracts
+    const partnerIdList = Object.values(partnerIds);
+    const contractSeeds = [
+      { partnerId: partnerIdList[0], title: "Strategic Partner Agreement 2025", type: "partner_agreement" as const, status: "active" as const, value: 500000, commissionRate: 25, territory: "North America", autoRenew: true, startDate: "2025-01-15", endDate: "2026-01-14", signedBy: "VP Partnerships", notes: "Includes co-marketing budget of $50k" },
+      { partnerId: partnerIdList[1], title: "Authorized Reseller Agreement", type: "reseller" as const, status: "expiring_soon" as const, value: 250000, commissionRate: 20, territory: "EMEA", autoRenew: false, startDate: "2024-06-01", endDate: "2026-03-01", signedBy: "Director of Alliances", notes: "Renewal discussion scheduled" },
+      { partnerId: partnerIdList[2], title: "Referral Partner Agreement", type: "referral" as const, status: "active" as const, value: 75000, commissionRate: 15, territory: "APAC", autoRenew: true, startDate: "2025-06-01", endDate: "2026-05-31", signedBy: "CEO", notes: "Strong pipeline in Singapore market" },
+      { partnerId: partnerIdList[3 % partnerIdList.length], title: "OEM Embedding License", type: "oem" as const, status: "pending_renewal" as const, value: 1200000, commissionRate: 30, territory: "Global", autoRenew: false, startDate: "2024-03-01", endDate: "2026-02-28", signedBy: "CTO", notes: "Negotiating expanded embedding rights" },
+      { partnerId: partnerIdList[4 % partnerIdList.length], title: "Technology Integration Partnership", type: "technology" as const, status: "active" as const, value: 800000, commissionRate: 22, territory: "North America + EMEA", autoRenew: true, startDate: "2025-04-01", endDate: "2027-03-31", signedBy: "SVP Alliances", notes: "Joint product launch Q2 2026" },
+    ];
+    for (const cs of contractSeeds) {
+      await ctx.db.insert("contracts", {
+        organizationId: orgId,
+        partnerId: cs.partnerId,
+        title: cs.title,
+        type: cs.type,
+        status: cs.status,
+        value: cs.value,
+        commissionRate: cs.commissionRate,
+        territory: cs.territory,
+        autoRenew: cs.autoRenew,
+        startDate: cs.startDate,
+        endDate: cs.endDate,
+        signedBy: cs.signedBy,
+        notes: cs.notes,
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+      });
+    }
+
     return {
       success: true,
       message: "Demo data created successfully for Horizon Software",
@@ -337,6 +366,7 @@ export const clearDemoData = mutation({
       "approvals",
       "disputes",
       "commissionRules",
+      "contracts",
     ];
 
     let totalDeleted = 0;

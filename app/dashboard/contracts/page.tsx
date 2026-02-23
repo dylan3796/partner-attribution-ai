@@ -1,427 +1,341 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 import {
-  FileText,
-  Search,
-  Filter,
-  Plus,
-  Calendar,
-  AlertTriangle,
-  CheckCircle,
-  Clock,
-  XCircle,
-  RefreshCw,
-  Download,
-  Eye,
-  Edit,
-  ChevronDown,
-  ChevronUp,
-  Bell,
+  FileText, Search, Plus, AlertTriangle, CheckCircle, Clock,
+  XCircle, RefreshCw, Download, ChevronDown, ChevronUp, Bell, Loader2,
 } from "lucide-react";
 
 type ContractStatus = "active" | "expiring_soon" | "expired" | "pending_renewal" | "draft" | "terminated";
 type ContractType = "partner_agreement" | "reseller" | "referral" | "oem" | "technology" | "co_sell";
 
-interface Contract {
-  id: string;
-  partnerId: string;
-  partnerName: string;
-  partnerTier: "Platinum" | "Gold" | "Silver" | "Bronze";
-  type: ContractType;
-  title: string;
-  status: ContractStatus;
-  startDate: string;
-  endDate: string;
-  autoRenew: boolean;
-  value: number;
-  commissionRate: number;
-  territory: string;
-  signedBy: string;
-  lastModified: string;
-  complianceStatus: "compliant" | "review_needed" | "non_compliant";
-  notes: string;
-  daysUntilExpiry: number;
-}
-
 const TYPE_LABELS: Record<ContractType, string> = {
   partner_agreement: "Partner Agreement",
-  reseller: "Reseller Agreement",
-  referral: "Referral Agreement",
+  reseller: "Reseller",
+  referral: "Referral",
   oem: "OEM License",
-  technology: "Technology Partnership",
-  co_sell: "Co-Sell Agreement",
+  technology: "Technology",
+  co_sell: "Co-Sell",
 };
 
-const STATUS_CONFIG: Record<ContractStatus, { label: string; color: string; icon: typeof CheckCircle }> = {
-  active: { label: "Active", color: "text-green-400 bg-green-400/10", icon: CheckCircle },
-  expiring_soon: { label: "Expiring Soon", color: "text-amber-400 bg-amber-400/10", icon: AlertTriangle },
-  expired: { label: "Expired", color: "text-red-400 bg-red-400/10", icon: XCircle },
-  pending_renewal: { label: "Pending Renewal", color: "text-blue-400 bg-blue-400/10", icon: RefreshCw },
-  draft: { label: "Draft", color: "text-zinc-400 bg-zinc-400/10", icon: Clock },
-  terminated: { label: "Terminated", color: "text-red-500 bg-red-500/10", icon: XCircle },
+const STATUS_CONFIG: Record<ContractStatus, { label: string; color: string; bg: string }> = {
+  active: { label: "Active", color: "#22c55e", bg: "#22c55e18" },
+  expiring_soon: { label: "Expiring Soon", color: "#f59e0b", bg: "#f59e0b18" },
+  expired: { label: "Expired", color: "#ef4444", bg: "#ef444418" },
+  pending_renewal: { label: "Pending Renewal", color: "#3b82f6", bg: "#3b82f618" },
+  draft: { label: "Draft", color: "#6b7280", bg: "#6b728018" },
+  terminated: { label: "Terminated", color: "#ef4444", bg: "#ef444418" },
 };
 
-const DEMO_CONTRACTS: Contract[] = [
-  {
-    id: "CTR-001", partnerId: "P-101", partnerName: "TechBridge", partnerTier: "Platinum",
-    type: "partner_agreement", title: "Strategic Partner Agreement 2025",
-    status: "active", startDate: "2025-01-15", endDate: "2026-01-14", autoRenew: true,
-    value: 500000, commissionRate: 25, territory: "North America",
-    signedBy: "Sarah Chen (VP Partnerships)", lastModified: "2025-01-15",
-    complianceStatus: "compliant", notes: "Includes co-marketing budget of $50k",
-    daysUntilExpiry: 330,
-  },
-  {
-    id: "CTR-002", partnerId: "P-102", partnerName: "Stackline", partnerTier: "Gold",
-    type: "reseller", title: "Authorized Reseller Agreement",
-    status: "expiring_soon", startDate: "2024-06-01", endDate: "2026-03-01", autoRenew: false,
-    value: 250000, commissionRate: 20, territory: "EMEA",
-    signedBy: "Marcus Weber (Director)", lastModified: "2025-11-20",
-    complianceStatus: "review_needed", notes: "Renewal discussion scheduled for Feb 2026",
-    daysUntilExpiry: 10,
-  },
-  {
-    id: "CTR-003", partnerId: "P-103", partnerName: "TechBridge", partnerTier: "Silver",
-    type: "referral", title: "Referral Partner Agreement",
-    status: "active", startDate: "2025-06-01", endDate: "2026-05-31", autoRenew: true,
-    value: 75000, commissionRate: 15, territory: "APAC",
-    signedBy: "Lin Wei (CEO)", lastModified: "2025-06-01",
-    complianceStatus: "compliant", notes: "Strong pipeline in Singapore market",
-    daysUntilExpiry: 101,
-  },
-  {
-    id: "CTR-004", partnerId: "P-104", partnerName: "Northlight", partnerTier: "Gold",
-    type: "oem", title: "OEM Embedding License",
-    status: "pending_renewal", startDate: "2024-03-01", endDate: "2026-02-28", autoRenew: false,
-    value: 1200000, commissionRate: 30, territory: "Global",
-    signedBy: "James Park (CTO)", lastModified: "2026-01-15",
-    complianceStatus: "compliant", notes: "Negotiating expanded embedding rights",
-    daysUntilExpiry: 9,
-  },
-  {
-    id: "CTR-005", partnerId: "P-105", partnerName: "Clearpath", partnerTier: "Bronze",
-    type: "referral", title: "Referral Agreement (Trial)",
-    status: "expired", startDate: "2025-01-01", endDate: "2025-12-31", autoRenew: false,
-    value: 25000, commissionRate: 10, territory: "North America",
-    signedBy: "Amy Torres (Partner Mgr)", lastModified: "2025-12-31",
-    complianceStatus: "non_compliant", notes: "Did not meet minimum referral threshold",
-    daysUntilExpiry: -50,
-  },
-  {
-    id: "CTR-006", partnerId: "P-106", partnerName: "Apex Growth", partnerTier: "Platinum",
-    type: "technology", title: "Technology Integration Partnership",
-    status: "active", startDate: "2025-04-01", endDate: "2027-03-31", autoRenew: true,
-    value: 800000, commissionRate: 22, territory: "North America + EMEA",
-    signedBy: "Rachel Kim (SVP Alliances)", lastModified: "2025-09-12",
-    complianceStatus: "compliant", notes: "Joint product launch Q2 2026",
-    daysUntilExpiry: 770,
-  },
-  {
-    id: "CTR-007", partnerId: "P-107", partnerName: "Stackline", partnerTier: "Silver",
-    type: "co_sell", title: "Co-Sell Partnership Agreement",
-    status: "draft", startDate: "", endDate: "", autoRenew: true,
-    value: 150000, commissionRate: 18, territory: "North America",
-    signedBy: "", lastModified: "2026-02-10",
-    complianceStatus: "review_needed", notes: "Legal review in progress, expected sign by March",
-    daysUntilExpiry: 999,
-  },
-  {
-    id: "CTR-008", partnerId: "P-108", partnerName: "Northlight", partnerTier: "Gold",
-    type: "reseller", title: "DACH Region Reseller Agreement",
-    status: "active", startDate: "2025-07-01", endDate: "2026-06-30", autoRenew: true,
-    value: 350000, commissionRate: 20, territory: "DACH",
-    signedBy: "Thomas Müller (Geschäftsführer)", lastModified: "2025-07-01",
-    complianceStatus: "compliant", notes: "Exceeded Q4 targets by 140%",
-    daysUntilExpiry: 131,
-  },
-];
+function statusIcon(status: ContractStatus) {
+  const size = 13;
+  if (status === "active") return <CheckCircle size={size} />;
+  if (status === "expiring_soon") return <AlertTriangle size={size} />;
+  if (status === "expired" || status === "terminated") return <XCircle size={size} />;
+  if (status === "pending_renewal") return <RefreshCw size={size} />;
+  return <Clock size={size} />;
+}
 
-function formatCurrency(n: number) {
+function daysUntilExpiry(endDate?: string): number | null {
+  if (!endDate) return null;
+  const end = new Date(endDate).getTime();
+  return Math.ceil((end - Date.now()) / 86400000);
+}
+
+function fmtCurrency(n: number) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
 }
 
-function StatusBadge({ status }: { status: ContractStatus }) {
-  const cfg = STATUS_CONFIG[status];
-  const Icon = cfg.icon;
-  return (
-    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${cfg.color}`}>
-      <Icon className="w-3 h-3" />
-      {cfg.label}
-    </span>
-  );
-}
-
-function ComplianceDot({ status }: { status: Contract["complianceStatus"] }) {
-  const colors = { compliant: "bg-green-400", review_needed: "bg-amber-400", non_compliant: "bg-red-400" };
-  const labels = { compliant: "Compliant", review_needed: "Review Needed", non_compliant: "Non-Compliant" };
-  return (
-    <span className="inline-flex items-center gap-1.5 text-xs text-zinc-400">
-      <span className={`w-2 h-2 rounded-full ${colors[status]}`} />
-      {labels[status]}
-    </span>
-  );
-}
-
-function TierBadge({ tier }: { tier: Contract["partnerTier"] }) {
-  const colors = {
-    Platinum: "text-violet-300 bg-violet-400/10",
-    Gold: "text-amber-300 bg-amber-400/10",
-    Silver: "text-zinc-300 bg-zinc-400/10",
-    Bronze: "text-orange-300 bg-orange-400/10",
-  };
-  return <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${colors[tier]}`}>{tier}</span>;
-}
+const TIER_COLORS: Record<string, string> = {
+  platinum: "#a78bfa", gold: "#eab308", silver: "#94a3b8", bronze: "#cd7f32",
+};
 
 export default function ContractsPage() {
+  const contracts = useQuery(api.contracts.list) ?? [];
+  const updateStatus = useMutation(api.contracts.updateStatus);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<ContractStatus | "all">("all");
   const [typeFilter, setTypeFilter] = useState<ContractType | "all">("all");
   const [sortBy, setSortBy] = useState<"expiry" | "value" | "partner">("expiry");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [expanded, setExpanded] = useState<string | null>(null);
+  const [updating, setUpdating] = useState<string | null>(null);
 
-  const filtered = DEMO_CONTRACTS
-    .filter((c) => {
-      if (statusFilter !== "all" && c.status !== statusFilter) return false;
-      if (typeFilter !== "all" && c.type !== typeFilter) return false;
-      if (search) {
-        const q = search.toLowerCase();
-        return c.partnerName.toLowerCase().includes(q) || c.title.toLowerCase().includes(q) || c.id.toLowerCase().includes(q);
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      const dir = sortDir === "asc" ? 1 : -1;
-      if (sortBy === "expiry") return (a.daysUntilExpiry - b.daysUntilExpiry) * dir;
-      if (sortBy === "value") return (a.value - b.value) * dir;
-      return a.partnerName.localeCompare(b.partnerName) * dir;
-    });
+  const filtered = useMemo(() => {
+    return contracts
+      .filter((c) => {
+        if (statusFilter !== "all" && c.status !== statusFilter) return false;
+        if (typeFilter !== "all" && c.type !== typeFilter) return false;
+        if (search) {
+          const q = search.toLowerCase();
+          return (c.partnerName as string).toLowerCase().includes(q) || c.title.toLowerCase().includes(q);
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const dir = sortDir === "asc" ? 1 : -1;
+        if (sortBy === "expiry") {
+          const da = daysUntilExpiry(a.endDate) ?? 9999;
+          const db = daysUntilExpiry(b.endDate) ?? 9999;
+          return (da - db) * dir;
+        }
+        if (sortBy === "value") return (a.value - b.value) * dir;
+        return ((a.partnerName as string) || "").localeCompare((b.partnerName as string) || "") * dir;
+      });
+  }, [contracts, statusFilter, typeFilter, search, sortBy, sortDir]);
 
-  const stats = {
-    total: DEMO_CONTRACTS.length,
-    active: DEMO_CONTRACTS.filter((c) => c.status === "active").length,
-    expiringSoon: DEMO_CONTRACTS.filter((c) => c.status === "expiring_soon" || c.status === "pending_renewal").length,
-    totalValue: DEMO_CONTRACTS.filter((c) => c.status !== "expired" && c.status !== "terminated").reduce((s, c) => s + c.value, 0),
-  };
+  const stats = useMemo(() => ({
+    total: contracts.length,
+    active: contracts.filter((c) => c.status === "active").length,
+    expiringSoon: contracts.filter((c) => c.status === "expiring_soon" || c.status === "pending_renewal").length,
+    totalValue: contracts.filter((c) => c.status !== "expired" && c.status !== "terminated").reduce((s, c) => s + c.value, 0),
+  }), [contracts]);
+
+  async function handleStatusChange(contractId: Id<"contracts">, status: ContractStatus) {
+    setUpdating(contractId);
+    try {
+      await updateStatus({ contractId, status });
+    } finally {
+      setUpdating(null);
+    }
+  }
 
   function toggleSort(col: typeof sortBy) {
     if (sortBy === col) setSortDir((d) => (d === "asc" ? "desc" : "asc"));
     else { setSortBy(col); setSortDir("asc"); }
   }
 
-  const SortIcon = ({ col }: { col: typeof sortBy }) =>
-    sortBy === col ? (sortDir === "asc" ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />) : null;
+  function exportCSV() {
+    const headers = ["Partner", "Title", "Type", "Status", "Value", "Commission %", "Territory", "Start", "End", "Auto-Renew"];
+    const rows = filtered.map((c) => [
+      c.partnerName, c.title, TYPE_LABELS[c.type as ContractType], STATUS_CONFIG[c.status as ContractStatus]?.label,
+      c.value, c.commissionRate, c.territory || "", c.startDate || "", c.endDate || "", c.autoRenew ? "Yes" : "No",
+    ]);
+    const csv = [headers.join(","), ...rows.map((r) => r.join(","))].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "contracts.csv";
+    a.click();
+  }
+
+  if (contracts === undefined) {
+    return (
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "4rem" }}>
+        <Loader2 size={24} style={{ animation: "spin 1s linear infinite" }} />
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-6">
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem" }}>
         <div>
-          <h1 className="text-2xl font-bold text-white flex items-center gap-2">
-            <FileText className="w-7 h-7 text-indigo-400" />
+          <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em", display: "flex", alignItems: "center", gap: 8 }}>
+            <FileText size={28} style={{ color: "#6366f1" }} />
             Contracts & Agreements
           </h1>
-          <p className="text-sm text-zinc-400 mt-1">Manage partner contracts, renewals, and compliance</p>
+          <p className="muted" style={{ marginTop: ".25rem" }}>Manage partner contracts, renewals, and compliance</p>
         </div>
-        <button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-          <Plus className="w-4 h-4" /> New Contract
-        </button>
+        <div style={{ display: "flex", gap: ".75rem" }}>
+          <button onClick={exportCSV} className="btn-outline" style={{ display: "flex", alignItems: "center", gap: 6, padding: "6px 14px", fontSize: ".85rem" }}>
+            <Download size={14} /> Export CSV
+          </button>
+        </div>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* Stats */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem" }}>
         {[
-          { label: "Total Contracts", value: stats.total, icon: FileText, color: "text-zinc-300" },
-          { label: "Active", value: stats.active, icon: CheckCircle, color: "text-green-400" },
-          { label: "Needs Attention", value: stats.expiringSoon, icon: AlertTriangle, color: "text-amber-400" },
-          { label: "Portfolio Value", value: formatCurrency(stats.totalValue), icon: Calendar, color: "text-indigo-400" },
+          { label: "Total Contracts", value: stats.total, color: "#6366f1" },
+          { label: "Active", value: stats.active, color: "#22c55e" },
+          { label: "Needs Attention", value: stats.expiringSoon, color: "#f59e0b" },
+          { label: "Portfolio Value", value: fmtCurrency(stats.totalValue), color: "#3b82f6" },
         ].map((s) => (
-          <div key={s.label} className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-            <div className="flex items-center gap-2 text-xs text-zinc-500 mb-1">
-              <s.icon className={`w-3.5 h-3.5 ${s.color}`} />
-              {s.label}
-            </div>
-            <div className={`text-xl font-bold ${s.color}`}>{s.value}</div>
+          <div key={s.label} className="card" style={{ padding: "1.25rem" }}>
+            <div className="muted" style={{ fontSize: ".7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".04em", marginBottom: 4 }}>{s.label}</div>
+            <div style={{ fontSize: "1.5rem", fontWeight: 800, color: s.color }}>{s.value}</div>
           </div>
         ))}
       </div>
 
-      {/* Renewal Alerts */}
+      {/* Renewal Alert */}
       {stats.expiringSoon > 0 && (
-        <div className="bg-amber-400/5 border border-amber-400/20 rounded-xl p-4 flex items-start gap-3">
-          <Bell className="w-5 h-5 text-amber-400 mt-0.5 shrink-0" />
+        <div style={{ padding: "1rem 1.25rem", borderRadius: 10, background: "#f59e0b08", border: "1px solid #f59e0b30", display: "flex", alignItems: "center", gap: 12 }}>
+          <Bell size={20} style={{ color: "#f59e0b", flexShrink: 0 }} />
           <div>
-            <p className="text-sm font-medium text-amber-300">
+            <p style={{ fontWeight: 600, fontSize: ".9rem", color: "#f59e0b" }}>
               {stats.expiringSoon} contract{stats.expiringSoon > 1 ? "s" : ""} need{stats.expiringSoon === 1 ? "s" : ""} attention
             </p>
-            <p className="text-xs text-zinc-400 mt-1">
-              {DEMO_CONTRACTS.filter((c) => c.status === "expiring_soon" || c.status === "pending_renewal")
+            <p className="muted" style={{ fontSize: ".8rem", marginTop: 2 }}>
+              {contracts
+                .filter((c) => c.status === "expiring_soon" || c.status === "pending_renewal")
                 .map((c) => c.partnerName)
-                .join(", ")}{" "}
-              — review renewal terms before expiry
+                .join(", ")} — review renewal terms before expiry
             </p>
           </div>
         </div>
       )}
 
       {/* Filters */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="relative flex-1 min-w-[200px] max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+      <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10 }}>
+        <div style={{ position: "relative", flex: "1 1 200px", maxWidth: 320 }}>
+          <Search size={16} style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)", color: "var(--muted)" }} />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search contracts..."
-            className="w-full bg-zinc-900 border border-zinc-800 rounded-lg pl-9 pr-3 py-2 text-sm text-white placeholder-zinc-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            className="input"
+            style={{ paddingLeft: 32, width: "100%" }}
           />
         </div>
-        <div className="flex items-center gap-1.5">
-          <Filter className="w-4 h-4 text-zinc-500" />
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value as ContractStatus | "all")}
-            className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-300 focus:outline-none"
-          >
-            <option value="all">All Statuses</option>
-            {Object.entries(STATUS_CONFIG).map(([k, v]) => (
-              <option key={k} value={k}>{v.label}</option>
-            ))}
-          </select>
-          <select
-            value={typeFilter}
-            onChange={(e) => setTypeFilter(e.target.value as ContractType | "all")}
-            className="bg-zinc-900 border border-zinc-800 rounded-lg px-3 py-2 text-sm text-zinc-300 focus:outline-none"
-          >
-            <option value="all">All Types</option>
-            {Object.entries(TYPE_LABELS).map(([k, v]) => (
-              <option key={k} value={k}>{v}</option>
-            ))}
-          </select>
-        </div>
+        <select className="input" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as ContractStatus | "all")} style={{ maxWidth: 160 }}>
+          <option value="all">All Statuses</option>
+          {Object.entries(STATUS_CONFIG).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+        </select>
+        <select className="input" value={typeFilter} onChange={(e) => setTypeFilter(e.target.value as ContractType | "all")} style={{ maxWidth: 160 }}>
+          <option value="all">All Types</option>
+          {Object.entries(TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+        </select>
       </div>
 
       {/* Table */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+        <div style={{ overflowX: "auto" }}>
+          <table className="data-table" style={{ width: "100%", borderCollapse: "collapse", fontSize: ".85rem" }}>
             <thead>
-              <tr className="border-b border-zinc-800 text-left text-xs text-zinc-500 uppercase tracking-wider">
-                <th className="px-4 py-3">Contract</th>
-                <th className="px-4 py-3 cursor-pointer select-none" onClick={() => toggleSort("partner")}>
-                  <span className="inline-flex items-center gap-1">Partner <SortIcon col="partner" /></span>
+              <tr style={{ borderBottom: "1px solid var(--border)", textAlign: "left" }}>
+                <th style={{ padding: "10px 14px", fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--muted)" }}>Contract</th>
+                <th style={{ padding: "10px 14px", fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--muted)", cursor: "pointer" }} onClick={() => toggleSort("partner")}>
+                  Partner {sortBy === "partner" && (sortDir === "asc" ? <ChevronUp size={10} style={{ verticalAlign: "middle" }} /> : <ChevronDown size={10} style={{ verticalAlign: "middle" }} />)}
                 </th>
-                <th className="px-4 py-3">Type</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3 cursor-pointer select-none" onClick={() => toggleSort("expiry")}>
-                  <span className="inline-flex items-center gap-1">Expiry <SortIcon col="expiry" /></span>
+                <th style={{ padding: "10px 14px", fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--muted)" }}>Type</th>
+                <th style={{ padding: "10px 14px", fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--muted)" }}>Status</th>
+                <th style={{ padding: "10px 14px", fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--muted)", cursor: "pointer" }} onClick={() => toggleSort("expiry")}>
+                  Expiry {sortBy === "expiry" && (sortDir === "asc" ? <ChevronUp size={10} style={{ verticalAlign: "middle" }} /> : <ChevronDown size={10} style={{ verticalAlign: "middle" }} />)}
                 </th>
-                <th className="px-4 py-3 cursor-pointer select-none" onClick={() => toggleSort("value")}>
-                  <span className="inline-flex items-center gap-1">Value <SortIcon col="value" /></span>
+                <th style={{ padding: "10px 14px", fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "var(--muted)", cursor: "pointer" }} onClick={() => toggleSort("value")}>
+                  Value {sortBy === "value" && (sortDir === "asc" ? <ChevronUp size={10} style={{ verticalAlign: "middle" }} /> : <ChevronDown size={10} style={{ verticalAlign: "middle" }} />)}
                 </th>
-                <th className="px-4 py-3">Compliance</th>
-                <th className="px-4 py-3 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-800/50">
-              {filtered.map((c) => (
-                <>
+            <tbody>
+              {filtered.map((c) => {
+                const days = daysUntilExpiry(c.endDate);
+                const cfg = STATUS_CONFIG[c.status as ContractStatus];
+                const tierColor = TIER_COLORS[(c.partnerTier as string)?.toLowerCase()] || "#64748b";
+                return (
                   <tr
-                    key={c.id}
-                    className="hover:bg-zinc-800/30 transition-colors cursor-pointer"
-                    onClick={() => setExpanded(expanded === c.id ? null : c.id)}
+                    key={c._id}
+                    style={{ borderBottom: "1px solid var(--border)", cursor: "pointer" }}
+                    onClick={() => setExpanded(expanded === c._id ? null : c._id)}
                   >
-                    <td className="px-4 py-3">
-                      <div className="font-medium text-white text-xs">{c.id}</div>
-                      <div className="text-zinc-400 text-xs truncate max-w-[200px]">{c.title}</div>
+                    <td style={{ padding: "12px 14px" }}>
+                      <div style={{ fontWeight: 700, fontSize: ".85rem" }}>{c.title}</div>
                     </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <span className="text-white text-sm">{c.partnerName}</span>
-                        <TierBadge tier={c.partnerTier} />
-                      </div>
+                    <td style={{ padding: "12px 14px" }}>
+                      <span style={{ fontWeight: 600 }}>{c.partnerName as string}</span>
+                      <span style={{ marginLeft: 6, padding: "1px 6px", borderRadius: 6, fontSize: ".65rem", fontWeight: 700, color: tierColor, background: `${tierColor}18`, textTransform: "capitalize" }}>
+                        {(c.partnerTier as string) || "—"}
+                      </span>
                     </td>
-                    <td className="px-4 py-3 text-zinc-400 text-xs">{TYPE_LABELS[c.type]}</td>
-                    <td className="px-4 py-3"><StatusBadge status={c.status} /></td>
-                    <td className="px-4 py-3">
+                    <td style={{ padding: "12px 14px", color: "var(--muted)", fontSize: ".8rem" }}>{TYPE_LABELS[c.type as ContractType]}</td>
+                    <td style={{ padding: "12px 14px" }}>
+                      {updating === c._id ? (
+                        <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} />
+                      ) : (
+                        <select
+                          value={c.status}
+                          onClick={(e) => e.stopPropagation()}
+                          onChange={(e) => handleStatusChange(c._id, e.target.value as ContractStatus)}
+                          style={{
+                            padding: "2px 8px", borderRadius: 8, fontSize: ".75rem", fontWeight: 700,
+                            color: cfg?.color, background: cfg?.bg, border: "none", cursor: "pointer",
+                            fontFamily: "inherit",
+                          }}
+                        >
+                          {Object.entries(STATUS_CONFIG).map(([k, v]) => (
+                            <option key={k} value={k}>{v.label}</option>
+                          ))}
+                        </select>
+                      )}
+                    </td>
+                    <td style={{ padding: "12px 14px" }}>
                       {c.endDate ? (
                         <div>
-                          <div className="text-zinc-300 text-xs">{c.endDate}</div>
-                          {c.daysUntilExpiry <= 30 && c.daysUntilExpiry > 0 && (
-                            <div className="text-amber-400 text-[10px]">{c.daysUntilExpiry}d remaining</div>
+                          <div style={{ fontSize: ".8rem" }}>{c.endDate}</div>
+                          {days !== null && days > 0 && days <= 30 && (
+                            <div style={{ fontSize: ".7rem", color: "#f59e0b" }}>{days}d remaining</div>
                           )}
-                          {c.daysUntilExpiry < 0 && (
-                            <div className="text-red-400 text-[10px]">{Math.abs(c.daysUntilExpiry)}d overdue</div>
+                          {days !== null && days < 0 && (
+                            <div style={{ fontSize: ".7rem", color: "#ef4444" }}>{Math.abs(days)}d overdue</div>
                           )}
                         </div>
                       ) : (
-                        <span className="text-zinc-600 text-xs">—</span>
+                        <span className="muted">—</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-white font-medium">{formatCurrency(c.value)}</td>
-                    <td className="px-4 py-3"><ComplianceDot status={c.complianceStatus} /></td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center justify-end gap-1">
-                        <button className="p-1.5 hover:bg-zinc-700 rounded text-zinc-400 hover:text-white transition-colors" title="View">
-                          <Eye className="w-3.5 h-3.5" />
-                        </button>
-                        <button className="p-1.5 hover:bg-zinc-700 rounded text-zinc-400 hover:text-white transition-colors" title="Edit">
-                          <Edit className="w-3.5 h-3.5" />
-                        </button>
-                        <button className="p-1.5 hover:bg-zinc-700 rounded text-zinc-400 hover:text-white transition-colors" title="Download">
-                          <Download className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    </td>
+                    <td style={{ padding: "12px 14px", fontWeight: 700 }}>{fmtCurrency(c.value)}</td>
                   </tr>
-                  {expanded === c.id && (
-                    <tr key={`${c.id}-detail`} className="bg-zinc-800/20">
-                      <td colSpan={8} className="px-6 py-4">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
-                          <div>
-                            <span className="text-zinc-500">Start Date</span>
-                            <p className="text-zinc-300 mt-0.5">{c.startDate || "—"}</p>
-                          </div>
-                          <div>
-                            <span className="text-zinc-500">Commission Rate</span>
-                            <p className="text-zinc-300 mt-0.5">{c.commissionRate}%</p>
-                          </div>
-                          <div>
-                            <span className="text-zinc-500">Territory</span>
-                            <p className="text-zinc-300 mt-0.5">{c.territory}</p>
-                          </div>
-                          <div>
-                            <span className="text-zinc-500">Auto-Renew</span>
-                            <p className={`mt-0.5 ${c.autoRenew ? "text-green-400" : "text-zinc-500"}`}>
-                              {c.autoRenew ? "Yes" : "No"}
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-zinc-500">Signed By</span>
-                            <p className="text-zinc-300 mt-0.5">{c.signedBy || "—"}</p>
-                          </div>
-                          <div>
-                            <span className="text-zinc-500">Last Modified</span>
-                            <p className="text-zinc-300 mt-0.5">{c.lastModified}</p>
-                          </div>
-                          <div className="col-span-2">
-                            <span className="text-zinc-500">Notes</span>
-                            <p className="text-zinc-300 mt-0.5">{c.notes}</p>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
-                </>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>
+
+        {/* Empty state */}
         {filtered.length === 0 && (
-          <div className="text-center py-12 text-zinc-500">
-            <FileText className="w-8 h-8 mx-auto mb-2 opacity-50" />
-            <p className="text-sm">No contracts match your filters</p>
+          <div style={{ padding: "4rem 2rem", textAlign: "center" }}>
+            <FileText size={40} style={{ color: "var(--muted)", marginBottom: 12 }} />
+            <h3 style={{ fontWeight: 700, fontSize: "1.1rem", marginBottom: 4 }}>
+              {contracts.length === 0 ? "No contracts yet" : "No contracts match your filters"}
+            </h3>
+            <p className="muted" style={{ fontSize: ".85rem" }}>
+              {contracts.length === 0
+                ? "Contracts track your partner agreements, renewals, and compliance. Seed demo data to get started."
+                : "Try adjusting your search or filters."}
+            </p>
           </div>
+        )}
+
+        {/* Expanded detail */}
+        {filtered.map((c) =>
+          expanded === c._id ? (
+            <div key={`${c._id}-detail`} style={{ padding: "1rem 1.5rem", borderTop: "1px solid var(--border)", background: "var(--subtle)" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 16, fontSize: ".8rem" }}>
+                <div>
+                  <div className="muted" style={{ fontSize: ".7rem", fontWeight: 600 }}>Start Date</div>
+                  <div>{c.startDate || "—"}</div>
+                </div>
+                <div>
+                  <div className="muted" style={{ fontSize: ".7rem", fontWeight: 600 }}>Commission Rate</div>
+                  <div>{c.commissionRate}%</div>
+                </div>
+                <div>
+                  <div className="muted" style={{ fontSize: ".7rem", fontWeight: 600 }}>Territory</div>
+                  <div>{c.territory || "—"}</div>
+                </div>
+                <div>
+                  <div className="muted" style={{ fontSize: ".7rem", fontWeight: 600 }}>Auto-Renew</div>
+                  <div style={{ color: c.autoRenew ? "#22c55e" : "var(--muted)" }}>{c.autoRenew ? "Yes" : "No"}</div>
+                </div>
+                <div>
+                  <div className="muted" style={{ fontSize: ".7rem", fontWeight: 600 }}>Signed By</div>
+                  <div>{c.signedBy || "—"}</div>
+                </div>
+                {c.notes && (
+                  <div style={{ gridColumn: "span 2" }}>
+                    <div className="muted" style={{ fontSize: ".7rem", fontWeight: 600 }}>Notes</div>
+                    <div>{c.notes}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ) : null
         )}
       </div>
     </div>
