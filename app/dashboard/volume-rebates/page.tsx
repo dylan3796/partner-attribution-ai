@@ -118,6 +118,16 @@ export default function VolumeRebatesPage() {
           <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Volume Rebates</h1>
           <p className="muted" style={{ marginTop: "0.25rem" }}>Track volume-based incentive progress and partner performance</p>
         </div>
+        <Link
+          href="/dashboard/volume-rebates/create"
+          style={{
+            display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px",
+            borderRadius: 8, background: "#6366f1", color: "#fff", fontWeight: 600,
+            fontSize: ".85rem", textDecoration: "none", whiteSpace: "nowrap",
+          }}
+        >
+          + Create Rebate
+        </Link>
       </div>
 
       {/* Info Banner */}

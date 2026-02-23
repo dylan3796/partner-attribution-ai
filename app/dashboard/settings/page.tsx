@@ -242,6 +242,30 @@ function SettingsPageInner() {
         </div>
       </div>
 
+      {/* Quick Links to Sub-Settings */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 12 }}>
+        {[
+          { label: "Attribution Model", href: "/dashboard/settings/attribution", icon: "⚡" },
+          { label: "Tier Configuration", href: "/dashboard/settings/tiers", icon: "🏅" },
+          { label: "Commission Rules", href: "/dashboard/settings/commission-rules", icon: "💰" },
+          { label: "Event Sources", href: "/dashboard/settings/event-sources", icon: "📡" },
+        ].map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            style={{
+              display: "flex", alignItems: "center", gap: 10, padding: "12px 16px",
+              borderRadius: 10, border: "1px solid var(--border)", background: "var(--bg)",
+              textDecoration: "none", color: "var(--fg)", fontSize: ".85rem", fontWeight: 600,
+              transition: "border-color .15s",
+            }}
+          >
+            <span style={{ fontSize: "1.1rem" }}>{link.icon}</span>
+            {link.label}
+          </a>
+        ))}
+      </div>
+
       {/* Program Configuration (from AI Setup) */}
       {programConfig && (
         <div className="card" id="program-config">

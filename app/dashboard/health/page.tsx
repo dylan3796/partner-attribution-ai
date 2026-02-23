@@ -180,6 +180,14 @@ export default function HealthPage() {
       <div>
         <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-.02em" }}>Program Health</h1>
         <p className="muted">Overall health of your partner program at a glance</p>
+        <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+          <Link href="/dashboard/partner-health" style={{ fontSize: ".82rem", fontWeight: 600, color: "#6366f1", textDecoration: "none" }}>
+            View Individual Partner Health →
+          </Link>
+          <Link href="/dashboard/emails" style={{ fontSize: ".82rem", fontWeight: 600, color: "#6366f1", textDecoration: "none" }}>
+            Email Triggers →
+          </Link>
+        </div>
       </div>
 
       {/* Top row: health ring + alerts */}

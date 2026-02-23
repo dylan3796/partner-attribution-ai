@@ -555,6 +555,20 @@ export default function ScoringPage() {
           >
             <Download size={14} /> Export CSV
           </button>
+          <Link
+            href="/dashboard/scoring/tier-reviews"
+            className="btn-outline"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+              padding: "6px 14px",
+              fontSize: ".85rem",
+              textDecoration: "none",
+            }}
+          >
+            <Medal size={14} /> Tier Reviews
+          </Link>
         </div>
       </div>
 
