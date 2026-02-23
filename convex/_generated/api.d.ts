@@ -19,6 +19,7 @@ import type * as dealsCrud from "../dealsCrud.js";
 import type * as emailNotifications from "../emailNotifications.js";
 import type * as emailTemplates from "../emailTemplates.js";
 import type * as eventSources from "../eventSources.js";
+import type * as forecasting from "../forecasting.js";
 import type * as integrations from "../integrations.js";
 import type * as invites from "../invites.js";
 import type * as leads from "../leads.js";
@@ -59,6 +60,7 @@ declare const fullApi: ApiFromModules<{
   emailNotifications: typeof emailNotifications;
   emailTemplates: typeof emailTemplates;
   eventSources: typeof eventSources;
+  forecasting: typeof forecasting;
   integrations: typeof integrations;
   invites: typeof invites;
   leads: typeof leads;
