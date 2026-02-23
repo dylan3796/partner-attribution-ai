@@ -1,158 +1,126 @@
 "use client";
 
 import Link from "next/link";
-import { Zap, Gift, Rocket, GitBranch, Shield, Mail, Plug, Book, Search, Bell, FileText, Users, Briefcase, BarChart3, Globe } from "lucide-react";
+import {
+  Zap, Wrench, Sparkles, GitCommit, ArrowLeft,
+} from "lucide-react";
 
-type ChangelogEntry = {
+type Entry = {
   date: string;
-  version: string;
-  title: string;
-  description: string;
-  icon: typeof Zap;
-  color: string;
-  items: string[];
-  tag: "feature" | "improvement" | "fix";
+  commits: { hash: string; type: "feat" | "fix" | "polish" | "other"; message: string }[];
 };
 
-const entries: ChangelogEntry[] = [
+// Generated from real git log — update periodically
+const CHANGELOG: Entry[] = [
   {
-    date: "Feb 18, 2026", version: "1.12", title: "Partner Resource Hub",
-    description: "Full-featured resource center with search, bookmarks, and 18 resources across 6 categories.",
-    icon: FileText, color: "#14b8a6", tag: "feature",
-    items: ["Search across titles, descriptions, and tags", "Bookmark system with saved view", "Featured resources section", "8 resource types with contextual actions"],
+    date: "February 23, 2026",
+    commits: [
+      { hash: "ed8f449", type: "feat", message: "Enriched seed data — 22 deals (was 7), 26 audit log entries, varied partner profiles across all 5 partners" },
+      { hash: "b2a6cf0", type: "feat", message: "Portal referrals + dashboard cohorts wired to real Convex data" },
+      { hash: "49e5c67", type: "fix", message: "Auto-create commission on deal registration approval" },
+      { hash: "0debef1", type: "feat", message: "Portal performance page — personal stats, tier/score breakdown, commission trend, deals table" },
+      { hash: "d891fa7", type: "feat", message: "Benchmarks page — partner performance vs program averages, tier distribution, top/bottom quartile" },
+      { hash: "f773a0c", type: "feat", message: "Forecasting page — pipeline & commission projections from real deal data, scenario toggle" },
+      { hash: "57a9502", type: "feat", message: "Contracts page — real Convex data, status changes, expandable details, CSV export" },
+      { hash: "e5e353f", type: "polish", message: "Empty state improvements for deals, partners, and portal commissions pages" },
+      { hash: "77e4456", type: "fix", message: "Orphaned pages audit — added navigation links to 6 previously unreachable pages" },
+    ],
   },
   {
-    date: "Feb 18, 2026", version: "1.11", title: "Integrations Hub",
-    description: "Marketplace-style integrations page with 12 connectors across CRM, payments, comms, and analytics.",
-    icon: Plug, color: "#ec4899", tag: "feature",
-    items: ["Salesforce, HubSpot, Stripe, Slack, Zapier + 7 more", "Category filtering and status indicators", "Sync status and record counts", "One-click connect/disconnect"],
+    date: "February 22, 2026",
+    commits: [
+      { hash: "1d116e7", type: "feat", message: "Portal notifications wired to real Convex data with unread badges" },
+      { hash: "5689498", type: "feat", message: "Partner detail page — onboarding progress bar + audit trail" },
+      { hash: "e091edf", type: "feat", message: "Bulk payout approval — checkbox select + batch approve on payouts page" },
+      { hash: "6460b46", type: "feat", message: "Partner onboarding completion tracking with progress bar on partners table" },
+      { hash: "b8b2ed3", type: "feat", message: "End-of-quarter reconciliation report with quarter filter and CSV export" },
+      { hash: "d2fff0c", type: "feat", message: "Deal registration workflow — partners register deals, admins approve/reject" },
+      { hash: "41187a6", type: "feat", message: "Complex commission rules — Phase 3: settings UI at /dashboard/settings/commission-rules" },
+      { hash: "1c0a86c", type: "feat", message: "Complex commission rules — Phase 2: wired into attribution calculator" },
+      { hash: "1a9f52f", type: "feat", message: "Complex commission rules — Phase 1: schema, CRUD, rule matching, seed data" },
+      { hash: "0246086", type: "fix", message: "Link audit — ensure all expected navigation clicks work across the app" },
+      { hash: "e1687b3", type: "fix", message: "Invite page render-loop bug — moved pre-fill logic into useEffect" },
+      { hash: "2e503f5", type: "feat", message: "Partner invite flow — invite link → profile form → portal access in under 10 minutes" },
+      { hash: "8df55e5", type: "fix", message: "Added confirmation dialog when changing attribution model in config" },
+    ],
   },
   {
-    date: "Feb 18, 2026", version: "1.10", title: "API Documentation",
-    description: "Complete REST API reference with 10 documented endpoints, auth guide, and code samples.",
-    icon: Book, color: "#f59e0b", tag: "feature",
-    items: ["Partners, Deals, Attribution, Payouts, Webhooks endpoints", "Interactive expandable endpoint cards", "Request/response JSON examples", "Copy-to-clipboard code blocks"],
+    date: "February 21, 2026",
+    commits: [
+      { hash: "2c9dcdf", type: "feat", message: "Config editability — edit program config post-setup from settings page" },
+      { hash: "401cc43", type: "feat", message: "Portal white-label — removed all Covant branding from partner-facing pages" },
+    ],
   },
   {
-    date: "Feb 18, 2026", version: "1.9", title: "Command Palette",
-    description: "⌘K search across all 25+ dashboard pages for instant navigation.",
-    icon: Search, color: "#6366f1", tag: "feature",
-    items: ["Fuzzy keyword search", "Full keyboard navigation", "Category grouping", "Current page indicator"],
-  },
-  {
-    date: "Feb 18, 2026", version: "1.8", title: "Email Notification Triggers",
-    description: "Configurable automated partner email system with 11 trigger types and send queue.",
-    icon: Mail, color: "#3b82f6", tag: "feature",
-    items: ["Deal won, payout approved, tier change triggers", "Template preview with variable placeholders", "Enable/disable toggles", "Outbound email queue with status tracking"],
-  },
-  {
-    date: "Feb 18, 2026", version: "1.7", title: "Tier Review Queue",
-    description: "Operational workflow for reviewing and approving partner tier changes.",
-    icon: Shield, color: "#8b5cf6", tag: "feature",
-    items: ["Approve/reject/defer actions per partner", "Full scoring breakdown with 4 dimensions", "Review notes and bulk approval", "Progress tracking"],
-  },
-  {
-    date: "Feb 18, 2026", version: "1.6", title: "Pipeline & Co-Sell Dashboard",
-    description: "Partner-to-account revenue mapping with influence tracking.",
-    icon: GitBranch, color: "#22c55e", tag: "feature",
-    items: ["Revenue influence chart per partner", "Expandable account drill-down", "Touchpoint type badges", "Sort by revenue, pipeline, or influence"],
-  },
-  {
-    date: "Feb 18, 2026", version: "1.5", title: "Partner Onboarding Tracker",
-    description: "6-stage pipeline tracking partner journey from signup to revenue production.",
-    icon: Rocket, color: "#f97316", tag: "feature",
-    items: ["Visual pipeline progress bars", "Onboarding funnel visualization", "Blocker tracking and overdue alerts", "Channel manager assignment"],
-  },
-  {
-    date: "Feb 18, 2026", version: "1.4", title: "Incentive Programs",
-    description: "Manage SPIFs, bonuses, accelerators with budget tracking and partner enrollments.",
-    icon: Gift, color: "#eab308", tag: "feature",
-    items: ["5 program types with rule definitions", "Budget utilization tracking", "Per-partner enrollment and progress", "Achievement status tracking"],
-  },
-  {
-    date: "Feb 18, 2026", version: "1.3", title: "Partner Portal Notifications",
-    description: "Activity feed with 6 notification types for partner engagement.",
-    icon: Bell, color: "#ef4444", tag: "feature",
-    items: ["Deal updates, payouts, tier changes, incentives", "Unread indicators and mark-all-read", "Filter by type with count badges", "Action links per notification"],
-  },
-  {
-    date: "Feb 17, 2026", version: "1.2", title: "Mobile Responsive",
-    description: "Full mobile responsiveness across landing page, dashboard, and partner portal.",
-    icon: Globe, color: "#64748b", tag: "improvement",
-    items: ["Collapsible sidebar navigation", "Touch-optimized card layouts", "Mobile top bar with hamburger menu", "Responsive grid breakpoints"],
-  },
-  {
-    date: "Feb 17, 2026", version: "1.1", title: "Event Ingestion System",
-    description: "Generic webhook system for receiving events from CRMs and external sources.",
-    icon: Zap, color: "#6366f1", tag: "feature",
-    items: ["Source registration with signing secrets", "Inbound event log with status", "Flexible payload parsing", "Event-to-action mapping"],
+    date: "February 20, 2026",
+    commits: [
+      { hash: "9f2c7f3", type: "fix", message: "Audit trail math formula — show actual calculation chain instead of misleading touchpoint × rate" },
+      { hash: "06afd43", type: "feat", message: "Deal Reg Protection, Source Wins, Role Split — three real-world attribution models" },
+      { hash: "e11434c", type: "feat", message: "Attribution audit trail on deal detail — per-partner paper trail for every payout" },
+      { hash: "80c1d03", type: "feat", message: "Setup → real config — Convex persistence, live preview panel, dashboard welcome banner" },
+      { hash: "86a4f96", type: "fix", message: "Setup AI — correct model, strip leading assistant message, plain text streaming" },
+      { hash: "4beee49", type: "fix", message: "Setup page broken model name, wired /setup into nav + pricing CTAs" },
+    ],
   },
 ];
 
-const TAG_COLORS: Record<string, { bg: string; fg: string }> = {
-  feature: { bg: "#6366f120", fg: "#6366f1" },
-  improvement: { bg: "#22c55e20", fg: "#22c55e" },
-  fix: { bg: "#eab30820", fg: "#eab308" },
+const TYPE_CONFIG = {
+  feat: { label: "Feature", color: "#22c55e", bg: "#22c55e18", icon: Sparkles },
+  fix: { label: "Fix", color: "#f59e0b", bg: "#f59e0b18", icon: Wrench },
+  polish: { label: "Polish", color: "#8b5cf6", bg: "#8b5cf618", icon: Zap },
+  other: { label: "Update", color: "#6b7280", bg: "#6b728018", icon: GitCommit },
 };
 
 export default function ChangelogPage() {
+  const totalFeatures = CHANGELOG.flatMap((e) => e.commits).filter((c) => c.type === "feat").length;
+  const totalFixes = CHANGELOG.flatMap((e) => e.commits).filter((c) => c.type === "fix" || c.type === "polish").length;
+
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5" }}>
-      <header style={{ borderBottom: "1px solid #1a1a1a", padding: "1rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff", textDecoration: "none", letterSpacing: "-.02em" }}>covant</Link>
-          <span style={{ color: "#333" }}>/</span>
-          <span style={{ fontSize: ".9rem", color: "#888" }}>Changelog</span>
-        </div>
-        <Link href="/dashboard" style={{ fontSize: ".8rem", color: "#666", textDecoration: "none" }}>Dashboard →</Link>
-      </header>
+    <div style={{ maxWidth: 720, margin: "0 auto", padding: "3rem 1.5rem" }}>
+      {/* Header */}
+      <div style={{ marginBottom: "2.5rem" }}>
+        <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--muted)", fontSize: ".85rem", textDecoration: "none", marginBottom: 12 }}>
+          <ArrowLeft size={14} /> Back to Covant
+        </Link>
+        <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Changelog</h1>
+        <p className="muted" style={{ marginTop: ".25rem", lineHeight: 1.6 }}>
+          What&apos;s new in Covant — {totalFeatures} features and {totalFixes} improvements shipped this week.
+        </p>
+      </div>
 
-      <main style={{ maxWidth: 720, margin: "0 auto", padding: "3rem 2rem" }}>
-        <h1 style={{ fontSize: "2.5rem", fontWeight: 800, color: "#fff", letterSpacing: "-.03em", marginBottom: ".5rem" }}>What&apos;s New</h1>
-        <p style={{ color: "#666", fontSize: "1rem", marginBottom: "3rem" }}>Latest updates and improvements to the Covant platform.</p>
-
-        <div style={{ position: "relative" }}>
-          {/* Timeline line */}
-          <div style={{ position: "absolute", left: 19, top: 0, bottom: 0, width: 2, background: "#1a1a1a" }} />
-
-          {entries.map((entry, i) => {
-            const Icon = entry.icon;
-            const tagColor = TAG_COLORS[entry.tag];
-            return (
-              <div key={i} style={{ position: "relative", paddingLeft: 52, paddingBottom: "2.5rem" }}>
-                {/* Timeline dot */}
-                <div style={{
-                  position: "absolute", left: 8, top: 2,
-                  width: 24, height: 24, borderRadius: 12,
-                  background: `${entry.color}20`, border: `2px solid ${entry.color}`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                }}>
-                  <Icon size={12} style={{ color: entry.color }} />
-                </div>
-
-                {/* Date + version */}
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
-                  <span style={{ fontSize: ".8rem", color: "#555" }}>{entry.date}</span>
-                  <span style={{ padding: "1px 8px", borderRadius: 999, fontSize: ".65rem", fontWeight: 700, background: "#1a1a1a", color: "#888" }}>v{entry.version}</span>
-                  <span style={{ padding: "1px 8px", borderRadius: 999, fontSize: ".65rem", fontWeight: 700, background: tagColor.bg, color: tagColor.fg, textTransform: "capitalize" }}>{entry.tag}</span>
-                </div>
-
-                <h3 style={{ fontSize: "1.2rem", fontWeight: 700, color: "#fff", marginBottom: 6 }}>{entry.title}</h3>
-                <p style={{ color: "#888", fontSize: ".9rem", lineHeight: 1.6, marginBottom: 10 }}>{entry.description}</p>
-
-                <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-                  {entry.items.map((item, j) => (
-                    <li key={j} style={{ display: "flex", alignItems: "center", gap: 8, padding: "3px 0", fontSize: ".85rem", color: "#666" }}>
-                      <span style={{ width: 4, height: 4, borderRadius: 2, background: entry.color, flexShrink: 0 }} />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
-        </div>
-      </main>
+      {/* Timeline */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+        {CHANGELOG.map((entry) => (
+          <div key={entry.date}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#6366f1", flexShrink: 0 }} />
+              <h2 style={{ fontSize: "1rem", fontWeight: 700, margin: 0 }}>{entry.date}</h2>
+              <span className="muted" style={{ fontSize: ".75rem" }}>({entry.commits.length} changes)</span>
+            </div>
+            <div style={{ marginLeft: 5, borderLeft: "2px solid var(--border)", paddingLeft: 20, display: "flex", flexDirection: "column", gap: 8 }}>
+              {entry.commits.map((c) => {
+                const cfg = TYPE_CONFIG[c.type];
+                const Icon = cfg.icon;
+                return (
+                  <div key={c.hash} style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                    <span style={{
+                      display: "inline-flex", alignItems: "center", gap: 4, padding: "2px 8px",
+                      borderRadius: 6, fontSize: ".65rem", fontWeight: 700, color: cfg.color, background: cfg.bg,
+                      flexShrink: 0, marginTop: 2,
+                    }}>
+                      <Icon size={10} /> {cfg.label}
+                    </span>
+                    <span style={{ fontSize: ".85rem", lineHeight: 1.5 }}>
+                      {c.message}
+                      <code style={{ fontSize: ".7rem", color: "var(--muted)", marginLeft: 6 }}>{c.hash}</code>
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
