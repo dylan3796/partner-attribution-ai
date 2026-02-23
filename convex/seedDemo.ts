@@ -93,119 +93,43 @@ export const seedDemoData = mutation({
       partnerIds[partner.name] = id;
     }
 
-    // Create 7 realistic deals
+    // Helper for date math
+    const DAY = 24 * 60 * 60 * 1000;
+    const now = Date.now();
+
+    // Create 22 realistic deals across all partners with varied values, stages, statuses
     const deals = [
-      // Won deals
-      {
-        name: "CloudSync Enterprise License",
-        amount: 85000,
-        status: "won" as const,
-        closedAt: Date.now() - 5 * 24 * 60 * 60 * 1000,
-        contactName: "David Mitchell",
-        contactEmail: "dmitchell@accenture.com",
-        registeredBy: partnerIds["TechBridge Partners"],
-        registrationStatus: "approved" as const,
-        partner: "TechBridge Partners",
-        touchpoints: [
-          { type: "deal_registration" as const, daysAgo: 45 },
-          { type: "demo" as const, daysAgo: 30 },
-          { type: "proposal" as const, daysAgo: 15 },
-          { type: "negotiation" as const, daysAgo: 7 },
-        ],
-      },
-      {
-        name: "DevOps Transformation Suite",
-        amount: 42000,
-        status: "won" as const,
-        closedAt: Date.now() - 12 * 24 * 60 * 60 * 1000,
-        contactName: "Rachel Green",
-        contactEmail: "rgreen@zendesk.com",
-        partner: "Apex Growth Group",
-        touchpoints: [
-          { type: "referral" as const, daysAgo: 60 },
-          { type: "introduction" as const, daysAgo: 50 },
-          { type: "demo" as const, daysAgo: 35 },
-          { type: "proposal" as const, daysAgo: 20 },
-        ],
-      },
+      // ── TechBridge Partners (Gold reseller, highest revenue) ──
+      { name: "CloudSync Enterprise License", amount: 85000, status: "won" as const, closedAt: now - 5 * DAY, contactName: "David Mitchell", contactEmail: "dmitchell@accenture.com", registeredBy: partnerIds["TechBridge Partners"], registrationStatus: "approved" as const, partner: "TechBridge Partners", touchpoints: [{ type: "deal_registration" as const, daysAgo: 45 }, { type: "demo" as const, daysAgo: 30 }, { type: "proposal" as const, daysAgo: 15 }, { type: "negotiation" as const, daysAgo: 7 }] },
+      { name: "Security Platform Overhaul", amount: 145000, status: "won" as const, closedAt: now - 35 * DAY, contactName: "Laura Chen", contactEmail: "lchen@databricks.com", registeredBy: partnerIds["TechBridge Partners"], registrationStatus: "approved" as const, partner: "TechBridge Partners", touchpoints: [{ type: "deal_registration" as const, daysAgo: 90 }, { type: "demo" as const, daysAgo: 75 }, { type: "technical_enablement" as const, daysAgo: 60 }, { type: "negotiation" as const, daysAgo: 40 }] },
+      { name: "Multi-Cloud Migration Suite", amount: 210000, status: "won" as const, closedAt: now - 65 * DAY, contactName: "James Wilson", contactEmail: "jwilson@twilio.com", partner: "TechBridge Partners", touchpoints: [{ type: "referral" as const, daysAgo: 120 }, { type: "demo" as const, daysAgo: 100 }, { type: "co_sell" as const, daysAgo: 80 }, { type: "proposal" as const, daysAgo: 70 }] },
+      { name: "Infrastructure Modernization", amount: 120000, status: "open" as const, expectedCloseDate: now + 45 * DAY, contactName: "Robert Kim", contactEmail: "rkim@snowflake.com", registeredBy: partnerIds["TechBridge Partners"], registrationStatus: "pending" as const, partner: "TechBridge Partners", touchpoints: [{ type: "deal_registration" as const, daysAgo: 14 }, { type: "demo" as const, daysAgo: 7 }] },
+      { name: "API Gateway Enterprise", amount: 67000, status: "open" as const, expectedCloseDate: now + 20 * DAY, contactName: "Sarah Park", contactEmail: "spark@figma.com", registeredBy: partnerIds["TechBridge Partners"], registrationStatus: "approved" as const, partner: "TechBridge Partners", touchpoints: [{ type: "deal_registration" as const, daysAgo: 30 }, { type: "demo" as const, daysAgo: 18 }, { type: "proposal" as const, daysAgo: 8 }] },
 
-      // Open deals
-      {
-        name: "Data Analytics Platform",
-        amount: 67000,
-        status: "open" as const,
-        expectedCloseDate: Date.now() + 21 * 24 * 60 * 60 * 1000,
-        contactName: "Jennifer Wu",
-        contactEmail: "jwu@salesforce.com",
-        registeredBy: partnerIds["Stackline Agency"],
-        registrationStatus: "approved" as const,
-        partner: "Stackline Agency",
-        touchpoints: [
-          { type: "deal_registration" as const, daysAgo: 28 },
-          { type: "demo" as const, daysAgo: 14 },
-          { type: "technical_enablement" as const, daysAgo: 7 },
-        ],
-      },
-      {
-        name: "Enterprise SSO Integration",
-        amount: 28000,
-        status: "open" as const,
-        expectedCloseDate: Date.now() + 14 * 24 * 60 * 60 * 1000,
-        contactName: "Michael Chang",
-        contactEmail: "mchang@stripe.com",
-        partner: "Northlight Solutions",
-        touchpoints: [
-          { type: "referral" as const, daysAgo: 21 },
-          { type: "demo" as const, daysAgo: 10 },
-        ],
-      },
-      {
-        name: "Revenue Intelligence Platform",
-        amount: 95000,
-        status: "open" as const,
-        expectedCloseDate: Date.now() + 30 * 24 * 60 * 60 * 1000,
-        contactName: "Amanda Foster",
-        contactEmail: "afoster@hubspot.com",
-        registeredBy: partnerIds["Apex Growth Group"],
-        registrationStatus: "approved" as const,
-        partner: "Apex Growth Group",
-        touchpoints: [
-          { type: "deal_registration" as const, daysAgo: 35 },
-          { type: "co_sell" as const, daysAgo: 20 },
-          { type: "proposal" as const, daysAgo: 8 },
-        ],
-      },
-      {
-        name: "Infrastructure Modernization",
-        amount: 120000,
-        status: "open" as const,
-        expectedCloseDate: Date.now() + 45 * 24 * 60 * 60 * 1000,
-        contactName: "Robert Kim",
-        contactEmail: "rkim@snowflake.com",
-        registeredBy: partnerIds["TechBridge Partners"],
-        registrationStatus: "pending" as const,
-        partner: "TechBridge Partners",
-        touchpoints: [
-          { type: "deal_registration" as const, daysAgo: 14 },
-          { type: "demo" as const, daysAgo: 7 },
-        ],
-      },
+      // ── Apex Growth Group (referral, high volume, many smaller deals) ──
+      { name: "DevOps Transformation Suite", amount: 42000, status: "won" as const, closedAt: now - 12 * DAY, contactName: "Rachel Green", contactEmail: "rgreen@zendesk.com", partner: "Apex Growth Group", touchpoints: [{ type: "referral" as const, daysAgo: 60 }, { type: "introduction" as const, daysAgo: 50 }, { type: "demo" as const, daysAgo: 35 }, { type: "proposal" as const, daysAgo: 20 }] },
+      { name: "Customer Success Analytics", amount: 38000, status: "won" as const, closedAt: now - 28 * DAY, contactName: "Tom Richards", contactEmail: "trichards@intercom.com", partner: "Apex Growth Group", touchpoints: [{ type: "referral" as const, daysAgo: 70 }, { type: "demo" as const, daysAgo: 50 }, { type: "proposal" as const, daysAgo: 35 }] },
+      { name: "Marketing Automation Connector", amount: 25000, status: "won" as const, closedAt: now - 50 * DAY, contactName: "Nadia Patel", contactEmail: "npatel@notion.so", partner: "Apex Growth Group", touchpoints: [{ type: "referral" as const, daysAgo: 95 }, { type: "introduction" as const, daysAgo: 80 }, { type: "demo" as const, daysAgo: 65 }] },
+      { name: "Revenue Intelligence Platform", amount: 95000, status: "open" as const, expectedCloseDate: now + 30 * DAY, contactName: "Amanda Foster", contactEmail: "afoster@hubspot.com", registeredBy: partnerIds["Apex Growth Group"], registrationStatus: "approved" as const, partner: "Apex Growth Group", touchpoints: [{ type: "deal_registration" as const, daysAgo: 35 }, { type: "co_sell" as const, daysAgo: 20 }, { type: "proposal" as const, daysAgo: 8 }] },
+      { name: "Sales Enablement Tool", amount: 18000, status: "open" as const, expectedCloseDate: now + 15 * DAY, contactName: "Jake Morrison", contactEmail: "jmorrison@gong.io", partner: "Apex Growth Group", touchpoints: [{ type: "referral" as const, daysAgo: 25 }, { type: "demo" as const, daysAgo: 12 }] },
+      { name: "Team Collaboration Hub", amount: 32000, status: "lost" as const, closedAt: now - 40 * DAY, contactName: "Emily Watson", contactEmail: "ewatson@asana.com", partner: "Apex Growth Group", touchpoints: [{ type: "referral" as const, daysAgo: 85 }, { type: "demo" as const, daysAgo: 65 }, { type: "proposal" as const, daysAgo: 50 }] },
 
-      // Lost deal
-      {
-        name: "Partner Portal Deployment",
-        amount: 38000,
-        status: "lost" as const,
-        closedAt: Date.now() - 20 * 24 * 60 * 60 * 1000,
-        contactName: "Kevin Park",
-        contactEmail: "kpark@docusign.com",
-        partner: "Clearpath Consulting",
-        touchpoints: [
-          { type: "referral" as const, daysAgo: 55 },
-          { type: "demo" as const, daysAgo: 40 },
-          { type: "proposal" as const, daysAgo: 30 },
-        ],
-      },
+      // ── Stackline Agency (newer reseller, building pipeline) ──
+      { name: "Data Analytics Platform", amount: 67000, status: "open" as const, expectedCloseDate: now + 21 * DAY, contactName: "Jennifer Wu", contactEmail: "jwu@salesforce.com", registeredBy: partnerIds["Stackline Agency"], registrationStatus: "approved" as const, partner: "Stackline Agency", touchpoints: [{ type: "deal_registration" as const, daysAgo: 28 }, { type: "demo" as const, daysAgo: 14 }, { type: "technical_enablement" as const, daysAgo: 7 }] },
+      { name: "Compliance Dashboard", amount: 48000, status: "won" as const, closedAt: now - 22 * DAY, contactName: "Brian Lee", contactEmail: "blee@plaid.com", registeredBy: partnerIds["Stackline Agency"], registrationStatus: "approved" as const, partner: "Stackline Agency", touchpoints: [{ type: "deal_registration" as const, daysAgo: 55 }, { type: "demo" as const, daysAgo: 40 }, { type: "proposal" as const, daysAgo: 28 }] },
+      { name: "Workflow Automation Lite", amount: 15000, status: "open" as const, expectedCloseDate: now + 60 * DAY, contactName: "Maria Santos", contactEmail: "msantos@zapier.com", partner: "Stackline Agency", touchpoints: [{ type: "referral" as const, daysAgo: 10 }] },
+      { name: "Employee Onboarding Suite", amount: 22000, status: "lost" as const, closedAt: now - 15 * DAY, contactName: "Chris Taylor", contactEmail: "ctaylor@rippling.com", partner: "Stackline Agency", touchpoints: [{ type: "deal_registration" as const, daysAgo: 45 }, { type: "demo" as const, daysAgo: 30 }, { type: "proposal" as const, daysAgo: 20 }] },
+
+      // ── Northlight Solutions (Gold reseller, strong performer) ──
+      { name: "Enterprise SSO Integration", amount: 28000, status: "open" as const, expectedCloseDate: now + 14 * DAY, contactName: "Michael Chang", contactEmail: "mchang@stripe.com", partner: "Northlight Solutions", touchpoints: [{ type: "referral" as const, daysAgo: 21 }, { type: "demo" as const, daysAgo: 10 }] },
+      { name: "Identity Management Platform", amount: 175000, status: "won" as const, closedAt: now - 18 * DAY, contactName: "Diana Ross", contactEmail: "dross@okta.com", registeredBy: partnerIds["Northlight Solutions"], registrationStatus: "approved" as const, partner: "Northlight Solutions", touchpoints: [{ type: "deal_registration" as const, daysAgo: 60 }, { type: "demo" as const, daysAgo: 45 }, { type: "technical_enablement" as const, daysAgo: 30 }, { type: "negotiation" as const, daysAgo: 22 }] },
+      { name: "Zero Trust Architecture", amount: 250000, status: "open" as const, expectedCloseDate: now + 55 * DAY, contactName: "Victor Huang", contactEmail: "vhuang@crowdstrike.com", registeredBy: partnerIds["Northlight Solutions"], registrationStatus: "approved" as const, partner: "Northlight Solutions", touchpoints: [{ type: "deal_registration" as const, daysAgo: 20 }, { type: "demo" as const, daysAgo: 12 }, { type: "co_sell" as const, daysAgo: 5 }] },
+      { name: "Endpoint Protection Suite", amount: 55000, status: "won" as const, closedAt: now - 75 * DAY, contactName: "Kate Miller", contactEmail: "kmiller@sentinelone.com", partner: "Northlight Solutions", touchpoints: [{ type: "referral" as const, daysAgo: 110 }, { type: "demo" as const, daysAgo: 95 }, { type: "proposal" as const, daysAgo: 80 }] },
+
+      // ── Clearpath Consulting (referral, mixed results) ──
+      { name: "Partner Portal Deployment", amount: 38000, status: "lost" as const, closedAt: now - 20 * DAY, contactName: "Kevin Park", contactEmail: "kpark@docusign.com", partner: "Clearpath Consulting", touchpoints: [{ type: "referral" as const, daysAgo: 55 }, { type: "demo" as const, daysAgo: 40 }, { type: "proposal" as const, daysAgo: 30 }] },
+      { name: "Content Management System", amount: 33000, status: "won" as const, closedAt: now - 45 * DAY, contactName: "Lisa Nguyen", contactEmail: "lnguyen@contentful.com", partner: "Clearpath Consulting", touchpoints: [{ type: "referral" as const, daysAgo: 90 }, { type: "introduction" as const, daysAgo: 75 }, { type: "demo" as const, daysAgo: 55 }] },
+      { name: "Digital Experience Platform", amount: 72000, status: "open" as const, expectedCloseDate: now + 40 * DAY, contactName: "Peter Walsh", contactEmail: "pwalsh@adobe.com", partner: "Clearpath Consulting", touchpoints: [{ type: "referral" as const, daysAgo: 18 }, { type: "demo" as const, daysAgo: 8 }] },
     ];
 
     for (const deal of deals) {
@@ -271,14 +195,38 @@ export const seedDemoData = mutation({
 
     // Create realistic activity log entries
     const activities = [
-      { action: "deal.closed", entity: "deals", timestamp: Date.now() - 5 * 24 * 60 * 60 * 1000, metadata: '{"deal":"CloudSync Enterprise License","amount":"$85,000"}' },
-      { action: "attribution.calculated", entity: "attributions", timestamp: Date.now() - 5 * 24 * 60 * 60 * 1000, metadata: '{"model":"time_decay","partner":"TechBridge Partners"}' },
-      { action: "deal.closed", entity: "deals", timestamp: Date.now() - 12 * 24 * 60 * 60 * 1000, metadata: '{"deal":"DevOps Transformation Suite","amount":"$42,000"}' },
-      { action: "payout.created", entity: "payouts", timestamp: Date.now() - 4 * 24 * 60 * 60 * 1000, metadata: '{"partner":"TechBridge Partners","amount":"$15,300"}' },
-      { action: "payout.created", entity: "payouts", timestamp: Date.now() - 11 * 24 * 60 * 60 * 1000, metadata: '{"partner":"Apex Growth Group","amount":"$8,400"}' },
-      { action: "deal.registered", entity: "deals", timestamp: Date.now() - 14 * 24 * 60 * 60 * 1000, metadata: '{"deal":"Infrastructure Modernization","partner":"TechBridge Partners"}' },
-      { action: "touchpoint.created", entity: "touchpoints", timestamp: Date.now() - 7 * 24 * 60 * 60 * 1000, metadata: '{"type":"demo","deal":"Infrastructure Modernization"}' },
-      { action: "partner.created", entity: "partners", timestamp: Date.now() - 60 * 24 * 60 * 60 * 1000, metadata: '{"partner":"Clearpath Consulting","tier":"bronze"}' },
+      // Recent deal activity
+      { action: "deal.closed", entity: "deals", timestamp: now - 5 * DAY, metadata: '{"deal":"CloudSync Enterprise License","amount":"$85,000","partner":"TechBridge Partners"}' },
+      { action: "attribution.calculated", entity: "attributions", timestamp: now - 5 * DAY, metadata: '{"model":"deal_reg_protection","partner":"TechBridge Partners","amount":"$85,000"}' },
+      { action: "deal.closed", entity: "deals", timestamp: now - 12 * DAY, metadata: '{"deal":"DevOps Transformation Suite","amount":"$42,000","partner":"Apex Growth Group"}' },
+      { action: "deal.closed", entity: "deals", timestamp: now - 18 * DAY, metadata: '{"deal":"Identity Management Platform","amount":"$175,000","partner":"Northlight Solutions"}' },
+      { action: "deal.closed", entity: "deals", timestamp: now - 22 * DAY, metadata: '{"deal":"Compliance Dashboard","amount":"$48,000","partner":"Stackline Agency"}' },
+      { action: "deal.closed", entity: "deals", timestamp: now - 28 * DAY, metadata: '{"deal":"Customer Success Analytics","amount":"$38,000","partner":"Apex Growth Group"}' },
+      { action: "deal.lost", entity: "deals", timestamp: now - 15 * DAY, metadata: '{"deal":"Employee Onboarding Suite","reason":"Budget cut","partner":"Stackline Agency"}' },
+      { action: "deal.lost", entity: "deals", timestamp: now - 20 * DAY, metadata: '{"deal":"Partner Portal Deployment","reason":"Competitor selected","partner":"Clearpath Consulting"}' },
+      // Payouts
+      { action: "payout.created", entity: "payouts", timestamp: now - 4 * DAY, metadata: '{"partner":"TechBridge Partners","amount":"$15,300"}' },
+      { action: "payout.created", entity: "payouts", timestamp: now - 11 * DAY, metadata: '{"partner":"Apex Growth Group","amount":"$8,400"}' },
+      { action: "payout.approved", entity: "payouts", timestamp: now - 3 * DAY, metadata: '{"partner":"TechBridge Partners","amount":"$15,300","approver":"Admin"}' },
+      { action: "payout.paid", entity: "payouts", timestamp: now - 1 * DAY, metadata: '{"partner":"TechBridge Partners","amount":"$15,300"}' },
+      // Deal registrations
+      { action: "deal.registered", entity: "deals", timestamp: now - 14 * DAY, metadata: '{"deal":"Infrastructure Modernization","partner":"TechBridge Partners"}' },
+      { action: "deal.registered", entity: "deals", timestamp: now - 20 * DAY, metadata: '{"deal":"Zero Trust Architecture","partner":"Northlight Solutions"}' },
+      { action: "deal.approved", entity: "deals", timestamp: now - 19 * DAY, metadata: '{"deal":"Zero Trust Architecture","partner":"Northlight Solutions"}' },
+      // Partner events
+      { action: "partner.created", entity: "partners", timestamp: now - 120 * DAY, metadata: '{"partner":"TechBridge Partners","tier":"gold","type":"reseller"}' },
+      { action: "partner.created", entity: "partners", timestamp: now - 100 * DAY, metadata: '{"partner":"Apex Growth Group","tier":"silver","type":"referral"}' },
+      { action: "partner.created", entity: "partners", timestamp: now - 90 * DAY, metadata: '{"partner":"Stackline Agency","tier":"bronze","type":"reseller"}' },
+      { action: "partner.created", entity: "partners", timestamp: now - 85 * DAY, metadata: '{"partner":"Northlight Solutions","tier":"gold","type":"reseller"}' },
+      { action: "partner.created", entity: "partners", timestamp: now - 60 * DAY, metadata: '{"partner":"Clearpath Consulting","tier":"bronze","type":"referral"}' },
+      { action: "partner.tier_changed", entity: "partners", timestamp: now - 30 * DAY, metadata: '{"partner":"TechBridge Partners","from":"silver","to":"gold","reason":"Score threshold crossed"}' },
+      { action: "partner.tier_changed", entity: "partners", timestamp: now - 25 * DAY, metadata: '{"partner":"Northlight Solutions","from":"silver","to":"gold","reason":"Score threshold crossed"}' },
+      // Config
+      { action: "config.updated", entity: "programConfig", timestamp: now - 45 * DAY, metadata: '{"field":"attributionModel","from":"first_touch","to":"deal_reg_protection"}' },
+      { action: "commission_rule.created", entity: "commissionRules", timestamp: now - 44 * DAY, metadata: '{"rule":"Gold Reseller","rate":"20%"}' },
+      // Touchpoints
+      { action: "touchpoint.created", entity: "touchpoints", timestamp: now - 7 * DAY, metadata: '{"type":"demo","deal":"Infrastructure Modernization","partner":"TechBridge Partners"}' },
+      { action: "touchpoint.created", entity: "touchpoints", timestamp: now - 5 * DAY, metadata: '{"type":"co_sell","deal":"Zero Trust Architecture","partner":"Northlight Solutions"}' },
     ];
 
     for (const activity of activities) {
