@@ -129,6 +129,48 @@ export const approveDealRegistration = mutation({
       createdAt: Date.now(),
     });
 
+    // Auto-create commission/payout on deal approval
+    if (deal.registeredBy && partner) {
+      // Find best matching commission rule (highest priority first)
+      const rules = await ctx.db
+        .query("commissionRules")
+        .withIndex("by_org_priority", (q) => q.eq("organizationId", deal.organizationId))
+        .collect();
+
+      let matchedRule: (typeof rules)[number] | null = null;
+      for (const rule of rules) {
+        if (rule.partnerType && rule.partnerType !== partner.type) continue;
+        if (rule.partnerTier && rule.partnerTier !== partner.tier) continue;
+        if (rule.minDealSize && deal.amount < rule.minDealSize) continue;
+        matchedRule = rule;
+        break; // rules are ordered by priority index
+      }
+
+      const rate = matchedRule ? matchedRule.rate : partner.commissionRate;
+      const commissionAmount = Math.round(deal.amount * rate * 100) / 100;
+      const appliedRuleName = matchedRule ? matchedRule.name : "default partner rate";
+
+      await ctx.db.insert("payouts", {
+        organizationId: deal.organizationId,
+        partnerId: deal.registeredBy,
+        amount: commissionAmount,
+        status: "pending_approval",
+        notes: `Auto-generated on deal approval: ${deal.name} — $${commissionAmount} at ${(rate * 100).toFixed(1)}% (rule: ${appliedRuleName})`,
+        createdAt: Date.now(),
+      });
+
+      // Audit log for commission creation
+      await ctx.db.insert("audit_log", {
+        organizationId: deal.organizationId,
+        userId: args.reviewerId,
+        action: "commission_auto_generated",
+        entityType: "payout",
+        entityId: args.dealId,
+        metadata: `Commission auto-generated on deal approval: $${commissionAmount} at ${(rate * 100).toFixed(1)}% (rule: ${appliedRuleName})`,
+        createdAt: Date.now(),
+      });
+    }
+
     return { success: true };
   },
 });
