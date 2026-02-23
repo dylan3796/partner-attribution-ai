@@ -139,8 +139,12 @@ const STEPS = [
 export default function SetupWizard() {
   const router = useRouter();
   const saveProgramConfig = useMutation(api.programConfig.save);
+  const createPartner = useMutation(api.partners.create);
+  const createDeal = useMutation(api.dealsCrud.create);
+  const seedDemo = useMutation(api.seedDemo.seedDemoData);
   const [step, setStep] = useState(0);
   const [saving, setSaving] = useState(false);
+  const [launchStatus, setLaunchStatus] = useState("");
   const [data, setData] = useState<WizardData>({
     headers: [], rows: [], mappings: [], rules: [], ruleText: "", usedSample: false,
   });
@@ -244,14 +248,20 @@ export default function SetupWizard() {
   );
 
   /* ── Save & Launch ── */
+  /* ── Helper: get column index for a mapped field ── */
+  function colIdx(field: string): number {
+    return data.mappings.findIndex((m) => m.mappedTo === field);
+  }
+  function cellVal(row: string[], field: string): string {
+    const idx = colIdx(field);
+    return idx >= 0 && idx < row.length ? row[idx].trim() : "";
+  }
+
   async function handleLaunch() {
     setSaving(true);
     try {
-      const uniquePartners = new Set(data.rows.map((r) => {
-        const idx = data.mappings.findIndex((m) => m.mappedTo === "partner_name");
-        return idx >= 0 ? r[idx] : "";
-      }).filter(Boolean));
-
+      // ── 1. Save program config ──
+      setLaunchStatus("Saving configuration...");
       const commissionRules = data.rules.map((r) => ({
         type: r.field,
         value: parseFloat(r.actionValue) / 100,
@@ -274,15 +284,112 @@ export default function SetupWizard() {
         rawConfig: JSON.stringify({
           mappings: data.mappings,
           rules: data.rules,
-          partnerCount: uniquePartners.size,
-          dealCount: data.rows.length,
           usedSample: data.usedSample,
         }),
       });
 
+      // ── 2. Import data ──
+      if (data.usedSample) {
+        // Sample data path: call the seed mutation which creates rich demo data
+        setLaunchStatus("Seeding demo data...");
+        try { await seedDemo({}); } catch { /* already seeded, ok */ }
+      } else if (data.rows.length > 0) {
+        // CSV import path: create real partners + deals from user's CSV
+
+        // 2a. Deduplicate and import partners
+        const partnerNameIdx = colIdx("partner_name");
+        const uniquePartnerNames = [...new Set(
+          data.rows.map((r) => partnerNameIdx >= 0 ? r[partnerNameIdx]?.trim() : "").filter(Boolean)
+        )];
+
+        setLaunchStatus(`Importing ${uniquePartnerNames.length} partners...`);
+        const partnerIdMap: Record<string, string> = {};
+
+        for (const name of uniquePartnerNames) {
+          // Find first row with this partner name for metadata
+          const row = data.rows.find((r) => cellVal(r, "partner_name") === name);
+          if (!row) continue;
+
+          const rawType = cellVal(row, "partner_type").toLowerCase();
+          const type = (["affiliate", "referral", "reseller", "integration"].includes(rawType) ? rawType : "reseller") as "affiliate" | "referral" | "reseller" | "integration";
+
+          const rawTier = cellVal(row, "partner_tier").toLowerCase();
+          const tier = (["bronze", "silver", "gold", "platinum"].includes(rawTier) ? rawTier : "bronze") as "bronze" | "silver" | "gold" | "platinum";
+
+          const rawRate = parseFloat(cellVal(row, "commission_rate"));
+          const commissionRate = !isNaN(rawRate) ? (rawRate > 1 ? rawRate : rawRate * 100) : 10;
+
+          const email = cellVal(row, "contact_email") || `${name.toLowerCase().replace(/\s+/g, ".")}@partner.com`;
+
+          try {
+            const id = await createPartner({
+              name,
+              email,
+              type,
+              tier,
+              commissionRate,
+              status: "active" as const,
+            });
+            partnerIdMap[name] = id;
+          } catch {
+            // partner might already exist, continue
+          }
+        }
+
+        // 2b. Import deals (if deal columns mapped)
+        const hasDealValue = colIdx("deal_value") >= 0;
+        if (hasDealValue) {
+          const dealRows = data.rows.filter((r) => {
+            const val = parseFloat(cellVal(r, "deal_value").replace(/[,$]/g, ""));
+            return !isNaN(val) && val > 0;
+          });
+
+          setLaunchStatus(`Importing ${dealRows.length} deals...`);
+
+          for (let i = 0; i < dealRows.length; i++) {
+            const row = dealRows[i];
+            const amount = parseFloat(cellVal(row, "deal_value").replace(/[,$]/g, ""));
+            const customerName = cellVal(row, "customer_name");
+            const dealName = customerName ? `${customerName} Deal` : `Deal ${i + 1}`;
+
+            // Normalize status
+            const rawStatus = cellVal(row, "deal_status").toLowerCase();
+            const status = rawStatus.includes("won") || rawStatus.includes("closed won") ? "won" as const
+              : rawStatus.includes("lost") || rawStatus.includes("closed lost") ? "lost" as const
+              : "open" as const;
+
+            // Match partner
+            const partnerName = cellVal(row, "partner_name");
+            const partnerId = partnerIdMap[partnerName];
+
+            // Parse date
+            const rawDate = cellVal(row, "deal_date");
+            const parsedDate = rawDate ? new Date(rawDate).getTime() : undefined;
+            const closedAt = (status === "won" || status === "lost") ? (parsedDate && !isNaN(parsedDate) ? parsedDate : Date.now()) : undefined;
+
+            try {
+              await createDeal({
+                name: dealName,
+                amount,
+                status,
+                contactName: customerName || undefined,
+                contactEmail: cellVal(row, "contact_email") || undefined,
+                registeredBy: partnerId ? partnerId as any : undefined,
+                closedAt,
+                source: "manual" as const,
+              });
+            } catch {
+              // continue on error
+            }
+          }
+        }
+      }
+
+      setLaunchStatus("Redirecting to dashboard...");
       router.push("/dashboard");
     } catch {
-      setSaving(false);
+      setLaunchStatus("Setup failed — redirecting anyway...");
+      setTimeout(() => router.push("/dashboard"), 1500);
     }
   }
 
@@ -656,7 +763,7 @@ export default function SetupWizard() {
                 fontFamily: "inherit",
               }}
             >
-              {saving ? "Setting up..." : <><Rocket size={18} /> Launch Covant →</>}
+              {saving ? (launchStatus || "Setting up...") : <><Rocket size={18} /> Launch Covant →</>}
             </button>
           </div>
         )}
