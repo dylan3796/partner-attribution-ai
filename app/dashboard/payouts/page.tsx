@@ -71,6 +71,8 @@ export default function PayoutsPage() {
   const [rejectNotes, setRejectNotes] = useState("");
   const [confirmAction, setConfirmAction] = useState<{ id: string; action: "approve" | "pay" | "stripe_pay" } | null>(null);
   const [saving, setSaving] = useState(false);
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkApproving, setBulkApproving] = useState(false);
   const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(null);
   const [stripeProcessing, setStripeProcessing] = useState<string | null>(null);
 
@@ -318,11 +320,61 @@ export default function PayoutsPage() {
           : `${filtered.length} of ${payouts.length} payouts`}
       </p>
 
+      {/* Bulk Approve Bar */}
+      {selected.size > 0 && (
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0.75rem 1.25rem", marginBottom: "1rem", borderRadius: 8, background: "#1e40af10", border: "1px solid #1e40af30" }}>
+          <span style={{ fontSize: "0.9rem", fontWeight: 600 }}>{selected.size} payout{selected.size > 1 ? "s" : ""} selected</span>
+          <div style={{ display: "flex", gap: "0.5rem" }}>
+            <button className="btn-outline" style={{ fontSize: "0.85rem", padding: "0.4rem 0.75rem" }} onClick={() => setSelected(new Set())}>
+              Clear
+            </button>
+            <button
+              className="btn"
+              style={{ fontSize: "0.85rem", padding: "0.4rem 0.75rem" }}
+              disabled={bulkApproving}
+              onClick={async () => {
+                setBulkApproving(true);
+                let approved = 0;
+                for (const id of selected) {
+                  try {
+                    await approveMutation({ id: id as Id<"payouts"> });
+                    approved++;
+                  } catch { /* skip failures */ }
+                }
+                setSelected(new Set());
+                setBulkApproving(false);
+                alert(`${approved} payout${approved > 1 ? "s" : ""} approved`);
+              }}
+            >
+              <CheckCircle size={14} /> {bulkApproving ? "Approving..." : `Approve Selected (${selected.size})`}
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Payouts Table */}
       <div className="card" style={{ padding: 0, overflow: "hidden" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".9rem" }}>
           <thead>
             <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--subtle)" }}>
+              <th style={{ padding: ".8rem .5rem .8rem 1.2rem", width: 32 }}>
+                <input
+                  type="checkbox"
+                  checked={filtered.filter((p) => p.status === "pending_approval").length > 0 && filtered.filter((p) => p.status === "pending_approval").every((p) => selected.has(p._id))}
+                  onChange={(e) => {
+                    const pending = filtered.filter((p) => p.status === "pending_approval");
+                    if (e.target.checked) {
+                      setSelected(new Set([...selected, ...pending.map((p) => p._id)]));
+                    } else {
+                      const next = new Set(selected);
+                      pending.forEach((p) => next.delete(p._id));
+                      setSelected(next);
+                    }
+                  }}
+                  style={{ cursor: "pointer" }}
+                  title="Select all pending"
+                />
+              </th>
               <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Partner</th>
               <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Period</th>
               <th style={{ padding: ".8rem", textAlign: "right", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Amount</th>
@@ -343,6 +395,21 @@ export default function PayoutsPage() {
                   onMouseOver={(e) => (e.currentTarget.style.background = "var(--subtle)")}
                   onMouseOut={(e) => (e.currentTarget.style.background = "")}
                 >
+                  <td style={{ padding: ".8rem .5rem .8rem 1.2rem", width: 32 }}>
+                    {payout.status === "pending_approval" ? (
+                      <input
+                        type="checkbox"
+                        checked={selected.has(payout._id)}
+                        onChange={(e) => {
+                          const next = new Set(selected);
+                          if (e.target.checked) next.add(payout._id);
+                          else next.delete(payout._id);
+                          setSelected(next);
+                        }}
+                        style={{ cursor: "pointer" }}
+                      />
+                    ) : <span style={{ width: 16, display: "inline-block" }} />}
+                  </td>
                   <td style={{ padding: ".8rem 1.2rem" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
                       <div className="avatar" style={{ width: 32, height: 32, fontSize: ".65rem" }}>
