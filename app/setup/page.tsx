@@ -1,487 +1,697 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Send, MessageSquare, Database, CheckCircle, ExternalLink } from "lucide-react";
+import {
+  Upload, Table2, Settings2, Rocket, ChevronRight, ChevronLeft,
+  FileSpreadsheet, Check, Sparkles, X, AtSign, Zap, ArrowRight,
+} from "lucide-react";
 
-function SalesforceLogo() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M13.3 7.2C14.3 5.9 15.9 5 17.7 5c2.5 0 4.7 1.6 5.5 3.9.6-.3 1.3-.5 2-.5 2.6 0 4.8 2.1 4.8 4.8 0 .5-.1 1-.2 1.4C31 15.2 32 16.8 32 18.6c0 2.7-2.2 4.8-4.8 4.8H8.8C5.6 23.4 3 20.8 3 17.6c0-2.5 1.6-4.6 3.8-5.4-.1-.4-.1-.8-.1-1.2 0-3.3 2.7-6 6-6 .6 0 .4.1.6.2z" fill="#00A1E0"/>
-    </svg>
-  );
-}
+/* ── Types ── */
+type FieldMapping = {
+  column: string;
+  mappedTo: string;
+  autoSuggested: boolean;
+};
 
-function HubSpotLogo() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M21 12.5V9.2c.9-.4 1.5-1.3 1.5-2.4 0-1.4-1.1-2.6-2.5-2.6S17.5 5.4 17.5 6.8c0 1.1.6 2 1.5 2.4v3.3c-1.4.2-2.7.8-3.7 1.8L6.7 8.4c.1-.2.1-.4.1-.6C6.8 6.3 5.7 5 4.3 5 2.9 5 1.8 6.1 1.8 7.6c0 1.5 1.1 2.6 2.5 2.6.4 0 .8-.1 1.1-.3l8.4 5.7C13.3 16.4 13 17.2 13 18c0 .9.3 1.8.8 2.5L9.5 24.8c-.3-.1-.6-.2-.9-.2-1.5 0-2.6 1.2-2.6 2.6 0 1.4 1.2 2.6 2.6 2.6 1.4 0 2.6-1.2 2.6-2.6 0-.4-.1-.8-.3-1.1l4.1-4.4c.9.5 1.9.8 3 .8 3.3 0 5.9-2.7 5.9-6S24.3 10.5 21 12.5z" fill="#FF7A59"/>
-    </svg>
-  );
-}
-
-interface Message {
-  role: "user" | "assistant";
-  content: string;
-}
-
-interface InteractionType {
+type ParsedRule = {
   id: string;
-  label: string;
-  weight: number;
-  triggersAttribution: boolean;
-  triggersPayout: boolean;
+  field: string;
+  operator: string;
+  value: string;
+  action: string;
+  actionValue: string;
+};
+
+type WizardData = {
+  headers: string[];
+  rows: string[][];
+  mappings: FieldMapping[];
+  rules: ParsedRule[];
+  ruleText: string;
+  usedSample: boolean;
+};
+
+/* ── Constants ── */
+const FIELD_OPTIONS = [
+  { value: "partner_name", label: "Partner Name" },
+  { value: "partner_type", label: "Partner Type" },
+  { value: "partner_tier", label: "Partner Tier" },
+  { value: "commission_rate", label: "Commission Rate" },
+  { value: "deal_value", label: "Deal Value" },
+  { value: "deal_status", label: "Deal Status" },
+  { value: "deal_date", label: "Deal Date" },
+  { value: "customer_name", label: "Customer Name" },
+  { value: "contact_email", label: "Contact Email" },
+  { value: "notes", label: "Notes" },
+  { value: "_skip", label: "Skip this field" },
+];
+
+const FIELD_GUESS: Record<string, string> = {
+  partner: "partner_name", name: "partner_name", company: "partner_name",
+  type: "partner_type", category: "partner_type",
+  tier: "partner_tier", level: "partner_tier", rank: "partner_tier",
+  commission: "commission_rate", rate: "commission_rate", percent: "commission_rate",
+  value: "deal_value", amount: "deal_value", revenue: "deal_value", price: "deal_value", deal: "deal_value",
+  status: "deal_status", stage: "deal_status",
+  date: "deal_date", created: "deal_date", closed: "deal_date",
+  customer: "customer_name", client: "customer_name", account: "customer_name",
+  email: "contact_email", contact: "contact_email",
+  notes: "notes", description: "notes", comment: "notes",
+};
+
+const SAMPLE_CSV = `Partner Name,Type,Tier,Commission Rate,Deal,Value,Status,Customer,Date
+TechBridge Partners,Reseller,Gold,18,CloudSync Enterprise License,85000,Won,Accenture,2026-01-18
+TechBridge Partners,Reseller,Gold,18,Security Platform Overhaul,145000,Won,Databricks,2026-01-05
+TechBridge Partners,Reseller,Gold,18,API Gateway Enterprise,67000,Open,Figma,2026-02-10
+Apex Growth Group,Referral,Silver,20,DevOps Transformation Suite,42000,Won,Zendesk,2026-02-11
+Apex Growth Group,Referral,Silver,20,Customer Success Analytics,38000,Won,Intercom,2026-01-26
+Apex Growth Group,Referral,Silver,20,Revenue Intelligence Platform,95000,Open,HubSpot,2026-02-15
+Stackline Agency,Reseller,Bronze,15,Compliance Dashboard,48000,Won,Plaid,2026-02-01
+Stackline Agency,Reseller,Bronze,15,Data Analytics Platform,67000,Open,Salesforce,2026-02-08
+Northlight Solutions,Reseller,Gold,18,Identity Management Platform,175000,Won,Okta,2026-02-05
+Northlight Solutions,Reseller,Gold,18,Zero Trust Architecture,250000,Open,CrowdStrike,2026-02-18
+Clearpath Consulting,Referral,Bronze,10,Content Management System,33000,Won,Contentful,2026-01-10
+Clearpath Consulting,Referral,Bronze,10,Digital Experience Platform,72000,Open,Adobe,2026-02-12`;
+
+const RULE_TEMPLATES = [
+  "When @partner_tier is Gold, commission is 20%",
+  "When @deal_value > $100,000, commission is 15%",
+  "When @partner_type is Referral, commission is 10%",
+  "When @partner_tier is Platinum, commission is 25%",
+];
+
+/* ── Helpers ── */
+function parseCSV(text: string): { headers: string[]; rows: string[][] } {
+  const lines = text.trim().split("\n").map((l) => l.trim()).filter(Boolean);
+  if (lines.length === 0) return { headers: [], rows: [] };
+  const headers = lines[0].split(",").map((h) => h.trim());
+  const rows = lines.slice(1).map((l) => l.split(",").map((c) => c.trim()));
+  return { headers, rows };
 }
 
-interface CommissionRule {
-  type: string;
-  value: number;
-  unit: string;
-  label: string;
+function guessMapping(header: string): string {
+  const lower = header.toLowerCase().replace(/[^a-z]/g, "");
+  for (const [key, value] of Object.entries(FIELD_GUESS)) {
+    if (lower.includes(key)) return value;
+  }
+  return "_skip";
 }
 
-interface ProgramConfig {
-  programType: string;
-  programName?: string;
-  interactionTypes: InteractionType[];
-  attributionModel: string;
-  commissionRules: CommissionRule[];
-  enabledModules: string[];
-}
-
-function parseConfig(text: string): ProgramConfig | null {
-  const match = text.match(/```json\s*([\s\S]*?)```/);
-  if (!match) return null;
-  try {
-    const parsed = JSON.parse(match[1]);
-    if (
-      parsed.programType &&
-      Array.isArray(parsed.interactionTypes) &&
-      parsed.attributionModel &&
-      Array.isArray(parsed.commissionRules) &&
-      Array.isArray(parsed.enabledModules)
-    ) {
-      return {
-        programType: parsed.programType,
-        programName: parsed.programName,
-        interactionTypes: parsed.interactionTypes,
-        attributionModel: parsed.attributionModel,
-        commissionRules: parsed.commissionRules,
-        enabledModules: parsed.enabledModules,
-      };
+function parseRuleText(text: string, mappedFields: string[]): ParsedRule[] {
+  const rules: ParsedRule[] = [];
+  const lines = text.split("\n").filter((l) => l.trim());
+  for (const line of lines) {
+    // Match: When @field is VALUE, action is VALUE
+    const isMatch = line.match(/when\s+@(\w+)\s+is\s+(\w+).*?commission\s+is\s+(\d+)%/i);
+    if (isMatch) {
+      rules.push({
+        id: Math.random().toString(36).slice(2),
+        field: isMatch[1], operator: "is", value: isMatch[2],
+        action: "commission", actionValue: isMatch[3] + "%",
+      });
+      continue;
     }
-  } catch {
-    // ignore parse errors during streaming
+    // Match: When @field > NUMBER, action
+    const gtMatch = line.match(/when\s+@(\w+)\s*>\s*\$?([\d,]+).*?commission\s+is\s+(\d+)%/i);
+    if (gtMatch) {
+      rules.push({
+        id: Math.random().toString(36).slice(2),
+        field: gtMatch[1], operator: ">", value: "$" + gtMatch[2],
+        action: "commission", actionValue: gtMatch[3] + "%",
+      });
+    }
   }
-  return null;
+  return rules;
 }
 
-function getSessionId(): string {
-  if (typeof window === "undefined") return "";
-  let id = localStorage.getItem("covant_setup_session");
-  if (!id) {
-    id = crypto.randomUUID();
-    localStorage.setItem("covant_setup_session", id);
-  }
-  return id;
-}
+/* ── Steps ── */
+const STEPS = [
+  { label: "Import Data", icon: Upload },
+  { label: "Map Fields", icon: Table2 },
+  { label: "Set Rules", icon: Settings2 },
+  { label: "Review & Go", icon: Rocket },
+];
 
-function LivePreview({ config }: { config: ProgramConfig | null }) {
-  return (
-    <div className="setup-preview" style={{ width: 280, flexShrink: 0, alignSelf: "flex-start" }}>
-      <div className="card" style={{ padding: "1rem" }}>
-        <p style={{ fontWeight: 700, fontSize: ".85rem", marginBottom: ".75rem" }}>Your program</p>
-
-        {!config ? (
-          <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
-            <span className="setup-pulse-dot" />
-            <span className="muted" style={{ fontSize: ".8rem" }}>Listening...</span>
-          </div>
-        ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
-            <div>
-              <p className="muted" style={{ fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".25rem" }}>Type</p>
-              <span className="badge badge-info" style={{ fontSize: ".78rem", padding: ".25rem .6rem" }}>{config.programType}</span>
-            </div>
-
-            {config.interactionTypes.length > 0 && (
-              <div>
-                <p className="muted" style={{ fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".3rem" }}>Interactions</p>
-                <div style={{ display: "flex", gap: ".3rem", flexWrap: "wrap" }}>
-                  {config.interactionTypes.map((t) => (
-                    <span key={t.id} className="setup-chip">{t.label}</span>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div>
-              <p className="muted" style={{ fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".25rem" }}>Attribution</p>
-              <p style={{ fontSize: ".82rem", fontWeight: 600 }}>{config.attributionModel.replace(/_/g, " ")}</p>
-            </div>
-
-            <div>
-              <p className="muted" style={{ fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".25rem" }}>Modules</p>
-              <p style={{ fontSize: ".82rem", fontWeight: 600 }}>{config.enabledModules.length} enabled</p>
-            </div>
-
-            {config.commissionRules.length > 0 && (
-              <div>
-                <p className="muted" style={{ fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".25rem" }}>Payouts</p>
-                <p style={{ fontSize: ".82rem", fontWeight: 600 }}>{config.commissionRules.map(r => r.label).join(", ")}</p>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-export default function SetupPage() {
+/* ── Component ── */
+export default function SetupWizard() {
   const router = useRouter();
   const saveProgramConfig = useMutation(api.programConfig.save);
-  const [currentStep, setCurrentStep] = useState(1);
-  const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "Tell me about your partner program — what kind of partners do you work with, what activities matter to you, and how do you typically pay them? The more you share, the better I can configure things." }
-  ]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [config, setConfig] = useState<ProgramConfig | null>(null);
-  const [previewConfig, setPreviewConfig] = useState<ProgramConfig | null>(null);
-  const [configReady, setConfigReady] = useState(false);
-  const chatEndRef = useRef<HTMLDivElement>(null);
+  const [step, setStep] = useState(0);
+  const [saving, setSaving] = useState(false);
+  const [data, setData] = useState<WizardData>({
+    headers: [], rows: [], mappings: [], rules: [], ruleText: "", usedSample: false,
+  });
+  const [dragOver, setDragOver] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [showAutocomplete, setShowAutocomplete] = useState(false);
+  const [autocompleteFilter, setAutocompleteFilter] = useState("");
+  const [autocompletePos, setAutocompletePos] = useState({ top: 0, left: 0 });
 
+  // Derived
+  const mappedFields = useMemo(
+    () => data.mappings.filter((m) => m.mappedTo !== "_skip").map((m) => m.mappedTo),
+    [data.mappings]
+  );
+  const hasPartnerName = mappedFields.includes("partner_name");
+  const hasDealField = mappedFields.some((f) => f.startsWith("deal_"));
+  const canProceedStep1 = data.headers.length > 0;
+  const canProceedStep2 = hasPartnerName && hasDealField;
+  const canProceedStep3 = data.rules.length > 0;
+
+  const parsedRules = useMemo(
+    () => parseRuleText(data.ruleText, mappedFields),
+    [data.ruleText, mappedFields]
+  );
+
+  // Update rules when text changes
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+    if (parsedRules.length > 0) {
+      setData((d) => ({ ...d, rules: parsedRules }));
+    }
+  }, [parsedRules]);
 
-  const saveToConvex = useCallback(async (parsed: ProgramConfig) => {
-    const sessionId = getSessionId();
+  /* ── CSV Handling ── */
+  function handleCSV(text: string, isSample = false) {
+    const { headers, rows } = parseCSV(text);
+    const mappings: FieldMapping[] = headers.map((h) => ({
+      column: h,
+      mappedTo: guessMapping(h),
+      autoSuggested: guessMapping(h) !== "_skip",
+    }));
+    setData((d) => ({ ...d, headers, rows, mappings, usedSample: isSample }));
+  }
+
+  function handleFile(file: File) {
+    const reader = new FileReader();
+    reader.onload = (e) => handleCSV(e.target?.result as string);
+    reader.readAsText(file);
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setDragOver(false);
+    const file = e.dataTransfer.files[0];
+    if (file) handleFile(file);
+  }
+
+  /* ── @ Autocomplete ── */
+  function handleRuleKeyDown(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "@") {
+      setShowAutocomplete(true);
+      setAutocompleteFilter("");
+      // Position dropdown near cursor
+      const ta = textareaRef.current;
+      if (ta) {
+        setAutocompletePos({ top: ta.offsetTop + ta.offsetHeight + 4, left: ta.offsetLeft });
+      }
+    } else if (showAutocomplete) {
+      if (e.key === "Escape") {
+        setShowAutocomplete(false);
+      }
+    }
+  }
+
+  function handleRuleInput(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    const val = e.target.value;
+    setData((d) => ({ ...d, ruleText: val }));
+    // Track filter after last @
+    const lastAt = val.lastIndexOf("@");
+    if (lastAt >= 0 && showAutocomplete) {
+      setAutocompleteFilter(val.slice(lastAt + 1).split(/[\s,]/)[0].toLowerCase());
+    }
+  }
+
+  function insertField(fieldValue: string) {
+    const ta = textareaRef.current;
+    if (!ta) return;
+    const val = data.ruleText;
+    const lastAt = val.lastIndexOf("@");
+    const before = val.slice(0, lastAt);
+    const afterParts = val.slice(lastAt).split(/[\s,]/);
+    afterParts[0] = "@" + fieldValue;
+    const newText = before + afterParts.join(" ");
+    setData((d) => ({ ...d, ruleText: newText }));
+    setShowAutocomplete(false);
+    ta.focus();
+  }
+
+  const filteredFields = FIELD_OPTIONS.filter(
+    (f) => f.value !== "_skip" && mappedFields.includes(f.value) && f.value.includes(autocompleteFilter)
+  );
+
+  /* ── Save & Launch ── */
+  async function handleLaunch() {
+    setSaving(true);
     try {
+      const uniquePartners = new Set(data.rows.map((r) => {
+        const idx = data.mappings.findIndex((m) => m.mappedTo === "partner_name");
+        return idx >= 0 ? r[idx] : "";
+      }).filter(Boolean));
+
+      const commissionRules = data.rules.map((r) => ({
+        type: r.field,
+        value: parseFloat(r.actionValue) / 100,
+        unit: "percentage",
+        label: `When ${r.field} ${r.operator} ${r.value} → ${r.actionValue} commission`,
+      }));
+
       await saveProgramConfig({
-        sessionId,
-        programName: parsed.programName,
-        programType: parsed.programType,
-        interactionTypes: parsed.interactionTypes,
-        attributionModel: parsed.attributionModel,
-        commissionRules: parsed.commissionRules,
-        enabledModules: parsed.enabledModules,
-        rawConfig: JSON.stringify(parsed),
-      });
-    } catch (e) {
-      console.error("Failed to save config to Convex:", e);
-    }
-  }, [saveProgramConfig]);
-
-  async function sendToAI(msgs: Message[]) {
-    setLoading(true);
-    try {
-      const firstUserIdx = msgs.findIndex(m => m.role === "user");
-      const apiMessages = firstUserIdx >= 0 ? msgs.slice(firstUserIdx) : msgs;
-
-      const res = await fetch("/api/setup/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: apiMessages }),
+        sessionId: "setup-wizard-" + Date.now(),
+        programName: "My Partner Program",
+        programType: "reseller",
+        interactionTypes: [
+          { id: "deal_registration", label: "Deal Registration", weight: 1, triggersAttribution: true, triggersPayout: true },
+          { id: "referral", label: "Referral", weight: 0.8, triggersAttribution: true, triggersPayout: true },
+          { id: "demo", label: "Demo", weight: 0.5, triggersAttribution: true, triggersPayout: false },
+        ],
+        attributionModel: "deal_reg_protection",
+        commissionRules,
+        enabledModules: ["deals", "partners", "payouts", "reports", "scoring"],
+        rawConfig: JSON.stringify({
+          mappings: data.mappings,
+          rules: data.rules,
+          partnerCount: uniquePartners.size,
+          dealCount: data.rows.length,
+          usedSample: data.usedSample,
+        }),
       });
 
-      const reader = res.body?.getReader();
-      if (!reader) throw new Error("No reader");
-
-      const decoder = new TextDecoder();
-      let fullText = "";
-
-      const streamMessages = [...msgs, { role: "assistant" as const, content: "" }];
-      setMessages(streamMessages);
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        fullText += decoder.decode(value, { stream: true });
-        setMessages([...msgs, { role: "assistant" as const, content: fullText }]);
-
-        // Live preview: try parsing partial config
-        const partial = parseConfig(fullText);
-        if (partial) {
-          setPreviewConfig(partial);
-        }
-      }
-
-      // Check for config in final text
-      const parsed = parseConfig(fullText);
-      if (parsed) {
-        setConfig(parsed);
-        setPreviewConfig(parsed);
-        setConfigReady(true);
-        localStorage.setItem("covant_setup_config", JSON.stringify(parsed));
-        await saveToConvex(parsed);
-      }
+      router.push("/dashboard");
     } catch {
-      setMessages([...msgs, { role: "assistant", content: "Something went wrong. Please try again." }]);
+      setSaving(false);
     }
-    setLoading(false);
   }
 
-  async function handleSend() {
-    if (!input.trim() || loading) return;
-    const userMsg: Message = { role: "user", content: input.trim() };
-    const newMessages = [...messages, userMsg];
-    setMessages(newMessages);
-    setInput("");
-    await sendToAI(newMessages);
-  }
-
-  const stepLabels = ["Configure", "Connect", "Ready"];
+  /* ── Render ── */
+  const stepStyle = { display: "flex", flexDirection: "column" as const, gap: "1.5rem" };
 
   return (
-    <div style={{ minHeight: "100vh", background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
-      <style>{`
-        .setup-msg-user {
-          align-self: flex-end;
-          background: var(--fg);
-          color: var(--bg);
-          border-radius: 16px 16px 4px 16px;
-          padding: .75rem 1.1rem;
-          max-width: 75%;
-          font-size: .95rem;
-          line-height: 1.5;
-        }
-        .setup-msg-ai {
-          align-self: flex-start;
-          background: var(--subtle);
-          color: var(--fg);
-          border-radius: 16px 16px 16px 4px;
-          padding: .75rem 1.1rem;
-          max-width: 75%;
-          font-size: .95rem;
-          line-height: 1.5;
-        }
-        .setup-msg-ai strong { font-weight: 700; }
-        .setup-chat-input:focus { border-color: var(--fg); box-shadow: 0 0 0 3px rgba(255,255,255,.06); }
-        .setup-connect-btn:hover { border-color: var(--fg) !important; background: var(--subtle) !important; }
-        .setup-chip {
-          display: inline-block;
-          background: var(--info-bg);
-          color: var(--info);
-          padding: .3rem .7rem;
-          border-radius: 6px;
-          font-size: .8rem;
-          font-weight: 600;
-        }
-        .setup-typing span {
-          display: inline-block;
-          width: 6px; height: 6px;
-          background: var(--muted);
-          border-radius: 50%;
-          margin: 0 2px;
-          animation: setupBounce .6s infinite alternate;
-        }
-        .setup-typing span:nth-child(2) { animation-delay: .2s; }
-        .setup-typing span:nth-child(3) { animation-delay: .4s; }
-        @keyframes setupBounce { to { transform: translateY(-4px); opacity: .4; } }
-        @keyframes pulseGlow {
-          0%, 100% { filter: drop-shadow(0 0 4px #10b981); }
-          50% { filter: drop-shadow(0 0 16px #10b981) drop-shadow(0 0 32px #10b98166); }
-        }
-        .pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
-        .setup-pulse-dot {
-          width: 8px; height: 8px;
-          border-radius: 50%;
-          background: var(--muted);
-          animation: setupPulse 1.5s ease-in-out infinite;
-        }
-        @keyframes setupPulse {
-          0%, 100% { opacity: .4; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.3); }
-        }
-        @media (max-width: 768px) {
-          .setup-preview { display: none !important; }
-          .setup-step1-layout { flex-direction: column !important; }
-        }
-        .setup-next-link {
-          color: var(--muted);
-          text-decoration: underline;
-          text-underline-offset: 3px;
-          font-size: .85rem;
-          cursor: pointer;
-          background: none;
-          border: none;
-          font-family: inherit;
-        }
-        .setup-next-link:hover { color: var(--fg); }
-      `}</style>
-
-      <div style={{ maxWidth: currentStep === 1 ? "1020px" : "700px", width: "100%", transition: "max-width .3s" }}>
-        {/* Progress */}
-        <div style={{ marginBottom: "2rem" }}>
-          <div style={{ display: "flex", gap: "1rem", marginBottom: ".5rem" }}>
-            {[1, 2, 3].map((s) => (
-              <div key={s} style={{ flex: 1, height: "4px", background: s <= currentStep ? "var(--fg)" : "var(--border)", borderRadius: "2px", transition: "background .3s" }} />
-            ))}
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {stepLabels.map((label, i) => (
-              <p key={label} className="muted" style={{ fontSize: ".8rem", fontWeight: i + 1 === currentStep ? 600 : 400, color: i + 1 === currentStep ? "var(--fg)" : undefined }}>{label}</p>
-            ))}
-          </div>
-        </div>
-
-        {/* Step 1: Conversation */}
-        {currentStep === 1 && (
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: ".6rem", marginBottom: ".5rem" }}>
-              <MessageSquare size={20} />
-              <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Set up your program</h1>
-            </div>
-            <p className="muted" style={{ marginBottom: "1.5rem" }}>Describe your program in your own words. We&apos;ll handle the rest.</p>
-
-            <div className="setup-step1-layout" style={{ display: "flex", gap: "1.25rem" }}>
-              {/* Chat */}
-              <div className="card" style={{ padding: 0, overflow: "hidden", flex: 1 }}>
-                <div style={{ height: "420px", overflowY: "auto", padding: "1.25rem", display: "flex", flexDirection: "column", gap: ".75rem" }}>
-                  {messages.map((m, i) => (
-                    <div key={i} className={m.role === "user" ? "setup-msg-user" : "setup-msg-ai"} dangerouslySetInnerHTML={{ __html: m.content.replace(/```json[\s\S]*?```/g, "").replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\n/g, "<br/>") }} />
-                  ))}
-                  {loading && messages[messages.length - 1]?.content === "" && (
-                    <div className="setup-msg-ai setup-typing"><span /><span /><span /></div>
-                  )}
-                  <div ref={chatEndRef} />
+    <div style={{ minHeight: "100vh", background: "#0a0a0f", color: "#e2e8f0" }}>
+      {/* Progress Bar */}
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "2rem 1.5rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 0, marginBottom: "2.5rem" }}>
+          {STEPS.map((s, i) => {
+            const Icon = s.icon;
+            const active = i === step;
+            const done = i < step;
+            return (
+              <div key={i} style={{ display: "flex", alignItems: "center", flex: i < STEPS.length - 1 ? 1 : "none" }}>
+                <div
+                  onClick={() => i < step && setStep(i)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 8, cursor: i < step ? "pointer" : "default",
+                    opacity: active ? 1 : done ? 0.8 : 0.35,
+                  }}
+                >
+                  <div style={{
+                    width: 36, height: 36, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center",
+                    background: done ? "#22c55e" : active ? "#6366f1" : "#1e1e2e",
+                    border: active ? "2px solid #6366f1" : "1px solid #2a2a3a",
+                  }}>
+                    {done ? <Check size={16} color="#fff" /> : <Icon size={16} color={active ? "#fff" : "#64748b"} />}
+                  </div>
+                  <span style={{ fontSize: ".8rem", fontWeight: 600, whiteSpace: "nowrap" }}>{s.label}</span>
                 </div>
-
-                {!configReady ? (
-                  <div style={{ borderTop: "1px solid var(--border)", padding: ".75rem", display: "flex", gap: ".5rem" }}>
-                    <input
-                      className="setup-chat-input"
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                      placeholder="Type your answer..."
-                      disabled={loading}
-                      style={{ flex: 1, padding: ".65rem 1rem", border: "1px solid var(--border)", borderRadius: "10px", fontSize: ".95rem", fontFamily: "inherit", outline: "none", background: "var(--subtle)", color: "var(--fg)", transition: "border-color .2s, box-shadow .2s" }}
-                    />
-                    <button className="btn" onClick={handleSend} disabled={loading || !input.trim()} style={{ padding: ".65rem .9rem" }}>
-                      <Send size={18} />
-                    </button>
-                  </div>
-                ) : (
-                  <div style={{ borderTop: "1px solid var(--border)", padding: "1rem", textAlign: "center" }}>
-                    <button className="btn" onClick={() => setCurrentStep(2)} style={{ background: "var(--fg)", color: "var(--bg)", fontWeight: 700, padding: ".7rem 2rem" }}>
-                      Looks good →
-                    </button>
-                  </div>
+                {i < STEPS.length - 1 && (
+                  <div style={{ flex: 1, height: 2, background: done ? "#22c55e" : "#1e1e2e", margin: "0 12px", borderRadius: 1 }} />
                 )}
               </div>
+            );
+          })}
+        </div>
 
-              {/* Live Preview (desktop only) */}
-              <LivePreview config={previewConfig} />
-            </div>
-          </div>
-        )}
-
-        {/* Step 2: Connect Data */}
-        {currentStep === 2 && (
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: ".6rem", marginBottom: ".5rem" }}>
-              <Database size={20} />
-              <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Connect your data</h1>
-            </div>
-            <p className="muted" style={{ marginBottom: "2rem" }}>Bring in your existing partner and deal data.</p>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-              <button className="card setup-connect-btn" onClick={() => router.push("/dashboard/integrations")} style={{ display: "flex", alignItems: "center", gap: "1rem", cursor: "pointer", border: "1px solid var(--border)", transition: "all .2s", textAlign: "left" }}>
-                <div style={{ width: 44, height: 44, borderRadius: 10, background: "#0070f3", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <SalesforceLogo />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontWeight: 700, fontSize: "1.05rem" }}>Connect Salesforce</p>
-                  <p className="muted" style={{ fontSize: ".85rem" }}>Import deals, contacts, and partner data</p>
-                </div>
-                <ExternalLink size={16} style={{ color: "var(--muted)" }} />
-              </button>
-
-              <button className="card setup-connect-btn" onClick={() => router.push("/dashboard/integrations")} style={{ display: "flex", alignItems: "center", gap: "1rem", cursor: "pointer", border: "1px solid var(--border)", transition: "all .2s", textAlign: "left" }}>
-                <div style={{ width: 44, height: 44, borderRadius: 10, background: "#ff7a59", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <HubSpotLogo />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontWeight: 700, fontSize: "1.05rem" }}>Connect HubSpot</p>
-                  <p className="muted" style={{ fontSize: ".85rem" }}>Sync your CRM pipeline and contacts</p>
-                </div>
-                <ExternalLink size={16} style={{ color: "var(--muted)" }} />
-              </button>
+        {/* ══════════════ STEP 1: Import Data ══════════════ */}
+        {step === 0 && (
+          <div style={stepStyle}>
+            <div>
+              <h1 style={{ fontSize: "1.75rem", fontWeight: 800, marginBottom: 4 }}>Import your data</h1>
+              <p style={{ color: "#94a3b8", fontSize: ".9rem" }}>Upload a CSV with your partner and deal data, or use our sample dataset to explore.</p>
             </div>
 
-            <div style={{ marginTop: "2rem", textAlign: "center" }}>
-              <button onClick={() => setCurrentStep(3)} style={{ background: "none", border: "none", color: "var(--muted)", cursor: "pointer", fontSize: ".95rem", fontFamily: "inherit", textDecoration: "underline", textUnderlineOffset: "3px" }}>
-                Skip for now →
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: Ready */}
-        {currentStep === 3 && config && (
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: ".6rem", marginBottom: ".25rem" }}>
-              <CheckCircle size={24} style={{ color: "#10b981" }} className="pulse-glow" />
-              <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>You&apos;re live.</h1>
-            </div>
-            <p className="muted" style={{ marginBottom: "2rem" }}>Covant is configured for your program. Here&apos;s what we set up:</p>
-
-            <div className="card" style={{ marginBottom: "1.5rem" }}>
-              <div style={{ marginBottom: "1.5rem" }}>
-                <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".4rem" }}>Program Type</p>
-                <span className="badge badge-info" style={{ fontSize: ".85rem", padding: ".35rem .8rem" }}>{config.programType}</span>
-              </div>
-
-              <div style={{ marginBottom: "1.5rem" }}>
-                <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".5rem" }}>Interaction Types</p>
-                <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap" }}>
-                  {config.interactionTypes.map((item) => (
-                    <span key={item.id} className="setup-chip">{item.label}</span>
-                  ))}
-                </div>
-              </div>
-
-              <div style={{ marginBottom: "1.5rem", paddingTop: "1.5rem", borderTop: "1px solid var(--border)" }}>
-                <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".4rem" }}>Attribution Model</p>
-                <p style={{ fontSize: "1rem", fontWeight: 600 }}>{config.attributionModel.replace(/_/g, " ")}</p>
-              </div>
-
-              <div style={{ marginBottom: "1.5rem", paddingTop: "1.5rem", borderTop: "1px solid var(--border)" }}>
-                <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".4rem" }}>Payout Structure</p>
-                {config.commissionRules.map((r, i) => (
-                  <p key={i} style={{ fontSize: "1rem", fontWeight: 600 }}>{r.label}</p>
-                ))}
-              </div>
-
-              <div style={{ paddingTop: "1.5rem", borderTop: "1px solid var(--border)" }}>
-                <p className="muted" style={{ fontSize: ".75rem", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".4rem" }}>Enabled Modules</p>
-                <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap" }}>
-                  {config.enabledModules.map((m) => (
-                    <span key={m} className="setup-chip">{m.replace(/_/g, " ")}</span>
-                  ))}
-                </div>
-              </div>
+            {/* Drop Zone */}
+            <div
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={handleDrop}
+              onClick={() => fileRef.current?.click()}
+              style={{
+                padding: "3rem 2rem", borderRadius: 12, textAlign: "center", cursor: "pointer",
+                border: `2px dashed ${dragOver ? "#6366f1" : data.headers.length > 0 ? "#22c55e50" : "#2a2a3a"}`,
+                background: dragOver ? "#6366f108" : data.headers.length > 0 ? "#22c55e08" : "#0f0f18",
+                transition: "all .2s",
+              }}
+            >
+              <input ref={fileRef} type="file" accept=".csv" style={{ display: "none" }} onChange={(e) => e.target.files?.[0] && handleFile(e.target.files[0])} />
+              {data.headers.length > 0 ? (
+                <>
+                  <FileSpreadsheet size={36} style={{ color: "#22c55e", marginBottom: 8 }} />
+                  <p style={{ fontWeight: 700, color: "#22c55e" }}>
+                    {data.usedSample ? "Sample data loaded" : "CSV uploaded"} — {data.rows.length} rows, {data.headers.length} columns
+                  </p>
+                  <p style={{ color: "#94a3b8", fontSize: ".8rem", marginTop: 4 }}>Click to upload a different file</p>
+                </>
+              ) : (
+                <>
+                  <Upload size={36} style={{ color: "#6366f1", marginBottom: 8 }} />
+                  <p style={{ fontWeight: 700 }}>Drag & drop your CSV here</p>
+                  <p style={{ color: "#94a3b8", fontSize: ".8rem", marginTop: 4 }}>or click to browse · CSV format, first row as headers</p>
+                </>
+              )}
             </div>
 
-            <button className="btn" onClick={() => { localStorage.setItem("covant_setup_complete", "true"); router.push("/dashboard"); }} style={{ width: "100%", background: "var(--fg)", color: "var(--bg)", fontWeight: 700, padding: ".85rem", fontSize: "1.1rem", marginBottom: "1rem" }}>
-              Open your dashboard →
+            {/* Sample Data Button */}
+            <button
+              onClick={() => handleCSV(SAMPLE_CSV, true)}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8, padding: "10px 20px",
+                borderRadius: 8, border: "1px solid #2a2a3a", background: "#0f0f18", color: "#94a3b8",
+                fontSize: ".85rem", fontWeight: 600, cursor: "pointer", fontFamily: "inherit",
+              }}
+            >
+              <Sparkles size={16} style={{ color: "#6366f1" }} />
+              Use sample data (Horizon Software — 5 partners, 12 deals)
             </button>
 
-            <p style={{ textAlign: "center", fontSize: ".85rem", color: "var(--muted)" }}>
-              Next:{" "}
-              <button className="setup-next-link" onClick={() => { localStorage.setItem("covant_setup_complete", "true"); router.push("/dashboard/partners"); }}>
-                Add your first partner →
+            {/* Preview Table */}
+            {data.headers.length > 0 && (
+              <div style={{ borderRadius: 10, border: "1px solid #1e1e2e", overflow: "hidden" }}>
+                <div style={{ padding: "10px 14px", background: "#111118", fontSize: ".75rem", fontWeight: 600, color: "#94a3b8" }}>
+                  Preview (first 5 rows)
+                </div>
+                <div style={{ overflowX: "auto" }}>
+                  <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".8rem" }}>
+                    <thead>
+                      <tr>
+                        {data.headers.map((h, i) => (
+                          <th key={i} style={{ padding: "8px 12px", textAlign: "left", fontWeight: 700, color: "#e2e8f0", background: "#0f0f18", borderBottom: "1px solid #1e1e2e", whiteSpace: "nowrap" }}>{h}</th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.rows.slice(0, 5).map((row, ri) => (
+                        <tr key={ri}>
+                          {row.map((cell, ci) => (
+                            <td key={ci} style={{ padding: "6px 12px", color: "#94a3b8", borderBottom: "1px solid #1e1e2e10", whiteSpace: "nowrap" }}>{cell}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ══════════════ STEP 2: Map Fields ══════════════ */}
+        {step === 1 && (
+          <div style={stepStyle}>
+            <div>
+              <h1 style={{ fontSize: "1.75rem", fontWeight: 800, marginBottom: 4 }}>Map your fields</h1>
+              <p style={{ color: "#94a3b8", fontSize: ".9rem" }}>Tell us what each column represents. We&apos;ve auto-detected what we can.</p>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {data.mappings.map((m, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 8, background: "#0f0f18", border: "1px solid #1e1e2e" }}>
+                  <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8 }}>
+                    <code style={{ fontSize: ".8rem", color: "#e2e8f0", fontWeight: 600 }}>{m.column}</code>
+                    {m.autoSuggested && m.mappedTo !== "_skip" && (
+                      <span style={{ fontSize: ".6rem", padding: "1px 6px", borderRadius: 4, background: "#6366f118", color: "#6366f1", fontWeight: 700 }}>auto</span>
+                    )}
+                  </div>
+                  <ArrowRight size={14} style={{ color: "#3a3a4a", flexShrink: 0 }} />
+                  <select
+                    value={m.mappedTo}
+                    onChange={(e) => {
+                      const newMappings = [...data.mappings];
+                      newMappings[i] = { ...m, mappedTo: e.target.value, autoSuggested: false };
+                      setData((d) => ({ ...d, mappings: newMappings }));
+                    }}
+                    style={{
+                      width: 180, padding: "6px 10px", borderRadius: 6, fontSize: ".8rem",
+                      background: "#1a1a28", border: "1px solid #2a2a3a", color: m.mappedTo === "_skip" ? "#64748b" : "#e2e8f0",
+                      fontFamily: "inherit", cursor: "pointer",
+                    }}
+                  >
+                    {FIELD_OPTIONS.map((f) => (
+                      <option key={f.value} value={f.value}>{f.label}</option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+            </div>
+
+            {/* Mapped fields preview */}
+            <div style={{ padding: "12px 14px", borderRadius: 8, background: "#6366f108", border: "1px solid #6366f120" }}>
+              <div style={{ fontSize: ".75rem", fontWeight: 700, color: "#6366f1", marginBottom: 6 }}>Available @ fields for rules</div>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                {mappedFields.length > 0 ? mappedFields.map((f) => (
+                  <span key={f} style={{ padding: "3px 10px", borderRadius: 6, background: "#6366f120", color: "#a5b4fc", fontSize: ".75rem", fontWeight: 600 }}>@{f}</span>
+                )) : (
+                  <span style={{ color: "#64748b", fontSize: ".8rem" }}>Map fields above to create @ references</span>
+                )}
+              </div>
+            </div>
+
+            {!canProceedStep2 && (
+              <div style={{ fontSize: ".8rem", color: "#f59e0b", padding: "8px 12px", borderRadius: 6, background: "#f59e0b08", border: "1px solid #f59e0b20" }}>
+                {!hasPartnerName && "⚠ Map at least one column to Partner Name. "}
+                {!hasDealField && "⚠ Map at least one column to a Deal field (Value, Status, or Date)."}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ══════════════ STEP 3: Natural Language Rules ══════════════ */}
+        {step === 2 && (
+          <div style={stepStyle}>
+            <div>
+              <h1 style={{ fontSize: "1.75rem", fontWeight: 800, marginBottom: 4 }}>Configure your rules</h1>
+              <p style={{ color: "#94a3b8", fontSize: ".9rem" }}>Type rules in plain English. Use @field to reference your data. Or pick a template below.</p>
+            </div>
+
+            {/* Templates */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              {RULE_TEMPLATES.filter((t) => {
+                const fieldMatch = t.match(/@(\w+)/);
+                return !fieldMatch || mappedFields.includes(fieldMatch[1]);
+              }).map((t, i) => (
+                <button
+                  key={i}
+                  onClick={() => setData((d) => ({ ...d, ruleText: d.ruleText ? d.ruleText + "\n" + t : t }))}
+                  style={{
+                    padding: "6px 12px", borderRadius: 8, fontSize: ".78rem", fontWeight: 600,
+                    border: "1px solid #2a2a3a", background: "#0f0f18", color: "#94a3b8",
+                    cursor: "pointer", fontFamily: "inherit", textAlign: "left",
+                  }}
+                >
+                  <Zap size={12} style={{ marginRight: 4, verticalAlign: "middle", color: "#6366f1" }} />
+                  {t}
+                </button>
+              ))}
+            </div>
+
+            {/* Textarea with @ autocomplete */}
+            <div style={{ position: "relative" }}>
+              <textarea
+                ref={textareaRef}
+                value={data.ruleText}
+                onChange={handleRuleInput}
+                onKeyDown={handleRuleKeyDown}
+                placeholder={"Type your rules here...\nExample: When @partner_tier is Gold, commission is 20%"}
+                rows={6}
+                style={{
+                  width: "100%", padding: "14px", borderRadius: 10, fontSize: ".9rem",
+                  background: "#0f0f18", border: "1px solid #2a2a3a", color: "#e2e8f0",
+                  fontFamily: "inherit", resize: "vertical", lineHeight: 1.6,
+                }}
+              />
+
+              {/* Autocomplete dropdown */}
+              {showAutocomplete && filteredFields.length > 0 && (
+                <div style={{
+                  position: "absolute", top: "100%", left: 0, marginTop: 4, zIndex: 50,
+                  background: "#1a1a28", border: "1px solid #2a2a3a", borderRadius: 8,
+                  boxShadow: "0 8px 24px rgba(0,0,0,.5)", overflow: "hidden", minWidth: 200,
+                }}>
+                  {filteredFields.map((f) => (
+                    <button
+                      key={f.value}
+                      onClick={() => insertField(f.value)}
+                      style={{
+                        display: "block", width: "100%", padding: "8px 14px", textAlign: "left",
+                        background: "transparent", border: "none", color: "#e2e8f0",
+                        fontSize: ".8rem", cursor: "pointer", fontFamily: "inherit",
+                      }}
+                      onMouseOver={(e) => (e.currentTarget.style.background = "#6366f118")}
+                      onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
+                    >
+                      <AtSign size={12} style={{ marginRight: 6, color: "#6366f1", verticalAlign: "middle" }} />
+                      <span style={{ fontWeight: 600 }}>{f.value}</span>
+                      <span style={{ marginLeft: 8, color: "#64748b" }}>{f.label}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Live rule preview */}
+            <div style={{ borderRadius: 10, border: "1px solid #1e1e2e", overflow: "hidden" }}>
+              <div style={{ padding: "10px 14px", background: "#111118", fontSize: ".75rem", fontWeight: 700, color: "#94a3b8" }}>
+                Rules I understood ({parsedRules.length})
+              </div>
+              {parsedRules.length > 0 ? (
+                <div style={{ padding: "10px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
+                  {parsedRules.map((r) => (
+                    <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderRadius: 8, background: "#22c55e08", border: "1px solid #22c55e20" }}>
+                      <Check size={14} style={{ color: "#22c55e", flexShrink: 0 }} />
+                      <span style={{ fontSize: ".85rem" }}>
+                        When <span style={{ padding: "1px 6px", borderRadius: 4, background: "#6366f120", color: "#a5b4fc", fontWeight: 600 }}>@{r.field}</span>
+                        {" "}{r.operator}{" "}
+                        <strong>{r.value}</strong> → commission is <strong style={{ color: "#22c55e" }}>{r.actionValue}</strong>
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ padding: "2rem", textAlign: "center", color: "#64748b", fontSize: ".85rem" }}>
+                  Type or select rules above to see them parsed here
+                </div>
+              )}
+            </div>
+
+            {/* Use defaults button */}
+            {parsedRules.length === 0 && (
+              <button
+                onClick={() => {
+                  const defaultRules: ParsedRule[] = [
+                    { id: "d1", field: "partner_tier", operator: "is", value: "Gold", action: "commission", actionValue: "20%" },
+                    { id: "d2", field: "partner_tier", operator: "is", value: "Silver", action: "commission", actionValue: "15%" },
+                    { id: "d3", field: "partner_tier", operator: "is", value: "Bronze", action: "commission", actionValue: "10%" },
+                  ];
+                  setData((d) => ({
+                    ...d,
+                    rules: defaultRules,
+                    ruleText: "When @partner_tier is Gold, commission is 20%\nWhen @partner_tier is Silver, commission is 15%\nWhen @partner_tier is Bronze, commission is 10%",
+                  }));
+                }}
+                style={{
+                  padding: "10px 20px", borderRadius: 8, border: "1px solid #2a2a3a",
+                  background: "#0f0f18", color: "#94a3b8", fontSize: ".85rem", fontWeight: 600,
+                  cursor: "pointer", fontFamily: "inherit",
+                }}
+              >
+                Use default rules (tier-based commissions)
               </button>
-              {" "}or{" "}
-              <button className="setup-next-link" onClick={() => { localStorage.setItem("covant_setup_complete", "true"); router.push("/dashboard/integrations"); }}>
-                Import from CRM →
-              </button>
-            </p>
+            )}
+          </div>
+        )}
+
+        {/* ══════════════ STEP 4: Review & Go ══════════════ */}
+        {step === 3 && (
+          <div style={stepStyle}>
+            <div>
+              <h1 style={{ fontSize: "1.75rem", fontWeight: 800, marginBottom: 4 }}>Ready to launch</h1>
+              <p style={{ color: "#94a3b8", fontSize: ".9rem" }}>Here&apos;s what we&apos;ll set up for you.</p>
+            </div>
+
+            {/* Summary Cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+              {(() => {
+                const partnerIdx = data.mappings.findIndex((m) => m.mappedTo === "partner_name");
+                const uniquePartners = new Set(data.rows.map((r) => partnerIdx >= 0 ? r[partnerIdx] : "").filter(Boolean));
+                return [
+                  { label: "Partners", value: uniquePartners.size, color: "#6366f1" },
+                  { label: "Deals", value: data.rows.length, color: "#22c55e" },
+                  { label: "Rules", value: data.rules.length, color: "#f59e0b" },
+                ];
+              })().map((s) => (
+                <div key={s.label} style={{ padding: "1.25rem", borderRadius: 10, background: "#0f0f18", border: "1px solid #1e1e2e", textAlign: "center" }}>
+                  <div style={{ fontSize: "2rem", fontWeight: 900, color: s.color }}>{s.value}</div>
+                  <div style={{ fontSize: ".8rem", color: "#94a3b8", fontWeight: 600 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Field Mappings */}
+            <div style={{ borderRadius: 10, border: "1px solid #1e1e2e", overflow: "hidden" }}>
+              <div style={{ padding: "10px 14px", background: "#111118", fontSize: ".75rem", fontWeight: 700, color: "#94a3b8" }}>Field Mappings</div>
+              <div style={{ padding: "10px 14px", display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {data.mappings.filter((m) => m.mappedTo !== "_skip").map((m) => (
+                  <div key={m.column} style={{ padding: "4px 10px", borderRadius: 6, background: "#1a1a28", fontSize: ".78rem" }}>
+                    <span style={{ color: "#64748b" }}>{m.column}</span>
+                    <span style={{ margin: "0 6px", color: "#3a3a4a" }}>→</span>
+                    <span style={{ color: "#a5b4fc", fontWeight: 600 }}>@{m.mappedTo}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Rules */}
+            <div style={{ borderRadius: 10, border: "1px solid #1e1e2e", overflow: "hidden" }}>
+              <div style={{ padding: "10px 14px", background: "#111118", fontSize: ".75rem", fontWeight: 700, color: "#94a3b8" }}>Commission Rules</div>
+              <div style={{ padding: "10px 14px", display: "flex", flexDirection: "column", gap: 6 }}>
+                {data.rules.map((r) => (
+                  <div key={r.id} style={{ padding: "6px 12px", borderRadius: 6, background: "#22c55e08", border: "1px solid #22c55e20", fontSize: ".85rem" }}>
+                    When <strong>@{r.field}</strong> {r.operator} <strong>{r.value}</strong> → <strong style={{ color: "#22c55e" }}>{r.actionValue}</strong> commission
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Launch Button */}
+            <button
+              onClick={handleLaunch}
+              disabled={saving}
+              style={{
+                display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+                padding: "14px 28px", borderRadius: 10, border: "none",
+                background: saving ? "#4a4a5a" : "linear-gradient(135deg, #6366f1, #8b5cf6)",
+                color: "#fff", fontSize: "1rem", fontWeight: 700, cursor: saving ? "default" : "pointer",
+                fontFamily: "inherit",
+              }}
+            >
+              {saving ? "Setting up..." : <><Rocket size={18} /> Launch Covant →</>}
+            </button>
+          </div>
+        )}
+
+        {/* ── Navigation ── */}
+        {step < 3 && (
+          <div style={{ display: "flex", justifyContent: "space-between", marginTop: "2rem" }}>
+            <button
+              onClick={() => setStep((s) => Math.max(0, s - 1))}
+              disabled={step === 0}
+              style={{
+                display: "flex", alignItems: "center", gap: 6, padding: "8px 16px",
+                borderRadius: 8, border: "1px solid #2a2a3a", background: "transparent",
+                color: step === 0 ? "#3a3a4a" : "#94a3b8", fontSize: ".85rem", fontWeight: 600,
+                cursor: step === 0 ? "default" : "pointer", fontFamily: "inherit",
+              }}
+            >
+              <ChevronLeft size={16} /> Back
+            </button>
+            <button
+              onClick={() => setStep((s) => Math.min(3, s + 1))}
+              disabled={(step === 0 && !canProceedStep1) || (step === 1 && !canProceedStep2) || (step === 2 && !canProceedStep3)}
+              style={{
+                display: "flex", alignItems: "center", gap: 6, padding: "8px 20px",
+                borderRadius: 8, border: "none",
+                background: ((step === 0 && canProceedStep1) || (step === 1 && canProceedStep2) || (step === 2 && canProceedStep3))
+                  ? "#6366f1" : "#2a2a3a",
+                color: "#fff", fontSize: ".85rem", fontWeight: 600,
+                cursor: ((step === 0 && canProceedStep1) || (step === 1 && canProceedStep2) || (step === 2 && canProceedStep3))
+                  ? "pointer" : "default",
+                fontFamily: "inherit",
+              }}
+            >
+              Continue <ChevronRight size={16} />
+            </button>
           </div>
         )}
       </div>
