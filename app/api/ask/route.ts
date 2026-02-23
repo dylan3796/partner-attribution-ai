@@ -143,13 +143,14 @@ function buildContext(): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const { question } = await req.json();
+    const { question, context: clientContext } = await req.json();
 
     if (!question || typeof question !== "string") {
       return NextResponse.json({ error: "Missing question" }, { status: 400 });
     }
 
-    const context = buildContext();
+    // Use client-provided context (real Convex data) if available, otherwise fall back to demo data
+    const context = (typeof clientContext === "string" && clientContext.length > 10) ? clientContext : buildContext();
     const userContent = `Here is the current partner program data:\n\n<data>\n${context}\n</data>\n\nQuestion: ${question}`;
 
     // ── 1. Try Kimi K2.5 via NVIDIA NIM (free) ──────────────────────────────

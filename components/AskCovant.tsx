@@ -5,6 +5,8 @@ import { MessageCircle, X, Send, Sparkles, Trash2, Zap } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { useStore } from "@/lib/store";
 import { askCovant, processQuery, type QueryContext } from "@/lib/ask-engine";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 type Message = {
   id: string;
@@ -33,6 +35,82 @@ export default function AskCovant() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const store = useStore();
+
+  // Real Convex data
+  const convexPartners = useQuery(api.partners.listWithStats) ?? [];
+  const convexDeals = useQuery(api.dealsCrud.list) ?? [];
+  const convexPayouts = useQuery(api.payouts.list) ?? [];
+
+  const buildConvexContext = useCallback((): string | undefined => {
+    if (convexPartners.length === 0 && convexDeals.length === 0) return undefined;
+
+    const wonDeals = convexDeals.filter((d: any) => d.status === "won");
+    const openDeals = convexDeals.filter((d: any) => d.status === "open");
+    const lostDeals = convexDeals.filter((d: any) => d.status === "lost");
+    const totalRevenue = wonDeals.reduce((s: number, d: any) => s + (d.amount || 0), 0);
+    const pipelineValue = openDeals.reduce((s: number, d: any) => s + (d.amount || 0), 0);
+    const winRate = (wonDeals.length + lostDeals.length) > 0
+      ? Math.round((wonDeals.length / (wonDeals.length + lostDeals.length)) * 100)
+      : 0;
+
+    const stats = {
+      totalRevenue,
+      pipelineValue,
+      totalDeals: convexDeals.length,
+      wonDeals: wonDeals.length,
+      openDeals: openDeals.length,
+      lostDeals: lostDeals.length,
+      winRate: `${winRate}%`,
+      avgDealSize: wonDeals.length > 0 ? Math.round(totalRevenue / wonDeals.length) : 0,
+      activePartners: convexPartners.filter((p: any) => p.status === "active").length,
+      totalPartners: convexPartners.length,
+    };
+
+    const partnerSummary = convexPartners
+      .sort((a: any, b: any) => (b.revenue || 0) - (a.revenue || 0))
+      .slice(0, 15)
+      .map((p: any) => ({
+        name: p.name,
+        type: p.type,
+        tier: p.tier,
+        status: p.status,
+        commissionRate: p.commissionRate ? `${p.commissionRate}%` : undefined,
+        revenue: p.revenue || 0,
+        dealCount: p.dealCount || 0,
+        wonDealCount: p.wonDealCount || 0,
+        totalPaid: p.totalPaid || 0,
+        territory: p.territory || undefined,
+      }));
+
+    const dealSummary = convexDeals.slice(0, 20).map((d: any) => ({
+      name: d.name,
+      amount: d.amount,
+      status: d.status,
+      closedAt: d.closedAt ? new Date(d.closedAt).toISOString().split("T")[0] : null,
+      expectedClose: d.expectedCloseDate ? new Date(d.expectedCloseDate).toISOString().split("T")[0] : null,
+      registrationStatus: d.registrationStatus || null,
+    }));
+
+    const payoutSummary = convexPayouts.slice(0, 15).map((p: any) => ({
+      amount: p.amount,
+      status: p.status,
+      period: p.period || undefined,
+    }));
+
+    const totalPaidOut = convexPayouts
+      .filter((p: any) => p.status === "paid")
+      .reduce((s: number, p: any) => s + (p.amount || 0), 0);
+    const pendingPayouts = convexPayouts
+      .filter((p: any) => p.status === "pending_approval")
+      .reduce((s: number, p: any) => s + (p.amount || 0), 0);
+
+    return JSON.stringify({
+      stats: { ...stats, totalPaidOut, pendingPayouts },
+      partners: partnerSummary,
+      deals: dealSummary,
+      payouts: payoutSummary,
+    });
+  }, [convexPartners, convexDeals, convexPayouts]);
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -82,7 +160,8 @@ export default function AskCovant() {
 
     try {
       const ctx = buildContext();
-      const result = await askCovant(q, ctx);
+      const convexCtx = buildConvexContext();
+      const result = await askCovant(q, ctx, convexCtx);
 
       const assistantMsg: Message = {
         id: `a_${Date.now()}`,
@@ -109,7 +188,7 @@ export default function AskCovant() {
     } finally {
       setIsProcessing(false);
     }
-  }, [input, isProcessing, buildContext]);
+  }, [input, isProcessing, buildContext, buildConvexContext]);
 
   const handleExampleClick = useCallback(async (query: string) => {
     if (isProcessing) return;
@@ -126,7 +205,8 @@ export default function AskCovant() {
 
     try {
       const ctx = buildContext();
-      const result = await askCovant(query, ctx);
+      const convexCtx = buildConvexContext();
+      const result = await askCovant(query, ctx, convexCtx);
 
       const assistantMsg: Message = {
         id: `a_${Date.now()}`,
@@ -151,7 +231,7 @@ export default function AskCovant() {
     } finally {
       setIsProcessing(false);
     }
-  }, [isProcessing, buildContext]);
+  }, [isProcessing, buildContext, buildConvexContext]);
 
   const clearHistory = useCallback(() => {
     setMessages([]);
