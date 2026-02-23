@@ -202,7 +202,7 @@ export default function UseCasesPage() {
           <p style={{ color: "#666", marginBottom: "1.5rem" }}>Explore the live demo — no signup required.</p>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
             <Link href="/dashboard" style={{ padding: "12px 24px", borderRadius: 8, background: "#fff", color: "#000", fontWeight: 700, textDecoration: "none" }}>Explore Demo</Link>
-            <Link href="/program" style={{ padding: "12px 24px", borderRadius: 8, border: "1px solid #333", color: "#999", fontWeight: 600, textDecoration: "none" }}>Partner Program →</Link>
+            <Link href="/setup" style={{ padding: "12px 24px", borderRadius: 8, border: "1px solid #333", color: "#999", fontWeight: 600, textDecoration: "none" }}>Set Up Your Program →</Link>
           </div>
         </div>
       </main>
