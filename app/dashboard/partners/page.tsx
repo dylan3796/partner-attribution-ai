@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
-import { Plus, Download, Upload, Search, X, Shield, Award, Loader2, Send, Copy, Check } from "lucide-react";
+import { Plus, Download, Upload, Search, X, Shield, Award, Loader2, Send, Copy, Check, Users } from "lucide-react";
 import { exportPartnersCSV, parsePartnersCSV } from "@/lib/csv";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
 import type { Partner } from "@/lib/types";
@@ -264,13 +264,28 @@ export default function PartnersPage() {
             </table>
           </div>
           {filtered.length === 0 && (
-            <div className="empty-state" style={{ padding: "2rem" }}>
-              <Search size={32} color="var(--muted)" style={{ marginBottom: ".5rem" }} />
-              <p className="muted">
+            <div style={{ padding: "4rem 2rem", textAlign: "center" }}>
+              <Users size={40} style={{ color: "var(--muted)", marginBottom: 12 }} />
+              <h3 style={{ fontWeight: 700, fontSize: "1.1rem", marginBottom: 4 }}>
+                {partners.length === 0 ? "No partners yet" : "No partners match your filters"}
+              </h3>
+              <p className="muted" style={{ fontSize: ".85rem", marginBottom: 16 }}>
                 {partners.length === 0
-                  ? "No partners yet. Add your first partner using the button above."
-                  : "No partners match your filters."}
+                  ? "Partners are the foundation of your program. Add your first partner to get started."
+                  : "Try adjusting your search or filters."}
               </p>
+              {partners.length === 0 && (
+                <button
+                  onClick={() => setShowAdd(true)}
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 20px",
+                    borderRadius: 8, background: "#6366f1", color: "#fff", border: "none",
+                    fontWeight: 600, fontSize: ".85rem", cursor: "pointer", fontFamily: "inherit",
+                  }}
+                >
+                  + Add First Partner
+                </button>
+              )}
             </div>
           )}
         </div>

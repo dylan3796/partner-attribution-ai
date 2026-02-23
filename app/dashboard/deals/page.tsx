@@ -6,7 +6,7 @@ import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { Plus, Download, LayoutGrid, List, X, Search, Loader2, CheckCircle, XCircle, Clock } from "lucide-react";
+import { Plus, Download, LayoutGrid, List, X, Search, Loader2, CheckCircle, XCircle, Clock, Briefcase } from "lucide-react";
 import { exportDealsCSV } from "@/lib/csv";
 import type { Deal, Partner } from "@/lib/types";
 
@@ -265,8 +265,28 @@ export default function DealsPage() {
             </table>
           </div>
           {filtered.length === 0 && (
-            <div className="empty-state" style={{ padding: "2rem", textAlign: "center" }}>
-              <p className="muted">No deals yet. Add your first deal using the button above.</p>
+            <div style={{ padding: "4rem 2rem", textAlign: "center" }}>
+              <Briefcase size={40} style={{ color: "var(--muted)", marginBottom: 12 }} />
+              <h3 style={{ fontWeight: 700, fontSize: "1.1rem", marginBottom: 4 }}>
+                {deals?.length === 0 ? "No deals yet" : "No deals match your filters"}
+              </h3>
+              <p className="muted" style={{ fontSize: ".85rem", marginBottom: 16 }}>
+                {deals?.length === 0
+                  ? "Deals track revenue attributed to your partners. Add your first deal to start building your pipeline."
+                  : "Try adjusting your search or filters to find what you're looking for."}
+              </p>
+              {deals?.length === 0 && (
+                <button
+                  onClick={() => setShowAdd(true)}
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 20px",
+                    borderRadius: 8, background: "#6366f1", color: "#fff", border: "none",
+                    fontWeight: 600, fontSize: ".85rem", cursor: "pointer", fontFamily: "inherit",
+                  }}
+                >
+                  + Add First Deal
+                </button>
+              )}
             </div>
           )}
         </div>

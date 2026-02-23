@@ -260,9 +260,15 @@ export default function PortalCommissionsPage() {
             </tbody>
           </table>
           {filteredAttributions.length === 0 && (
-            <p className="muted" style={{ padding: "2rem", textAlign: "center" }}>
-              {periodFilter !== "all" ? "No commissions in this period. Try a different filter." : "No commissions yet. When deals you influence close, commissions appear here automatically."}
-            </p>
+            <div style={{ padding: "3rem 2rem", textAlign: "center" }}>
+              <DollarSign size={36} style={{ color: "var(--muted)", marginBottom: 8 }} />
+              <h4 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: 4 }}>
+                {periodFilter !== "all" ? "No commissions in this period" : "No commissions yet"}
+              </h4>
+              <p className="muted" style={{ fontSize: ".85rem" }}>
+                {periodFilter !== "all" ? "Try selecting a different time period." : "When deals you influence close, your commissions will appear here automatically."}
+              </p>
+            </div>
           )}
         </div>
       </div>
