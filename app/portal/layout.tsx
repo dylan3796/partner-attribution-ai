@@ -172,20 +172,6 @@ function PortalSidebar() {
         {/* Footer */}
         <div style={{ padding: "1rem 1.25rem", borderTop: "1px solid var(--border)" }}>
           <Link
-            href="/program"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              fontSize: "0.8rem",
-              color: "var(--muted)",
-              marginBottom: "0.5rem",
-              transition: "color 0.15s",
-            }}
-          >
-            View Partner Program →
-          </Link>
-          <Link
             href="/"
             style={{
               display: "flex",
