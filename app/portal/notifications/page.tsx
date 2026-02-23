@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 import { usePortal } from "@/lib/portal-context";
 import { formatCurrency } from "@/lib/utils";
 import {
@@ -129,10 +132,38 @@ function timeAgo(ts: number): string {
 
 export default function NotificationsPage() {
   const { partner } = usePortal();
-  const [notifications, setNotifications] = useState<Notification[]>(generateDemoNotifications);
+  const convexNotifs = useQuery(api.notifications.list, {});
+  const markReadMutation = useMutation(api.notifications.markRead);
+  const markAllReadMutation = useMutation(api.notifications.markAllRead);
   const [filterType, setFilterType] = useState<string>("all");
 
   if (!partner) return null;
+
+  // Map Convex notifications to component format, fall back to demo data
+  const TYPE_MAP: Record<string, NotificationType> = {
+    deal_approved: "deal_update",
+    commission_paid: "payout",
+    partner_joined: "system",
+    tier_change: "tier_change",
+    deal_disputed: "deal_update",
+    system: "system",
+  };
+
+  const notifications: Notification[] = useMemo(() => {
+    if (convexNotifs && convexNotifs.length > 0) {
+      return convexNotifs.map((n: any) => ({
+        id: n._id,
+        type: TYPE_MAP[n.type] || "system",
+        title: n.title,
+        body: n.body,
+        timestamp: n.createdAt,
+        read: n.read,
+        actionUrl: n.link,
+        actionLabel: n.link ? "View" : undefined,
+      }));
+    }
+    return generateDemoNotifications();
+  }, [convexNotifs]);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -143,11 +174,11 @@ export default function NotificationsPage() {
   }, [notifications, filterType]);
 
   function markRead(id: string) {
-    setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n));
+    markReadMutation({ id: id as Id<"notifications"> }).catch(() => {});
   }
 
   function markAllRead() {
-    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
+    markAllReadMutation({}).catch(() => {});
   }
 
   return (
