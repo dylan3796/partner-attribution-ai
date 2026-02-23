@@ -81,6 +81,8 @@ const RULE_TEMPLATES = [
   "When @deal_value > $100,000, commission is 15%",
   "When @partner_type is Referral, commission is 10%",
   "When @partner_tier is Platinum, commission is 25%",
+  "Gold partners get 20%, Silver 15%, Bronze 10%",
+  "When deal value exceeds $100,000 and partner tier is Gold, commission is 22%",
 ];
 
 /* ── Helpers ── */
@@ -149,6 +151,8 @@ export default function SetupWizard() {
     headers: [], rows: [], mappings: [], rules: [], ruleText: "", usedSample: false,
   });
   const [dragOver, setDragOver] = useState(false);
+  const [isParsingAI, setIsParsingAI] = useState(false);
+  const [aiParseCount, setAiParseCount] = useState(0);
   const fileRef = useRef<HTMLInputElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [showAutocomplete, setShowAutocomplete] = useState(false);
@@ -177,6 +181,50 @@ export default function SetupWizard() {
       setData((d) => ({ ...d, rules: parsedRules }));
     }
   }, [parsedRules]);
+
+  // AI-powered rule parsing
+  const parseWithAI = useCallback(async (text: string) => {
+    if (!text.trim() || text.length < 10) return;
+    setIsParsingAI(true);
+    try {
+      const res = await fetch("/api/parse-rules", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text,
+          availableFields: mappedFields,
+        }),
+      });
+      const json = await res.json();
+      if (json.rules?.length > 0) {
+        const aiRules: ParsedRule[] = json.rules.map((r: { field?: string; operator?: string; value?: string; actionValue?: string }) => ({
+          id: Math.random().toString(36).slice(2),
+          field: r.field || "partner_tier",
+          operator: r.operator || "is",
+          value: r.value || "",
+          action: "commission",
+          actionValue: r.actionValue || "10%",
+        }));
+        setData((d) => ({ ...d, rules: aiRules }));
+        setAiParseCount(aiRules.length);
+      }
+    } catch {
+      // Silently fall back to regex
+    } finally {
+      setIsParsingAI(false);
+    }
+  }, [mappedFields]);
+
+  // Debounced AI parse
+  const aiTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    // Only auto-parse if regex found nothing
+    if (parsedRules.length === 0 && data.ruleText.trim().length >= 10) {
+      if (aiTimeoutRef.current) clearTimeout(aiTimeoutRef.current);
+      aiTimeoutRef.current = setTimeout(() => parseWithAI(data.ruleText), 800);
+    }
+    return () => { if (aiTimeoutRef.current) clearTimeout(aiTimeoutRef.current); };
+  }, [data.ruleText, parsedRules.length, parseWithAI]);
 
   /* ── CSV Handling ── */
   function handleCSV(text: string, isSample = false) {
@@ -647,14 +695,37 @@ export default function SetupWizard() {
               )}
             </div>
 
+            {/* AI Parse button */}
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <button
+                onClick={() => parseWithAI(data.ruleText)}
+                disabled={isParsingAI || !data.ruleText?.trim()}
+                style={{
+                  padding: "0.5rem 1rem",
+                  background: isParsingAI ? "rgba(99,102,241,0.5)" : "#6366f1",
+                  color: "#fff", border: "none", borderRadius: 8,
+                  cursor: isParsingAI ? "not-allowed" : "pointer",
+                  fontSize: "0.85rem", display: "flex", alignItems: "center", gap: "0.4rem",
+                  fontFamily: "inherit", fontWeight: 600,
+                }}
+              >
+                {isParsingAI ? "Parsing..." : "✨ Parse with AI"}
+              </button>
+              {aiParseCount > 0 && (
+                <div style={{ fontSize: "0.8rem", color: "#22c55e", display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                  ✨ AI interpreted {aiParseCount} rule{aiParseCount !== 1 ? "s" : ""}
+                </div>
+              )}
+            </div>
+
             {/* Live rule preview */}
             <div style={{ borderRadius: 10, border: "1px solid #1e1e2e", overflow: "hidden" }}>
               <div style={{ padding: "10px 14px", background: "#111118", fontSize: ".75rem", fontWeight: 700, color: "#94a3b8" }}>
-                Rules I understood ({parsedRules.length})
+                Rules I understood ({data.rules.length})
               </div>
-              {parsedRules.length > 0 ? (
+              {data.rules.length > 0 ? (
                 <div style={{ padding: "10px 14px", display: "flex", flexDirection: "column", gap: 8 }}>
-                  {parsedRules.map((r) => (
+                  {data.rules.map((r) => (
                     <div key={r.id} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 12px", borderRadius: 8, background: "#22c55e08", border: "1px solid #22c55e20" }}>
                       <Check size={14} style={{ color: "#22c55e", flexShrink: 0 }} />
                       <span style={{ fontSize: ".85rem" }}>
@@ -673,7 +744,7 @@ export default function SetupWizard() {
             </div>
 
             {/* Use defaults button */}
-            {parsedRules.length === 0 && (
+            {data.rules.length === 0 && (
               <button
                 onClick={() => {
                   const defaultRules: ParsedRule[] = [
