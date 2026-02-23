@@ -239,6 +239,47 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
               Apply to join
             </a>
           </p>
+
+          {/* Demo accounts */}
+          <div style={{ marginTop: "1.5rem", borderTop: "1px solid #2a2a2a", paddingTop: "1.5rem" }}>
+            <p style={{ fontSize: ".85rem", fontWeight: 600, color: "#aaa", marginBottom: ".75rem", textAlign: "center" }}>Try a demo account</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+              {[
+                { name: "Sarah Chen", company: "TechBridge Partners", email: "sarah.chen@techbridge.io" },
+                { name: "Marcus Webb", company: "Apex Growth Group", email: "marcus.webb@apexgrowth.com" },
+                { name: "Priya Patel", company: "Stackline Agency", email: "priya.patel@stackline.co" },
+                { name: "James Kim", company: "Northlight Solutions", email: "james.kim@northlight.io" },
+                { name: "Elena Torres", company: "Clearpath Consulting", email: "elena.torres@clearpath.io" },
+              ].map((account) => (
+                <button
+                  key={account.email}
+                  type="button"
+                  onClick={() => setEmail(account.email)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    padding: "8px 12px",
+                    background: "#111",
+                    border: "1px solid #2a2a2a",
+                    borderRadius: 8,
+                    cursor: "pointer",
+                    textAlign: "left",
+                    transition: "border-color 0.15s",
+                    width: "100%",
+                  }}
+                >
+                  <div style={{ width: 32, height: 32, borderRadius: 8, background: "#1a1a2e", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: ".7rem", flexShrink: 0 }}>
+                    {account.name.split(" ").map(w => w[0]).join("")}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: ".8rem", fontWeight: 600, color: "#ddd" }}>{account.name}</div>
+                    <div style={{ fontSize: ".7rem", color: "#666" }}>{account.company}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     );

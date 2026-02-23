@@ -77,6 +77,23 @@ function WelcomeBanner() {
   );
 }
 
+function DemoBanner() {
+  const [visible, setVisible] = useState(true);
+  useEffect(() => {
+    if (localStorage.getItem("covant_demo_banner_dismissed")) setVisible(false);
+  }, []);
+  if (!visible) return null;
+  return (
+    <div style={{ background: "linear-gradient(135deg, #4338ca, #6366f1)", padding: "10px 16px", borderRadius: 8, marginBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
+      <p style={{ fontSize: ".85rem", color: "#e0e7ff", margin: 0 }}>
+        👋 You&apos;re in the Covant demo. Want to see it from a partner&apos;s perspective?{" "}
+        <Link href="/portal" style={{ color: "#fff", fontWeight: 600, textDecoration: "underline" }}>View Partner Portal →</Link>
+      </p>
+      <button onClick={() => { setVisible(false); localStorage.setItem("covant_demo_banner_dismissed", "true"); }} style={{ background: "none", border: "none", color: "#c7d2fe", cursor: "pointer", fontSize: "1.1rem", padding: "0 4px", fontFamily: "inherit" }}>×</button>
+    </div>
+  );
+}
+
 export default function DashboardPage() {
   const router = useRouter();
 
@@ -121,6 +138,7 @@ export default function DashboardPage() {
 
   return (
     <>
+      <DemoBanner />
       <WelcomeBanner />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
         <div>

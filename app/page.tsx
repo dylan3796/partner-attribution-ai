@@ -81,21 +81,71 @@ export default function LandingPage() {
           </p>
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-            <a
-              href="#demo"
+            <Link
+              href="/setup"
               className="btn btn-lg"
               style={{ textDecoration: "none" }}
             >
-              See It In Action
-            </a>
+              Start Free Trial
+            </Link>
             <Link href="/dashboard" className="btn-outline btn-lg">
               Explore Demo →
             </Link>
           </div>
 
           <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>
-            Free to start · Setup in 15 minutes
+            14-day free trial · No credit card required
           </p>
+        </div>
+
+        {/* ── PRODUCT PREVIEW ── */}
+        <div style={{ maxWidth: 900, margin: "3rem auto 0", borderRadius: 12, overflow: "hidden", transform: "perspective(1200px) rotateX(6deg)", boxShadow: "0 40px 80px rgba(0,0,0,.5)" }}>
+          {/* Browser chrome */}
+          <div style={{ background: "#1a1a1a", padding: "10px 16px", display: "flex", alignItems: "center", gap: 8, borderBottom: "1px solid #2a2a2a" }}>
+            <div style={{ display: "flex", gap: 6 }}>
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#ff5f57" }} />
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#febc2e" }} />
+              <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28c840" }} />
+            </div>
+            <div style={{ flex: 1, background: "#0a0a0a", borderRadius: 6, padding: "4px 12px", fontSize: ".75rem", color: "#666", marginLeft: 8 }}>
+              app.covant.ai/dashboard
+            </div>
+          </div>
+          {/* Dashboard content */}
+          <div style={{ background: "#0a0a0a", padding: "20px 24px" }}>
+            {/* Stat cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
+              {[
+                { label: "Partners", value: "22" },
+                { label: "Pipeline", value: "$1.2M" },
+                { label: "Commissions", value: "$84K" },
+                { label: "Active Deals", value: "18" },
+              ].map((s) => (
+                <div key={s.label} style={{ background: "#111", border: "1px solid #222", borderRadius: 8, padding: "14px 16px" }}>
+                  <div style={{ fontSize: ".7rem", color: "#666", marginBottom: 4 }}>{s.label}</div>
+                  <div style={{ fontSize: "1.25rem", fontWeight: 700, color: "#fff" }}>{s.value}</div>
+                </div>
+              ))}
+            </div>
+            {/* Mini table */}
+            <div style={{ border: "1px solid #222", borderRadius: 8, overflow: "hidden" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", padding: "8px 16px", background: "#111", fontSize: ".7rem", color: "#666", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".05em" }}>
+                <span>Partner</span><span>Tier</span><span>Revenue</span><span>Status</span>
+              </div>
+              {[
+                { name: "TechBridge Partners", tier: "Gold", rev: "$340K", status: "Active" },
+                { name: "Apex Growth Group", tier: "Silver", rev: "$215K", status: "Active" },
+                { name: "Northlight Solutions", tier: "Gold", rev: "$189K", status: "Active" },
+              ].map((r) => (
+                <div key={r.name} style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", padding: "10px 16px", borderTop: "1px solid #1a1a1a", fontSize: ".8rem", color: "#ccc" }}>
+                  <span style={{ color: "#fff", fontWeight: 500 }}>{r.name}</span>
+                  <span>{r.tier}</span>
+                  <span>{r.rev}</span>
+                  <span style={{ color: "#22c55e" }}>{r.status}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* ── AI DEMO CARD ── */}
