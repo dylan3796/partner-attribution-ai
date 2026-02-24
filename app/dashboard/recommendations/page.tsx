@@ -4,32 +4,46 @@ import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { Sparkles, TrendingUp, Award, ArrowUpRight, Users, Brain, Loader2, ChevronRight } from "lucide-react";
+import { Sparkles, TrendingUp, Award, Users, Brain, Loader2 } from "lucide-react";
 import type { Id } from "@/convex/_generated/dataModel";
 
-function ScoreBadge({ score }: { score: number }) {
-  const label =
-    score >= 0.7 ? "Highly Recommended" : score >= 0.4 ? "Recommended" : "Rising";
-  const bg =
-    score >= 0.7 ? "#dcfce7" : score >= 0.4 ? "#dbeafe" : "#fef9c3";
-  const color =
-    score >= 0.7 ? "#166534" : score >= 0.4 ? "#1e40af" : "#854d0e";
-  const border =
-    score >= 0.7 ? "#22c55e" : score >= 0.4 ? "#3b82f6" : "#eab308";
+/* ── Types ── */
+type RecommendedPartner = {
+  partner: { _id: Id<"partners">; name: string; tier: string; type: string; email: string; commissionRate: number };
+  winRate: number;
+  totalRevenue: number;
+  pipeline: number;
+  dealCount: number;
+  wonCount: number;
+  recommendationScore: number;
+};
 
+/* ── Helpers ── */
+function getReasoningTags(p: RecommendedPartner): string[] {
+  const tags: string[] = [];
+  if (p.wonCount > 0) {
+    tags.push(`${p.wonCount} deal${p.wonCount !== 1 ? "s" : ""} won · ${formatCurrencyCompact(p.totalRevenue)} revenue`);
+  }
+  if (p.winRate >= 0.5 && p.dealCount >= 2) {
+    tags.push(`${Math.round(p.winRate * 100)}% win rate across ${p.dealCount} deals`);
+  }
+  const tier = p.partner.tier?.toLowerCase();
+  if (tier === "platinum" || tier === "gold") {
+    tags.push(`${tier.charAt(0).toUpperCase() + tier.slice(1)} tier partner`);
+  }
+  if (p.pipeline > 0) {
+    tags.push(`${formatCurrencyCompact(p.pipeline)} active pipeline`);
+  }
+  return tags.slice(0, 3);
+}
+
+function ScoreBadge({ score }: { score: number }) {
+  const label = score >= 0.7 ? "Highly Recommended" : score >= 0.4 ? "Recommended" : "Rising";
+  const bg = score >= 0.7 ? "#dcfce7" : score >= 0.4 ? "#dbeafe" : "#fef9c3";
+  const color = score >= 0.7 ? "#166534" : score >= 0.4 ? "#1e40af" : "#854d0e";
+  const border = score >= 0.7 ? "#22c55e" : score >= 0.4 ? "#3b82f6" : "#eab308";
   return (
-    <span
-      style={{
-        fontSize: ".7rem",
-        fontWeight: 700,
-        padding: "3px 8px",
-        borderRadius: 6,
-        background: bg,
-        color,
-        border: `1px solid ${border}`,
-        whiteSpace: "nowrap",
-      }}
-    >
+    <span style={{ fontSize: ".7rem", fontWeight: 700, padding: "3px 8px", borderRadius: 6, background: bg, color, border: `1px solid ${border}`, whiteSpace: "nowrap" }}>
       {label}
     </span>
   );
@@ -44,43 +58,23 @@ function TierBadge({ tier }: { tier: string }) {
   };
   const c = colors[tier] ?? colors.bronze;
   return (
-    <span
-      style={{
-        fontSize: ".65rem",
-        fontWeight: 600,
-        padding: "2px 6px",
-        borderRadius: 4,
-        background: c.bg,
-        color: c.color,
-        textTransform: "capitalize",
-      }}
-    >
+    <span style={{ fontSize: ".65rem", fontWeight: 600, padding: "2px 6px", borderRadius: 4, background: c.bg, color: c.color, textTransform: "capitalize" }}>
       {tier}
     </span>
   );
 }
 
+/* ── Deal Recommendations ── */
 function DealRecommendations({ dealId, dealName, dealAmount }: { dealId: Id<"deals">; dealName: string; dealAmount: number }) {
   const recs = useQuery(api.recommendations.getForDeal, { dealId });
-
   return (
-    <div
-      style={{
-        padding: "1rem 1.25rem",
-        borderRadius: 10,
-        border: "1px solid var(--border)",
-        background: "var(--bg)",
-      }}
-    >
+    <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid var(--border)", background: "var(--bg)" }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: ".75rem" }}>
         <div>
           <p style={{ fontWeight: 700, fontSize: ".9rem" }}>{dealName}</p>
           <p className="muted" style={{ fontSize: ".8rem" }}>{formatCurrency(dealAmount)}</p>
         </div>
-        <Link
-          href={`/dashboard/deals/${dealId}`}
-          style={{ fontSize: ".75rem", color: "#6366f1", fontWeight: 500, textDecoration: "none" }}
-        >
+        <Link href={`/dashboard/deals/${dealId}`} style={{ fontSize: ".75rem", color: "#6366f1", fontWeight: 500, textDecoration: "none" }}>
           View deal →
         </Link>
       </div>
@@ -98,40 +92,18 @@ function DealRecommendations({ dealId, dealName, dealAmount }: { dealId: Id<"dea
               key={r.partnerId}
               href={`/dashboard/partners/${r.partnerId}`}
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: ".5rem",
-                padding: "8px 12px",
-                borderRadius: 8,
-                border: "1px solid var(--border)",
-                background: "var(--subtle)",
-                textDecoration: "none",
-                transition: "border-color .15s",
-                minWidth: 180,
+                display: "flex", alignItems: "center", gap: ".5rem", padding: "8px 12px",
+                borderRadius: 8, border: "1px solid var(--border)", background: "var(--subtle)",
+                textDecoration: "none", transition: "border-color .15s", minWidth: 180,
               }}
             >
-              <div
-                className="avatar"
-                style={{
-                  width: 32,
-                  height: 32,
-                  fontSize: ".7rem",
-                  background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                  color: "#fff",
-                }}
-              >
-                {r.name
-                  .split(" ")
-                  .map((w) => w[0])
-                  .join("")
-                  .slice(0, 2)}
+              <div className="avatar" style={{ width: 32, height: 32, fontSize: ".7rem", background: "linear-gradient(135deg, #6366f1, #8b5cf6)", color: "#fff" }}>
+                {r.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}
               </div>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontWeight: 600, fontSize: ".8rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                  {r.name}
-                </p>
+                <p style={{ fontWeight: 600, fontSize: ".8rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.name}</p>
                 <p className="muted" style={{ fontSize: ".7rem" }}>
-                  {r.wins} similar win{r.wins !== 1 ? "s" : ""} · {formatCurrencyCompact(r.revenue)}
+                  {r.wins} similar win{r.wins !== 1 ? "s" : ""} · {formatCurrencyCompact(r.revenue)} · {r.tier} tier
                 </p>
               </div>
               <TierBadge tier={r.tier} />
@@ -143,22 +115,44 @@ function DealRecommendations({ dealId, dealName, dealAmount }: { dealId: Id<"dea
   );
 }
 
-function AskCovant() {
-  const [input, setInput] = useState("");
+/* ── Structured Deal Context Form ── */
+function RefineDealForm({ topPartners }: { topPartners: RecommendedPartner[] }) {
+  const [industry, setIndustry] = useState("");
+  const [customerSize, setCustomerSize] = useState("");
+  const [geography, setGeography] = useState("");
+  const [dealSize, setDealSize] = useState("");
+  const [product, setProduct] = useState("");
+  const [otherContext, setOtherContext] = useState("");
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleAsk() {
-    if (!input.trim()) return;
+  const hasInput = industry || customerSize || geography || dealSize || product || otherContext;
+
+  async function handleRefine() {
+    if (!hasInput) return;
     setLoading(true);
     setResponse("");
+
+    const partnerData = topPartners.slice(0, 5).map((p) => (
+      `${p.partner.name} (${p.partner.tier} tier, ${p.partner.type}): ${Math.round(p.winRate * 100)}% win rate, ${p.wonCount} deals won, ${formatCurrencyCompact(p.totalRevenue)} revenue, ${formatCurrencyCompact(p.pipeline)} pipeline, score ${(p.recommendationScore * 100).toFixed(0)}`
+    )).join("\n");
+
+    const dealContext = [
+      industry && `Industry/Vertical: ${industry}`,
+      customerSize && `Customer Size: ${customerSize}`,
+      geography && `Geography: ${geography}`,
+      dealSize && `Deal Size: $${dealSize}`,
+      product && `Product/Service: ${product}`,
+      otherContext && `Additional Context: ${otherContext}`,
+    ].filter(Boolean).join("\n");
+
+    const prompt = `Given the following partner performance data:\n${partnerData}\n\nAnd this deal context:\n${dealContext}\n\nWhich 3 partners would you recommend and why? Be specific about why each partner fits this deal. Consider tier, win rate, deal volume, and revenue track record.`;
+
     try {
       const res = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: `Based on our partner program data, which partners would you recommend for the following opportunity? Consider partner tier, win rate, deal size experience, and territory. Here's the deal:\n\n${input}`,
-        }),
+        body: JSON.stringify({ message: prompt }),
       });
       const data = await res.json();
       setResponse(data.response ?? data.error ?? "No response");
@@ -168,86 +162,99 @@ function AskCovant() {
     setLoading(false);
   }
 
+  const inputStyle: React.CSSProperties = {
+    width: "100%", padding: ".6rem .75rem", borderRadius: 8,
+    border: "1px solid var(--border)", background: "var(--bg)",
+    fontFamily: "inherit", fontSize: ".85rem", boxSizing: "border-box",
+    color: "inherit",
+  };
+
+  const labelStyle: React.CSSProperties = {
+    fontSize: ".75rem", fontWeight: 600, color: "var(--muted)", marginBottom: ".3rem", display: "block",
+  };
+
   return (
-    <div
-      className="card"
-      style={{
-        padding: "1.5rem",
-        background: "linear-gradient(135deg, #eef2ff 0%, #faf5ff 100%)",
-        border: "1px solid #c7d2fe",
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginBottom: "1rem" }}>
+    <div className="card" style={{ padding: "1.5rem", background: "linear-gradient(135deg, #eef2ff 0%, #faf5ff 100%)", border: "1px solid #c7d2fe" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginBottom: ".75rem" }}>
         <Brain size={20} color="#6366f1" />
-        <h3 style={{ fontWeight: 700, fontSize: "1rem", margin: 0 }}>Ask Covant AI</h3>
+        <h3 style={{ fontWeight: 700, fontSize: "1rem", margin: 0 }}>Refine for a Specific Deal</h3>
       </div>
-      <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1rem" }}>
-        Describe a deal you&apos;re working on and Covant will recommend the best partner match.
+      <p className="muted" style={{ fontSize: ".8rem", marginBottom: "1.25rem" }}>
+        Add deal context to get tailored partner recommendations from Covant AI.
       </p>
-      <textarea
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder="e.g. $85K enterprise SaaS deal in healthcare, 6-month sales cycle, needs technical integration support..."
-        style={{
-          width: "100%",
-          minHeight: 80,
-          padding: ".75rem",
-          borderRadius: 8,
-          border: "1px solid var(--border)",
-          background: "var(--bg)",
-          fontFamily: "inherit",
-          fontSize: ".85rem",
-          resize: "vertical",
-          boxSizing: "border-box",
-        }}
-      />
-      <div style={{ display: "flex", justifyContent: "flex-end", marginTop: ".75rem" }}>
+
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1rem" }}>
+        <div>
+          <label style={labelStyle}>Industry / Vertical</label>
+          <input value={industry} onChange={(e) => setIndustry(e.target.value)} placeholder="e.g. Healthcare, SaaS, Financial Services" style={inputStyle} />
+        </div>
+        <div>
+          <label style={labelStyle}>Customer Size</label>
+          <select value={customerSize} onChange={(e) => setCustomerSize(e.target.value)} style={inputStyle}>
+            <option value="">Select…</option>
+            <option value="SMB">SMB</option>
+            <option value="Mid-Market">Mid-Market</option>
+            <option value="Enterprise">Enterprise</option>
+          </select>
+        </div>
+        <div>
+          <label style={labelStyle}>Geography</label>
+          <input value={geography} onChange={(e) => setGeography(e.target.value)} placeholder="e.g. US West, EMEA, APAC" style={inputStyle} />
+        </div>
+        <div>
+          <label style={labelStyle}>Deal Size Estimate</label>
+          <input value={dealSize} onChange={(e) => setDealSize(e.target.value)} placeholder="e.g. 85000" type="text" style={inputStyle} />
+        </div>
+      </div>
+
+      <div style={{ marginBottom: "1rem" }}>
+        <label style={labelStyle}>What product/service are you selling?</label>
+        <input value={product} onChange={(e) => setProduct(e.target.value)} placeholder="e.g. Cloud migration, Data analytics platform" style={inputStyle} />
+      </div>
+
+      <div style={{ marginBottom: "1rem" }}>
+        <label style={labelStyle}>Any other context?</label>
+        <textarea value={otherContext} onChange={(e) => setOtherContext(e.target.value)} placeholder="e.g. 6-month sales cycle, needs technical integration support…" rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+      </div>
+
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <button
-          onClick={handleAsk}
-          disabled={loading || !input.trim()}
+          onClick={handleRefine}
+          disabled={loading || !hasInput}
           className="btn"
           style={{
-            fontSize: ".85rem",
-            padding: ".5rem 1.25rem",
+            fontSize: ".85rem", padding: ".5rem 1.25rem",
             background: loading ? "#a5b4fc" : "#6366f1",
-            display: "flex",
-            alignItems: "center",
-            gap: ".4rem",
+            display: "flex", alignItems: "center", gap: ".4rem",
           }}
         >
           {loading ? (
-            <>
-              <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} />
-              Thinking…
-            </>
+            <><Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> Analyzing…</>
           ) : (
-            <>
-              <Sparkles size={14} />
-              Get Recommendation
-            </>
+            <><Sparkles size={14} /> Refine Recommendations</>
           )}
         </button>
       </div>
+
       {response && (
-        <div
-          style={{
-            marginTop: "1rem",
-            padding: "1rem",
-            borderRadius: 8,
-            background: "var(--bg)",
-            border: "1px solid var(--border)",
-            fontSize: ".85rem",
-            lineHeight: 1.6,
-            whiteSpace: "pre-wrap",
-          }}
-        >
-          {response}
+        <div style={{
+          marginTop: "1.25rem", padding: "1.25rem", borderRadius: 10,
+          background: "var(--bg)", border: "1px solid var(--border)",
+          borderLeft: "3px solid #6366f1",
+        }}>
+          <p style={{ fontSize: ".7rem", fontWeight: 700, color: "#6366f1", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".5rem" }}>
+            AI Analysis
+          </p>
+          <div style={{ fontSize: ".85rem", lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
+            {response}
+          </div>
         </div>
       )}
     </div>
   );
 }
 
+/* ── Main Page ── */
 export default function RecommendationsPage() {
   const topRecommended = useQuery(api.recommendations.getTopRecommended);
   const openDeals = useQuery(api.recommendations.getOpenDeals);
@@ -271,74 +278,32 @@ export default function RecommendationsPage() {
       </div>
 
       {!hasData && topRecommended !== undefined ? (
-        /* Empty state */
-        <div
-          className="card"
-          style={{
-            padding: "3rem 2rem",
-            textAlign: "center",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "1rem",
-          }}
-        >
+        <div className="card" style={{ padding: "3rem 2rem", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
           <Users size={48} color="var(--muted)" />
           <h3 style={{ fontWeight: 700, fontSize: "1.1rem" }}>Not enough historical data yet</h3>
           <p className="muted" style={{ maxWidth: 400, fontSize: ".9rem" }}>
             Add more deals and track partner attributions to unlock AI-powered recommendations.
           </p>
-          <Link href="/dashboard/deals" className="btn" style={{ marginTop: ".5rem" }}>
-            Go to Deals →
-          </Link>
+          <Link href="/dashboard/deals" className="btn" style={{ marginTop: ".5rem" }}>Go to Deals →</Link>
         </div>
       ) : (
         <>
-          {/* ── Open Deals: Per-deal recommendations ── */}
-          {openDeals && openDeals.length > 0 && (
-            <div style={{ marginBottom: "2rem" }}>
-              <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
-                <Award size={18} color="#f59e0b" />
-                Best Partners for Your Open Deals
-              </h2>
-              <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
-                {openDeals.slice(0, 8).map((deal) => (
-                  <DealRecommendations
-                    key={deal._id}
-                    dealId={deal._id}
-                    dealName={deal.name}
-                    dealAmount={deal.amount}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ── Top Performing Partners ── */}
+          {/* ── Section 1: Top Performing Partners with Reasoning ── */}
           <div style={{ marginBottom: "2rem" }}>
             <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
               <TrendingUp size={18} color="#10b981" />
-              Top Performing Partners
+              Recommended Partners
             </h2>
             <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-              {/* Header */}
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr 1fr",
-                  padding: ".75rem 1.25rem",
-                  borderBottom: "1px solid var(--border)",
-                  background: "var(--subtle)",
-                  fontSize: ".75rem",
-                  fontWeight: 600,
-                  color: "var(--muted)",
-                }}
-              >
+              <div style={{
+                display: "grid", gridTemplateColumns: "2.5fr 1fr 1fr 1fr 1fr",
+                padding: ".75rem 1.25rem", borderBottom: "1px solid var(--border)",
+                background: "var(--subtle)", fontSize: ".75rem", fontWeight: 600, color: "var(--muted)",
+              }}>
                 <span>Partner</span>
                 <span style={{ textAlign: "right" }}>Win Rate</span>
                 <span style={{ textAlign: "right" }}>Deals Won</span>
                 <span style={{ textAlign: "right" }}>Revenue</span>
-                <span style={{ textAlign: "right" }}>Pipeline</span>
                 <span style={{ textAlign: "right" }}>Score</span>
               </div>
               {topRecommended === undefined ? (
@@ -346,64 +311,78 @@ export default function RecommendationsPage() {
                   <Loader2 size={20} style={{ animation: "spin 1s linear infinite", color: "var(--muted)" }} />
                 </div>
               ) : (
-                topRecommended.map((r, i) => (
-                  <Link
-                    key={r.partner._id}
-                    href={`/dashboard/partners/${r.partner._id}`}
-                    style={{
-                      display: "grid",
-                      gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr 1fr",
-                      padding: ".75rem 1.25rem",
-                      borderBottom: i < topRecommended.length - 1 ? "1px solid var(--border)" : "none",
-                      textDecoration: "none",
-                      alignItems: "center",
-                      transition: "background .15s",
-                    }}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
-                      <div
-                        className="avatar"
-                        style={{
-                          width: 32,
-                          height: 32,
-                          fontSize: ".7rem",
-                        }}
-                      >
-                        {r.partner.name
-                          .split(" ")
-                          .map((w) => w[0])
-                          .join("")
-                          .slice(0, 2)}
-                      </div>
-                      <div>
-                        <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{r.partner.name}</p>
-                        <div style={{ display: "flex", gap: ".4rem", alignItems: "center", marginTop: 2 }}>
-                          <TierBadge tier={r.partner.tier} />
-                          <span className="muted" style={{ fontSize: ".7rem" }}>{r.partner.type}</span>
+                topRecommended.map((r, i) => {
+                  const reasons = getReasoningTags(r as RecommendedPartner);
+                  return (
+                    <Link
+                      key={r.partner._id}
+                      href={`/dashboard/partners/${r.partner._id}`}
+                      style={{
+                        display: "grid", gridTemplateColumns: "2.5fr 1fr 1fr 1fr 1fr",
+                        padding: ".75rem 1.25rem",
+                        borderBottom: i < topRecommended.length - 1 ? "1px solid var(--border)" : "none",
+                        textDecoration: "none", alignItems: "center", transition: "background .15s",
+                      }}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", gap: ".6rem" }}>
+                        <div className="avatar" style={{ width: 32, height: 32, fontSize: ".7rem" }}>
+                          {r.partner.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}
+                        </div>
+                        <div>
+                          <div style={{ display: "flex", alignItems: "center", gap: ".4rem" }}>
+                            <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{r.partner.name}</p>
+                            <TierBadge tier={r.partner.tier} />
+                          </div>
+                          {reasons.length > 0 && (
+                            <div style={{ display: "flex", flexWrap: "wrap", gap: ".3rem", marginTop: 3 }}>
+                              {reasons.map((tag, ti) => (
+                                <span key={ti} style={{
+                                  fontSize: ".65rem", color: "#6366f1", background: "#eef2ff",
+                                  padding: "1px 6px", borderRadius: 4, fontWeight: 500,
+                                }}>
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       </div>
-                    </div>
-                    <span style={{ textAlign: "right", fontWeight: 600, fontSize: ".85rem" }}>
-                      {Math.round(r.winRate * 100)}%
-                    </span>
-                    <span style={{ textAlign: "right", fontSize: ".85rem" }}>{r.wonCount}</span>
-                    <span style={{ textAlign: "right", fontWeight: 600, fontSize: ".85rem" }}>
-                      {formatCurrencyCompact(r.totalRevenue)}
-                    </span>
-                    <span style={{ textAlign: "right", fontSize: ".85rem", color: "var(--muted)" }}>
-                      {formatCurrencyCompact(r.pipeline)}
-                    </span>
-                    <span style={{ textAlign: "right" }}>
-                      <ScoreBadge score={r.recommendationScore} />
-                    </span>
-                  </Link>
-                ))
+                      <span style={{ textAlign: "right", fontWeight: 600, fontSize: ".85rem" }}>
+                        {Math.round(r.winRate * 100)}%
+                      </span>
+                      <span style={{ textAlign: "right", fontSize: ".85rem" }}>{r.wonCount}</span>
+                      <span style={{ textAlign: "right", fontWeight: 600, fontSize: ".85rem" }}>
+                        {formatCurrencyCompact(r.totalRevenue)}
+                      </span>
+                      <span style={{ textAlign: "right" }}>
+                        <ScoreBadge score={r.recommendationScore} />
+                      </span>
+                    </Link>
+                  );
+                })
               )}
             </div>
           </div>
 
-          {/* ── Ask Covant AI ── */}
-          <AskCovant />
+          {/* ── Section 2: Refine for a Specific Deal ── */}
+          <div style={{ marginBottom: "2rem" }}>
+            <RefineDealForm topPartners={(topRecommended ?? []) as RecommendedPartner[]} />
+          </div>
+
+          {/* ── Section 3: Open Deals — Partner Suggestions ── */}
+          {openDeals && openDeals.length > 0 && (
+            <div style={{ marginBottom: "2rem" }}>
+              <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
+                <Award size={18} color="#f59e0b" />
+                Your Open Deals — Partner Suggestions
+              </h2>
+              <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
+                {openDeals.slice(0, 8).map((deal) => (
+                  <DealRecommendations key={deal._id} dealId={deal._id} dealName={deal.name} dealAmount={deal.amount} />
+                ))}
+              </div>
+            </div>
+          )}
         </>
       )}
 
