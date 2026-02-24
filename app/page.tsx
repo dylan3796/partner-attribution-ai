@@ -75,9 +75,9 @@ export default function LandingPage() {
         <div className="wrap">
           <div className="tag">Early Access</div>
           <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(129,140,248,.8)", marginBottom: ".75rem" }}>Partner Intelligence Platform</p>
-          <h1>Stop Guessing Which Partners Drive Revenue</h1>
+          <h1>The intelligence layer for your partner business.</h1>
           <p className="subtitle" style={{ maxWidth: 680, margin: "0 auto 2.5rem" }}>
-            Set up first-touch attribution, configure tier-based incentives, and give every partner a self-service portal — in under 15 minutes.
+            Everything your channel team needs — deal attribution, performance tracking, incentives, and partner ops — in one place.
           </p>
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
