@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { api } from "./_generated/api";
 
 // Register a new deal (partner-submitted)
 export const registerDeal = mutation({
@@ -128,6 +129,18 @@ export const approveDealRegistration = mutation({
       link: `/dashboard/deals`,
       createdAt: Date.now(),
     });
+
+    // Send email notification (non-blocking, skips gracefully if no RESEND_API_KEY)
+    if (partner?.email) {
+      await ctx.scheduler.runAfter(0, api.emailNotifications.sendDealApprovedEmail, {
+        dealId: args.dealId,
+        partnerEmail: partner.email,
+        partnerName: partner.name,
+        dealName: deal.name,
+        amount: deal.amount,
+        commissionAmount: 0, // Will be calculated below
+      });
+    }
 
     // Auto-create commission/payout on deal approval
     if (deal.registeredBy && partner) {

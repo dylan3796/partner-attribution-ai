@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { api } from "./_generated/api";
 
 async function defaultOrg(ctx: any) {
   return await ctx.db.query("organizations").first();
@@ -46,6 +47,17 @@ export const create = mutation({
       createdAt: now,
       expiresAt,
     });
+
+    // Send invite email (non-blocking, skips if no RESEND_API_KEY)
+    if (args.email) {
+      const inviteUrl = `${process.env.NEXT_PUBLIC_APP_URL || "https://covant.ai"}/invite/${token}`;
+      await ctx.scheduler.runAfter(0, api.emailNotifications.sendPartnerInviteEmail, {
+        partnerEmail: args.email,
+        partnerName: args.email.split("@")[0],
+        orgName: org.name,
+        inviteUrl,
+      });
+    }
 
     return { id, token };
   },
