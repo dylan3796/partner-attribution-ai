@@ -19,6 +19,98 @@ type RecommendedPartner = {
   recommendationScore: number;
 };
 
+/* ── Markdown renderer ── */
+function renderInline(text: string): React.ReactNode {
+  // Split on **bold** spans
+  const parts = text.split(/(\*\*[^*]+\*\*)/g);
+  return (
+    <>
+      {parts.map((part, i) =>
+        part.startsWith("**") && part.endsWith("**") ? (
+          <strong key={i} style={{ fontWeight: 700 }}>
+            {part.slice(2, -2)}
+          </strong>
+        ) : (
+          <span key={i}>{part}</span>
+        )
+      )}
+    </>
+  );
+}
+
+function renderMarkdown(text: string): React.ReactNode {
+  const lines = text.split("\n");
+  const nodes: React.ReactNode[] = [];
+  let listBuffer: React.ReactNode[] = [];
+
+  function flushList() {
+    if (listBuffer.length > 0) {
+      nodes.push(
+        <ul key={`ul-${nodes.length}`} style={{ margin: ".4rem 0 .6rem 0", paddingLeft: "1.25rem", listStyle: "disc" }}>
+          {listBuffer}
+        </ul>
+      );
+      listBuffer = [];
+    }
+  }
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+
+    if (line.startsWith("### ")) {
+      flushList();
+      nodes.push(
+        <p key={i} style={{ fontWeight: 700, fontSize: ".8rem", color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".05em", margin: ".85rem 0 .25rem" }}>
+          {line.slice(4)}
+        </p>
+      );
+    } else if (line.startsWith("## ")) {
+      flushList();
+      nodes.push(
+        <p key={i} style={{ fontWeight: 700, fontSize: ".95rem", margin: ".85rem 0 .2rem", paddingTop: i > 0 ? ".4rem" : 0, borderTop: i > 0 ? "1px solid var(--border)" : "none" }}>
+          {renderInline(line.slice(3))}
+        </p>
+      );
+    } else if (line.startsWith("# ")) {
+      flushList();
+      nodes.push(
+        <p key={i} style={{ fontWeight: 800, fontSize: "1rem", margin: ".75rem 0 .25rem" }}>
+          {renderInline(line.slice(2))}
+        </p>
+      );
+    } else if (line.startsWith("- ") || line.startsWith("* ")) {
+      listBuffer.push(
+        <li key={i} style={{ fontSize: ".85rem", lineHeight: 1.6, margin: ".15rem 0" }}>
+          {renderInline(line.slice(2))}
+        </li>
+      );
+    } else if (/^\d+\.\s/.test(line)) {
+      // Numbered list item — treat same as bullet for simplicity
+      listBuffer.push(
+        <li key={i} style={{ fontSize: ".85rem", lineHeight: 1.6, margin: ".15rem 0" }}>
+          {renderInline(line.replace(/^\d+\.\s/, ""))}
+        </li>
+      );
+    } else if (line.trim() === "") {
+      flushList();
+      // only add space if not the first element
+      if (nodes.length > 0) {
+        nodes.push(<div key={`sp-${i}`} style={{ height: ".35rem" }} />);
+      }
+    } else {
+      flushList();
+      nodes.push(
+        <p key={i} style={{ fontSize: ".85rem", lineHeight: 1.6, margin: ".2rem 0" }}>
+          {renderInline(line)}
+        </p>
+      );
+    }
+  }
+
+  flushList();
+  return <>{nodes}</>;
+}
+
 /* ── Helpers ── */
 function getReasoningTags(p: RecommendedPartner): string[] {
   const tags: string[] = [];
@@ -266,14 +358,14 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
       {response && (
         <div style={{
           marginTop: "1.25rem", padding: "1.25rem", borderRadius: 10,
-          background: "var(--bg)", border: "1px solid var(--border)",
+          background: "var(--subtle)", border: "1px solid var(--border)",
           borderLeft: "3px solid #6366f1",
         }}>
-          <p style={{ fontSize: ".7rem", fontWeight: 700, color: "#6366f1", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".5rem" }}>
+          <p style={{ fontSize: ".7rem", fontWeight: 700, color: "#6366f1", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: ".75rem" }}>
             AI Analysis
           </p>
-          <div style={{ fontSize: ".85rem", lineHeight: 1.6, whiteSpace: "pre-wrap" }}>
-            {response}
+          <div style={{ lineHeight: 1.6 }}>
+            {renderMarkdown(response)}
           </div>
         </div>
       )}
