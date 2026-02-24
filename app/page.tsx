@@ -86,10 +86,7 @@ export default function LandingPage() {
               className="btn btn-lg"
               style={{ textDecoration: "none" }}
             >
-              Start Free Trial
-            </Link>
-            <Link href="/dashboard" className="btn-outline btn-lg">
-              Explore Demo →
+              View Live Demo →
             </Link>
           </div>
 
@@ -257,13 +254,13 @@ export default function LandingPage() {
           </p>
         </div>
         <div className="wrap-wide grid-6">
-          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Brain size={20} strokeWidth={1.5} /></div><h3>First-touch & multi-touch attribution</h3><p>Choose your model — first-touch, last-touch, or multi-touch. Every deal traced back, auditable, zero attribution disputes.</p></div></Link>
-          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Coins size={20} strokeWidth={1.5} /></div><h3>Tier-based incentives & MDF tracking</h3><p>Configure commission tiers, SPIFFs, and MDF (marketing development funds). Payouts calculated automatically.</p></div></Link>
-          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><ClipboardList size={20} strokeWidth={1.5} /></div><h3>Deal registration & tier qualification</h3><p>Deal reg with conflict resolution, tier qualification rules, and partner onboarding — one place, not scattered docs.</p></div></Link>
-          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><BarChart2 size={20} strokeWidth={1.5} /></div><h3>Co-selling pipeline & partner ROI</h3><p>Track co-sell deals, measure partner-influenced pipeline, and prove ROI to your CFO with real numbers.</p></div></Link>
-          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Globe size={20} strokeWidth={1.5} /></div><h3>Self-service partner portal</h3><p>Partners register deals, track commissions, and access co-branded assets — no more email chains.</p></div></Link>
-          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Eye size={20} strokeWidth={1.5} /></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Attribution disputes resolved automatically. Every decision auditable.</p></div></Link>
-          <Link href="/dashboard/recommendations"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Sparkles size={20} strokeWidth={1.5} /></div><h3>AI Partner Recommendations</h3><p>Covant analyzes your historical deal data to recommend which partners to engage for each new opportunity.</p></div></Link>
+          <div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Brain size={20} strokeWidth={1.5} /></div><h3>First-touch & multi-touch attribution</h3><p>Choose your model — first-touch, last-touch, or multi-touch. Every deal traced back, auditable, zero attribution disputes.</p></div>
+          <div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Coins size={20} strokeWidth={1.5} /></div><h3>Tier-based incentives & MDF tracking</h3><p>Configure commission tiers, SPIFFs, and MDF (marketing development funds). Payouts calculated automatically.</p></div>
+          <div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><ClipboardList size={20} strokeWidth={1.5} /></div><h3>Deal registration & tier qualification</h3><p>Deal reg with conflict resolution, tier qualification rules, and partner onboarding — one place, not scattered docs.</p></div>
+          <div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><BarChart2 size={20} strokeWidth={1.5} /></div><h3>Co-selling pipeline & partner ROI</h3><p>Track co-sell deals, measure partner-influenced pipeline, and prove ROI to your CFO with real numbers.</p></div>
+          <div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Globe size={20} strokeWidth={1.5} /></div><h3>Self-service partner portal</h3><p>Partners register deals, track commissions, and access co-branded assets — no more email chains.</p></div>
+          <div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Eye size={20} strokeWidth={1.5} /></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Attribution disputes resolved automatically. Every decision auditable.</p></div>
+          <div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Sparkles size={20} strokeWidth={1.5} /></div><h3>AI Partner Recommendations</h3><p>Covant analyzes your historical deal data to recommend which partners to engage for each new opportunity.</p></div>
         </div>
       </section>
 
@@ -431,14 +428,13 @@ export default function LandingPage() {
             <div className="tag">AI-Powered Attribution</div>
             <h2>Attribution that partners actually trust</h2>
             <p>Choose from first-touch, last-touch, or multi-touch models. Configure once, apply automatically. Every calculation explainable — attribution disputes disappear.</p>
-            <Link href="/dashboard/reports" className="arrow-link">Set up your attribution rules →</Link>
           </div>
           <div className="card">
             <h4 style={{ marginBottom: "1.2rem" }}>Deal: TechStar × CloudBridge</h4>
             <div className="bar-row"><span>TechStar (Reseller)</span><div className="bar"><div style={{ width: "55%" }}></div></div><span>55%</span></div>
             <div className="bar-row"><span>CloudBridge (Referral)</span><div className="bar"><div style={{ width: "30%" }}></div></div><span>30%</span></div>
             <div className="bar-row"><span>DataPipe (Integration)</span><div className="bar"><div style={{ width: "15%" }}></div></div><span>15%</span></div>
-            <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>Model: Role-Based (custom weights) · <Link href="/dashboard/reports" style={{ fontWeight: 500 }}>Switch model</Link></p>
+            <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>Model: Role-Based (custom weights)</p>
           </div>
         </div>
       </section>
@@ -449,7 +445,6 @@ export default function LandingPage() {
             <div className="tag">Full Visibility</div>
             <h2>Every partner touchpoint, captured</h2>
             <p>Every partner interaction — referrals, demos, deal reg, co-sell — logged and linked. When a deal closes, you know who did what.</p>
-            <Link href="/dashboard/deals" className="arrow-link">See the full timeline →</Link>
           </div>
           <div className="card">
             <div className="timeline">
@@ -468,7 +463,6 @@ export default function LandingPage() {
             <div className="tag">Incentives & Payouts</div>
             <h2>Fair splits, zero manual work</h2>
             <p>Attribution drives automatic commission calculations. Tier-based payouts, MDF allocations, and SPIFFs — no more end-of-quarter surprises.</p>
-            <Link href="/dashboard/payouts" className="arrow-link">Manage incentives →</Link>
           </div>
           <div className="card">
             <h4 style={{ marginBottom: "1rem" }}>January Partner Payouts</h4>
@@ -678,8 +672,8 @@ export default function LandingPage() {
                 {submitted ? "✓ We'll be in touch!" : "Get Early Access"}
               </button>
             </form>
-            <Link href="/dashboard" className="btn-outline" style={{ whiteSpace: "nowrap" }}>
-              Explore Demo →
+            <Link href="/setup" className="btn-outline" style={{ whiteSpace: "nowrap" }}>
+              View Live Demo →
             </Link>
           </div>
           {submitted && (
@@ -719,7 +713,7 @@ export default function LandingPage() {
             </div>
             <div>
               <h4>Resources</h4>
-              <Link href="/dashboard">Live Demo</Link>
+              <Link href="/setup">Live Demo</Link>
               <Link href="/docs">API Docs</Link>
               <Link href="/changelog">Changelog</Link>
               <Link href="/use-cases">Use Cases</Link>
