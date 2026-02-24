@@ -5,7 +5,10 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY) 
   : null;
 
-const FROM_ADDRESS = 'Covant <notifications@covant.ai>';
+// TODO: switch back to notifications@covant.ai once domain is verified in Resend
+const FROM_ADDRESS = process.env.RESEND_DOMAIN_VERIFIED === 'true'
+  ? 'Covant <notifications@covant.ai>'
+  : 'Covant <onboarding@resend.dev>';
 const PORTAL_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://covant.ai';
 
 // Check if email is configured
