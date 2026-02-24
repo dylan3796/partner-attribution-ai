@@ -8,7 +8,6 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import Anthropic from "@anthropic-ai/sdk";
 import {
   demoPartners,
   demoDeals,
@@ -179,34 +178,12 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // ── 2. Fallback: Claude Haiku ─────────────────────────────────────────────
-    const anthropicKey = process.env.ANTHROPIC_API_KEY;
-    if (!anthropicKey) {
-      return NextResponse.json(
-        { error: "No AI provider configured (GROQ_API_KEY or ANTHROPIC_API_KEY required)", fallback: true },
-        { status: 503 }
-      );
-    }
-
-    const client = new Anthropic({ apiKey: anthropicKey });
-    const message = await client.messages.create({
-      model: "claude-3-5-haiku-20241022",
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: [{ role: "user", content: userContent }],
-    });
-
-    const content = message.content[0];
-    if (content.type !== "text") {
-      return NextResponse.json({ error: "Unexpected response type" }, { status: 500 });
-    }
-
-    return NextResponse.json({ answer: content.text, model: "claude", aiPowered: true });
+    return NextResponse.json({ error: "GROQ_API_KEY not configured", fallback: true }, { status: 503 });
   } catch (err: unknown) {
     console.error("[ask/route] Error:", err);
 
     const status =
-      err instanceof Anthropic.APIError ? err.status ?? 500 : 500;
+      500;
     const errMessage =
       err instanceof Error ? err.message : "Internal server error";
 
