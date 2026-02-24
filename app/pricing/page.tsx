@@ -44,8 +44,8 @@ const PLANS: Plan[] = [
     price: 299,
     priceAnnual: 249,
     description: "For teams managing up to 50 partners with basic deal registration and first-touch attribution",
-    cta: "Get Early Access",
-    ctaHref: "/setup",
+    cta: "View Demo",
+    ctaHref: "/demo",
     features: [
       { name: "Up to 50 partners", included: true },
       { name: "Basic attribution tracking", included: true },
@@ -69,8 +69,8 @@ const PLANS: Plan[] = [
     price: 799,
     priceAnnual: 649,
     description: "For scaling programs with multi-touch attribution, co-selling workflows, and MDF tracking",
-    cta: "Get Early Access",
-    ctaHref: "/setup",
+    cta: "View Demo",
+    ctaHref: "/demo",
     popular: true,
     features: [
       { name: "Up to 500 partners", included: true },
@@ -97,7 +97,7 @@ const PLANS: Plan[] = [
     priceLabel: "Custom",
     description: "For enterprise partner orgs with unlimited deal registrations, custom attribution models, and CRM integrations",
     cta: "Contact Sales",
-    ctaHref: "/setup",
+    ctaHref: "/demo",
     features: [
       { name: "Unlimited partners", included: true },
       { name: "Multi-touch attribution", included: true },
@@ -117,7 +117,7 @@ const PLANS: Plan[] = [
 ];
 
 const FAQS: FAQ[] = [
-  { q: "How long is the free trial?", a: "14 days, full access, no credit card required. You can upgrade or cancel anytime during the trial." },
+  { q: "How do I get started?", a: "Click View Demo to explore Covant instantly with real data. When ready to talk pricing, reach out and we will get you set up." },
   { q: "Can I switch plans later?", a: "Yes — upgrade or downgrade at any time. When upgrading, you'll be prorated for the remainder of your billing cycle. Downgrades take effect at the next billing date." },
   { q: "What counts as a 'partner'?", a: "Any active partner account in your program. Inactive or archived partners don't count toward your limit." },
   { q: "Do you support international payouts?", a: "Yes. We support ACH, wire transfers, and PayPal in 40+ currencies. Enterprise plans include custom payout rails." },
@@ -147,7 +147,7 @@ export default function PricingPage() {
           Pay for what you use.<br />Scale when you&apos;re ready.
         </h1>
         <p style={{ fontSize: "1.1rem", color: "rgba(255,255,255,.55)", maxWidth: 560, margin: "0 auto 32px", lineHeight: 1.6 }}>
-          Every plan includes commission automation, partner portal, and attribution tracking. No hidden fees. All plans include a 14-day trial.
+          Every plan includes commission automation, partner portal, and attribution tracking. No hidden fees. All plans include a live demo with real data.
         </p>
 
         {/* Billing toggle */}
@@ -268,7 +268,7 @@ export default function PricingPage() {
 
         {/* Trust line */}
         <p style={{ textAlign: "center", marginTop: 32, fontSize: ".82rem", color: "rgba(255,255,255,.35)" }}>
-          All plans include 14-day free trial · No credit card required · Cancel anytime
+          Early access pricing · Live demo available · No credit card required
         </p>
       </section>
 
@@ -364,10 +364,10 @@ export default function PricingPage() {
           Ready to automate your partner payouts?
         </h2>
         <p style={{ color: "rgba(255,255,255,.45)", fontSize: "1rem", marginBottom: 24 }}>
-          Start your 14-day trial · No credit card required.
+          View a live demo — no account needed.
         </p>
         <Link
-          href="/setup"
+          href="/demo"
           style={{
             display: "inline-flex", alignItems: "center", gap: 8,
             padding: "14px 32px", borderRadius: 10, background: "#6366f1", color: "#fff",
