@@ -43,7 +43,7 @@ const PLANS: Plan[] = [
     icon: <Rocket size={22} />,
     price: 299,
     priceAnnual: 249,
-    description: "For companies launching their first partner program",
+    description: "For teams managing up to 50 partners with basic deal registration and first-touch attribution",
     cta: "Get Early Access",
     ctaHref: "/setup",
     features: [
@@ -68,7 +68,7 @@ const PLANS: Plan[] = [
     icon: <Zap size={22} />,
     price: 799,
     priceAnnual: 649,
-    description: "For scaling programs with advanced attribution needs",
+    description: "For scaling programs with multi-touch attribution, co-selling workflows, and MDF tracking",
     cta: "Get Early Access",
     ctaHref: "/setup",
     popular: true,
@@ -95,7 +95,7 @@ const PLANS: Plan[] = [
     price: null,
     priceAnnual: null,
     priceLabel: "Custom",
-    description: "For large programs with complex partner ecosystems",
+    description: "For enterprise partner orgs with unlimited deal registrations, custom attribution models, and CRM integrations",
     cta: "Contact Sales",
     ctaHref: "/setup",
     features: [

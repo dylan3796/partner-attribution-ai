@@ -513,7 +513,7 @@ export default function SetupWizard() {
                 <>
                   <Upload size={36} style={{ color: "#6366f1", marginBottom: 8 }} />
                   <p style={{ fontWeight: 700 }}>Drag & drop your CSV here</p>
-                  <p style={{ color: "#94a3b8", fontSize: ".8rem", marginTop: 4 }}>or click to browse · CSV format, first row as headers</p>
+                  <p style={{ color: "#94a3b8", fontSize: ".8rem", marginTop: 4 }}>or click to browse · CSV format, first row as headers<br />Have a Google Sheet? Export as CSV first: File → Download → CSV</p>
                 </>
               )}
             </div>

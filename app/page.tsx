@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, ReactNode } from "react";
-import { Brain, Coins, ClipboardList, BarChart2, Globe, Eye, TrendingUp, Target, Gem, Search, Trophy, Banknote, Building2, Handshake, Plug, HelpCircle, Wallet, GraduationCap, Map, Scale, GitBranch, Tag } from "lucide-react";
+import { Brain, Coins, ClipboardList, BarChart2, Globe, Eye, TrendingUp, Target, Gem, Search, Trophy, Banknote, Building2, Handshake, Plug, HelpCircle, Wallet, GraduationCap, Map, Scale, GitBranch, Tag, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -77,7 +77,7 @@ export default function LandingPage() {
           <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(129,140,248,.8)", marginBottom: ".75rem" }}>Partner Intelligence Platform</p>
           <h1>Stop Guessing Which Partners Drive Revenue</h1>
           <p className="subtitle" style={{ maxWidth: 680, margin: "0 auto 2.5rem" }}>
-            Your partners are driving more revenue than you think. Covant shows you exactly how much — and makes sure they get paid for it, automatically.
+            Set up first-touch attribution, configure tier-based incentives, and give every partner a self-service portal — in under 15 minutes.
           </p>
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
@@ -257,12 +257,13 @@ export default function LandingPage() {
           </p>
         </div>
         <div className="wrap-wide grid-6">
-          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Brain size={20} strokeWidth={1.5} /></div><h3>Attribution everyone trusts</h3><p>Every deal traced back, auditable, impossible to dispute.</p></div></Link>
-          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Coins size={20} strokeWidth={1.5} /></div><h3>Commissions that calculate themselves</h3><p>Set rules once. Math, approvals, and payouts handled.</p></div></Link>
-          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><ClipboardList size={20} strokeWidth={1.5} /></div><h3>Run your program, not spreadsheets</h3><p>Tiers, deal registration, onboarding — one place, not scattered docs.</p></div></Link>
-          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><BarChart2 size={20} strokeWidth={1.5} /></div><h3>Prove partner ROI to your CFO</h3><p>See exactly which deals partners influenced. Finally, a real number.</p></div></Link>
-          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Globe size={20} strokeWidth={1.5} /></div><h3>Partners who actually use their portal</h3><p>Self-service for partners. No more email chains.</p></div></Link>
-          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Eye size={20} strokeWidth={1.5} /></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Every decision auditable.</p></div></Link>
+          <Link href="/dashboard/reports"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Brain size={20} strokeWidth={1.5} /></div><h3>First-touch & multi-touch attribution</h3><p>Choose your model — first-touch, last-touch, or multi-touch. Every deal traced back, auditable, zero attribution disputes.</p></div></Link>
+          <Link href="/dashboard/payouts"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Coins size={20} strokeWidth={1.5} /></div><h3>Tier-based incentives & MDF tracking</h3><p>Configure commission tiers, SPIFFs, and MDF (marketing development funds). Payouts calculated automatically.</p></div></Link>
+          <Link href="/dashboard"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><ClipboardList size={20} strokeWidth={1.5} /></div><h3>Deal registration & tier qualification</h3><p>Deal reg with conflict resolution, tier qualification rules, and partner onboarding — one place, not scattered docs.</p></div></Link>
+          <Link href="/dashboard/deals"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><BarChart2 size={20} strokeWidth={1.5} /></div><h3>Co-selling pipeline & partner ROI</h3><p>Track co-sell deals, measure partner-influenced pipeline, and prove ROI to your CFO with real numbers.</p></div></Link>
+          <Link href="/portal"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Globe size={20} strokeWidth={1.5} /></div><h3>Self-service partner portal</h3><p>Partners register deals, track commissions, and access co-branded assets — no more email chains.</p></div></Link>
+          <Link href="/dashboard/activity"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Eye size={20} strokeWidth={1.5} /></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Attribution disputes resolved automatically. Every decision auditable.</p></div></Link>
+          <Link href="/dashboard/recommendations"><div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Sparkles size={20} strokeWidth={1.5} /></div><h3>AI Partner Recommendations</h3><p>Covant analyzes your historical deal data to recommend which partners to engage for each new opportunity.</p></div></Link>
         </div>
       </section>
 
@@ -429,7 +430,7 @@ export default function LandingPage() {
           <div>
             <div className="tag">AI-Powered Attribution</div>
             <h2>Attribution that partners actually trust</h2>
-            <p>First touch, last touch, equal split, or custom rules. Every calculation explainable — disputes disappear.</p>
+            <p>Choose from first-touch, last-touch, or multi-touch models. Configure once, apply automatically. Every calculation explainable — attribution disputes disappear.</p>
             <Link href="/dashboard/reports" className="arrow-link">Set up your attribution rules →</Link>
           </div>
           <div className="card">
@@ -466,7 +467,7 @@ export default function LandingPage() {
           <div>
             <div className="tag">Incentives & Payouts</div>
             <h2>Fair splits, zero manual work</h2>
-            <p>Attribution drives automatic commission calculations. No more end-of-quarter surprises.</p>
+            <p>Attribution drives automatic commission calculations. Tier-based payouts, MDF allocations, and SPIFFs — no more end-of-quarter surprises.</p>
             <Link href="/dashboard/payouts" className="arrow-link">Manage incentives →</Link>
           </div>
           <div className="card">
