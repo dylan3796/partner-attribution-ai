@@ -82,7 +82,7 @@ export default function LandingPage() {
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link
-              href="/setup"
+              href="/demo"
               className="btn btn-lg"
               style={{ textDecoration: "none" }}
             >
@@ -672,7 +672,7 @@ export default function LandingPage() {
                 {submitted ? "✓ We'll be in touch!" : "Get Early Access"}
               </button>
             </form>
-            <Link href="/setup" className="btn-outline" style={{ whiteSpace: "nowrap" }}>
+            <Link href="/demo" className="btn-outline" style={{ whiteSpace: "nowrap" }}>
               View Live Demo →
             </Link>
           </div>
@@ -713,7 +713,7 @@ export default function LandingPage() {
             </div>
             <div>
               <h4>Resources</h4>
-              <Link href="/setup">Live Demo</Link>
+              <Link href="/demo">Live Demo</Link>
               <Link href="/docs">API Docs</Link>
               <Link href="/changelog">Changelog</Link>
               <Link href="/use-cases">Use Cases</Link>
