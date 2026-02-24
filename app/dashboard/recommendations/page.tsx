@@ -119,11 +119,6 @@ function DealRecommendations({ dealId, dealName, dealAmount }: { dealId: Id<"dea
 /* ── Structured Deal Context Form ── */
 function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPartner[]; openDeals: Doc<"deals">[] }) {
   const [selectedDealId, setSelectedDealId] = useState<string>("");
-  const [industry, setIndustry] = useState("");
-  const [customerSize, setCustomerSize] = useState("");
-  const [geography, setGeography] = useState("");
-  const [dealSize, setDealSize] = useState("");
-  const [product, setProduct] = useState("");
   const [otherContext, setOtherContext] = useState("");
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
@@ -135,20 +130,13 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
 
   function handleDealSelect(id: string) {
     setSelectedDealId(id);
-    const deal = openDeals.find((d) => d._id === id);
-    if (deal) {
-      setDealSize(deal.amount.toString());
-    } else {
-      setDealSize("");
-    }
   }
 
   function clearSelectedDeal() {
     setSelectedDealId("");
-    setDealSize("");
   }
 
-  const hasInput = industry || customerSize || geography || dealSize || product || otherContext || selectedDealId;
+  const hasInput = otherContext || selectedDealId;
 
   async function handleRefine() {
     if (!hasInput) return;
@@ -165,12 +153,7 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
 
     const dealContext = [
       selectedDealContext,
-      industry && `Industry/Vertical: ${industry}`,
-      customerSize && `Customer Size: ${customerSize}`,
-      geography && `Geography: ${geography}`,
-      dealSize && `Deal Size: $${dealSize}`,
-      product && `Product/Service: ${product}`,
-      otherContext && `Additional Context: ${otherContext}`,
+      otherContext && `Considerations: ${otherContext}`,
     ].filter(Boolean).join("\n");
 
     const prompt = `Given the following partner performance data:\n${partnerData}\n\nAnd this deal context:\n${dealContext}\n\nWhich 3 partners would you recommend and why? Be specific about why each partner fits this deal. Consider tier, win rate, deal volume, and revenue track record.`;
@@ -254,38 +237,9 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
         </div>
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1rem" }}>
-        <div>
-          <label style={labelStyle}>Industry / Vertical</label>
-          <input value={industry} onChange={(e) => setIndustry(e.target.value)} placeholder="e.g. Healthcare, SaaS, Financial Services" style={inputStyle} />
-        </div>
-        <div>
-          <label style={labelStyle}>Customer Size</label>
-          <select value={customerSize} onChange={(e) => setCustomerSize(e.target.value)} style={inputStyle}>
-            <option value="">Select…</option>
-            <option value="SMB">SMB</option>
-            <option value="Mid-Market">Mid-Market</option>
-            <option value="Enterprise">Enterprise</option>
-          </select>
-        </div>
-        <div>
-          <label style={labelStyle}>Geography</label>
-          <input value={geography} onChange={(e) => setGeography(e.target.value)} placeholder="e.g. US West, EMEA, APAC" style={inputStyle} />
-        </div>
-        <div>
-          <label style={labelStyle}>Deal Size Estimate</label>
-          <input value={dealSize} onChange={(e) => setDealSize(e.target.value)} placeholder="e.g. 85000" type="text" style={inputStyle} />
-        </div>
-      </div>
-
       <div style={{ marginBottom: "1rem" }}>
-        <label style={labelStyle}>What product/service are you selling?</label>
-        <input value={product} onChange={(e) => setProduct(e.target.value)} placeholder="e.g. Cloud migration, Data analytics platform" style={inputStyle} />
-      </div>
-
-      <div style={{ marginBottom: "1rem" }}>
-        <label style={labelStyle}>Any other context?</label>
-        <textarea value={otherContext} onChange={(e) => setOtherContext(e.target.value)} placeholder="e.g. 6-month sales cycle, needs technical integration support…" rows={2} style={{ ...inputStyle, resize: "vertical" }} />
+        <label style={labelStyle}>Any considerations?</label>
+        <textarea value={otherContext} onChange={(e) => setOtherContext(e.target.value)} placeholder="e.g. customer prefers East Coast partners, healthcare vertical, needs technical integration support…" rows={2} style={{ ...inputStyle, resize: "vertical" }} />
       </div>
 
       <div style={{ display: "flex", justifyContent: "flex-end" }}>
