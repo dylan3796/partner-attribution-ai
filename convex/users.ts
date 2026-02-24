@@ -24,25 +24,26 @@ export const provision = mutation({
       return existing._id;
     }
 
-    // Get or create org — for now, assign to first org (single-tenant beta)
-    // TODO: Multi-org support — create new org per signup
-    const org = await ctx.db.query("organizations").first();
-    if (!org) {
-      // No org exists yet — create a default one
-      const orgId = await ctx.db.insert("organizations", {
-        name: args.name ? `${args.name}'s Program` : "My Partner Program",
+    // Check if another user with the same email domain already has an org
+    // (team members joining an existing org)
+    const domain = args.email.split("@")[1] ?? "";
+    const existingUsers = await ctx.db.query("users").collect();
+    const sameOrgUser = existingUsers.find(
+      (u) => u.email.endsWith("@" + domain) && domain !== "gmail.com" && domain !== "outlook.com" && domain !== "hotmail.com" && domain !== "yahoo.com"
+    );
+
+    let orgId;
+    if (sameOrgUser) {
+      // Join existing org (same company domain)
+      orgId = sameOrgUser.organizationId;
+    } else {
+      // Create a new org for this user — true multi-tenancy
+      const displayName = args.name ?? args.email.split("@")[0];
+      orgId = await ctx.db.insert("organizations", {
+        name: `${displayName}'s Program`,
         email: args.email,
         apiKey: `cpk_${Math.random().toString(36).slice(2)}${Math.random().toString(36).slice(2)}`,
         plan: "starter",
-        createdAt: Date.now(),
-      });
-
-      return await ctx.db.insert("users", {
-        clerkId: args.clerkId,
-        email: args.email,
-        name: args.name ?? args.email,
-        organizationId: orgId,
-        role: "admin",
         createdAt: Date.now(),
       });
     }
@@ -51,8 +52,8 @@ export const provision = mutation({
       clerkId: args.clerkId,
       email: args.email,
       name: args.name ?? args.email,
-      organizationId: org._id,
-      role: "admin",
+      organizationId: orgId,
+      role: sameOrgUser ? "member" : "admin",
       createdAt: Date.now(),
     });
   },
