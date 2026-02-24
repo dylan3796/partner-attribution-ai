@@ -179,7 +179,7 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
       const res = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: prompt }),
+        body: JSON.stringify({ question: prompt }),
       });
       const data = await res.json();
       setResponse(data.response ?? data.error ?? "No response");
