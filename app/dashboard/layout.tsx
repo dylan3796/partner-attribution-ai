@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { UserButton } from "@clerk/nextjs";
 import { ToastProvider } from "@/components/ui/toast";
 import { KeyboardShortcuts } from "@/components/ui/keyboard-shortcuts";
 import DashboardSidebar from "@/components/DashboardSidebar";
@@ -44,6 +45,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
               </button>
               <DarkModeToggle />
               <NotificationBell />
+              <UserButton afterSignOutUrl="/" />
             </div>
           </div>
           <div className="dash-main-inner">

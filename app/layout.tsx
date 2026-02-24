@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 import { StoreProvider } from "@/lib/store";
 import { PlatformConfigProvider } from "@/lib/platform-config";
 import { Providers } from "./providers";
@@ -51,15 +52,17 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <Providers>
-          <StoreProvider>
-            <PlatformConfigProvider>
-              <Nav />
-              {children}
-              <AskCovant />
-            </PlatformConfigProvider>
-          </StoreProvider>
-        </Providers>
+        <ClerkProvider>
+          <Providers>
+            <StoreProvider>
+              <PlatformConfigProvider>
+                <Nav />
+                {children}
+                <AskCovant />
+              </PlatformConfigProvider>
+            </StoreProvider>
+          </Providers>
+        </ClerkProvider>
       </body>
     </html>
   );
