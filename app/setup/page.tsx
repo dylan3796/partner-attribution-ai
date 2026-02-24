@@ -747,16 +747,34 @@ export default function SetupWizard() {
             {data.rules.length === 0 && (
               <button
                 onClick={() => {
-                  const defaultRules: ParsedRule[] = [
-                    { id: "d1", field: "partner_tier", operator: "is", value: "Gold", action: "commission", actionValue: "20%" },
-                    { id: "d2", field: "partner_tier", operator: "is", value: "Silver", action: "commission", actionValue: "15%" },
-                    { id: "d3", field: "partner_tier", operator: "is", value: "Bronze", action: "commission", actionValue: "10%" },
-                  ];
-                  setData((d) => ({
-                    ...d,
-                    rules: defaultRules,
-                    ruleText: "When @partner_tier is Gold, commission is 20%\nWhen @partner_tier is Silver, commission is 15%\nWhen @partner_tier is Bronze, commission is 10%",
-                  }));
+                  let defaultRules: ParsedRule[];
+                  let defaultText: string;
+                  if (mappedFields.includes("partner_tier")) {
+                    defaultRules = [
+                      { id: "d1", field: "partner_tier", operator: "is", value: "Gold", action: "commission", actionValue: "20%" },
+                      { id: "d2", field: "partner_tier", operator: "is", value: "Silver", action: "commission", actionValue: "15%" },
+                      { id: "d3", field: "partner_tier", operator: "is", value: "Bronze", action: "commission", actionValue: "10%" },
+                    ];
+                    defaultText = "When @partner_tier is Gold, commission is 20%\nWhen @partner_tier is Silver, commission is 15%\nWhen @partner_tier is Bronze, commission is 10%";
+                  } else if (mappedFields.includes("partner_type")) {
+                    defaultRules = [
+                      { id: "d1", field: "partner_type", operator: "is", value: "Reseller", action: "commission", actionValue: "15%" },
+                      { id: "d2", field: "partner_type", operator: "is", value: "Referral", action: "commission", actionValue: "10%" },
+                    ];
+                    defaultText = "When @partner_type is Reseller, commission is 15%\nWhen @partner_type is Referral, commission is 10%";
+                  } else if (mappedFields.includes("deal_value")) {
+                    defaultRules = [
+                      { id: "d1", field: "deal_value", operator: ">", value: "$100,000", action: "commission", actionValue: "15%" },
+                      { id: "d2", field: "deal_value", operator: ">", value: "$50,000", action: "commission", actionValue: "12%" },
+                    ];
+                    defaultText = "When @deal_value > $100,000, commission is 15%\nWhen @deal_value > $50,000, commission is 12%";
+                  } else {
+                    defaultRules = [
+                      { id: "d1", field: "partner_name", operator: "is", value: "Default", action: "commission", actionValue: "10%" },
+                    ];
+                    defaultText = "Default commission is 10%";
+                  }
+                  setData((d) => ({ ...d, rules: defaultRules, ruleText: defaultText }));
                 }}
                 style={{
                   padding: "10px 20px", borderRadius: 8, border: "1px solid #2a2a3a",
@@ -822,7 +840,20 @@ export default function SetupWizard() {
               </div>
             </div>
 
-            {/* Launch Button */}
+            {/* Back + Launch */}
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <button
+              onClick={() => setStep(2)}
+              disabled={saving}
+              style={{
+                display: "flex", alignItems: "center", gap: 6, padding: "14px 20px",
+                borderRadius: 10, border: "1px solid #2a2a3a", background: "transparent",
+                color: "#94a3b8", fontSize: ".9rem", fontWeight: 600,
+                cursor: saving ? "default" : "pointer", fontFamily: "inherit",
+              }}
+            >
+              <ChevronLeft size={16} /> Back
+            </button>
             <button
               onClick={handleLaunch}
               disabled={saving}
@@ -836,6 +867,7 @@ export default function SetupWizard() {
             >
               {saving ? (launchStatus || "Setting up...") : <><Rocket size={18} /> Launch Covant →</>}
             </button>
+            </div>
           </div>
         )}
 
