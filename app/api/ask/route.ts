@@ -2,12 +2,11 @@
  * Ask Covant — AI-powered API Route
  *
  * Accepts POST { question: string, context?: object }
- * Tries Kimi K2.5 (via NVIDIA NIM, free) first, then falls back to Claude.
- * Returns { answer, model: "kimi-k2.5" | "claude", aiPowered: true }
+ * Uses Claude Haiku for fast, cheap responses.
+ * Returns { answer, model: "claude", aiPowered: true }
  */
 
 import { NextRequest, NextResponse } from "next/server";
-import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
 import {
   demoPartners,
@@ -153,45 +152,11 @@ export async function POST(req: NextRequest) {
     const context = (typeof clientContext === "string" && clientContext.length > 10) ? clientContext : buildContext();
     const userContent = `Here is the current partner program data:\n\n<data>\n${context}\n</data>\n\nQuestion: ${question}`;
 
-    // ── 1. Try Kimi K2.5 via NVIDIA NIM (free) ──────────────────────────────
-    const nvidiaKey = process.env.NVIDIA_NIM_API_KEY;
-    if (nvidiaKey) {
-      try {
-        const nvidia = new OpenAI({
-          apiKey: nvidiaKey,
-          baseURL: "https://integrate.api.nvidia.com/v1",
-        });
-
-        const response = await nvidia.chat.completions.create({
-          model: "moonshotai/kimi-k2.5",
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: userContent },
-          ],
-          max_tokens: 1024,
-          temperature: 0.7,
-        });
-
-        const answer = response.choices[0]?.message?.content;
-        if (answer) {
-          return NextResponse.json({
-            answer,
-            model: "kimi-k2.5",
-            aiPowered: true,
-          });
-        }
-      } catch (kimiErr) {
-        console.warn("[ask/route] Kimi K2.5 failed, falling back to Claude:", kimiErr);
-      }
-    } else {
-      console.info("[ask/route] NVIDIA_NIM_API_KEY not set — skipping Kimi, trying Claude");
-    }
-
-    // ── 2. Fall back to Claude ───────────────────────────────────────────────
+    // ── Claude Haiku ─────────────────────────────────────────────────────────
     const anthropicKey = process.env.ANTHROPIC_API_KEY;
     if (!anthropicKey) {
       return NextResponse.json(
-        { error: "No AI provider configured (NVIDIA_NIM_API_KEY or ANTHROPIC_API_KEY required)", fallback: true },
+        { error: "ANTHROPIC_API_KEY not configured", fallback: true },
         { status: 503 }
       );
     }
