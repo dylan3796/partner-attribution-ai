@@ -91,7 +91,7 @@ export default function LandingPage() {
           </div>
 
           <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>
-            14-day free trial · No credit card required
+            No account required · Live demo with real data
           </p>
         </div>
 

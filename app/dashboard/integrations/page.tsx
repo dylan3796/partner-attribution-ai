@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import {
   Plug, CheckCircle2, XCircle, Clock, Settings, ExternalLink,
   RefreshCw, Zap, ArrowRight, Shield, AlertTriangle,
@@ -128,10 +130,34 @@ function timeAgo(ts: number): string {
 }
 
 export default function IntegrationsPage() {
-  const [integrations, setIntegrations] = useState(demoIntegrations);
+  const crmStatuses = useQuery(api.integrations.getCrmStatuses);
   const [filterCategory, setFilterCategory] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [syncing, setSyncing] = useState<string | null>(null);
+
+  // Merge real CRM status into the demo list
+  const integrations: Integration[] = demoIntegrations.map((intg) => {
+    if (intg.id === "salesforce" && crmStatuses) {
+      const sf = crmStatuses.salesforce;
+      return {
+        ...intg,
+        status: sf.connected ? "connected" as const : "disconnected" as const,
+        lastSync: sf.connected ? (sf.lastSyncedAt ?? undefined) : undefined,
+        syncedRecords: sf.connected ? sf.syncedDeals : undefined,
+      };
+    }
+    if (intg.id === "hubspot" && crmStatuses) {
+      const hs = crmStatuses.hubspot;
+      return {
+        ...intg,
+        status: hs.connected ? "connected" as const : "disconnected" as const,
+        lastSync: hs.connected ? (hs.lastSyncedAt ?? undefined) : undefined,
+        syncedRecords: hs.connected ? hs.syncedDeals : undefined,
+      };
+    }
+    return intg;
+  });
 
   const connected = integrations.filter((i) => i.status === "connected");
   const filtered = integrations.filter((i) => {
@@ -141,10 +167,56 @@ export default function IntegrationsPage() {
     return true;
   });
 
+  const orgId = crmStatuses?.orgId;
+
+  async function handleConnect(id: string) {
+    if (id === "salesforce" && orgId) {
+      window.location.href = `/api/integrations/salesforce/connect?orgId=${orgId}`;
+      return;
+    }
+    if (id === "hubspot" && orgId) {
+      window.location.href = `/api/integrations/hubspot/connect?orgId=${orgId}`;
+      return;
+    }
+    // Other integrations: demo toggle
+    alert(`${id} integration coming soon.`);
+  }
+
+  async function handleDisconnect(id: string) {
+    if (!orgId) return;
+    const endpoint = id === "salesforce"
+      ? "/api/integrations/salesforce/disconnect"
+      : id === "hubspot"
+      ? "/api/integrations/hubspot/disconnect"
+      : null;
+    if (!endpoint) return;
+    await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ organizationId: orgId }) });
+  }
+
+  async function handleSync(id: string) {
+    if (!orgId) return;
+    const endpoint = id === "salesforce"
+      ? "/api/integrations/salesforce/sync"
+      : id === "hubspot"
+      ? "/api/integrations/hubspot/sync"
+      : null;
+    if (!endpoint) return;
+    setSyncing(id);
+    try {
+      await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ organizationId: orgId }) });
+    } finally {
+      setSyncing(null);
+    }
+  }
+
   function toggleConnect(id: string) {
-    setIntegrations((prev) => prev.map((i) =>
-      i.id === id ? { ...i, status: i.status === "connected" ? "disconnected" as const : "connected" as const, lastSync: i.status !== "connected" ? Date.now() : i.lastSync } : i
-    ));
+    const intg = integrations.find((i) => i.id === id);
+    if (!intg) return;
+    if (intg.status === "connected") {
+      handleDisconnect(id);
+    } else {
+      handleConnect(id);
+    }
   }
 
   return (
@@ -259,18 +331,34 @@ export default function IntegrationsPage() {
                 </div>
 
                 {/* Action */}
-                <button
-                  onClick={() => toggleConnect(intg.id)}
-                  style={{
-                    width: "100%", padding: "8px", borderRadius: 8, fontSize: ".85rem", fontWeight: 600, cursor: "pointer",
-                    border: intg.status === "connected" ? "1px solid var(--border)" : "none",
-                    background: intg.status === "connected" ? "transparent" : "#6366f1",
-                    color: intg.status === "connected" ? "var(--muted)" : "#fff",
-                    fontFamily: "inherit",
-                  }}
-                >
-                  {intg.status === "connected" ? "Disconnect" : "Connect"}
-                </button>
+                <div style={{ display: "flex", gap: 8 }}>
+                  {intg.status === "connected" && (intg.id === "salesforce" || intg.id === "hubspot") && (
+                    <button
+                      onClick={() => handleSync(intg.id)}
+                      disabled={syncing === intg.id}
+                      style={{
+                        flex: 1, padding: "8px", borderRadius: 8, fontSize: ".85rem", fontWeight: 600, cursor: "pointer",
+                        border: "none", background: "#6366f1", color: "#fff", fontFamily: "inherit",
+                        opacity: syncing === intg.id ? 0.7 : 1,
+                      }}
+                    >
+                      {syncing === intg.id ? "Syncing…" : "Sync Now"}
+                    </button>
+                  )}
+                  <button
+                    onClick={() => toggleConnect(intg.id)}
+                    style={{
+                      flex: intg.status === "connected" && (intg.id === "salesforce" || intg.id === "hubspot") ? "0 0 auto" : 1,
+                      padding: "8px 14px", borderRadius: 8, fontSize: ".85rem", fontWeight: 600, cursor: "pointer",
+                      border: intg.status === "connected" ? "1px solid var(--border)" : "none",
+                      background: intg.status === "connected" ? "transparent" : "#6366f1",
+                      color: intg.status === "connected" ? "var(--muted)" : "#fff",
+                      fontFamily: "inherit",
+                    }}
+                  >
+                    {intg.status === "connected" ? "Disconnect" : "Connect"}
+                  </button>
+                </div>
               </div>
             </div>
           );

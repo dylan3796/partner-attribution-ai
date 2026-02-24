@@ -103,6 +103,7 @@ export default defineSchema({
     )),
     // CRM integration fields
     salesforceId: v.optional(v.string()),
+    hubspotId: v.optional(v.string()),
     source: v.optional(v.union(
       v.literal("manual"),
       v.literal("salesforce"),
@@ -115,7 +116,8 @@ export default defineSchema({
     .index("by_org_and_status", ["organizationId", "status"])
     .index("by_org_and_date", ["organizationId", "createdAt"])
     .index("by_registered_partner", ["registeredBy"])
-    .index("by_salesforce_id", ["salesforceId"]),
+    .index("by_salesforce_id", ["salesforceId"])
+    .index("by_hubspot_id", ["hubspotId"]),
 
   // Touchpoints (partner interactions with deals)
   touchpoints: defineTable({
@@ -265,6 +267,18 @@ export default defineSchema({
     .index("by_status", ["status"]),
 
   // Salesforce CRM connections
+  hubspotConnections: defineTable({
+    organizationId: v.id("organizations"),
+    accessToken: v.string(),
+    refreshToken: v.string(),
+    hubspotPortalId: v.string(),
+    hubspotPortalName: v.optional(v.string()),
+    lastSyncedAt: v.optional(v.number()),
+    connectedAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_portal", ["hubspotPortalId"]),
+
   salesforceConnections: defineTable({
     organizationId: v.id("organizations"),
     accessToken: v.string(),
