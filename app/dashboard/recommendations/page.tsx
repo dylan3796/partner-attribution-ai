@@ -1,11 +1,12 @@
 "use client";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { Sparkles, TrendingUp, Award, Users, Brain, Loader2 } from "lucide-react";
+import { Sparkles, TrendingUp, Award, Users, Brain, Loader2, X } from "lucide-react";
 import type { Id } from "@/convex/_generated/dataModel";
+import type { Doc } from "@/convex/_generated/dataModel";
 
 /* ── Types ── */
 type RecommendedPartner = {
@@ -116,7 +117,8 @@ function DealRecommendations({ dealId, dealName, dealAmount }: { dealId: Id<"dea
 }
 
 /* ── Structured Deal Context Form ── */
-function RefineDealForm({ topPartners }: { topPartners: RecommendedPartner[] }) {
+function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPartner[]; openDeals: Doc<"deals">[] }) {
+  const [selectedDealId, setSelectedDealId] = useState<string>("");
   const [industry, setIndustry] = useState("");
   const [customerSize, setCustomerSize] = useState("");
   const [geography, setGeography] = useState("");
@@ -126,7 +128,27 @@ function RefineDealForm({ topPartners }: { topPartners: RecommendedPartner[] }) 
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const hasInput = industry || customerSize || geography || dealSize || product || otherContext;
+  const selectedDeal = useMemo(
+    () => openDeals.find((d) => d._id === selectedDealId) ?? null,
+    [openDeals, selectedDealId]
+  );
+
+  function handleDealSelect(id: string) {
+    setSelectedDealId(id);
+    const deal = openDeals.find((d) => d._id === id);
+    if (deal) {
+      setDealSize(deal.amount.toString());
+    } else {
+      setDealSize("");
+    }
+  }
+
+  function clearSelectedDeal() {
+    setSelectedDealId("");
+    setDealSize("");
+  }
+
+  const hasInput = industry || customerSize || geography || dealSize || product || otherContext || selectedDealId;
 
   async function handleRefine() {
     if (!hasInput) return;
@@ -137,7 +159,12 @@ function RefineDealForm({ topPartners }: { topPartners: RecommendedPartner[] }) 
       `${p.partner.name} (${p.partner.tier} tier, ${p.partner.type}): ${Math.round(p.winRate * 100)}% win rate, ${p.wonCount} deals won, ${formatCurrencyCompact(p.totalRevenue)} revenue, ${formatCurrencyCompact(p.pipeline)} pipeline, score ${(p.recommendationScore * 100).toFixed(0)}`
     )).join("\n");
 
+    const selectedDealContext = selectedDeal
+      ? `Deal: ${selectedDeal.name}, Amount: $${selectedDeal.amount}, Stage: open`
+      : "";
+
     const dealContext = [
+      selectedDealContext,
       industry && `Industry/Vertical: ${industry}`,
       customerSize && `Customer Size: ${customerSize}`,
       geography && `Geography: ${geography}`,
@@ -182,6 +209,50 @@ function RefineDealForm({ topPartners }: { topPartners: RecommendedPartner[] }) 
       <p className="muted" style={{ fontSize: ".8rem", marginBottom: "1.25rem" }}>
         Add deal context to get tailored partner recommendations from Covant AI.
       </p>
+
+      {/* Deal Selector */}
+      {openDeals.length > 0 && (
+        <div style={{ marginBottom: "1rem" }}>
+          <label style={labelStyle}>Select a deal from your pipeline (optional)</label>
+          {selectedDeal ? (
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: ".5rem",
+              padding: ".4rem .75rem", borderRadius: 8, background: "#eef2ff",
+              border: "1px solid #c7d2fe", fontSize: ".85rem", fontWeight: 600, color: "#4338ca",
+            }}>
+              {selectedDeal.name} — {formatCurrency(selectedDeal.amount)}
+              <button
+                onClick={clearSelectedDeal}
+                style={{
+                  background: "none", border: "none", cursor: "pointer", padding: 0,
+                  display: "flex", alignItems: "center", color: "#6366f1",
+                }}
+                aria-label="Clear selected deal"
+              >
+                <X size={14} />
+              </button>
+            </div>
+          ) : (
+            <select
+              value={selectedDealId}
+              onChange={(e) => handleDealSelect(e.target.value)}
+              style={inputStyle}
+            >
+              <option value="">Select a deal…</option>
+              {openDeals.map((deal) => (
+                <option key={deal._id} value={deal._id}>
+                  {deal.name} — {formatCurrency(deal.amount)}
+                </option>
+              ))}
+            </select>
+          )}
+          {!selectedDeal && (
+            <p className="muted" style={{ fontSize: ".7rem", marginTop: ".3rem" }}>
+              Or describe your deal manually below
+            </p>
+          )}
+        </div>
+      )}
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem", marginBottom: "1rem" }}>
         <div>
@@ -366,7 +437,7 @@ export default function RecommendationsPage() {
 
           {/* ── Section 2: Refine for a Specific Deal ── */}
           <div style={{ marginBottom: "2rem" }}>
-            <RefineDealForm topPartners={(topRecommended ?? []) as RecommendedPartner[]} />
+            <RefineDealForm topPartners={(topRecommended ?? []) as RecommendedPartner[]} openDeals={openDeals ?? []} />
           </div>
 
           {/* ── Section 3: Open Deals — Partner Suggestions ── */}
