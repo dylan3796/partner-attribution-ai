@@ -165,7 +165,7 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
         body: JSON.stringify({ question: prompt }),
       });
       const data = await res.json();
-      setResponse(data.response ?? data.error ?? "No response");
+      setResponse(data.answer ?? data.response ?? data.error ?? "No response");
     } catch {
       setResponse("Failed to get recommendation. Please try again.");
     }
