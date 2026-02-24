@@ -32,7 +32,9 @@ function getReasoningTags(p: RecommendedPartner): string[] {
   if (tier === "platinum" || tier === "gold") {
     tags.push(`${tier.charAt(0).toUpperCase() + tier.slice(1)} tier partner`);
   }
-  if (p.pipeline > 0) {
+  if (p.pipeline > 0 && p.wonCount === 0) {
+    tags.push(`Building track record · ${formatCurrencyCompact(p.pipeline)} pipeline`);
+  } else if (p.pipeline > 0) {
     tags.push(`${formatCurrencyCompact(p.pipeline)} active pipeline`);
   }
   return tags.slice(0, 3);
@@ -136,7 +138,7 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
     setSelectedDealId("");
   }
 
-  const hasInput = otherContext || selectedDealId;
+  const hasInput = !!selectedDealId || !!otherContext.trim();
 
   async function handleRefine() {
     if (!hasInput) return;
@@ -156,7 +158,7 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
       otherContext && `Considerations: ${otherContext}`,
     ].filter(Boolean).join("\n");
 
-    const prompt = `Given the following partner performance data:\n${partnerData}\n\nAnd this deal context:\n${dealContext}\n\nWhich 3 partners would you recommend and why? Be specific about why each partner fits this deal. Consider tier, win rate, deal volume, and revenue track record.`;
+    const prompt = `Given the following partner performance data:\n${partnerData}\n\nAnd this deal context:\n${dealContext}\n\nWhich 3 partners would you recommend and why? Format your response as 3 partner recommendations, each with: partner name as a header (##), then 2-3 bullet points explaining why they fit. Be specific — use win rates, revenue numbers, and the deal context provided. Keep it concise — no more than 3 bullets per partner.`;
 
     try {
       const res = await fetch("/api/ask", {
@@ -184,7 +186,7 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
   };
 
   return (
-    <div className="card" style={{ padding: "1.5rem", background: "linear-gradient(135deg, #eef2ff 0%, #faf5ff 100%)", border: "1px solid #c7d2fe" }}>
+    <div className="card" style={{ padding: "1.5rem", background: "var(--bg)", border: "1px solid var(--border)" }}>
       <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginBottom: ".75rem" }}>
         <Brain size={20} color="#6366f1" />
         <h3 style={{ fontWeight: 700, fontSize: "1rem", margin: 0 }}>Refine for a Specific Deal</h3>
@@ -200,8 +202,8 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
           {selectedDeal ? (
             <div style={{
               display: "inline-flex", alignItems: "center", gap: ".5rem",
-              padding: ".4rem .75rem", borderRadius: 8, background: "#eef2ff",
-              border: "1px solid #c7d2fe", fontSize: ".85rem", fontWeight: 600, color: "#4338ca",
+              padding: ".4rem .75rem", borderRadius: 8, background: "var(--subtle)",
+              border: "1px solid var(--border)", fontSize: ".85rem", fontWeight: 600, color: "#6366f1",
             }}>
               {selectedDeal.name} — {formatCurrency(selectedDeal.amount)}
               <button
@@ -284,7 +286,11 @@ export default function RecommendationsPage() {
   const topRecommended = useQuery(api.recommendations.getTopRecommended);
   const openDeals = useQuery(api.recommendations.getOpenDeals);
 
-  const hasData = topRecommended && topRecommended.length > 0;
+  const filteredRecommended = useMemo(
+    () => topRecommended?.filter((r) => r.wonCount > 0 || r.pipeline > 0),
+    [topRecommended]
+  );
+  const hasData = filteredRecommended && filteredRecommended.length > 0;
 
   return (
     <>
@@ -302,7 +308,7 @@ export default function RecommendationsPage() {
         </div>
       </div>
 
-      {!hasData && topRecommended !== undefined ? (
+      {!hasData && filteredRecommended !== undefined ? (
         <div className="card" style={{ padding: "3rem 2rem", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
           <Users size={48} color="var(--muted)" />
           <h3 style={{ fontWeight: 700, fontSize: "1.1rem" }}>Not enough historical data yet</h3>
@@ -331,12 +337,12 @@ export default function RecommendationsPage() {
                 <span style={{ textAlign: "right" }}>Revenue</span>
                 <span style={{ textAlign: "right" }}>Score</span>
               </div>
-              {topRecommended === undefined ? (
+              {filteredRecommended === undefined ? (
                 <div style={{ padding: "2rem", textAlign: "center" }}>
                   <Loader2 size={20} style={{ animation: "spin 1s linear infinite", color: "var(--muted)" }} />
                 </div>
               ) : (
-                topRecommended.map((r, i) => {
+                filteredRecommended.map((r, i) => {
                   const reasons = getReasoningTags(r as RecommendedPartner);
                   return (
                     <Link
@@ -345,7 +351,7 @@ export default function RecommendationsPage() {
                       style={{
                         display: "grid", gridTemplateColumns: "2.5fr 1fr 1fr 1fr 1fr",
                         padding: ".75rem 1.25rem",
-                        borderBottom: i < topRecommended.length - 1 ? "1px solid var(--border)" : "none",
+                        borderBottom: i < filteredRecommended.length - 1 ? "1px solid var(--border)" : "none",
                         textDecoration: "none", alignItems: "center", transition: "background .15s",
                       }}
                     >
@@ -362,7 +368,7 @@ export default function RecommendationsPage() {
                             <div style={{ display: "flex", flexWrap: "wrap", gap: ".3rem", marginTop: 3 }}>
                               {reasons.map((tag, ti) => (
                                 <span key={ti} style={{
-                                  fontSize: ".65rem", color: "#6366f1", background: "#eef2ff",
+                                  fontSize: ".65rem", color: "#6366f1", background: "rgba(99, 102, 241, 0.1)",
                                   padding: "1px 6px", borderRadius: 4, fontWeight: 500,
                                 }}>
                                   {tag}
@@ -391,7 +397,7 @@ export default function RecommendationsPage() {
 
           {/* ── Section 2: Refine for a Specific Deal ── */}
           <div style={{ marginBottom: "2rem" }}>
-            <RefineDealForm topPartners={(topRecommended ?? []) as RecommendedPartner[]} openDeals={openDeals ?? []} />
+            <RefineDealForm topPartners={(filteredRecommended ?? []) as RecommendedPartner[]} openDeals={openDeals ?? []} />
           </div>
 
           {/* ── Section 3: Open Deals — Partner Suggestions ── */}
