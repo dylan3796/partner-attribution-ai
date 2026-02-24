@@ -40,6 +40,7 @@ import type * as partners from "../partners.js";
 import type * as payouts from "../payouts.js";
 import type * as programConfig from "../programConfig.js";
 import type * as queries_analytics from "../queries/analytics.js";
+import type * as recommendations from "../recommendations.js";
 import type * as seedDemo from "../seedDemo.js";
 import type * as setup from "../setup.js";
 import type * as touchpoints_mutations from "../touchpoints/mutations.js";
@@ -85,6 +86,7 @@ declare const fullApi: ApiFromModules<{
   payouts: typeof payouts;
   programConfig: typeof programConfig;
   "queries/analytics": typeof queries_analytics;
+  recommendations: typeof recommendations;
   seedDemo: typeof seedDemo;
   setup: typeof setup;
   "touchpoints/mutations": typeof touchpoints_mutations;

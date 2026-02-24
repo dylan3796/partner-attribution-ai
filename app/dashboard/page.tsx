@@ -6,7 +6,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2 } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2, Sparkles } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { Deal, Partner, Payout, AuditEntry } from "@/lib/types";
 
@@ -108,6 +108,7 @@ export default function DashboardPage() {
   const { stats: storeStats, deals: storeDeals, partners: storePartners, payouts: storePayouts, auditLog: storeAuditLog } = useStore();
   
   // ── Convex data for alerts ─────────────────────────────────────────────
+  const convexTopRecommended = useQuery(api.recommendations.getTopRecommended);
   const convexChannelConflicts = useQuery(api.dashboard.getChannelConflicts);
   const convexMdfRequests = useQuery(api.mdf.list);
   const { config, isFeatureEnabled } = usePlatformConfig();
@@ -271,6 +272,45 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+
+      {/* ── Partner Recommendations Widget ── */}
+      {convexTopRecommended && convexTopRecommended.length > 0 && (
+        <div className="card" style={{ padding: "1.25rem", marginBottom: "1.5rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+            <h3 style={{ fontWeight: 700, fontSize: "1rem", display: "flex", alignItems: "center", gap: ".5rem" }}>
+              <Sparkles size={16} color="#6366f1" />
+              Recommended Partners
+            </h3>
+            <Link href="/dashboard/recommendations" className="muted" style={{ fontSize: ".8rem", fontWeight: 500 }}>View all →</Link>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: ".75rem" }}>
+            {convexTopRecommended.slice(0, 3).map((r) => (
+              <Link
+                key={r.partner._id}
+                href={`/dashboard/partners/${r.partner._id}`}
+                style={{
+                  display: "flex", alignItems: "center", gap: ".6rem", padding: "10px 12px",
+                  borderRadius: 8, border: "1px solid var(--border)", textDecoration: "none",
+                  transition: "border-color 0.15s",
+                }}
+              >
+                <div className="avatar" style={{ width: 36, height: 36, fontSize: ".7rem", background: "linear-gradient(135deg, #6366f1, #8b5cf6)", color: "#fff" }}>
+                  {r.partner.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontWeight: 600, fontSize: ".85rem", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{r.partner.name}</p>
+                  <p className="muted" style={{ fontSize: ".72rem" }}>
+                    {Math.round(r.winRate * 100)}% win rate · {formatCurrencyCompact(r.totalRevenue)}
+                  </p>
+                </div>
+                <span style={{ fontSize: ".65rem", fontWeight: 700, padding: "2px 6px", borderRadius: 4, background: r.recommendationScore >= 0.7 ? "#dcfce7" : r.recommendationScore >= 0.4 ? "#dbeafe" : "#fef9c3", color: r.recommendationScore >= 0.7 ? "#166534" : r.recommendationScore >= 0.4 ? "#1e40af" : "#854d0e" }}>
+                  {r.recommendationScore >= 0.7 ? "★★★" : r.recommendationScore >= 0.4 ? "★★" : "★"}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="stat-grid" style={{ marginBottom: "2rem" }}>
