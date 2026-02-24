@@ -1,7 +1,8 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
+// Only protect setup — dashboard is intentionally open for demo viewing
+// (unauthenticated users see the demo org; authenticated users see their own org)
 const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)',
   '/setup(.*)',
 ]);
 
