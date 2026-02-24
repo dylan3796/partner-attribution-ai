@@ -4,8 +4,9 @@
 import { query } from "./_generated/server";
 import { v } from "convex/values";
 
+import { getOrg } from "./lib/getOrg";
 async function defaultOrg(ctx: any) {
-  return await ctx.db.query("organizations").first();
+  return await getOrg(ctx);
 }
 
 const EMPTY_STATS = {
@@ -179,7 +180,7 @@ export const getAuditLog = query({
 export const getOrganization = query({
   args: {},
   handler: async (ctx) => {
-    return await ctx.db.query("organizations").first();
+    return await getOrg(ctx);
   },
 });
 

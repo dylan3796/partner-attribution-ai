@@ -5,8 +5,9 @@ import { v } from "convex/values";
 // Defines templates and triggers for automated partner email notifications.
 // In production, a Convex action would call Resend/SendGrid; here we log to a queue.
 
+import { getOrg } from "./lib/getOrg";
 async function defaultOrg(ctx: any) {
-  return await ctx.db.query("organizations").first();
+  return await getOrg(ctx);
 }
 
 // ── Templates ────────────────────────────────────────────────────────────

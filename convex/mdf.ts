@@ -1,10 +1,11 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { getOrg } from "./lib/getOrg";
 
 export const list = query({
   args: {},
   handler: async (ctx) => {
-    const org = await ctx.db.query("organizations").first();
+    const org = await getOrg(ctx);
     if (!org) return [];
     const requests = await ctx.db.query("mdfRequests")
       .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
@@ -32,7 +33,7 @@ export const create = mutation({
     category: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const org = await ctx.db.query("organizations").first();
+    const org = await getOrg(ctx);
     if (!org) throw new Error("No organization found");
     return await ctx.db.insert("mdfRequests", {
       organizationId: org._id,
@@ -65,7 +66,7 @@ export const remove = mutation({
 export const getStats = query({
   args: {},
   handler: async (ctx) => {
-    const org = await ctx.db.query("organizations").first();
+    const org = await getOrg(ctx);
     if (!org) return { totalRequested: 0, pending: 0, approved: 0, rejected: 0, completed: 0 };
     
     const requests = await ctx.db.query("mdfRequests")

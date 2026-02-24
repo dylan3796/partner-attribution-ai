@@ -29,6 +29,7 @@ import type * as lib_attribution from "../lib/attribution.js";
 import type * as lib_attribution_calculator from "../lib/attribution/calculator.js";
 import type * as lib_attribution_index from "../lib/attribution/index.js";
 import type * as lib_attribution_models from "../lib/attribution/models.js";
+import type * as lib_getOrg from "../lib/getOrg.js";
 import type * as lib_helpers from "../lib/helpers.js";
 import type * as lib_validation from "../lib/validation.js";
 import type * as mdf from "../mdf.js";
@@ -43,6 +44,7 @@ import type * as seedDemo from "../seedDemo.js";
 import type * as setup from "../setup.js";
 import type * as touchpoints_mutations from "../touchpoints/mutations.js";
 import type * as touchpoints_queries from "../touchpoints/queries.js";
+import type * as users from "../users.js";
 
 import type {
   ApiFromModules,
@@ -72,6 +74,7 @@ declare const fullApi: ApiFromModules<{
   "lib/attribution/calculator": typeof lib_attribution_calculator;
   "lib/attribution/index": typeof lib_attribution_index;
   "lib/attribution/models": typeof lib_attribution_models;
+  "lib/getOrg": typeof lib_getOrg;
   "lib/helpers": typeof lib_helpers;
   "lib/validation": typeof lib_validation;
   mdf: typeof mdf;
@@ -86,6 +89,7 @@ declare const fullApi: ApiFromModules<{
   setup: typeof setup;
   "touchpoints/mutations": typeof touchpoints_mutations;
   "touchpoints/queries": typeof touchpoints_queries;
+  users: typeof users;
 }>;
 
 /**

@@ -2,8 +2,9 @@ import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 /** Retrieve the first (only) organization, or null if not yet seeded */
+import { getOrg } from "./lib/getOrg";
 async function defaultOrg(ctx: any) {
-  return await ctx.db.query("organizations").first();
+  return await getOrg(ctx);
 }
 
 // ── Queries ────────────────────────────────────────────────────────────────

@@ -35,6 +35,7 @@ export default defineSchema({
       v.literal("member"),
       v.literal("partner")
     ),
+    clerkId: v.optional(v.string()),
     partnerId: v.optional(v.id("partners")),
     avatarUrl: v.optional(v.string()),
     lastLoginAt: v.optional(v.number()),
@@ -42,7 +43,8 @@ export default defineSchema({
   })
     .index("by_email", ["email"])
     .index("by_organization", ["organizationId"])
-    .index("by_partner", ["partnerId"]),
+    .index("by_partner", ["partnerId"])
+    .index("by_clerkId", ["clerkId"]),
 
   // Partners (companies, not individuals)
   partners: defineTable({
