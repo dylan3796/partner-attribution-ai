@@ -130,21 +130,10 @@ export const approveDealRegistration = mutation({
       createdAt: Date.now(),
     });
 
-    // Send email notification (non-blocking, skips gracefully if no RESEND_API_KEY)
-    if (partner?.email) {
-      await ctx.scheduler.runAfter(0, api.emailNotifications.sendDealApprovedEmail, {
-        dealId: args.dealId,
-        partnerEmail: partner.email,
-        partnerName: partner.name,
-        dealName: deal.name,
-        amount: deal.amount,
-        commissionAmount: 0, // Will be calculated below
-      });
-    }
-
-    // Auto-create commission/payout on deal approval
+    // Calculate commission amount before sending email so we can include real figure
+    let commissionAmount = 0;
+    let appliedRuleName = "default partner rate";
     if (deal.registeredBy && partner) {
-      // Find best matching commission rule (highest priority first)
       const rules = await ctx.db
         .query("commissionRules")
         .withIndex("by_org_priority", (q) => q.eq("organizationId", deal.organizationId))
@@ -156,30 +145,44 @@ export const approveDealRegistration = mutation({
         if (rule.partnerTier && rule.partnerTier !== partner.tier) continue;
         if (rule.minDealSize && deal.amount < rule.minDealSize) continue;
         matchedRule = rule;
-        break; // rules are ordered by priority index
+        break; // rules are ordered by priority (lowest first)
       }
 
       const rate = matchedRule ? matchedRule.rate : partner.commissionRate;
-      const commissionAmount = Math.round(deal.amount * rate * 100) / 100;
-      const appliedRuleName = matchedRule ? matchedRule.name : "default partner rate";
+      commissionAmount = Math.round(deal.amount * rate * 100) / 100;
+      appliedRuleName = matchedRule ? matchedRule.name : "default partner rate";
+    }
 
+    // Send email notification with real commission amount
+    if (partner?.email) {
+      await ctx.scheduler.runAfter(0, api.emailNotifications.sendDealApprovedEmail, {
+        dealId: args.dealId,
+        partnerEmail: partner.email,
+        partnerName: partner.name,
+        dealName: deal.name,
+        amount: deal.amount,
+        commissionAmount,
+      });
+    }
+
+    // Auto-create commission/payout on deal approval
+    if (deal.registeredBy && partner && commissionAmount > 0) {
       await ctx.db.insert("payouts", {
         organizationId: deal.organizationId,
         partnerId: deal.registeredBy,
         amount: commissionAmount,
         status: "pending_approval",
-        notes: `Auto-generated on deal approval: ${deal.name} — $${commissionAmount} at ${(rate * 100).toFixed(1)}% (rule: ${appliedRuleName})`,
+        notes: `Auto-generated on deal approval: ${deal.name} — $${commissionAmount} at (rule: ${appliedRuleName})`,
         createdAt: Date.now(),
       });
 
-      // Audit log for commission creation
       await ctx.db.insert("audit_log", {
         organizationId: deal.organizationId,
         userId: args.reviewerId,
         action: "commission_auto_generated",
         entityType: "payout",
         entityId: args.dealId,
-        metadata: `Commission auto-generated on deal approval: $${commissionAmount} at ${(rate * 100).toFixed(1)}% (rule: ${appliedRuleName})`,
+        metadata: `Commission $${commissionAmount} auto-generated on approval (rule: ${appliedRuleName})`,
         createdAt: Date.now(),
       });
     }
