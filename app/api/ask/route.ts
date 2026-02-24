@@ -2,11 +2,12 @@
  * Ask Covant — AI-powered API Route
  *
  * Accepts POST { question: string, context?: object }
- * Uses Claude Haiku for fast, cheap responses.
- * Returns { answer, model: "claude", aiPowered: true }
+ * Uses Groq (Llama 3.3 70B) — free, fast.
+ * Returns { answer, model: "groq", aiPowered: true }
  */
 
 import { NextRequest, NextResponse } from "next/server";
+import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
 import {
   demoPartners,
@@ -152,27 +153,47 @@ export async function POST(req: NextRequest) {
     const context = (typeof clientContext === "string" && clientContext.length > 10) ? clientContext : buildContext();
     const userContent = `Here is the current partner program data:\n\n<data>\n${context}\n</data>\n\nQuestion: ${question}`;
 
-    // ── Claude Haiku ─────────────────────────────────────────────────────────
+    // ── 1. Groq (Llama 3.3 70B — free, fast) ────────────────────────────────
+    const groqKey = process.env.GROQ_API_KEY;
+    if (groqKey) {
+      try {
+        const groq = new OpenAI({
+          apiKey: groqKey,
+          baseURL: "https://api.groq.com/openai/v1",
+        });
+        const response = await groq.chat.completions.create({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            { role: "user", content: userContent },
+          ],
+          max_tokens: 1024,
+          temperature: 0.7,
+        });
+        const answer = response.choices[0]?.message?.content;
+        if (answer) {
+          return NextResponse.json({ answer, model: "groq", aiPowered: true });
+        }
+      } catch (groqErr) {
+        console.warn("[ask/route] Groq failed, falling back to Claude:", groqErr);
+      }
+    }
+
+    // ── 2. Fallback: Claude Haiku ─────────────────────────────────────────────
     const anthropicKey = process.env.ANTHROPIC_API_KEY;
     if (!anthropicKey) {
       return NextResponse.json(
-        { error: "ANTHROPIC_API_KEY not configured", fallback: true },
+        { error: "No AI provider configured (GROQ_API_KEY or ANTHROPIC_API_KEY required)", fallback: true },
         { status: 503 }
       );
     }
 
     const client = new Anthropic({ apiKey: anthropicKey });
-
     const message = await client.messages.create({
       model: "claude-3-5-haiku-20241022",
       max_tokens: 1024,
       system: SYSTEM_PROMPT,
-      messages: [
-        {
-          role: "user",
-          content: userContent,
-        },
-      ],
+      messages: [{ role: "user", content: userContent }],
     });
 
     const content = message.content[0];
@@ -180,11 +201,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Unexpected response type" }, { status: 500 });
     }
 
-    return NextResponse.json({
-      answer: content.text,
-      model: "claude",
-      aiPowered: true,
-    });
+    return NextResponse.json({ answer: content.text, model: "claude", aiPowered: true });
   } catch (err: unknown) {
     console.error("[ask/route] Error:", err);
 
