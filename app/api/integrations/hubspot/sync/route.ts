@@ -59,7 +59,7 @@ export async function POST(request: Request) {
         if (contact) {
           const fn = contact.properties.firstname ?? '';
           const ln = contact.properties.lastname ?? '';
-          contactName = `${fn} ${ln}`.trim() || contact.properties.email ?? undefined;
+          contactName = `${fn} ${ln}`.trim() || (contact.properties.email ?? undefined);
         }
       }
 

@@ -10,12 +10,14 @@ import { CommandPalette } from "@/components/ui/command-palette";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { Menu, X } from "lucide-react";
 import { UserProvisioner } from "@/components/UserProvisioner";
+import { DemoBanner } from "@/components/DemoBanner";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <ToastProvider>
+      <DemoBanner />
       <UserProvisioner />
       <KeyboardShortcuts />
       <CommandPalette />

@@ -23,6 +23,7 @@ import {
 import { PortalProvider, usePortal } from "@/lib/portal-context";
 import PortalGate from "@/components/PortalGate";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
+import { UserButton, SignedIn } from "@clerk/nextjs";
 
 const sidebarLinks = [
   { name: "Dashboard", href: "/portal", icon: LayoutDashboard },
@@ -185,24 +186,29 @@ function PortalSidebar() {
           >
             ← Back to Main Site
           </Link>
-          <button
-            onClick={() => setPartner(null)}
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "0.5rem",
-              fontSize: "0.8rem",
-              color: "var(--muted)",
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              padding: 0,
-              fontFamily: "inherit",
-            }}
-          >
-            <LogOut size={14} />
-            Sign Out
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <button
+              onClick={() => setPartner(null)}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                fontSize: "0.8rem",
+                color: "var(--muted)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                fontFamily: "inherit",
+              }}
+            >
+              <LogOut size={14} />
+              Sign Out
+            </button>
+            <SignedIn>
+              <UserButton afterSignOutUrl="/" />
+            </SignedIn>
+          </div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "0.75rem" }}>
             <p style={{ fontSize: "0.7rem", color: "var(--muted)", opacity: 0.6 }}>Partner Portal © {new Date().getFullYear()}</p>
             <DarkModeToggle />
