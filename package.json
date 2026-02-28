@@ -14,6 +14,7 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.75.0",
     "@clerk/nextjs": "^6.38.2",
+    "@stripe/stripe-js": "^8.8.0",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "convex": "^1.31.7",
@@ -26,7 +27,7 @@
     "react-markdown": "^10.1.0",
     "recharts": "^3.7.0",
     "resend": "^6.9.2",
-    "stripe": "^20.3.1"
+    "stripe": "^20.4.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

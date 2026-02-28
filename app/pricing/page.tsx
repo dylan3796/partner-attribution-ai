@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Check,
   X,
@@ -13,6 +14,7 @@ import {
   HelpCircle,
   ChevronDown,
   ChevronUp,
+  Loader2,
 } from "lucide-react";
 
 /* ── Types ── */
@@ -131,6 +133,29 @@ const FAQS: FAQ[] = [
 export default function PricingPage() {
   const [annual, setAnnual] = useState(true);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const router = useRouter();
+
+  async function handleCheckout(planId: string, interval: "month" | "year") {
+    setLoadingPlan(`${planId}-${interval}`);
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ plan: planId, interval }),
+      });
+      const data = await res.json() as { url?: string; error?: string };
+      if (data.url) {
+        router.push(data.url);
+      } else {
+        console.error("Checkout error:", data.error);
+      }
+    } catch (err) {
+      console.error("Checkout failed:", err);
+    } finally {
+      setLoadingPlan(null);
+    }
+  }
 
   return (
     <div style={{ minHeight: "100vh", background: "#000", color: "#fff" }}>
@@ -233,18 +258,40 @@ export default function PricingPage() {
                   )}
                 </div>
 
-                <Link
-                  href={plan.ctaHref}
-                  style={{
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                    padding: "12px 24px", borderRadius: 10, fontWeight: 700, fontSize: ".9rem",
-                    textDecoration: "none", marginBottom: 24, transition: "opacity .2s",
-                    background: plan.popular ? "#6366f1" : "#fff",
-                    color: plan.popular ? "#fff" : "#000",
-                  }}
-                >
-                  {plan.cta} <ArrowRight size={16} />
-                </Link>
+                {plan.id === "enterprise" ? (
+                  <Link
+                    href="/demo"
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                      padding: "12px 24px", borderRadius: 10, fontWeight: 700, fontSize: ".9rem",
+                      textDecoration: "none", marginBottom: 24, transition: "opacity .2s",
+                      background: "#fff", color: "#000",
+                    }}
+                  >
+                    {plan.cta} <ArrowRight size={16} />
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => handleCheckout(plan.id, annual ? "year" : "month")}
+                    disabled={loadingPlan !== null}
+                    style={{
+                      display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                      padding: "12px 24px", borderRadius: 10, fontWeight: 700, fontSize: ".9rem",
+                      border: "none", cursor: loadingPlan ? "not-allowed" : "pointer",
+                      fontFamily: "inherit", width: "100%", marginBottom: 24,
+                      opacity: loadingPlan && loadingPlan !== `${plan.id}-${annual ? "year" : "month"}` ? 0.5 : 1,
+                      transition: "opacity .2s",
+                      background: plan.popular ? "#6366f1" : "#fff",
+                      color: plan.popular ? "#fff" : "#000",
+                    }}
+                  >
+                    {loadingPlan === `${plan.id}-${annual ? "year" : "month"}` ? (
+                      <><Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> Loading...</>
+                    ) : (
+                      <>{plan.cta} <ArrowRight size={16} /></>
+                    )}
+                  </button>
+                )}
 
                 <div style={{ borderTop: "1px solid rgba(255,255,255,.08)", paddingTop: 20 }}>
                   {plan.features.map((f, i) => (

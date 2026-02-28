@@ -43,6 +43,7 @@ import type * as queries_analytics from "../queries/analytics.js";
 import type * as recommendations from "../recommendations.js";
 import type * as seedDemo from "../seedDemo.js";
 import type * as setup from "../setup.js";
+import type * as subscriptions from "../subscriptions.js";
 import type * as touchpoints_mutations from "../touchpoints/mutations.js";
 import type * as touchpoints_queries from "../touchpoints/queries.js";
 import type * as users from "../users.js";
@@ -89,6 +90,7 @@ declare const fullApi: ApiFromModules<{
   recommendations: typeof recommendations;
   seedDemo: typeof seedDemo;
   setup: typeof setup;
+  subscriptions: typeof subscriptions;
   "touchpoints/mutations": typeof touchpoints_mutations;
   "touchpoints/queries": typeof touchpoints_queries;
   users: typeof users;

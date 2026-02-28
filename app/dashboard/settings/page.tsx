@@ -249,6 +249,7 @@ function SettingsPageInner() {
           { label: "Tier Configuration", href: "/dashboard/settings/tiers", icon: "🏅" },
           { label: "Commission Rules", href: "/dashboard/settings/commission-rules", icon: "💰" },
           { label: "Event Sources", href: "/dashboard/settings/event-sources", icon: "📡" },
+          { label: "Billing", href: "/dashboard/settings/billing", icon: "💳" },
         ].map((link) => (
           <a
             key={link.href}

@@ -23,7 +23,7 @@ function getStripeKey(): string {
 function getStripe(): Stripe {
   if (!stripeClient) {
     stripeClient = new Stripe(getStripeKey(), {
-      apiVersion: "2026-01-28.clover",
+      apiVersion: "2026-02-25.clover",
       typescript: true,
     });
   }

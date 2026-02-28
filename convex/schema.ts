@@ -589,6 +589,28 @@ export default defineSchema({
     .index("by_trigger", ["trigger"])
     .index("by_created", ["createdAt"]),
 
+  // Covant subscriptions (Stripe billing)
+  subscriptions: defineTable({
+    userId: v.string(),               // Clerk userId
+    stripeCustomerId: v.string(),
+    stripeSubscriptionId: v.string(),
+    stripePriceId: v.string(),
+    plan: v.union(v.literal("starter"), v.literal("growth")),
+    interval: v.union(v.literal("month"), v.literal("year")),
+    status: v.union(
+      v.literal("active"),
+      v.literal("trialing"),
+      v.literal("past_due"),
+      v.literal("canceled"),
+      v.literal("incomplete")
+    ),
+    currentPeriodEnd: v.number(),     // unix timestamp
+    cancelAtPeriodEnd: v.optional(v.boolean()),
+  })
+    .index("by_userId", ["userId"])
+    .index("by_stripeCustomerId", ["stripeCustomerId"])
+    .index("by_stripeSubscriptionId", ["stripeSubscriptionId"]),
+
   contracts: defineTable({
     organizationId: v.id("organizations"),
     partnerId: v.id("partners"),

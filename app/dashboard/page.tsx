@@ -1,12 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2, Sparkles } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2, Sparkles, CheckCircle, X } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import type { Deal, Partner, Payout, AuditEntry } from "@/lib/types";
 
@@ -52,6 +52,54 @@ const REVENUE_TREND = [42, 55, 48, 67, 73, 80, 92, 85, 102, 110, 95, 125];
 const PIPELINE_TREND = [180, 160, 200, 220, 195, 210, 240, 230, 250, 215, 270, 290];
 const PARTNERS_TREND = [3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7];
 const WINRATE_TREND = [50, 55, 48, 60, 58, 62, 55, 67, 65, 70, 68, 72];
+
+function UpgradeBannerInner() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("upgrade") === "success") {
+      setVisible(true);
+      // Clean the URL without reload
+      const url = new URL(window.location.href);
+      url.searchParams.delete("upgrade");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [searchParams]);
+
+  if (!visible) return null;
+
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      padding: "12px 20px", borderRadius: 10, marginBottom: 20,
+      background: "rgba(34,197,94,.08)", border: "1px solid rgba(34,197,94,.25)",
+      color: "#22c55e",
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <CheckCircle size={16} />
+        <span style={{ fontWeight: 600, fontSize: ".9rem" }}>
+          🎉 Welcome to Covant! Your subscription is now active.
+        </span>
+      </div>
+      <button
+        onClick={() => setVisible(false)}
+        style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(34,197,94,.6)", padding: 4 }}
+      >
+        <X size={14} />
+      </button>
+    </div>
+  );
+}
+
+function UpgradeBanner() {
+  return (
+    <Suspense fallback={null}>
+      <UpgradeBannerInner />
+    </Suspense>
+  );
+}
 
 function WelcomeBanner() {
   const [visible, setVisible] = useState(true);
@@ -140,6 +188,7 @@ export default function DashboardPage() {
   return (
     <>
       <DemoBanner />
+      <UpgradeBanner />
       <WelcomeBanner />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
         <div>
