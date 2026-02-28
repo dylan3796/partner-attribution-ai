@@ -46,7 +46,7 @@ const PLANS: Plan[] = [
     price: 299,
     priceAnnual: 249,
     description: "For teams managing up to 50 partners with basic deal registration and first-touch attribution",
-    cta: "View Demo",
+    cta: "Get Started",
     ctaHref: "/demo",
     features: [
       { name: "Up to 50 partners", included: true },
@@ -71,7 +71,7 @@ const PLANS: Plan[] = [
     price: 799,
     priceAnnual: 649,
     description: "For scaling programs with multi-touch attribution, co-selling workflows, and MDF tracking",
-    cta: "View Demo",
+    cta: "Get Started",
     ctaHref: "/demo",
     popular: true,
     features: [
