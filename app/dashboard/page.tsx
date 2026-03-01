@@ -132,12 +132,12 @@ function DemoBanner() {
   }, []);
   if (!visible) return null;
   return (
-    <div style={{ background: "linear-gradient(135deg, #4338ca, #6366f1)", padding: "10px 16px", borderRadius: 8, marginBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
-      <p style={{ fontSize: ".85rem", color: "#e0e7ff", margin: 0 }}>
+    <div style={{ background: "#1a1a1a", border: "1px solid #333", padding: "10px 16px", borderRadius: 8, marginBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
+      <p style={{ fontSize: ".85rem", color: "#e5e5e5", margin: 0 }}>
         👋 You&apos;re in the Covant demo. Want to see it from a partner&apos;s perspective?{" "}
         <Link href="/portal" style={{ color: "#fff", fontWeight: 600, textDecoration: "underline" }}>View Partner Portal →</Link>
       </p>
-      <button onClick={() => { setVisible(false); localStorage.setItem("covant_demo_banner_dismissed", "true"); }} style={{ background: "none", border: "none", color: "#c7d2fe", cursor: "pointer", fontSize: "1.1rem", padding: "0 4px", fontFamily: "inherit" }}>×</button>
+      <button onClick={() => { setVisible(false); localStorage.setItem("covant_demo_banner_dismissed", "true"); }} style={{ background: "none", border: "none", color: "#999", cursor: "pointer", fontSize: "1.1rem", padding: "0 4px", fontFamily: "inherit" }}>×</button>
     </div>
   );
 }
@@ -300,7 +300,7 @@ export default function DashboardPage() {
             { label: "Unpaid commissions", value: "$12.4K", href: "/dashboard/payouts", color: "#ef4444", icon: "💰" },
             { label: "Incentive enrollments", value: "8", href: "/dashboard/incentives", color: "#eab308", icon: "🎁" },
             { label: "Email triggers active", value: "10/11", href: "/dashboard/emails", color: "#3b82f6", icon: "📧" },
-            { label: "Integrations connected", value: "4/12", href: "/dashboard/integrations", color: "#22c55e", icon: "🔌" },
+            { label: "Integrations connected", value: "4", href: "/dashboard/integrations", color: "#22c55e", icon: "🔌" },
           ].map((item, i) => (
             <Link
               key={i}
@@ -323,7 +323,7 @@ export default function DashboardPage() {
       </div>
 
       {/* ── Partner Recommendations Widget ── */}
-      {convexTopRecommended && convexTopRecommended.length > 0 && (
+      {convexTopRecommended && convexTopRecommended.filter((r) => r.wonCount > 0 || r.totalRevenue > 0).length > 0 && (
         <div className="card" style={{ padding: "1.25rem", marginBottom: "1.5rem" }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
             <h3 style={{ fontWeight: 700, fontSize: "1rem", display: "flex", alignItems: "center", gap: ".5rem" }}>
@@ -333,7 +333,7 @@ export default function DashboardPage() {
             <Link href="/dashboard/recommendations" className="muted" style={{ fontSize: ".8rem", fontWeight: 500 }}>View all →</Link>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: ".75rem" }}>
-            {convexTopRecommended.slice(0, 3).map((r) => (
+            {convexTopRecommended.filter((r) => r.wonCount > 0 || r.totalRevenue > 0).slice(0, 3).map((r) => (
               <Link
                 key={r.partner._id}
                 href={`/dashboard/partners/${r.partner._id}`}

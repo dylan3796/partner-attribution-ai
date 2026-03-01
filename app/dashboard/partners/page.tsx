@@ -9,7 +9,7 @@ import { Plus, Download, Upload, Search, X, Shield, Award, Loader2, Send, Copy, 
 import { exportPartnersCSV, parsePartnersCSV } from "@/lib/csv";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
 import type { Partner } from "@/lib/types";
-import { ConfigTipBox } from "@/components/ui/config-tooltip";
+// ConfigTipBox removed — no longer used on this page
 import { usePlatformConfig } from "@/lib/platform-config";
 import { getActiveCertCount, getBadgeCount } from "@/lib/certifications-data";
 
@@ -160,15 +160,6 @@ export default function PartnersPage() {
           <button className="btn" onClick={() => setShowAdd(true)}><Plus size={15} /> Add Partner</button>
         </div>
       </div>
-
-      <ConfigTipBox
-        title="Adapt Partner Management"
-        tips={[
-          "Enable/disable Certifications & Badges, Scoring, and Tier management in Settings",
-          "Commission rates can be set per-partner or as a default in Settings",
-          "Toggle the Partner Portal to give partners self-service access",
-        ]}
-      />
 
       {/* Filters */}
       <div className="card" style={{ marginBottom: "1.5rem", display: "flex", gap: "1rem", alignItems: "center", flexWrap: "wrap", padding: "1rem 1.5rem" }}>

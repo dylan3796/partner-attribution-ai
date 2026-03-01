@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useAuth } from "@clerk/nextjs";
@@ -61,6 +61,33 @@ const STATUS_CONFIG: Record<
   },
 };
 
+function BillingLoader() {
+  const [timedOut, setTimedOut] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setTimedOut(true), 5000);
+    return () => clearTimeout(t);
+  }, []);
+  if (timedOut) {
+    return (
+      <div style={{ padding: "24px", borderRadius: 14, border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.02)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+          <AlertCircle size={18} color="rgba(255,255,255,.4)" />
+          <span style={{ fontWeight: 600, color: "rgba(255,255,255,.7)" }}>Billing not configured</span>
+        </div>
+        <p style={{ fontSize: ".85rem", color: "rgba(255,255,255,.4)", lineHeight: 1.5 }}>
+          Add your Stripe API keys in environment variables to enable billing.
+        </p>
+      </div>
+    );
+  }
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,.4)" }}>
+      <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />
+      <span style={{ fontSize: ".85rem" }}>Loading billing info…</span>
+    </div>
+  );
+}
+
 export default function BillingPage() {
   const { userId } = useAuth();
   const router = useRouter();
@@ -117,10 +144,7 @@ export default function BillingPage() {
       </p>
 
       {isLoading ? (
-        <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,.4)" }}>
-          <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />
-          <span style={{ fontSize: ".85rem" }}>Loading billing info…</span>
-        </div>
+        <BillingLoader />
       ) : hasSubscription && subscription ? (
         /* Active subscription card */
         <div

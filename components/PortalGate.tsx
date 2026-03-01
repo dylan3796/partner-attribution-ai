@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Shield } from "lucide-react";
+// Shield icon removed — replaced with lettermark
 
 const SESSION_KEY = "covant_portal_session";
 
@@ -135,15 +135,19 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                width: 56,
-                height: 56,
+                width: 64,
+                height: 64,
                 background: "#000",
-                borderRadius: 14,
+                borderRadius: 16,
                 marginBottom: "1rem",
                 border: "1px solid #333",
+                fontSize: "2rem",
+                fontWeight: 800,
+                color: "#fff",
+                fontFamily: "'Inter', system-ui, sans-serif",
               }}
             >
-              <Shield size={28} color="#fff" />
+              C
             </div>
             <div
               style={{
@@ -226,20 +230,6 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
               {submittedEmail ? "Checking..." : "Access Portal"}
             </button>
           </form>
-          <p
-            style={{
-              marginTop: "1.5rem",
-              textAlign: "center",
-              fontSize: ".8rem",
-              color: "#555",
-            }}
-          >
-            Don&apos;t have an account?{" "}
-            <a href="/setup" style={{ color: "#6366f1" }}>
-              Apply to join
-            </a>
-          </p>
-
           {/* Demo accounts */}
           <div style={{ marginTop: "1.5rem", borderTop: "1px solid #2a2a2a", paddingTop: "1.5rem" }}>
             <p style={{ fontSize: ".85rem", fontWeight: 600, color: "#aaa", marginBottom: ".75rem", textAlign: "center" }}>Try a demo account</p>

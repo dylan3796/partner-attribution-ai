@@ -40,7 +40,7 @@ export default function DealsPage() {
       )
     : deals;
 
-  const open = filtered.filter((d) => d.status === "open").sort((a, b) => b.amount - a.amount);
+  const open = filtered.filter((d) => d.status === "open" && (d as any).registrationStatus !== "pending").sort((a, b) => b.amount - a.amount);
   const won = filtered.filter((d) => d.status === "won").sort((a, b) => (b.closedAt || 0) - (a.closedAt || 0));
   const lost = filtered.filter((d) => d.status === "lost").sort((a, b) => (b.closedAt || 0) - (a.closedAt || 0));
 
