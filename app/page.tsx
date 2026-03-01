@@ -82,16 +82,21 @@ export default function LandingPage() {
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link
-              href="/demo"
+              href="/setup"
               className="btn btn-lg"
               style={{ textDecoration: "none" }}
             >
-              View Live Demo →
+              Get Started Free →
             </Link>
           </div>
 
           <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>
-            No account required · Live demo with real data
+            Import your partners in 2 minutes · No account required
+          </p>
+          <p style={{ marginTop: ".5rem", fontSize: ".8rem" }}>
+            <Link href="/demo" style={{ color: "#6b7280", textDecoration: "underline" }}>
+              or explore with sample data →
+            </Link>
           </p>
         </div>
 
@@ -673,7 +678,7 @@ export default function LandingPage() {
               </button>
             </form>
             <Link href="/demo" className="btn-outline" style={{ whiteSpace: "nowrap" }}>
-              View Live Demo →
+              Try with sample data →
             </Link>
           </div>
           {submitted && (

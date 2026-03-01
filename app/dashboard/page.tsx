@@ -142,6 +142,56 @@ function DemoBanner() {
   );
 }
 
+function SampleDataBannerInner() {
+  const searchParams = useSearchParams();
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get("demo") === "true") {
+      setVisible(true);
+      // Clean the ?demo=true from URL without reload
+      const url = new URL(window.location.href);
+      url.searchParams.delete("demo");
+      window.history.replaceState({}, "", url.toString());
+    }
+  }, [searchParams]);
+
+  if (!visible) return null;
+
+  return (
+    <div style={{
+      display: "flex", alignItems: "center", justifyContent: "space-between",
+      padding: "12px 20px", borderRadius: 10, marginBottom: 16,
+      background: "rgba(245,158,11,.08)", border: "1px solid rgba(245,158,11,.3)",
+      color: "#f59e0b",
+    }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <span style={{ fontSize: "1rem" }}>📊</span>
+        <span style={{ fontWeight: 500, fontSize: ".9rem", color: "#fcd34d" }}>
+          You&apos;re viewing sample data.{" "}
+          <Link href="/setup" style={{ color: "#f59e0b", fontWeight: 700, textDecoration: "underline" }}>
+            Import your real partners →
+          </Link>
+        </span>
+      </div>
+      <button
+        onClick={() => setVisible(false)}
+        style={{ background: "none", border: "none", cursor: "pointer", color: "rgba(245,158,11,.5)", padding: 4 }}
+      >
+        <X size={14} />
+      </button>
+    </div>
+  );
+}
+
+function SampleDataBanner() {
+  return (
+    <Suspense fallback={null}>
+      <SampleDataBannerInner />
+    </Suspense>
+  );
+}
+
 export default function DashboardPage() {
   const router = useRouter();
 
@@ -187,6 +237,7 @@ export default function DashboardPage() {
 
   return (
     <>
+      <SampleDataBanner />
       <DemoBanner />
       <UpgradeBanner />
       <WelcomeBanner />

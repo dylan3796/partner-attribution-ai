@@ -16,7 +16,7 @@ export default function DemoPage() {
 
     seedDemo({})
       .catch(() => { /* already seeded — that's fine */ })
-      .finally(() => router.replace("/dashboard"));
+      .finally(() => router.replace("/dashboard?demo=true"));
   }, [seedDemo, router]);
 
   return (
