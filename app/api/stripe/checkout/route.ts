@@ -9,10 +9,10 @@ const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 /** Map plan + interval to Stripe price ID from env vars */
 function getPriceId(plan: string, interval: string): string | null {
   const map: Record<string, string | undefined> = {
-    "starter-month": process.env.STRIPE_PRICE_STARTER_MONTHLY,
-    "starter-year": process.env.STRIPE_PRICE_STARTER_ANNUAL,
-    "growth-month": process.env.STRIPE_PRICE_GROWTH_MONTHLY,
-    "growth-year": process.env.STRIPE_PRICE_GROWTH_ANNUAL,
+    "pro-month": process.env.STRIPE_PRICE_PRO_MONTHLY,
+    "pro-year": process.env.STRIPE_PRICE_PRO_ANNUAL,
+    "scale-month": process.env.STRIPE_PRICE_SCALE_MONTHLY,
+    "scale-year": process.env.STRIPE_PRICE_SCALE_ANNUAL,
   };
   return map[`${plan}-${interval}`] ?? null;
 }
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Missing plan or interval" }, { status: 400 });
   }
 
-  if (!["starter", "growth"].includes(plan)) {
+  if (!["pro", "scale"].includes(plan)) {
     return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
   }
 
