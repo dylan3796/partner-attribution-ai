@@ -82,7 +82,7 @@ export default function LandingPage() {
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link
-              href="/setup"
+              href="/sign-up"
               className="btn btn-lg"
               style={{ textDecoration: "none" }}
             >

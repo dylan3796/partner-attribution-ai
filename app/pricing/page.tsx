@@ -97,7 +97,7 @@ export default function PricingPage() {
       {/* ── Nav ── */}
       <nav style={{ padding: "1.25rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #111" }}>
         <Link href="/" style={{ fontWeight: 700, fontSize: "1.15rem", color: "#fff", textDecoration: "none" }}>Covant</Link>
-        <Link href="/setup" style={{ background: "#fff", color: "#000", padding: "8px 20px", borderRadius: 8, fontWeight: 600, fontSize: ".85rem", textDecoration: "none" }}>Get Started Free</Link>
+        <Link href="/sign-up" style={{ background: "#fff", color: "#000", padding: "8px 20px", borderRadius: 8, fontWeight: 600, fontSize: ".85rem", textDecoration: "none" }}>Get Started Free</Link>
       </nav>
 
       {/* ── Hero ── */}
@@ -131,7 +131,7 @@ export default function PricingPage() {
           description="Run a real partner program. No card required."
           partners="Up to 5 active partners"
           cta="Get Started Free"
-          ctaAction={() => router.push("/setup")}
+          ctaAction={() => router.push("/sign-up")}
           loading={false}
           highlight={false}
           features={[
@@ -289,7 +289,7 @@ export default function PricingPage() {
       <section style={{ textAlign: "center", padding: "4rem 1.5rem 6rem", borderTop: "1px solid #111" }}>
         <h2 style={{ fontSize: "1.75rem", fontWeight: 700, marginBottom: 12 }}>Start free. No credit card.</h2>
         <p style={{ color: "#6b7280", marginBottom: 28 }}>Up to 5 partners, forever. Upgrade when your program grows.</p>
-        <Link href="/setup" style={{
+        <Link href="/sign-up" style={{
           display: "inline-flex", alignItems: "center", gap: 8,
           background: "#fff", color: "#000", padding: "14px 28px",
           borderRadius: 8, fontWeight: 700, fontSize: "1rem", textDecoration: "none",
