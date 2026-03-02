@@ -1,102 +1,117 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy — Covant",
-  description: "How Covant collects, uses, and protects your data.",
-};
+export const metadata = { title: "Privacy Policy — Covant" };
 
 export default function PrivacyPage() {
-  const lastUpdated = "February 18, 2026";
-
   return (
-    <div style={{ background: "#0c0c0c", minHeight: "100vh", padding: "6rem 1.5rem" }}>
-      <div style={{ maxWidth: 720, margin: "0 auto" }}>
-        {/* Header */}
-        <div style={{ marginBottom: "3rem" }}>
-          <Link href="/" style={{ color: "#6366f1", fontSize: ".9rem", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: ".25rem", marginBottom: "1.5rem" }}>
-            ← Back to Covant
-          </Link>
-          <h1 style={{ fontSize: "2rem", fontWeight: 700, color: "#fff", marginBottom: ".5rem" }}>Privacy Policy</h1>
-          <p style={{ color: "#666", fontSize: ".9rem" }}>Last updated: {lastUpdated}</p>
-        </div>
+    <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#e5e5e5", fontFamily: "Inter, sans-serif" }}>
+      <div style={{ maxWidth: 740, margin: "0 auto", padding: "4rem 2rem 6rem" }}>
+        <Link href="/" style={{ color: "#6b7280", fontSize: ".85rem", textDecoration: "none" }}>← covant.ai</Link>
+        <h1 style={{ fontSize: "2rem", fontWeight: 700, marginTop: "2rem", marginBottom: ".5rem", color: "#fff" }}>Privacy Policy</h1>
+        <p style={{ color: "#6b7280", fontSize: ".9rem", marginBottom: "3rem" }}>Last updated: March 1, 2026</p>
 
-        <div style={{ color: "#aaa", lineHeight: 1.8, fontSize: ".95rem" }}>
-          <Section title="1. Overview">
-            Covant (&quot;we,&quot; &quot;our,&quot; or &quot;us&quot;) operates the partner intelligence platform at covant.ai. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform.
-          </Section>
+        <Section title="Overview">
+          <p>Covant, Inc. ("Covant," "we," "us") operates covant.ai and related services. This policy explains what data we collect, how we use it, and your rights.</p>
+          <p>We built Covant to handle partner programs, commissions, and attribution. Your data — and your partners' data — is yours. We don't sell it, train models on it, or share it except as described below.</p>
+        </Section>
 
-          <Section title="2. Information We Collect">
-            <p style={{ marginBottom: "1rem" }}>We collect information you provide directly to us, including:</p>
-            <ul style={{ paddingLeft: "1.5rem", marginBottom: "1rem" }}>
-              <li style={{ marginBottom: ".5rem" }}>Account information (name, email address, company name)</li>
-              <li style={{ marginBottom: ".5rem" }}>Partner program data (deal registrations, commission records, partner profiles)</li>
-              <li style={{ marginBottom: ".5rem" }}>Usage data (pages visited, features used, actions taken in the platform)</li>
-              <li style={{ marginBottom: ".5rem" }}>Communications you send to us</li>
-            </ul>
-            <p>We also automatically collect certain technical information, including IP address, browser type, device identifiers, and log data.</p>
-          </Section>
+        <Section title="What we collect">
+          <h3>Account data</h3>
+          <p>When you sign up: email address, name, and password (hashed via Clerk). If you use Google SSO, we receive your email and name from Google.</p>
 
-          <Section title="3. How We Use Your Information">
-            <ul style={{ paddingLeft: "1.5rem" }}>
-              <li style={{ marginBottom: ".5rem" }}>To provide and maintain the Covant platform</li>
-              <li style={{ marginBottom: ".5rem" }}>To process partner program operations (attribution, commissions, payouts)</li>
-              <li style={{ marginBottom: ".5rem" }}>To send transactional communications (deal approvals, commission notifications)</li>
-              <li style={{ marginBottom: ".5rem" }}>To improve and develop new features</li>
-              <li style={{ marginBottom: ".5rem" }}>To comply with legal obligations</li>
-            </ul>
-          </Section>
+          <h3>Program data</h3>
+          <p>Data you enter into Covant: partner names and contact info, deal records, commission configurations, payout history, attribution rules, and audit logs. This data is stored in our database (Convex) and is scoped to your organization.</p>
 
-          <Section title="4. Data Sharing">
-            <p style={{ marginBottom: "1rem" }}>We do not sell your personal information. We may share data with:</p>
-            <ul style={{ paddingLeft: "1.5rem" }}>
-              <li style={{ marginBottom: ".5rem" }}><strong style={{ color: "#fff" }}>Service providers</strong> — infrastructure, hosting, payment processing (Stripe), email delivery (Resend)</li>
-              <li style={{ marginBottom: ".5rem" }}><strong style={{ color: "#fff" }}>Your partners</strong> — attribution and payout data is shared with the relevant partner organizations you manage</li>
-              <li style={{ marginBottom: ".5rem" }}><strong style={{ color: "#fff" }}>Legal requirements</strong> — when required by law or to protect rights and safety</li>
-            </ul>
-          </Section>
+          <h3>Usage data</h3>
+          <p>Basic analytics: pages visited, features used, error logs. We use this to improve the product. We do not build profiles for advertising purposes.</p>
 
-          <Section title="5. Data Security">
-            We implement industry-standard security measures including encryption in transit (TLS), hashed session tokens, and access controls. Your data is stored on Convex infrastructure with built-in security guarantees. We are working toward SOC 2 Type II certification (expected Q4 2026).
-          </Section>
+          <h3>Billing data</h3>
+          <p>Payment details are handled entirely by Stripe. We never see or store raw card numbers. We store your Stripe customer ID and subscription status.</p>
 
-          <Section title="6. Data Retention">
-            We retain your data for as long as your account is active or as needed to provide services. Partner transaction records (deals, attributions, payouts) are retained for a minimum of 7 years for financial compliance purposes. You may request deletion of other data at any time.
-          </Section>
+          <h3>Communications</h3>
+          <p>If you email us or reply to onboarding emails, we keep those records to provide support.</p>
+        </Section>
 
-          <Section title="7. Your Rights">
-            <p style={{ marginBottom: "1rem" }}>Depending on your location, you may have the right to:</p>
-            <ul style={{ paddingLeft: "1.5rem" }}>
-              <li style={{ marginBottom: ".5rem" }}>Access the personal data we hold about you</li>
-              <li style={{ marginBottom: ".5rem" }}>Correct inaccurate data</li>
-              <li style={{ marginBottom: ".5rem" }}>Delete your data (subject to retention requirements)</li>
-              <li style={{ marginBottom: ".5rem" }}>Export your data in a portable format</li>
-              <li style={{ marginBottom: ".5rem" }}>Opt out of marketing communications</li>
-            </ul>
-            <p>To exercise these rights, contact us at <a href="mailto:privacy@covant.ai" style={{ color: "#6366f1" }}>privacy@covant.ai</a>.</p>
-          </Section>
+        <Section title="How we use your data">
+          <ul>
+            <li>To operate and improve Covant</li>
+            <li>To send transactional emails (deal notifications, commission alerts, invoices) via Resend</li>
+            <li>To process payments via Stripe</li>
+            <li>To authenticate your account via Clerk</li>
+            <li>To provide customer support</li>
+            <li>To comply with legal obligations</li>
+          </ul>
+          <p>We do not use your data to train AI models. We do not sell your data to third parties.</p>
+        </Section>
 
-          <Section title="8. Cookies">
-            We use strictly necessary cookies for session authentication. We do not use third-party tracking cookies or advertising cookies. You can control cookie settings in your browser, though disabling session cookies will prevent you from logging in.
-          </Section>
+        <Section title="Subprocessors">
+          <p>We use the following services to operate Covant. Each has their own privacy program:</p>
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".85rem", marginTop: "1rem" }}>
+            <thead>
+              <tr style={{ borderBottom: "1px solid #222" }}>
+                <Th>Vendor</Th><Th>Purpose</Th><Th>Data location</Th>
+              </tr>
+            </thead>
+            <tbody>
+              <Tr v="Vercel" p="Hosting / CDN" l="US + global edge" />
+              <Tr v="Convex" p="Database" l="US (AWS us-east-1)" />
+              <Tr v="Clerk" p="Authentication" l="US" />
+              <Tr v="Stripe" p="Billing" l="US" />
+              <Tr v="Resend" p="Transactional email" l="US" />
+              <Tr v="Groq" p="AI inference (program setup)" l="US" />
+            </tbody>
+          </table>
+          <p style={{ marginTop: "1rem" }}>For a full, up-to-date list email <a href="mailto:privacy@covant.ai" style={{ color: "#6366f1" }}>privacy@covant.ai</a>.</p>
+        </Section>
 
-          <Section title="9. International Transfers">
-            Covant is based in the United States. If you are located outside the US, your data may be transferred to and processed in the US. We take appropriate safeguards to ensure your data remains protected.
-          </Section>
+        <Section title="Data retention">
+          <p>We retain your data for as long as your account is active. If you cancel, we retain data for 90 days to allow for recovery, then delete it.</p>
+          <p>You can request immediate deletion at any time — see "Your rights" below.</p>
+          <p>Audit logs are retained per your plan (30 days on Free, 90 days on Pro, 1 year on Scale, unlimited on Enterprise).</p>
+        </Section>
 
-          <Section title="10. Changes to This Policy">
-            We may update this Privacy Policy periodically. We will notify you of significant changes by email or through the platform. Continued use of Covant after changes constitutes acceptance of the updated policy.
-          </Section>
+        <Section title="Your rights">
+          <p>You have the right to:</p>
+          <ul>
+            <li><strong>Access</strong> — request a copy of all data we hold about you</li>
+            <li><strong>Correction</strong> — fix inaccurate data</li>
+            <li><strong>Deletion</strong> — request we delete your account and all associated data</li>
+            <li><strong>Portability</strong> — export your data in a machine-readable format (CSV export is available in the dashboard)</li>
+            <li><strong>Objection</strong> — object to certain processing</li>
+          </ul>
+          <p>To exercise any of these rights, email <a href="mailto:privacy@covant.ai" style={{ color: "#6366f1" }}>privacy@covant.ai</a>. We respond within 30 days.</p>
+        </Section>
 
-          <Section title="11. Contact">
-            <p>Questions about this Privacy Policy? Contact us:</p>
-            <p style={{ marginTop: ".75rem" }}>
-              <strong style={{ color: "#fff" }}>Covant</strong><br />
-              Email: <a href="mailto:privacy@covant.ai" style={{ color: "#6366f1" }}>privacy@covant.ai</a><br />
-              Website: <a href="https://covant.ai" style={{ color: "#6366f1" }}>covant.ai</a>
-            </p>
-          </Section>
-        </div>
+        <Section title="GDPR">
+          <p>If you're in the European Economic Area (EEA), UK, or Switzerland, you have additional rights under GDPR. Our legal basis for processing is:</p>
+          <ul>
+            <li><strong>Contract performance</strong> — processing needed to operate the service you signed up for</li>
+            <li><strong>Legitimate interests</strong> — product improvement, fraud prevention, security</li>
+            <li><strong>Legal obligation</strong> — where required by law</li>
+          </ul>
+          <p>For EU customers, a Data Processing Agreement (DPA) is available at <Link href="/dpa" style={{ color: "#6366f1" }}>covant.ai/dpa</Link>.</p>
+        </Section>
+
+        <Section title="CCPA (California)">
+          <p>California residents have the right to know what personal information we collect, delete it, and opt out of its sale. We do not sell personal information. To exercise your rights, email <a href="mailto:privacy@covant.ai" style={{ color: "#6366f1" }}>privacy@covant.ai</a>.</p>
+        </Section>
+
+        <Section title="Cookies">
+          <p>We use cookies for authentication (Clerk session tokens) and to remember your preferences. We do not use third-party advertising cookies.</p>
+        </Section>
+
+        <Section title="Security">
+          <p>See our <Link href="/security" style={{ color: "#6366f1" }}>Security page</Link> for details on how we protect your data.</p>
+        </Section>
+
+        <Section title="Changes">
+          <p>We'll notify you by email if we make material changes to this policy. The "last updated" date at the top always reflects the current version.</p>
+        </Section>
+
+        <Section title="Contact">
+          <p>Questions? Email <a href="mailto:privacy@covant.ai" style={{ color: "#6366f1" }}>privacy@covant.ai</a>.</p>
+          <p style={{ marginTop: ".5rem", color: "#6b7280", fontSize: ".85rem" }}>Covant, Inc. · San Francisco, CA</p>
+        </Section>
       </div>
     </div>
   );
@@ -104,9 +119,23 @@ export default function PrivacyPage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: "2.5rem" }}>
-      <h2 style={{ fontSize: "1.1rem", fontWeight: 600, color: "#fff", marginBottom: "1rem" }}>{title}</h2>
-      <div>{children}</div>
-    </div>
+    <section style={{ marginBottom: "2.5rem" }}>
+      <h2 style={{ fontSize: "1.15rem", fontWeight: 600, color: "#fff", marginBottom: "1rem", paddingBottom: ".5rem", borderBottom: "1px solid #1f1f1f" }}>{title}</h2>
+      <div style={{ color: "#aaa", fontSize: ".9rem", lineHeight: 1.75 }}>{children}</div>
+    </section>
+  );
+}
+
+function Th({ children }: { children: React.ReactNode }) {
+  return <th style={{ textAlign: "left", padding: "8px 12px", color: "#6b7280", fontWeight: 500 }}>{children}</th>;
+}
+
+function Tr({ v, p, l }: { v: string; p: string; l: string }) {
+  return (
+    <tr style={{ borderBottom: "1px solid #1a1a1a" }}>
+      <td style={{ padding: "8px 12px", color: "#e5e5e5" }}>{v}</td>
+      <td style={{ padding: "8px 12px" }}>{p}</td>
+      <td style={{ padding: "8px 12px" }}>{l}</td>
+    </tr>
   );
 }

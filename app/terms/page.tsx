@@ -1,104 +1,97 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
-export const metadata: Metadata = {
-  title: "Terms of Service — Covant",
-  description: "Terms governing your use of the Covant partner intelligence platform.",
-};
+export const metadata = { title: "Terms of Service — Covant" };
 
 export default function TermsPage() {
-  const lastUpdated = "February 18, 2026";
-
   return (
-    <div style={{ background: "#0c0c0c", minHeight: "100vh", padding: "6rem 1.5rem" }}>
-      <div style={{ maxWidth: 720, margin: "0 auto" }}>
-        <div style={{ marginBottom: "3rem" }}>
-          <Link href="/" style={{ color: "#6366f1", fontSize: ".9rem", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: ".25rem", marginBottom: "1.5rem" }}>
-            ← Back to Covant
-          </Link>
-          <h1 style={{ fontSize: "2rem", fontWeight: 700, color: "#fff", marginBottom: ".5rem" }}>Terms of Service</h1>
-          <p style={{ color: "#666", fontSize: ".9rem" }}>Last updated: {lastUpdated}</p>
-        </div>
+    <div style={{ background: "#0a0a0a", minHeight: "100vh", color: "#e5e5e5", fontFamily: "Inter, sans-serif" }}>
+      <div style={{ maxWidth: 740, margin: "0 auto", padding: "4rem 2rem 6rem" }}>
+        <Link href="/" style={{ color: "#6b7280", fontSize: ".85rem", textDecoration: "none" }}>← covant.ai</Link>
+        <h1 style={{ fontSize: "2rem", fontWeight: 700, marginTop: "2rem", marginBottom: ".5rem", color: "#fff" }}>Terms of Service</h1>
+        <p style={{ color: "#6b7280", fontSize: ".9rem", marginBottom: "3rem" }}>Last updated: March 1, 2026</p>
 
-        <div style={{ color: "#aaa", lineHeight: 1.8, fontSize: ".95rem" }}>
-          <Section title="1. Acceptance of Terms">
-            By accessing or using the Covant platform (&quot;Service&quot;), you agree to be bound by these Terms of Service. If you are using the Service on behalf of an organization, you represent that you have authority to bind that organization to these terms.
-          </Section>
+        <Section title="Agreement">
+          <p>By creating an account or using Covant ("Service"), you agree to these Terms of Service ("Terms"). If you're using Covant on behalf of an organization, you agree to these Terms on behalf of that organization.</p>
+          <p>These Terms form a binding agreement between you and Covant, Inc. ("Covant," "we," "us").</p>
+        </Section>
 
-          <Section title="2. Description of Service">
-            Covant provides partner program management software, including partner attribution tracking, commission calculation, payout automation, deal registration, and related features. The Service is provided &quot;as is&quot; and &quot;as available.&quot;
-          </Section>
+        <Section title="The Service">
+          <p>Covant is a partner program management platform that provides attribution tracking, commission calculation, deal registration, and partner portal functionality.</p>
+          <p>We reserve the right to modify or discontinue the Service at any time with reasonable notice. We'll provide at least 30 days notice for material changes that negatively impact you.</p>
+        </Section>
 
-          <Section title="3. Account Registration">
-            <p style={{ marginBottom: "1rem" }}>You must provide accurate information when creating an account. You are responsible for:</p>
-            <ul style={{ paddingLeft: "1.5rem" }}>
-              <li style={{ marginBottom: ".5rem" }}>Maintaining the security of your account credentials</li>
-              <li style={{ marginBottom: ".5rem" }}>All activity that occurs under your account</li>
-              <li style={{ marginBottom: ".5rem" }}>Ensuring your use complies with applicable laws and regulations</li>
-            </ul>
-          </Section>
+        <Section title="Accounts">
+          <p>You must provide accurate information when creating an account. You're responsible for keeping your credentials secure. Notify us immediately at <a href="mailto:security@covant.ai" style={{ color: "#6366f1" }}>security@covant.ai</a> if you suspect unauthorized access.</p>
+          <p>You may not share your account, use it for illegal purposes, or use it to harm others.</p>
+          <p>We may suspend or terminate accounts that violate these Terms.</p>
+        </Section>
 
-          <Section title="4. Acceptable Use">
-            <p style={{ marginBottom: "1rem" }}>You agree not to:</p>
-            <ul style={{ paddingLeft: "1.5rem" }}>
-              <li style={{ marginBottom: ".5rem" }}>Use the Service for unlawful purposes or to violate any regulations</li>
-              <li style={{ marginBottom: ".5rem" }}>Attempt to gain unauthorized access to the Service or other users&apos; accounts</li>
-              <li style={{ marginBottom: ".5rem" }}>Transmit malware, viruses, or other harmful code</li>
-              <li style={{ marginBottom: ".5rem" }}>Reverse engineer, decompile, or disassemble the Service</li>
-              <li style={{ marginBottom: ".5rem" }}>Resell or redistribute the Service without written permission</li>
-            </ul>
-          </Section>
+        <Section title="Your data">
+          <p>You own your data. By using the Service, you grant Covant a limited license to store and process your data solely to provide the Service to you.</p>
+          <p>We will not sell your data, use it for advertising, or share it except as described in our <Link href="/privacy" style={{ color: "#6366f1" }}>Privacy Policy</Link>.</p>
+          <p>You're responsible for the legality of data you submit to the Service, including ensuring you have the right to upload partner and customer data.</p>
+        </Section>
 
-          <Section title="5. Data and Privacy">
-            Your use of the Service is governed by our <Link href="/privacy" style={{ color: "#6366f1" }}>Privacy Policy</Link>. You retain ownership of all data you input into the Service. By using the Service, you grant Covant a limited license to process your data solely to provide the Service.
-          </Section>
+        <Section title="Acceptable use">
+          <p>You agree not to:</p>
+          <ul>
+            <li>Use the Service for illegal purposes or to violate any laws</li>
+            <li>Upload malware or attempt to compromise the Service's security</li>
+            <li>Reverse engineer, copy, or create derivative works of the Service</li>
+            <li>Use the Service to spam or harass others</li>
+            <li>Resell or sublicense access to the Service without written consent</li>
+            <li>Scrape or extract data from the Service in ways not supported by our API</li>
+          </ul>
+        </Section>
 
-          <Section title="6. Payment and Billing">
-            <p style={{ marginBottom: "1rem" }}>Paid plans are billed monthly or annually in advance. All fees are non-refundable except as required by law. Covant reserves the right to modify pricing with 30 days&apos; written notice.</p>
-            <p>Failure to pay may result in suspension of service. Accounts suspended for non-payment may be terminated after 60 days.</p>
-          </Section>
+        <Section title="Billing">
+          <p>Paid plans are billed monthly or annually in advance. All fees are in USD and non-refundable except where required by law.</p>
+          <p>We use Stripe to process payments. By providing payment information, you authorize us to charge your payment method for your subscription.</p>
+          <p>If payment fails, we'll notify you and provide a grace period of 7 days before downgrading your account. Your data will be retained during downgrade.</p>
+          <p>You can cancel your subscription at any time from your billing settings. Cancellation takes effect at the end of the current billing period.</p>
+          <p>We may change pricing with 30 days advance notice.</p>
+        </Section>
 
-          <Section title="7. Intellectual Property">
-            The Service, including all software, algorithms, and content, is owned by Covant and protected by intellectual property laws. These Terms do not grant you any rights to our intellectual property except the limited right to use the Service.
-          </Section>
+        <Section title="Free tier">
+          <p>The free tier is provided as-is with no SLA. We may modify or discontinue the free tier with 30 days notice. Paid plans are not affected by changes to the free tier.</p>
+        </Section>
 
-          <Section title="8. Confidentiality">
-            Each party agrees to keep the other&apos;s non-public information confidential and to use it only in connection with the Service. This obligation survives termination for 3 years.
-          </Section>
+        <Section title="Intellectual property">
+          <p>Covant and its underlying technology are owned by Covant, Inc. We grant you a limited, non-exclusive, non-transferable license to use the Service during your subscription.</p>
+          <p>Any feedback you provide may be used by Covant to improve the Service without compensation to you.</p>
+        </Section>
 
-          <Section title="9. Warranties and Disclaimers">
-            THE SERVICE IS PROVIDED &quot;AS IS&quot; WITHOUT WARRANTIES OF ANY KIND. COVANT DOES NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, ERROR-FREE, OR FREE OF SECURITY VULNERABILITIES. USE OF THE SERVICE IS AT YOUR OWN RISK.
-          </Section>
+        <Section title="Confidentiality">
+          <p>Each party agrees to keep the other's confidential information confidential and not to disclose it to third parties except as required by law.</p>
+          <p>Your data is confidential. Our pricing, roadmap, and non-public features are confidential.</p>
+        </Section>
 
-          <Section title="10. Limitation of Liability">
-            TO THE MAXIMUM EXTENT PERMITTED BY LAW, COVANT&apos;S TOTAL LIABILITY FOR ANY CLAIMS ARISING UNDER THESE TERMS SHALL NOT EXCEED THE FEES YOU PAID IN THE 12 MONTHS PRIOR TO THE CLAIM. COVANT IS NOT LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, OR CONSEQUENTIAL DAMAGES.
-          </Section>
+        <Section title="Warranties and disclaimers">
+          <p>THE SERVICE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. WE DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+          <p>We do not warrant that the Service will be uninterrupted, error-free, or that data will never be lost. We maintain backups and uptime infrastructure, but cannot guarantee 100% availability.</p>
+        </Section>
 
-          <Section title="11. Indemnification">
-            You agree to indemnify and hold harmless Covant from any claims, damages, or expenses arising from your use of the Service, violation of these Terms, or infringement of any third-party rights.
-          </Section>
+        <Section title="Limitation of liability">
+          <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, COVANT'S TOTAL LIABILITY FOR ANY CLAIM ARISING FROM THESE TERMS OR THE SERVICE IS LIMITED TO THE AMOUNTS YOU PAID US IN THE 12 MONTHS PRECEDING THE CLAIM.</p>
+          <p>IN NO EVENT WILL COVANT BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES.</p>
+        </Section>
 
-          <Section title="12. Termination">
-            Either party may terminate this agreement at any time. Covant may suspend or terminate your access immediately for violations of these Terms. Upon termination, your right to use the Service ceases and you must delete any cached data.
-          </Section>
+        <Section title="Indemnification">
+          <p>You agree to indemnify and hold harmless Covant from any claims, damages, or expenses arising from your use of the Service, your violation of these Terms, or your violation of any third party's rights.</p>
+        </Section>
 
-          <Section title="13. Governing Law">
-            These Terms are governed by the laws of the State of California, without regard to conflict of law principles. Any disputes shall be resolved in the state or federal courts located in San Francisco, California.
-          </Section>
+        <Section title="Governing law">
+          <p>These Terms are governed by the laws of the State of California, without regard to conflict of law principles. Disputes will be resolved in the courts of San Francisco County, California.</p>
+        </Section>
 
-          <Section title="14. Changes to Terms">
-            Covant may modify these Terms at any time. We will provide 30 days&apos; notice for material changes. Continued use of the Service after changes constitutes acceptance.
-          </Section>
+        <Section title="Changes to these Terms">
+          <p>We'll notify you by email at least 14 days before material changes take effect. Continued use of the Service after changes constitutes acceptance.</p>
+        </Section>
 
-          <Section title="15. Contact">
-            <p>Questions about these Terms?</p>
-            <p style={{ marginTop: ".75rem" }}>
-              <strong style={{ color: "#fff" }}>Covant</strong><br />
-              Email: <a href="mailto:legal@covant.ai" style={{ color: "#6366f1" }}>legal@covant.ai</a><br />
-              Website: <a href="https://covant.ai" style={{ color: "#6366f1" }}>covant.ai</a>
-            </p>
-          </Section>
-        </div>
+        <Section title="Contact">
+          <p>Questions about these Terms? Email <a href="mailto:legal@covant.ai" style={{ color: "#6366f1" }}>legal@covant.ai</a>.</p>
+          <p style={{ marginTop: ".5rem", color: "#6b7280", fontSize: ".85rem" }}>Covant, Inc. · San Francisco, CA</p>
+        </Section>
       </div>
     </div>
   );
@@ -106,9 +99,9 @@ export default function TermsPage() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: "2.5rem" }}>
-      <h2 style={{ fontSize: "1.1rem", fontWeight: 600, color: "#fff", marginBottom: "1rem" }}>{title}</h2>
-      <div>{children}</div>
-    </div>
+    <section style={{ marginBottom: "2.5rem" }}>
+      <h2 style={{ fontSize: "1.15rem", fontWeight: 600, color: "#fff", marginBottom: "1rem", paddingBottom: ".5rem", borderBottom: "1px solid #1f1f1f" }}>{title}</h2>
+      <div style={{ color: "#aaa", fontSize: ".9rem", lineHeight: 1.75 }}>{children}</div>
+    </section>
   );
 }
