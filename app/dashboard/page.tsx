@@ -8,6 +8,7 @@ import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
 import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2, Sparkles, CheckCircle, X } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
+import GettingStartedChecklist from "@/components/GettingStartedChecklist";
 import type { Deal, Partner, Payout, AuditEntry } from "@/lib/types";
 
 /** Format relative time for sync indicator */
@@ -241,6 +242,11 @@ export default function DashboardPage() {
       <DemoBanner />
       <UpgradeBanner />
       <WelcomeBanner />
+      <GettingStartedChecklist
+        totalPartners={stats?.totalPartners ?? 0}
+        totalDeals={stats?.totalDeals ?? 0}
+        hasCrmConnected={sfStatus?.connected === true}
+      />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
