@@ -737,7 +737,7 @@ export default function LandingPage() {
             </div>
             <div>
               <h4>Company</h4>
-              <a href="mailto:hello@covant.ai">About</a>
+              <Link href="/about">About</Link>
               <a href="mailto:hello@covant.ai">Careers</a>
               <a href="mailto:hello@covant.ai">Contact</a>
               <Link href="/privacy">Privacy Policy</Link>
