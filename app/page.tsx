@@ -731,6 +731,7 @@ export default function LandingPage() {
               <Link href="/docs">API Docs</Link>
               <Link href="/changelog">Changelog</Link>
               <Link href="/use-cases">Use Cases</Link>
+              <Link href="/assessment">Program Assessment</Link>
             </div>
             <div>
               <h4>Partners</h4>
