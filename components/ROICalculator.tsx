@@ -341,7 +341,7 @@ export default function ROICalculator() {
                 <p>Your program has {partners} active partners tracking {fmtARR(partnerARR)} in partner-influenced revenue.</p>
                 <p>
                   Let&apos;s build a custom ROI model together.{" "}
-                  <a href="mailto:sales@covant.ai">Talk to sales →</a>
+                  <a href="/contact">Talk to sales →</a>
                 </p>
               </div>
             )}

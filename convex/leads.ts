@@ -1,12 +1,14 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 
-// Capture lead from landing page
+// Capture lead from landing page or contact form
 export const captureLead = mutation({
   args: {
     email: v.string(),
     company: v.optional(v.string()),
-    source: v.optional(v.string()), // "landing", "demo_request", etc.
+    contactName: v.optional(v.string()),
+    notes: v.optional(v.string()),
+    source: v.optional(v.string()), // "landing", "contact", "demo_request", etc.
   },
   handler: async (ctx, args) => {
     // Check if lead already exists
@@ -16,10 +18,13 @@ export const captureLead = mutation({
       .first();
 
     if (existing) {
-      // Update last seen
+      // Update last seen + merge new data
       await ctx.db.patch(existing._id, {
         lastSeenAt: Date.now(),
         source: args.source || existing.source,
+        ...(args.contactName && { contactName: args.contactName }),
+        ...(args.company && { company: args.company }),
+        ...(args.notes && { notes: args.notes }),
       });
       return { leadId: existing._id, new: false };
     }
@@ -28,6 +33,8 @@ export const captureLead = mutation({
     const leadId = await ctx.db.insert("leads", {
       email: args.email,
       company: args.company,
+      contactName: args.contactName,
+      notes: args.notes,
       source: args.source || "landing",
       status: "new",
       createdAt: Date.now(),

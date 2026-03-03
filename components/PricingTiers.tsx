@@ -81,7 +81,7 @@ export default function PricingTiers() {
         "Legal & security review support"
       ],
       cta: "Contact sales",
-      href: "mailto:sales@covant.ai",
+      href: "/contact",
       popular: false
     }
   ];
