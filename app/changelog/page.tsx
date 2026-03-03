@@ -15,6 +15,8 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 3, 2026",
     commits: [
+      { hash: "4475e85", type: "feat", message: "Dashboard action items wired to real Convex data — tier reviews, onboarding partners, unpaid commissions, pending deal regs, email triggers, pending invites" },
+      { hash: "7f9c2e1", type: "feat", message: "Integrations page — CRM, webhooks, API, Stripe showcase with feature details for beta outreach" },
       { hash: "d903acb", type: "feat", message: "Getting started checklist — guided onboarding steps on dashboard for new users, auto-detects completion" },
       { hash: "ce91cb5", type: "polish", message: "Onboard loading state — spinner while Clerk + Convex provision the org" },
       { hash: "20c3093", type: "feat", message: "About page — company story, values, and problem statement for beta outreach" },

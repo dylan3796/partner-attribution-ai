@@ -49,10 +49,11 @@ function Sparkline({ data, color = "#10b981", width = 80, height = 28 }: { data:
   );
 }
 
-const REVENUE_TREND = [42, 55, 48, 67, 73, 80, 92, 85, 102, 110, 95, 125];
-const PIPELINE_TREND = [180, 160, 200, 220, 195, 210, 240, 230, 250, 215, 270, 290];
-const PARTNERS_TREND = [3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7];
-const WINRATE_TREND = [50, 55, 48, 60, 58, 62, 55, 67, 65, 70, 68, 72];
+// Fallback trends used while real data loads
+const FALLBACK_REVENUE = [42, 55, 48, 67, 73, 80, 92, 85, 102, 110, 95, 125];
+const FALLBACK_PIPELINE = [180, 160, 200, 220, 195, 210, 240, 230, 250, 215, 270, 290];
+const FALLBACK_PARTNERS = [3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7];
+const FALLBACK_WINRATE = [50, 55, 48, 60, 58, 62, 55, 67, 65, 70, 68, 72];
 
 function UpgradeBannerInner() {
   const searchParams = useSearchParams();
@@ -230,6 +231,9 @@ export default function DashboardPage() {
 
   // ── Real action items from Convex ──────────────────────────────────────
   const actionItems = useQuery(api.dashboard.getActionItems);
+
+  // ── Sparkline trend data from Convex ───────────────────────────────────
+  const trends = useQuery(api.dashboard.getTrends);
 
   // First-run detection: redirect to setup if truly empty (no Convex data loaded yet, no store data)
   useEffect(() => {
@@ -432,7 +436,7 @@ export default function DashboardPage() {
             <div style={{ background: "#ecfdf5", padding: ".5rem", borderRadius: 8 }}><TrendingUp size={18} color="#065f46" /></div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
-            <Sparkline data={REVENUE_TREND} color="#10b981" />
+            <Sparkline data={trends?.revenue ?? FALLBACK_REVENUE} color="#10b981" />
             <p style={{ fontSize: ".8rem", color: "#065f46" }}>↑ {stats.wonDeals} won deals</p>
           </div>
         </div>
@@ -445,7 +449,7 @@ export default function DashboardPage() {
             <div style={{ background: "#eef2ff", padding: ".5rem", borderRadius: 8 }}><Briefcase size={18} color="#3730a3" /></div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
-            <Sparkline data={PIPELINE_TREND} color="#6366f1" />
+            <Sparkline data={trends?.pipeline ?? FALLBACK_PIPELINE} color="#6366f1" />
             <p style={{ fontSize: ".8rem", color: "#3730a3" }}>{stats.openDeals} active deals</p>
           </div>
         </div>
@@ -458,7 +462,7 @@ export default function DashboardPage() {
             <div style={{ background: "#f0fdf4", padding: ".5rem", borderRadius: 8 }}><Users size={18} color="#166534" /></div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
-            <Sparkline data={PARTNERS_TREND} color="#22c55e" />
+            <Sparkline data={trends?.partners ?? FALLBACK_PARTNERS} color="#22c55e" />
             <p style={{ fontSize: ".8rem", color: "#166534" }}>{stats.totalPartners} total</p>
           </div>
         </div>
@@ -471,7 +475,7 @@ export default function DashboardPage() {
             <div style={{ background: "#fffbeb", padding: ".5rem", borderRadius: 8 }}><ArrowUpRight size={18} color="#92400e" /></div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
-            <Sparkline data={WINRATE_TREND} color="#f59e0b" />
+            <Sparkline data={trends?.winRate ?? FALLBACK_WINRATE} color="#f59e0b" />
             <p style={{ fontSize: ".8rem", color: "#92400e" }}>Avg deal: {formatCurrencyCompact(stats.avgDealSize)}</p>
           </div>
         </div>

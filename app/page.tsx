@@ -627,7 +627,7 @@ export default function LandingPage() {
             Simple, transparent pricing
           </h2>
           <p style={{ fontSize: "1rem", color: "#666", maxWidth: 480, margin: "0 auto 2.5rem" }}>
-            Starter · Growth · Enterprise. 14-day free trial on all plans. No credit card required.
+            Free · Pro · Scale · Enterprise. Start free with up to 5 partners. No credit card required.
           </p>
           <Link href="/pricing" className="btn-primary" style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", fontSize: "1rem", padding: ".9rem 2.25rem" }}>
             See Pricing →

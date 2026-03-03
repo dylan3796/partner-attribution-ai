@@ -633,3 +633,87 @@ export const getActionItems = query({
     };
   },
 });
+
+// ============================================================================
+// Dashboard Sparkline Trends (12 monthly data points)
+// ============================================================================
+
+/**
+ * Compute 12-month rolling trend data for dashboard sparklines.
+ * Returns arrays for revenue, pipeline, partner count, and win rate.
+ */
+export const getTrends = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) {
+      return {
+        revenue: [] as number[],
+        pipeline: [] as number[],
+        partners: [] as number[],
+        winRate: [] as number[],
+      };
+    }
+
+    const [deals, partners] = await Promise.all([
+      ctx.db
+        .query("deals")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id)
+        )
+        .collect(),
+      ctx.db
+        .query("partners")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id)
+        )
+        .collect(),
+    ]);
+
+    const now = Date.now();
+    const MS_PER_MONTH = 30.44 * 24 * 60 * 60 * 1000; // avg days/month
+
+    // Build 12 monthly buckets (index 0 = 12 months ago, index 11 = current month)
+    const revenue: number[] = [];
+    const pipeline: number[] = [];
+    const partnerCounts: number[] = [];
+    const winRates: number[] = [];
+
+    for (let i = 11; i >= 0; i--) {
+      const monthEnd = now - i * MS_PER_MONTH;
+      const monthStart = monthEnd - MS_PER_MONTH;
+
+      // Revenue: cumulative won deals up to this month
+      const wonByMonth = deals.filter(
+        (d: any) => d.status === "won" && d.createdAt <= monthEnd
+      );
+      revenue.push(wonByMonth.reduce((s: number, d: any) => s + d.amount, 0));
+
+      // Pipeline: open deals that existed during this month
+      const openByMonth = deals.filter(
+        (d: any) =>
+          d.createdAt <= monthEnd &&
+          (d.status === "open" || (d.status === "won" && d.createdAt > monthStart))
+      );
+      pipeline.push(openByMonth.reduce((s: number, d: any) => s + d.amount, 0));
+
+      // Partners: count of partners created up to this month
+      const partnersByMonth = partners.filter(
+        (p: any) => p.createdAt <= monthEnd
+      );
+      partnerCounts.push(partnersByMonth.length);
+
+      // Win rate: won / (won + lost) for deals closed up to this month
+      const closedByMonth = deals.filter(
+        (d: any) =>
+          (d.status === "won" || d.status === "lost") &&
+          d.createdAt <= monthEnd
+      );
+      const wonCount = closedByMonth.filter((d: any) => d.status === "won").length;
+      const closedCount = closedByMonth.length;
+      winRates.push(closedCount > 0 ? Math.round((wonCount / closedCount) * 100) : 0);
+    }
+
+    return { revenue, pipeline, partners: partnerCounts, winRate: winRates };
+  },
+});
