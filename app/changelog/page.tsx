@@ -15,7 +15,7 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 3, 2026",
     commits: [
-      { hash: "PENDING", type: "feat", message: "Command palette live search — ⌘K now searches real partners and deals from Convex, not just static page navigation" },
+      { hash: "c36e44e", type: "feat", message: "Command palette live search — ⌘K now searches real partners and deals from Convex, not just static page navigation" },
       { hash: "6fb18df", type: "feat", message: "Compare page — competitive positioning table (Covant vs. Spreadsheets vs. Legacy PRM vs. Ecosystem Tools) for beta outreach" },
       { hash: "f860ede", type: "feat", message: "Real sparkline trends — dashboard stat cards pull 12-month rolling data from Convex instead of hardcoded arrays, new getTrends query" },
       { hash: "4475e85", type: "feat", message: "Dashboard action items wired to real Convex data — tier reviews, onboarding partners, unpaid commissions, pending deal regs, email triggers, pending invites" },
