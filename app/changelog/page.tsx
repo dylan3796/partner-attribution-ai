@@ -15,6 +15,7 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 3, 2026",
     commits: [
+      { hash: "f6dd2c3", type: "feat", message: "Partner program assessment — interactive 8-question maturity quiz with scoring, personalized recommendations, and lead capture for outreach" },
       { hash: "42e0b13", type: "fix", message: "ROI calculator pricing fix — was showing old ARR-based tiers, now uses real partner-count pricing (Free/Pro/Scale/Enterprise). New standalone /roi page for outreach linking" },
       { hash: "8d6ec87", type: "feat", message: "Email notifications wired to real Convex data — templates CRUD, toggle enable/disable, inline editing, auto-seed defaults, live queue stats, org-scoped queries" },
       { hash: "c36e44e", type: "feat", message: "Command palette live search — ⌘K now searches real partners and deals from Convex, not just static page navigation" },
