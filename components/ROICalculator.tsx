@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 export default function ROICalculator() {
-  const [totalARR, setTotalARR] = useState(10000000);
+  const [totalARR, setTotalARR] = useState(10_000_000);
   const [partnerInfluencedPct, setPartnerInfluencedPct] = useState(30);
   const [partners, setPartners] = useState(25);
   const [hoursPerMonth, setHoursPerMonth] = useState(40);
@@ -14,22 +14,38 @@ export default function ROICalculator() {
   // Derived
   const partnerARR = totalARR * (partnerInfluencedPct / 100);
 
-  // --- Tier logic: based on tracked partner ARR ---
+  // --- Tier logic: based on active partner count (matches pricing page) ---
   type Tier =
-    | { name: "Starter"; monthly: 299; annual: 3588 }
-    | { name: "Growth"; monthly: 799; annual: 9588 }
-    | { name: "Scale"; monthly: 1999; annual: 23988 }
+    | { name: "Free"; monthly: 0; annual: 0 }
+    | { name: "Pro"; monthly: 99; annual: 1188 }
+    | { name: "Scale"; monthly: 349; annual: 4188 }
     | { name: "Enterprise"; monthly: null; annual: null };
 
-  const getTier = (arr: number): Tier => {
-    if (arr <= 1_000_000) return { name: "Starter", monthly: 299, annual: 3588 };
-    if (arr <= 10_000_000) return { name: "Growth", monthly: 799, annual: 9588 };
-    if (arr <= 50_000_000) return { name: "Scale", monthly: 1999, annual: 23988 };
+  const getTier = (partnerCount: number): Tier => {
+    if (partnerCount <= 5) return { name: "Free", monthly: 0, annual: 0 };
+    if (partnerCount <= 25) return { name: "Pro", monthly: 99, annual: 1188 };
+    if (partnerCount <= 100) return { name: "Scale", monthly: 349, annual: 4188 };
     return { name: "Enterprise", monthly: null, annual: null };
   };
 
-  const tier = getTier(partnerARR);
+  // Overage pricing per plan
+  const getOverageCost = (tier: Tier, partnerCount: number): number => {
+    if (tier.name === "Free") return 0; // hard cap, no overage
+    if (tier.name === "Pro") {
+      const extra = Math.max(0, partnerCount - 25);
+      return extra * 5 * 12; // $5/partner/mo
+    }
+    if (tier.name === "Scale") {
+      const extra = Math.max(0, partnerCount - 100);
+      return extra * 4 * 12; // $4/partner/mo
+    }
+    return 0;
+  };
+
+  const tier = getTier(partners);
   const isEnterprise = tier.name === "Enterprise";
+  const isFree = tier.name === "Free";
+  const overageCost = getOverageCost(tier, partners);
 
   // --- Value drivers ---
   const timeSavings = hoursPerMonth * 12 * hourlyRate;
@@ -41,19 +57,21 @@ export default function ROICalculator() {
 
   const totalAnnualValue =
     timeSavings + revenueImprovement + disputeResolutionSavings + mdfEfficiencyGain;
-  const costPerYear = tier.annual ?? 0;
+  const costPerYear = (tier.annual ?? 0) + overageCost;
   const netROI = isEnterprise ? null : totalAnnualValue - costPerYear;
   const roiMultiple = isEnterprise
     ? null
-    : (totalAnnualValue / (costPerYear || 1)).toFixed(1);
+    : costPerYear === 0
+      ? "∞"
+      : (totalAnnualValue / costPerYear).toFixed(1);
 
   // Payback periods (in weeks)
   const timeSavingsPaybackWeeks =
-    !isEnterprise && timeSavings > 0
+    !isEnterprise && !isFree && timeSavings > 0
       ? Math.round((costPerYear / timeSavings) * 52)
       : null;
   const totalPaybackWeeks =
-    !isEnterprise && totalAnnualValue > 0
+    !isEnterprise && !isFree && totalAnnualValue > 0
       ? Math.round((costPerYear / totalAnnualValue) * 52)
       : null;
 
@@ -64,12 +82,20 @@ export default function ROICalculator() {
     return fmt(n);
   };
 
-  // Tier selection indicator
+  // Tier badge colors
   const tierBadgeColor: Record<string, string> = {
-    Starter: "#6366f1",
-    Growth: "#10b981",
+    Free: "#10b981",
+    Pro: "#818cf8",
     Scale: "#f59e0b",
     Enterprise: "#a0a0a0",
+  };
+
+  // Partner limit text
+  const partnerLimitText: Record<string, string> = {
+    Free: "Up to 5 partners",
+    Pro: "Up to 25 partners",
+    Scale: "Up to 100 partners",
+    Enterprise: "Unlimited partners",
   };
 
   return (
@@ -78,6 +104,17 @@ export default function ROICalculator() {
         {/* Left: Inputs */}
         <div className="roi-inputs">
           <h3>Your Partnership Program</h3>
+
+          <div className="input-group">
+            <label>Number of active partners</label>
+            <input
+              type="number"
+              value={partners}
+              onChange={(e) => setPartners(Math.max(1, Number(e.target.value)))}
+              min="1"
+              max="500"
+            />
+          </div>
 
           <div className="input-group">
             <label>Total annual revenue (ARR)</label>
@@ -111,19 +148,8 @@ export default function ROICalculator() {
               <span className="input-suffix">%</span>
             </div>
             <div className="input-derived">
-              = <strong>{fmtARR(partnerARR)}</strong> tracked partner ARR
+              = <strong>{fmtARR(partnerARR)}</strong> partner-influenced revenue
             </div>
-          </div>
-
-          <div className="input-group">
-            <label>Number of active partners</label>
-            <input
-              type="number"
-              value={partners}
-              onChange={(e) => setPartners(Math.max(1, Number(e.target.value)))}
-              min="1"
-              max="500"
-            />
           </div>
 
           <div className="input-group">
@@ -172,11 +198,18 @@ export default function ROICalculator() {
               {tier.name}
             </div>
             <div className="tier-callout-basis">
-              {fmtARR(partnerARR)} tracked partner ARR
-              {!isEnterprise && tier.monthly !== null
-                ? ` → ${fmt(tier.monthly)}/mo`
-                : " → Contact sales"}
+              {partners} active partners · {partnerLimitText[tier.name]}
+              {isEnterprise
+                ? " · Contact sales"
+                : isFree
+                  ? " · $0/mo"
+                  : ` · ${fmt(tier.monthly!)}/mo`}
             </div>
+            {overageCost > 0 && (
+              <div className="tier-callout-overage">
+                + {fmt(overageCost / 12)}/mo overage ({partners - (tier.name === "Pro" ? 25 : 100)} extra partners)
+              </div>
+            )}
           </div>
         </div>
 
@@ -225,8 +258,7 @@ export default function ROICalculator() {
             <div className="metric-label">Dispute reduction</div>
             <div className="metric-value">{fmt(disputeResolutionSavings)}</div>
             <div className="metric-detail">
-              ~{disputesPerYear} disputes/year × 6 hrs each to resolve (auto-calculated
-              from partner count)
+              ~{disputesPerYear} disputes/year × 6 hrs each to resolve
             </div>
           </div>
 
@@ -247,15 +279,28 @@ export default function ROICalculator() {
             </div>
             {isEnterprise ? (
               <div className="total-row cost">
-                <span>Covant Cost ({tier.name})</span>
+                <span>Covant Cost (Enterprise)</span>
                 <span>Contact sales</span>
               </div>
+            ) : isFree ? (
+              <>
+                <div className="total-row cost">
+                  <span>Covant Cost (Free)</span>
+                  <span>$0</span>
+                </div>
+                <div className="total-row net">
+                  <span>Net ROI (Year 1)</span>
+                  <span className="highlight">{fmt(netROI!)}</span>
+                </div>
+                <div className="roi-multiple">
+                  Free plan — all value, zero cost. Upgrade when you outgrow 5 partners.
+                </div>
+              </>
             ) : (
               <>
                 <div className="total-row cost">
                   <span>
-                    Covant Cost ({tier.name} ·{" "}
-                    {fmt(tier.monthly!)}/mo · billed annually)
+                    Covant Cost ({tier.name} · {fmt(tier.monthly!)}/mo{overageCost > 0 ? " + overage" : ""})
                   </span>
                   <span>-{fmt(costPerYear)}</span>
                 </div>
@@ -270,15 +315,22 @@ export default function ROICalculator() {
                     ⏱ Your time savings alone pay for Covant in{" "}
                     <strong>
                       {timeSavingsPaybackWeeks !== null
-                        ? timeSavingsPaybackWeeks
+                        ? timeSavingsPaybackWeeks <= 0
+                          ? "<1"
+                          : timeSavingsPaybackWeeks
                         : "—"}{" "}
-                      weeks
+                      {timeSavingsPaybackWeeks === 1 ? "week" : "weeks"}
                     </strong>
                   </div>
                   <div className="payback-secondary">
                     Total payback with all value drivers:{" "}
                     <strong>
-                      {totalPaybackWeeks !== null ? totalPaybackWeeks : "—"} weeks
+                      {totalPaybackWeeks !== null
+                        ? totalPaybackWeeks <= 0
+                          ? "<1"
+                          : totalPaybackWeeks
+                        : "—"}{" "}
+                      {totalPaybackWeeks === 1 ? "week" : "weeks"}
                     </strong>
                   </div>
                 </div>
@@ -286,7 +338,7 @@ export default function ROICalculator() {
             )}
             {isEnterprise && (
               <div className="enterprise-cta">
-                <p>Your program tracks {fmtARR(partnerARR)} in partner ARR.</p>
+                <p>Your program has {partners} active partners tracking {fmtARR(partnerARR)} in partner-influenced revenue.</p>
                 <p>
                   Let&apos;s build a custom ROI model together.{" "}
                   <a href="mailto:sales@covant.ai">Talk to sales →</a>
@@ -418,6 +470,12 @@ export default function ROICalculator() {
         .tier-callout-basis {
           font-size: 0.8rem;
           color: #666;
+        }
+
+        .tier-callout-overage {
+          font-size: 0.75rem;
+          color: #f59e0b;
+          margin-top: 0.25rem;
         }
 
         .roi-metric {

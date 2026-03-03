@@ -722,6 +722,7 @@ export default function LandingPage() {
               <Link href="/portal">Partner Portal</Link>
               <Link href="/integrations">Integrations</Link>
               <Link href="/compare">Compare</Link>
+              <Link href="/roi">ROI Calculator</Link>
             </div>
             <div>
               <h4>Resources</h4>
