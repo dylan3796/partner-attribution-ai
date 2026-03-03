@@ -15,6 +15,7 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 3, 2026",
     commits: [
+      { hash: "f860ede", type: "feat", message: "Real sparkline trends — dashboard stat cards pull 12-month rolling data from Convex instead of hardcoded arrays, new getTrends query" },
       { hash: "4475e85", type: "feat", message: "Dashboard action items wired to real Convex data — tier reviews, onboarding partners, unpaid commissions, pending deal regs, email triggers, pending invites" },
       { hash: "7f9c2e1", type: "feat", message: "Integrations page — CRM, webhooks, API, Stripe showcase with feature details for beta outreach" },
       { hash: "d903acb", type: "feat", message: "Getting started checklist — guided onboarding steps on dashboard for new users, auto-detects completion" },
