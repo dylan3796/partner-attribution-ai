@@ -720,3 +720,21 @@ a:focus-visible {
   white-space: nowrap;
   border-width: 0;
 }
+
+/* Beta page responsive grid */
+.beta-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 80px;
+  align-items: start;
+  padding-bottom: 100px;
+}
+@media (max-width: 900px) {
+  .beta-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .beta-sticky-form {
+    position: static !important;
+  }
+}

@@ -82,7 +82,7 @@ export default function BetaPage() {
         </div>
 
         {/* Two-column layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 420px', gap: 80, alignItems: 'start', paddingBottom: 100 }}>
+        <div className="beta-grid">
 
           {/* Left: content */}
           <div>
@@ -135,7 +135,7 @@ export default function BetaPage() {
           </div>
 
           {/* Right: form */}
-          <div style={{ position: 'sticky', top: 40 }}>
+          <div className="beta-sticky-form" style={{ position: 'sticky', top: 40 }}>
             <div style={{ background: '#080808', border: '1px solid #1a1a1a', borderRadius: 12, padding: '36px 32px' }}>
               {submitted ? (
                 <div style={{ textAlign: 'center', padding: '24px 0' }}>

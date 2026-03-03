@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { StoreProvider } from "@/lib/store";
+import { Analytics } from "@vercel/analytics/next";
 import { PlatformConfigProvider } from "@/lib/platform-config";
 import { Providers } from "./providers";
 import Nav from "@/components/Nav";
@@ -63,6 +64,7 @@ export default function RootLayout({
             </StoreProvider>
           </Providers>
         </ClerkProvider>
+        <Analytics />
       </body>
     </html>
   );

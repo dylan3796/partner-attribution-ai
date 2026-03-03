@@ -15,6 +15,7 @@
     "@anthropic-ai/sdk": "^0.75.0",
     "@clerk/nextjs": "^6.38.2",
     "@stripe/stripe-js": "^8.8.0",
+    "@vercel/analytics": "^1.6.1",
     "canvas-confetti": "^1.9.4",
     "clsx": "^2.1.1",
     "convex": "^1.31.7",
