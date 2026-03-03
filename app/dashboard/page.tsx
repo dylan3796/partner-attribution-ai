@@ -228,6 +228,9 @@ export default function DashboardPage() {
   const openConflicts = convexChannelConflicts ?? [];
   const pendingMDF = (convexMdfRequests ?? []).filter((r: any) => r.status === "pending");
 
+  // ── Real action items from Convex ──────────────────────────────────────
+  const actionItems = useQuery(api.dashboard.getActionItems);
+
   // First-run detection: redirect to setup if truly empty (no Convex data loaded yet, no store data)
   useEffect(() => {
     const setupComplete = localStorage.getItem("covant_setup_complete");
@@ -352,12 +355,12 @@ export default function DashboardPage() {
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: ".75rem" }}>
           {[
-            { label: "Tier reviews pending", value: "3", href: "/dashboard/scoring/tier-reviews", color: "#8b5cf6", icon: "🏆" },
-            { label: "Partners in onboarding", value: "4", href: "/dashboard/onboarding", color: "#f97316", icon: "🚀" },
-            { label: "Unpaid commissions", value: "$12.4K", href: "/dashboard/payouts", color: "#ef4444", icon: "💰" },
-            { label: "Incentive enrollments", value: "8", href: "/dashboard/incentives", color: "#eab308", icon: "🎁" },
-            { label: "Email triggers active", value: "10/11", href: "/dashboard/emails", color: "#3b82f6", icon: "📧" },
-            { label: "Integrations connected", value: "4", href: "/dashboard/integrations", color: "#22c55e", icon: "🔌" },
+            { label: "Tier reviews pending", value: actionItems ? String(actionItems.tierReviewsPending) : "—", href: "/dashboard/scoring", color: "#8b5cf6", icon: "🏆" },
+            { label: "Partners onboarding", value: actionItems ? String(actionItems.partnersOnboarding) : "—", href: "/dashboard/partners", color: "#f97316", icon: "🚀" },
+            { label: "Unpaid commissions", value: actionItems ? formatCurrencyCompact(actionItems.unpaidCommissions) : "—", href: "/dashboard/payouts", color: "#ef4444", icon: "💰" },
+            { label: "Pending deal regs", value: actionItems ? String(actionItems.pendingDealRegs) : "—", href: "/dashboard/deals", color: "#eab308", icon: "📋" },
+            { label: "Email triggers active", value: actionItems ? `${actionItems.emailTriggersActive}/${actionItems.emailTriggersTotal}` : "—", href: "/dashboard/emails", color: "#3b82f6", icon: "📧" },
+            { label: "Pending invites", value: actionItems ? String(actionItems.pendingInvites) : "—", href: "/dashboard/partners", color: "#22c55e", icon: "✉️" },
           ].map((item, i) => (
             <Link
               key={i}

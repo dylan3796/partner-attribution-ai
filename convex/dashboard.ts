@@ -524,3 +524,112 @@ export const getChannelConflicts = query({
     return conflicts;
   },
 });
+
+/**
+ * Get real-time action items for the dashboard widget.
+ * Replaces hardcoded values with actual Convex data.
+ */
+export const getActionItems = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org)
+      return {
+        tierReviewsPending: 0,
+        partnersOnboarding: 0,
+        unpaidCommissions: 0,
+        pendingInvites: 0,
+        emailTriggersActive: 0,
+        emailTriggersTotal: 0,
+        pendingMdfRequests: 0,
+        pendingDealRegs: 0,
+      };
+
+    const [partners, payouts, invites, emailTemplates, mdfRequests, deals] =
+      await Promise.all([
+        ctx.db
+          .query("partners")
+          .withIndex("by_organization", (q: any) =>
+            q.eq("organizationId", org._id)
+          )
+          .collect(),
+        ctx.db
+          .query("payouts")
+          .withIndex("by_org_and_status", (q: any) =>
+            q.eq("organizationId", org._id).eq("status", "pending_approval")
+          )
+          .collect(),
+        ctx.db
+          .query("partnerInvites")
+          .withIndex("by_organization", (q: any) =>
+            q.eq("organizationId", org._id)
+          )
+          .collect(),
+        ctx.db
+          .query("email_templates")
+          .withIndex("by_organization", (q: any) =>
+            q.eq("organizationId", org._id)
+          )
+          .collect(),
+        ctx.db
+          .query("mdfRequests")
+          .withIndex("by_organization", (q: any) =>
+            q.eq("organizationId", org._id)
+          )
+          .collect(),
+        ctx.db
+          .query("deals")
+          .withIndex("by_organization", (q: any) =>
+            q.eq("organizationId", org._id)
+          )
+          .collect(),
+      ]);
+
+    // Partners in "pending" status = still onboarding
+    const partnersOnboarding = partners.filter(
+      (p: any) => p.status === "pending"
+    ).length;
+
+    // Tier reviews: active partners without a tier assigned (need review)
+    const tierReviewsPending = partners.filter(
+      (p: any) => p.status === "active" && !p.tier
+    ).length;
+
+    // Unpaid commissions total
+    const unpaidCommissions = payouts.reduce(
+      (s: number, p: any) => s + p.amount,
+      0
+    );
+
+    // Pending invites (not yet accepted)
+    const pendingInvites = invites.filter(
+      (i: any) => i.status === "pending"
+    ).length;
+
+    // Email triggers: enabled / total
+    const enabledEmails = emailTemplates.filter(
+      (t: any) => t.enabled
+    ).length;
+
+    // Pending MDF requests
+    const pendingMdf = mdfRequests.filter(
+      (r: any) => r.status === "pending"
+    ).length;
+
+    // Pending deal registrations
+    const pendingDealRegs = deals.filter(
+      (d: any) => d.registrationStatus === "pending"
+    ).length;
+
+    return {
+      tierReviewsPending,
+      partnersOnboarding,
+      unpaidCommissions,
+      pendingInvites,
+      emailTriggersActive: enabledEmails,
+      emailTriggersTotal: emailTemplates.length,
+      pendingMdfRequests: pendingMdf,
+      pendingDealRegs,
+    };
+  },
+});
