@@ -88,6 +88,12 @@ export default function LandingPage() {
             >
               Get Started Free →
             </Link>
+            <Link
+              href="/beta"
+              style={{ textDecoration: "none", color: "#9ca3af", fontSize: "0.9rem", display: "flex", alignItems: "center", gap: "6px", border: "1px solid #1f2937", borderRadius: "8px", padding: "12px 20px" }}
+            >
+              Join Beta →
+            </Link>
           </div>
 
           <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>
@@ -718,6 +724,7 @@ export default function LandingPage() {
             </div>
             <div>
               <h4>Resources</h4>
+              <Link href="/beta">Early Access</Link>
               <Link href="/demo">Live Demo</Link>
               <Link href="/docs">API Docs</Link>
               <Link href="/changelog">Changelog</Link>
