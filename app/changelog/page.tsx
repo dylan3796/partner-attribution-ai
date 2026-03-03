@@ -13,6 +13,37 @@ type Entry = {
 // Generated from real git log — update periodically
 const CHANGELOG: Entry[] = [
   {
+    date: "March 2, 2026",
+    commits: [
+      { hash: "1674657", type: "polish", message: "Vercel Analytics added to layout, beta page responsive grid for mobile" },
+      { hash: "5cb6f32", type: "feat", message: "SEO + GTM — sitemap.xml, robots.txt, og:image, /beta waitlist page with lead capture, 'Join Beta' CTA on hero" },
+      { hash: "04c2a3a", type: "feat", message: "Real signup flow + org isolation — /onboard provisions Convex org on first Clerk login, dashboard protected by middleware, pricing CTAs → /sign-up" },
+    ],
+  },
+  {
+    date: "March 1, 2026",
+    commits: [
+      { hash: "6373b9e", type: "feat", message: "Pricing page rebuild — Free/Pro/Scale/Enterprise tiers, partner-count metric, no time-limited trial" },
+      { hash: "a20080d", type: "feat", message: "Compliance docs — /privacy, /terms, /security, /dpa all live with full legal content" },
+      { hash: "2f79d3a", type: "feat", message: "Real data onboarding as primary entry point — hero CTA → /setup, demo banner in dashboard" },
+    ],
+  },
+  {
+    date: "February 28, 2026",
+    commits: [
+      { hash: "8a82b10", type: "fix", message: "UX polish — filter zero-win recommended partners, fix deals double-listing, billing spinner, portal branding, sidebar clip" },
+      { hash: "07c64b2", type: "fix", message: "Pricing CTA text consistency, remove duplicate View Demo nav link" },
+      { hash: "37ae7e5", type: "fix", message: "Lazy Stripe init — avoid build-time crash when STRIPE_SECRET_KEY not set" },
+      { hash: "0e3a45c", type: "feat", message: "Stripe billing — checkout sessions, webhooks, customer portal, pricing CTAs, billing settings page" },
+    ],
+  },
+  {
+    date: "February 26, 2026",
+    commits: [
+      { hash: "113e784", type: "feat", message: "Clerk auth — sign-in/sign-up pages with Covant dark branding, demo banner, portal UserButton" },
+    ],
+  },
+  {
     date: "February 23, 2026",
     commits: [
       { hash: "ed8f449", type: "feat", message: "Enriched seed data — 22 deals (was 7), 26 audit log entries, varied partner profiles across all 5 partners" },
@@ -84,7 +115,7 @@ export default function ChangelogPage() {
         </Link>
         <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Changelog</h1>
         <p className="muted" style={{ marginTop: ".25rem", lineHeight: 1.6 }}>
-          What&apos;s new in Covant — {totalFeatures} features and {totalFixes} improvements shipped this week.
+          What&apos;s new in Covant — {totalFeatures} features and {totalFixes} improvements shipped so far.
         </p>
       </div>
 
