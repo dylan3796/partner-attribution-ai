@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import {
   Search,
   LayoutDashboard,
@@ -22,7 +24,6 @@ import {
   Megaphone,
   AlertTriangle,
   Package,
-  MapPin,
   Zap,
   ExternalLink,
   User,
@@ -37,7 +38,7 @@ type CommandItem = {
   icon: LucideIcon;
   href?: string;
   action?: () => void;
-  category: "navigation" | "portal" | "actions" | "settings";
+  category: "navigation" | "portal" | "actions" | "settings" | "partners" | "deals";
   keywords: string[];
 };
 
@@ -71,14 +72,33 @@ const COMMANDS: CommandItem[] = [
 
   // Landing/public
   { id: "landing", label: "Landing Page", icon: ExternalLink, href: "/", category: "navigation", keywords: ["landing", "home", "marketing", "website"] },
-  { id: "program", label: "Partner Program Page", icon: FileText, href: "/program", category: "navigation", keywords: ["program", "apply", "public", "showcase"] },
 ];
 
 const CATEGORY_LABELS: Record<string, string> = {
-  navigation: "Dashboard",
+  partners: "Partners",
+  deals: "Deals",
+  navigation: "Pages",
   portal: "Partner Portal",
   actions: "Actions",
   settings: "Settings",
+};
+
+// Order categories so data results appear first
+const CATEGORY_ORDER = ["partners", "deals", "navigation", "portal", "settings", "actions"];
+
+function formatCurrency(amount: number) {
+  if (amount >= 1_000_000) return `$${(amount / 1_000_000).toFixed(1)}M`;
+  if (amount >= 1_000) return `$${(amount / 1_000).toFixed(0)}K`;
+  return `$${amount.toLocaleString()}`;
+}
+
+const STATUS_COLORS: Record<string, { bg: string; fg: string }> = {
+  active: { bg: "#22c55e18", fg: "#22c55e" },
+  inactive: { bg: "#ef444418", fg: "#ef4444" },
+  pending: { bg: "#eab30818", fg: "#eab308" },
+  won: { bg: "#22c55e18", fg: "#22c55e" },
+  lost: { bg: "#ef444418", fg: "#ef4444" },
+  open: { bg: "#3b82f618", fg: "#3b82f6" },
 };
 
 export function CommandPalette() {
@@ -92,6 +112,13 @@ export function CommandPalette() {
 
   // Only mount on dashboard routes
   const isDashboard = pathname.startsWith("/dashboard") || pathname.startsWith("/portal");
+
+  // Live search from Convex — only fires when palette is open and query has 2+ chars
+  const searchQuery = open && query.trim().length >= 2 ? query.trim() : "";
+  const searchResults = useQuery(
+    api.search.globalSearch,
+    searchQuery ? { query: searchQuery } : "skip"
+  );
 
   // ⌘K / Ctrl+K to open
   useEffect(() => {
@@ -115,8 +142,41 @@ export function CommandPalette() {
     }
   }, [open]);
 
-  // Filter commands
-  const filtered = useMemo(() => {
+  // Build dynamic commands from search results
+  const dataCommands = useMemo<CommandItem[]>(() => {
+    if (!searchResults) return [];
+    const items: CommandItem[] = [];
+
+    for (const p of searchResults.partners) {
+      const tierLabel = p.tier ? ` · ${p.tier}` : "";
+      items.push({
+        id: `partner-${p._id}`,
+        label: p.name,
+        description: `${p.type} · ${p.status}${tierLabel}`,
+        icon: Users,
+        href: `/dashboard/partners/${p._id}`,
+        category: "partners",
+        keywords: [],
+      });
+    }
+
+    for (const d of searchResults.deals) {
+      items.push({
+        id: `deal-${d._id}`,
+        label: d.name,
+        description: `${formatCurrency(d.amount)} · ${d.status}`,
+        icon: Briefcase,
+        href: `/dashboard/deals/${d._id}`,
+        category: "deals",
+        keywords: [],
+      });
+    }
+
+    return items;
+  }, [searchResults]);
+
+  // Filter static commands
+  const filteredCommands = useMemo(() => {
     if (!query.trim()) return COMMANDS;
     const q = query.toLowerCase();
     return COMMANDS.filter((cmd) =>
@@ -126,16 +186,27 @@ export function CommandPalette() {
     );
   }, [query]);
 
+  // Merge: data results first, then navigation
+  const allCommands = useMemo(() => {
+    return [...dataCommands, ...filteredCommands];
+  }, [dataCommands, filteredCommands]);
+
   // Group by category
   const grouped = useMemo(() => {
     const groups = new Map<string, CommandItem[]>();
-    for (const cmd of filtered) {
+    for (const cmd of allCommands) {
       const list = groups.get(cmd.category) || [];
       list.push(cmd);
       groups.set(cmd.category, list);
     }
-    return groups;
-  }, [filtered]);
+    // Sort by CATEGORY_ORDER
+    const sorted = new Map<string, CommandItem[]>();
+    for (const cat of CATEGORY_ORDER) {
+      const items = groups.get(cat);
+      if (items) sorted.set(cat, items);
+    }
+    return sorted;
+  }, [allCommands]);
 
   // Flat list for keyboard nav
   const flatList = useMemo(() => {
@@ -143,6 +214,11 @@ export function CommandPalette() {
     for (const [, cmds] of grouped) items.push(...cmds);
     return items;
   }, [grouped]);
+
+  // Clamp selectedIndex when results change
+  useEffect(() => {
+    setSelectedIndex((i) => Math.min(i, Math.max(0, flatList.length - 1)));
+  }, [flatList.length]);
 
   const execute = useCallback((cmd: CommandItem) => {
     setOpen(false);
@@ -201,12 +277,18 @@ export function CommandPalette() {
             type="text"
             value={query}
             onChange={(e) => { setQuery(e.target.value); setSelectedIndex(0); }}
-            placeholder="Search pages, actions..."
+            placeholder="Search partners, deals, pages..."
             style={{
               flex: 1, border: "none", outline: "none", background: "transparent",
               fontSize: ".95rem", fontFamily: "inherit", color: "var(--fg)",
             }}
           />
+          {searchQuery && !searchResults && (
+            <div style={{
+              width: 16, height: 16, border: "2px solid var(--border)", borderTopColor: "var(--muted)",
+              borderRadius: "50%", animation: "spin 0.6s linear infinite",
+            }} />
+          )}
           <kbd style={{
             padding: "2px 6px", borderRadius: 4, fontSize: ".65rem", fontWeight: 600,
             background: "var(--subtle)", border: "1px solid var(--border)", color: "var(--muted)",
@@ -231,6 +313,9 @@ export function CommandPalette() {
                 const idx = flatIdx++;
                 const isSelected = idx === selectedIndex;
                 const Icon = cmd.icon;
+                const statusColor = cmd.description
+                  ? STATUS_COLORS[cmd.description.split(" · ").pop()?.trim() || ""] 
+                  : null;
                 return (
                   <div
                     key={cmd.id}
@@ -244,9 +329,17 @@ export function CommandPalette() {
                     }}
                   >
                     <Icon size={16} style={{ color: isSelected ? "#6366f1" : "var(--muted)", flexShrink: 0 }} />
-                    <span style={{ flex: 1, fontSize: ".875rem", fontWeight: isSelected ? 600 : 400 }}>{cmd.label}</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <span style={{ fontSize: ".875rem", fontWeight: isSelected ? 600 : 400 }}>{cmd.label}</span>
+                      {cmd.description && (
+                        <span style={{ fontSize: ".75rem", color: "var(--muted)", marginLeft: 8 }}>{cmd.description}</span>
+                      )}
+                    </div>
                     {cmd.href && pathname === cmd.href && (
                       <span style={{ fontSize: ".65rem", padding: "1px 6px", borderRadius: 999, background: "#6366f120", color: "#6366f1", fontWeight: 600 }}>current</span>
+                    )}
+                    {(cmd.category === "partners" || cmd.category === "deals") && (
+                      <span style={{ fontSize: ".65rem", padding: "1px 6px", borderRadius: 999, background: "#6366f108", color: "#6366f1", fontWeight: 500 }}>→</span>
                     )}
                   </div>
                 );
@@ -269,6 +362,12 @@ export function CommandPalette() {
           ))}
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }

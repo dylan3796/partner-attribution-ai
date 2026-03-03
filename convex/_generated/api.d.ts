@@ -41,6 +41,7 @@ import type * as payouts from "../payouts.js";
 import type * as programConfig from "../programConfig.js";
 import type * as queries_analytics from "../queries/analytics.js";
 import type * as recommendations from "../recommendations.js";
+import type * as search from "../search.js";
 import type * as seedDemo from "../seedDemo.js";
 import type * as setup from "../setup.js";
 import type * as subscriptions from "../subscriptions.js";
@@ -88,6 +89,7 @@ declare const fullApi: ApiFromModules<{
   programConfig: typeof programConfig;
   "queries/analytics": typeof queries_analytics;
   recommendations: typeof recommendations;
+  search: typeof search;
   seedDemo: typeof seedDemo;
   setup: typeof setup;
   subscriptions: typeof subscriptions;
