@@ -13,6 +13,15 @@ type Entry = {
 // Generated from real git log — update periodically
 const CHANGELOG: Entry[] = [
   {
+    date: "March 3, 2026",
+    commits: [
+      { hash: "d903acb", type: "feat", message: "Getting started checklist — guided onboarding steps on dashboard for new users, auto-detects completion" },
+      { hash: "ce91cb5", type: "polish", message: "Onboard loading state — spinner while Clerk + Convex provision the org" },
+      { hash: "20c3093", type: "feat", message: "About page — company story, values, and problem statement for beta outreach" },
+      { hash: "ac2ee91", type: "feat", message: "Error boundaries + loading states — global error page, setup/onboard error recovery" },
+    ],
+  },
+  {
     date: "March 2, 2026",
     commits: [
       { hash: "1674657", type: "polish", message: "Vercel Analytics added to layout, beta page responsive grid for mobile" },

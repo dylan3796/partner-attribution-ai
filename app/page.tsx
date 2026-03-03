@@ -720,7 +720,7 @@ export default function LandingPage() {
               <Link href="/dashboard/payouts">Payouts</Link>
               <Link href="/dashboard/deals">Deals</Link>
               <Link href="/portal">Partner Portal</Link>
-              <Link href="/dashboard/integrations">Integrations</Link>
+              <Link href="/integrations">Integrations</Link>
             </div>
             <div>
               <h4>Resources</h4>
