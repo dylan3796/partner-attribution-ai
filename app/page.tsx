@@ -695,63 +695,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── 14. FOOTER ───────────────────────────────────── */}
-      <footer className="site-footer">
-        <div className="wrap-wide footer-grid">
-          <div>
-            <span className="logo" style={{ color: "white" }}>
-              Covant
-            </span>
-            <p className="muted" style={{ marginTop: ".8rem", fontSize: ".8rem", lineHeight: 1.6 }}>
-              Track attribution.
-              <br />
-              Calculate commissions.
-              <br />
-              Pay your partners on time.
-            </p>
-            <p className="muted" style={{ marginTop: ".8rem", fontSize: ".75rem" }}>
-              © 2026 Covant, Inc.
-            </p>
-          </div>
-          <div className="footer-links">
-            <div>
-              <h4>Product</h4>
-              <Link href="/dashboard/reports">Attribution</Link>
-              <Link href="/dashboard/payouts">Payouts</Link>
-              <Link href="/dashboard/deals">Deals</Link>
-              <Link href="/portal">Partner Portal</Link>
-              <Link href="/integrations">Integrations</Link>
-              <Link href="/compare">Compare</Link>
-              <Link href="/roi">ROI Calculator</Link>
-            </div>
-            <div>
-              <h4>Resources</h4>
-              <Link href="/beta">Early Access</Link>
-              <Link href="/demo">Live Demo</Link>
-              <Link href="/docs">API Docs</Link>
-              <Link href="/changelog">Changelog</Link>
-              <Link href="/use-cases">Use Cases</Link>
-              <Link href="/assessment">Program Assessment</Link>
-              <Link href="/resources">All Resources</Link>
-            </div>
-            <div>
-              <h4>Partners</h4>
-              <Link href="/portal">Partner Portal</Link>
-              <Link href="/portal/resources">Resource Hub</Link>
-            </div>
-            <div>
-              <h4>Company</h4>
-              <Link href="/about">About</Link>
-              <a href="mailto:hello@covant.ai">Careers</a>
-              <Link href="/contact">Contact</Link>
-              <Link href="/privacy">Privacy Policy</Link>
-              <Link href="/terms">Terms of Service</Link>
-              <Link href="/security">Security</Link>
-              <Link href="/dpa">DPA</Link>
-            </div>
-          </div>
-        </div>
-      </footer>
+      {/* Footer is rendered from shared Footer component in layout */}
     </>
   );
 }

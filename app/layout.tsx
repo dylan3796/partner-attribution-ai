@@ -7,6 +7,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { PlatformConfigProvider } from "@/lib/platform-config";
 import { Providers } from "./providers";
 import Nav from "@/components/Nav";
+import Footer from "@/components/Footer";
 import AskCovant from "@/components/AskCovant";
 
 const inter = Inter({
@@ -59,6 +60,7 @@ export default function RootLayout({
               <PlatformConfigProvider>
                 <Nav />
                 {children}
+                <Footer />
                 <AskCovant />
               </PlatformConfigProvider>
             </StoreProvider>

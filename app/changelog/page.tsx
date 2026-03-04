@@ -15,6 +15,7 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 3, 2026",
     commits: [
+      { hash: "539fd31", type: "feat", message: "Resources hub — centralized library with guides, templates, tools, and partner success content for beta outreach" },
       { hash: "5651132", type: "feat", message: "Contact page — lead capture form with partner count selector, quick contact sidebar, \"What to expect\" guide. Enterprise + ROI CTAs now route to /contact" },
       { hash: "f6dd2c3", type: "feat", message: "Partner program assessment — interactive 8-question maturity quiz with scoring, personalized recommendations, and lead capture for outreach" },
       { hash: "42e0b13", type: "fix", message: "ROI calculator pricing fix — was showing old ARR-based tiers, now uses real partner-count pricing (Free/Pro/Scale/Enterprise). New standalone /roi page for outreach linking" },
