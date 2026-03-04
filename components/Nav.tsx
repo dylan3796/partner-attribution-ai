@@ -10,6 +10,7 @@ const marketingLinks = [
   { name: "Platform", href: "/#platform" },
   { name: "Compare", href: "/compare" },
   { name: "Integrations", href: "/integrations" },
+  { name: "Resources", href: "/resources" },
   { name: "Pricing", href: "/pricing" },
 ];
 

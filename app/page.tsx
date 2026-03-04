@@ -732,6 +732,7 @@ export default function LandingPage() {
               <Link href="/changelog">Changelog</Link>
               <Link href="/use-cases">Use Cases</Link>
               <Link href="/assessment">Program Assessment</Link>
+              <Link href="/resources">All Resources</Link>
             </div>
             <div>
               <h4>Partners</h4>
