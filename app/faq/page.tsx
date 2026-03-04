@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { FAQSchema } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
   title: "FAQ — Covant Partner Intelligence Platform",
@@ -145,6 +146,11 @@ function FAQAccordion({ item, index }: { item: FAQItem; index: number }) {
 export default function FAQPage() {
   const allItems = FAQ_SECTIONS.flatMap((s) => s.items);
 
+  const faqQuestions = allItems.map((item) => ({
+    question: item.q,
+    answer: item.a,
+  }));
+
   return (
     <div
       style={{
@@ -154,6 +160,7 @@ export default function FAQPage() {
         fontFamily: "var(--font-inter), Inter, sans-serif",
       }}
     >
+      <FAQSchema questions={faqQuestions} />
       {/* Nav */}
       <nav
         style={{

@@ -9,6 +9,7 @@ import { Providers } from "./providers";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import AskCovant from "@/components/AskCovant";
+import { OrganizationSchema, WebSiteSchema, SoftwareApplicationSchema } from "@/components/StructuredData";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -52,6 +53,9 @@ export default function RootLayout({
             __html: `try{if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`,
           }}
         />
+        <OrganizationSchema />
+        <WebSiteSchema />
+        <SoftwareApplicationSchema />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
         <ClerkProvider>
