@@ -12,6 +12,7 @@ export const metadata: Metadata = {
 
 type UseCase = {
   persona: string;
+  slug: string;
   title: string;
   subtitle: string;
   painPoints: string[];
@@ -25,6 +26,7 @@ type UseCase = {
 const useCases: UseCase[] = [
   {
     persona: "VP of Partnerships",
+    slug: "vp-partnerships",
     title: "Prove partner ROI to your board",
     subtitle: "You know partners drive revenue. Now prove it with data.",
     emoji: "📊",
@@ -46,6 +48,7 @@ const useCases: UseCase[] = [
   },
   {
     persona: "Revenue Operations",
+    slug: "revops",
     title: "Automate the commission nightmare",
     subtitle: "Stop spending 20 hours a month on partner payout spreadsheets.",
     emoji: "⚙️",
@@ -67,6 +70,7 @@ const useCases: UseCase[] = [
   },
   {
     persona: "Partner Manager",
+    slug: "partner-manager",
     title: "Know exactly where every partner stands",
     subtitle: "Stop flying blind. See onboarding progress, deal pipeline, and engagement in one place.",
     emoji: "🤝",
@@ -171,9 +175,11 @@ export default function UseCasesPage() {
                     <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: uc.color, marginBottom: 4 }}>Outcome</div>
                     <div style={{ fontSize: ".9rem", color: "#ccc" }}>{uc.outcome}</div>
                   </div>
-                  <Link href="/dashboard" style={{ padding: "8px 16px", borderRadius: 8, background: uc.color, color: "#fff", fontSize: ".8rem", fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>
-                    {uc.cta}
-                  </Link>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <Link href={`/use-cases/${uc.slug}`} style={{ padding: "8px 16px", borderRadius: 8, background: uc.color, color: "#fff", fontSize: ".8rem", fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>
+                      Deep dive →
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
