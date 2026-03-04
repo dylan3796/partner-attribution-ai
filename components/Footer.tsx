@@ -21,6 +21,7 @@ const RESOURCE_LINKS = [
   { name: "Use Cases", href: "/use-cases" },
   { name: "Program Assessment", href: "/assessment" },
   { name: "Roadmap", href: "/roadmap" },
+  { name: "FAQ", href: "/faq" },
   { name: "All Resources", href: "/resources" },
 ];
 

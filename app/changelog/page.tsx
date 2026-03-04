@@ -15,6 +15,8 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 3, 2026",
     commits: [
+      { hash: "NEW0001", type: "feat", message: "FAQ page — 24 questions across 6 categories (getting started, attribution, integrations, portal, security, pricing) for beta outreach and SEO" },
+      { hash: "70f14a4", type: "feat", message: "Founding member offer — live beta counter, social proof with role/company attribution, urgency-driven early access CTA" },
       { hash: "252b386", type: "feat", message: "Public product roadmap — shipped/in-progress/planned features with stats, quarter targets, and beta CTA. Added to footer, sitemap, and resources" },
       { hash: "85ba61e", type: "feat", message: "Product tour page — visual walkthrough of every platform module with interactive mockups, jump navigation, and CTAs. Added to main nav, footer, and sitemap" },
       { hash: "a74c4be", type: "polish", message: "Shared Footer component — extracted into reusable component, now renders across all marketing pages with responsive 4→2→1 column grid" },

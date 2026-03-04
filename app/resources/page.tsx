@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import {
   Calculator, ClipboardCheck, GitBranch, BookOpen, FileText,
-  ArrowRight, Sparkles, BarChart3, Code2, Layers,
+  ArrowRight, Sparkles, BarChart3, Code2, Layers, HelpCircle,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -102,6 +102,16 @@ const COMPANY: Resource[] = [
     color: "#6b7280",
     tag: "Updates",
     tagColor: "#6b7280",
+  },
+  {
+    title: "FAQ",
+    description:
+      "24 answers to the most common questions about attribution, commissions, integrations, security, and pricing.",
+    href: "/faq",
+    icon: HelpCircle,
+    color: "#818cf8",
+    tag: "Help",
+    tagColor: "#818cf8",
   },
   {
     title: "About Covant",
