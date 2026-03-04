@@ -8,6 +8,7 @@ const PRODUCT_LINKS = [
   { name: "Attribution", href: "/dashboard/reports" },
   { name: "Payouts", href: "/dashboard/payouts" },
   { name: "Partner Portal", href: "/portal" },
+  { name: "Become a Partner", href: "/apply" },
   { name: "Integrations", href: "/integrations" },
   { name: "Compare", href: "/compare" },
   { name: "ROI Calculator", href: "/roi" },

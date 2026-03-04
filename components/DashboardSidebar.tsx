@@ -28,6 +28,7 @@ import {
   Heart,
   Scale,
   Star,
+  ClipboardList,
 } from "lucide-react";
 
 // ─── Nav structure ───────────────────────────────────────────────────────────
@@ -64,6 +65,7 @@ const navSections: NavSection[] = [
     items: [
       { name: "All Partners",  href: "/dashboard/partners",             icon: Users },
       { name: "Leads",         href: "/dashboard/leads",                icon: Star },
+      { name: "Applications",  href: "/dashboard/partner-applications", icon: ClipboardList },
       { name: "Onboarding",    href: "/dashboard/onboarding",           icon: Rocket },
     ],
   },

@@ -663,6 +663,34 @@ export default defineSchema({
     .index("by_organization", ["organizationId"])
     .index("by_org_and_status", ["organizationId", "status"]),
 
+  // Partner Applications (inbound partner acquisition)
+  partnerApplications: defineTable({
+    organizationId: v.optional(v.id("organizations")),
+    companyName: v.string(),
+    contactName: v.string(),
+    email: v.string(),
+    website: v.optional(v.string()),
+    partnerType: v.union(
+      v.literal("reseller"),
+      v.literal("referral"),
+      v.literal("integration"),
+      v.literal("affiliate")
+    ),
+    partnerCount: v.optional(v.string()), // "1-10", "11-50", etc.
+    message: v.optional(v.string()),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("approved"),
+      v.literal("rejected")
+    ),
+    reviewNote: v.optional(v.string()),
+    reviewedAt: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_status", ["status"])
+    .index("by_email", ["email"])
+    .index("by_created", ["createdAt"]),
+
   // Outbound Webhook Delivery Log
   webhookDeliveries: defineTable({
     organizationId: v.id("organizations"),
