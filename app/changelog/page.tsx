@@ -15,6 +15,7 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 4, 2026",
     commits: [
+      { hash: "b48bec7", type: "feat", message: "Outbound webhooks — create endpoints with URL and event subscriptions, HMAC signing secrets (auto-generated, reveal/copy/rotate), pause/activate toggle, send test events, delivery log with status codes, edit/delete endpoints. 15 event types across Deals, Partners, Payouts, Commissions, and Attribution. Full Convex backend with CRUD, secret rotation, and test delivery logging. Sample payload docs. Linked from settings." },
       { hash: "NEW0007", type: "feat", message: "Team management — invite teammates, assign roles (Admin/Manager/Member), change roles inline, remove members with confirmation. Full Convex backend with org scoping, admin-only guards, last-admin protection, and audit logging. Linked from settings quick links and settings page." },
       { hash: "620fa50", type: "feat", message: "Interactive demo walkthrough — 5-step guided product tour (Dashboard, Attribution, Commissions, Portal, Launch) with mock UI panels. Pre-seeds data in background. Skip option, progress bar, responsive." },
       { hash: "NEW0006", type: "feat", message: "Customer stories page — 3 illustrative case studies (Meridian Cloud, StackPath Analytics, Nova Security) showing before/after results for partner program transformations. Covers Deal Reg Protection, Source Wins, and Role Split attribution models. Added to nav, footer, sitemap, and resources hub." },
