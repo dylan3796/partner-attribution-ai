@@ -15,6 +15,8 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 3, 2026",
     commits: [
+      { hash: "NEW0002", type: "feat", message: "Blog — 3 SEO-optimized articles for beta outreach: partner attribution breakdown, spreadsheet cost analysis, and attribution models guide. Index page, individual article pages, footer + sitemap integration" },
+      { hash: "433d511", type: "polish", message: "SEO metadata + JSON-LD structured data across all marketing pages — page-specific titles/descriptions, Organization/WebSite/SoftwareApplication schemas, FAQPage schema for rich results" },
       { hash: "NEW0001", type: "feat", message: "FAQ page — 24 questions across 6 categories (getting started, attribution, integrations, portal, security, pricing) for beta outreach and SEO" },
       { hash: "70f14a4", type: "feat", message: "Founding member offer — live beta counter, social proof with role/company attribution, urgency-driven early access CTA" },
       { hash: "252b386", type: "feat", message: "Public product roadmap — shipped/in-progress/planned features with stats, quarter targets, and beta CTA. Added to footer, sitemap, and resources" },

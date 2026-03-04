@@ -1,0 +1,85 @@
+import Link from "next/link";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { BLOG_POSTS, CATEGORY_CONFIG } from "./posts";
+
+export default function BlogPage() {
+  return (
+    <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5", fontFamily: "var(--font-inter), Inter, sans-serif" }}>
+      {/* Nav */}
+      <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 40px", borderBottom: "1px solid #111" }}>
+        <Link href="/" style={{ color: "#fff", textDecoration: "none", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "-0.03em" }}>
+          covant
+        </Link>
+        <div style={{ display: "flex", gap: 24, alignItems: "center" }}>
+          <Link href="/resources" style={{ color: "#888", fontSize: "0.85rem", textDecoration: "none" }}>Resources</Link>
+          <Link href="/beta" style={{ color: "#000", background: "#fff", fontSize: "0.85rem", textDecoration: "none", padding: "8px 16px", borderRadius: 6, fontWeight: 600 }}>
+            Join Beta
+          </Link>
+        </div>
+      </nav>
+
+      <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 24px" }}>
+        {/* Header */}
+        <div style={{ padding: "80px 0 48px" }}>
+          <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "#555", fontSize: ".85rem", textDecoration: "none", marginBottom: 16 }}>
+            <ArrowLeft size={14} /> Home
+          </Link>
+          <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, letterSpacing: "-0.04em", color: "#fff", margin: "0 0 16px" }}>
+            Blog
+          </h1>
+          <p style={{ color: "#555", fontSize: "1.1rem", lineHeight: 1.6, maxWidth: 560 }}>
+            Practical insights on partner attribution, commission ops, and building programs that scale.
+          </p>
+        </div>
+
+        {/* Posts */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 0, paddingBottom: 80 }}>
+          {BLOG_POSTS.map((post, i) => {
+            const cat = CATEGORY_CONFIG[post.category];
+            return (
+              <Link
+                key={post.slug}
+                href={`/blog/${post.slug}`}
+                style={{ textDecoration: "none", color: "inherit", display: "block", padding: "36px 0", borderTop: i === 0 ? "1px solid #1a1a1a" : "none", borderBottom: "1px solid #1a1a1a" }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                  <span style={{
+                    fontSize: ".7rem", fontWeight: 700, letterSpacing: "0.05em", color: cat.color,
+                    background: `${cat.color}18`, padding: "3px 10px", borderRadius: 4,
+                  }}>
+                    {cat.label.toUpperCase()}
+                  </span>
+                  <span style={{ color: "#444", fontSize: ".8rem" }}>{post.date}</span>
+                  <span style={{ color: "#333", fontSize: ".8rem" }}>·</span>
+                  <span style={{ color: "#444", fontSize: ".8rem" }}>{post.readTime}</span>
+                </div>
+                <h2 style={{ fontSize: "1.35rem", fontWeight: 700, color: "#fff", margin: "0 0 8px", letterSpacing: "-0.02em" }}>
+                  {post.title}
+                </h2>
+                <p style={{ color: "#666", fontSize: ".95rem", lineHeight: 1.6, margin: "0 0 12px" }}>
+                  {post.description}
+                </p>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "#888", fontSize: ".85rem", fontWeight: 500 }}>
+                  Read more <ArrowRight size={14} />
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* CTA */}
+        <div style={{ textAlign: "center", padding: "48px 0 80px", borderTop: "1px solid #111" }}>
+          <p style={{ color: "#555", fontSize: ".95rem", marginBottom: 20 }}>
+            Building a partner program? Join the beta and see Covant in action.
+          </p>
+          <Link href="/beta" style={{
+            display: "inline-block", background: "#fff", color: "#000",
+            padding: "12px 28px", borderRadius: 8, fontWeight: 700, fontSize: ".9rem", textDecoration: "none",
+          }}>
+            Request Beta Access →
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

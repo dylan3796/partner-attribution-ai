@@ -22,6 +22,7 @@ const RESOURCE_LINKS = [
   { name: "Program Assessment", href: "/assessment" },
   { name: "Roadmap", href: "/roadmap" },
   { name: "FAQ", href: "/faq" },
+  { name: "Blog", href: "/blog" },
   { name: "All Resources", href: "/resources" },
 ];
 
