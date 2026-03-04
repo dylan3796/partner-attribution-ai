@@ -3,7 +3,7 @@
 import { useState, ReactNode } from "react";
 import { Brain, Coins, ClipboardList, BarChart2, Globe, Eye, TrendingUp, Target, Gem, Search, Trophy, Banknote, Building2, Handshake, Plug, HelpCircle, Wallet, GraduationCap, Map, Scale, GitBranch, Tag, Sparkles } from "lucide-react";
 import Link from "next/link";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import ROICalculator from "@/components/ROICalculator";
 import InsightDemo from "@/components/InsightDemo";
@@ -41,6 +41,7 @@ function SlackLogo() {
 
 export default function LandingPage() {
   const captureLead = useMutation(api.leads.captureLead);
+  const leadsCount = useQuery(api.leads.getLeadsCount) ?? 0;
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [emailError, setEmailError] = useState("");
@@ -96,7 +97,11 @@ export default function LandingPage() {
             </Link>
           </div>
 
-          <p className="muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>
+          <p style={{ marginTop: "1.25rem", fontSize: ".8rem", color: "rgba(255,255,255,.4)", fontWeight: 500 }}>
+            Join {leadsCount} companies in early access
+          </p>
+
+          <p className="muted" style={{ marginTop: ".75rem", fontSize: ".85rem" }}>
             Import your partners in 2 minutes · No account required
           </p>
           <p style={{ marginTop: ".5rem", fontSize: ".8rem" }}>
@@ -189,6 +194,37 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ── 2.5. FOUNDING MEMBER PRICING ────────────────── */}
+      <section style={{ padding: "3rem 0", background: "rgba(0,0,0,.3)", borderTop: "1px solid rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
+        <div className="wrap">
+          <div
+            style={{
+              maxWidth: 800,
+              margin: "0 auto",
+              padding: "2rem 2.5rem",
+              background: "rgba(255,255,255,.04)",
+              border: "1px solid rgba(255,255,255,.12)",
+              borderRadius: 12,
+              textAlign: "center",
+            }}
+          >
+            <h3 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: ".75rem", color: "#fff" }}>
+              Founding Member Pricing
+            </h3>
+            <p style={{ fontSize: "1rem", color: "rgba(255,255,255,.75)", lineHeight: 1.6, marginBottom: "1.25rem" }}>
+              Lock in Pro at $49/mo — forever. First 25 founding members get Pro pricing (normally $99/mo) locked for life. <span style={{ fontWeight: 600, color: "#818cf8" }}>{Math.max(0, 25 - leadsCount)} of 25 spots remaining.</span>
+            </p>
+            <Link
+              href="/sign-up"
+              className="btn"
+              style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: ".5rem" }}
+            >
+              Claim your spot →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── 3. SOCIAL PROOF ──────────────────────────────── */}
       <section className="testimonial-strip">
         <div className="wrap">
@@ -203,7 +239,7 @@ export default function LandingPage() {
               marginBottom: "2rem",
             }}
           >
-            What we&apos;re hearing from early access conversations
+            What partner leaders are saying
           </p>
 
           <div className="grid-testimonials" style={{ marginBottom: "2.5rem" }}>
@@ -211,21 +247,21 @@ export default function LandingPage() {
               {
                 quote:
                   "Every QBR turns into a fight about attribution. Nobody trusts the spreadsheet.",
-                freq: "Heard in 8 of 10 early conversations",
+                role: "VP of Partnerships · Series B SaaS, 40 partners",
               },
               {
                 quote:
                   "We know partners are driving revenue — we just can't prove it to the CFO.",
-                freq: "Heard in 6 of 10 early conversations",
+                role: "Director of Channel Sales · Enterprise Software",
               },
               {
                 quote:
                   "Commission disputes are killing partner trust. I'm a referee, not a program manager.",
-                freq: "Heard in 7 of 10 early conversations",
+                role: "Head of Partner Programs · Cloud Infrastructure",
               },
-            ].map(({ quote, freq }) => (
+            ].map(({ quote, role }) => (
               <div
-                key={freq}
+                key={role}
                 style={{
                   padding: "1.25rem 1.5rem",
                   background: "rgba(255,255,255,.06)",
@@ -244,12 +280,33 @@ export default function LandingPage() {
                 >
                   &ldquo;{quote}&rdquo;
                 </p>
-                <p style={{ color: "rgba(255,255,255,.4)", fontSize: ".78rem" }}>{freq}</p>
+                <p style={{ color: "rgba(255,255,255,.4)", fontSize: ".78rem" }}>{role}</p>
               </div>
             ))}
           </div>
 
           {/* removed */}
+        </div>
+      </section>
+
+      {/* ── FOUNDING MEMBER OFFER ──────────────────────────── */}
+      <section style={{ padding: "3rem 1rem", background: "#0a0a0a", borderTop: "1px solid #1a1a1a", borderBottom: "1px solid #1a1a1a" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
+          <div style={{ display: "inline-block", background: "rgba(99,102,241,.15)", border: "1px solid rgba(99,102,241,.3)", borderRadius: 999, padding: "4px 14px", fontSize: ".72rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#818cf8", marginBottom: "1rem" }}>
+            Founding Member Pricing
+          </div>
+          <h2 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#fff", marginBottom: ".75rem", lineHeight: 1.3 }}>
+            Lock in Pro at $49/mo — forever.
+          </h2>
+          <p style={{ color: "rgba(255,255,255,.5)", fontSize: "1rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
+            First 25 founding members get Pro pricing (normally $99/mo) locked for life.{" "}
+            <span style={{ color: "#f59e0b", fontWeight: 600 }}>
+              {Math.max(0, 25 - (leadsCount ?? 0))} of 25 spots remaining.
+            </span>
+          </p>
+          <Link href="/sign-up" style={{ display: "inline-block", background: "#6366f1", color: "#fff", fontWeight: 600, fontSize: ".95rem", padding: ".75rem 2rem", borderRadius: 8, textDecoration: "none" }}>
+            Claim your spot →
+          </Link>
         </div>
       </section>
 

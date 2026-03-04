@@ -54,6 +54,15 @@ export const getLeads = query({
   },
 });
 
+// Get count of all leads
+export const getLeadsCount = query({
+  args: {},
+  handler: async (ctx) => {
+    const leads = await ctx.db.query("leads").collect();
+    return leads.length;
+  },
+});
+
 // Submit a lead from partner portal
 export const submitLead = mutation({
   args: {
