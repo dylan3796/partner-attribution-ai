@@ -13,6 +13,12 @@ type Entry = {
 // Generated from real git log — update periodically
 const CHANGELOG: Entry[] = [
   {
+    date: "March 4, 2026",
+    commits: [
+      { hash: "NEW0003", type: "feat", message: "Blog — 2 new SEO articles: \"How to Build a Partner Commission Structure That Scales\" (tiered commission design, role-based rates, performance layers) and \"Partner Deal Registration: The Complete Guide for 2026\" (5-step workflow, SLA best practices, metrics). 5 total blog posts now." },
+    ],
+  },
+  {
     date: "March 3, 2026",
     commits: [
       { hash: "NEW0002", type: "feat", message: "Blog — 3 SEO-optimized articles for beta outreach: partner attribution breakdown, spreadsheet cost analysis, and attribution models guide. Index page, individual article pages, footer + sitemap integration" },

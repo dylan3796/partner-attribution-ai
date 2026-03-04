@@ -9,6 +9,24 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "how-to-build-partner-commission-structure",
+    title: "How to Build a Partner Commission Structure That Scales",
+    description:
+      "Flat 10% for everyone stops working at 20 partners. Here's how to design tiered, role-based commission rules that reward performance without creating ops nightmares.",
+    date: "March 4, 2026",
+    readTime: "7 min read",
+    category: "operations",
+  },
+  {
+    slug: "partner-deal-registration-best-practices",
+    title: "Partner Deal Registration: The Complete Guide for 2026",
+    description:
+      "Deal reg is the backbone of channel programs — and most teams still run it over email. How to build a deal registration workflow that protects partners and closes faster.",
+    date: "March 4, 2026",
+    readTime: "6 min read",
+    category: "strategy",
+  },
+  {
     slug: "why-partner-attribution-is-broken",
     title: "Why Partner Attribution Is Broken (And What to Do About It)",
     description:

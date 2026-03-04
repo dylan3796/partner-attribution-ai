@@ -22,6 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/resources`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${base}/roadmap`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${base}/blog/how-to-build-partner-commission-structure`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${base}/blog/partner-deal-registration-best-practices`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/why-partner-attribution-is-broken`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/true-cost-of-spreadsheet-partner-programs`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/3-attribution-models-every-vp-should-know`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
