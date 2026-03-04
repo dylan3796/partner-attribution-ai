@@ -20,6 +20,7 @@ const RESOURCE_LINKS = [
   { name: "Changelog", href: "/changelog" },
   { name: "Use Cases", href: "/use-cases" },
   { name: "Program Assessment", href: "/assessment" },
+  { name: "Roadmap", href: "/roadmap" },
   { name: "All Resources", href: "/resources" },
 ];
 
