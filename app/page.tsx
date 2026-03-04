@@ -289,27 +289,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── FOUNDING MEMBER OFFER ──────────────────────────── */}
-      <section style={{ padding: "3rem 1rem", background: "#0a0a0a", borderTop: "1px solid #1a1a1a", borderBottom: "1px solid #1a1a1a" }}>
-        <div style={{ maxWidth: 720, margin: "0 auto", textAlign: "center" }}>
-          <div style={{ display: "inline-block", background: "rgba(99,102,241,.15)", border: "1px solid rgba(99,102,241,.3)", borderRadius: 999, padding: "4px 14px", fontSize: ".72rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#818cf8", marginBottom: "1rem" }}>
-            Founding Member Pricing
-          </div>
-          <h2 style={{ fontSize: "1.6rem", fontWeight: 700, color: "#fff", marginBottom: ".75rem", lineHeight: 1.3 }}>
-            Lock in Pro at $49/mo — forever.
-          </h2>
-          <p style={{ color: "rgba(255,255,255,.5)", fontSize: "1rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
-            First 25 founding members get Pro pricing (normally $99/mo) locked for life.{" "}
-            <span style={{ color: "#f59e0b", fontWeight: 600 }}>
-              {Math.max(0, 25 - (leadsCount ?? 0))} of 25 spots remaining.
-            </span>
-          </p>
-          <Link href="/sign-up" style={{ display: "inline-block", background: "#6366f1", color: "#fff", fontWeight: 600, fontSize: ".95rem", padding: ".75rem 2rem", borderRadius: 8, textDecoration: "none" }}>
-            Claim your spot →
-          </Link>
-        </div>
-      </section>
-
       {/* ── 4. PLATFORM MODULES ──────────────────────────── */}
       <section className="modules" id="platform">
         <div className="wrap" style={{ textAlign: "center", marginBottom: "4rem" }}>
