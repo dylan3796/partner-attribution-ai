@@ -61,6 +61,16 @@ const TOOLS: Resource[] = [
 
 const LEARN: Resource[] = [
   {
+    title: "Customer Stories",
+    description:
+      "See how partner teams use Covant to automate attribution, scale programs, and eliminate spreadsheet chaos. Before/after results included.",
+    href: "/customers",
+    icon: Layers,
+    color: "#f59e0b",
+    tag: "Stories",
+    tagColor: "#f59e0b",
+  },
+  {
     title: "Use Cases",
     description:
       "How VPs of Partnerships, RevOps leaders, and Partner Managers use Covant to solve real partner attribution and commission problems.",
