@@ -15,6 +15,7 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 4, 2026",
     commits: [
+      { hash: "e4c9a40", type: "feat", message: "Partner applications — public /apply form (company info, partnership type selector, team size, message) + admin review dashboard at /dashboard/partner-applications with approve/reject workflow, review notes, status filters, counts. Duplicate email detection. Added to sidebar, footer, and sitemap." },
       { hash: "b48bec7", type: "feat", message: "Outbound webhooks — create endpoints with URL and event subscriptions, HMAC signing secrets (auto-generated, reveal/copy/rotate), pause/activate toggle, send test events, delivery log with status codes, edit/delete endpoints. 15 event types across Deals, Partners, Payouts, Commissions, and Attribution. Full Convex backend with CRUD, secret rotation, and test delivery logging. Sample payload docs. Linked from settings." },
       { hash: "NEW0007", type: "feat", message: "Team management — invite teammates, assign roles (Admin/Manager/Member), change roles inline, remove members with confirmation. Full Convex backend with org scoping, admin-only guards, last-admin protection, and audit logging. Linked from settings quick links and settings page." },
       { hash: "620fa50", type: "feat", message: "Interactive demo walkthrough — 5-step guided product tour (Dashboard, Attribution, Commissions, Portal, Launch) with mock UI panels. Pre-seeds data in background. Skip option, progress bar, responsive." },
