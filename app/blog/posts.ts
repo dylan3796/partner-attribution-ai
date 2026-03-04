@@ -9,6 +9,24 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "partner-portal-partners-actually-use",
+    title: "How to Build a Partner Portal That Partners Actually Use",
+    description:
+      "Most partner portals are digital graveyards. Partners log in once, never come back. Here's how to build a portal that drives engagement, not frustration.",
+    date: "March 4, 2026",
+    readTime: "8 min read",
+    category: "strategy",
+  },
+  {
+    slug: "measure-partner-program-roi",
+    title: "Partner Program ROI: How to Prove Your Channel Is Worth the Investment",
+    description:
+      "Your CEO wants to know if the partner program is working. 'Revenue influenced' isn't enough anymore. Here's how to measure — and communicate — real partner ROI.",
+    date: "March 4, 2026",
+    readTime: "7 min read",
+    category: "attribution",
+  },
+  {
     slug: "how-to-build-partner-commission-structure",
     title: "How to Build a Partner Commission Structure That Scales",
     description:

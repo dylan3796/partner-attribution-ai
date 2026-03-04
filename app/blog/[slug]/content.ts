@@ -5,6 +5,239 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "partner-portal-partners-actually-use": [
+    {
+      paragraphs: [
+        "You built a partner portal. You sent the login credentials. And then... nothing. Partners logged in once, looked around, and never came back.",
+        "This is the default outcome. Most partner portals have a 10–15% monthly active rate. That means 85% of your partners — the ones you recruited, onboarded, and enabled — are ignoring the primary tool you built for them.",
+        "The problem isn't the partners. It's the portal. You built what you needed (a place to manage partners) instead of what they needed (a place to make money).",
+      ],
+    },
+    {
+      heading: "Why partners don't use your portal",
+      paragraphs: [
+        "Partners are busy. They manage relationships with 5–20 vendors. Every vendor thinks their portal is the most important one. None of them are. Your portal is competing with Salesforce, email, Slack, and 15 other tools your partner already has open.",
+        "The portals that win this competition share three traits:",
+      ],
+      bullets: [
+        "They answer the partner's #1 question instantly: 'How much money have I made, and how much is coming?'",
+        "They reduce friction on the partner's #1 task: registering deals and tracking their pipeline",
+        "They surface actionable information, not dashboards — 'You have 2 deals expiring this week' beats a pipeline chart every time",
+      ],
+    },
+    {
+      heading: "The login problem",
+      paragraphs: [
+        "Every extra step between 'partner wants to do something' and 'partner does the thing' costs you engagement. The biggest offender: login friction.",
+        "Partners don't remember passwords for vendor portals. They don't want to set up MFA for a tool they use twice a month. And they definitely don't want to go through a 'forgot password' flow when they have a deal to register right now.",
+      ],
+      bullets: [
+        "Magic links over passwords: Send a login link via email. One click, they're in. No password to remember, no reset flow.",
+        "SSO if they're enterprise: Large partners already have Okta or Azure AD. Let them use it. Zero friction.",
+        "Deep links in notifications: When you email a partner about a deal update, link directly to that deal — not to the portal homepage. They should land on the thing they care about.",
+      ],
+    },
+    {
+      heading: "Design for the 2-minute visit",
+      paragraphs: [
+        "Partners don't browse portals. They check in, do one thing, and leave. Your portal should be optimized for that 2-minute visit, not for a 30-minute exploration session.",
+        "The homepage should answer three questions without scrolling:",
+      ],
+      bullets: [
+        "Money: Commissions earned this month/quarter, pending payouts, next payment date",
+        "Pipeline: Deals in progress, registrations pending approval, upcoming expirations",
+        "Action needed: Things that require the partner's attention right now — not yesterday's news",
+      ],
+    },
+    {
+      paragraphs: [
+        "Everything else — resources, training, marketing materials — is secondary. Partners come back for money and deals. They might browse resources while they're there, but resources alone won't drive a return visit.",
+      ],
+    },
+    {
+      heading: "Deal registration must be fast",
+      paragraphs: [
+        "Deal registration is the single most common reason partners visit a portal. If it takes more than 60 seconds to register a deal, you've already lost.",
+      ],
+      bullets: [
+        "4 fields maximum for initial registration: Company name, estimated deal size, expected close date, brief description. Everything else can come later.",
+        "Auto-populate from CRM: If you have a Salesforce integration, pre-fill account information. Don't make partners re-enter data you already have.",
+        "Instant confirmation: The moment a partner submits a registration, confirm it. 'Your deal has been registered. Approval typically takes <24 hours.' Don't leave them wondering.",
+        "Status tracking without asking: Partners should see 'Registered → Under Review → Approved → Active' without emailing their channel manager.",
+      ],
+    },
+    {
+      heading: "Commission transparency builds trust",
+      paragraphs: [
+        "The fastest way to kill partner engagement is opacity around money. If a partner can't answer 'how was my commission calculated?' within 30 seconds of logging into the portal, you have a transparency problem.",
+        "Every commission line item should show:",
+      ],
+      bullets: [
+        "The deal it's tied to (company name, deal value, close date)",
+        "The commission rule that was applied (which rate, which tier, any modifiers)",
+        "The calculation: Deal value × commission rate × any adjustments = payout amount",
+        "The status: Accrued → Approved → Processing → Paid, with expected payment date",
+      ],
+    },
+    {
+      paragraphs: [
+        "This level of transparency feels like overkill until you realize what it replaces: a quarterly email from the channel manager with a number and no explanation. Partners don't dispute transparent calculations. They dispute black boxes.",
+      ],
+    },
+    {
+      heading: "Notifications that drive action",
+      paragraphs: [
+        "Push partners back to the portal with notifications that contain actionable information — not marketing updates.",
+      ],
+      bullets: [
+        "Deal registration approved: 'Your registration for Acme Corp ($150K) has been approved. Protection window: 90 days.'",
+        "Commission earned: 'You earned $7,500 on the Acme Corp deal. View details →'",
+        "Deal expiring: 'Your registration for GlobalTech expires in 7 days. Update or extend →'",
+        "Tier upgrade: 'You've hit Gold status. Your new commission rate is 18% (was 15%). View benefits →'",
+      ],
+    },
+    {
+      paragraphs: [
+        "Notice what's not on that list: product announcements, webinar invitations, and generic newsletters. Those go in email. Portal notifications are for things that affect the partner's pipeline and wallet.",
+      ],
+    },
+    {
+      heading: "White-label or die",
+      paragraphs: [
+        "Partners work with multiple vendors. If your portal looks and feels like every other vendor portal, it's forgettable. Worse, if it prominently features your PRM vendor's branding instead of yours, it signals that you outsourced partner experience to a third party.",
+        "White-labeling isn't vanity — it's trust. Your portal should feel like an extension of your brand. Your logo, your colors, your domain. Partners should feel like they're in your house, not in a generic SaaS tool that you happen to also use.",
+        "This also means: no 'Powered by [PRM vendor]' badges in the footer. No generic onboarding flows. No default templates that clearly weren't written for your program. Every touchpoint should feel intentional.",
+      ],
+    },
+    {
+      heading: "Measure engagement, not logins",
+      paragraphs: [
+        "Login count is a vanity metric. A partner who logs in 10 times to check if their commission was processed isn't engaged — they're frustrated. Track these instead:",
+      ],
+      bullets: [
+        "Deal registration rate: What percentage of partner-sourced deals are registered through the portal vs. emailed to a channel manager? Target: >80%.",
+        "Time to first action: How long after login does a partner do something meaningful? Under 30 seconds = good UX. Over 2 minutes = they're lost.",
+        "Return visit rate: What percentage of partners come back within 30 days? Above 40% is strong. Below 20% means the portal isn't providing enough value.",
+        "Self-service resolution: How many commission questions are answered by the portal vs. routed to the channel manager? Every question the portal answers is a support ticket avoided.",
+      ],
+    },
+    {
+      paragraphs: [
+        "A great partner portal doesn't feel like a portal at all. It feels like the place where partners go to make money. Every design decision, every notification, every workflow should be measured against one question: does this help my partner close their next deal faster? If the answer is no, cut it.",
+      ],
+    },
+  ],
+
+  "measure-partner-program-roi": [
+    {
+      paragraphs: [
+        "Every VP of Partnerships eventually faces the same meeting. The CEO, CFO, or CRO looks across the table and asks: 'Is the partner program actually working?'",
+        "Most partnership leaders fumble this moment. They pull up a slide showing 'partner-influenced revenue' — a number so inflated and loosely defined that nobody in the room trusts it. Then they show a few logos. Maybe a co-marketing win. The meeting ends with a polite nod and zero incremental budget.",
+        "The problem isn't that partner programs don't generate ROI. It's that most teams can't measure it in terms the business cares about. Here's how to fix that.",
+      ],
+    },
+    {
+      heading: "Why 'partner-influenced revenue' is broken",
+      paragraphs: [
+        "'Partner-influenced' is the most abused metric in B2B. It typically means: a partner was somewhere in the vicinity of this deal at some point. Maybe they referred it. Maybe they attended a meeting. Maybe their name is on the CRM record because someone thought it was relevant.",
+        "The problem: when you define influence broadly enough, partners influence 70% of your revenue. Which sounds impressive until the CEO asks: 'So if we cut the partner program, would revenue drop 70%?' The answer is obviously no — and now your credibility is shot.",
+      ],
+      bullets: [
+        "Partner-sourced: The partner originated the opportunity. Without them, the deal wouldn't exist in your pipeline. This is the hardest metric to game and the most defensible in a board meeting.",
+        "Partner-accelerated: The opportunity existed, but the partner shortened the sales cycle or increased the deal size. Measurable by comparing cycle length and ACV of partner-involved deals vs. direct-only deals.",
+        "Partner-influenced: The partner touched the deal in some way. Use this only as a top-of-funnel awareness metric, never as a primary ROI metric.",
+      ],
+    },
+    {
+      paragraphs: [
+        "Lead with partner-sourced. Support with partner-accelerated. Mention partner-influenced only if asked. This hierarchy keeps your numbers defensible.",
+      ],
+    },
+    {
+      heading: "The four metrics your CEO actually cares about",
+      paragraphs: [
+        "CEOs don't think in partner metrics. They think in business metrics. Translate your partner data into language they already use:",
+      ],
+    },
+    {
+      heading: "1. Cost of acquisition: partner vs. direct",
+      paragraphs: [
+        "This is the single most powerful metric for proving partner ROI. Calculate the fully loaded cost of acquiring a customer through partners vs. through direct sales.",
+        "Direct CAC: (Sales salaries + marketing spend + tools + overhead) ÷ deals closed. For most B2B SaaS companies, this is $15,000–$50,000.",
+        "Partner CAC: (Partner team salaries + commissions paid + partner marketing + tools) ÷ partner-sourced deals closed. For mature programs, this is typically 30–60% lower than direct CAC.",
+        "If your partner-sourced CAC is $12,000 and your direct CAC is $35,000, the conversation becomes very simple: every deal the partner program sources saves the company $23,000 in acquisition cost. That's a number the CFO understands.",
+      ],
+    },
+    {
+      heading: "2. Sales cycle impact",
+      paragraphs: [
+        "Partner-involved deals typically close 20–40% faster than direct-only deals. This isn't anecdotal — it's measurable if you tag deals properly in your CRM.",
+        "Pull the data: average days from opportunity creation to closed-won for direct deals vs. partner-involved deals. Control for deal size and segment. The delta is your cycle acceleration, and it translates directly to faster revenue recognition and lower cost of carry.",
+        "In a quarterly business, shaving 15 days off the average sales cycle can mean the difference between a deal landing in Q1 vs. Q2. That's not a soft metric — it's a forecast impact.",
+      ],
+    },
+    {
+      heading: "3. Deal size lift",
+      paragraphs: [
+        "Do partner-involved deals close larger? For most programs, yes — 15–30% larger on average. Partners add credibility, provide implementation support, and sometimes bundle complementary products.",
+        "Compare average ACV for partner-sourced, partner-accelerated, and direct-only deals. If partner deals are consistently larger, your channel isn't just bringing volume — it's bringing better opportunities.",
+      ],
+    },
+    {
+      heading: "4. Revenue per partner (RPP)",
+      paragraphs: [
+        "Total partner-sourced revenue divided by active partners. This tells you whether your program is scaling efficiently or just adding headcount.",
+        "Healthy RPP growth means existing partners are getting more productive. Flat or declining RPP with growing partner count means you're recruiting unproductive partners — adding cost without proportional revenue. This metric forces discipline around partner quality vs. quantity.",
+      ],
+    },
+    {
+      heading: "Building the ROI model",
+      paragraphs: [
+        "Put it all together in a simple model your CFO can follow:",
+      ],
+      bullets: [
+        "Investment: Partner team headcount ($X) + commissions paid ($Y) + partner marketing ($Z) + tools ($W) = Total program cost",
+        "Return: Partner-sourced revenue ($A) + CAC savings vs. direct ($B) + cycle acceleration value ($C) + deal size lift ($D)",
+        "ROI: (Total return − Total cost) ÷ Total cost × 100",
+      ],
+    },
+    {
+      paragraphs: [
+        "A well-run partner program should show 3–8x ROI using conservative assumptions. If yours doesn't, either the program needs restructuring or (more likely) you're not capturing attribution data accurately enough to prove the value that's actually there.",
+      ],
+    },
+    {
+      heading: "The attribution prerequisite",
+      paragraphs: [
+        "None of these metrics work if your attribution is broken. If you can't reliably say which deals were partner-sourced vs. partner-influenced, your ROI model is built on sand.",
+        "This is where most programs get stuck. They know the partner channel is valuable — they can feel it in deal velocity and close rates. But they can't prove it because the data is scattered across CRM fields, spreadsheets, and channel manager memory.",
+      ],
+      bullets: [
+        "Every deal needs a clear, timestamped attribution record — not a picklist someone fills in at quarter-end",
+        "Commission calculations must be automated and auditable — if you can't show the math, the number isn't trustworthy",
+        "Partner touchpoints need to be logged as they happen, not reconstructed retroactively",
+        "The system of record should be queryable — you shouldn't need to export to Excel to answer basic ROI questions",
+      ],
+    },
+    {
+      heading: "Communicating ROI upward",
+      paragraphs: [
+        "The format matters as much as the data. When presenting partner ROI to leadership:",
+      ],
+      bullets: [
+        "Lead with the comparison: 'Partner-sourced deals cost 40% less to acquire and close 25% faster than direct'",
+        "Use absolute numbers: '$2.1M in partner-sourced revenue against $380K in program cost' beats '5.5x ROI' because it's concrete",
+        "Show the trend: 'Partner-sourced revenue grew 45% YoY while program cost grew 12%' demonstrates leverage",
+        "Address the counterfactual: 'If we cut the partner program, we'd need to hire 3 additional AEs at $420K loaded cost to replace the pipeline' — this is the number that protects your budget",
+      ],
+    },
+    {
+      paragraphs: [
+        "Partner program ROI isn't hard to prove. It's hard to measure — because most teams lack the attribution infrastructure to generate trustworthy numbers. Fix the measurement problem, and the ROI case makes itself.",
+      ],
+    },
+  ],
+
   "how-to-build-partner-commission-structure": [
     {
       paragraphs: [

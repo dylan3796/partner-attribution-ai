@@ -15,7 +15,8 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 4, 2026",
     commits: [
-      { hash: "NEW0003", type: "feat", message: "Blog — 2 new SEO articles: \"How to Build a Partner Commission Structure That Scales\" (tiered commission design, role-based rates, performance layers) and \"Partner Deal Registration: The Complete Guide for 2026\" (5-step workflow, SLA best practices, metrics). 5 total blog posts now." },
+      { hash: "NEW0004", type: "feat", message: "Blog — 2 new SEO articles: \"How to Build a Partner Portal That Partners Actually Use\" (login friction, 2-minute visit design, deal reg UX, commission transparency, engagement metrics) and \"Partner Program ROI: How to Prove Your Channel Is Worth the Investment\" (CAC comparison, cycle acceleration, deal size lift, RPP, CFO-ready ROI model). 7 total blog posts now." },
+      { hash: "NEW0003", type: "feat", message: "Blog — 2 new SEO articles: \"How to Build a Partner Commission Structure That Scales\" (tiered commission design, role-based rates, performance layers) and \"Partner Deal Registration: The Complete Guide for 2026\" (5-step workflow, SLA best practices, metrics)." },
     ],
   },
   {
