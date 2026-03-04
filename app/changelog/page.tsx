@@ -15,6 +15,7 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 4, 2026",
     commits: [
+      { hash: "NEW0007", type: "feat", message: "Team management — invite teammates, assign roles (Admin/Manager/Member), change roles inline, remove members with confirmation. Full Convex backend with org scoping, admin-only guards, last-admin protection, and audit logging. Linked from settings quick links and settings page." },
       { hash: "620fa50", type: "feat", message: "Interactive demo walkthrough — 5-step guided product tour (Dashboard, Attribution, Commissions, Portal, Launch) with mock UI panels. Pre-seeds data in background. Skip option, progress bar, responsive." },
       { hash: "NEW0006", type: "feat", message: "Customer stories page — 3 illustrative case studies (Meridian Cloud, StackPath Analytics, Nova Security) showing before/after results for partner program transformations. Covers Deal Reg Protection, Source Wins, and Role Split attribution models. Added to nav, footer, sitemap, and resources hub." },
       { hash: "NEW0005", type: "feat", message: "Use case detail pages — dedicated landing pages for VP Partnerships, RevOps, and Partner Manager personas at /use-cases/[slug]. Each page: hero stats, problem narrative, solution walkthrough, before/after comparison, VP quote, outcomes, and cross-links. Optimized for outreach URLs in cold emails and LinkedIn DMs." },

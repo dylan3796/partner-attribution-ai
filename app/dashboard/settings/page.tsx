@@ -249,6 +249,7 @@ function SettingsPageInner() {
           { label: "Tier Configuration", href: "/dashboard/settings/tiers", icon: "🏅" },
           { label: "Commission Rules", href: "/dashboard/settings/commission-rules", icon: "💰" },
           { label: "Event Sources", href: "/dashboard/settings/event-sources", icon: "📡" },
+          { label: "Team", href: "/dashboard/settings/team", icon: "👥" },
           { label: "Billing", href: "/dashboard/settings/billing", icon: "💳" },
         ].map((link) => (
           <a
@@ -995,57 +996,17 @@ function SettingsPageInner() {
 
       {/* Team Members */}
       <div className="card">
-        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1.5rem" }}>
-          Team Members
-        </h2>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "0.75rem",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "0.75rem 1rem",
-              background: "var(--subtle)",
-              borderRadius: 8,
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              <div
-                className="avatar"
-                style={{ width: 32, height: 32, fontSize: "0.7rem" }}
-              >
-                AD
-              </div>
-              <div>
-                <p style={{ fontSize: "0.9rem", fontWeight: 500 }}>Admin User</p>
-                <p className="muted" style={{ fontSize: "0.8rem" }}>
-                  {org?.email || "admin@company.com"}
-                </p>
-              </div>
-            </div>
-            <span className="badge">Admin</span>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "1.5rem",
-              border: "2px dashed var(--border)",
-              borderRadius: 8,
-            }}
-          >
-            <p className="muted" style={{ fontSize: "0.9rem" }}>
-              Team management coming soon
-            </p>
-          </div>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, margin: 0 }}>
+            Team Members
+          </h2>
+          <a href="/dashboard/settings/team" style={{ fontSize: ".85rem", color: "#6366f1", fontWeight: 600, textDecoration: "none" }}>
+            Manage Team →
+          </a>
         </div>
+        <p className="muted" style={{ fontSize: ".9rem" }}>
+          Invite teammates, assign roles (Admin, Manager, Member), and control who has access to your partner program dashboard.
+        </p>
       </div>
 
       {/* API Key */}
