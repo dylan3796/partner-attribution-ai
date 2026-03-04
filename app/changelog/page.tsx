@@ -15,6 +15,8 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 3, 2026",
     commits: [
+      { hash: "85ba61e", type: "feat", message: "Product tour page — visual walkthrough of every platform module with interactive mockups, jump navigation, and CTAs. Added to main nav, footer, and sitemap" },
+      { hash: "a74c4be", type: "polish", message: "Shared Footer component — extracted into reusable component, now renders across all marketing pages with responsive 4→2→1 column grid" },
       { hash: "539fd31", type: "feat", message: "Resources hub — centralized library with guides, templates, tools, and partner success content for beta outreach" },
       { hash: "5651132", type: "feat", message: "Contact page — lead capture form with partner count selector, quick contact sidebar, \"What to expect\" guide. Enterprise + ROI CTAs now route to /contact" },
       { hash: "f6dd2c3", type: "feat", message: "Partner program assessment — interactive 8-question maturity quiz with scoring, personalized recommendations, and lead capture for outreach" },

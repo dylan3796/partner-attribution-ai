@@ -7,7 +7,7 @@ import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
 
 const marketingLinks = [
-  { name: "Platform", href: "/#platform" },
+  { name: "Product", href: "/product" },
   { name: "Compare", href: "/compare" },
   { name: "Integrations", href: "/integrations" },
   { name: "Resources", href: "/resources" },

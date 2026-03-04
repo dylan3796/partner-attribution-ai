@@ -4,9 +4,9 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const PRODUCT_LINKS = [
+  { name: "Product Tour", href: "/product" },
   { name: "Attribution", href: "/dashboard/reports" },
   { name: "Payouts", href: "/dashboard/payouts" },
-  { name: "Deals", href: "/dashboard/deals" },
   { name: "Partner Portal", href: "/portal" },
   { name: "Integrations", href: "/integrations" },
   { name: "Compare", href: "/compare" },
