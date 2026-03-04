@@ -645,4 +645,38 @@ export default defineSchema({
     .index("by_organization", ["organizationId"])
     .index("by_partner", ["partnerId"])
     .index("by_status", ["status"]),
+
+  // Outbound Webhook Endpoints — notify external systems when events happen in Covant
+  webhookEndpoints: defineTable({
+    organizationId: v.id("organizations"),
+    url: v.string(),
+    description: v.optional(v.string()),
+    secret: v.string(), // HMAC signing secret
+    events: v.array(v.string()), // e.g. ["deal.created", "partner.joined"]
+    status: v.union(v.literal("active"), v.literal("paused")),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    lastTriggeredAt: v.optional(v.number()),
+    failureCount: v.number(), // consecutive failures
+    lastError: v.optional(v.string()),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_status", ["organizationId", "status"]),
+
+  // Outbound Webhook Delivery Log
+  webhookDeliveries: defineTable({
+    organizationId: v.id("organizations"),
+    endpointId: v.id("webhookEndpoints"),
+    event: v.string(),
+    payload: v.string(), // JSON stringified
+    status: v.union(v.literal("success"), v.literal("failed"), v.literal("pending")),
+    httpStatus: v.optional(v.number()),
+    responseBody: v.optional(v.string()),
+    errorMessage: v.optional(v.string()),
+    attemptCount: v.number(),
+    deliveredAt: v.number(),
+  })
+    .index("by_endpoint", ["endpointId"])
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_event", ["organizationId", "event"]),
 });
