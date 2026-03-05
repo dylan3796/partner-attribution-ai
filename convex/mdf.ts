@@ -63,6 +63,65 @@ export const remove = mutation({
   },
 });
 
+// Portal: list MDF requests for a specific partner
+export const getByPartner = query({
+  args: { partnerId: v.id("partners") },
+  handler: async (ctx, args) => {
+    return await ctx.db.query("mdfRequests")
+      .withIndex("by_partner", (q: any) => q.eq("partnerId", args.partnerId))
+      .order("desc")
+      .collect();
+  },
+});
+
+// Portal: partner submits an MDF request
+export const submitRequest = mutation({
+  args: {
+    partnerId: v.id("partners"),
+    title: v.string(),
+    description: v.string(),
+    amount: v.number(),
+    category: v.string(),
+  },
+  handler: async (ctx, args) => {
+    // Look up partner to get their orgId
+    const partner = await ctx.db.get(args.partnerId);
+    if (!partner) throw new Error("Partner not found");
+    return await ctx.db.insert("mdfRequests", {
+      organizationId: partner.organizationId,
+      partnerId: args.partnerId,
+      title: args.title,
+      description: args.description,
+      amount: args.amount,
+      category: args.category,
+      status: "pending",
+      submittedAt: Date.now(),
+    });
+  },
+});
+
+// Portal: get MDF stats for a specific partner
+export const getPartnerStats = query({
+  args: { partnerId: v.id("partners") },
+  handler: async (ctx, args) => {
+    const requests = await ctx.db.query("mdfRequests")
+      .withIndex("by_partner", (q: any) => q.eq("partnerId", args.partnerId))
+      .collect();
+
+    const pending = requests.filter((r: any) => r.status === "pending");
+    const approved = requests.filter((r: any) => r.status === "approved" || r.status === "completed");
+
+    return {
+      totalRequested: requests.reduce((s: number, r: any) => s + r.amount, 0),
+      pendingAmount: pending.reduce((s: number, r: any) => s + r.amount, 0),
+      approvedAmount: approved.reduce((s: number, r: any) => s + r.amount, 0),
+      pendingCount: pending.length,
+      approvedCount: approved.length,
+      totalCount: requests.length,
+    };
+  },
+});
+
 export const getStats = query({
   args: {},
   handler: async (ctx) => {

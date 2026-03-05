@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { usePortal } from "@/lib/portal-context";
-import { useStore } from "@/lib/store";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import { useToast } from "@/components/ui/toast";
 import {
@@ -13,74 +15,132 @@ import {
   FileText,
   TrendingUp,
   X,
+  Loader2,
+  Inbox,
 } from "lucide-react";
-import type { MDFStatus } from "@/lib/types";
-import { MDF_CAMPAIGN_LABELS, MDF_STATUS_LABELS } from "@/lib/types";
+
+type MDFStatus = "pending" | "approved" | "rejected" | "completed";
+
+const STATUS_LABELS: Record<MDFStatus, string> = {
+  pending: "Pending Review",
+  approved: "Approved",
+  rejected: "Rejected",
+  completed: "Completed",
+};
+
+const CATEGORY_LABELS: Record<string, string> = {
+  event: "Event / Trade Show",
+  content: "Content Creation",
+  advertising: "Advertising",
+  training: "Training / Enablement",
+  webinar: "Webinar",
+  social: "Social Media Campaign",
+};
 
 function StatusBadge({ status }: { status: MDFStatus }) {
   const colors: Record<MDFStatus, { bg: string; fg: string }> = {
     pending: { bg: "#fef3c7", fg: "#92400e" },
     approved: { bg: "#dbeafe", fg: "#1e40af" },
     rejected: { bg: "#fee2e2", fg: "#991b1b" },
-    executed: { bg: "#e0e7ff", fg: "#3730a3" },
-    paid: { bg: "#dcfce7", fg: "#166534" },
+    completed: { bg: "#dcfce7", fg: "#166534" },
   };
   const c = colors[status] || colors.pending;
   return (
     <span style={{ padding: ".2rem .65rem", borderRadius: 20, fontSize: ".75rem", fontWeight: 600, background: c.bg, color: c.fg }}>
-      {MDF_STATUS_LABELS[status]}
+      {STATUS_LABELS[status]}
     </span>
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <div>
+        <div style={{ width: 280, height: 32, background: "var(--border)", borderRadius: 8, marginBottom: 8 }} />
+        <div style={{ width: 320, height: 16, background: "var(--border)", borderRadius: 4 }} />
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem" }}>
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="card" style={{ padding: "1.5rem", textAlign: "center" }}>
+            <div style={{ width: 22, height: 22, background: "var(--border)", borderRadius: 4, margin: "0 auto .5rem" }} />
+            <div style={{ width: 60, height: 12, background: "var(--border)", borderRadius: 4, margin: "0 auto .5rem" }} />
+            <div style={{ width: 80, height: 24, background: "var(--border)", borderRadius: 4, margin: "0 auto" }} />
+          </div>
+        ))}
+      </div>
+      <div className="card" style={{ padding: 0, overflow: "hidden" }}>
+        {[1, 2, 3].map((i) => (
+          <div key={i} style={{ padding: "1rem 1.5rem", borderBottom: "1px solid var(--border)" }}>
+            <div style={{ width: 200, height: 16, background: "var(--border)", borderRadius: 4, marginBottom: 8 }} />
+            <div style={{ width: 300, height: 12, background: "var(--border)", borderRadius: 4 }} />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
 
 export default function PortalMDFPage() {
   const { partner } = usePortal();
-  const { mdfBudgets, mdfRequests, addMDFRequest } = useStore();
   const { toast } = useToast();
   const [showForm, setShowForm] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Form state
   const [title, setTitle] = useState("");
-  const [campaignType, setCampaignType] = useState<string>("event");
+  const [campaignType, setCampaignType] = useState("event");
   const [description, setDescription] = useState("");
   const [requestedAmount, setRequestedAmount] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  const partnerId = partner?.linkedPartnerIds?.[0] as Id<"partners"> | undefined;
+
+  const requests = useQuery(
+    api.mdf.getByPartner,
+    partnerId ? { partnerId } : "skip"
+  );
+  const stats = useQuery(
+    api.mdf.getPartnerStats,
+    partnerId ? { partnerId } : "skip"
+  );
+  const submitRequest = useMutation(api.mdf.submitRequest);
+
   if (!partner) return null;
+  if (requests === undefined || stats === undefined) return <LoadingSkeleton />;
 
-  const linkedIds = partner.linkedPartnerIds;
-  const myBudget = mdfBudgets.find((b) => linkedIds.includes(b.partnerId));
-  const myRequests = mdfRequests.filter((r) => linkedIds.includes(r.partnerId)).sort((a, b) => b.submittedAt - a.submittedAt);
-
-  const totalApproved = myRequests.filter((r) => r.status !== "pending" && r.status !== "rejected").reduce((s, r) => s + (r.approvedAmount || r.requestedAmount), 0);
-  const totalPending = myRequests.filter((r) => r.status === "pending").reduce((s, r) => s + r.requestedAmount, 0);
-
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const amount = parseFloat(requestedAmount);
-    if (!title || !description || isNaN(amount) || !startDate || !endDate) {
+    if (!title || !description || isNaN(amount) || amount <= 0 || !startDate || !endDate) {
       toast("Please fill in all fields", "error");
       return;
     }
-    if (myBudget && amount > myBudget.remainingAmount) {
-      toast("Request exceeds remaining MDF budget", "error");
+    if (!partnerId) {
+      toast("Partner not found", "error");
       return;
     }
-    addMDFRequest({
-      partnerId: linkedIds[0],
-      budgetId: myBudget?._id || "",
-      title,
-      campaignType: campaignType as any,
-      description,
-      requestedAmount: amount,
-      status: "pending",
-      startDate: new Date(startDate).getTime(),
-      endDate: new Date(endDate).getTime(),
-    });
-    toast(`MDF request "${title}" submitted for approval`);
-    setShowForm(false);
-    setTitle(""); setDescription(""); setRequestedAmount(""); setStartDate(""); setEndDate("");
+    setIsSubmitting(true);
+    try {
+      await submitRequest({
+        partnerId,
+        title,
+        description: `${description}\n\nCampaign period: ${startDate} to ${endDate}`,
+        amount,
+        category: campaignType,
+      });
+      toast(`MDF request "${title}" submitted for approval`);
+      setShowForm(false);
+      setTitle("");
+      setDescription("");
+      setRequestedAmount("");
+      setStartDate("");
+      setEndDate("");
+    } catch (err) {
+      toast("Failed to submit request", "error");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -95,45 +155,42 @@ export default function PortalMDFPage() {
         </button>
       </div>
 
-      {/* Budget Overview */}
-      {myBudget ? (
-        <div className="card" style={{ borderLeft: "4px solid #6366f1" }}>
-          <h2 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "1rem" }}>Your MDF Budget — {myBudget.period}</h2>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: "1rem" }}>
-            <div>
-              <p className="muted" style={{ fontSize: ".8rem" }}>Allocated</p>
-              <p style={{ fontSize: "1.3rem", fontWeight: 800 }}>{formatCurrency(myBudget.allocatedAmount)}</p>
-            </div>
-            <div>
-              <p className="muted" style={{ fontSize: ".8rem" }}>Spent</p>
-              <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#059669" }}>{formatCurrency(myBudget.spentAmount)}</p>
-            </div>
-            <div>
-              <p className="muted" style={{ fontSize: ".8rem" }}>Pending</p>
-              <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#d97706" }}>{formatCurrency(totalPending)}</p>
-            </div>
-            <div>
-              <p className="muted" style={{ fontSize: ".8rem" }}>Remaining</p>
-              <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#4338ca" }}>{formatCurrency(myBudget.remainingAmount)}</p>
-            </div>
-          </div>
-          <div style={{ marginTop: ".75rem" }}>
-            <div style={{ width: "100%", height: 10, background: "var(--border)", borderRadius: 5, overflow: "hidden" }}>
-              <div style={{ width: `${(myBudget.spentAmount / myBudget.allocatedAmount) * 100}%`, height: "100%", background: "#6366f1", borderRadius: 5 }} />
-            </div>
-            <p className="muted" style={{ fontSize: ".8rem", marginTop: ".35rem" }}>
-              {Math.round((myBudget.spentAmount / myBudget.allocatedAmount) * 100)}% utilized
-            </p>
-          </div>
+      {/* Stats Overview */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem" }}>
+        <div className="card" style={{ textAlign: "center" }}>
+          <DollarSign size={22} color="#4338ca" style={{ margin: "0 auto .5rem" }} />
+          <p className="muted" style={{ fontSize: ".75rem" }}>Total Requested</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800 }}>{formatCurrency(stats.totalRequested)}</p>
+          <p className="muted" style={{ fontSize: ".7rem" }}>{stats.totalCount} request{stats.totalCount !== 1 ? "s" : ""}</p>
         </div>
-      ) : (
-        <div className="card" style={{ textAlign: "center", padding: "2rem" }}>
-          <DollarSign size={32} color="var(--muted)" style={{ margin: "0 auto .5rem" }} />
-          <p className="muted">No MDF budget allocated yet. Contact your partner manager.</p>
+        <div className="card" style={{ textAlign: "center" }}>
+          <Clock size={22} color="#d97706" style={{ margin: "0 auto .5rem" }} />
+          <p className="muted" style={{ fontSize: ".75rem" }}>Pending Review</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#d97706" }}>{formatCurrency(stats.pendingAmount)}</p>
+          <p className="muted" style={{ fontSize: ".7rem" }}>{stats.pendingCount} pending</p>
+        </div>
+        <div className="card" style={{ textAlign: "center" }}>
+          <CheckCircle2 size={22} color="#059669" style={{ margin: "0 auto .5rem" }} />
+          <p className="muted" style={{ fontSize: ".75rem" }}>Approved</p>
+          <p style={{ fontSize: "1.3rem", fontWeight: 800, color: "#059669" }}>{formatCurrency(stats.approvedAmount)}</p>
+          <p className="muted" style={{ fontSize: ".7rem" }}>{stats.approvedCount} approved</p>
+        </div>
+      </div>
+
+      {/* Pending Alert */}
+      {stats.pendingCount > 0 && (
+        <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #fbbf24", background: "#fffbeb08", display: "flex", alignItems: "center", gap: "1rem" }}>
+          <Clock size={20} color="#fbbf24" />
+          <div>
+            <p style={{ fontWeight: 600, fontSize: ".9rem" }}>
+              {stats.pendingCount} request{stats.pendingCount !== 1 ? "s" : ""} awaiting review
+            </p>
+            <p className="muted" style={{ fontSize: ".8rem" }}>Your partner manager will review and respond shortly</p>
+          </div>
         </div>
       )}
 
-      {/* New Request Form */}
+      {/* New Request Form Modal */}
       {showForm && (
         <div
           style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}
@@ -142,46 +199,47 @@ export default function PortalMDFPage() {
           <div onClick={(e) => e.stopPropagation()} style={{ background: "var(--bg)", borderRadius: 16, padding: "2rem", maxWidth: 560, width: "90%", boxShadow: "0 25px 50px rgba(0,0,0,0.2)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1.5rem" }}>
               <h2 style={{ fontSize: "1.2rem", fontWeight: 700 }}>Submit MDF Request</h2>
-              <button onClick={() => setShowForm(false)} style={{ background: "none", border: "none", cursor: "pointer" }}><X size={20} /></button>
+              <button onClick={() => setShowForm(false)} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--fg)" }}><X size={20} /></button>
             </div>
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
               <div>
                 <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Campaign Title *</label>
-                <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g., Spring Digital Campaign" required />
+                <input className="input" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g., Spring Digital Campaign" required style={{ width: "100%" }} />
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
                 <div>
                   <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Campaign Type *</label>
-                  <select className="input" value={campaignType} onChange={(e) => setCampaignType(e.target.value)}>
-                    {Object.entries(MDF_CAMPAIGN_LABELS).map(([k, v]) => (
+                  <select className="input" value={campaignType} onChange={(e) => setCampaignType(e.target.value)} style={{ width: "100%" }}>
+                    {Object.entries(CATEGORY_LABELS).map(([k, v]) => (
                       <option key={k} value={k}>{v}</option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>
-                    Requested Amount * {myBudget && <span className="muted" style={{ fontWeight: 400 }}>(max: {formatCurrency(myBudget.remainingAmount)})</span>}
-                  </label>
-                  <input className="input" type="number" value={requestedAmount} onChange={(e) => setRequestedAmount(e.target.value)} placeholder="10000" required />
+                  <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Requested Amount *</label>
+                  <input className="input" type="number" value={requestedAmount} onChange={(e) => setRequestedAmount(e.target.value)} placeholder="10000" required min="0" step="100" style={{ width: "100%" }} />
                 </div>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
                 <div>
                   <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Start Date *</label>
-                  <input className="input" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+                  <input className="input" type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required style={{ width: "100%" }} />
                 </div>
                 <div>
                   <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>End Date *</label>
-                  <input className="input" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
+                  <input className="input" type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required style={{ width: "100%" }} />
                 </div>
               </div>
               <div>
                 <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Campaign Description *</label>
-                <textarea className="input" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder="Describe the campaign goals, target audience, and expected outcomes..." required style={{ resize: "vertical" }} />
+                <textarea className="input" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder="Describe the campaign goals, target audience, and expected outcomes..." required style={{ resize: "vertical", width: "100%" }} />
               </div>
               <div style={{ display: "flex", gap: ".75rem", justifyContent: "flex-end" }}>
                 <button type="button" className="btn-outline" onClick={() => setShowForm(false)}>Cancel</button>
-                <button type="submit" className="btn">Submit Request</button>
+                <button type="submit" className="btn" disabled={isSubmitting}>
+                  {isSubmitting ? <Loader2 size={16} className="animate-spin" /> : <Plus size={16} />}
+                  Submit Request
+                </button>
               </div>
             </form>
           </div>
@@ -193,32 +251,41 @@ export default function PortalMDFPage() {
         <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border)" }}>
           <h2 style={{ fontWeight: 700, fontSize: "1.1rem" }}>MDF Request History</h2>
         </div>
-        {myRequests.length === 0 ? (
+        {requests.length === 0 ? (
           <div style={{ padding: "3rem 1.5rem", textAlign: "center" }}>
-            <FileText size={40} color="var(--muted)" style={{ margin: "0 auto .75rem" }} />
-            <p className="muted">No MDF requests yet. Submit your first campaign proposal above.</p>
+            <Inbox size={40} color="var(--muted)" style={{ margin: "0 auto .75rem" }} />
+            <p style={{ fontWeight: 600, marginBottom: ".25rem" }}>No MDF Requests Yet</p>
+            <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1rem" }}>
+              Submit your first campaign proposal to request marketing funds from your partner program.
+            </p>
+            <button className="btn" onClick={() => setShowForm(true)}>
+              <Plus size={16} /> New MDF Request
+            </button>
           </div>
         ) : (
-          myRequests.map((req) => (
+          requests.map((req) => (
             <div key={req._id} style={{ padding: "1rem 1.5rem", borderBottom: "1px solid var(--border)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: ".5rem" }}>
                 <div>
                   <p style={{ fontWeight: 600, fontSize: ".95rem" }}>{req.title}</p>
-                  <p className="muted" style={{ fontSize: ".8rem" }}>{MDF_CAMPAIGN_LABELS[req.campaignType]} · Submitted {formatDate(req.submittedAt)}</p>
+                  <p className="muted" style={{ fontSize: ".8rem" }}>
+                    {CATEGORY_LABELS[req.category || "event"] || req.category} · Submitted {formatDate(req.submittedAt)}
+                  </p>
                 </div>
-                <StatusBadge status={req.status} />
+                <StatusBadge status={req.status as MDFStatus} />
               </div>
               <p style={{ fontSize: ".85rem", color: "var(--muted)", marginBottom: ".5rem", lineHeight: 1.5 }}>{req.description}</p>
               <div style={{ display: "flex", gap: "1.5rem", fontSize: ".85rem" }}>
-                <span>Requested: <strong>{formatCurrency(req.requestedAmount)}</strong></span>
-                {req.approvedAmount != null && <span>Approved: <strong style={{ color: "#059669" }}>{formatCurrency(req.approvedAmount)}</strong></span>}
-                {req.leadsGenerated != null && (
-                  <span style={{ color: "#7c3aed" }}>
-                    <TrendingUp size={13} style={{ display: "inline", verticalAlign: "-2px", marginRight: 2 }} />
-                    {req.leadsGenerated} leads · {formatCurrency(req.pipelineCreated || 0)} pipeline
-                  </span>
+                <span>Requested: <strong>{formatCurrency(req.amount)}</strong></span>
+                {req.reviewedAt && (
+                  <span className="muted">Reviewed: {formatDate(req.reviewedAt)}</span>
                 )}
               </div>
+              {req.notes && (
+                <div style={{ marginTop: ".5rem", padding: ".5rem .75rem", borderRadius: 8, background: "var(--border)", fontSize: ".8rem" }}>
+                  <span style={{ fontWeight: 600 }}>Review notes:</span> {req.notes}
+                </div>
+              )}
             </div>
           ))
         )}
