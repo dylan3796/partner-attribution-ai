@@ -41,6 +41,7 @@ import type * as organizations_queries from "../organizations/queries.js";
 import type * as partnerApplications from "../partnerApplications.js";
 import type * as partners from "../partners.js";
 import type * as payouts from "../payouts.js";
+import type * as products from "../products.js";
 import type * as programConfig from "../programConfig.js";
 import type * as queries_analytics from "../queries/analytics.js";
 import type * as recommendations from "../recommendations.js";
@@ -94,6 +95,7 @@ declare const fullApi: ApiFromModules<{
   partnerApplications: typeof partnerApplications;
   partners: typeof partners;
   payouts: typeof payouts;
+  products: typeof products;
   programConfig: typeof programConfig;
   "queries/analytics": typeof queries_analytics;
   recommendations: typeof recommendations;

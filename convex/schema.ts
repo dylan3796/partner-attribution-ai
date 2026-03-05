@@ -749,6 +749,24 @@ export default defineSchema({
     .index("by_prefix", ["prefix"])
     .index("by_keyHash", ["keyHash"]),
 
+  // Product Catalog — enables product-level commission rules and deal registration
+  products: defineTable({
+    organizationId: v.id("organizations"),
+    sku: v.string(),
+    name: v.string(),
+    category: v.string(),
+    msrp: v.number(),
+    distributorPrice: v.number(),
+    margin: v.number(), // stored as integer percentage
+    status: v.union(v.literal("active"), v.literal("inactive")),
+    description: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_status", ["organizationId", "status"])
+    .index("by_sku", ["sku"]),
+
   // Outbound Webhook Delivery Log
   webhookDeliveries: defineTable({
     organizationId: v.id("organizations"),

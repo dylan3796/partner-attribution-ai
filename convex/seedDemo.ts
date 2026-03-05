@@ -242,6 +242,35 @@ export const seedDemoData = mutation({
       });
     }
 
+    // ── Product Catalog ─────────────────────────────────────────────────
+    const productSeeds = [
+      { sku: "HRZ-ENT-001", name: "Horizon Enterprise Suite", category: "Software", msrp: 24000, distributorPrice: 16800, description: "Full-featured enterprise platform with unlimited users and SSO" },
+      { sku: "HRZ-PRO-001", name: "Horizon Professional", category: "Software", msrp: 9600, distributorPrice: 7200, description: "Mid-market solution with 50-user cap and standard integrations" },
+      { sku: "HRZ-STR-001", name: "Horizon Starter", category: "Software", msrp: 3600, distributorPrice: 2880, description: "Entry-level plan for small teams up to 10 users" },
+      { sku: "HRZ-API-001", name: "API Access Add-on", category: "Add-ons", msrp: 4800, distributorPrice: 3360, description: "REST + GraphQL API access with 100k requests/mo" },
+      { sku: "HRZ-AI-001", name: "AI Analytics Module", category: "Add-ons", msrp: 6000, distributorPrice: 3900, description: "Predictive analytics, churn scoring, and revenue forecasting" },
+      { sku: "HRZ-IMP-001", name: "Implementation Package", category: "Services", msrp: 15000, distributorPrice: 9000, description: "White-glove onboarding, data migration, and 30-day support" },
+      { sku: "HRZ-TRN-001", name: "Training & Certification", category: "Services", msrp: 5000, distributorPrice: 3000, description: "Partner certification program with 3-day instructor-led training" },
+      { sku: "HRZ-SUP-001", name: "Premium Support", category: "Services", msrp: 12000, distributorPrice: 8400, description: "24/7 support, dedicated CSM, 1-hour SLA" },
+    ];
+    const pNow = Date.now();
+    for (const p of productSeeds) {
+      const margin = Math.round(((p.msrp - p.distributorPrice) / p.msrp) * 100);
+      await ctx.db.insert("products", {
+        organizationId: orgId,
+        sku: p.sku,
+        name: p.name,
+        category: p.category,
+        msrp: p.msrp,
+        distributorPrice: p.distributorPrice,
+        margin,
+        status: "active",
+        description: p.description,
+        createdAt: pNow,
+        updatedAt: pNow,
+      });
+    }
+
     // ── Commission Rules ──────────────────────────────────────────────────
     const commissionRuleData = [
       { name: "Gold Reseller", partnerType: "reseller" as const, partnerTier: "gold" as const, rate: 0.2, priority: 1 },
@@ -316,6 +345,7 @@ export const clearDemoData = mutation({
       "approvals",
       "disputes",
       "commissionRules",
+      "products",
       "contracts",
     ];
 
