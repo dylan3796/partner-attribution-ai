@@ -2,30 +2,33 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { formatCurrency, formatPercent, MODEL_COLORS, CHART_COLORS } from "@/lib/utils";
 import { MODEL_LABELS, type AttributionModel } from "@/lib/types";
 import { exportAttributionsCSV } from "@/lib/csv";
 import { ConfigTipBox } from "@/components/ui/config-tooltip";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+
+// Dynamic imports for recharts (heavy library)
+const ChartLoadingPlaceholder = () => <div className="h-48 bg-gray-800 animate-pulse rounded" />;
+
+const BarChart = dynamic(() => import("recharts").then(m => ({ default: m.BarChart })), { ssr: false, loading: ChartLoadingPlaceholder });
+const Bar = dynamic(() => import("recharts").then(m => ({ default: m.Bar })), { ssr: false });
+const XAxis = dynamic(() => import("recharts").then(m => ({ default: m.XAxis })), { ssr: false });
+const YAxis = dynamic(() => import("recharts").then(m => ({ default: m.YAxis })), { ssr: false });
+const CartesianGrid = dynamic(() => import("recharts").then(m => ({ default: m.CartesianGrid })), { ssr: false });
+const Tooltip = dynamic(() => import("recharts").then(m => ({ default: m.Tooltip })), { ssr: false });
+const ResponsiveContainer = dynamic(() => import("recharts").then(m => ({ default: m.ResponsiveContainer })), { ssr: false, loading: ChartLoadingPlaceholder });
+const Legend = dynamic(() => import("recharts").then(m => ({ default: m.Legend })), { ssr: false });
+const RadarChart = dynamic(() => import("recharts").then(m => ({ default: m.RadarChart })), { ssr: false, loading: ChartLoadingPlaceholder });
+const PolarGrid = dynamic(() => import("recharts").then(m => ({ default: m.PolarGrid })), { ssr: false });
+const PolarAngleAxis = dynamic(() => import("recharts").then(m => ({ default: m.PolarAngleAxis })), { ssr: false });
+const PolarRadiusAxis = dynamic(() => import("recharts").then(m => ({ default: m.PolarRadiusAxis })), { ssr: false });
+const Radar = dynamic(() => import("recharts").then(m => ({ default: m.Radar })), { ssr: false });
+const PieChart = dynamic(() => import("recharts").then(m => ({ default: m.PieChart })), { ssr: false, loading: ChartLoadingPlaceholder });
+const Pie = dynamic(() => import("recharts").then(m => ({ default: m.Pie })), { ssr: false });
+const Cell = dynamic(() => import("recharts").then(m => ({ default: m.Cell })), { ssr: false });
 
 const MODELS: AttributionModel[] = [
   "equal_split",

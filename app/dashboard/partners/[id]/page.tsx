@@ -1,6 +1,7 @@
 "use client";
 import { use, useState, useEffect } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -9,10 +10,21 @@ import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
 import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star, TrendingUp, BarChart3 } from "lucide-react";
 import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS, CERTIFICATION_LEVEL_LABELS, type CertificationLevel } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
-import {
-  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend,
-} from "recharts";
+
+// Dynamic imports for recharts (heavy library)
+const ChartLoadingPlaceholder = () => <div className="h-48 bg-gray-800 animate-pulse rounded" />;
+
+const BarChart = dynamic(() => import("recharts").then(m => ({ default: m.BarChart })), { ssr: false, loading: ChartLoadingPlaceholder });
+const Bar = dynamic(() => import("recharts").then(m => ({ default: m.Bar })), { ssr: false });
+const XAxis = dynamic(() => import("recharts").then(m => ({ default: m.XAxis })), { ssr: false });
+const YAxis = dynamic(() => import("recharts").then(m => ({ default: m.YAxis })), { ssr: false });
+const CartesianGrid = dynamic(() => import("recharts").then(m => ({ default: m.CartesianGrid })), { ssr: false });
+const Tooltip = dynamic(() => import("recharts").then(m => ({ default: m.Tooltip })), { ssr: false });
+const ResponsiveContainer = dynamic(() => import("recharts").then(m => ({ default: m.ResponsiveContainer })), { ssr: false, loading: ChartLoadingPlaceholder });
+const PieChart = dynamic(() => import("recharts").then(m => ({ default: m.PieChart })), { ssr: false, loading: ChartLoadingPlaceholder });
+const Pie = dynamic(() => import("recharts").then(m => ({ default: m.Pie })), { ssr: false });
+const Cell = dynamic(() => import("recharts").then(m => ({ default: m.Cell })), { ssr: false });
+const Legend = dynamic(() => import("recharts").then(m => ({ default: m.Legend })), { ssr: false });
 
 const STAGE_COLORS: Record<string, string> = {
   pending_registration: "#6366f1",

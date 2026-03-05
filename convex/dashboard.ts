@@ -789,3 +789,207 @@ export const getProgramHealth = query({
     };
   },
 });
+
+// ============================================================================
+// Consolidated Dashboard Query (single subscription for initial paint)
+// ============================================================================
+
+/**
+ * Returns all core dashboard data in a single subscription to reduce
+ * the number of separate useQuery calls and improve initial paint time.
+ */
+export const getDashboardData = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) {
+      return {
+        stats: EMPTY_STATS,
+        recentDeals: [],
+        topPartners: [],
+        pendingPayouts: [],
+        auditLog: [],
+        actionItems: {
+          tierReviewsPending: 0,
+          partnersOnboarding: 0,
+          unpaidCommissions: 0,
+          pendingInvites: 0,
+          emailTriggersActive: 0,
+          emailTriggersTotal: 0,
+          pendingMdfRequests: 0,
+          pendingDealRegs: 0,
+        },
+        trends: { revenue: [] as number[], pipeline: [] as number[], partners: [] as number[], winRate: [] as number[] },
+        programHealth: null,
+      };
+    }
+
+    // Fetch all data in parallel
+    const [
+      deals,
+      partners,
+      payouts,
+      attributions,
+      auditLogEntries,
+      invites,
+      emailTemplates,
+      mdfRequests,
+      touchpoints,
+    ] = await Promise.all([
+      ctx.db.query("deals").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db.query("partners").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db.query("payouts").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db.query("attributions").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db.query("audit_log").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).order("desc").take(5),
+      ctx.db.query("partnerInvites").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db.query("email_templates").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db.query("mdfRequests").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db.query("touchpoints").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+    ]);
+
+    // ── Stats ──
+    const wonDeals = deals.filter((d: any) => d.status === "won");
+    const openDeals = deals.filter((d: any) => d.status === "open");
+    const lostDeals = deals.filter((d: any) => d.status === "lost");
+    const totalRevenue = wonDeals.reduce((s: number, d: any) => s + d.amount, 0);
+    const pipelineValue = openDeals.reduce((s: number, d: any) => s + d.amount, 0);
+    const closedCount = wonDeals.length + lostDeals.length;
+    const activePartnersList = partners.filter((p: any) => p.status === "active");
+    const pendingPays = payouts.filter((p: any) => p.status === "pending_approval");
+
+    const stats = {
+      totalRevenue,
+      pipelineValue,
+      totalDeals: deals.length,
+      openDeals: openDeals.length,
+      wonDeals: wonDeals.length,
+      lostDeals: lostDeals.length,
+      activePartners: activePartnersList.length,
+      totalPartners: partners.length,
+      winRate: closedCount > 0 ? Math.round((wonDeals.length / closedCount) * 100) : 0,
+      avgDealSize: wonDeals.length > 0 ? Math.round(totalRevenue / wonDeals.length) : 0,
+      totalCommissions: Math.round(
+        attributions.filter((a: any) => a.model === "role_based").reduce((s: number, a: any) => s + a.commissionAmount, 0)
+      ),
+      pendingPayouts: pendingPays.reduce((s: number, p: any) => s + p.amount, 0),
+    };
+
+    // ── Recent Deals (sorted desc, take 5) ──
+    const recentDeals = [...deals].sort((a: any, b: any) => b._creationTime - a._creationTime).slice(0, 5);
+
+    // ── Top Partners (active, take 5) ──
+    const topPartners = activePartnersList.slice(0, 5);
+
+    // ── Pending Payouts with partner info ──
+    const pendingPayoutsWithPartner = await Promise.all(
+      pendingPays.map(async (payout: any) => {
+        const partner = await ctx.db.get(payout.partnerId);
+        return { ...payout, partner: partner ?? undefined };
+      })
+    );
+
+    // ── Action Items ──
+    const partnersOnboarding = partners.filter((p: any) => p.status === "pending").length;
+    const tierReviewsPending = partners.filter((p: any) => p.status === "active" && !p.tier).length;
+    const unpaidCommissions = pendingPays.reduce((s: number, p: any) => s + p.amount, 0);
+    const pendingInvites = invites.filter((i: any) => i.status === "pending").length;
+    const enabledEmails = emailTemplates.filter((t: any) => t.enabled).length;
+    const pendingMdf = mdfRequests.filter((r: any) => r.status === "pending").length;
+    const pendingDealRegs = deals.filter((d: any) => d.registrationStatus === "pending").length;
+
+    const actionItems = {
+      tierReviewsPending,
+      partnersOnboarding,
+      unpaidCommissions,
+      pendingInvites,
+      emailTriggersActive: enabledEmails,
+      emailTriggersTotal: emailTemplates.length,
+      pendingMdfRequests: pendingMdf,
+      pendingDealRegs,
+    };
+
+    // ── Trends (12-month rolling) ──
+    const now = Date.now();
+    const MS_PER_MONTH = 30.44 * 24 * 60 * 60 * 1000;
+    const revenue: number[] = [];
+    const pipeline: number[] = [];
+    const partnerCounts: number[] = [];
+    const winRates: number[] = [];
+
+    for (let i = 11; i >= 0; i--) {
+      const monthEnd = now - i * MS_PER_MONTH;
+      const monthStart = monthEnd - MS_PER_MONTH;
+
+      const wonByMonth = deals.filter((d: any) => d.status === "won" && d.createdAt <= monthEnd);
+      revenue.push(wonByMonth.reduce((s: number, d: any) => s + d.amount, 0));
+
+      const openByMonth = deals.filter(
+        (d: any) => d.createdAt <= monthEnd && (d.status === "open" || (d.status === "won" && d.createdAt > monthStart))
+      );
+      pipeline.push(openByMonth.reduce((s: number, d: any) => s + d.amount, 0));
+
+      const partnersByMonth = partners.filter((p: any) => p.createdAt <= monthEnd);
+      partnerCounts.push(partnersByMonth.length);
+
+      const closedByMonth = deals.filter(
+        (d: any) => (d.status === "won" || d.status === "lost") && d.createdAt <= monthEnd
+      );
+      const wonCount = closedByMonth.filter((d: any) => d.status === "won").length;
+      const closedTotal = closedByMonth.length;
+      winRates.push(closedTotal > 0 ? Math.round((wonCount / closedTotal) * 100) : 0);
+    }
+
+    const trends = { revenue, pipeline, partners: partnerCounts, winRate: winRates };
+
+    // ── Program Health ──
+    const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
+    const ninetyDaysAgo = now - 90 * 24 * 60 * 60 * 1000;
+
+    const totalActive = activePartnersList.length;
+    const engagedPartners = totalActive > 0
+      ? activePartnersList.filter((p: any) => touchpoints.some((t: any) => t.partnerId === p._id && t.createdAt >= ninetyDaysAgo)).length
+      : 0;
+    const engagementRate = totalActive > 0 ? engagedPartners / totalActive : 0;
+    const engagementScore = Math.round(Math.min(engagementRate * 1.25, 1) * 25);
+
+    const winRateVal = closedCount > 0 ? wonDeals.length / closedCount : 0;
+    const recentDealsCount = deals.filter((d: any) => d.createdAt >= thirtyDaysAgo).length;
+    const dealActivity = Math.min(recentDealsCount / 5, 1);
+    const velocityScore = Math.round((winRateVal * 0.6 + dealActivity * 0.4) * 25);
+
+    const totalPayoutsCount = payouts.length;
+    const pendingPayoutsCount = payouts.filter((p: any) => p.status === "pending_approval" || p.status === "pending").length;
+    const paidPayouts = payouts.filter((p: any) => p.status === "paid");
+    const payoutRatio = totalPayoutsCount > 0 ? paidPayouts.length / totalPayoutsCount : 1;
+    const payoutScore = Math.round(payoutRatio * 25);
+
+    const newPartners30d = partners.filter((p: any) => p.createdAt >= thirtyDaysAgo).length;
+    const partnerGrowth = totalActive > 0 ? Math.min(newPartners30d / totalActive, 1) : (newPartners30d > 0 ? 1 : 0);
+    const newDeals30d = deals.filter((d: any) => d.createdAt >= thirtyDaysAgo).length;
+    const dealGrowth = deals.length > 0 ? Math.min(newDeals30d / Math.max(deals.length * 0.2, 1), 1) : (newDeals30d > 0 ? 1 : 0);
+    const growthScore = Math.round((partnerGrowth * 0.5 + dealGrowth * 0.5) * 25);
+
+    const overall = engagementScore + velocityScore + payoutScore + growthScore;
+
+    const programHealth = {
+      overall,
+      categories: {
+        engagement: { score: engagementScore, max: 25, label: "Partner Engagement", detail: `${engagedPartners}/${totalActive} active in 90d` },
+        velocity: { score: velocityScore, max: 25, label: "Deal Velocity", detail: `${Math.round(winRateVal * 100)}% win rate` },
+        payouts: { score: payoutScore, max: 25, label: "Payout Health", detail: `${pendingPayoutsCount} pending` },
+        growth: { score: growthScore, max: 25, label: "Program Growth", detail: `+${newPartners30d} partners, +${newDeals30d} deals (30d)` },
+      },
+    };
+
+    return {
+      stats,
+      recentDeals,
+      topPartners,
+      pendingPayouts: pendingPayoutsWithPartner,
+      auditLog: auditLogEntries,
+      actionItems,
+      trends,
+      programHealth,
+    };
+  },
+});

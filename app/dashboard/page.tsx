@@ -11,6 +11,18 @@ import { usePlatformConfig } from "@/lib/platform-config";
 import GettingStartedChecklist from "@/components/GettingStartedChecklist";
 import type { Deal, Partner, Payout, AuditEntry } from "@/lib/types";
 
+// Deferred query hook: delays enabling a query until after initial paint
+function useDeferredQuery<T>(enabled: boolean) {
+  const [shouldFetch, setShouldFetch] = useState(false);
+  useEffect(() => {
+    if (enabled) {
+      const timer = setTimeout(() => setShouldFetch(true), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [enabled]);
+  return shouldFetch;
+}
+
 /** Format relative time for sync indicator */
 function formatRelativeTime(timestamp: number): string {
   const seconds = Math.floor((Date.now() - timestamp) / 1000);
@@ -224,54 +236,52 @@ function SampleDataBanner() {
 export default function DashboardPage() {
   const router = useRouter();
 
-  // ── Convex real data ───────────────────────────────────────────────────
-  const convexStats = useQuery(api.dashboard.getStats);
-  const convexRecentDeals = useQuery(api.dashboard.getRecentDeals);
-  const convexTopPartners = useQuery(api.dashboard.getTopPartners);
-  const convexPendingPayouts = useQuery(api.dashboard.getPendingPayouts);
-  const convexAuditLog = useQuery(api.dashboard.getRecentAuditLog);
+  // ── Consolidated Convex data (single subscription for initial paint) ───
+  const dashboardData = useQuery(api.dashboard.getDashboardData);
 
-  // ── Store (for non-wired modules only) ─────────────────────────────────
+  // ── Store (for fallback while loading) ─────────────────────────────────
   const { stats: storeStats, deals: storeDeals, partners: storePartners, payouts: storePayouts, auditLog: storeAuditLog } = useStore();
-  
-  // ── Convex data for alerts ─────────────────────────────────────────────
-  const convexTopRecommended = useQuery(api.recommendations.getTopRecommended);
-  const convexChannelConflicts = useQuery(api.dashboard.getChannelConflicts);
-  const convexMdfRequests = useQuery(api.mdf.list);
   const { config, isFeatureEnabled } = usePlatformConfig();
-  
-  // ── Salesforce connection status ───────────────────────────────────────
-  // Always skip — store org ID ("org_demo_001") is not a valid Convex ID and
-  // causes Convex to throw. Will enable once we have multi-org with real IDs.
+
+  // ── Deferred queries (load after 2s delay to not block initial paint) ──
+  const deferredEnabled = useDeferredQuery(dashboardData !== undefined);
+
+  const convexTopRecommended = useQuery(
+    api.recommendations.getTopRecommended,
+    deferredEnabled ? {} : "skip"
+  );
+  const convexChannelConflicts = useQuery(
+    api.dashboard.getChannelConflicts,
+    deferredEnabled ? {} : "skip"
+  );
+  const convexMdfRequests = useQuery(
+    api.mdf.list,
+    deferredEnabled ? {} : "skip"
+  );
+  // Salesforce connection status — always skip for now (org ID issue)
   const sfStatus = useQuery(api.integrations.getSalesforceStatus, "skip");
 
-  // Prefer Convex data; fall back to in-memory store while loading
-  const stats = convexStats ?? storeStats;
-  const recentDeals = (convexRecentDeals ?? [...storeDeals].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5)) as unknown as Deal[];
-  const topPartners = (convexTopPartners ?? storePartners.filter((p) => p.status === "active").slice(0, 5)) as unknown as Partner[];
-  const pendingPayouts = (convexPendingPayouts ?? storePayouts.filter((p) => p.status === "pending_approval")) as unknown as (Payout & { partner?: Partner })[];
-  const auditLog = (convexAuditLog ?? storeAuditLog.slice(0, 5)) as unknown as AuditEntry[];
+  // Extract data from consolidated query or fall back to store
+  const stats = dashboardData?.stats ?? storeStats;
+  const recentDeals = (dashboardData?.recentDeals ?? [...storeDeals].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5)) as unknown as Deal[];
+  const topPartners = (dashboardData?.topPartners ?? storePartners.filter((p) => p.status === "active").slice(0, 5)) as unknown as Partner[];
+  const pendingPayouts = (dashboardData?.pendingPayouts ?? storePayouts.filter((p) => p.status === "pending_approval")) as unknown as (Payout & { partner?: Partner })[];
+  const auditLog = (dashboardData?.auditLog ?? storeAuditLog.slice(0, 5)) as unknown as AuditEntry[];
+  const actionItems = dashboardData?.actionItems ?? null;
+  const trends = dashboardData?.trends ?? null;
+  const programHealth = dashboardData?.programHealth ?? null;
 
-  // Use Convex data for alerts (or empty arrays if loading)
+  // Use deferred Convex data for alerts (or empty arrays if loading)
   const openConflicts = convexChannelConflicts ?? [];
   const pendingMDF = (convexMdfRequests ?? []).filter((r: any) => r.status === "pending");
-
-  // ── Real action items from Convex ──────────────────────────────────────
-  const actionItems = useQuery(api.dashboard.getActionItems);
-
-  // ── Sparkline trend data from Convex ───────────────────────────────────
-  const trends = useQuery(api.dashboard.getTrends);
-
-  // ── Program Health Score ───────────────────────────────────────────────
-  const programHealth = useQuery(api.dashboard.getProgramHealth);
 
   // First-run detection: redirect to setup if truly empty (no Convex data loaded yet, no store data)
   useEffect(() => {
     const setupComplete = localStorage.getItem("covant_setup_complete");
-    if (!setupComplete && storePartners.length === 0 && storeDeals.length === 0 && convexStats !== undefined && convexStats.totalPartners === 0) {
+    if (!setupComplete && storePartners.length === 0 && storeDeals.length === 0 && dashboardData !== undefined && dashboardData.stats.totalPartners === 0) {
       router.push("/setup");
     }
-  }, [storePartners.length, storeDeals.length, convexStats, router]);
+  }, [storePartners.length, storeDeals.length, dashboardData, router]);
 
   return (
     <>

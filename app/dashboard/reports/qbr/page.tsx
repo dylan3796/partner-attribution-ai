@@ -2,6 +2,7 @@
 
 import { useMemo, useRef } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import {
@@ -27,21 +28,22 @@ import {
   ArrowUpRight,
   Minus,
 } from "lucide-react";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
 
-  AreaChart,
-  Area,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+// Dynamic imports for recharts (heavy library)
+const ChartLoadingPlaceholder = () => <div className="h-48 bg-gray-800 animate-pulse rounded" />;
+
+const BarChart = dynamic(() => import("recharts").then(m => ({ default: m.BarChart })), { ssr: false, loading: ChartLoadingPlaceholder });
+const Bar = dynamic(() => import("recharts").then(m => ({ default: m.Bar })), { ssr: false });
+const XAxis = dynamic(() => import("recharts").then(m => ({ default: m.XAxis })), { ssr: false });
+const YAxis = dynamic(() => import("recharts").then(m => ({ default: m.YAxis })), { ssr: false });
+const CartesianGrid = dynamic(() => import("recharts").then(m => ({ default: m.CartesianGrid })), { ssr: false });
+const Tooltip = dynamic(() => import("recharts").then(m => ({ default: m.Tooltip })), { ssr: false });
+const ResponsiveContainer = dynamic(() => import("recharts").then(m => ({ default: m.ResponsiveContainer })), { ssr: false, loading: ChartLoadingPlaceholder });
+const AreaChart = dynamic(() => import("recharts").then(m => ({ default: m.AreaChart })), { ssr: false, loading: ChartLoadingPlaceholder });
+const Area = dynamic(() => import("recharts").then(m => ({ default: m.Area })), { ssr: false });
+const PieChart = dynamic(() => import("recharts").then(m => ({ default: m.PieChart })), { ssr: false, loading: ChartLoadingPlaceholder });
+const Pie = dynamic(() => import("recharts").then(m => ({ default: m.Pie })), { ssr: false });
+const Cell = dynamic(() => import("recharts").then(m => ({ default: m.Cell })), { ssr: false });
 
 /* ── Quarter helpers ── */
 

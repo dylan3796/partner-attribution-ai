@@ -2,6 +2,7 @@
 
 import { use, useState, useCallback } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -19,17 +20,21 @@ import {
   type AttributionModel,
   type TouchpointType,
 } from "@/lib/types";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-} from "recharts";
-import confetti from "canvas-confetti";
+
+// Dynamic imports for recharts (heavy library)
+const ChartLoadingPlaceholder = () => <div className="h-48 bg-gray-800 animate-pulse rounded" />;
+
+const BarChart = dynamic(() => import("recharts").then(m => ({ default: m.BarChart })), { ssr: false, loading: ChartLoadingPlaceholder });
+const Bar = dynamic(() => import("recharts").then(m => ({ default: m.Bar })), { ssr: false });
+const XAxis = dynamic(() => import("recharts").then(m => ({ default: m.XAxis })), { ssr: false });
+const YAxis = dynamic(() => import("recharts").then(m => ({ default: m.YAxis })), { ssr: false });
+const CartesianGrid = dynamic(() => import("recharts").then(m => ({ default: m.CartesianGrid })), { ssr: false });
+const Tooltip = dynamic(() => import("recharts").then(m => ({ default: m.Tooltip })), { ssr: false });
+const ResponsiveContainer = dynamic(() => import("recharts").then(m => ({ default: m.ResponsiveContainer })), { ssr: false, loading: ChartLoadingPlaceholder });
+const Legend = dynamic(() => import("recharts").then(m => ({ default: m.Legend })), { ssr: false });
+
+// Dynamic import for canvas-confetti
+const loadConfetti = () => import("canvas-confetti").then(m => m.default);
 
 const MODELS: AttributionModel[] = [
   "deal_reg_protection",
@@ -93,7 +98,8 @@ export default function DealDetailPage({
   const [tpNotes, setTpNotes] = useState("");
   const [tpSaving, setTpSaving] = useState(false);
 
-  const fireConfetti = useCallback(() => {
+  const fireConfetti = useCallback(async () => {
+    const confetti = await loadConfetti();
     const duration = 2500;
     const end = Date.now() + duration;
     const colors = ["#10b981", "#6366f1", "#f59e0b", "#ec4899", "#06b6d4"];
