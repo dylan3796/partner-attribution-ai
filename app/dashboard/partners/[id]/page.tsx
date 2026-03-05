@@ -6,9 +6,37 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star } from "lucide-react";
+import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star, TrendingUp, BarChart3 } from "lucide-react";
 import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS, CERTIFICATION_LEVEL_LABELS, type CertificationLevel } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+  PieChart, Pie, Cell, Legend,
+} from "recharts";
+
+const STAGE_COLORS: Record<string, string> = {
+  pending_registration: "#6366f1",
+  active: "#3b82f6",
+  closed_won: "#22c55e",
+  closed_lost: "#ef4444",
+  registered: "#8b5cf6",
+  approved: "#06b6d4",
+  rejected: "#f97316",
+};
+
+const TP_COLORS = ["#6366f1", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899", "#f97316", "#14b8a6"];
+
+function CustomTooltip({ active, payload, label }: any) {
+  if (!active || !payload?.length) return null;
+  return (
+    <div style={{ background: "#111", border: "1px solid #333", borderRadius: 8, padding: "8px 12px", fontSize: ".8rem" }}>
+      <p style={{ fontWeight: 600, marginBottom: 4 }}>{label}</p>
+      {payload.map((p: any, i: number) => (
+        <p key={i} style={{ color: p.color, margin: 0 }}>{p.name}: {typeof p.value === "number" && p.name !== "Deals" ? formatCurrencyCompact(p.value) : p.value}</p>
+      ))}
+    </div>
+  );
+}
 
 function LoadingSkeleton() {
   return (
@@ -169,6 +197,126 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{touchpoints.length}</p>
         </div>
       </div>
+
+      {/* Performance Analytics */}
+      {(() => {
+        // Deal revenue by month (last 6 months)
+        const monthlyData = (() => {
+          const now = new Date();
+          const months: { month: string; revenue: number; deals: number }[] = [];
+          for (let i = 5; i >= 0; i--) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+            const label = d.toLocaleDateString("en-US", { month: "short", year: "2-digit" });
+            const mStart = d.getTime();
+            const mEnd = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59).getTime();
+            const mDeals = partnerDeals.filter((deal: any) => {
+              const ts = deal.closedAt || deal.createdAt || deal._creationTime;
+              return ts >= mStart && ts <= mEnd;
+            });
+            months.push({ month: label, revenue: mDeals.reduce((s: number, deal: any) => s + (deal.value || 0), 0), deals: mDeals.length });
+          }
+          return months;
+        })();
+        const hasRevenueData = monthlyData.some((m) => m.revenue > 0 || m.deals > 0);
+
+        // Deal stage breakdown
+        const stageData = (() => {
+          const counts: Record<string, number> = {};
+          partnerDeals.forEach((deal: any) => {
+            const stage = deal.stage || deal.status || "unknown";
+            counts[stage] = (counts[stage] || 0) + 1;
+          });
+          return Object.entries(counts).map(([stage, count]) => ({
+            name: stage.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+            value: count,
+            color: STAGE_COLORS[stage] || "#6b7280",
+          }));
+        })();
+
+        // Touchpoint type distribution
+        const tpData = (() => {
+          const counts: Record<string, number> = {};
+          touchpoints.forEach((tp: any) => {
+            const label = TOUCHPOINT_LABELS[tp.type as keyof typeof TOUCHPOINT_LABELS] || tp.type;
+            counts[label] = (counts[label] || 0) + 1;
+          });
+          return Object.entries(counts).map(([name, value], i) => ({
+            name,
+            value,
+            color: TP_COLORS[i % TP_COLORS.length],
+          }));
+        })();
+
+        if (!hasRevenueData && stageData.length === 0 && tpData.length === 0) return null;
+
+        return (
+          <div className="card" style={{ marginBottom: "1.5rem" }}>
+            <h3 style={{ fontWeight: 700, marginBottom: "1.2rem", display: "flex", alignItems: "center", gap: 8 }}>
+              <BarChart3 size={18} color="#6366f1" /> Performance Analytics
+            </h3>
+
+            <div style={{ display: "grid", gridTemplateColumns: hasRevenueData ? "2fr 1fr" : "1fr 1fr", gap: "1.5rem" }}>
+              {/* Revenue by month */}
+              {hasRevenueData && (
+                <div>
+                  <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".5rem", fontWeight: 600 }}>Revenue by Month (Last 6 Months)</p>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={monthlyData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#222" />
+                      <XAxis dataKey="month" tick={{ fill: "#888", fontSize: 11 }} axisLine={{ stroke: "#333" }} />
+                      <YAxis tick={{ fill: "#888", fontSize: 11 }} axisLine={{ stroke: "#333" }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                      <Tooltip content={<CustomTooltip />} />
+                      <Bar dataKey="revenue" name="Revenue" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
+
+              {/* Right column: Stage + Touchpoint breakdowns */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+                {/* Deal stage breakdown */}
+                {stageData.length > 0 && (
+                  <div>
+                    <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".5rem", fontWeight: 600 }}>Deal Stages</p>
+                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                      {stageData.map((s) => (
+                        <div key={s.name} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                          <div style={{ width: 8, height: 8, borderRadius: "50%", background: s.color, flexShrink: 0 }} />
+                          <span style={{ fontSize: ".8rem", flex: 1 }}>{s.name}</span>
+                          <span style={{ fontSize: ".85rem", fontWeight: 700 }}>{s.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Touchpoint type distribution */}
+                {tpData.length > 0 && (
+                  <div>
+                    <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".5rem", fontWeight: 600 }}>Touchpoint Types</p>
+                    <ResponsiveContainer width="100%" height={140}>
+                      <PieChart>
+                        <Pie data={tpData} cx="50%" cy="50%" innerRadius={30} outerRadius={55} dataKey="value" paddingAngle={2}>
+                          {tpData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                        </Pie>
+                        <Tooltip content={<CustomTooltip />} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 12px", justifyContent: "center" }}>
+                      {tpData.map((t, i) => (
+                        <span key={i} style={{ fontSize: ".7rem", display: "flex", alignItems: "center", gap: 4, color: "#aaa" }}>
+                          <span style={{ width: 6, height: 6, borderRadius: "50%", background: t.color, display: "inline-block" }} />
+                          {t.name} ({t.value})
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Onboarding Progress */}
       {onboardingPct < 100 && (
