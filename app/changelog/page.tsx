@@ -15,6 +15,7 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 5, 2026",
     commits: [
+      { hash: "6012dec", type: "feat", message: "Partner Leaderboard — gamified performance rankings at /dashboard/leaderboard. Top-3 podium with medals, time period filters (30d/90d/all-time), multi-sort (composite score, revenue, deals, win rate, engagement), tier badges, composite score bars, commission summary. Convex-powered rankings with weighted scoring (revenue 35%, deals 25%, win rate 20%, engagement 20%). Added to Analytics sidebar nav. Drives partner competition and gives VPs instant visibility into who's performing." },
       { hash: "3ce37d9", type: "feat", message: "Portal MDF page wired to real Convex data — partner-submitted MDF requests now persist across sessions. New partner-scoped queries (getByPartner, submitRequest, getPartnerStats), loading skeleton, empty state, review notes. Completes the MDF workflow end-to-end: partners submit → admins review → status flows back to portal." },
       { hash: "9e3218f", type: "polish", message: "Performance consolidation — merged duplicate dashboard queries, dynamic imports for Recharts and command palette, RSC layout split for faster initial loads." },
       { hash: "9e18445", type: "feat", message: "Partner Health page wired to real Convex data — individual health scores (0-100) computed from live deal activity, revenue, touchpoint engagement, recency, and payout health. Auto-classifies partners as healthy/at-risk/churning/new with contextual signals and recommended actions." },
