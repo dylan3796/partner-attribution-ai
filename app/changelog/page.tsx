@@ -15,12 +15,15 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 5, 2026",
     commits: [
+      { hash: "NEW0016", type: "polish", message: "Period-over-period trend badges on all 4 dashboard stat cards — each card now shows \"↑ X% vs last month\" or \"↓ X% vs last month\" computed from real Convex trend data. Green for growth, red for decline, neutral for flat. Answers the #1 VP question: \"are we trending up or down?\"" },
+      { hash: "2ec1248", type: "polish", message: "Loading skeletons for all 27 dashboard pages — reusable DashboardSkeleton component with 5 layout variants (TablePage, CardPage, ChartPage, SettingsPage, SimplePage). Shimmer animations matched to each page layout. Replaces blank/flash states while Convex queries resolve." },
       { hash: "NEW0014", type: "feat", message: "Dispute resolution with Convex backend — full dispute lifecycle: open disputes against deals with current/requested commission %, review workflow, resolve or reject with notes, CSV export, audit trail. Convex backend: disputes table with list, getCounts, create, updateStatus, remove mutations, org-scoped queries. Duplicate dispute prevention. Added to sidebar nav under Revenue. Replaces local-state-only conflicts page." },
     ],
   },
   {
     date: "March 4, 2026",
     commits: [
+      { hash: "e36f14e", type: "polish", message: "Breadcrumb navigation — auto-generated breadcrumbs for all 45+ dashboard pages. Human-readable labels for every segment, Home icon anchor, dynamic Convex ID detection, styled in dark aesthetic. Appears on every dashboard sub-page for better wayfinding." },
       { hash: "NEW0012", type: "feat", message: "Pipeline kanban board — new Board view toggle on /dashboard/pipeline showing deals in 4 columns (Pending Registration → Active Pipeline → Closed Won → Closed Lost). Each column shows deal count and total value. Compact deal cards with product badges, registration status, and partner info. Grid view preserved as alternative." },
       { hash: "feecedd", type: "feat", message: "Product-aware commission rules — commission rules settings now pulls from product catalog with grouped dropdown by category. Portal deal registration includes product selector. Dashboard deals table shows product badge column. Attribution calculator matches productLine rules against deal.productName (was a TODO). Seed data updated with 6 product-tagged demo deals." },
       { hash: "991d277", type: "feat", message: "Product catalog with Convex backend — full CRUD at /dashboard/products with SKU and name search, category filter, active/inactive toggle, inline edit modal with live margin preview, delete confirmation. Stats row (total products, active/inactive, avg margin, catalog value). Schema: products table with org-scoped indexes. 8 demo products seeded. Added to sidebar nav under Revenue." },

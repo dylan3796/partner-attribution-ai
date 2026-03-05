@@ -55,6 +55,33 @@ const FALLBACK_PIPELINE = [180, 160, 200, 220, 195, 210, 240, 230, 250, 215, 270
 const FALLBACK_PARTNERS = [3, 3, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7];
 const FALLBACK_WINRATE = [50, 55, 48, 60, 58, 62, 55, 67, 65, 70, 68, 72];
 
+/** Compute period-over-period change from trend data (last vs second-to-last month) */
+function calcTrendDelta(data: number[]): { pct: number; direction: "up" | "down" | "flat" } {
+  if (data.length < 2) return { pct: 0, direction: "flat" };
+  const current = data[data.length - 1];
+  const previous = data[data.length - 2];
+  if (previous === 0) return { pct: current > 0 ? 100 : 0, direction: current > 0 ? "up" : "flat" };
+  const pct = Math.round(((current - previous) / previous) * 100);
+  return { pct: Math.abs(pct), direction: pct > 0 ? "up" : pct < 0 ? "down" : "flat" };
+}
+
+/** Trend badge component */
+function TrendBadge({ data }: { data: number[] }) {
+  const { pct, direction } = calcTrendDelta(data);
+  if (direction === "flat") return <span style={{ fontSize: ".7rem", color: "var(--muted)", fontWeight: 500 }}>— vs last month</span>;
+  const isUp = direction === "up";
+  return (
+    <span style={{
+      fontSize: ".7rem", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 2,
+      color: isUp ? "#059669" : "#dc2626",
+      background: isUp ? "rgba(5,150,105,.08)" : "rgba(220,38,38,.08)",
+      padding: "2px 6px", borderRadius: 4,
+    }}>
+      {isUp ? "↑" : "↓"} {pct}% vs last month
+    </span>
+  );
+}
+
 function UpgradeBannerInner() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -437,7 +464,10 @@ export default function DashboardPage() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
             <Sparkline data={trends?.revenue ?? FALLBACK_REVENUE} color="#10b981" />
-            <p style={{ fontSize: ".8rem", color: "#065f46" }}>↑ {stats.wonDeals} won deals</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <p style={{ fontSize: ".8rem", color: "#065f46" }}>↑ {stats.wonDeals} won deals</p>
+              <TrendBadge data={trends?.revenue ?? FALLBACK_REVENUE} />
+            </div>
           </div>
         </div>
         <div className="card">
@@ -450,7 +480,10 @@ export default function DashboardPage() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
             <Sparkline data={trends?.pipeline ?? FALLBACK_PIPELINE} color="#6366f1" />
-            <p style={{ fontSize: ".8rem", color: "#3730a3" }}>{stats.openDeals} active deals</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <p style={{ fontSize: ".8rem", color: "#3730a3" }}>{stats.openDeals} active deals</p>
+              <TrendBadge data={trends?.pipeline ?? FALLBACK_PIPELINE} />
+            </div>
           </div>
         </div>
         <div className="card">
@@ -463,7 +496,10 @@ export default function DashboardPage() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
             <Sparkline data={trends?.partners ?? FALLBACK_PARTNERS} color="#22c55e" />
-            <p style={{ fontSize: ".8rem", color: "#166534" }}>{stats.totalPartners} total</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <p style={{ fontSize: ".8rem", color: "#166534" }}>{stats.totalPartners} total</p>
+              <TrendBadge data={trends?.partners ?? FALLBACK_PARTNERS} />
+            </div>
           </div>
         </div>
         <div className="card">
@@ -476,7 +512,10 @@ export default function DashboardPage() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
             <Sparkline data={trends?.winRate ?? FALLBACK_WINRATE} color="#f59e0b" />
-            <p style={{ fontSize: ".8rem", color: "#92400e" }}>Avg deal: {formatCurrencyCompact(stats.avgDealSize)}</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <p style={{ fontSize: ".8rem", color: "#92400e" }}>Avg deal: {formatCurrencyCompact(stats.avgDealSize)}</p>
+              <TrendBadge data={trends?.winRate ?? FALLBACK_WINRATE} />
+            </div>
           </div>
         </div>
       </div>
