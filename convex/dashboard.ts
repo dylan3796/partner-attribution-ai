@@ -717,3 +717,75 @@ export const getTrends = query({
     return { revenue, pipeline, partners: partnerCounts, winRate: winRates };
   },
 });
+
+/**
+ * Program Health Score — composite 0-100 score for VP executive reporting.
+ * Synthesizes: partner activity, deal velocity, payout health, program growth.
+ */
+export const getProgramHealth = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return null;
+
+    const [deals, partners, payouts, touchpoints] = await Promise.all([
+      ctx.db.query("deals").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db.query("partners").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db.query("payouts").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db.query("touchpoints").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+    ]);
+
+    const now = Date.now();
+    const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
+    const ninetyDaysAgo = now - 90 * 24 * 60 * 60 * 1000;
+
+    // ── 1. Partner Engagement (0-25) ──
+    // % of active partners with a touchpoint in last 90 days
+    const activePartners = partners.filter((p: any) => p.status === "active");
+    const totalActive = activePartners.length;
+    const engagedPartners = totalActive > 0
+      ? activePartners.filter((p: any) => {
+          return touchpoints.some((t: any) => t.partnerId === p._id && t.createdAt >= ninetyDaysAgo);
+        }).length
+      : 0;
+    const engagementRate = totalActive > 0 ? engagedPartners / totalActive : 0;
+    const engagementScore = Math.round(Math.min(engagementRate * 1.25, 1) * 25); // 80%+ engagement = full marks
+
+    // ── 2. Deal Velocity (0-25) ──
+    // Based on win rate and recent deal activity
+    const closedDeals = deals.filter((d: any) => d.status === "won" || d.status === "lost");
+    const wonDeals = deals.filter((d: any) => d.status === "won");
+    const winRate = closedDeals.length > 0 ? wonDeals.length / closedDeals.length : 0;
+    const recentDeals = deals.filter((d: any) => d.createdAt >= thirtyDaysAgo);
+    const dealActivity = Math.min(recentDeals.length / 5, 1); // 5+ deals in 30 days = full activity
+    const velocityScore = Math.round((winRate * 0.6 + dealActivity * 0.4) * 25);
+
+    // ── 3. Payout Health (0-25) ──
+    // Low pending-to-total ratio = healthy
+    const totalPayouts = payouts.length;
+    const pendingPayouts = payouts.filter((p: any) => p.status === "pending_approval" || p.status === "pending");
+    const paidPayouts = payouts.filter((p: any) => p.status === "paid");
+    const payoutRatio = totalPayouts > 0 ? paidPayouts.length / totalPayouts : 1;
+    const payoutScore = Math.round(payoutRatio * 25);
+
+    // ── 4. Program Growth (0-25) ──
+    // New partners and deals in last 30 days relative to total
+    const newPartners30d = partners.filter((p: any) => p.createdAt >= thirtyDaysAgo).length;
+    const partnerGrowth = totalActive > 0 ? Math.min(newPartners30d / totalActive, 1) : (newPartners30d > 0 ? 1 : 0);
+    const newDeals30d = deals.filter((d: any) => d.createdAt >= thirtyDaysAgo).length;
+    const dealGrowth = deals.length > 0 ? Math.min(newDeals30d / Math.max(deals.length * 0.2, 1), 1) : (newDeals30d > 0 ? 1 : 0);
+    const growthScore = Math.round((partnerGrowth * 0.5 + dealGrowth * 0.5) * 25);
+
+    const overall = engagementScore + velocityScore + payoutScore + growthScore;
+
+    return {
+      overall,
+      categories: {
+        engagement: { score: engagementScore, max: 25, label: "Partner Engagement", detail: `${engagedPartners}/${totalActive} active in 90d` },
+        velocity: { score: velocityScore, max: 25, label: "Deal Velocity", detail: `${Math.round(winRate * 100)}% win rate` },
+        payouts: { score: payoutScore, max: 25, label: "Payout Health", detail: `${pendingPayouts.length} pending` },
+        growth: { score: growthScore, max: 25, label: "Program Growth", detail: `+${newPartners30d} partners, +${newDeals30d} deals (30d)` },
+      },
+    };
+  },
+});

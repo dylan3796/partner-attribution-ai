@@ -6,7 +6,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2, Sparkles, CheckCircle, X } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2, Sparkles, CheckCircle, X, Activity } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import GettingStartedChecklist from "@/components/GettingStartedChecklist";
 import type { Deal, Partner, Payout, AuditEntry } from "@/lib/types";
@@ -262,6 +262,9 @@ export default function DashboardPage() {
   // ── Sparkline trend data from Convex ───────────────────────────────────
   const trends = useQuery(api.dashboard.getTrends);
 
+  // ── Program Health Score ───────────────────────────────────────────────
+  const programHealth = useQuery(api.dashboard.getProgramHealth);
+
   // First-run detection: redirect to setup if truly empty (no Convex data loaded yet, no store data)
   useEffect(() => {
     const setupComplete = localStorage.getItem("covant_setup_complete");
@@ -412,6 +415,51 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+
+      {/* ── Program Health Score ── */}
+      {programHealth && (
+        <div className="card" style={{ padding: "1.25rem", marginBottom: "1.5rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+            <h3 style={{ fontWeight: 700, fontSize: "1rem", display: "flex", alignItems: "center", gap: ".5rem" }}>
+              <Activity size={16} color={programHealth.overall >= 70 ? "#22c55e" : programHealth.overall >= 40 ? "#eab308" : "#ef4444"} />
+              Program Health
+            </h3>
+            <span style={{
+              fontSize: "1.5rem", fontWeight: 800, letterSpacing: "-.02em",
+              color: programHealth.overall >= 70 ? "#22c55e" : programHealth.overall >= 40 ? "#eab308" : "#ef4444",
+            }}>
+              {programHealth.overall}<span style={{ fontSize: ".8rem", fontWeight: 500, color: "var(--muted)" }}>/100</span>
+            </span>
+          </div>
+          {/* Health bar */}
+          <div style={{ width: "100%", height: 6, borderRadius: 3, background: "var(--border)", marginBottom: "1rem", overflow: "hidden" }}>
+            <div style={{
+              width: `${programHealth.overall}%`, height: "100%", borderRadius: 3,
+              background: programHealth.overall >= 70 ? "#22c55e" : programHealth.overall >= 40 ? "#eab308" : "#ef4444",
+              transition: "width 0.5s ease-out",
+            }} />
+          </div>
+          {/* Category breakdown */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: ".75rem" }}>
+            {Object.values(programHealth.categories).map((cat) => {
+              const pct = Math.round((cat.score / cat.max) * 100);
+              const color = pct >= 70 ? "#22c55e" : pct >= 40 ? "#eab308" : "#ef4444";
+              return (
+                <div key={cat.label} style={{ padding: "10px 12px", borderRadius: 8, border: "1px solid var(--border)" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                    <span className="muted" style={{ fontSize: ".75rem", fontWeight: 600 }}>{cat.label}</span>
+                    <span style={{ fontSize: ".8rem", fontWeight: 700, color }}>{cat.score}/{cat.max}</span>
+                  </div>
+                  <div style={{ width: "100%", height: 4, borderRadius: 2, background: "var(--border)", overflow: "hidden", marginBottom: 4 }}>
+                    <div style={{ width: `${pct}%`, height: "100%", borderRadius: 2, background: color, transition: "width 0.4s" }} />
+                  </div>
+                  <span className="muted" style={{ fontSize: ".68rem" }}>{cat.detail}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
 
       {/* ── Partner Recommendations Widget ── */}
       {convexTopRecommended && convexTopRecommended.filter((r) => r.wonCount > 0 || r.totalRevenue > 0).length > 0 && (
