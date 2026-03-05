@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { UserButton } from "@clerk/nextjs";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { NotificationBell } from "@/components/NotificationBell";
@@ -8,11 +9,17 @@ import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Menu, X } from "lucide-react";
 
+const CommandPalette = dynamic(
+  () => import("@/components/ui/command-palette").then(m => ({ default: m.CommandPalette })),
+  { ssr: false }
+);
+
 export function DashboardLayoutClient({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <>
+      <CommandPalette />
       <div className="dash-layout-v2">
         <DashboardSidebar mobileOpen={mobileMenuOpen} onMobileClose={() => setMobileMenuOpen(false)} />
         <main className="dash-main" id="main-content" tabIndex={-1}>

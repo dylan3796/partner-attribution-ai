@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { UserButton } from "@clerk/nextjs";
 import { ToastProvider } from "@/components/ui/toast";
 import { KeyboardShortcuts } from "@/components/ui/keyboard-shortcuts";
@@ -10,19 +9,13 @@ import { DemoBanner } from "@/components/DemoBanner";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DashboardLayoutClient } from "./DashboardLayoutClient";
 
-// Dynamic import for CommandPalette (heavy component)
-const CommandPalette = dynamic(
-  () => import("@/components/ui/command-palette").then(m => ({ default: m.CommandPalette })),
-  { ssr: false }
-);
-
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <ToastProvider>
       <DemoBanner />
       <UserProvisioner />
       <KeyboardShortcuts />
-      <CommandPalette />
+
       <a href="#main-content" style={{
         position: "fixed", left: 8, top: -60, zIndex: 9999, padding: "8px 16px",
         background: "#6366f1", color: "#fff", borderRadius: 8, fontWeight: 700, fontSize: ".85rem",
