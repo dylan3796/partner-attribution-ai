@@ -708,6 +708,38 @@ a:focus-visible {
   }
 }
 
+/* ── Breadcrumbs ── */
+.breadcrumb-home {
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.breadcrumb-home:hover {
+  color: var(--fg);
+}
+.breadcrumb-sep {
+  color: var(--muted);
+  opacity: 0.4;
+  flex-shrink: 0;
+}
+.breadcrumb-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: color 0.15s;
+}
+.breadcrumb-link:hover {
+  color: var(--fg);
+}
+.breadcrumb-current {
+  color: var(--fg);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
 /* Screen reader only utility */
 .sr-only {
   position: absolute;

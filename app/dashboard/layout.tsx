@@ -11,6 +11,7 @@ import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { Menu, X } from "lucide-react";
 import { UserProvisioner } from "@/components/UserProvisioner";
 import { DemoBanner } from "@/components/DemoBanner";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -53,6 +54,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             </div>
           </div>
           <div className="dash-main-inner">
+            <Breadcrumbs />
             {children}
           </div>
         </main>
