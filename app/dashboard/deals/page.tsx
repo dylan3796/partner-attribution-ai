@@ -239,6 +239,7 @@ export default function DealsPage() {
               <thead>
                 <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--subtle)" }}>
                   <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Deal</th>
+                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Product</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Amount</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Status</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Date</th>
@@ -251,6 +252,13 @@ export default function DealsPage() {
                     <tr key={d._id} style={{ borderBottom: "1px solid var(--border)" }}>
                       <td style={{ padding: ".8rem 1.2rem" }}>
                         <Link href={`/dashboard/deals/${d._id}`} style={{ fontWeight: 600 }}>{d.name}</Link>
+                      </td>
+                      <td style={{ padding: ".8rem" }}>
+                        {(d as any).productName ? (
+                          <span className="badge" style={{ fontSize: ".75rem" }}>{(d as any).productName}</span>
+                        ) : (
+                          <span className="muted">—</span>
+                        )}
                       </td>
                       <td style={{ padding: ".8rem", fontWeight: 700 }}>{formatCurrency(d.amount)}</td>
                       <td style={{ padding: ".8rem" }}>

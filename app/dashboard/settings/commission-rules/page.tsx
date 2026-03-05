@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
@@ -45,10 +45,40 @@ const PARTNER_TIERS = [
 
 export default function CommissionRulesPage() {
   const rules = useQuery(api.commissionRules.list);
+  const products = useQuery(api.products.list);
   const createRule = useMutation(api.commissionRules.create);
   const updateRule = useMutation(api.commissionRules.update);
   const removeRule = useMutation(api.commissionRules.remove);
   const { toast } = useToast();
+
+  // Build product options from catalog — group by category for readability
+  const productOptions = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    const active = products.filter((p) => p.status === "active");
+    const byCategory = new Map<string, typeof active>();
+    for (const p of active) {
+      const cat = p.category || "Uncategorized";
+      if (!byCategory.has(cat)) byCategory.set(cat, []);
+      byCategory.get(cat)!.push(p);
+    }
+    return Array.from(byCategory.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([category, items]) => ({
+        category,
+        products: items.sort((a, b) => a.name.localeCompare(b.name)),
+      }));
+  }, [products]);
+
+  // Map product names for display in the table
+  const productNameMap = useMemo(() => {
+    if (!products) return new Map<string, string>();
+    const map = new Map<string, string>();
+    for (const p of products) {
+      map.set(p.name, p.name);
+      map.set(p.category, p.category);
+    }
+    return map;
+  }, [products]);
 
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<Id<"commissionRules"> | null>(null);
@@ -153,7 +183,8 @@ export default function CommissionRulesPage() {
       <div className="card" style={{ padding: "1rem 1.25rem", marginBottom: "1.5rem", display: "flex", alignItems: "center", gap: "0.75rem", background: "var(--subtle)" }}>
         <Shield size={18} style={{ color: "var(--muted)", flexShrink: 0 }} />
         <p style={{ fontSize: "0.85rem", color: "var(--muted)", lineHeight: 1.5 }}>
-          When a deal is attributed, the system matches rules top-to-bottom by priority. The first rule that matches the partner&apos;s type, tier, and deal size is applied. If no rule matches, the partner&apos;s default rate is used.
+          When a deal is attributed, the system matches rules top-to-bottom by priority. The first rule that matches the partner&apos;s type, tier, product, and deal size is applied. If no rule matches, the partner&apos;s default rate is used.
+          {productOptions.length > 0 && " Product-specific rules pull from your product catalog."}
         </p>
       </div>
 
@@ -202,7 +233,11 @@ export default function CommissionRulesPage() {
                       {rule.partnerTier || "All"}
                     </span>
                   </td>
-                  <td style={tdStyle}>{rule.productLine || "—"}</td>
+                  <td style={tdStyle}>
+                    {rule.productLine ? (
+                      <span className="badge" style={{ fontSize: "0.8rem" }}>{rule.productLine}</span>
+                    ) : "—"}
+                  </td>
                   <td style={{ ...tdStyle, fontWeight: 700, color: "#22c55e" }}>
                     {Math.round(rule.rate * 100)}%
                   </td>
@@ -255,8 +290,30 @@ export default function CommissionRulesPage() {
               </div>
 
               <div>
-                <label style={{ fontSize: "0.8rem", fontWeight: 600, display: "block", marginBottom: "0.3rem" }}>Product Line</label>
-                <input style={inputStyle} value={form.productLine} onChange={(e) => setForm({ ...form, productLine: e.target.value })} placeholder="e.g. Enterprise (leave blank for all)" />
+                <label style={{ fontSize: "0.8rem", fontWeight: 600, display: "block", marginBottom: "0.3rem" }}>Product</label>
+                {productOptions.length > 0 ? (
+                  <select
+                    style={{ ...inputStyle, cursor: "pointer" }}
+                    value={form.productLine}
+                    onChange={(e) => setForm({ ...form, productLine: e.target.value })}
+                  >
+                    <option value="">All Products</option>
+                    {productOptions.map((group) => (
+                      <optgroup key={group.category} label={group.category}>
+                        {group.products.map((p) => (
+                          <option key={p._id} value={p.name}>{p.name} — {p.sku}</option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </select>
+                ) : (
+                  <input style={inputStyle} value={form.productLine} onChange={(e) => setForm({ ...form, productLine: e.target.value })} placeholder="e.g. Enterprise (add products in catalog first)" />
+                )}
+                {productOptions.length > 0 && (
+                  <p style={{ fontSize: "0.75rem", color: "var(--muted)", marginTop: "0.25rem" }}>
+                    Products from your <a href="/dashboard/products" style={{ color: "inherit", textDecoration: "underline" }}>catalog</a>
+                  </p>
+                )}
               </div>
 
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem" }}>

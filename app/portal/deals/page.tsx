@@ -90,7 +90,26 @@ export default function PortalDealsPage() {
     api.partners.get,
     session?.partnerId ? { id: session.partnerId as Id<"partners"> } : "skip"
   );
+  const products = useQuery(api.products.list);
   const registerDeal = useMutation(api.deals.registerDeal);
+
+  // Group active products by category for the deal reg form
+  const productGroups = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    const active = products.filter((p) => p.status === "active");
+    const byCategory = new Map<string, typeof active>();
+    for (const p of active) {
+      const cat = p.category || "Other";
+      if (!byCategory.has(cat)) byCategory.set(cat, []);
+      byCategory.get(cat)!.push(p);
+    }
+    return Array.from(byCategory.entries())
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([category, items]) => ({
+        category,
+        products: items.sort((a, b) => a.name.localeCompare(b.name)),
+      }));
+  }, [products]);
 
   // Use Convex deals if available, fall back to portal-context demo deals
   const deals = useMemo<DemoDeal[]>(() => {
@@ -114,7 +133,7 @@ export default function PortalDealsPage() {
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [regForm, setRegForm] = useState({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "", expectedCloseDate: "" });
+  const [regForm, setRegForm] = useState({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "", expectedCloseDate: "", productName: "" });
 
   if (!partner) return null;
 
@@ -149,10 +168,11 @@ export default function PortalDealsPage() {
           contactEmail: regForm.contactEmail,
           expectedCloseDate: regForm.expectedCloseDate ? new Date(regForm.expectedCloseDate).getTime() : undefined,
           notes: regForm.notes || undefined,
+          productName: regForm.productName || undefined,
         });
       }
       setSubmitted(true);
-      setRegForm({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "", expectedCloseDate: "" });
+      setRegForm({ companyName: "", estimatedValue: "", contactName: "", contactEmail: "", notes: "", expectedCloseDate: "", productName: "" });
     } catch (err: any) {
       setRegError(err.message || "Failed to register deal");
     }
@@ -303,9 +323,28 @@ export default function PortalDealsPage() {
                     <label className="muted" style={{ fontSize: ".8rem", fontWeight: 600, display: "block", marginBottom: 4 }}>Company Name *</label>
                     <input className="input" placeholder="Prospect company name" value={regForm.companyName} onChange={(e) => setRegForm({ ...regForm, companyName: e.target.value })} style={{ width: "100%" }} />
                   </div>
-                  <div>
-                    <label className="muted" style={{ fontSize: ".8rem", fontWeight: 600, display: "block", marginBottom: 4 }}>Estimated Deal Value ($) *</label>
-                    <input className="input" type="number" placeholder="50000" value={regForm.estimatedValue} onChange={(e) => setRegForm({ ...regForm, estimatedValue: e.target.value })} style={{ width: "100%" }} />
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+                    <div>
+                      <label className="muted" style={{ fontSize: ".8rem", fontWeight: 600, display: "block", marginBottom: 4 }}>Estimated Deal Value ($) *</label>
+                      <input className="input" type="number" placeholder="50000" value={regForm.estimatedValue} onChange={(e) => setRegForm({ ...regForm, estimatedValue: e.target.value })} style={{ width: "100%" }} />
+                    </div>
+                    <div>
+                      <label className="muted" style={{ fontSize: ".8rem", fontWeight: 600, display: "block", marginBottom: 4 }}>Product</label>
+                      {productGroups.length > 0 ? (
+                        <select className="input" value={regForm.productName} onChange={(e) => setRegForm({ ...regForm, productName: e.target.value })} style={{ width: "100%", cursor: "pointer" }}>
+                          <option value="">Select product...</option>
+                          {productGroups.map((group) => (
+                            <optgroup key={group.category} label={group.category}>
+                              {group.products.map((p) => (
+                                <option key={p._id} value={p.name}>{p.name}</option>
+                              ))}
+                            </optgroup>
+                          ))}
+                        </select>
+                      ) : (
+                        <input className="input" placeholder="Product (optional)" value={regForm.productName} onChange={(e) => setRegForm({ ...regForm, productName: e.target.value })} style={{ width: "100%" }} />
+                      )}
+                    </div>
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
                     <div>

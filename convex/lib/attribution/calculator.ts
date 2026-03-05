@@ -125,7 +125,7 @@ export async function calculateDealAttribution(
     for (const rule of commissionRules) {
       if (rule.partnerType && rule.partnerType !== partner.type) continue;
       if (rule.partnerTier && rule.partnerTier !== (partner.tier ?? "bronze")) continue;
-      if (rule.productLine) continue; // product line matching requires deal metadata we don't have yet
+      if (rule.productLine && rule.productLine !== (deal as any).productName) continue;
       if (rule.minDealSize && deal.amount < rule.minDealSize) continue;
       commissionRate = rule.rate * 100; // rules store 0.0-1.0, models expect 0-100
       break;

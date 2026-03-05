@@ -95,6 +95,7 @@ export default defineSchema({
     contactName: v.optional(v.string()),
     contactEmail: v.optional(v.string()),
     notes: v.optional(v.string()),
+    productName: v.optional(v.string()), // links to product catalog for commission rule matching
     registeredBy: v.optional(v.id("partners")),
     registrationStatus: v.optional(v.union(
       v.literal("pending"),

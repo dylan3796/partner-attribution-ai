@@ -13,6 +13,7 @@ export const registerDeal = mutation({
     contactName: v.string(),
     contactEmail: v.string(),
     notes: v.optional(v.string()),
+    productName: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     // Check for duplicate deals (same contact email)
@@ -42,6 +43,7 @@ export const registerDeal = mutation({
       contactName: args.contactName,
       contactEmail: args.contactEmail,
       notes: args.notes,
+      productName: args.productName,
       registeredBy: args.partnerId,
       registrationStatus: "pending",
       createdAt: Date.now(),
