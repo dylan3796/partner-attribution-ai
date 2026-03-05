@@ -19,6 +19,7 @@ import {
   SlidersHorizontal,
   Gift,
   Rocket,
+  Bell,
   GitBranch,
   Plug2,
   TrendingUp,
@@ -58,6 +59,7 @@ const navSections: NavSection[] = [
     items: [
       { name: "Dashboard",      href: "/dashboard",         icon: LayoutDashboard, exact: true },
       { name: "Program Health", href: "/dashboard/health",  icon: Heart },
+      { name: "Notifications", href: "/dashboard/notifications", icon: Bell },
     ],
   },
   {

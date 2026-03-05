@@ -172,11 +172,11 @@ export function NotificationBell() {
             <button
               className="notification-view-all-btn"
               onClick={() => {
-                router.push("/dashboard/activity");
+                router.push("/dashboard/notifications");
                 setOpen(false);
               }}
             >
-              View all activity
+              View all notifications
             </button>
           </div>
         </div>
