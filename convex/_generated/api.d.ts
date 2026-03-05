@@ -19,6 +19,7 @@ import type * as deals from "../deals.js";
 import type * as deals_mutations from "../deals/mutations.js";
 import type * as deals_queries from "../deals/queries.js";
 import type * as dealsCrud from "../dealsCrud.js";
+import type * as disputes from "../disputes.js";
 import type * as emailNotifications from "../emailNotifications.js";
 import type * as emailTemplates from "../emailTemplates.js";
 import type * as eventSources from "../eventSources.js";
@@ -73,6 +74,7 @@ declare const fullApi: ApiFromModules<{
   "deals/mutations": typeof deals_mutations;
   "deals/queries": typeof deals_queries;
   dealsCrud: typeof dealsCrud;
+  disputes: typeof disputes;
   emailNotifications: typeof emailNotifications;
   emailTemplates: typeof emailTemplates;
   eventSources: typeof eventSources;

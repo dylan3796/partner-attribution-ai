@@ -2,9 +2,9 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { formatDate, formatCurrency } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import { useToast } from "@/components/ui/toast";
 import {
   AlertTriangle,
@@ -14,208 +14,230 @@ import {
   Clock,
   Scale,
   TrendingUp,
+  XCircle,
+  Plus,
+  Search,
+  Download,
 } from "lucide-react";
+import type { Id } from "@/convex/_generated/dataModel";
 
-type ConflictStatus = "open" | "under_review" | "resolved";
+type DisputeStatus = "open" | "under_review" | "resolved" | "rejected";
 
-interface DetectedConflict {
-  dealId: string;
-  dealName: string;
-  dealAmount: number;
-  dealStatus: string;
-  partnerIds: string[];
-  partnerNames: string[];
-  touchpointCount: number;
-  createdAt: number;
-  localStatus: ConflictStatus;
-  resolution?: string;
-  resolvedAt?: number;
-}
-
-function ConflictStatusBadge({ status }: { status: ConflictStatus }) {
-  const colors: Record<ConflictStatus, { bg: string; fg: string }> = {
-    open: { bg: "#fee2e2", fg: "#991b1b" },
-    under_review: { bg: "#fef3c7", fg: "#92400e" },
-    resolved: { bg: "#dcfce7", fg: "#166534" },
+/* ── Status badge ── */
+function StatusBadge({ status }: { status: DisputeStatus }) {
+  const styles: Record<DisputeStatus, { bg: string; fg: string; label: string }> = {
+    open:         { bg: "#fee2e2", fg: "#991b1b", label: "Open" },
+    under_review: { bg: "#fef3c7", fg: "#92400e", label: "Under Review" },
+    resolved:     { bg: "#dcfce7", fg: "#166534", label: "Resolved" },
+    rejected:     { bg: "#e5e7eb", fg: "#374151", label: "Rejected" },
   };
-  const labels: Record<ConflictStatus, string> = {
-    open: "Open",
-    under_review: "Under Review",
-    resolved: "Resolved",
-  };
-  const c = colors[status] || colors.open;
+  const s = styles[status] || styles.open;
   return (
-    <span style={{ padding: ".2rem .65rem", borderRadius: 20, fontSize: ".75rem", fontWeight: 600, background: c.bg, color: c.fg }}>
-      {labels[status]}
+    <span style={{ padding: ".2rem .65rem", borderRadius: 20, fontSize: ".75rem", fontWeight: 600, background: s.bg, color: s.fg }}>
+      {s.label}
     </span>
   );
 }
 
-export default function ConflictsPage() {
-  const partners = useQuery(api.partners.list) ?? [];
-  const deals = useQuery(api.dealsCrud.list) ?? [];
-  const dashboardStats = useQuery(api.dashboard.getRecentDeals) ?? [];
-  
-  const { toast } = useToast();
-  const [filter, setFilter] = useState<"all" | ConflictStatus>("all");
-  const [resolvingId, setResolvingId] = useState<string | null>(null);
-  const [resolution, setResolution] = useState<string>("assign_primary");
-  const [resolutionNotes, setResolutionNotes] = useState("");
-  const [primaryPartner, setPrimaryPartner] = useState("");
-  
-  // Track local resolution state (since we don't have a conflicts table)
-  const [resolvedConflicts, setResolvedConflicts] = useState<Record<string, { status: ConflictStatus; resolution?: string; resolvedAt?: number }>>({});
+function formatDate(ts: number) {
+  return new Date(ts).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
 
-  // Build partner lookup
-  const partnerMap = useMemo(() => {
-    const map = new Map<string, string>();
-    partners.forEach(p => map.set(p._id, p.name));
-    return map;
-  }, [partners]);
+function timeAgo(ts: number) {
+  const diff = Date.now() - ts;
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return "just now";
+  if (mins < 60) return `${mins}m ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs}h ago`;
+  const days = Math.floor(hrs / 24);
+  return `${days}d ago`;
+}
 
-  // Detect conflicts: deals where multiple partners are involved via registrations
-  // A "conflict" is when we have deals that different partners registered, or deals with overlapping contact info
-  const detectedConflicts = useMemo(() => {
-    const conflicts: DetectedConflict[] = [];
-    
-    // Group deals by contact email to find potential duplicates/conflicts
-    const dealsByContact = new Map<string, typeof deals>();
-    deals.forEach(deal => {
-      if (deal.contactEmail) {
-        const key = deal.contactEmail.toLowerCase();
-        const existing = dealsByContact.get(key) ?? [];
-        existing.push(deal);
-        dealsByContact.set(key, existing);
-      }
-    });
+/* ── Loading ── */
+function LoadingSkeleton() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <div><div className="skeleton" style={{ height: 32, width: 320, marginBottom: 8 }} /><div className="skeleton" style={{ height: 16, width: 400 }} /></div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
+        {[1,2,3,4].map(i => <div key={i} className="card"><div className="skeleton" style={{ height: 80 }} /></div>)}
+      </div>
+      <div className="card"><div className="skeleton" style={{ height: 300 }} /></div>
+    </div>
+  );
+}
 
-    // Find deals where multiple partners registered deals for the same contact
-    dealsByContact.forEach((contactDeals, contactEmail) => {
-      if (contactDeals.length > 1) {
-        // Multiple deals for same contact = potential conflict
-        const partnerIds = [...new Set(contactDeals.map(d => d.registeredBy).filter(Boolean))] as string[];
-        
-        if (partnerIds.length > 1) {
-          // Multiple partners registered deals for the same contact
-          contactDeals.forEach(deal => {
-            const localState = resolvedConflicts[deal._id];
-            conflicts.push({
-              dealId: deal._id,
-              dealName: deal.name,
-              dealAmount: deal.amount,
-              dealStatus: deal.status,
-              partnerIds,
-              partnerNames: partnerIds.map(id => partnerMap.get(id) || "Unknown"),
-              touchpointCount: partnerIds.length,
-              createdAt: deal.createdAt,
-              localStatus: localState?.status || "open",
-              resolution: localState?.resolution,
-              resolvedAt: localState?.resolvedAt,
-            });
-          });
-        }
-      }
-    });
-
-    // Also flag deals where the same partner registered multiple times (edge case)
-    // or deals that have pending registration status
-    deals.forEach(deal => {
-      if (deal.registrationStatus === "pending" && deal.registeredBy) {
-        const alreadyInConflicts = conflicts.some(c => c.dealId === deal._id);
-        if (!alreadyInConflicts) {
-          const localState = resolvedConflicts[deal._id];
-          // Check if there's another deal from a different partner for similar account
-          const similarDeals = deals.filter(d => 
-            d._id !== deal._id && 
-            d.registeredBy && 
-            d.registeredBy !== deal.registeredBy &&
-            d.contactEmail?.toLowerCase() === deal.contactEmail?.toLowerCase()
-          );
-          
-          if (similarDeals.length > 0) {
-            const partnerIds = [deal.registeredBy, ...similarDeals.map(d => d.registeredBy!).filter(Boolean)];
-            conflicts.push({
-              dealId: deal._id,
-              dealName: deal.name,
-              dealAmount: deal.amount,
-              dealStatus: deal.status,
-              partnerIds,
-              partnerNames: partnerIds.map(id => partnerMap.get(id) || "Unknown"),
-              touchpointCount: partnerIds.length,
-              createdAt: deal.createdAt,
-              localStatus: localState?.status || "open",
-              resolution: localState?.resolution,
-              resolvedAt: localState?.resolvedAt,
-            });
-          }
-        }
-      }
-    });
-
-    return conflicts;
-  }, [deals, partnerMap, resolvedConflicts]);
-
-  const filtered = filter === "all" 
-    ? detectedConflicts 
-    : detectedConflicts.filter((c) => c.localStatus === filter);
-    
-  const openConflicts = detectedConflicts.filter((c) => c.localStatus === "open" || c.localStatus === "under_review");
-
-  function handleResolve(conflict: DetectedConflict) {
-    setResolvedConflicts(prev => ({
-      ...prev,
-      [conflict.dealId]: {
-        status: "resolved",
-        resolution: `${resolution}: ${resolutionNotes || "No notes"}`,
-        resolvedAt: Date.now(),
-      }
-    }));
-    toast(`Conflict for "${conflict.dealName}" resolved`);
-    setResolvingId(null);
-    setResolutionNotes("");
-    setPrimaryPartner("");
-  }
-
-  function handleMarkUnderReview(conflict: DetectedConflict) {
-    setResolvedConflicts(prev => ({
-      ...prev,
-      [conflict.dealId]: { status: "under_review" }
-    }));
-    toast(`Conflict for "${conflict.dealName}" marked as under review`);
-  }
-
-  // Stats
-  const stats = {
-    open: detectedConflicts.filter(c => c.localStatus === "open").length,
-    underReview: detectedConflicts.filter(c => c.localStatus === "under_review").length,
-    resolved: detectedConflicts.filter(c => c.localStatus === "resolved").length,
-    totalDeals: deals.length,
-  };
-
+/* ── Empty State ── */
+function EmptyState({ dealCount, partnerCount }: { dealCount: number; partnerCount: number }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       <div>
-        <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Channel Conflict Detection</h1>
-        <p className="muted" style={{ marginTop: "0.25rem" }}>Identify and resolve deals with multiple partner claims</p>
+        <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Dispute Resolution</h1>
+        <p className="muted" style={{ marginTop: "0.25rem" }}>Manage partner commission disputes and channel conflicts</p>
+      </div>
+      <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #86efac", background: "#dcfce7", display: "flex", alignItems: "center", gap: "1rem" }}>
+        <CheckCircle2 size={22} color="#166534" />
+        <div>
+          <p style={{ fontWeight: 700, fontSize: ".95rem", color: "#166534" }}>No active disputes</p>
+          <p style={{ fontSize: ".85rem", color: "#15803d" }}>Monitoring {dealCount} deals across {partnerCount} partners. All commission assignments are undisputed.</p>
+        </div>
+      </div>
+      <div className="card" style={{ padding: "4rem 2rem", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>
+        <Shield size={48} color="var(--muted)" />
+        <h2 style={{ fontSize: "1.25rem", fontWeight: 600 }}>Dispute Resolution Center</h2>
+        <p className="muted" style={{ maxWidth: 440 }}>
+          When partners contest commission splits or attribution credit, disputes appear here for admin review.
+          Resolve conflicts with full audit trail — assign primary partner, split credit, or dismiss.
+        </p>
+        <div style={{ display: "flex", gap: ".75rem", marginTop: ".5rem" }}>
+          <Link href="/dashboard/deals" className="btn-primary">View Deals</Link>
+          <Link href="/dashboard/reports" className="btn-outline">Attribution Reports</Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Main ── */
+export default function DisputesPage() {
+  const disputes = useQuery(api.disputes.list);
+  const counts = useQuery(api.disputes.getCounts);
+  const partners = useQuery(api.partners.list) ?? [];
+  const deals = useQuery(api.dealsCrud.list) ?? [];
+  const updateStatus = useMutation(api.disputes.updateStatus);
+  const createDispute = useMutation(api.disputes.create);
+
+  const { toast } = useToast();
+  const [filter, setFilter] = useState<"all" | DisputeStatus>("all");
+  const [search, setSearch] = useState("");
+  const [resolvingId, setResolvingId] = useState<Id<"disputes"> | null>(null);
+  const [resolution, setResolution] = useState("assign_primary");
+  const [resolutionNotes, setResolutionNotes] = useState("");
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
+  // Create form state
+  const [newDealId, setNewDealId] = useState("");
+  const [newPartnerId, setNewPartnerId] = useState("");
+  const [newCurrentPct, setNewCurrentPct] = useState("0");
+  const [newRequestedPct, setNewRequestedPct] = useState("0");
+  const [newReason, setNewReason] = useState("");
+
+  if (disputes === undefined || counts === undefined) return <LoadingSkeleton />;
+  if (disputes.length === 0 && counts.total === 0) return <EmptyState dealCount={deals.length} partnerCount={partners.length} />;
+
+  // Lookups
+  const partnerMap = new Map(partners.map(p => [p._id, p]));
+  const dealMap = new Map(deals.map(d => [d._id, d]));
+
+  // Enrich disputes
+  const enriched = disputes.map(d => ({
+    ...d,
+    partnerName: partnerMap.get(d.partnerId)?.name || "Unknown Partner",
+    dealName: dealMap.get(d.dealId)?.name || "Unknown Deal",
+    dealAmount: dealMap.get(d.dealId)?.amount || 0,
+  }));
+
+  // Filter + search
+  const filtered = enriched
+    .filter(d => filter === "all" || d.status === filter)
+    .filter(d => {
+      if (!search) return true;
+      const q = search.toLowerCase();
+      return d.partnerName.toLowerCase().includes(q) || d.dealName.toLowerCase().includes(q) || d.reason.toLowerCase().includes(q);
+    })
+    .sort((a, b) => b.createdAt - a.createdAt);
+
+  const activeCount = (counts.open || 0) + (counts.underReview || 0);
+
+  async function handleUpdateStatus(disputeId: Id<"disputes">, status: DisputeStatus, res?: string) {
+    try {
+      await updateStatus({ disputeId, status, resolution: res });
+      toast(`Dispute ${status === "resolved" ? "resolved" : status === "rejected" ? "rejected" : "updated"}`);
+      setResolvingId(null);
+      setResolutionNotes("");
+    } catch (e: any) {
+      toast(e.message || "Failed to update dispute");
+    }
+  }
+
+  async function handleCreate() {
+    if (!newDealId || !newPartnerId || !newReason.trim()) {
+      toast("Please fill all required fields");
+      return;
+    }
+    try {
+      await createDispute({
+        dealId: newDealId as Id<"deals">,
+        partnerId: newPartnerId as Id<"partners">,
+        currentPercentage: parseFloat(newCurrentPct) || 0,
+        requestedPercentage: parseFloat(newRequestedPct) || 0,
+        reason: newReason.trim(),
+      });
+      toast("Dispute created");
+      setShowCreateModal(false);
+      setNewDealId("");
+      setNewPartnerId("");
+      setNewCurrentPct("0");
+      setNewRequestedPct("0");
+      setNewReason("");
+    } catch (e: any) {
+      toast(e.message || "Failed to create dispute");
+    }
+  }
+
+  function exportCSV() {
+    const rows = [["Deal", "Partner", "Status", "Current %", "Requested %", "Reason", "Resolution", "Created", "Resolved"]];
+    filtered.forEach(d => {
+      rows.push([
+        d.dealName, d.partnerName, d.status,
+        String(d.currentPercentage), String(d.requestedPercentage),
+        d.reason, d.resolution || "", formatDate(d.createdAt),
+        d.resolvedAt ? formatDate(d.resolvedAt) : "",
+      ]);
+    });
+    const csv = rows.map(r => r.map(c => `"${c.replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `disputes-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      {/* Header */}
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
+        <div>
+          <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Dispute Resolution</h1>
+          <p className="muted" style={{ marginTop: "0.25rem" }}>Manage partner commission disputes and channel conflicts</p>
+        </div>
+        <div style={{ display: "flex", gap: ".5rem" }}>
+          <button className="btn-outline" onClick={exportCSV} style={{ display: "flex", alignItems: "center", gap: ".35rem" }}>
+            <Download size={15} /> Export CSV
+          </button>
+          <button className="btn" onClick={() => setShowCreateModal(true)} style={{ display: "flex", alignItems: "center", gap: ".35rem" }}>
+            <Plus size={15} /> Open Dispute
+          </button>
+        </div>
       </div>
 
-      {/* Alerts */}
-      {openConflicts.length > 0 && (
+      {/* Alert banner */}
+      {activeCount > 0 ? (
         <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #fca5a5", background: "#fef2f2", display: "flex", alignItems: "center", gap: "1rem" }}>
           <AlertTriangle size={22} color="#991b1b" />
-          <div style={{ flex: 1 }}>
-            <p style={{ fontWeight: 700, fontSize: ".95rem", color: "#991b1b" }}>{openConflicts.length} potential channel conflict{openConflicts.length !== 1 ? "s" : ""}</p>
-            <p style={{ fontSize: ".85rem", color: "#b91c1c" }}>Deals with multiple partners claiming the same account. Review and resolve to avoid commission disputes.</p>
+          <div>
+            <p style={{ fontWeight: 700, fontSize: ".95rem", color: "#991b1b" }}>{activeCount} active dispute{activeCount !== 1 ? "s" : ""} need attention</p>
+            <p style={{ fontSize: ".85rem", color: "#b91c1c" }}>Review and resolve to prevent commission payment delays.</p>
           </div>
         </div>
-      )}
-
-      {openConflicts.length === 0 && (
+      ) : (
         <div style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #86efac", background: "#dcfce7", display: "flex", alignItems: "center", gap: "1rem" }}>
           <CheckCircle2 size={22} color="#166534" />
-          <div style={{ flex: 1 }}>
-            <p style={{ fontWeight: 700, fontSize: ".95rem", color: "#166534" }}>No active conflicts detected</p>
-            <p style={{ fontSize: ".85rem", color: "#15803d" }}>All deals have clear partner assignments. Monitoring {deals.length} deals from {partners.length} partners.</p>
+          <div>
+            <p style={{ fontWeight: 700, fontSize: ".95rem", color: "#166534" }}>All disputes resolved</p>
+            <p style={{ fontSize: ".85rem", color: "#15803d" }}>{counts.total} total dispute{counts.total !== 1 ? "s" : ""} processed. No pending action items.</p>
           </div>
         </div>
       )}
@@ -224,203 +246,130 @@ export default function ConflictsPage() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
         <div className="card" style={{ textAlign: "center" }}>
           <AlertTriangle size={22} color="#dc2626" style={{ margin: "0 auto .5rem" }} />
-          <p className="muted" style={{ fontSize: ".75rem" }}>Open Conflicts</p>
-          <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#dc2626" }}>{stats.open}</p>
+          <p className="muted" style={{ fontSize: ".75rem" }}>Open</p>
+          <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#dc2626" }}>{counts.open}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
           <Clock size={22} color="#d97706" style={{ margin: "0 auto .5rem" }} />
           <p className="muted" style={{ fontSize: ".75rem" }}>Under Review</p>
-          <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#d97706" }}>{stats.underReview}</p>
+          <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#d97706" }}>{counts.underReview}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
           <CheckCircle2 size={22} color="#059669" style={{ margin: "0 auto .5rem" }} />
           <p className="muted" style={{ fontSize: ".75rem" }}>Resolved</p>
-          <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#059669" }}>{stats.resolved}</p>
+          <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#059669" }}>{counts.resolved}</p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
-          <TrendingUp size={22} color="#6366f1" style={{ margin: "0 auto .5rem" }} />
-          <p className="muted" style={{ fontSize: ".75rem" }}>Total Deals</p>
-          <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#6366f1" }}>{stats.totalDeals}</p>
+          <XCircle size={22} color="#6b7280" style={{ margin: "0 auto .5rem" }} />
+          <p className="muted" style={{ fontSize: ".75rem" }}>Rejected</p>
+          <p style={{ fontSize: "1.5rem", fontWeight: 800, color: "#6b7280" }}>{counts.rejected}</p>
         </div>
       </div>
 
-      {/* Filters */}
-      <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap" }}>
-        {(["all", "open", "under_review", "resolved"] as const).map((f) => {
-          const labels: Record<string, string> = { all: "All", open: "Open", under_review: "Under Review", resolved: "Resolved" };
-          const count = f === "all" ? detectedConflicts.length : detectedConflicts.filter(c => c.localStatus === f).length;
-          return (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              style={{
-                padding: ".4rem .8rem",
-                borderRadius: 6,
-                border: filter === f ? "2px solid #6366f1" : "1px solid var(--border)",
-                background: filter === f ? "#eef2ff" : "var(--bg)",
-                color: filter === f ? "#4338ca" : "var(--fg)",
-                fontSize: ".8rem",
-                fontWeight: 600,
-                cursor: "pointer",
-              }}
-            >
-              {labels[f]} ({count})
-            </button>
-          );
-        })}
+      {/* Filters + Search */}
+      <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap", alignItems: "center" }}>
+        <div style={{ position: "relative", flex: 1, minWidth: 200, maxWidth: 320 }}>
+          <Search size={15} color="var(--muted)" style={{ position: "absolute", left: 10, top: "50%", transform: "translateY(-50%)" }} />
+          <input className="input" value={search} onChange={e => setSearch(e.target.value)} placeholder="Search disputes..." style={{ paddingLeft: 32 }} />
+        </div>
+        <div style={{ display: "flex", gap: ".35rem" }}>
+          {(["all", "open", "under_review", "resolved", "rejected"] as const).map(f => {
+            const labels: Record<string, string> = { all: "All", open: "Open", under_review: "Under Review", resolved: "Resolved", rejected: "Rejected" };
+            const ct = f === "all" ? enriched.length : enriched.filter(d => d.status === f).length;
+            return (
+              <button
+                key={f} onClick={() => setFilter(f)}
+                style={{
+                  padding: ".4rem .7rem", borderRadius: 6, fontSize: ".8rem", fontWeight: 600, cursor: "pointer",
+                  border: filter === f ? "2px solid var(--fg)" : "1px solid var(--border)",
+                  background: filter === f ? "var(--subtle)" : "var(--bg)",
+                  color: "var(--fg)",
+                }}
+              >
+                {labels[f]} ({ct})
+              </button>
+            );
+          })}
+        </div>
       </div>
 
-      {/* Resolution Modal */}
-      {resolvingId && (() => {
-        const conflict = detectedConflicts.find((c) => c.dealId === resolvingId);
-        if (!conflict) return null;
-        return (
-          <div
-            style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}
-            onClick={() => setResolvingId(null)}
-          >
-            <div onClick={(e) => e.stopPropagation()} style={{ background: "var(--bg)", borderRadius: 16, padding: "2rem", maxWidth: 520, width: "90%", boxShadow: "0 25px 50px rgba(0,0,0,0.2)" }}>
-              <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "1rem" }}>
-                <Scale size={20} style={{ display: "inline", verticalAlign: "-3px", marginRight: ".4rem" }} />
-                Resolve Conflict: {conflict.dealName}
-              </h2>
-              <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1rem" }}>
-                Involved partners: {conflict.partnerNames.join(" vs ")}
-              </p>
-              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-                <div>
-                  <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Resolution Type</label>
-                  <select className="input" value={resolution} onChange={(e) => setResolution(e.target.value)}>
-                    <option value="assign_primary">Assign Primary Partner</option>
-                    <option value="split_credit">Split Credit</option>
-                    <option value="dismissed">Dismiss — No Conflict</option>
-                  </select>
-                </div>
-                {resolution === "assign_primary" && (
-                  <div>
-                    <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Primary Partner</label>
-                    <select className="input" value={primaryPartner} onChange={(e) => setPrimaryPartner(e.target.value)}>
-                      <option value="">Select partner...</option>
-                      {conflict.partnerIds.map((pid) => (
-                        <option key={pid} value={pid}>{partnerMap.get(pid) || pid}</option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-                <div>
-                  <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Resolution Notes</label>
-                  <textarea
-                    className="input"
-                    value={resolutionNotes}
-                    onChange={(e) => setResolutionNotes(e.target.value)}
-                    rows={3}
-                    placeholder="Explain the resolution decision..."
-                    style={{ resize: "vertical" }}
-                  />
-                </div>
-                <div style={{ display: "flex", gap: ".75rem", justifyContent: "flex-end" }}>
-                  <button className="btn-outline" onClick={() => setResolvingId(null)}>Cancel</button>
-                  <button className="btn" onClick={() => handleResolve(conflict)}>Resolve Conflict</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-      })()}
-
-      {/* Conflicts List */}
+      {/* Disputes List */}
       <div className="card" style={{ padding: 0, overflow: "hidden" }}>
-        <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border)" }}>
-          <h2 style={{ fontWeight: 700, fontSize: "1.1rem" }}>Detected Conflicts & History</h2>
+        <div style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h2 style={{ fontWeight: 700, fontSize: "1.1rem" }}>Disputes &amp; Resolution History</h2>
+          <span className="muted" style={{ fontSize: ".8rem" }}>{filtered.length} of {enriched.length}</span>
         </div>
         {filtered.length === 0 ? (
           <div style={{ padding: "3rem 1.5rem", textAlign: "center" }}>
             <Shield size={40} color="var(--muted)" style={{ margin: "0 auto .75rem" }} />
-            <p className="muted">No conflicts in this category</p>
-            <p className="muted" style={{ fontSize: ".85rem", marginTop: ".5rem" }}>
-              Conflicts are detected when multiple partners register deals for the same contact.
-            </p>
+            <p className="muted">No disputes match your filters</p>
           </div>
         ) : (
-          filtered.map((conflict) => (
-            <div key={conflict.dealId} style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border)" }}>
+          filtered.map(dispute => (
+            <div key={dispute._id} style={{ padding: "1.25rem 1.5rem", borderBottom: "1px solid var(--border)" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: ".75rem" }}>
                 <div>
                   <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginBottom: ".25rem" }}>
-                    <Link href={`/dashboard/deals/${conflict.dealId}`} style={{ fontWeight: 700, fontSize: "1rem" }}>
-                      {conflict.dealName}
+                    <Link href={`/dashboard/deals/${dispute.dealId}`} style={{ fontWeight: 700, fontSize: "1rem" }}>
+                      {dispute.dealName}
                     </Link>
-                    <ConflictStatusBadge status={conflict.localStatus} />
-                    <span className={`badge badge-${conflict.dealStatus === "won" ? "success" : conflict.dealStatus === "lost" ? "danger" : "info"}`}>
-                      {conflict.dealStatus}
-                    </span>
+                    <StatusBadge status={dispute.status} />
                   </div>
                   <p className="muted" style={{ fontSize: ".8rem" }}>
-                    Deal value: {formatCurrency(conflict.dealAmount)} · Created: {formatDate(conflict.createdAt)}
+                    {formatCurrency(dispute.dealAmount)} · Opened {timeAgo(dispute.createdAt)}
+                    {dispute.resolvedAt && ` · Resolved ${formatDate(dispute.resolvedAt)}`}
                   </p>
                 </div>
                 <div style={{ display: "flex", gap: ".5rem" }}>
-                  {conflict.localStatus === "open" && (
+                  {dispute.status === "open" && (
                     <>
-                      <button 
-                        className="btn" 
-                        style={{ fontSize: ".8rem", padding: ".35rem .75rem" }} 
-                        onClick={() => { 
-                          setResolvingId(conflict.dealId); 
-                          setPrimaryPartner(""); 
-                          setResolutionNotes(""); 
-                          setResolution("assign_primary"); 
-                        }}
-                      >
+                      <button className="btn" style={{ fontSize: ".8rem", padding: ".35rem .75rem" }}
+                        onClick={() => { setResolvingId(dispute._id); setResolutionNotes(""); setResolution("assign_primary"); }}>
                         Resolve
                       </button>
-                      <button 
-                        className="btn-outline" 
-                        style={{ fontSize: ".8rem", padding: ".35rem .75rem" }} 
-                        onClick={() => handleMarkUnderReview(conflict)}
-                      >
+                      <button className="btn-outline" style={{ fontSize: ".8rem", padding: ".35rem .75rem" }}
+                        onClick={() => handleUpdateStatus(dispute._id, "under_review")}>
                         Review
                       </button>
                     </>
                   )}
-                  {conflict.localStatus === "under_review" && (
-                    <button 
-                      className="btn" 
-                      style={{ fontSize: ".8rem", padding: ".35rem .75rem" }} 
-                      onClick={() => { 
-                        setResolvingId(conflict.dealId); 
-                        setPrimaryPartner(""); 
-                        setResolutionNotes(""); 
-                        setResolution("assign_primary"); 
-                      }}
-                    >
+                  {dispute.status === "under_review" && (
+                    <button className="btn" style={{ fontSize: ".8rem", padding: ".35rem .75rem" }}
+                      onClick={() => { setResolvingId(dispute._id); setResolutionNotes(""); setResolution("assign_primary"); }}>
                       Resolve
                     </button>
                   )}
                 </div>
               </div>
 
-              {/* Involved Partners */}
-              <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginBottom: ".75rem" }}>
-                <Users size={15} color="var(--muted)" />
-                <span className="muted" style={{ fontSize: ".8rem" }}>Claiming partners:</span>
-                {conflict.partnerNames.map((name, i) => (
-                  <span key={i}>
-                    <span style={{ fontSize: ".85rem", fontWeight: 600 }}>{name}</span>
-                    {i < conflict.partnerNames.length - 1 && <span className="muted"> vs </span>}
+              {/* Partner + claim details */}
+              <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap", marginBottom: ".5rem" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: ".4rem" }}>
+                  <Users size={14} color="var(--muted)" />
+                  <span style={{ fontSize: ".85rem", fontWeight: 600 }}>{dispute.partnerName}</span>
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: ".4rem" }}>
+                  <Scale size={14} color="var(--muted)" />
+                  <span className="muted" style={{ fontSize: ".85rem" }}>
+                    Current: {dispute.currentPercentage}% → Requested: {dispute.requestedPercentage}%
                   </span>
-                ))}
+                </div>
+              </div>
+
+              {/* Reason */}
+              <div style={{ padding: ".6rem .9rem", borderRadius: 8, background: "var(--subtle)", fontSize: ".85rem", color: "var(--muted)" }}>
+                <strong style={{ color: "var(--fg)" }}>Reason:</strong> {dispute.reason}
               </div>
 
               {/* Resolution */}
-              {conflict.localStatus === "resolved" && conflict.resolution && (
-                <div style={{ padding: ".75rem 1rem", borderRadius: 8, background: "#ecfdf5", border: "1px solid #a7f3d0" }}>
-                  <p style={{ fontWeight: 600, fontSize: ".85rem", color: "#065f46", marginBottom: ".25rem" }}>
-                    Resolution: {conflict.resolution}
+              {(dispute.status === "resolved" || dispute.status === "rejected") && dispute.resolution && (
+                <div style={{ marginTop: ".5rem", padding: ".6rem .9rem", borderRadius: 8, background: dispute.status === "resolved" ? "#ecfdf5" : "#f3f4f6", border: dispute.status === "resolved" ? "1px solid #a7f3d0" : "1px solid #d1d5db" }}>
+                  <p style={{ fontWeight: 600, fontSize: ".85rem", color: dispute.status === "resolved" ? "#065f46" : "#374151" }}>
+                    Resolution: {dispute.resolution}
                   </p>
-                  {conflict.resolvedAt && (
-                    <p className="muted" style={{ fontSize: ".75rem", marginTop: ".25rem" }}>
-                      Resolved on {formatDate(conflict.resolvedAt)}
+                  {dispute.resolvedAt && (
+                    <p className="muted" style={{ fontSize: ".75rem", marginTop: ".2rem" }}>
+                      {dispute.status === "resolved" ? "Resolved" : "Rejected"} on {formatDate(dispute.resolvedAt)} by {dispute.resolvedBy || "admin"}
                     </p>
                   )}
                 </div>
@@ -429,6 +378,99 @@ export default function ConflictsPage() {
           ))
         )}
       </div>
+
+      {/* Resolve Modal */}
+      {resolvingId && (() => {
+        const dispute = enriched.find(d => d._id === resolvingId);
+        if (!dispute) return null;
+        return (
+          <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}
+            onClick={() => setResolvingId(null)}>
+            <div onClick={e => e.stopPropagation()} style={{ background: "var(--bg)", borderRadius: 16, padding: "2rem", maxWidth: 520, width: "90%", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
+              <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: ".25rem" }}>
+                <Scale size={20} style={{ display: "inline", verticalAlign: "-3px", marginRight: ".4rem" }} />
+                Resolve Dispute
+              </h2>
+              <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1rem" }}>
+                {dispute.dealName} — {dispute.partnerName} (requesting {dispute.requestedPercentage}%)
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+                <div>
+                  <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Resolution Type</label>
+                  <select className="input" value={resolution} onChange={e => setResolution(e.target.value)}>
+                    <option value="assign_primary">Assign to Claiming Partner</option>
+                    <option value="split_credit">Split Credit Between Partners</option>
+                    <option value="keep_current">Keep Current Assignment</option>
+                    <option value="dismissed">Dismiss — No Valid Claim</option>
+                  </select>
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Notes</label>
+                  <textarea className="input" value={resolutionNotes} onChange={e => setResolutionNotes(e.target.value)} rows={3} placeholder="Document the resolution decision..." style={{ resize: "vertical" }} />
+                </div>
+                <div style={{ display: "flex", gap: ".75rem", justifyContent: "flex-end" }}>
+                  <button className="btn-outline" onClick={() => setResolvingId(null)}>Cancel</button>
+                  <button className="btn-outline" style={{ color: "#991b1b", borderColor: "#fca5a5" }}
+                    onClick={() => handleUpdateStatus(dispute._id, "rejected", `${resolution}: ${resolutionNotes || "No notes"}`)}>
+                    Reject
+                  </button>
+                  <button className="btn"
+                    onClick={() => handleUpdateStatus(dispute._id, "resolved", `${resolution}: ${resolutionNotes || "No notes"}`)}>
+                    Resolve
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Create Dispute Modal */}
+      {showCreateModal && (
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 1000, display: "flex", alignItems: "center", justifyContent: "center" }}
+          onClick={() => setShowCreateModal(false)}>
+          <div onClick={e => e.stopPropagation()} style={{ background: "var(--bg)", borderRadius: 16, padding: "2rem", maxWidth: 520, width: "90%", boxShadow: "0 25px 50px rgba(0,0,0,0.3)" }}>
+            <h2 style={{ fontSize: "1.2rem", fontWeight: 700, marginBottom: "1rem" }}>
+              <Plus size={20} style={{ display: "inline", verticalAlign: "-3px", marginRight: ".4rem" }} />
+              Open New Dispute
+            </h2>
+            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+              <div>
+                <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Deal *</label>
+                <select className="input" value={newDealId} onChange={e => setNewDealId(e.target.value)}>
+                  <option value="">Select deal...</option>
+                  {deals.map(d => <option key={d._id} value={d._id}>{d.name} ({formatCurrency(d.amount)})</option>)}
+                </select>
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Disputing Partner *</label>
+                <select className="input" value={newPartnerId} onChange={e => setNewPartnerId(e.target.value)}>
+                  <option value="">Select partner...</option>
+                  {partners.map(p => <option key={p._id} value={p._id}>{p.name}</option>)}
+                </select>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".75rem" }}>
+                <div>
+                  <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Current %</label>
+                  <input className="input" type="number" min="0" max="100" value={newCurrentPct} onChange={e => setNewCurrentPct(e.target.value)} />
+                </div>
+                <div>
+                  <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Requested %</label>
+                  <input className="input" type="number" min="0" max="100" value={newRequestedPct} onChange={e => setNewRequestedPct(e.target.value)} />
+                </div>
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: ".85rem", fontWeight: 600, marginBottom: ".3rem" }}>Reason *</label>
+                <textarea className="input" value={newReason} onChange={e => setNewReason(e.target.value)} rows={3} placeholder="Why is this commission being disputed?" style={{ resize: "vertical" }} />
+              </div>
+              <div style={{ display: "flex", gap: ".75rem", justifyContent: "flex-end" }}>
+                <button className="btn-outline" onClick={() => setShowCreateModal(false)}>Cancel</button>
+                <button className="btn" onClick={handleCreate}>Open Dispute</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

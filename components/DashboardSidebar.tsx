@@ -80,6 +80,7 @@ const navSections: NavSection[] = [
       { name: "Payouts",       href: "/dashboard/payouts",     icon: DollarSign },
       { name: "Contracts",     href: "/dashboard/contracts",   icon: FileText },
       { name: "Products",      href: "/dashboard/products",    icon: Package },
+      { name: "Disputes",      href: "/dashboard/conflicts",   icon: Scale },
     ],
   },
   {

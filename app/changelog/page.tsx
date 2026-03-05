@@ -13,6 +13,12 @@ type Entry = {
 // Generated from real git log — update periodically
 const CHANGELOG: Entry[] = [
   {
+    date: "March 5, 2026",
+    commits: [
+      { hash: "NEW0014", type: "feat", message: "Dispute resolution with Convex backend — full dispute lifecycle: open disputes against deals with current/requested commission %, review workflow, resolve or reject with notes, CSV export, audit trail. Convex backend: disputes table with list, getCounts, create, updateStatus, remove mutations, org-scoped queries. Duplicate dispute prevention. Added to sidebar nav under Revenue. Replaces local-state-only conflicts page." },
+    ],
+  },
+  {
     date: "March 4, 2026",
     commits: [
       { hash: "NEW0012", type: "feat", message: "Pipeline kanban board — new Board view toggle on /dashboard/pipeline showing deals in 4 columns (Pending Registration → Active Pipeline → Closed Won → Closed Lost). Each column shows deal count and total value. Compact deal cards with product badges, registration status, and partner info. Grid view preserved as alternative." },
