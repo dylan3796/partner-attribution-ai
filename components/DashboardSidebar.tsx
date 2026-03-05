@@ -30,6 +30,7 @@ import {
   Scale,
   Star,
   ClipboardList,
+  Package,
 } from "lucide-react";
 
 // ─── Nav structure ───────────────────────────────────────────────────────────
@@ -78,6 +79,7 @@ const navSections: NavSection[] = [
       { name: "Pipeline",      href: "/dashboard/pipeline",    icon: GitBranch },
       { name: "Payouts",       href: "/dashboard/payouts",     icon: DollarSign },
       { name: "Contracts",     href: "/dashboard/contracts",   icon: FileText },
+      { name: "Products",      href: "/dashboard/products",    icon: Package },
     ],
   },
   {
