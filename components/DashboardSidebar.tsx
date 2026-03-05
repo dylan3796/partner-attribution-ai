@@ -96,6 +96,7 @@ const navSections: NavSection[] = [
   {
     label: "Analytics",
     items: [
+      { name: "Leaderboard",  href: "/dashboard/leaderboard", icon: Trophy },
       { name: "Reports",      href: "/dashboard/reports",     icon: PieChart },
       { name: "Forecasting",  href: "/dashboard/forecasting", icon: TrendingUp },
       { name: "Benchmarks",   href: "/dashboard/benchmarks",  icon: Target },

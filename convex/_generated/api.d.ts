@@ -26,6 +26,7 @@ import type * as eventSources from "../eventSources.js";
 import type * as forecasting from "../forecasting.js";
 import type * as integrations from "../integrations.js";
 import type * as invites from "../invites.js";
+import type * as leaderboard from "../leaderboard.js";
 import type * as leads from "../leads.js";
 import type * as lib_attribution from "../lib/attribution.js";
 import type * as lib_attribution_calculator from "../lib/attribution/calculator.js";
@@ -83,6 +84,7 @@ declare const fullApi: ApiFromModules<{
   forecasting: typeof forecasting;
   integrations: typeof integrations;
   invites: typeof invites;
+  leaderboard: typeof leaderboard;
   leads: typeof leads;
   "lib/attribution": typeof lib_attribution;
   "lib/attribution/calculator": typeof lib_attribution_calculator;
