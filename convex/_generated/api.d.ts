@@ -51,6 +51,7 @@ import type * as seedDemo from "../seedDemo.js";
 import type * as setup from "../setup.js";
 import type * as subscriptions from "../subscriptions.js";
 import type * as team from "../team.js";
+import type * as touchpoints_dashboard from "../touchpoints/dashboard.js";
 import type * as touchpoints_mutations from "../touchpoints/mutations.js";
 import type * as touchpoints_queries from "../touchpoints/queries.js";
 import type * as users from "../users.js";
@@ -106,6 +107,7 @@ declare const fullApi: ApiFromModules<{
   setup: typeof setup;
   subscriptions: typeof subscriptions;
   team: typeof team;
+  "touchpoints/dashboard": typeof touchpoints_dashboard;
   "touchpoints/mutations": typeof touchpoints_mutations;
   "touchpoints/queries": typeof touchpoints_queries;
   users: typeof users;

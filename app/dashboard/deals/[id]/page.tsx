@@ -80,16 +80,18 @@ export default function DealDetailPage({
   // Convex queries and mutations
   const dealData = useQuery(api.deals.getById, { id: id as Id<"deals"> });
   const closeDealMutation = useMutation(api.dealsCrud.closeDeal);
+  const addTouchpointMutation = useMutation(api.touchpoints.dashboard.add);
+  const removeTouchpointMutation = useMutation(api.touchpoints.dashboard.remove);
 
   const { toast } = useToast();
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showTouchpointModal, setShowTouchpointModal] = useState(false);
   const [isRecalculating, setIsRecalculating] = useState(false);
 
-  // Touchpoint form (for now, touchpoint add is not wired - would need a mutation)
   const [tpPartnerId, setTpPartnerId] = useState("");
   const [tpType, setTpType] = useState<TouchpointType>("referral");
   const [tpNotes, setTpNotes] = useState("");
+  const [tpSaving, setTpSaving] = useState(false);
 
   const fireConfetti = useCallback(() => {
     const duration = 2500;
@@ -177,14 +179,36 @@ export default function DealDetailPage({
     }
   }
 
-  function handleAddTouchpoint(e: React.FormEvent) {
+  async function handleAddTouchpoint(e: React.FormEvent) {
     e.preventDefault();
-    // TODO: Add Convex mutation for adding touchpoints
-    setShowTouchpointModal(false);
-    setTpPartnerId("");
-    setTpType("referral");
-    setTpNotes("");
-    toast("Touchpoint feature coming soon", "info");
+    if (!tpPartnerId) return;
+    setTpSaving(true);
+    try {
+      await addTouchpointMutation({
+        dealId: id as Id<"deals">,
+        partnerId: tpPartnerId as Id<"partners">,
+        type: tpType,
+        notes: tpNotes || undefined,
+      });
+      toast("Touchpoint added", "success");
+      setShowTouchpointModal(false);
+      setTpPartnerId("");
+      setTpType("referral");
+      setTpNotes("");
+    } catch (err: any) {
+      toast(err.message || "Failed to add touchpoint", "error");
+    } finally {
+      setTpSaving(false);
+    }
+  }
+
+  async function handleRemoveTouchpoint(touchpointId: string) {
+    try {
+      await removeTouchpointMutation({ touchpointId: touchpointId as Id<"touchpoints"> });
+      toast("Touchpoint removed", "success");
+    } catch (err: any) {
+      toast(err.message || "Failed to remove touchpoint", "error");
+    }
   }
 
   // Active partners for selection
@@ -473,6 +497,28 @@ export default function DealDetailPage({
                           >
                             {tp.notes}
                           </p>
+                        )}
+                        {deal.status === "open" && (
+                          <button
+                            onClick={() => handleRemoveTouchpoint(tp._id)}
+                            style={{
+                              marginTop: "0.4rem",
+                              fontSize: "0.7rem",
+                              color: "var(--muted)",
+                              background: "none",
+                              border: "none",
+                              cursor: "pointer",
+                              padding: "0.2rem 0.4rem",
+                              borderRadius: 4,
+                              opacity: 0.6,
+                              transition: "opacity 0.15s, color 0.15s",
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.color = "#ef4444"; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.opacity = "0.6"; e.currentTarget.style.color = "var(--muted)"; }}
+                            title="Remove touchpoint"
+                          >
+                            ✕ Remove
+                          </button>
                         )}
                       </div>
                     </div>
@@ -1222,6 +1268,9 @@ export default function DealDetailPage({
               <option value="introduction">Introduction</option>
               <option value="proposal">Proposal</option>
               <option value="negotiation">Negotiation</option>
+              <option value="deal_registration">Deal Registration</option>
+              <option value="co_sell">Co-Sell</option>
+              <option value="technical_enablement">Technical Enablement</option>
             </select>
           </div>
           <div>
@@ -1257,8 +1306,8 @@ export default function DealDetailPage({
             >
               Cancel
             </button>
-            <button type="submit" className="btn">
-              Add Touchpoint
+            <button type="submit" className="btn" disabled={tpSaving || !tpPartnerId}>
+              {tpSaving ? "Adding..." : "Add Touchpoint"}
             </button>
           </div>
         </form>
