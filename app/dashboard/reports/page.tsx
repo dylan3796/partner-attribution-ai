@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { formatCurrency, formatPercent, MODEL_COLORS, CHART_COLORS } from "@/lib/utils";
@@ -292,9 +293,14 @@ function ReportsContent({
             Compare attribution models and analyze partner influence on CRM deals
           </p>
         </div>
-        <button className="btn-outline" onClick={handleExport}>
-          ↓ Export CSV
-        </button>
+        <div style={{ display: "flex", gap: "0.75rem" }}>
+          <Link href="/dashboard/reports/qbr" className="btn-outline" style={{ fontSize: ".85rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
+            📊 QBR Report
+          </Link>
+          <button className="btn-outline" onClick={handleExport}>
+            ↓ Export CSV
+          </button>
+        </div>
       </div>
 
       <ConfigTipBox
