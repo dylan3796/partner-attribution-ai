@@ -33,6 +33,7 @@ import type * as lib_getOrg from "../lib/getOrg.js";
 import type * as lib_helpers from "../lib/helpers.js";
 import type * as lib_validation from "../lib/validation.js";
 import type * as mdf from "../mdf.js";
+import type * as notificationPreferences from "../notificationPreferences.js";
 import type * as notifications from "../notifications.js";
 import type * as organizations_mutations from "../organizations/mutations.js";
 import type * as organizations_queries from "../organizations/queries.js";
@@ -84,6 +85,7 @@ declare const fullApi: ApiFromModules<{
   "lib/helpers": typeof lib_helpers;
   "lib/validation": typeof lib_validation;
   mdf: typeof mdf;
+  notificationPreferences: typeof notificationPreferences;
   notifications: typeof notifications;
   "organizations/mutations": typeof organizations_mutations;
   "organizations/queries": typeof organizations_queries;

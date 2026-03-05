@@ -691,6 +691,47 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_created", ["createdAt"]),
 
+  // Notification Preferences — per-user notification settings
+  notificationPreferences: defineTable({
+    userId: v.string(), // Clerk userId
+    organizationId: v.optional(v.id("organizations")),
+    // In-app notification toggles
+    inApp: v.object({
+      deal_approved: v.boolean(),
+      deal_registered: v.boolean(),
+      deal_disputed: v.boolean(),
+      commission_paid: v.boolean(),
+      partner_joined: v.boolean(),
+      partner_application: v.boolean(),
+      tier_change: v.boolean(),
+      payout_ready: v.boolean(),
+      system: v.boolean(),
+    }),
+    // Email digest settings
+    emailDigest: v.union(
+      v.literal("off"),
+      v.literal("instant"),
+      v.literal("daily"),
+      v.literal("weekly")
+    ),
+    emailEvents: v.object({
+      deal_approved: v.boolean(),
+      deal_registered: v.boolean(),
+      deal_disputed: v.boolean(),
+      commission_paid: v.boolean(),
+      partner_joined: v.boolean(),
+      partner_application: v.boolean(),
+      tier_change: v.boolean(),
+      payout_ready: v.boolean(),
+    }),
+    // Quiet hours (UTC)
+    quietHoursEnabled: v.boolean(),
+    quietHoursStart: v.optional(v.string()), // "22:00"
+    quietHoursEnd: v.optional(v.string()),   // "08:00"
+    updatedAt: v.number(),
+  })
+    .index("by_userId", ["userId"]),
+
   // Outbound Webhook Delivery Log
   webhookDeliveries: defineTable({
     organizationId: v.id("organizations"),
