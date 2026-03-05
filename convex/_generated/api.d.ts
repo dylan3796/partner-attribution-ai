@@ -9,6 +9,7 @@
  */
 
 import type * as agents from "../agents.js";
+import type * as apiKeys from "../apiKeys.js";
 import type * as benchmarks from "../benchmarks.js";
 import type * as cohorts from "../cohorts.js";
 import type * as commissionRules from "../commissionRules.js";
@@ -61,6 +62,7 @@ import type {
 
 declare const fullApi: ApiFromModules<{
   agents: typeof agents;
+  apiKeys: typeof apiKeys;
   benchmarks: typeof benchmarks;
   cohorts: typeof cohorts;
   commissionRules: typeof commissionRules;

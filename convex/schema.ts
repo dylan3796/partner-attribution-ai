@@ -732,6 +732,23 @@ export default defineSchema({
   })
     .index("by_userId", ["userId"]),
 
+  // API Keys — programmatic access management
+  apiKeys: defineTable({
+    organizationId: v.id("organizations"),
+    name: v.string(),                  // user-friendly label e.g. "Production CRM Sync"
+    prefix: v.string(),                // first 8 chars for identification e.g. "cvnt_a1b2"
+    keyHash: v.string(),               // SHA-256 hash of full key (never store plaintext)
+    scopes: v.array(v.string()),       // e.g. ["partners:read", "deals:read", "deals:write"]
+    lastUsedAt: v.optional(v.number()),
+    expiresAt: v.optional(v.number()), // optional expiration
+    revokedAt: v.optional(v.number()),
+    createdBy: v.optional(v.string()), // Clerk userId
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_prefix", ["prefix"])
+    .index("by_keyHash", ["keyHash"]),
+
   // Outbound Webhook Delivery Log
   webhookDeliveries: defineTable({
     organizationId: v.id("organizations"),
