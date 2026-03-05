@@ -1,6 +1,9 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import Link from "next/link";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import {
   HeartPulse,
   AlertTriangle,
@@ -9,96 +12,39 @@ import {
   TrendingDown,
   Clock,
   Mail,
-  Phone,
   ChevronDown,
   ChevronUp,
   Search,
-  Filter,
-  ArrowUpDown,
   Zap,
-  Shield,
   Users,
-  DollarSign,
   Activity,
   MessageSquare,
+  Loader2,
 } from "lucide-react";
 
 /* ── Types ── */
 type RiskLevel = "healthy" | "at-risk" | "churning" | "new";
 type SortKey = "health" | "name" | "revenue" | "lastActive" | "deals";
 
-interface PartnerHealth {
+interface PartnerHealthData {
   id: string;
   name: string;
-  tier: "platinum" | "gold" | "silver" | "bronze";
-  healthScore: number; // 0-100
+  tier: string;
+  healthScore: number;
   risk: RiskLevel;
-  lastActive: string;
   daysSinceActive: number;
   dealsLast90: number;
-  dealsTrend: number; // positive = up, negative = down
+  dealsTrend: number;
   revenueLast90: number;
   revenueTrend: number;
-  portalLogins30d: number;
-  supportTicketsOpen: number;
-  certificationsCurrent: number;
-  certificationsExpiring: number;
-  npsScore: number | null;
+  touchpointsLast90: number;
+  unpaidCommissions: number;
   contactName: string;
   contactEmail: string;
   joinedDate: string;
   signals: string[];
   actions: string[];
 }
-
-/* ── Demo Data ── */
-const PARTNERS: PartnerHealth[] = [
-  {
-    id: "ph1", name: "TechBridge", tier: "platinum", healthScore: 92, risk: "healthy",
-    lastActive: "2026-02-19", daysSinceActive: 0, dealsLast90: 14, dealsTrend: 3,
-    revenueLast90: 186000, revenueTrend: 22, portalLogins30d: 45, supportTicketsOpen: 0,
-    certificationsCurrent: 4, certificationsExpiring: 0, npsScore: 9,
-    contactName: "Sarah Chen", contactEmail: "sarah@techbridge.io", joinedDate: "2024-06-15",
-    signals: ["Highest deal velocity this quarter", "All certs current", "Regular portal engagement"],
-    actions: ["Consider for case study", "Invite to advisory board"],
-  },
-  {
-    id: "ph2", name: "Stackline", tier: "gold", healthScore: 78, risk: "healthy",
-    lastActive: "2026-02-18", daysSinceActive: 1, dealsLast90: 8, dealsTrend: 1,
-    revenueLast90: 94000, revenueTrend: 12, portalLogins30d: 22, supportTicketsOpen: 1,
-    certificationsCurrent: 3, certificationsExpiring: 1, npsScore: 8,
-    contactName: "Marcus Johnson", contactEmail: "marcus@stackline.io", joinedDate: "2024-09-01",
-    signals: ["Certification expiring in 30 days", "Steady deal flow"],
-    actions: ["Send certification renewal reminder", "Review for tier upgrade"],
-  },
-  {
-    id: "ph3", name: "Northlight", tier: "gold", healthScore: 61, risk: "at-risk",
-    lastActive: "2026-02-10", daysSinceActive: 9, dealsLast90: 4, dealsTrend: -3,
-    revenueLast90: 52000, revenueTrend: -18, portalLogins30d: 6, supportTicketsOpen: 2,
-    certificationsCurrent: 2, certificationsExpiring: 1, npsScore: 6,
-    contactName: "Priya Sharma", contactEmail: "priya@northlight.dev", joinedDate: "2025-01-20",
-    signals: ["Deal velocity declining", "Revenue down 18% QoQ", "2 open support tickets", "Portal engagement dropping"],
-    actions: ["Schedule partner health check call", "Offer enablement resources", "Resolve support tickets ASAP"],
-  },
-  {
-    id: "ph4", name: "Apex Growth", tier: "silver", healthScore: 45, risk: "at-risk",
-    lastActive: "2026-02-03", daysSinceActive: 16, dealsLast90: 2, dealsTrend: -4,
-    revenueLast90: 18000, revenueTrend: -35, portalLogins30d: 2, supportTicketsOpen: 3,
-    certificationsCurrent: 1, certificationsExpiring: 1, npsScore: 5,
-    contactName: "Derek Kim", contactEmail: "derek@apexgrowth.com", joinedDate: "2025-03-10",
-    signals: ["16 days inactive", "Revenue dropped 35%", "Low portal engagement", "Multiple support issues"],
-    actions: ["Urgent: schedule re-engagement call", "Assign dedicated support rep", "Review deal pipeline with partner"],
-  },
-  {
-    id: "ph5", name: "Clearpath", tier: "silver", healthScore: 34, risk: "churning",
-    lastActive: "2026-01-22", daysSinceActive: 28, dealsLast90: 1, dealsTrend: -5,
-    revenueLast90: 8400, revenueTrend: -52, portalLogins30d: 0, supportTicketsOpen: 0,
-    certificationsCurrent: 0, certificationsExpiring: 0, npsScore: 3,
-    contactName: "Emily Wright", contactEmail: "emily@clearpath.io", joinedDate: "2025-05-01",
-    signals: ["28 days inactive — churn risk HIGH", "Zero portal logins in 30 days", "All certifications lapsed", "NPS score critical (3)"],
-    actions: ["ESCALATE: Partner at high churn risk", "Executive outreach recommended", "Offer incentive/SPIFF to re-engage", "Review if territory reassignment needed"],
-  },
-];
 
 /* ── Helpers ── */
 function fmt(n: number): string {
@@ -128,16 +74,78 @@ function tierColor(tier: string): string {
   return m[tier] || "#6b7280";
 }
 
-/* ── Component ── */
+/* ── Loading Skeleton ── */
+function LoadingSkeleton() {
+  return (
+    <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      <div style={{ marginBottom: 24 }}>
+        <div className="skeleton" style={{ height: 28, width: 260, marginBottom: 8 }} />
+        <div className="skeleton" style={{ height: 16, width: 420 }} />
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 14, marginBottom: 24 }}>
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="card" style={{ padding: "1.25rem" }}>
+            <div className="skeleton" style={{ height: 14, width: "60%", marginBottom: 10 }} />
+            <div className="skeleton" style={{ height: 28, width: "40%" }} />
+          </div>
+        ))}
+      </div>
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="card" style={{ padding: "16px 20px", marginBottom: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <div className="skeleton" style={{ width: 48, height: 48, borderRadius: "50%" }} />
+            <div style={{ flex: 1 }}>
+              <div className="skeleton" style={{ height: 18, width: 160, marginBottom: 6 }} />
+              <div className="skeleton" style={{ height: 14, width: 280 }} />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── Empty State ── */
+function EmptyState() {
+  return (
+    <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      <div style={{ marginBottom: 24 }}>
+        <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>
+          <HeartPulse size={22} style={{ marginRight: 8, verticalAlign: "middle", color: "#6366f1" }} />
+          Partner Health Scores
+        </h1>
+        <p style={{ color: "var(--muted)", fontSize: ".85rem", margin: "4px 0 0" }}>
+          Individual partner health monitoring — engagement, revenue, risk signals & recommended actions
+        </p>
+      </div>
+      <div className="card" style={{ padding: "3rem 2rem", textAlign: "center" }}>
+        <HeartPulse size={40} style={{ color: "var(--muted)", marginBottom: 12 }} />
+        <h2 style={{ fontSize: "1.1rem", fontWeight: 700, margin: "0 0 6px" }}>No active partners yet</h2>
+        <p style={{ color: "var(--muted)", fontSize: ".85rem", maxWidth: 400, margin: "0 auto 16px" }}>
+          Add partners and register deals to start seeing health scores, risk signals, and recommended actions.
+        </p>
+        <Link href="/dashboard/partners" className="btn" style={{ fontSize: ".85rem", padding: ".5rem 1.25rem" }}>
+          Go to Partners →
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+/* ── Main Component ── */
 export default function PartnerHealthPage() {
+  const healthData = useQuery(api.partnerHealth.getPartnerHealth);
+
   const [search, setSearch] = useState("");
   const [riskFilter, setRiskFilter] = useState<RiskLevel | "all">("all");
   const [sortKey, setSortKey] = useState<SortKey>("health");
   const [sortAsc, setSortAsc] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
+  const partners: PartnerHealthData[] = (healthData ?? []) as unknown as PartnerHealthData[];
+
   const filtered = useMemo(() => {
-    let list = PARTNERS.filter((p) => {
+    let list = partners.filter((p) => {
       if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
       if (riskFilter !== "all" && p.risk !== riskFilter) return false;
       return true;
@@ -156,12 +164,16 @@ export default function PartnerHealthPage() {
     });
 
     return list;
-  }, [search, riskFilter, sortKey, sortAsc]);
+  }, [partners, search, riskFilter, sortKey, sortAsc]);
 
-  const healthyCount = PARTNERS.filter((p) => p.risk === "healthy").length;
-  const atRiskCount = PARTNERS.filter((p) => p.risk === "at-risk").length;
-  const churningCount = PARTNERS.filter((p) => p.risk === "churning").length;
-  const avgHealth = Math.round(PARTNERS.reduce((s, p) => s + p.healthScore, 0) / PARTNERS.length);
+  if (healthData === undefined) return <LoadingSkeleton />;
+  if (partners.length === 0) return <EmptyState />;
+
+  const healthyCount = partners.filter((p) => p.risk === "healthy").length;
+  const atRiskCount = partners.filter((p) => p.risk === "at-risk").length;
+  const churningCount = partners.filter((p) => p.risk === "churning").length;
+  const newCount = partners.filter((p) => p.risk === "new").length;
+  const avgHealth = Math.round(partners.reduce((s, p) => s + p.healthScore, 0) / partners.length);
 
   function toggleSort(key: SortKey) {
     if (sortKey === key) setSortAsc(!sortAsc);
@@ -225,7 +237,7 @@ export default function PartnerHealthPage() {
           />
         </div>
         {(["all", "healthy", "at-risk", "churning", "new"] as (RiskLevel | "all")[]).map((f) => {
-          const count = f === "all" ? PARTNERS.length : PARTNERS.filter((p) => p.risk === f).length;
+          const count = f === "all" ? partners.length : partners.filter((p) => p.risk === f).length;
           return (
             <button
               key={f}
@@ -304,7 +316,13 @@ export default function PartnerHealthPage() {
 
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                    <span style={{ fontWeight: 700, fontSize: ".95rem" }}>{p.name}</span>
+                    <Link
+                      href={`/dashboard/partners/${p.id}`}
+                      onClick={(e) => e.stopPropagation()}
+                      style={{ fontWeight: 700, fontSize: ".95rem", color: "var(--fg)", textDecoration: "none" }}
+                    >
+                      {p.name}
+                    </Link>
                     <span style={{ padding: "2px 8px", borderRadius: 10, fontSize: ".65rem", fontWeight: 700, background: rb.bg, color: rb.color }}>{rb.label}</span>
                     <span style={{ padding: "2px 8px", borderRadius: 10, fontSize: ".65rem", fontWeight: 600, color: tierColor(p.tier), background: `${tierColor(p.tier)}15`, textTransform: "capitalize" }}>{p.tier}</span>
                   </div>
@@ -327,21 +345,20 @@ export default function PartnerHealthPage() {
               {isExpanded && (
                 <div style={{ padding: "0 20px 20px", borderTop: "1px solid var(--border)" }}>
                   {/* Metrics grid */}
-                  <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 12, padding: "16px 0" }}>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 12, padding: "16px 0" }}>
                     {[
                       { label: "Deals (90d)", value: p.dealsLast90.toString(), trend: p.dealsTrend },
                       { label: "Revenue (90d)", value: fmt(p.revenueLast90), trend: p.revenueTrend },
-                      { label: "Portal Logins", value: p.portalLogins30d.toString(), trend: null },
-                      { label: "Open Tickets", value: p.supportTicketsOpen.toString(), trend: null },
-                      { label: "Certifications", value: `${p.certificationsCurrent}${p.certificationsExpiring > 0 ? ` (${p.certificationsExpiring} expiring)` : ""}`, trend: null },
-                      { label: "NPS", value: p.npsScore !== null ? p.npsScore.toString() : "—", trend: null },
+                      { label: "Touchpoints (90d)", value: p.touchpointsLast90.toString(), trend: null },
+                      { label: "Unpaid Commissions", value: p.unpaidCommissions.toString(), trend: null },
+                      { label: "Days Since Active", value: p.daysSinceActive.toString(), trend: null },
                     ].map((m, i) => (
                       <div key={i} style={{ textAlign: "center" }}>
                         <div style={{ fontSize: ".62rem", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", marginBottom: 2 }}>{m.label}</div>
                         <div style={{ fontSize: "1rem", fontWeight: 800 }}>{m.value}</div>
                         {m.trend !== null && m.trend !== 0 && (
                           <div style={{ fontSize: ".65rem", fontWeight: 600, color: m.trend > 0 ? "#22c55e" : "#ef4444" }}>
-                            {m.trend > 0 ? "+" : ""}{m.trend} QoQ
+                            {m.trend > 0 ? "+" : ""}{m.trend} vs prior 90d
                           </div>
                         )}
                       </div>
@@ -354,12 +371,14 @@ export default function PartnerHealthPage() {
                       <h4 style={{ fontSize: ".75rem", fontWeight: 700, margin: "0 0 8px", textTransform: "uppercase", color: "var(--muted)" }}>
                         <Zap size={12} style={{ marginRight: 4, verticalAlign: "middle" }} /> Signals
                       </h4>
-                      {p.signals.map((s, i) => (
+                      {p.signals.length > 0 ? p.signals.map((s, i) => (
                         <div key={i} style={{ fontSize: ".78rem", padding: "4px 0", display: "flex", alignItems: "flex-start", gap: 6 }}>
                           <span style={{ color: p.risk === "churning" ? "#ef4444" : p.risk === "at-risk" ? "#f59e0b" : "#22c55e", marginTop: 2 }}>•</span>
                           {s}
                         </div>
-                      ))}
+                      )) : (
+                        <div style={{ fontSize: ".78rem", color: "var(--muted)" }}>No notable signals</div>
+                      )}
                     </div>
                     <div style={{ padding: 14, borderRadius: 10, background: p.risk === "churning" ? "#ef444408" : "var(--subtle)" }}>
                       <h4 style={{ fontSize: ".75rem", fontWeight: 700, margin: "0 0 8px", textTransform: "uppercase", color: "var(--muted)" }}>
@@ -376,7 +395,9 @@ export default function PartnerHealthPage() {
 
                   {/* Contact */}
                   <div style={{ marginTop: 12, display: "flex", gap: 16, fontSize: ".78rem", color: "var(--muted)" }}>
-                    <span><Users size={12} style={{ marginRight: 4, verticalAlign: "middle" }} /> {p.contactName}</span>
+                    {p.contactName && (
+                      <span><Users size={12} style={{ marginRight: 4, verticalAlign: "middle" }} /> {p.contactName}</span>
+                    )}
                     <a href={`mailto:${p.contactEmail}`} style={{ color: "#6366f1" }}>
                       <Mail size={12} style={{ marginRight: 4, verticalAlign: "middle" }} /> {p.contactEmail}
                     </a>
