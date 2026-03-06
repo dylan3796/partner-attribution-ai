@@ -1,15 +1,14 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import Link from "next/link";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
-import { Plus, Download, Upload, Search, X, Shield, Award, Loader2, Send, Copy, Check, Users, Tag } from "lucide-react";
+import { Plus, Download, Upload, Search, X, Shield, Award, Loader2, Send, Copy, Check, Users, Tag, ChevronDown, Trash2 } from "lucide-react";
 import { exportPartnersCSV, parsePartnersCSV } from "@/lib/csv";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
 import type { Partner } from "@/lib/types";
-// ConfigTipBox removed — no longer used on this page
 import { usePlatformConfig } from "@/lib/platform-config";
 import { getActiveCertCount, getBadgeCount } from "@/lib/certifications-data";
 
@@ -26,6 +25,8 @@ const TAG_COLORS: Record<string, { bg: string; text: string; border: string }> =
 const DEFAULT_TAG_COLOR = { bg: "rgba(148,163,184,.15)", text: "#94a3b8", border: "rgba(148,163,184,.3)" };
 function getTagColor(tag: string) { return TAG_COLORS[tag] || DEFAULT_TAG_COLOR; }
 
+const ALL_TAGS = ["Top Performer", "Strategic", "At Risk", "Needs Attention", "New", "Expansion", "Enterprise", "VIP"];
+
 export default function PartnersPage() {
   // ── Convex ──────────────────────────────────────────────────────────────
   const convexPartners = useQuery(api.partners.list);
@@ -34,8 +35,11 @@ export default function PartnersPage() {
   const allTags = useQuery(api.partners.listAllTags) ?? [];
   const createPartner = useMutation(api.partners.create);
   const createInvite = useMutation(api.invites.create);
+  const bulkAddTag = useMutation(api.partners.bulkAddTag);
+  const bulkRemoveTag = useMutation(api.partners.bulkRemoveTag);
+  const bulkUpdateTier = useMutation(api.partners.bulkUpdateTier);
+  const bulkUpdateStatus = useMutation(api.partners.bulkUpdateStatus);
 
-  // Cast to Partner[] — Convex Id types are string subtypes so this is safe at runtime
   const partners = (convexPartners ?? []) as unknown as Partner[];
   const isLoading = convexPartners === undefined;
 
@@ -55,6 +59,11 @@ export default function PartnersPage() {
   const [inviteCopied, setInviteCopied] = useState(false);
   const [inviteLoading, setInviteLoading] = useState(false);
 
+  // ── Bulk selection ────────────────────────────────────────────────────
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [bulkMenu, setBulkMenu] = useState<"tag" | "tier" | "status" | null>(null);
+  const [bulkLoading, setBulkLoading] = useState(false);
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -65,7 +74,7 @@ export default function PartnersPage() {
     territory: "",
   });
 
-  // Onboarding progress: profile complete, first deal, first commission
+  // Onboarding progress
   const onboardingMap = new Map<string, { profile: boolean; deal: boolean; commission: boolean; pct: number }>();
   for (const p of partners) {
     const hasProfile = !!(p.contactName && p.email);
@@ -76,17 +85,86 @@ export default function PartnersPage() {
   }
 
   const filtered = partners.filter((p) => {
-    if (
-      search &&
-      !p.name.toLowerCase().includes(search.toLowerCase()) &&
-      !p.email.toLowerCase().includes(search.toLowerCase())
-    )
-      return false;
+    if (search && !p.name.toLowerCase().includes(search.toLowerCase()) && !p.email.toLowerCase().includes(search.toLowerCase())) return false;
     if (filterType !== "all" && p.type !== filterType) return false;
     if (filterStatus !== "all" && p.status !== filterStatus) return false;
     if (filterTag !== "all" && !(p as any).tags?.includes(filterTag)) return false;
     return true;
   });
+
+  const filteredIds = useMemo(() => new Set(filtered.map((p) => p._id)), [filtered]);
+  const allSelected = filtered.length > 0 && filtered.every((p) => selected.has(p._id));
+  const someSelected = selected.size > 0;
+  const selectedCount = selected.size;
+
+  function toggleSelect(id: string) {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }
+
+  function toggleAll() {
+    if (allSelected) {
+      setSelected(new Set());
+    } else {
+      setSelected(new Set(filtered.map((p) => p._id)));
+    }
+  }
+
+  function clearSelection() {
+    setSelected(new Set());
+    setBulkMenu(null);
+  }
+
+  const selectedIds = useMemo(
+    () => Array.from(selected).filter((id) => filteredIds.has(id)) as Id<"partners">[],
+    [selected, filteredIds]
+  );
+
+  async function handleBulkTag(tag: string, action: "add" | "remove") {
+    setBulkLoading(true);
+    try {
+      if (action === "add") {
+        await bulkAddTag({ ids: selectedIds, tag });
+        toast(`Added "${tag}" to ${selectedIds.length} partners`);
+      } else {
+        await bulkRemoveTag({ ids: selectedIds, tag });
+        toast(`Removed "${tag}" from ${selectedIds.length} partners`);
+      }
+    } catch { toast("Bulk tag update failed", "error"); }
+    setBulkLoading(false);
+    setBulkMenu(null);
+  }
+
+  async function handleBulkTier(tier: "bronze" | "silver" | "gold" | "platinum") {
+    setBulkLoading(true);
+    try {
+      await bulkUpdateTier({ ids: selectedIds, tier });
+      toast(`Updated ${selectedIds.length} partners to ${TIER_LABELS[tier]}`);
+    } catch { toast("Bulk tier update failed", "error"); }
+    setBulkLoading(false);
+    setBulkMenu(null);
+  }
+
+  async function handleBulkStatus(status: "active" | "pending" | "inactive") {
+    setBulkLoading(true);
+    try {
+      await bulkUpdateStatus({ ids: selectedIds, status });
+      toast(`Updated ${selectedIds.length} partners to ${status}`);
+    } catch { toast("Bulk status update failed", "error"); }
+    setBulkLoading(false);
+    setBulkMenu(null);
+  }
+
+  function handleBulkExport() {
+    const selectedPartners = partners.filter((p) => selected.has(p._id));
+    exportPartnersCSV(selectedPartners);
+    toast(`Exported ${selectedPartners.length} partners`);
+    setBulkMenu(null);
+  }
 
   function validate() {
     const errors: Record<string, string> = {};
@@ -115,7 +193,7 @@ export default function PartnersPage() {
       setForm({ name: "", email: "", type: "reseller", tier: "bronze", commissionRate: 15, contactName: "", territory: "" });
       setFormErrors({});
       toast("Partner added successfully");
-    } catch (err) {
+    } catch {
       toast("Failed to add partner. Please try again.", "error");
     } finally {
       setSaving(false);
@@ -148,6 +226,12 @@ export default function PartnersPage() {
     reader.readAsText(file);
     if (fileRef.current) fileRef.current.value = "";
   }
+
+  // Merge all tags for dropdown
+  const tagOptions = useMemo(() => {
+    const s = new Set([...ALL_TAGS, ...allTags]);
+    return Array.from(s).sort();
+  }, [allTags]);
 
   return (
     <>
@@ -201,6 +285,226 @@ export default function PartnersPage() {
         )}
       </div>
 
+      {/* ── Bulk Action Bar ───────────────────────────────────────────────── */}
+      {someSelected && (
+        <div
+          className="card animate-in"
+          style={{
+            marginBottom: "1rem",
+            padding: ".75rem 1.25rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+            flexWrap: "wrap",
+            background: "rgba(99,102,241,.08)",
+            border: "1px solid rgba(99,102,241,.25)",
+          }}
+        >
+          <span style={{ fontWeight: 600, fontSize: ".9rem", whiteSpace: "nowrap" }}>
+            {selectedCount} selected
+          </span>
+          <div style={{ width: 1, height: 20, background: "var(--border)" }} />
+
+          {/* Tag actions */}
+          <div style={{ position: "relative" }}>
+            <button
+              className="btn-outline"
+              style={{ fontSize: ".8rem", padding: "5px 12px" }}
+              onClick={() => setBulkMenu(bulkMenu === "tag" ? null : "tag")}
+              disabled={bulkLoading}
+            >
+              <Tag size={13} /> Tag <ChevronDown size={12} />
+            </button>
+            {bulkMenu === "tag" && (
+              <div
+                className="card"
+                style={{
+                  position: "absolute",
+                  top: "calc(100% + 4px)",
+                  left: 0,
+                  zIndex: 50,
+                  width: 220,
+                  padding: ".5rem 0",
+                  maxHeight: 320,
+                  overflow: "auto",
+                }}
+              >
+                <div style={{ padding: "4px 12px", fontSize: ".7rem", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".05em" }}>Add Tag</div>
+                {tagOptions.map((tag) => {
+                  const c = getTagColor(tag);
+                  return (
+                    <button
+                      key={`add-${tag}`}
+                      onClick={() => handleBulkTag(tag, "add")}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 8,
+                        width: "100%",
+                        padding: "6px 12px",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        fontSize: ".85rem",
+                        color: "inherit",
+                        fontFamily: "inherit",
+                        textAlign: "left",
+                      }}
+                      onMouseOver={(e) => (e.currentTarget.style.background = "var(--subtle)")}
+                      onMouseOut={(e) => (e.currentTarget.style.background = "none")}
+                    >
+                      <span style={{ width: 8, height: 8, borderRadius: "50%", background: c.text, flexShrink: 0 }} />
+                      {tag}
+                    </button>
+                  );
+                })}
+                <div style={{ height: 1, background: "var(--border)", margin: "4px 0" }} />
+                <div style={{ padding: "4px 12px", fontSize: ".7rem", fontWeight: 600, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".05em" }}>Remove Tag</div>
+                {tagOptions.map((tag) => (
+                  <button
+                    key={`rm-${tag}`}
+                    onClick={() => handleBulkTag(tag, "remove")}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 8,
+                      width: "100%",
+                      padding: "6px 12px",
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      fontSize: ".85rem",
+                      color: "var(--muted)",
+                      fontFamily: "inherit",
+                      textAlign: "left",
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.background = "var(--subtle)")}
+                    onMouseOut={(e) => (e.currentTarget.style.background = "none")}
+                  >
+                    <X size={12} /> {tag}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Tier actions */}
+          <div style={{ position: "relative" }}>
+            <button
+              className="btn-outline"
+              style={{ fontSize: ".8rem", padding: "5px 12px" }}
+              onClick={() => setBulkMenu(bulkMenu === "tier" ? null : "tier")}
+              disabled={bulkLoading}
+            >
+              <Shield size={13} /> Tier <ChevronDown size={12} />
+            </button>
+            {bulkMenu === "tier" && (
+              <div
+                className="card"
+                style={{
+                  position: "absolute",
+                  top: "calc(100% + 4px)",
+                  left: 0,
+                  zIndex: 50,
+                  width: 160,
+                  padding: ".5rem 0",
+                }}
+              >
+                {(["platinum", "gold", "silver", "bronze"] as const).map((tier) => (
+                  <button
+                    key={tier}
+                    onClick={() => handleBulkTier(tier)}
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      padding: "6px 12px",
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      fontSize: ".85rem",
+                      color: "inherit",
+                      fontFamily: "inherit",
+                      textAlign: "left",
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.background = "var(--subtle)")}
+                    onMouseOut={(e) => (e.currentTarget.style.background = "none")}
+                  >
+                    {TIER_LABELS[tier]}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Status actions */}
+          <div style={{ position: "relative" }}>
+            <button
+              className="btn-outline"
+              style={{ fontSize: ".8rem", padding: "5px 12px" }}
+              onClick={() => setBulkMenu(bulkMenu === "status" ? null : "status")}
+              disabled={bulkLoading}
+            >
+              Status <ChevronDown size={12} />
+            </button>
+            {bulkMenu === "status" && (
+              <div
+                className="card"
+                style={{
+                  position: "absolute",
+                  top: "calc(100% + 4px)",
+                  left: 0,
+                  zIndex: 50,
+                  width: 140,
+                  padding: ".5rem 0",
+                }}
+              >
+                {(["active", "pending", "inactive"] as const).map((status) => (
+                  <button
+                    key={status}
+                    onClick={() => handleBulkStatus(status)}
+                    style={{
+                      display: "block",
+                      width: "100%",
+                      padding: "6px 12px",
+                      background: "none",
+                      border: "none",
+                      cursor: "pointer",
+                      fontSize: ".85rem",
+                      color: "inherit",
+                      fontFamily: "inherit",
+                      textAlign: "left",
+                      textTransform: "capitalize",
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.background = "var(--subtle)")}
+                    onMouseOut={(e) => (e.currentTarget.style.background = "none")}
+                  >
+                    {status}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Export selected */}
+          <button
+            className="btn-outline"
+            style={{ fontSize: ".8rem", padding: "5px 12px" }}
+            onClick={handleBulkExport}
+          >
+            <Download size={13} /> Export Selected
+          </button>
+
+          <div style={{ flex: 1 }} />
+          <button
+            className="btn-outline"
+            style={{ fontSize: ".8rem", padding: "5px 12px", color: "var(--muted)" }}
+            onClick={clearSelection}
+          >
+            <X size={13} /> Clear
+          </button>
+        </div>
+      )}
+
       {/* Loading state */}
       {isLoading && (
         <div style={{ textAlign: "center", padding: "3rem" }}>
@@ -216,7 +520,16 @@ export default function PartnersPage() {
             <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".9rem" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--subtle)" }}>
-                  <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Partner</th>
+                  <th style={{ padding: ".8rem .6rem .8rem 1.2rem", width: 36 }}>
+                    <input
+                      type="checkbox"
+                      checked={allSelected}
+                      onChange={toggleAll}
+                      style={{ cursor: "pointer", accentColor: "#6366f1" }}
+                      title={allSelected ? "Deselect all" : "Select all"}
+                    />
+                  </th>
+                  <th style={{ padding: ".8rem .8rem .8rem 0", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Partner</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Type</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Tier</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Commission</th>
@@ -227,63 +540,84 @@ export default function PartnersPage() {
                 </tr>
               </thead>
               <tbody>
-                {filtered.map((p) => (
-                  <tr key={p._id} style={{ borderBottom: "1px solid var(--border)", cursor: "pointer", transition: "background .15s" }} onMouseOver={(e) => (e.currentTarget.style.background = "var(--subtle)")} onMouseOut={(e) => (e.currentTarget.style.background = "")}>
-                    <td style={{ padding: ".8rem 1.2rem" }}>
-                      <Link href={`/dashboard/partners/${p._id}`} style={{ display: "flex", alignItems: "center", gap: ".8rem" }}>
-                        <div className="avatar">{p.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
-                        <div>
-                          <div style={{ display: "flex", alignItems: "center", gap: ".4rem" }}>
-                            <p style={{ fontWeight: 600 }}>{p.name}</p>
-                            {showCerts && getActiveCertCount(p._id) > 0 && (
-                              <span title={`${getActiveCertCount(p._id)} certifications`} style={{ display: "inline-flex", alignItems: "center", gap: 2, padding: "1px 5px", borderRadius: 8, fontSize: ".65rem", fontWeight: 700, background: "#ecfdf5", color: "#059669" }}>
-                                <Shield size={10} />{getActiveCertCount(p._id)}
-                              </span>
-                            )}
-                            {showCerts && getBadgeCount(p._id) > 0 && (
-                              <span title={`${getBadgeCount(p._id)} badges`} style={{ display: "inline-flex", alignItems: "center", gap: 2, padding: "1px 5px", borderRadius: 8, fontSize: ".65rem", fontWeight: 700, background: "#fef3c7", color: "#92400e" }}>
-                                <Award size={10} />{getBadgeCount(p._id)}
-                              </span>
-                            )}
-                          </div>
-                          <p className="muted" style={{ fontSize: ".8rem" }}>{p.email}</p>
-                        </div>
-                      </Link>
-                    </td>
-                    <td style={{ padding: ".8rem" }}><span className="chip">{PARTNER_TYPE_LABELS[p.type] ?? p.type}</span></td>
-                    <td style={{ padding: ".8rem" }}><span className="badge badge-neutral">{p.tier ? TIER_LABELS[p.tier] : "—"}</span></td>
-                    <td style={{ padding: ".8rem", fontWeight: 600 }}>{p.commissionRate}%</td>
-                    <td style={{ padding: ".8rem" }} className="muted">{p.territory || "—"}</td>
-                    <td style={{ padding: ".8rem" }}>
-                      <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
-                        {((p as any).tags || []).slice(0, 3).map((tag: string) => {
-                          const c = getTagColor(tag);
-                          return <span key={tag} style={{ padding: "2px 8px", borderRadius: 10, fontSize: ".7rem", fontWeight: 600, background: c.bg, color: c.text, border: `1px solid ${c.border}`, whiteSpace: "nowrap" }}>{tag}</span>;
-                        })}
-                        {((p as any).tags || []).length > 3 && <span className="muted" style={{ fontSize: ".7rem" }}>+{(p as any).tags.length - 3}</span>}
-                        {!((p as any).tags?.length) && <span className="muted" style={{ fontSize: ".75rem" }}>—</span>}
-                      </div>
-                    </td>
-                    <td style={{ padding: ".8rem" }}>
-                      {(() => {
-                        const ob = onboardingMap.get(p._id);
-                        if (!ob) return "—";
-                        const color = ob.pct === 100 ? "#22c55e" : ob.pct >= 66 ? "#eab308" : "#ef4444";
-                        return (
-                          <div title={`Profile: ${ob.profile ? "✓" : "✗"} | Deal: ${ob.deal ? "✓" : "✗"} | Commission: ${ob.commission ? "✓" : "✗"}`} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                            <div style={{ width: 48, height: 6, borderRadius: 3, background: "var(--border)", overflow: "hidden" }}>
-                              <div style={{ width: `${ob.pct}%`, height: "100%", borderRadius: 3, background: color, transition: "width 0.3s" }} />
+                {filtered.map((p) => {
+                  const isSelected = selected.has(p._id);
+                  return (
+                    <tr
+                      key={p._id}
+                      style={{
+                        borderBottom: "1px solid var(--border)",
+                        cursor: "pointer",
+                        transition: "background .15s",
+                        background: isSelected ? "rgba(99,102,241,.06)" : undefined,
+                      }}
+                      onMouseOver={(e) => { if (!isSelected) e.currentTarget.style.background = "var(--subtle)"; }}
+                      onMouseOut={(e) => { if (!isSelected) e.currentTarget.style.background = ""; }}
+                    >
+                      <td style={{ padding: ".8rem .6rem .8rem 1.2rem", width: 36 }} onClick={(e) => e.stopPropagation()}>
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => toggleSelect(p._id)}
+                          style={{ cursor: "pointer", accentColor: "#6366f1" }}
+                        />
+                      </td>
+                      <td style={{ padding: ".8rem .8rem .8rem 0" }}>
+                        <Link href={`/dashboard/partners/${p._id}`} style={{ display: "flex", alignItems: "center", gap: ".8rem" }}>
+                          <div className="avatar">{p.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
+                          <div>
+                            <div style={{ display: "flex", alignItems: "center", gap: ".4rem" }}>
+                              <p style={{ fontWeight: 600 }}>{p.name}</p>
+                              {showCerts && getActiveCertCount(p._id) > 0 && (
+                                <span title={`${getActiveCertCount(p._id)} certifications`} style={{ display: "inline-flex", alignItems: "center", gap: 2, padding: "1px 5px", borderRadius: 8, fontSize: ".65rem", fontWeight: 700, background: "#ecfdf5", color: "#059669" }}>
+                                  <Shield size={10} />{getActiveCertCount(p._id)}
+                                </span>
+                              )}
+                              {showCerts && getBadgeCount(p._id) > 0 && (
+                                <span title={`${getBadgeCount(p._id)} badges`} style={{ display: "inline-flex", alignItems: "center", gap: 2, padding: "1px 5px", borderRadius: 8, fontSize: ".65rem", fontWeight: 700, background: "#fef3c7", color: "#92400e" }}>
+                                  <Award size={10} />{getBadgeCount(p._id)}
+                                </span>
+                              )}
                             </div>
-                            <span style={{ fontSize: ".75rem", fontWeight: 600, color }}>{ob.pct}%</span>
+                            <p className="muted" style={{ fontSize: ".8rem" }}>{p.email}</p>
                           </div>
-                        );
-                      })()}
-                    </td>
-                    <td style={{ padding: ".8rem" }}>
-                      <span className={`badge badge-${p.status === "active" ? "success" : p.status === "pending" ? "info" : "danger"}`}>{p.status}</span>
-                    </td>
-                  </tr>
-                ))}
+                        </Link>
+                      </td>
+                      <td style={{ padding: ".8rem" }}><span className="chip">{PARTNER_TYPE_LABELS[p.type] ?? p.type}</span></td>
+                      <td style={{ padding: ".8rem" }}><span className="badge badge-neutral">{p.tier ? TIER_LABELS[p.tier] : "—"}</span></td>
+                      <td style={{ padding: ".8rem", fontWeight: 600 }}>{p.commissionRate}%</td>
+                      <td style={{ padding: ".8rem" }} className="muted">{p.territory || "—"}</td>
+                      <td style={{ padding: ".8rem" }}>
+                        <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                          {((p as any).tags || []).slice(0, 3).map((tag: string) => {
+                            const c = getTagColor(tag);
+                            return <span key={tag} style={{ padding: "2px 8px", borderRadius: 10, fontSize: ".7rem", fontWeight: 600, background: c.bg, color: c.text, border: `1px solid ${c.border}`, whiteSpace: "nowrap" }}>{tag}</span>;
+                          })}
+                          {((p as any).tags || []).length > 3 && <span className="muted" style={{ fontSize: ".7rem" }}>+{(p as any).tags.length - 3}</span>}
+                          {!((p as any).tags?.length) && <span className="muted" style={{ fontSize: ".75rem" }}>—</span>}
+                        </div>
+                      </td>
+                      <td style={{ padding: ".8rem" }}>
+                        {(() => {
+                          const ob = onboardingMap.get(p._id);
+                          if (!ob) return "—";
+                          const color = ob.pct === 100 ? "#22c55e" : ob.pct >= 66 ? "#eab308" : "#ef4444";
+                          return (
+                            <div title={`Profile: ${ob.profile ? "✓" : "✗"} | Deal: ${ob.deal ? "✓" : "✗"} | Commission: ${ob.commission ? "✓" : "✗"}`} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                              <div style={{ width: 48, height: 6, borderRadius: 3, background: "var(--border)", overflow: "hidden" }}>
+                                <div style={{ width: `${ob.pct}%`, height: "100%", borderRadius: 3, background: color, transition: "width 0.3s" }} />
+                              </div>
+                              <span style={{ fontSize: ".75rem", fontWeight: 600, color }}>{ob.pct}%</span>
+                            </div>
+                          );
+                        })()}
+                      </td>
+                      <td style={{ padding: ".8rem" }}>
+                        <span className={`badge badge-${p.status === "active" ? "success" : p.status === "pending" ? "info" : "danger"}`}>{p.status}</span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -410,6 +744,14 @@ export default function PartnersPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Close dropdowns on outside click */}
+      {bulkMenu && (
+        <div
+          style={{ position: "fixed", inset: 0, zIndex: 40 }}
+          onClick={() => setBulkMenu(null)}
+        />
       )}
     </>
   );

@@ -201,6 +201,74 @@ export const updateTags = mutation({
   },
 });
 
+// ── Bulk Operations ───────────────────────────────────────────────────────
+
+export const bulkAddTag = mutation({
+  args: {
+    ids: v.array(v.id("partners")),
+    tag: v.string(),
+  },
+  handler: async (ctx, args) => {
+    let updated = 0;
+    for (const id of args.ids) {
+      const partner = await ctx.db.get(id);
+      if (!partner) continue;
+      const tags = partner.tags ?? [];
+      if (!tags.includes(args.tag)) {
+        await ctx.db.patch(id, { tags: [...tags, args.tag] });
+        updated++;
+      }
+    }
+    return { updated };
+  },
+});
+
+export const bulkRemoveTag = mutation({
+  args: {
+    ids: v.array(v.id("partners")),
+    tag: v.string(),
+  },
+  handler: async (ctx, args) => {
+    let updated = 0;
+    for (const id of args.ids) {
+      const partner = await ctx.db.get(id);
+      if (!partner) continue;
+      const tags = partner.tags ?? [];
+      if (tags.includes(args.tag)) {
+        await ctx.db.patch(id, { tags: tags.filter((t) => t !== args.tag) });
+        updated++;
+      }
+    }
+    return { updated };
+  },
+});
+
+export const bulkUpdateTier = mutation({
+  args: {
+    ids: v.array(v.id("partners")),
+    tier: v.union(v.literal("bronze"), v.literal("silver"), v.literal("gold"), v.literal("platinum")),
+  },
+  handler: async (ctx, args) => {
+    for (const id of args.ids) {
+      await ctx.db.patch(id, { tier: args.tier });
+    }
+    return { updated: args.ids.length };
+  },
+});
+
+export const bulkUpdateStatus = mutation({
+  args: {
+    ids: v.array(v.id("partners")),
+    status: v.union(v.literal("active"), v.literal("pending"), v.literal("inactive")),
+  },
+  handler: async (ctx, args) => {
+    for (const id of args.ids) {
+      await ctx.db.patch(id, { status: args.status });
+    }
+    return { updated: args.ids.length };
+  },
+});
+
 export const remove = mutation({
   args: { id: v.id("partners") },
   handler: async (ctx, args) => {
