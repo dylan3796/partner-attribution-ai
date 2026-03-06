@@ -768,6 +768,34 @@ export default defineSchema({
     .index("by_org_and_status", ["organizationId", "status"])
     .index("by_sku", ["sku"]),
 
+  // Goals & Targets — quarterly program objectives
+  goals: defineTable({
+    organizationId: v.id("organizations"),
+    metric: v.union(
+      v.literal("revenue"),
+      v.literal("pipeline"),
+      v.literal("partners"),
+      v.literal("deals"),
+      v.literal("win_rate")
+    ),
+    label: v.string(), // user-friendly name e.g. "Q1 Revenue Target"
+    target: v.number(), // target value (dollars, count, or percentage for win_rate)
+    period: v.string(), // e.g. "Q1 2026", "Q2 2026"
+    startDate: v.number(), // period start (unix ms)
+    endDate: v.number(), // period end (unix ms)
+    status: v.union(
+      v.literal("active"),
+      v.literal("completed"),
+      v.literal("missed")
+    ),
+    notes: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_status", ["organizationId", "status"])
+    .index("by_org_and_period", ["organizationId", "period"]),
+
   // Outbound Webhook Delivery Log
   webhookDeliveries: defineTable({
     organizationId: v.id("organizations"),

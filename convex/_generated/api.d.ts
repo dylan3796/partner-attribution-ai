@@ -25,6 +25,7 @@ import type * as emailTemplates from "../emailTemplates.js";
 import type * as eventSources from "../eventSources.js";
 import type * as exports from "../exports.js";
 import type * as forecasting from "../forecasting.js";
+import type * as goals from "../goals.js";
 import type * as integrations from "../integrations.js";
 import type * as invites from "../invites.js";
 import type * as leaderboard from "../leaderboard.js";
@@ -85,6 +86,7 @@ declare const fullApi: ApiFromModules<{
   eventSources: typeof eventSources;
   exports: typeof exports;
   forecasting: typeof forecasting;
+  goals: typeof goals;
   integrations: typeof integrations;
   invites: typeof invites;
   leaderboard: typeof leaderboard;

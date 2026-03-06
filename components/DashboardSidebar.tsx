@@ -26,6 +26,7 @@ import {
   FileText,
   BarChart2,
   Target,
+  Crosshair,
   Heart,
   Scale,
   Star,
@@ -96,10 +97,11 @@ const navSections: NavSection[] = [
   {
     label: "Analytics",
     items: [
+      { name: "Goals",        href: "/dashboard/goals",       icon: Target },
       { name: "Leaderboard",  href: "/dashboard/leaderboard", icon: Trophy },
       { name: "Reports",      href: "/dashboard/reports",     icon: PieChart },
       { name: "Forecasting",  href: "/dashboard/forecasting", icon: TrendingUp },
-      { name: "Benchmarks",   href: "/dashboard/benchmarks",  icon: Target },
+      { name: "Benchmarks",   href: "/dashboard/benchmarks",  icon: Crosshair },
       { name: "Cohorts",      href: "/dashboard/cohorts",     icon: BarChart2 },
     ],
   },
