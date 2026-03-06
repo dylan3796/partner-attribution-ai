@@ -136,7 +136,7 @@ const COMPANY: Resource[] = [
   {
     title: "Pricing",
     description:
-      "Free tier for small programs, Pro and Scale for growing teams, Enterprise for complex orgs. No time-limited trials.",
+      "Free tier with Partner Portal. Add AI engines individually or bundled — Starter, Growth, and Scale tiers for every team size.",
     href: "/pricing",
     icon: BarChart3,
     color: "#f97316",

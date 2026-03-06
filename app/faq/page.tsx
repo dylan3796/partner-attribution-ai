@@ -127,7 +127,7 @@ const FAQ_SECTIONS: FAQSection[] = [
       },
       {
         q: "Is there a discount for annual billing?",
-        a: "Yes — annual plans save roughly 20% compared to monthly. Contact us for annual pricing on Pro and Scale plans. Enterprise plans are always custom-quoted.",
+        a: "Yes — annual plans save roughly 20% compared to monthly. Contact us for annual pricing on Growth and Scale tiers. Enterprise agreements are always custom-quoted.",
       },
     ],
   },

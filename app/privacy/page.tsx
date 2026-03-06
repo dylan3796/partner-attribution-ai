@@ -67,7 +67,7 @@ export default function PrivacyPage() {
         <Section title="Data retention">
           <p>We retain your data for as long as your account is active. If you cancel, we retain data for 90 days to allow for recovery, then delete it.</p>
           <p>You can request immediate deletion at any time — see "Your rights" below.</p>
-          <p>Audit logs are retained per your plan (30 days on Free, 90 days on Pro, 1 year on Scale, unlimited on Enterprise).</p>
+          <p>Audit logs are retained per your plan (30 days on Free, 90 days on Starter, 1 year on Growth, unlimited on Scale).</p>
         </Section>
 
         <Section title="Your rights">
