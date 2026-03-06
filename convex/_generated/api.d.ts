@@ -43,6 +43,7 @@ import type * as notifications from "../notifications.js";
 import type * as organizations_mutations from "../organizations/mutations.js";
 import type * as organizations_queries from "../organizations/queries.js";
 import type * as partnerApplications from "../partnerApplications.js";
+import type * as partnerCompare from "../partnerCompare.js";
 import type * as partnerHealth from "../partnerHealth.js";
 import type * as partnerNotes from "../partnerNotes.js";
 import type * as partners from "../partners.js";
@@ -109,6 +110,7 @@ declare const fullApi: ApiFromModules<{
   "organizations/mutations": typeof organizations_mutations;
   "organizations/queries": typeof organizations_queries;
   partnerApplications: typeof partnerApplications;
+  partnerCompare: typeof partnerCompare;
   partnerHealth: typeof partnerHealth;
   partnerNotes: typeof partnerNotes;
   partners: typeof partners;

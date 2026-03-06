@@ -1,11 +1,12 @@
 "use client";
 import { useState, useRef, useMemo } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
-import { Plus, Download, Upload, Search, X, Shield, Award, Loader2, Send, Copy, Check, Users, Tag, ChevronDown, Trash2 } from "lucide-react";
+import { Plus, Download, Upload, Search, X, Shield, Award, Loader2, Send, Copy, Check, Users, Tag, ChevronDown, Trash2, GitCompare } from "lucide-react";
 import { exportPartnersCSV, parsePartnersCSV } from "@/lib/csv";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
 import type { Partner } from "@/lib/types";
@@ -43,6 +44,7 @@ export default function PartnersPage() {
   const partners = (convexPartners ?? []) as unknown as Partner[];
   const isLoading = convexPartners === undefined;
 
+  const router = useRouter();
   const { toast } = useToast();
   const { isFeatureEnabled } = usePlatformConfig();
   const showCerts = isFeatureEnabled("certifications");
@@ -484,6 +486,17 @@ export default function PartnersPage() {
               </div>
             )}
           </div>
+
+          {/* Compare (2-4 selected) */}
+          {selectedCount >= 2 && selectedCount <= 4 && (
+            <button
+              className="btn-outline"
+              style={{ fontSize: ".8rem", padding: "5px 12px", color: "#6366f1", borderColor: "rgba(99,102,241,.4)" }}
+              onClick={() => router.push(`/dashboard/partners/compare?ids=${selectedIds.join(",")}`)}
+            >
+              <GitCompare size={13} /> Compare
+            </button>
+          )}
 
           {/* Export selected */}
           <button
