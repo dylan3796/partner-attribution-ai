@@ -78,7 +78,7 @@ export default function LandingPage() {
           <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(129,140,248,.8)", marginBottom: ".75rem" }}>Partner Intelligence Platform</p>
           <h1>The intelligence layer for your partner business.</h1>
           <p className="subtitle" style={{ maxWidth: 680, margin: "0 auto 2.5rem" }}>
-            The rules engine between "someone did something" and "someone gets paid." Attribution, commission automation, and partner program management — built for the way modern partner programs actually work.
+            Attribution you can defend. Commissions that pay themselves. Partner programs that actually scale.
           </p>
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
