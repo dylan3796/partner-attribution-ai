@@ -15,6 +15,8 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 6, 2026",
     commits: [
+      { hash: "76cb6e7", type: "feat", message: "Portal territory page wired to real Convex data — partner territories, assigned accounts, and channel conflicts now persist in Convex instead of local useStore. New territories and channelConflicts tables in schema, portalTerritories.ts query with partner-scoped data, conflict alerts with other partner names, deal status badges on accounts. Loading skeleton, empty state. Seeded demo territories and conflicts for all 5 Horizon partners." },
+      { hash: "16c5be6", type: "feat", message: "Portal products page wired to real Convex data — replaces useStore demo data with live org products, partner-specific commission rates from commission rules, and per-product deal activity from real touchpoints and deal registrations." },
       { hash: "NEW0021", type: "feat", message: "Tier reviews wired to Convex — approve, reject, or defer partner tier changes with full persistence. Previously all review decisions were lost on page refresh (local state only). Now saves to Convex tierReviews table with audit trail entries. Bulk approve remaining, debounced notes auto-save, loading skeletons. Scoring data pulled from real Convex partners/deals/touchpoints/attributions instead of demo store." },
       { hash: "15d4a61", type: "feat", message: "What's New changelog widget in dashboard top bar — sparkle button opens a curated dropdown panel showing recent feature highlights with type badges (New/Fix/Polish), descriptions, and click-to-navigate links to relevant dashboard pages. Green dot badge when unseen features exist. Read state tracked via localStorage. Links to full /changelog page." },
     ],
