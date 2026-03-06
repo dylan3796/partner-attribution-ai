@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { UserButton } from "@clerk/nextjs";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { NotificationBell } from "@/components/NotificationBell";
+import { WhatsNewButton } from "@/components/WhatsNew";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Menu, X } from "lucide-react";
@@ -39,6 +40,7 @@ export function DashboardLayoutClient({ children }: { children: React.ReactNode 
                 Search...
                 <kbd>⌘K</kbd>
               </button>
+              <WhatsNewButton />
               <DarkModeToggle />
               <NotificationBell />
               <UserButton afterSignOutUrl="/" />
