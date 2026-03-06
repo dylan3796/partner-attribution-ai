@@ -832,4 +832,46 @@ export default defineSchema({
     .index("by_endpoint", ["endpointId"])
     .index("by_organization", ["organizationId"])
     .index("by_org_and_event", ["organizationId", "event"]),
+
+  // Partner territories — assigned account lists and regions
+  territories: defineTable({
+    organizationId: v.id("organizations"),
+    name: v.string(),
+    region: v.string(),
+    partnerId: v.id("partners"),
+    accounts: v.array(v.string()), // company names
+    isExclusive: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_partner", ["partnerId"])
+    .index("by_org_and_partner", ["organizationId", "partnerId"]),
+
+  // Channel conflicts — overlapping territory/account disputes
+  channelConflicts: defineTable({
+    organizationId: v.id("organizations"),
+    dealId: v.optional(v.id("deals")),
+    accountName: v.string(),
+    partnerIds: v.array(v.id("partners")),
+    primaryPartnerId: v.optional(v.id("partners")),
+    status: v.union(
+      v.literal("open"),
+      v.literal("under_review"),
+      v.literal("resolved"),
+      v.literal("escalated")
+    ),
+    resolution: v.optional(v.union(
+      v.literal("assign_primary"),
+      v.literal("split_credit"),
+      v.literal("escalated"),
+      v.literal("dismissed")
+    )),
+    resolutionNotes: v.optional(v.string()),
+    resolvedBy: v.optional(v.string()),
+    resolvedAt: v.optional(v.number()),
+    reportedAt: v.number(),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_status", ["organizationId", "status"]),
 });

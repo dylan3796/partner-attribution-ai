@@ -321,6 +321,74 @@ export const seedDemoData = mutation({
       });
     }
 
+    // Seed territories
+    const territorySeeds = [
+      { name: "West Coast", region: "US West", partner: "TechBridge Partners", accounts: ["Accenture", "Databricks", "Twilio"], isExclusive: true },
+      { name: "East Coast", region: "US East", partner: "Apex Growth Group", accounts: ["Zendesk", "Intercom", "Notion", "HubSpot"], isExclusive: true },
+      { name: "National — Integration", region: "National", partner: "Stackline Agency", accounts: ["Salesforce", "Plaid", "Workday", "Zapier"], isExclusive: false },
+      { name: "APAC", region: "Asia Pacific", partner: "Northlight Solutions", accounts: ["Stripe", "Okta"], isExclusive: true },
+      { name: "Mid-Market National", region: "National", partner: "Clearpath Consulting", accounts: ["Gong", "Asana", "Rippling"], isExclusive: false },
+    ];
+    for (const ts of territorySeeds) {
+      const pid = partnerIds[ts.partner];
+      if (pid) {
+        await ctx.db.insert("territories", {
+          organizationId: orgId,
+          name: ts.name,
+          region: ts.region,
+          partnerId: pid,
+          accounts: ts.accounts,
+          isExclusive: ts.isExclusive,
+          createdAt: Date.now() - 60 * 24 * 60 * 60 * 1000,
+        });
+      }
+    }
+
+    // Seed channel conflicts
+    const conflictSeeds = [
+      {
+        accountName: "HubSpot",
+        partners: ["Apex Growth Group", "Stackline Agency"],
+        status: "open" as const,
+        reportedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+      },
+      {
+        accountName: "Salesforce",
+        partners: ["Stackline Agency", "Northlight Solutions"],
+        status: "under_review" as const,
+        reportedAt: Date.now() - 5 * 24 * 60 * 60 * 1000,
+      },
+      {
+        accountName: "Stripe",
+        partners: ["Northlight Solutions", "TechBridge Partners"],
+        primaryPartnerId: "Northlight Solutions",
+        status: "resolved" as const,
+        resolution: "assign_primary" as const,
+        resolutionNotes: "Northlight had the initial referral and handled technical integration. TechBridge gets 15% co-sell attribution.",
+        resolvedBy: "Admin User",
+        resolvedAt: Date.now() - 10 * 24 * 60 * 60 * 1000,
+        reportedAt: Date.now() - 15 * 24 * 60 * 60 * 1000,
+      },
+    ];
+    for (const cs of conflictSeeds) {
+      const pIds = cs.partners.map((name) => partnerIds[name]).filter(Boolean);
+      if (pIds.length >= 2) {
+        await ctx.db.insert("channelConflicts", {
+          organizationId: orgId,
+          accountName: cs.accountName,
+          partnerIds: pIds,
+          status: cs.status,
+          resolution: (cs as any).resolution,
+          resolutionNotes: (cs as any).resolutionNotes,
+          resolvedBy: (cs as any).resolvedBy,
+          resolvedAt: (cs as any).resolvedAt,
+          primaryPartnerId: (cs as any).primaryPartnerId ? partnerIds[(cs as any).primaryPartnerId] : undefined,
+          reportedAt: cs.reportedAt,
+          createdAt: cs.reportedAt,
+        });
+      }
+    }
+
     return {
       success: true,
       message: "Demo data created successfully for Horizon Software",
@@ -348,6 +416,8 @@ export const clearDemoData = mutation({
       "commissionRules",
       "products",
       "contracts",
+      "territories",
+      "channelConflicts",
     ];
 
     let totalDeleted = 0;
