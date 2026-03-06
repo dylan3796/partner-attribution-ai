@@ -911,4 +911,18 @@ export default defineSchema({
     .index("by_partner", ["partnerId"])
     .index("by_program", ["programId"])
     .index("by_org_and_partner", ["organizationId", "partnerId"]),
+
+  // Partner notes — threaded internal notes per partner
+  partnerNotes: defineTable({
+    organizationId: v.id("organizations"),
+    partnerId: v.id("partners"),
+    authorName: v.string(),
+    authorEmail: v.string(),
+    content: v.string(),
+    isPinned: v.optional(v.boolean()),
+    createdAt: v.number(),
+    updatedAt: v.optional(v.number()),
+  })
+    .index("by_partner", ["partnerId"])
+    .index("by_org_and_partner", ["organizationId", "partnerId"]),
 });

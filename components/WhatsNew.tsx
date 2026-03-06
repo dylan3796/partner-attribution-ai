@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-06-partner-notes",
+    date: "Mar 6",
+    type: "feat",
+    title: "Partner Notes",
+    description: "Threaded internal notes on partner detail pages. Pin important notes, inline edit, full audit trail. Track conversations and context across your team.",
+    link: "/dashboard/partners",
+  },
+  {
     id: "2026-03-06-portal-volume",
     date: "Mar 6",
     type: "feat",

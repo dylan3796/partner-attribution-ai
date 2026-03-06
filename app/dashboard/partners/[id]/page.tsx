@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star, TrendingUp, BarChart3 } from "lucide-react";
+import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star, TrendingUp, BarChart3, MessageSquare, Pin, PinOff, Trash2, Loader2, Send } from "lucide-react";
 import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS, CERTIFICATION_LEVEL_LABELS, type CertificationLevel } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
 
@@ -80,11 +80,20 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
   const { toast } = useToast();
   const { isFeatureEnabled } = usePlatformConfig();
   const [editing, setEditing] = useState(false);
+  const [noteText, setNoteText] = useState("");
+  const [addingNote, setAddingNote] = useState(false);
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+  const [editingNoteText, setEditingNoteText] = useState("");
 
   // Convex queries
   const partnerData = useQuery(api.partners.getById, { id: id as Id<"partners"> });
   const auditLog = useQuery(api.dashboard.getAuditLog, {});
+  const partnerNotes = useQuery(api.partnerNotes.list, { partnerId: id as Id<"partners"> });
   const updatePartner = useMutation(api.partners.update);
+  const addNote = useMutation(api.partnerNotes.add);
+  const updateNote = useMutation(api.partnerNotes.update);
+  const togglePinNote = useMutation(api.partnerNotes.togglePin);
+  const removeNote = useMutation(api.partnerNotes.remove);
 
   const [editForm, setEditForm] = useState({
     name: "",
@@ -474,6 +483,197 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           </div>
         );
       })()}
+
+      {/* Internal Notes */}
+      <div className="card" style={{ marginTop: "1.5rem" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+          <h3 style={{ fontWeight: 700, margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
+            <MessageSquare size={18} color="#6366f1" /> Internal Notes
+          </h3>
+          <span className="muted" style={{ fontSize: ".75rem" }}>{partnerNotes?.length ?? 0} notes</span>
+        </div>
+
+        {/* Add note form */}
+        <div style={{ marginBottom: "1.25rem" }}>
+          <div style={{ position: "relative" }}>
+            <textarea
+              className="input"
+              placeholder="Add a note about this partner... (meeting notes, follow-ups, context for your team)"
+              rows={2}
+              value={noteText}
+              onChange={(e) => setNoteText(e.target.value)}
+              onKeyDown={async (e) => {
+                if (e.key === "Enter" && (e.metaKey || e.ctrlKey) && noteText.trim()) {
+                  e.preventDefault();
+                  setAddingNote(true);
+                  try {
+                    await addNote({ partnerId: id as Id<"partners">, content: noteText.trim() });
+                    setNoteText("");
+                    toast("Note added");
+                  } catch { toast("Failed to add note", "error"); }
+                  setAddingNote(false);
+                }
+              }}
+              style={{ paddingRight: "3rem", resize: "vertical", minHeight: 56 }}
+            />
+            <button
+              disabled={!noteText.trim() || addingNote}
+              onClick={async () => {
+                if (!noteText.trim()) return;
+                setAddingNote(true);
+                try {
+                  await addNote({ partnerId: id as Id<"partners">, content: noteText.trim() });
+                  setNoteText("");
+                  toast("Note added");
+                } catch { toast("Failed to add note", "error"); }
+                setAddingNote(false);
+              }}
+              style={{
+                position: "absolute", right: 8, bottom: 8,
+                background: noteText.trim() ? "#6366f1" : "transparent",
+                border: "none", borderRadius: 6, padding: "6px 8px",
+                cursor: noteText.trim() ? "pointer" : "default",
+                opacity: noteText.trim() ? 1 : 0.3,
+                display: "flex", alignItems: "center",
+              }}
+            >
+              {addingNote ? <Loader2 size={16} color="#fff" className="animate-spin" /> : <Send size={16} color="#fff" />}
+            </button>
+          </div>
+          <p className="muted" style={{ fontSize: ".7rem", marginTop: 4 }}>⌘+Enter to submit</p>
+        </div>
+
+        {/* Notes list */}
+        {partnerNotes === undefined ? (
+          <div style={{ padding: "1rem 0" }}>
+            {[1, 2].map((i) => (
+              <div key={i} style={{ padding: ".75rem 0", borderBottom: "1px solid var(--border)" }}>
+                <div style={{ height: 14, width: 120, background: "var(--border)", borderRadius: 4, marginBottom: 8 }} />
+                <div style={{ height: 14, width: "80%", background: "var(--border)", borderRadius: 4 }} />
+              </div>
+            ))}
+          </div>
+        ) : partnerNotes.length === 0 ? (
+          <p className="muted" style={{ fontSize: ".85rem", padding: "1rem 0", textAlign: "center" }}>
+            No notes yet. Add context about this partner for your team.
+          </p>
+        ) : (
+          <div>
+            {partnerNotes.map((note) => (
+              <div
+                key={note._id}
+                style={{
+                  padding: ".75rem 0",
+                  borderBottom: "1px solid var(--border)",
+                  position: "relative",
+                  ...(note.isPinned ? { borderLeft: "3px solid #6366f1", paddingLeft: "1rem", marginLeft: -4 } : {}),
+                }}
+              >
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <div
+                      style={{
+                        width: 24, height: 24, borderRadius: "50%",
+                        background: "rgba(99,102,241,.15)", color: "#818cf8",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        fontSize: ".65rem", fontWeight: 700,
+                      }}
+                    >
+                      {note.authorName.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()}
+                    </div>
+                    <span style={{ fontWeight: 600, fontSize: ".82rem" }}>{note.authorName}</span>
+                    {note.isPinned && (
+                      <span style={{ fontSize: ".65rem", color: "#6366f1", fontWeight: 600, display: "flex", alignItems: "center", gap: 2 }}>
+                        <Pin size={10} /> Pinned
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <span className="muted" style={{ fontSize: ".72rem" }}>
+                      {new Date(note.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                      {" · "}
+                      {new Date(note.createdAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
+                      {note.updatedAt && " (edited)"}
+                    </span>
+                    <button
+                      onClick={() => togglePinNote({ noteId: note._id })}
+                      title={note.isPinned ? "Unpin" : "Pin"}
+                      style={{ background: "none", border: "none", cursor: "pointer", padding: 4, opacity: 0.5 }}
+                      onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                      onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+                    >
+                      {note.isPinned ? <PinOff size={13} color="#6366f1" /> : <Pin size={13} color="#888" />}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setEditingNoteId(note._id);
+                        setEditingNoteText(note.content);
+                      }}
+                      title="Edit"
+                      style={{ background: "none", border: "none", cursor: "pointer", padding: 4, opacity: 0.5 }}
+                      onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                      onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+                    >
+                      <Edit size={13} color="#888" />
+                    </button>
+                    <button
+                      onClick={async () => {
+                        if (confirm("Delete this note?")) {
+                          await removeNote({ noteId: note._id });
+                          toast("Note deleted");
+                        }
+                      }}
+                      title="Delete"
+                      style={{ background: "none", border: "none", cursor: "pointer", padding: 4, opacity: 0.5 }}
+                      onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
+                      onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+                    >
+                      <Trash2 size={13} color="#888" />
+                    </button>
+                  </div>
+                </div>
+
+                {editingNoteId === note._id ? (
+                  <div style={{ marginTop: 4 }}>
+                    <textarea
+                      className="input"
+                      rows={2}
+                      value={editingNoteText}
+                      onChange={(e) => setEditingNoteText(e.target.value)}
+                      autoFocus
+                      style={{ resize: "vertical", marginBottom: 6 }}
+                    />
+                    <div style={{ display: "flex", gap: 6 }}>
+                      <button
+                        className="btn"
+                        style={{ fontSize: ".78rem", padding: "4px 12px" }}
+                        onClick={async () => {
+                          await updateNote({ noteId: note._id, content: editingNoteText.trim() });
+                          setEditingNoteId(null);
+                          toast("Note updated");
+                        }}
+                      >
+                        Save
+                      </button>
+                      <button
+                        className="btn-outline"
+                        style={{ fontSize: ".78rem", padding: "4px 12px" }}
+                        onClick={() => setEditingNoteId(null)}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <p style={{ fontSize: ".85rem", lineHeight: 1.6, whiteSpace: "pre-wrap", margin: 0, color: "rgba(255,255,255,.8)" }}>
+                    {note.content}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Edit Modal */}
       {editing && (
