@@ -4,7 +4,8 @@ import Link from "next/link";
 import {
   ArrowLeft, CheckCircle2, Circle, Clock, Sparkles,
   Users, Zap, Shield, BarChart3, Globe, Bot, Workflow,
-  ArrowRight, Rocket,
+  ArrowRight, Rocket, Bell, Key, FileDown, Target,
+  HeartPulse, Trophy, Package, AlertTriangle,
 } from "lucide-react";
 
 type RoadmapItem = {
@@ -58,7 +59,7 @@ const ROADMAP: RoadmapItem[] = [
   },
   {
     title: "Partner Portal",
-    description: "White-labeled portal where partners track their deals, commissions, performance, and certifications. No Covant branding visible.",
+    description: "White-labeled portal where partners track their deals, commissions, performance, MDF requests, and certifications. Real Convex data — no demo stubs.",
     icon: Users,
     status: "shipped",
     tag: "Portal",
@@ -98,6 +99,83 @@ const ROADMAP: RoadmapItem[] = [
     status: "shipped",
     tag: "Analytics",
   },
+  {
+    title: "Product Catalog & Commission Matching",
+    description: "Full product catalog with SKU search, category filters, and margin tracking. Commission rules auto-match by product line for product-level payouts.",
+    icon: Package,
+    status: "shipped",
+    tag: "Revenue",
+  },
+  {
+    title: "API Keys & Webhooks",
+    description: "Developer platform with scoped API keys, HMAC-signed outbound webhooks for 15 event types, delivery logs, and test events. Full integration toolkit.",
+    icon: Key,
+    status: "shipped",
+    tag: "Platform",
+  },
+  {
+    title: "Team Management",
+    description: "Invite teammates by email, assign roles (Admin/Manager/Member), inline role changes, last-admin protection, and audit logging for all team actions.",
+    icon: Users,
+    status: "shipped",
+    tag: "Platform",
+  },
+  {
+    title: "Notification Center",
+    description: "In-app notifications with type filtering, bulk mark-read, date-grouped timeline, and configurable preferences with quiet hours and email digest frequency.",
+    icon: Bell,
+    status: "shipped",
+    tag: "Platform",
+  },
+  {
+    title: "Partner Applications",
+    description: "Public /apply form for inbound partner acquisition. Admin review dashboard with approve/reject workflow, review notes, and duplicate detection.",
+    icon: Users,
+    status: "shipped",
+    tag: "Growth",
+  },
+  {
+    title: "Data Export Center",
+    description: "Bulk CSV download for all program data — partners, deals, payouts, touchpoints, audit log, commission rules, and products. Enterprise-grade data portability.",
+    icon: FileDown,
+    status: "shipped",
+    tag: "Enterprise",
+  },
+  {
+    title: "Goals & Targets",
+    description: "Set quarterly objectives for revenue, pipeline, partners, deals, and win rate. Track live progress with color-coded pace indicators comparing actual vs. time elapsed.",
+    icon: Target,
+    status: "shipped",
+    tag: "Analytics",
+  },
+  {
+    title: "QBR Reports",
+    description: "Executive quarterly business reviews with Q-over-Q deltas, rolling revenue charts, pipeline breakdown, top partner leaderboard, and print/PDF support.",
+    icon: BarChart3,
+    status: "shipped",
+    tag: "Analytics",
+  },
+  {
+    title: "Partner Health Scores",
+    description: "Composite 0-100 health scores per partner computed from deal activity, revenue, engagement, recency, and payout health. Auto-classifies healthy, at-risk, and churning partners.",
+    icon: HeartPulse,
+    status: "shipped",
+    tag: "Intelligence",
+  },
+  {
+    title: "Partner Leaderboard",
+    description: "Gamified performance rankings with podium, medal tiers, composite scoring (revenue, deals, win rate, engagement), and time period filters.",
+    icon: Trophy,
+    status: "shipped",
+    tag: "Analytics",
+  },
+  {
+    title: "Dispute Resolution",
+    description: "Full dispute lifecycle — open disputes against deals, admin review workflow, resolve or reject with notes, CSV export, and audit trail. Replaces spreadsheet disputes.",
+    icon: AlertTriangle,
+    status: "shipped",
+    tag: "Revenue",
+  },
 
   // In Progress
   {
@@ -132,14 +210,6 @@ const ROADMAP: RoadmapItem[] = [
     icon: Workflow,
     status: "planned",
     tag: "Platform",
-    quarter: "Q2 2026",
-  },
-  {
-    title: "Advanced Analytics & Custom Reports",
-    description: "Build custom dashboards, schedule report delivery, and export partner performance data in any format.",
-    icon: BarChart3,
-    status: "planned",
-    tag: "Analytics",
     quarter: "Q2 2026",
   },
   {
