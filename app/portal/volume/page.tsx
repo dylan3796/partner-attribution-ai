@@ -1,10 +1,36 @@
 "use client";
 
 import { usePortal } from "@/lib/portal-context";
-import { useStore } from "@/lib/store";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import type { Id } from "@/convex/_generated/dataModel";
 import { formatCurrency, formatNumber } from "@/lib/utils";
-import { getVolumeTier } from "@/lib/distributor-demo-data";
-import { BarChart3, TrendingUp, Target, ChevronRight, Trophy, Award } from "lucide-react";
+import { BarChart3, TrendingUp, Target, Trophy, Award } from "lucide-react";
+
+type VolumeTier = {
+  minUnits: number;
+  maxUnits: number | null;
+  rebatePercent: number;
+  label: string;
+};
+
+function getVolumeTier(units: number, tiers: VolumeTier[]) {
+  let currentIndex = 0;
+  for (let i = tiers.length - 1; i >= 0; i--) {
+    if (units >= tiers[i].minUnits) {
+      currentIndex = i;
+      break;
+    }
+  }
+  const nextTier = currentIndex < tiers.length - 1 ? tiers[currentIndex + 1] : null;
+  const unitsToNext = nextTier ? nextTier.minUnits - units : 0;
+  return {
+    tier: tiers[currentIndex],
+    index: currentIndex,
+    nextTier,
+    unitsToNext: Math.max(0, unitsToNext),
+  };
+}
 
 function ProgressBar({ value, max, color = "#6366f1", height = 12 }: { value: number; max: number; color?: string; height?: number }) {
   const pct = Math.min(100, (value / max) * 100);
@@ -15,26 +41,62 @@ function ProgressBar({ value, max, color = "#6366f1", height = 12 }: { value: nu
   );
 }
 
+function SkeletonCard() {
+  return (
+    <div className="card" style={{ padding: "1.25rem" }}>
+      <div style={{ width: 20, height: 20, borderRadius: 4, background: "var(--border)", marginBottom: ".5rem" }} />
+      <div style={{ width: "60%", height: 12, borderRadius: 4, background: "var(--border)", marginBottom: ".5rem" }} />
+      <div style={{ width: "40%", height: 24, borderRadius: 4, background: "var(--border)" }} />
+    </div>
+  );
+}
+
+function LoadingSkeleton() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+      <div>
+        <div style={{ width: "40%", height: 28, borderRadius: 6, background: "var(--border)", marginBottom: ".5rem" }} />
+        <div style={{ width: "60%", height: 14, borderRadius: 4, background: "var(--border)" }} />
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1rem" }}>
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+        <SkeletonCard />
+      </div>
+      <div className="card" style={{ height: 160 }}>
+        <div style={{ width: "30%", height: 14, borderRadius: 4, background: "var(--border)", marginBottom: "1rem" }} />
+        <div style={{ width: "100%", height: 16, borderRadius: 8, background: "var(--border)", marginBottom: ".5rem" }} />
+        <div style={{ width: "50%", height: 12, borderRadius: 4, background: "var(--border)" }} />
+      </div>
+    </div>
+  );
+}
+
 export default function PortalVolumePage() {
   const { partner } = usePortal();
-  const { volumePrograms, partnerVolumes, partners } = useStore();
+
+  const data = useQuery(
+    api.portalVolume.getByPartner,
+    partner?.id ? { partnerId: partner.id as Id<"partners"> } : "skip"
+  );
 
   if (!partner) return null;
+  if (data === undefined) return <LoadingSkeleton />;
 
-  const linkedIds = partner.linkedPartnerIds;
-  const myVolumes = partnerVolumes.filter((v) => linkedIds.includes(v.partnerId));
-  const activeProgram = volumePrograms.find((p) => p.status === "active" && p.period === "quarterly");
-  const myVol = myVolumes.find((v) => v.programId === activeProgram?._id);
+  const { programs, volumes, leaderboard } = data;
 
-  // Leaderboard context
-  const allVolumes = partnerVolumes
-    .filter((v) => v.programId === activeProgram?._id)
-    .sort((a, b) => b.unitsTotal - a.unitsTotal);
-  const myRank = allVolumes.findIndex((v) => linkedIds.includes(v.partnerId)) + 1;
+  // Find the active quarterly program and this partner's volume record
+  const activeProgram = programs.find((p) => p.period === "quarterly");
+  const myVol = activeProgram
+    ? volumes.find((v) => v.programId === activeProgram._id)
+    : null;
+
+  const myRank = leaderboard.findIndex((l) => l.isMe) + 1;
 
   const tierInfo = activeProgram && myVol ? getVolumeTier(myVol.unitsTotal, activeProgram.tiers) : null;
   const tierColors = ["#6b7280", "#2563eb", "#d97706", "#059669"];
-  const tierBgs = ["#f3f4f6", "#eff6ff", "#fffbeb", "#ecfdf5"];
+  const tierBgs = ["#1a1a1a", "#0a1628", "#1a1400", "#0a1a14"];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
@@ -70,7 +132,7 @@ export default function PortalVolumePage() {
             <div className="card">
               <Trophy size={20} color="#6366f1" />
               <p className="muted" style={{ fontSize: ".8rem", marginTop: ".5rem" }}>Leaderboard Rank</p>
-              <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>#{myRank} of {allVolumes.length}</p>
+              <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>#{myRank} of {leaderboard.length}</p>
             </div>
           </div>
 
@@ -113,7 +175,7 @@ export default function PortalVolumePage() {
                   </div>
                 </>
               ) : (
-                <div style={{ padding: "1rem", borderRadius: 8, background: "#ecfdf5", textAlign: "center" }}>
+                <div style={{ padding: "1rem", borderRadius: 8, background: "#0a1a14", textAlign: "center" }}>
                   <p style={{ fontWeight: 700, color: "#059669", fontSize: "1rem" }}>🎉 You&apos;re at the top tier!</p>
                   <p className="muted" style={{ fontSize: ".85rem" }}>Keep selling to maximize your rebate earnings</p>
                 </div>
@@ -156,13 +218,11 @@ export default function PortalVolumePage() {
           {/* Mini Leaderboard */}
           <div className="card">
             <h2 style={{ fontWeight: 700, fontSize: "1.1rem", marginBottom: "1rem" }}>Leaderboard</h2>
-            {allVolumes.slice(0, 5).map((vol, idx) => {
-              const p = partners.find((pr) => pr._id === vol.partnerId);
-              const isMe = linkedIds.includes(vol.partnerId);
+            {leaderboard.slice(0, 5).map((entry, idx) => {
               const emoji = idx === 0 ? "🥇" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${idx + 1}`;
               return (
                 <div
-                  key={vol._id}
+                  key={idx}
                   style={{
                     display: "flex",
                     alignItems: "center",
@@ -170,30 +230,30 @@ export default function PortalVolumePage() {
                     padding: ".65rem .75rem",
                     borderRadius: 8,
                     marginBottom: ".35rem",
-                    background: isMe ? "#eef2ff" : "transparent",
-                    border: isMe ? "1px solid #c7d2fe" : "1px solid transparent",
+                    background: entry.isMe ? "#1a1a2e" : "transparent",
+                    border: entry.isMe ? "1px solid #4338ca44" : "1px solid transparent",
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
                     <span style={{ fontSize: "1rem", width: 30, textAlign: "center" }}>{emoji}</span>
-                    <span style={{ fontWeight: isMe ? 700 : 500, fontSize: ".9rem" }}>
-                      {isMe ? `${p?.name} (You)` : p?.name || "Partner"}
+                    <span style={{ fontWeight: entry.isMe ? 700 : 500, fontSize: ".9rem" }}>
+                      {entry.isMe ? `${entry.partnerName} (You)` : entry.partnerName}
                     </span>
                   </div>
-                  <span style={{ fontWeight: 600, fontSize: ".9rem" }}>{formatNumber(vol.unitsTotal)} units</span>
+                  <span style={{ fontWeight: 600, fontSize: ".9rem" }}>{formatNumber(entry.unitsTotal)} units</span>
                 </div>
               );
             })}
           </div>
 
           {/* Projected Payout */}
-          <div className="card" style={{ background: "linear-gradient(135deg, #ecfdf5, #f0fdf4)", border: "1px solid #a7f3d0" }}>
+          <div className="card" style={{ background: "linear-gradient(135deg, #0a1a14, #0d1f17)", border: "1px solid #065f4644" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
-                <p style={{ fontWeight: 700, fontSize: "1rem", color: "#065f46" }}>Projected Rebate Payout</p>
+                <p style={{ fontWeight: 700, fontSize: "1rem", color: "#34d399" }}>Projected Rebate Payout</p>
                 <p style={{ fontSize: ".85rem", color: "#059669" }}>Based on current volume trajectory through end of period</p>
               </div>
-              <p style={{ fontSize: "2rem", fontWeight: 800, color: "#059669" }}>{formatCurrency(myVol.rebateProjected)}</p>
+              <p style={{ fontSize: "2rem", fontWeight: 800, color: "#34d399" }}>{formatCurrency(myVol.rebateProjected)}</p>
             </div>
           </div>
         </>

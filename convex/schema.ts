@@ -874,4 +874,41 @@ export default defineSchema({
   })
     .index("by_organization", ["organizationId"])
     .index("by_org_and_status", ["organizationId", "status"]),
+
+  // Volume rebate programs
+  volumePrograms: defineTable({
+    organizationId: v.id("organizations"),
+    name: v.string(),
+    period: v.union(v.literal("quarterly"), v.literal("annual")),
+    startDate: v.number(),
+    endDate: v.number(),
+    status: v.union(v.literal("active"), v.literal("draft"), v.literal("completed")),
+    tiers: v.array(v.object({
+      minUnits: v.number(),
+      maxUnits: v.union(v.number(), v.null()),
+      rebatePercent: v.number(),
+      label: v.string(),
+    })),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_status", ["organizationId", "status"]),
+
+  // Partner volume records — tracking units/revenue per partner per program
+  partnerVolumes: defineTable({
+    organizationId: v.id("organizations"),
+    partnerId: v.id("partners"),
+    programId: v.id("volumePrograms"),
+    period: v.string(), // e.g. "2026-Q1"
+    unitsTotal: v.number(),
+    revenueTotal: v.number(),
+    currentTierIndex: v.number(),
+    rebateAccrued: v.number(),
+    rebateProjected: v.number(),
+    lastUpdated: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_partner", ["partnerId"])
+    .index("by_program", ["programId"])
+    .index("by_org_and_partner", ["organizationId", "partnerId"]),
 });

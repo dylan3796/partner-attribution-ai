@@ -389,6 +389,64 @@ export const seedDemoData = mutation({
       }
     }
 
+    // Seed volume programs
+    const quarterlyProgramId = await ctx.db.insert("volumePrograms", {
+      organizationId: orgId,
+      name: "Q1 2026 Volume Rebate Program",
+      period: "quarterly",
+      startDate: now - 40 * DAY,
+      endDate: now + 50 * DAY,
+      status: "active",
+      tiers: [
+        { minUnits: 0, maxUnits: 100, rebatePercent: 5, label: "Standard" },
+        { minUnits: 101, maxUnits: 500, rebatePercent: 7, label: "Growth" },
+        { minUnits: 501, maxUnits: null, rebatePercent: 10, label: "Elite" },
+      ],
+      createdAt: now - 45 * DAY,
+    });
+
+    await ctx.db.insert("volumePrograms", {
+      organizationId: orgId,
+      name: "2026 Annual Volume Program",
+      period: "annual",
+      startDate: now - 40 * DAY,
+      endDate: now + 325 * DAY,
+      status: "active",
+      tiers: [
+        { minUnits: 0, maxUnits: 500, rebatePercent: 4, label: "Base" },
+        { minUnits: 501, maxUnits: 2000, rebatePercent: 6, label: "Accelerator" },
+        { minUnits: 2001, maxUnits: 5000, rebatePercent: 8, label: "Premier" },
+        { minUnits: 5001, maxUnits: null, rebatePercent: 12, label: "Champions Club" },
+      ],
+      createdAt: now - 45 * DAY,
+    });
+
+    // Seed partner volumes for the quarterly program
+    const volumeSeeds = [
+      { partner: "TechBridge Partners", units: 342, revenue: 684000, tier: 1, accrued: 23940, projected: 31500, daysAgo: 1 },
+      { partner: "Apex Growth Group", units: 89, revenue: 178000, tier: 0, accrued: 8900, projected: 12500, daysAgo: 2 },
+      { partner: "Stackline Agency", units: 156, revenue: 312000, tier: 1, accrued: 10920, projected: 18000, daysAgo: 1 },
+      { partner: "Northlight Solutions", units: 723, revenue: 1446000, tier: 2, accrued: 72300, projected: 95000, daysAgo: 1 },
+      { partner: "Clearpath Consulting", units: 67, revenue: 134000, tier: 0, accrued: 6700, projected: 9500, daysAgo: 3 },
+    ];
+    for (const vs of volumeSeeds) {
+      const pid = partnerIds[vs.partner];
+      if (pid) {
+        await ctx.db.insert("partnerVolumes", {
+          organizationId: orgId,
+          partnerId: pid,
+          programId: quarterlyProgramId,
+          period: "2026-Q1",
+          unitsTotal: vs.units,
+          revenueTotal: vs.revenue,
+          currentTierIndex: vs.tier,
+          rebateAccrued: vs.accrued,
+          rebateProjected: vs.projected,
+          lastUpdated: now - vs.daysAgo * DAY,
+        });
+      }
+    }
+
     return {
       success: true,
       message: "Demo data created successfully for Horizon Software",
@@ -418,6 +476,8 @@ export const clearDemoData = mutation({
       "contracts",
       "territories",
       "channelConflicts",
+      "volumePrograms",
+      "partnerVolumes",
     ];
 
     let totalDeleted = 0;
