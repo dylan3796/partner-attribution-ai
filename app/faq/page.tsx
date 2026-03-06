@@ -115,7 +115,7 @@ const FAQ_SECTIONS: FAQSection[] = [
     items: [
       {
         q: "How does pricing work?",
-        a: "Pricing is based on active partners — not seats or API calls. Free: up to 5 partners ($0). Pro: up to 25 partners ($99/mo). Scale: up to 100 partners ($349/mo). Enterprise: unlimited partners with custom pricing. All plans include the full attribution engine.",
+        a: "Pricing is engine-based. Partner Portal is always free. Add AI engines (Attribution, Incentives, Intelligence, CRM) individually or as a bundle. Tiers: Starter (≤25 partners), Growth (≤100), Scale (unlimited). Enterprise custom pricing available for large programs.",
       },
       {
         q: "What counts as an 'active partner'?",

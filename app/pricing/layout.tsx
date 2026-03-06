@@ -3,11 +3,11 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Pricing — Covant",
   description:
-    "Simple, partner-count pricing. Free for up to 5 partners. Pro $99/mo, Scale $349/mo, Enterprise custom. No time-limited trials — start free forever.",
+    "Engine-based pricing. Partner Portal always free. Add Attribution, Incentives, Intelligence, and CRM engines individually or bundled. Starter, Growth, and Scale tiers.",
   openGraph: {
-    title: "Covant Pricing — Start Free, Scale as You Grow",
+    title: "Covant Pricing — Pay for the engines you use",
     description:
-      "Partner attribution and commission automation from $0/mo. Free tier for up to 5 partners, Pro for 25, Scale for 100, Enterprise unlimited.",
+      "Partner Portal is always free. Add AI engines to automate attribution, commissions, insights, and CRM sync — individually or bundled.",
   },
 };
 
