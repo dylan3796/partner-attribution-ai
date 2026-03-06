@@ -23,6 +23,7 @@ import type * as disputes from "../disputes.js";
 import type * as emailNotifications from "../emailNotifications.js";
 import type * as emailTemplates from "../emailTemplates.js";
 import type * as eventSources from "../eventSources.js";
+import type * as exports from "../exports.js";
 import type * as forecasting from "../forecasting.js";
 import type * as integrations from "../integrations.js";
 import type * as invites from "../invites.js";
@@ -82,6 +83,7 @@ declare const fullApi: ApiFromModules<{
   emailNotifications: typeof emailNotifications;
   emailTemplates: typeof emailTemplates;
   eventSources: typeof eventSources;
+  exports: typeof exports;
   forecasting: typeof forecasting;
   integrations: typeof integrations;
   invites: typeof invites;
