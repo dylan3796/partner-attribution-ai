@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star, TrendingUp, BarChart3, MessageSquare, Pin, PinOff, Trash2, Loader2, Send } from "lucide-react";
+import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star, TrendingUp, BarChart3, MessageSquare, Pin, PinOff, Trash2, Loader2, Send, Tag, Plus } from "lucide-react";
 import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS, CERTIFICATION_LEVEL_LABELS, type CertificationLevel } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
 
@@ -37,6 +37,20 @@ const STAGE_COLORS: Record<string, string> = {
 };
 
 const TP_COLORS = ["#6366f1", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899", "#f97316", "#14b8a6"];
+
+const TAG_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+  "Top Performer": { bg: "rgba(34,197,94,.15)", text: "#22c55e", border: "rgba(34,197,94,.3)" },
+  "Strategic": { bg: "rgba(99,102,241,.15)", text: "#818cf8", border: "rgba(99,102,241,.3)" },
+  "At Risk": { bg: "rgba(239,68,68,.15)", text: "#ef4444", border: "rgba(239,68,68,.3)" },
+  "Needs Attention": { bg: "rgba(245,158,11,.15)", text: "#f59e0b", border: "rgba(245,158,11,.3)" },
+  "New": { bg: "rgba(6,182,212,.15)", text: "#06b6d4", border: "rgba(6,182,212,.3)" },
+  "Expansion": { bg: "rgba(139,92,246,.15)", text: "#8b5cf6", border: "rgba(139,92,246,.3)" },
+  "Enterprise": { bg: "rgba(236,72,153,.15)", text: "#ec4899", border: "rgba(236,72,153,.3)" },
+  "VIP": { bg: "rgba(249,115,22,.15)", text: "#f97316", border: "rgba(249,115,22,.3)" },
+};
+const DEFAULT_TAG_COLOR = { bg: "rgba(148,163,184,.15)", text: "#94a3b8", border: "rgba(148,163,184,.3)" };
+function getTagColor(tag: string) { return TAG_COLORS[tag] || DEFAULT_TAG_COLOR; }
+const SUGGESTED_TAGS = Object.keys(TAG_COLORS);
 
 function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
@@ -90,6 +104,9 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
   const auditLog = useQuery(api.dashboard.getAuditLog, {});
   const partnerNotes = useQuery(api.partnerNotes.list, { partnerId: id as Id<"partners"> });
   const updatePartner = useMutation(api.partners.update);
+  const updateTags = useMutation(api.partners.updateTags);
+  const [showTagInput, setShowTagInput] = useState(false);
+  const [newTag, setNewTag] = useState("");
   const addNote = useMutation(api.partnerNotes.add);
   const updateNote = useMutation(api.partnerNotes.update);
   const togglePinNote = useMutation(api.partnerNotes.togglePin);
@@ -195,6 +212,69 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           <span className="muted" style={{ display: "flex", alignItems: "center", gap: ".3rem", fontSize: ".85rem" }}><Mail size={14} /> {partner.email}</span>
           {partner.contactPhone && <span className="muted" style={{ display: "flex", alignItems: "center", gap: ".3rem", fontSize: ".85rem" }}><Phone size={14} /> {partner.contactPhone}</span>}
           {partner.territory && <span className="muted" style={{ display: "flex", alignItems: "center", gap: ".3rem", fontSize: ".85rem" }}><MapPin size={14} /> {partner.territory}</span>}
+        </div>
+        {/* Tags */}
+        <div style={{ display: "flex", gap: ".5rem", marginTop: "1rem", flexWrap: "wrap", alignItems: "center" }}>
+          <Tag size={14} color="var(--muted)" />
+          {(partner.tags || []).map((tag: string) => {
+            const c = getTagColor(tag);
+            return (
+              <span key={tag} style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 12, fontSize: ".75rem", fontWeight: 600, background: c.bg, color: c.text, border: `1px solid ${c.border}` }}>
+                {tag}
+                <button onClick={async () => {
+                  const updated = (partner.tags || []).filter((t: string) => t !== tag);
+                  await updateTags({ id: id as Id<"partners">, tags: updated });
+                  toast("Tag removed");
+                }} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, color: c.text, opacity: .7 }} title="Remove tag"><X size={12} /></button>
+              </span>
+            );
+          })}
+          {showTagInput ? (
+            <div style={{ display: "flex", alignItems: "center", gap: 4, position: "relative" }}>
+              <input
+                autoFocus
+                className="input"
+                value={newTag}
+                onChange={(e) => setNewTag(e.target.value)}
+                onKeyDown={async (e) => {
+                  if (e.key === "Enter" && newTag.trim()) {
+                    const tags = [...(partner.tags || [])];
+                    if (!tags.includes(newTag.trim())) {
+                      tags.push(newTag.trim());
+                      await updateTags({ id: id as Id<"partners">, tags });
+                      toast("Tag added");
+                    }
+                    setNewTag("");
+                    setShowTagInput(false);
+                  }
+                  if (e.key === "Escape") { setNewTag(""); setShowTagInput(false); }
+                }}
+                placeholder="Type tag name…"
+                style={{ width: 150, height: 28, fontSize: ".8rem", padding: "2px 8px" }}
+              />
+              {newTag.trim() === "" && (
+                <div style={{ position: "absolute", top: 32, left: 0, background: "#111", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 0", zIndex: 10, minWidth: 160 }}>
+                  {SUGGESTED_TAGS.filter((t) => !(partner.tags || []).includes(t)).map((tag) => (
+                    <button key={tag} onClick={async () => {
+                      const tags = [...(partner.tags || []), tag];
+                      await updateTags({ id: id as Id<"partners">, tags });
+                      toast("Tag added");
+                      setNewTag("");
+                      setShowTagInput(false);
+                    }} style={{ display: "block", width: "100%", textAlign: "left", padding: "5px 12px", background: "none", border: "none", cursor: "pointer", fontSize: ".8rem", color: getTagColor(tag).text, fontFamily: "inherit" }}
+                    onMouseOver={(e) => e.currentTarget.style.background = "var(--subtle)"}
+                    onMouseOut={(e) => e.currentTarget.style.background = ""}
+                    >{tag}</button>
+                  ))}
+                </div>
+              )}
+              <button onClick={() => { setNewTag(""); setShowTagInput(false); }} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted)", padding: 0 }}><X size={14} /></button>
+            </div>
+          ) : (
+            <button onClick={() => setShowTagInput(true)} style={{ display: "inline-flex", alignItems: "center", gap: 3, padding: "3px 8px", borderRadius: 12, fontSize: ".75rem", fontWeight: 500, background: "none", border: "1px dashed var(--border)", cursor: "pointer", color: "var(--muted)", fontFamily: "inherit" }}>
+              <Plus size={12} /> Add Tag
+            </button>
+          )}
         </div>
         {partner.notes && <p className="muted" style={{ marginTop: ".8rem", fontSize: ".9rem", fontStyle: "italic" }}>{partner.notes}</p>}
       </div>

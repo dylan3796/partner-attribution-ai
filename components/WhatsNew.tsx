@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-06-partner-tags",
+    date: "Mar 6",
+    type: "feat",
+    title: "Partner Tags",
+    description: "Color-coded labels to organize partners (Top Performer, Strategic, At Risk, VIP, etc). Add/remove inline, filter by tag on the list page.",
+    link: "/dashboard/partners",
+  },
+  {
     id: "2026-03-06-partner-notes",
     date: "Mar 6",
     type: "feat",

@@ -28,6 +28,7 @@ export const seedDemoData = mutation({
         territory: "West Coast",
         status: "active" as const,
         notes: "Premier reseller partner since 2024. Strong enterprise relationships in Silicon Valley.",
+        tags: ["Top Performer", "Strategic", "Enterprise"],
         createdAt: Date.now() - 150 * 24 * 60 * 60 * 1000,
       },
       {
@@ -41,6 +42,7 @@ export const seedDemoData = mutation({
         territory: "National",
         status: "active" as const,
         notes: "Top-tier strategic partner. Largest referral volume. Executive relationships at Fortune 500.",
+        tags: ["VIP", "Top Performer"],
         createdAt: Date.now() - 200 * 24 * 60 * 60 * 1000,
       },
       {
@@ -54,6 +56,7 @@ export const seedDemoData = mutation({
         territory: "East Coast",
         status: "active" as const,
         notes: "Growing mid-market focus. Strong technical implementation team.",
+        tags: ["Expansion"],
         createdAt: Date.now() - 120 * 24 * 60 * 60 * 1000,
       },
       {
@@ -80,6 +83,7 @@ export const seedDemoData = mutation({
         territory: "Midwest",
         status: "active" as const,
         notes: "Emerging partner in Midwest region. Building pipeline steadily.",
+        tags: ["New", "Needs Attention"],
         createdAt: Date.now() - 60 * 24 * 60 * 60 * 1000,
       },
     ];

@@ -69,6 +69,7 @@ export default defineSchema({
     contactPhone: v.optional(v.string()),
     territory: v.optional(v.string()),
     notes: v.optional(v.string()),
+    tags: v.optional(v.array(v.string())),
     // Stripe Connect fields
     stripeAccountId: v.optional(v.string()),
     stripeOnboarded: v.optional(v.boolean()),

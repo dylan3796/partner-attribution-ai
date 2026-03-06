@@ -181,10 +181,22 @@ export const update = mutation({
     territory: v.optional(v.string()),
     notes: v.optional(v.string()),
     contactName: v.optional(v.string()),
+    tags: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
     await ctx.db.patch(id, updates);
+    return { success: true };
+  },
+});
+
+export const updateTags = mutation({
+  args: {
+    id: v.id("partners"),
+    tags: v.array(v.string()),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, { tags: args.tags });
     return { success: true };
   },
 });
@@ -194,6 +206,25 @@ export const remove = mutation({
   handler: async (ctx, args) => {
     await ctx.db.delete(args.id);
     return { success: true };
+  },
+});
+
+export const listAllTags = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return [];
+    const partners = await ctx.db
+      .query("partners")
+      .withIndex("by_organization", (q) => q.eq("organizationId", org._id))
+      .collect();
+    const tagSet = new Set<string>();
+    for (const p of partners) {
+      if (p.tags) {
+        for (const t of p.tags) tagSet.add(t);
+      }
+    }
+    return Array.from(tagSet).sort();
   },
 });
 

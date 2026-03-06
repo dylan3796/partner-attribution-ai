@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
-import { Plus, Download, Upload, Search, X, Shield, Award, Loader2, Send, Copy, Check, Users } from "lucide-react";
+import { Plus, Download, Upload, Search, X, Shield, Award, Loader2, Send, Copy, Check, Users, Tag } from "lucide-react";
 import { exportPartnersCSV, parsePartnersCSV } from "@/lib/csv";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
 import type { Partner } from "@/lib/types";
@@ -13,11 +13,25 @@ import type { Partner } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
 import { getActiveCertCount, getBadgeCount } from "@/lib/certifications-data";
 
+const TAG_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+  "Top Performer": { bg: "rgba(34,197,94,.15)", text: "#22c55e", border: "rgba(34,197,94,.3)" },
+  "Strategic": { bg: "rgba(99,102,241,.15)", text: "#818cf8", border: "rgba(99,102,241,.3)" },
+  "At Risk": { bg: "rgba(239,68,68,.15)", text: "#ef4444", border: "rgba(239,68,68,.3)" },
+  "Needs Attention": { bg: "rgba(245,158,11,.15)", text: "#f59e0b", border: "rgba(245,158,11,.3)" },
+  "New": { bg: "rgba(6,182,212,.15)", text: "#06b6d4", border: "rgba(6,182,212,.3)" },
+  "Expansion": { bg: "rgba(139,92,246,.15)", text: "#8b5cf6", border: "rgba(139,92,246,.3)" },
+  "Enterprise": { bg: "rgba(236,72,153,.15)", text: "#ec4899", border: "rgba(236,72,153,.3)" },
+  "VIP": { bg: "rgba(249,115,22,.15)", text: "#f97316", border: "rgba(249,115,22,.3)" },
+};
+const DEFAULT_TAG_COLOR = { bg: "rgba(148,163,184,.15)", text: "#94a3b8", border: "rgba(148,163,184,.3)" };
+function getTagColor(tag: string) { return TAG_COLORS[tag] || DEFAULT_TAG_COLOR; }
+
 export default function PartnersPage() {
   // ── Convex ──────────────────────────────────────────────────────────────
   const convexPartners = useQuery(api.partners.list);
   const convexDeals = useQuery(api.dealsCrud.list);
   const convexAttributions = useQuery(api.dashboard.getAllAttributions);
+  const allTags = useQuery(api.partners.listAllTags) ?? [];
   const createPartner = useMutation(api.partners.create);
   const createInvite = useMutation(api.invites.create);
 
@@ -31,6 +45,7 @@ export default function PartnersPage() {
   const [search, setSearch] = useState("");
   const [filterType, setFilterType] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [filterTag, setFilterTag] = useState<string>("all");
   const [showAdd, setShowAdd] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -69,6 +84,7 @@ export default function PartnersPage() {
       return false;
     if (filterType !== "all" && p.type !== filterType) return false;
     if (filterStatus !== "all" && p.status !== filterStatus) return false;
+    if (filterTag !== "all" && !(p as any).tags?.includes(filterTag)) return false;
     return true;
   });
 
@@ -177,6 +193,12 @@ export default function PartnersPage() {
           <option value="pending">Pending</option>
           <option value="inactive">Inactive</option>
         </select>
+        {allTags.length > 0 && (
+          <select className="input" style={{ width: "auto" }} value={filterTag} onChange={(e) => setFilterTag(e.target.value)}>
+            <option value="all">All Tags</option>
+            {allTags.map((t) => <option key={t} value={t}>{t}</option>)}
+          </select>
+        )}
       </div>
 
       {/* Loading state */}
@@ -199,6 +221,7 @@ export default function PartnersPage() {
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Tier</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Commission</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Territory</th>
+                  <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Tags</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Onboarding</th>
                   <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Status</th>
                 </tr>
@@ -231,6 +254,16 @@ export default function PartnersPage() {
                     <td style={{ padding: ".8rem" }}><span className="badge badge-neutral">{p.tier ? TIER_LABELS[p.tier] : "—"}</span></td>
                     <td style={{ padding: ".8rem", fontWeight: 600 }}>{p.commissionRate}%</td>
                     <td style={{ padding: ".8rem" }} className="muted">{p.territory || "—"}</td>
+                    <td style={{ padding: ".8rem" }}>
+                      <div style={{ display: "flex", gap: 4, flexWrap: "wrap" }}>
+                        {((p as any).tags || []).slice(0, 3).map((tag: string) => {
+                          const c = getTagColor(tag);
+                          return <span key={tag} style={{ padding: "2px 8px", borderRadius: 10, fontSize: ".7rem", fontWeight: 600, background: c.bg, color: c.text, border: `1px solid ${c.border}`, whiteSpace: "nowrap" }}>{tag}</span>;
+                        })}
+                        {((p as any).tags || []).length > 3 && <span className="muted" style={{ fontSize: ".7rem" }}>+{(p as any).tags.length - 3}</span>}
+                        {!((p as any).tags?.length) && <span className="muted" style={{ fontSize: ".75rem" }}>—</span>}
+                      </div>
+                    </td>
                     <td style={{ padding: ".8rem" }}>
                       {(() => {
                         const ob = onboardingMap.get(p._id);
