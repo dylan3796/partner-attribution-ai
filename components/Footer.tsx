@@ -31,6 +31,7 @@ const RESOURCE_LINKS = [
 const COMPANY_LINKS = [
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
+  { name: "System Status", href: "/status" },
   { name: "Privacy Policy", href: "/privacy" },
   { name: "Terms of Service", href: "/terms" },
   { name: "Security", href: "/security" },
