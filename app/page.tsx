@@ -194,37 +194,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── 2.5. FOUNDING MEMBER PRICING ────────────────── */}
-      <section style={{ padding: "3rem 0", background: "rgba(0,0,0,.3)", borderTop: "1px solid rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.08)" }}>
-        <div className="wrap">
-          <div
-            style={{
-              maxWidth: 800,
-              margin: "0 auto",
-              padding: "2rem 2.5rem",
-              background: "rgba(255,255,255,.04)",
-              border: "1px solid rgba(255,255,255,.12)",
-              borderRadius: 12,
-              textAlign: "center",
-            }}
-          >
-            <h3 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: ".75rem", color: "#fff" }}>
-              Founding Member Pricing
-            </h3>
-            <p style={{ fontSize: "1rem", color: "rgba(255,255,255,.75)", lineHeight: 1.6, marginBottom: "1.25rem" }}>
-              Lock in Pro at $49/mo — forever. First 25 founding members get Pro pricing (normally $99/mo) locked for life. <span style={{ fontWeight: 600, color: "#818cf8" }}>{Math.max(0, 25 - leadsCount)} of 25 spots remaining.</span>
-            </p>
-            <Link
-              href="/sign-up"
-              className="btn"
-              style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: ".5rem" }}
-            >
-              Claim your spot →
-            </Link>
-          </div>
-        </div>
-      </section>
-
       {/* ── 3. SOCIAL PROOF ──────────────────────────────── */}
       <section className="testimonial-strip">
         <div className="wrap">
