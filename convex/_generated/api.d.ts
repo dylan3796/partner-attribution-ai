@@ -44,6 +44,7 @@ import type * as partnerApplications from "../partnerApplications.js";
 import type * as partnerHealth from "../partnerHealth.js";
 import type * as partners from "../partners.js";
 import type * as payouts from "../payouts.js";
+import type * as portalDashboard from "../portalDashboard.js";
 import type * as products from "../products.js";
 import type * as programConfig from "../programConfig.js";
 import type * as queries_analytics from "../queries/analytics.js";
@@ -102,6 +103,7 @@ declare const fullApi: ApiFromModules<{
   partnerHealth: typeof partnerHealth;
   partners: typeof partners;
   payouts: typeof payouts;
+  portalDashboard: typeof portalDashboard;
   products: typeof products;
   programConfig: typeof programConfig;
   "queries/analytics": typeof queries_analytics;
