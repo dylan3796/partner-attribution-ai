@@ -9,6 +9,7 @@ import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
 import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2, Sparkles, CheckCircle, X, Activity } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import GettingStartedChecklist from "@/components/GettingStartedChecklist";
+import ActivityFeed from "@/components/ActivityFeed";
 import type { Deal, Partner, Payout, AuditEntry } from "@/lib/types";
 
 // Deferred query hook: delays enabling a query until after initial paint
@@ -654,22 +655,13 @@ export default function DashboardPage() {
             )}
           </div>
 
-          {/* Audit Trail */}
+          {/* Activity Feed */}
           <div className="card">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: ".75rem" }}>
               <h3 style={{ fontWeight: 700, fontSize: "1rem", margin: 0 }}>Recent Activity</h3>
               <Link href="/dashboard/activity" className="muted" style={{ fontSize: ".8rem", fontWeight: 500 }}>View all →</Link>
             </div>
-            {auditLog.length === 0 ? (
-              <p className="muted" style={{ fontSize: ".85rem" }}>No activity yet.</p>
-            ) : (
-              auditLog.map((entry) => (
-                <div key={entry._id} style={{ padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
-                  <p style={{ fontSize: ".85rem" }}><strong>{entry.action}</strong></p>
-                  <p className="muted" style={{ fontSize: ".75rem" }}>{new Date(entry.createdAt).toLocaleString()}</p>
-                </div>
-              ))
-            )}
+            <ActivityFeed entries={auditLog} limit={6} />
           </div>
         </div>
       </div>
