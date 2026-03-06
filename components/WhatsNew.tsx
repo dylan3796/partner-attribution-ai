@@ -28,6 +28,21 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-06-tier-reviews",
+    date: "Mar 6",
+    type: "feat",
+    title: "Tier Reviews with Convex",
+    description: "Approve, reject, or defer partner tier changes — decisions now persist across sessions with full audit trail.",
+    link: "/dashboard/scoring/tier-reviews",
+  },
+  {
+    id: "2026-03-06-whats-new",
+    date: "Mar 6",
+    type: "polish",
+    title: "What's New Widget",
+    description: "Sparkle button in the top bar shows curated feature highlights with unseen badge and click-to-navigate.",
+  },
+  {
     id: "2026-03-05-goals",
     date: "Mar 5",
     type: "feat",
@@ -126,7 +141,7 @@ const RECENT_CHANGES: ChangeEntry[] = [
 ];
 
 const STORAGE_KEY = "covant-whats-new-seen";
-const LATEST_VERSION = "2026-03-05";
+const LATEST_VERSION = "2026-03-06";
 
 function getSeenVersion(): string | null {
   if (typeof window === "undefined") return null;

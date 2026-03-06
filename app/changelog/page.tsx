@@ -13,6 +13,13 @@ type Entry = {
 // Generated from real git log — update periodically
 const CHANGELOG: Entry[] = [
   {
+    date: "March 6, 2026",
+    commits: [
+      { hash: "NEW0021", type: "feat", message: "Tier reviews wired to Convex — approve, reject, or defer partner tier changes with full persistence. Previously all review decisions were lost on page refresh (local state only). Now saves to Convex tierReviews table with audit trail entries. Bulk approve remaining, debounced notes auto-save, loading skeletons. Scoring data pulled from real Convex partners/deals/touchpoints/attributions instead of demo store." },
+      { hash: "15d4a61", type: "feat", message: "What's New changelog widget in dashboard top bar — sparkle button opens a curated dropdown panel showing recent feature highlights with type badges (New/Fix/Polish), descriptions, and click-to-navigate links to relevant dashboard pages. Green dot badge when unseen features exist. Read state tracked via localStorage. Links to full /changelog page." },
+    ],
+  },
+  {
     date: "March 5, 2026",
     commits: [
       { hash: "39af0c2", type: "feat", message: "Goals & Targets page at /dashboard/goals — set quarterly objectives for revenue, pipeline, partners, deals, and win rate. Track live progress from real Convex data with color-coded pace indicators, stats summary, inline editing, and period/status filters. Added to Analytics sidebar nav." },

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import Link from "next/link";
-import { useStore } from "@/lib/store";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import {
   calculatePartnerScores,
   tierColor,
@@ -12,7 +13,7 @@ import {
   type PartnerScore,
 } from "@/lib/partner-scoring";
 import { TIER_LABELS } from "@/lib/types";
-import { formatCurrency } from "@/lib/utils";
+import type { Id } from "@/convex/_generated/dataModel";
 import {
   ArrowUpCircle,
   ArrowDownCircle,
@@ -20,24 +21,13 @@ import {
   XCircle,
   Clock,
   Trophy,
-  TrendingUp,
-  TrendingDown,
-  AlertTriangle,
   ChevronRight,
-  Shield,
-  BarChart3,
   Users,
+  Loader2,
+  Save,
 } from "lucide-react";
 
-type ReviewAction = "pending" | "approved" | "rejected" | "deferred";
-
-type TierReview = {
-  partnerId: string;
-  partnerScore: PartnerScore;
-  action: ReviewAction;
-  notes: string;
-  reviewedAt?: number;
-};
+type ReviewAction = "approved" | "rejected" | "deferred";
 
 function TierBadge({ tier, size = "md" }: { tier: string; size?: "sm" | "md" }) {
   const s = size === "sm" ? { padding: "1px 8px", fontSize: ".7rem" } : { padding: "3px 12px", fontSize: ".8rem" };
@@ -63,55 +53,162 @@ function ScoreCircle({ score, size = 36 }: { score: number; size?: number }) {
   );
 }
 
-function ActionButton({ label, icon, active, onClick, color }: { label: string; icon: React.ReactNode; active: boolean; onClick: () => void; color: string }) {
+function ActionButton({ label, icon, active, onClick, color, saving }: {
+  label: string; icon: React.ReactNode; active: boolean; onClick: () => void; color: string; saving?: boolean;
+}) {
   return (
     <button
       onClick={(e) => { e.stopPropagation(); onClick(); }}
+      disabled={saving}
       style={{
         display: "flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 8, fontSize: ".8rem", fontWeight: 600,
         border: active ? `2px solid ${color}` : "1px solid var(--border)",
         background: active ? `${color}15` : "transparent", color: active ? color : "var(--muted)",
-        cursor: "pointer", transition: "all 0.15s",
+        cursor: saving ? "wait" : "pointer", transition: "all 0.15s", opacity: saving ? 0.6 : 1,
       }}
     >
-      {icon} {label}
+      {saving ? <Loader2 size={14} className="animate-spin" /> : icon} {label}
     </button>
   );
 }
 
 export default function TierReviewsPage() {
-  const store = useStore();
-  const { partners, deals, touchpoints, attributions } = store;
+  // Fetch real data from Convex
+  const scoringData = useQuery(api.tierReviews.getScoringData);
+  const existingReviews = useQuery(api.tierReviews.list);
+  const saveReview = useMutation(api.tierReviews.save);
+  const bulkApprove = useMutation(api.tierReviews.bulkApprove);
+  const updateNotes = useMutation(api.tierReviews.updateNotes);
 
-  const scores = useMemo(() => calculatePartnerScores(partners, deals, touchpoints, attributions, DEFAULT_SCORING_CONFIG), [partners, deals, touchpoints, attributions]);
+  const [filter, setFilter] = useState<"all" | "upgrades" | "downgrades">("all");
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [savingIds, setSavingIds] = useState<Set<string>>(new Set());
+  const [bulkSaving, setBulkSaving] = useState(false);
+  const [localNotes, setLocalNotes] = useState<Map<string, string>>(new Map());
+  const [noteTimers, setNoteTimers] = useState<Map<string, NodeJS.Timeout>>(new Map());
+
+  // Compute scores from real Convex data
+  const scores = useMemo(() => {
+    if (!scoringData) return [];
+    const { partners, deals, touchpoints, attributions } = scoringData;
+    return calculatePartnerScores(
+      partners as any,
+      deals as any,
+      touchpoints as any,
+      attributions as any,
+      DEFAULT_SCORING_CONFIG
+    );
+  }, [scoringData]);
+
+  // Build a map of existing reviews by partnerId
+  const reviewMap = useMemo(() => {
+    const map = new Map<string, { action: ReviewAction; notes: string }>();
+    if (!existingReviews) return map;
+    for (const r of existingReviews) {
+      map.set(r.partnerId as string, {
+        action: r.action,
+        notes: r.notes || "",
+      });
+    }
+    return map;
+  }, [existingReviews]);
 
   // Only show partners with tier changes
   const changesOnly = useMemo(() => scores.filter((s) => s.tierChange !== "maintain"), [scores]);
   const upgrades = changesOnly.filter((s) => s.tierChange === "upgrade");
   const downgrades = changesOnly.filter((s) => s.tierChange === "downgrade");
-
-  const [reviews, setReviews] = useState<Map<string, TierReview>>(new Map());
-  const [filter, setFilter] = useState<"all" | "upgrades" | "downgrades">("all");
-  const [expandedId, setExpandedId] = useState<string | null>(null);
-
   const filtered = filter === "upgrades" ? upgrades : filter === "downgrades" ? downgrades : changesOnly;
 
-  function setAction(partnerId: string, score: PartnerScore, action: ReviewAction) {
-    setReviews((prev) => {
-      const next = new Map(prev);
-      const existing = next.get(partnerId);
-      next.set(partnerId, {
-        partnerId,
-        partnerScore: score,
-        action,
-        notes: existing?.notes || "",
-        reviewedAt: action !== "pending" ? Date.now() : undefined,
-      });
-      return next;
-    });
-  }
+  // Count reviewed (from Convex)
+  const reviewed = changesOnly.filter((s) => reviewMap.has(s.partnerId)).length;
 
-  const reviewed = [...reviews.values()].filter((r) => r.action !== "pending").length;
+  const handleAction = useCallback(async (score: PartnerScore, action: ReviewAction) => {
+    setSavingIds((prev) => new Set(prev).add(score.partnerId));
+    try {
+      await saveReview({
+        partnerId: score.partnerId as Id<"partners">,
+        action,
+        previousTier: score.currentTier,
+        recommendedTier: score.recommendedTier,
+        overallScore: score.overallScore,
+        notes: localNotes.get(score.partnerId) || reviewMap.get(score.partnerId)?.notes || undefined,
+      });
+    } catch (err) {
+      console.error("Failed to save tier review:", err);
+    } finally {
+      setSavingIds((prev) => {
+        const next = new Set(prev);
+        next.delete(score.partnerId);
+        return next;
+      });
+    }
+  }, [saveReview, localNotes, reviewMap]);
+
+  const handleBulkApprove = useCallback(async () => {
+    const pending = changesOnly.filter((s) => !reviewMap.has(s.partnerId));
+    if (pending.length === 0) return;
+    setBulkSaving(true);
+    try {
+      await bulkApprove({
+        reviews: pending.map((s) => ({
+          partnerId: s.partnerId as Id<"partners">,
+          previousTier: s.currentTier,
+          recommendedTier: s.recommendedTier,
+          overallScore: s.overallScore,
+        })),
+      });
+    } catch (err) {
+      console.error("Bulk approve failed:", err);
+    } finally {
+      setBulkSaving(false);
+    }
+  }, [changesOnly, reviewMap, bulkApprove]);
+
+  const handleNotesChange = useCallback((partnerId: string, value: string) => {
+    setLocalNotes((prev) => new Map(prev).set(partnerId, value));
+    // Debounce save notes
+    setNoteTimers((prev) => {
+      const existing = prev.get(partnerId);
+      if (existing) clearTimeout(existing);
+      const timer = setTimeout(async () => {
+        if (reviewMap.has(partnerId)) {
+          try {
+            await updateNotes({ partnerId: partnerId as Id<"partners">, notes: value });
+          } catch { /* silently fail */ }
+        }
+      }, 1000);
+      return new Map(prev).set(partnerId, timer);
+    });
+  }, [reviewMap, updateNotes]);
+
+  // Loading state
+  if (!scoringData || existingReviews === undefined) {
+    return (
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+            <Link href="/dashboard/scoring" style={{ fontSize: ".8rem", color: "var(--muted)", textDecoration: "none" }}>Scoring</Link>
+            <ChevronRight size={14} style={{ color: "var(--muted)" }} />
+            <span style={{ fontSize: ".8rem", fontWeight: 600 }}>Tier Reviews</span>
+          </div>
+          <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Tier Review Queue</h1>
+          <p className="muted" style={{ marginTop: "0.25rem" }}>Review and approve partner tier changes based on scoring</p>
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem" }}>
+          {[1,2,3,4].map((i) => (
+            <div key={i} className="card" style={{ padding: "1.25rem", height: 80 }}>
+              <div style={{ width: "60%", height: 12, background: "var(--border)", borderRadius: 6, marginBottom: 8 }} />
+              <div style={{ width: "40%", height: 24, background: "var(--border)", borderRadius: 6 }} />
+            </div>
+          ))}
+        </div>
+        <div className="card" style={{ padding: "3rem", textAlign: "center" }}>
+          <Loader2 size={24} style={{ color: "var(--muted)", margin: "0 auto 12px", animation: "spin 1s linear infinite" }} />
+          <p className="muted" style={{ fontSize: ".875rem" }}>Loading scoring data...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
@@ -143,7 +240,7 @@ export default function TierReviewsPage() {
           </div>
           <div>
             <div className="muted" style={{ fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>Pending Reviews</div>
-            <div style={{ fontSize: "1.5rem", fontWeight: 800 }}>{changesOnly.length}</div>
+            <div style={{ fontSize: "1.5rem", fontWeight: 800 }}>{changesOnly.length - reviewed}</div>
           </div>
         </div>
         <div className="card" style={{ padding: "1.25rem", display: "flex", gap: "1rem", alignItems: "center" }}>
@@ -186,12 +283,12 @@ export default function TierReviewsPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
           {filtered
             .sort((a, b) => {
-              // Upgrades first, then by score desc
               if (a.tierChange !== b.tierChange) return a.tierChange === "upgrade" ? -1 : 1;
               return b.overallScore - a.overallScore;
             })
             .map((score) => {
-              const review = reviews.get(score.partnerId);
+              const review = reviewMap.get(score.partnerId);
+              const isSaving = savingIds.has(score.partnerId);
               const isExpanded = expandedId === score.partnerId;
               const isUpgrade = score.tierChange === "upgrade";
               const changeColor = isUpgrade ? "#22c55e" : "#ef4444";
@@ -214,13 +311,14 @@ export default function TierReviewsPage() {
                       <div style={{ flex: 1, minWidth: 150 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                           <span style={{ fontSize: "1.05rem", fontWeight: 700 }}>{score.partnerName}</span>
-                          {review?.action && review.action !== "pending" && (
+                          {review && (
                             <span style={{
+                              display: "inline-flex", alignItems: "center", gap: 4,
                               padding: "1px 8px", borderRadius: 999, fontSize: ".65rem", fontWeight: 700,
                               background: review.action === "approved" ? "#22c55e20" : review.action === "rejected" ? "#ef444420" : "#eab30820",
                               color: review.action === "approved" ? "#22c55e" : review.action === "rejected" ? "#ef4444" : "#eab308",
                             }}>
-                              {review.action.toUpperCase()}
+                              <Save size={9} /> {review.action.toUpperCase()}
                             </span>
                           )}
                         </div>
@@ -243,9 +341,9 @@ export default function TierReviewsPage() {
 
                       {/* Action buttons */}
                       <div style={{ display: "flex", gap: 6 }}>
-                        <ActionButton label="Approve" icon={<CheckCircle2 size={14} />} active={review?.action === "approved"} onClick={() => setAction(score.partnerId, score, "approved")} color="#22c55e" />
-                        <ActionButton label="Reject" icon={<XCircle size={14} />} active={review?.action === "rejected"} onClick={() => setAction(score.partnerId, score, "rejected")} color="#ef4444" />
-                        <ActionButton label="Defer" icon={<Clock size={14} />} active={review?.action === "deferred"} onClick={() => setAction(score.partnerId, score, "deferred")} color="#eab308" />
+                        <ActionButton label="Approve" icon={<CheckCircle2 size={14} />} active={review?.action === "approved"} onClick={() => handleAction(score, "approved")} color="#22c55e" saving={isSaving} />
+                        <ActionButton label="Reject" icon={<XCircle size={14} />} active={review?.action === "rejected"} onClick={() => handleAction(score, "rejected")} color="#ef4444" saving={isSaving} />
+                        <ActionButton label="Defer" icon={<Clock size={14} />} active={review?.action === "deferred"} onClick={() => handleAction(score, "deferred")} color="#eab308" saving={isSaving} />
                       </div>
                     </div>
                   </div>
@@ -293,19 +391,16 @@ export default function TierReviewsPage() {
                           className="input"
                           rows={2}
                           placeholder="Add notes for this tier review..."
-                          value={reviews.get(score.partnerId)?.notes || ""}
+                          value={localNotes.get(score.partnerId) ?? review?.notes ?? ""}
                           onClick={(e) => e.stopPropagation()}
-                          onChange={(e) => {
-                            const val = e.target.value;
-                            setReviews((prev) => {
-                              const next = new Map(prev);
-                              const existing = next.get(score.partnerId) || { partnerId: score.partnerId, partnerScore: score, action: "pending" as ReviewAction, notes: "" };
-                              next.set(score.partnerId, { ...existing, notes: val });
-                              return next;
-                            });
-                          }}
+                          onChange={(e) => handleNotesChange(score.partnerId, e.target.value)}
                           style={{ width: "100%", resize: "vertical" }}
                         />
+                        {review && (
+                          <p className="muted" style={{ fontSize: ".7rem", marginTop: 4 }}>
+                            Notes auto-save when you have an active review decision
+                          </p>
+                        )}
                       </div>
                     </div>
                   )}
@@ -320,21 +415,25 @@ export default function TierReviewsPage() {
         <div className="card" style={{ padding: "1rem 1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12 }}>
           <span className="muted" style={{ fontSize: ".875rem" }}>
             {reviewed} of {changesOnly.length} reviewed
-            {reviewed > 0 && ` • ${[...reviews.values()].filter(r => r.action === "approved").length} approved, ${[...reviews.values()].filter(r => r.action === "rejected").length} rejected, ${[...reviews.values()].filter(r => r.action === "deferred").length} deferred`}
+            {reviewed > 0 && (() => {
+              const approved = changesOnly.filter(s => reviewMap.get(s.partnerId)?.action === "approved").length;
+              const rejected = changesOnly.filter(s => reviewMap.get(s.partnerId)?.action === "rejected").length;
+              const deferred = changesOnly.filter(s => reviewMap.get(s.partnerId)?.action === "deferred").length;
+              return ` • ${approved} approved, ${rejected} rejected, ${deferred} deferred`;
+            })()}
           </span>
           <div style={{ display: "flex", gap: 8 }}>
             <button
               className="btn-outline"
-              onClick={() => {
-                changesOnly.forEach((s) => {
-                  if (!reviews.has(s.partnerId) || reviews.get(s.partnerId)?.action === "pending") {
-                    setAction(s.partnerId, s, "approved");
-                  }
-                });
-              }}
-              style={{ fontSize: ".8rem" }}
+              onClick={handleBulkApprove}
+              disabled={bulkSaving || changesOnly.length === reviewed}
+              style={{ fontSize: ".8rem", opacity: bulkSaving ? 0.6 : 1 }}
             >
-              Approve All Remaining
+              {bulkSaving ? (
+                <><Loader2 size={14} style={{ animation: "spin 1s linear infinite", marginRight: 6 }} /> Approving...</>
+              ) : (
+                `Approve All Remaining (${changesOnly.length - reviewed})`
+              )}
             </button>
           </div>
         </div>

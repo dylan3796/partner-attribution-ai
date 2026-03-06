@@ -796,6 +796,26 @@ export default defineSchema({
     .index("by_org_and_status", ["organizationId", "status"])
     .index("by_org_and_period", ["organizationId", "period"]),
 
+  // Tier Review Decisions — persists approve/reject/defer actions on partner tier changes
+  tierReviews: defineTable({
+    organizationId: v.id("organizations"),
+    partnerId: v.id("partners"),
+    action: v.union(
+      v.literal("approved"),
+      v.literal("rejected"),
+      v.literal("deferred")
+    ),
+    previousTier: v.string(),
+    recommendedTier: v.string(),
+    overallScore: v.number(),
+    notes: v.optional(v.string()),
+    reviewedBy: v.optional(v.string()), // Clerk userId
+    reviewedAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_partner", ["partnerId"])
+    .index("by_org_and_partner", ["organizationId", "partnerId"]),
+
   // Outbound Webhook Delivery Log
   webhookDeliveries: defineTable({
     organizationId: v.id("organizations"),
