@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-06-portal-volume",
+    date: "Mar 6",
+    type: "feat",
+    title: "Portal Volume — Real Data",
+    description: "Volume programs, tier progress, and leaderboard now persist in Convex. All portal pages use real data — zero useStore remaining.",
+    link: "/portal/volume",
+  },
+  {
     id: "2026-03-06-tier-reviews",
     date: "Mar 6",
     type: "feat",
