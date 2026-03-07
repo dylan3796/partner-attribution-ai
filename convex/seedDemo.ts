@@ -451,6 +451,71 @@ export const seedDemoData = mutation({
       }
     }
 
+    // Seed certification programs
+    const certSeeds = [
+      { name: "Sales Fundamentals", description: "Core selling skills for Horizon products — value props, objection handling, competitive positioning.", level: "beginner" as const, category: "sales" as const, requiredForTier: "silver" as const, validityMonths: 12 },
+      { name: "Solution Selling", description: "Consultative selling techniques for enterprise accounts. Discovery, ROI framing, multi-stakeholder navigation.", level: "intermediate" as const, category: "sales" as const, requiredForTier: "gold" as const, validityMonths: 12 },
+      { name: "Technical Integration", description: "API integration, deployment architecture, and technical enablement for implementation partners.", level: "advanced" as const, category: "technical" as const, validityMonths: 18 },
+      { name: "Enterprise Strategy", description: "Strategic account planning, executive engagement, and large deal orchestration.", level: "expert" as const, category: "sales" as const, requiredForTier: "platinum" as const, validityMonths: 24 },
+      { name: "Product Specialist", description: "Deep product knowledge across the Horizon platform — features, use cases, and demo delivery.", level: "intermediate" as const, category: "product" as const, validityMonths: 12 },
+      { name: "Security & Compliance", description: "Data handling, compliance requirements, and security best practices for partner implementations.", level: "intermediate" as const, category: "compliance" as const, validityMonths: 12 },
+    ];
+
+    const certIds: string[] = [];
+    for (const cs of certSeeds) {
+      const id = await ctx.db.insert("certifications", {
+        organizationId: orgId,
+        name: cs.name,
+        description: cs.description,
+        level: cs.level,
+        category: cs.category,
+        requiredForTier: cs.requiredForTier,
+        validityMonths: cs.validityMonths,
+        status: "active",
+        createdAt: now - 90 * DAY,
+        updatedAt: now - 90 * DAY,
+      });
+      certIds.push(id);
+    }
+
+    // Award certifications to demo partners
+    if (certIds.length > 0 && partnerIdList.length > 0) {
+      const awards = [
+        { partnerIdx: 0, certIdx: 0, score: 92, daysAgo: 60 },  // TechBridge — Sales Fundamentals
+        { partnerIdx: 0, certIdx: 1, score: 88, daysAgo: 30 },  // TechBridge — Solution Selling
+        { partnerIdx: 0, certIdx: 4, score: 95, daysAgo: 45 },  // TechBridge — Product Specialist
+        { partnerIdx: 1, certIdx: 0, score: 85, daysAgo: 50 },  // Apex Growth — Sales Fundamentals
+        { partnerIdx: 2, certIdx: 2, score: 97, daysAgo: 20 },  // Stackline — Technical Integration
+        { partnerIdx: 2, certIdx: 5, score: 90, daysAgo: 15 },  // Stackline — Security & Compliance
+        { partnerIdx: 3, certIdx: 0, score: 78, daysAgo: 40 },  // Northlight — Sales Fundamentals
+        { partnerIdx: 4, certIdx: 0, score: 91, daysAgo: 55 },  // Clearpath — Sales Fundamentals
+        { partnerIdx: 4, certIdx: 1, score: 86, daysAgo: 25 },  // Clearpath — Solution Selling
+        { partnerIdx: 4, certIdx: 3, score: 94, daysAgo: 10 },  // Clearpath — Enterprise Strategy
+      ];
+
+      for (const a of awards) {
+        const pid = partnerIdList[a.partnerIdx % partnerIdList.length];
+        const cid = certIds[a.certIdx % certIds.length] as any;
+        const cert = certSeeds[a.certIdx];
+        const completedAt = now - a.daysAgo * DAY;
+        const expiresAt = cert.validityMonths
+          ? completedAt + cert.validityMonths * 30 * DAY
+          : undefined;
+
+        await ctx.db.insert("partnerCertifications", {
+          organizationId: orgId,
+          partnerId: pid,
+          certificationId: cid,
+          status: "completed",
+          completedAt,
+          expiresAt,
+          score: a.score,
+          awardedBy: "admin",
+          createdAt: completedAt,
+        });
+      }
+    }
+
     return {
       success: true,
       message: "Demo data created successfully for Horizon Software",
@@ -482,6 +547,8 @@ export const clearDemoData = mutation({
       "channelConflicts",
       "volumePrograms",
       "partnerVolumes",
+      "certifications",
+      "partnerCertifications",
     ];
 
     let totalDeleted = 0;

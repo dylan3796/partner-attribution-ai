@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-07-certifications",
+    date: "Mar 7",
+    type: "feat",
+    title: "Partner Certifications",
+    description: "Full certification program management — create programs, award certs to partners, track completion and expiry. Tier-gated certifications, scores, audit trail. Replaces placeholder.",
+    link: "/dashboard/certifications",
+  },
+  {
     id: "2026-03-07-partner-scorecard",
     date: "Mar 7",
     type: "feat",

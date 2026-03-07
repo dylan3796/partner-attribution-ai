@@ -913,6 +913,61 @@ export default defineSchema({
     .index("by_program", ["programId"])
     .index("by_org_and_partner", ["organizationId", "partnerId"]),
 
+  // Certification programs — defined by org admins
+  certifications: defineTable({
+    organizationId: v.id("organizations"),
+    name: v.string(),
+    description: v.optional(v.string()),
+    level: v.union(
+      v.literal("beginner"),
+      v.literal("intermediate"),
+      v.literal("advanced"),
+      v.literal("expert")
+    ),
+    category: v.union(
+      v.literal("sales"),
+      v.literal("technical"),
+      v.literal("product"),
+      v.literal("compliance")
+    ),
+    requiredForTier: v.optional(v.union(
+      v.literal("bronze"),
+      v.literal("silver"),
+      v.literal("gold"),
+      v.literal("platinum")
+    )),
+    validityMonths: v.optional(v.number()), // how long cert is valid, null = never expires
+    status: v.union(v.literal("active"), v.literal("archived")),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_status", ["organizationId", "status"]),
+
+  // Partner certification records — tracks which partners hold which certs
+  partnerCertifications: defineTable({
+    organizationId: v.id("organizations"),
+    partnerId: v.id("partners"),
+    certificationId: v.id("certifications"),
+    status: v.union(
+      v.literal("in_progress"),
+      v.literal("completed"),
+      v.literal("expired"),
+      v.literal("revoked")
+    ),
+    completedAt: v.optional(v.number()),
+    expiresAt: v.optional(v.number()),
+    score: v.optional(v.number()), // optional score 0-100
+    notes: v.optional(v.string()),
+    awardedBy: v.optional(v.string()), // who granted it
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_partner", ["partnerId"])
+    .index("by_certification", ["certificationId"])
+    .index("by_org_and_partner", ["organizationId", "partnerId"])
+    .index("by_org_and_cert", ["organizationId", "certificationId"]),
+
   // Partner notes — threaded internal notes per partner
   partnerNotes: defineTable({
     organizationId: v.id("organizations"),
