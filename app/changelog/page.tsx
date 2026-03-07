@@ -15,6 +15,7 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 7, 2026",
     commits: [
+      { hash: "NEW0031", type: "feat", message: "Partner Scorecard (/dashboard/partners/[id]/scorecard) — print-ready, shareable one-page partner performance report. Health score ring chart, 7 key metric cards (revenue, pipeline, win rate, avg deal size, commissions paid/pending), 6-month revenue trend bars, top closed deals table, and auto-generated insights (commission-to-revenue ratio, velocity, trend direction, churn risk). Print/PDF button with optimized print styles. Accessible via Scorecard button on each partner detail page. VPs use this to prep QBRs and share partner performance with leadership." },
       { hash: "NEW0030", type: "feat", message: "Partner Activity Heatmap (/dashboard/reports/activity) — GitHub-style contribution graph showing daily partner program activity over the past 12 months. Aggregates touchpoints, deal registrations, deal closures, and program events into a visual calendar grid. Color intensity scales with activity volume. Hover tooltips show date + event breakdown. Stats row: total events, current streak (consecutive active days), active days count with daily average, and busiest day. Activity breakdown bar chart by event type (touchpoints, deals created, deals closed, program events). Linked from Reports page and command palette. Helps VPs spot engagement patterns, identify quiet periods, and track program momentum at a glance." },
     ],
   },

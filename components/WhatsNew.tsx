@@ -28,6 +28,13 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-07-partner-scorecard",
+    date: "Mar 7",
+    type: "feat",
+    title: "Partner Scorecard",
+    description: "Print-ready one-page partner performance report. Health score, key metrics, revenue trend, top deals, and auto-generated insights. Share with leadership or use for QBR prep.",
+  },
+  {
     id: "2026-03-07-activity-heatmap",
     date: "Mar 7",
     type: "feat",
