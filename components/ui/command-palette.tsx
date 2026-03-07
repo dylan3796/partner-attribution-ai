@@ -28,6 +28,22 @@ import {
   ExternalLink,
   User,
   FileText,
+  Heart,
+  Star,
+  ClipboardList,
+  Target,
+  TrendingUp,
+  Crosshair,
+  Scale,
+  PieChart,
+  Download,
+  CreditCard,
+  Key,
+  UserPlus,
+  Webhook,
+  SlidersHorizontal,
+  Layers,
+  Cpu,
   type LucideIcon,
 } from "lucide-react";
 
@@ -43,34 +59,71 @@ type CommandItem = {
 };
 
 const COMMANDS: CommandItem[] = [
-  // Dashboard navigation
+  // ── Core Navigation ──
   { id: "dash", label: "Dashboard Home", icon: LayoutDashboard, href: "/dashboard", category: "navigation", keywords: ["home", "overview", "main"] },
-  { id: "partners", label: "Partners", icon: Users, href: "/dashboard/partners", category: "navigation", keywords: ["partner", "list", "manage"] },
-  { id: "deals", label: "Deals", icon: Briefcase, href: "/dashboard/deals", category: "navigation", keywords: ["deal", "opportunity", "sales"] },
-  { id: "pipeline", label: "Pipeline & Co-Sell", icon: GitBranch, href: "/dashboard/pipeline", category: "navigation", keywords: ["pipeline", "cosell", "co-sell", "revenue", "accounts"] },
-  { id: "payouts", label: "Payouts", icon: DollarSign, href: "/dashboard/payouts", category: "navigation", keywords: ["payout", "commission", "payment", "money"] },
+  { id: "program-health", label: "Program Health", icon: Heart, href: "/dashboard/health", category: "navigation", keywords: ["health", "score", "program", "status", "overview"] },
+  { id: "notifications", label: "Notifications", icon: Bell, href: "/dashboard/notifications", category: "navigation", keywords: ["notification", "alert", "inbox", "unread"] },
+
+  // ── Partners ──
+  { id: "partners", label: "All Partners", icon: Users, href: "/dashboard/partners", category: "navigation", keywords: ["partner", "list", "manage", "channel"] },
+  { id: "partner-health", label: "Partner Health Scores", icon: Heart, href: "/dashboard/partner-health", category: "navigation", keywords: ["health", "score", "at risk", "churning", "engagement"] },
+  { id: "partner-compare", label: "Partner Comparison", icon: Users, href: "/dashboard/partners/compare", category: "navigation", keywords: ["compare", "side by side", "benchmark", "qbr"] },
+  { id: "leads", label: "Leads", icon: Star, href: "/dashboard/leads", category: "navigation", keywords: ["lead", "prospect", "potential", "recruit"] },
+  { id: "applications", label: "Partner Applications", icon: ClipboardList, href: "/dashboard/partner-applications", category: "navigation", keywords: ["application", "apply", "inbound", "approve", "reject"] },
+  { id: "onboarding", label: "Partner Onboarding", icon: Rocket, href: "/dashboard/onboarding", category: "navigation", keywords: ["onboard", "ramp", "new partner", "kickoff"] },
+
+  // ── Revenue ──
+  { id: "deals", label: "Deals", icon: Briefcase, href: "/dashboard/deals", category: "navigation", keywords: ["deal", "opportunity", "sales", "registration"] },
+  { id: "pipeline", label: "Pipeline & Co-Sell", icon: GitBranch, href: "/dashboard/pipeline", category: "navigation", keywords: ["pipeline", "cosell", "co-sell", "kanban", "board"] },
+  { id: "payouts", label: "Payouts", icon: DollarSign, href: "/dashboard/payouts", category: "navigation", keywords: ["payout", "commission", "payment", "money", "approve"] },
+  { id: "contracts", label: "Contracts", icon: FileText, href: "/dashboard/contracts", category: "navigation", keywords: ["contract", "agreement", "document", "sign"] },
+  { id: "products", label: "Product Catalog", icon: Package, href: "/dashboard/products", category: "navigation", keywords: ["product", "catalog", "sku", "pricing"] },
+  { id: "conflicts", label: "Disputes & Conflicts", icon: Scale, href: "/dashboard/conflicts", category: "navigation", keywords: ["dispute", "conflict", "channel", "territory", "overlap", "resolution"] },
+
+  // ── Program ──
   { id: "scoring", label: "Partner Scoring", icon: Trophy, href: "/dashboard/scoring", category: "navigation", keywords: ["score", "tier", "rank", "performance"] },
   { id: "tier-reviews", label: "Tier Reviews", icon: Shield, href: "/dashboard/scoring/tier-reviews", category: "navigation", keywords: ["tier", "review", "upgrade", "downgrade", "approve"] },
-  { id: "certs", label: "Certifications", icon: Award, href: "/dashboard/certifications", category: "navigation", keywords: ["cert", "certification", "badge", "training"] },
-  { id: "onboarding", label: "Partner Onboarding", icon: Rocket, href: "/dashboard/onboarding", category: "navigation", keywords: ["onboard", "ramp", "new partner", "kickoff"] },
   { id: "incentives", label: "Incentive Programs", icon: Gift, href: "/dashboard/incentives", category: "navigation", keywords: ["incentive", "spif", "bonus", "accelerator", "program"] },
-  { id: "volume", label: "Volume Rebates", icon: BarChart3, href: "/dashboard/volume-rebates", category: "navigation", keywords: ["volume", "rebate", "distributor"] },
+  { id: "certs", label: "Certifications", icon: Award, href: "/dashboard/certifications", category: "navigation", keywords: ["cert", "certification", "badge", "training"] },
   { id: "mdf", label: "MDF Programs", icon: Megaphone, href: "/dashboard/mdf", category: "navigation", keywords: ["mdf", "market", "development", "fund"] },
-  { id: "products", label: "Product Catalog", icon: Package, href: "/dashboard/products", category: "navigation", keywords: ["product", "catalog", "sku"] },
-  { id: "conflicts", label: "Channel Conflicts", icon: AlertTriangle, href: "/dashboard/conflicts", category: "navigation", keywords: ["conflict", "channel", "territory", "overlap"] },
-  { id: "reports", label: "Reports & Analytics", icon: BarChart3, href: "/dashboard/reports", category: "navigation", keywords: ["report", "analytics", "chart", "attribution"] },
-  { id: "activity", label: "Activity Log", icon: Activity, href: "/dashboard/activity", category: "navigation", keywords: ["activity", "audit", "log", "history"] },
-  { id: "emails", label: "Email Triggers", icon: Mail, href: "/dashboard/emails", category: "navigation", keywords: ["email", "notification", "trigger", "template"] },
-  { id: "settings", label: "Settings", icon: Settings, href: "/dashboard/settings", category: "settings", keywords: ["settings", "config", "attribution", "model", "feature", "flag"] },
+  { id: "volume", label: "Volume Rebates", icon: BarChart3, href: "/dashboard/volume-rebates", category: "navigation", keywords: ["volume", "rebate", "distributor"] },
 
-  // Portal
+  // ── Analytics ──
+  { id: "goals", label: "Goals & Targets", icon: Target, href: "/dashboard/goals", category: "navigation", keywords: ["goal", "target", "objective", "kpi", "quarterly"] },
+  { id: "leaderboard", label: "Partner Leaderboard", icon: Trophy, href: "/dashboard/leaderboard", category: "navigation", keywords: ["leaderboard", "rank", "top", "gamification", "competition"] },
+  { id: "reports", label: "Attribution Reports", icon: PieChart, href: "/dashboard/reports", category: "navigation", keywords: ["report", "analytics", "chart", "attribution"] },
+  { id: "revenue-intel", label: "Revenue Intelligence", icon: TrendingUp, href: "/dashboard/reports/revenue", category: "navigation", keywords: ["revenue", "intelligence", "concentration", "breakdown", "analytics"] },
+  { id: "weekly-digest", label: "Weekly Performance Digest", icon: FileText, href: "/dashboard/reports/digest", category: "navigation", keywords: ["weekly", "digest", "summary", "exec", "report", "wow"] },
+  { id: "qbr", label: "QBR Reports", icon: PieChart, href: "/dashboard/reports/qbr", category: "navigation", keywords: ["qbr", "quarterly", "business", "review", "executive"] },
+  { id: "data-export", label: "Data Export Center", icon: Download, href: "/dashboard/reports/export", category: "navigation", keywords: ["export", "csv", "download", "data", "bulk"] },
+  { id: "reconciliation", label: "Reconciliation Report", icon: DollarSign, href: "/dashboard/reports/reconciliation", category: "navigation", keywords: ["reconciliation", "quarter", "end", "payout", "summary"] },
+  { id: "forecasting", label: "Forecasting", icon: TrendingUp, href: "/dashboard/forecasting", category: "navigation", keywords: ["forecast", "predict", "projection", "pipeline", "growth"] },
+  { id: "benchmarks", label: "Benchmarks", icon: Crosshair, href: "/dashboard/benchmarks", category: "navigation", keywords: ["benchmark", "compare", "quartile", "performance"] },
+  { id: "cohorts", label: "Cohort Analysis", icon: BarChart3, href: "/dashboard/cohorts", category: "navigation", keywords: ["cohort", "segment", "group", "analysis", "trend"] },
+  { id: "recommendations", label: "Recommendations", icon: Zap, href: "/dashboard/recommendations", category: "navigation", keywords: ["recommend", "suggest", "ai", "insight"] },
+  { id: "activity", label: "Activity Log", icon: Activity, href: "/dashboard/activity", category: "navigation", keywords: ["activity", "audit", "log", "history", "trail"] },
+  { id: "emails", label: "Email Triggers", icon: Mail, href: "/dashboard/emails", category: "navigation", keywords: ["email", "notification", "trigger", "template"] },
+
+  // ── Settings ──
+  { id: "settings", label: "Settings", icon: Settings, href: "/dashboard/settings", category: "settings", keywords: ["settings", "config", "feature", "flag"] },
+  { id: "settings-commission", label: "Commission Rules", icon: SlidersHorizontal, href: "/dashboard/settings/commission-rules", category: "settings", keywords: ["commission", "rule", "rate", "percentage", "override"] },
+  { id: "settings-attribution", label: "Attribution Model", icon: Cpu, href: "/dashboard/settings/attribution", category: "settings", keywords: ["attribution", "model", "first touch", "last touch", "deal reg"] },
+  { id: "settings-tiers", label: "Partner Tiers", icon: Layers, href: "/dashboard/settings/tiers", category: "settings", keywords: ["tier", "bronze", "silver", "gold", "platinum", "level"] },
+  { id: "settings-team", label: "Team Management", icon: UserPlus, href: "/dashboard/settings/team", category: "settings", keywords: ["team", "member", "invite", "role", "admin", "manager"] },
+  { id: "settings-api", label: "API Keys", icon: Key, href: "/dashboard/settings/api-keys", category: "settings", keywords: ["api", "key", "token", "developer", "integration"] },
+  { id: "settings-webhooks", label: "Webhooks", icon: Webhook, href: "/dashboard/settings/webhooks", category: "settings", keywords: ["webhook", "endpoint", "event", "callback", "integration"] },
+  { id: "settings-notifications", label: "Notification Preferences", icon: Bell, href: "/dashboard/settings/notifications", category: "settings", keywords: ["notification", "preference", "digest", "quiet", "email"] },
+  { id: "settings-billing", label: "Billing & Subscription", icon: CreditCard, href: "/dashboard/settings/billing", category: "settings", keywords: ["billing", "subscription", "plan", "stripe", "payment", "upgrade"] },
+  { id: "integrations", label: "Integrations", icon: Zap, href: "/dashboard/integrations", category: "settings", keywords: ["integration", "salesforce", "hubspot", "crm", "connect"] },
+
+  // ── Portal ──
   { id: "portal", label: "Partner Portal", icon: ExternalLink, href: "/portal", category: "portal", keywords: ["portal", "partner view", "external"] },
   { id: "portal-deals", label: "Portal: My Deals", icon: Briefcase, href: "/portal/deals", category: "portal", keywords: ["portal", "deals", "registration"] },
   { id: "portal-commissions", label: "Portal: Commissions", icon: DollarSign, href: "/portal/commissions", category: "portal", keywords: ["portal", "commission", "earnings"] },
   { id: "portal-notifications", label: "Portal: Notifications", icon: Bell, href: "/portal/notifications", category: "portal", keywords: ["portal", "notification", "alerts"] },
   { id: "portal-profile", label: "Portal: Profile", icon: User, href: "/portal/profile", category: "portal", keywords: ["portal", "profile", "account"] },
 
-  // Landing/public
+  // ── Public/Marketing ──
   { id: "landing", label: "Landing Page", icon: ExternalLink, href: "/", category: "navigation", keywords: ["landing", "home", "marketing", "website"] },
 ];
 
