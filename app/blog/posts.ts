@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "partner-intelligence-data-driven-programs",
+    title: "From Gut Feel to Partner Intelligence: How Data Changes Everything",
+    description:
+      "Most VPs of Partnerships run their programs on instinct and spreadsheets. The ones outperforming them by 3x have one thing in common: partner intelligence. Here's what it is and how to build it.",
+    date: "March 7, 2026",
+    readTime: "9 min read",
+    category: "strategy",
+  },
+  {
     slug: "partner-portal-partners-actually-use",
     title: "How to Build a Partner Portal That Partners Actually Use",
     description:

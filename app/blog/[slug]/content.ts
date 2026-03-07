@@ -5,6 +5,154 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "partner-intelligence-data-driven-programs": [
+    {
+      paragraphs: [
+        "Ask a VP of Partnerships which of their partners drove the most revenue last quarter. Most can answer that one — it's usually obvious. Now ask them which partner is about to churn. Which deal registration pattern predicts a win. Which partner type generates the highest lifetime value per customer. Which territory is over-invested and which is starving.",
+        "Silence. Or worse: a guess dressed up as confidence.",
+        "This is the gap between managing a partner program and having partner intelligence. The first is operational — keeping the trains running, processing payouts, answering partner emails. The second is strategic — knowing what's actually happening in your channel and making decisions before problems become crises.",
+      ],
+    },
+    {
+      heading: "What partner intelligence actually means",
+      paragraphs: [
+        "Partner intelligence isn't a dashboard. It's not a reporting tab you check once a quarter before a board meeting. It's a continuous, data-driven understanding of your partner ecosystem that informs every decision you make.",
+        "Specifically, it answers five questions that gut-feel programs can't:",
+      ],
+      bullets: [
+        "Attribution clarity: Which partners are actually sourcing revenue vs. just influencing it? What's the real contribution of each partner to closed-won deals?",
+        "Health signals: Which partners are engaged, which are coasting, and which are about to leave? What does 'healthy' even look like for your program?",
+        "Revenue patterns: Where is partner revenue coming from? How concentrated is it? What happens if your top partner leaves?",
+        "Operational efficiency: How long do deal registrations take to approve? What's the commission-to-revenue ratio? Are you overpaying or underpaying relative to value?",
+        "Growth vectors: Where should you recruit next? Which partner profile has the highest success rate? What does the pipeline look like 90 days from now?",
+      ],
+    },
+    {
+      heading: "The spreadsheet ceiling",
+      paragraphs: [
+        "Every partner program starts in spreadsheets. There's no shame in that — you need five partners in a Google Sheet, not enterprise software. The problem is that spreadsheets don't scale past about 15-20 partners, and by the time you hit that wall, you've already been running blind for months.",
+        "Spreadsheet programs hit three specific ceilings:",
+      ],
+      bullets: [
+        "No real-time visibility: Your data is always stale. By the time someone updates the 'Partner Revenue' tab, the quarter is already halfway over. Decisions based on last month's spreadsheet are decisions based on fiction.",
+        "No cross-referencing: Which partners also have the highest deal velocity? Which product lines are over-represented in disputes? Answering these questions in spreadsheets requires manual pivot tables that nobody maintains.",
+        "No proactive signals: A spreadsheet never tells you that Partner X hasn't registered a deal in 47 days. It never flags that your commission-to-revenue ratio spiked 3x this month. You find out when it's too late.",
+      ],
+    },
+    {
+      paragraphs: [
+        "The worst part isn't the data quality — it's the confidence gap. When your VP asks 'how's the partner program doing?' and your answer comes from a spreadsheet, everyone in the room knows the number is approximate. When it comes from a system that tracks every touchpoint, every deal, every payout in real time, the conversation changes. You're not defending a number. You're discussing what it means.",
+      ],
+    },
+    {
+      heading: "The five layers of partner intelligence",
+      paragraphs: [
+        "Building partner intelligence isn't about buying software. It's about layering data capabilities on top of your existing program. Each layer unlocks the next.",
+      ],
+    },
+    {
+      heading: "Layer 1: Attribution — know who drove what",
+      paragraphs: [
+        "The foundation. If you can't attribute revenue to specific partners with a defensible methodology, nothing else matters. Your AEs won't trust the numbers. Your partners will dispute their payouts. Your CEO will question the program's ROI.",
+        "Real attribution requires three things:",
+      ],
+      bullets: [
+        "A defined model — Deal reg protection, source wins, or role split. Pick one that matches how your program actually works, not a generic first-touch/last-touch framework.",
+        "An audit trail — Every attribution decision should be traceable. 'Partner X gets credit because they registered this deal 45 days before close, and our model is deal reg protection.' Step-by-step, no black boxes.",
+        "Consistency — The same deal evaluated twice should produce the same result. If your attribution depends on who fills out the spreadsheet, it's not attribution. It's opinion.",
+      ],
+    },
+    {
+      heading: "Layer 2: Health scoring — catch problems before they leave",
+      paragraphs: [
+        "Partner churn doesn't happen overnight. It starts with fewer deal registrations. Then longer gaps between touchpoints. Then missed QBR meetings. By the time a partner formally exits, you've already lost 6 months of potential revenue.",
+        "Health scoring condenses dozens of engagement signals into a single metric per partner:",
+      ],
+      bullets: [
+        "Deal activity (30%): Are they registering deals? Are those deals progressing? What's the velocity from registration to close?",
+        "Revenue contribution (25%): Revenue trend over the last 3-6 months. Growing, flat, or declining?",
+        "Engagement (20%): Touchpoint frequency, portal logins, certification completions, event attendance",
+        "Recency (15%): How long since their last meaningful activity? A partner who closed a deal yesterday is healthier than one who closed a bigger deal 4 months ago.",
+        "Payout health (10%): Are commissions being paid on time? Disputed payouts correlate with partner dissatisfaction.",
+      ],
+    },
+    {
+      paragraphs: [
+        "The scoring model matters less than having one at all. A simple composite score that you review weekly will catch 80% of at-risk partners before they disengage. A quarterly gut check catches maybe 30%.",
+      ],
+    },
+    {
+      heading: "Layer 3: Revenue intelligence — follow the money",
+      paragraphs: [
+        "Revenue intelligence answers the questions your CFO asks and your spreadsheets can't:",
+      ],
+      bullets: [
+        "Concentration risk: If your top partner generates 45% of partner-sourced revenue, you don't have a partner program. You have a single-partner dependency with extra steps. Intelligence quantifies this risk so you can actively diversify.",
+        "Revenue by partner type: Resellers, referrals, technology partners, and affiliates all perform differently. Knowing that your referral partners generate 2x the deal size but half the volume of resellers changes how you recruit and invest.",
+        "Commission-to-revenue ratio: You're paying commissions. Are they generating proportional value? A partner earning 15% commission on deals they genuinely sourced is a great investment. A partner earning 15% on deals they barely touched is a leak.",
+        "Trend analysis: Month-over-month, quarter-over-quarter — is partner revenue growing faster or slower than direct? Is the program accelerating or plateauing?",
+      ],
+    },
+    {
+      heading: "Layer 4: Operational intelligence — fix the process",
+      paragraphs: [
+        "Most partner program inefficiency hides in process gaps that nobody measures:",
+      ],
+      bullets: [
+        "Deal registration velocity: How many days from registration to approval? If it's more than 48 hours, your partners are learning that registering deals with you isn't worth the effort.",
+        "Dispute frequency: What percentage of commissions get disputed? Which partners dispute most? Which products? If disputes are concentrated in one area, the rules are unclear — fix the rules, not the partners.",
+        "Payout timing: Partners track when they get paid. A pattern of late payments erodes trust faster than almost anything else. Intelligence means knowing your average payout cycle and where delays occur.",
+        "Engagement patterns: Activity heatmaps reveal seasonal patterns, quiet periods, and momentum shifts. If your program goes quiet every August, you can plan for it instead of being surprised by it.",
+      ],
+    },
+    {
+      heading: "Layer 5: Predictive intelligence — see what's coming",
+      paragraphs: [
+        "This is where intelligence becomes genuinely strategic. Predictive signals let you act before things happen:",
+      ],
+      bullets: [
+        "Pipeline forecasting: Based on current registrations, deal velocity, and historical win rates — what does partner revenue look like next quarter? This isn't a guess. It's math.",
+        "Churn prediction: Partners showing declining engagement + declining revenue + aging last activity = likely to churn within 90 days. You have a window to intervene.",
+        "Recruitment targeting: Your most successful partners share characteristics — company size, industry, geographic region, partnership type. Intelligence tells you what to look for when recruiting new partners.",
+        "Tier optimization: Are your tier thresholds set correctly? Intelligence shows you where partners cluster, where gaps exist, and whether your incentive structure is actually motivating the behavior you want.",
+      ],
+    },
+    {
+      heading: "Building intelligence incrementally",
+      paragraphs: [
+        "You don't need all five layers on day one. Start where the pain is worst:",
+      ],
+      bullets: [
+        "If commission disputes are eating your time → start with attribution (Layer 1). A clear audit trail eliminates 80% of disputes.",
+        "If you keep getting surprised by partner churn → start with health scoring (Layer 2). A weekly review of at-risk partners is worth more than a quarterly partner survey.",
+        "If your CFO questions program ROI → start with revenue intelligence (Layer 3). Hard numbers on partner-sourced revenue, concentration risk, and commission efficiency answer the board's questions.",
+        "If your team is drowning in operations → start with operational intelligence (Layer 4). Measuring process gaps reveals where to automate.",
+        "If you're ready to scale from 30 to 100 partners → Layer 5 tells you where to focus and what to expect.",
+      ],
+    },
+    {
+      paragraphs: [
+        "The goal isn't perfection. It's replacing gut feel with data one decision at a time. Every question you can answer with a metric instead of an assumption makes your program more defensible, more scalable, and more valuable to the business.",
+      ],
+    },
+    {
+      heading: "The intelligence advantage",
+      paragraphs: [
+        "Programs that operate on intelligence share three observable outcomes:",
+      ],
+      bullets: [
+        "Fewer surprises: They know which partners are at risk, which deals are stalling, and which commission rules are creating problems — before the quarterly review surfaces them as 'issues.'",
+        "Faster decisions: When the data is available in real time, decisions that used to take a week of spreadsheet analysis take 5 minutes. 'Should we upgrade this partner to Gold?' Check their health score, revenue trend, and deal velocity. Answer in 60 seconds.",
+        "Stronger executive credibility: 'Our partner program generated $2.4M in sourced revenue this quarter with a 22% win rate, up from 18% last quarter. Our top 3 partners account for 38% of revenue — down from 52% after intentional diversification.' That's a sentence a board pays attention to.",
+      ],
+    },
+    {
+      paragraphs: [
+        "The VP of Partnerships who can deliver that level of clarity doesn't just run a better program. They get a bigger budget, more headcount, and a seat at the strategy table. Because they're not asking for trust — they're showing receipts.",
+        "Partner intelligence isn't a feature. It's the difference between running a program and leading one.",
+      ],
+    },
+  ],
   "partner-portal-partners-actually-use": [
     {
       paragraphs: [
