@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 type Integration = {
   name: string;
+  slug: string;
   category: string;
   description: string;
   features: string[];
@@ -24,6 +25,7 @@ type Integration = {
 const INTEGRATIONS: Integration[] = [
   {
     name: 'Salesforce',
+    slug: 'salesforce',
     category: 'CRM',
     description: 'Two-way sync of deals, contacts, and partner accounts. Attribution data flows back into Salesforce so AEs see partner influence on every opportunity.',
     features: [
@@ -38,6 +40,7 @@ const INTEGRATIONS: Integration[] = [
   },
   {
     name: 'HubSpot',
+    slug: 'hubspot',
     category: 'CRM',
     description: 'Connect your HubSpot CRM to sync deals and contacts. Partner touchpoints are tracked automatically from HubSpot activity data.',
     features: [
@@ -52,6 +55,7 @@ const INTEGRATIONS: Integration[] = [
   },
   {
     name: 'Webhooks',
+    slug: 'webhooks',
     category: 'Events',
     description: 'Send real-time events to Covant from any system. Deal closed, partner registered, commission paid — we process it and update attribution instantly.',
     features: [
@@ -66,6 +70,7 @@ const INTEGRATIONS: Integration[] = [
   },
   {
     name: 'REST API',
+    slug: 'api',
     category: 'Developer',
     description: 'Full programmatic access to partners, deals, commissions, and attribution data. Build custom workflows or integrate with internal tools.',
     features: [
@@ -80,6 +85,7 @@ const INTEGRATIONS: Integration[] = [
   },
   {
     name: 'Slack',
+    slug: 'slack',
     category: 'Notifications',
     description: 'Get notified in Slack when deals are registered, commissions are approved, or partners hit milestones. Keep the team in the loop without email.',
     features: [
@@ -94,6 +100,7 @@ const INTEGRATIONS: Integration[] = [
   },
   {
     name: 'Stripe',
+    slug: 'stripe',
     category: 'Payments',
     description: 'Automate partner payouts through Stripe Connect. When commissions are approved, payments are initiated automatically — no spreadsheets, no delays.',
     features: [
@@ -198,7 +205,7 @@ export default function IntegrationsPage() {
                   {integration.description}
                 </p>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
                   {integration.features.map((feature) => (
                     <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <CheckCircle2 size={13} style={{ color: '#333', flexShrink: 0 }} />
@@ -206,6 +213,12 @@ export default function IntegrationsPage() {
                     </div>
                   ))}
                 </div>
+                <Link href={`/integrations/${integration.slug}`} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 6,
+                  color: '#888', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none',
+                }}>
+                  Learn more <ArrowRight size={14} />
+                </Link>
               </div>
             );
           })}
