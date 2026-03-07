@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-06-deals-advanced",
+    date: "Mar 6",
+    type: "feat",
+    title: "Advanced Deals Page",
+    description: "Stats cards, 6-filter system (status, partner, product, amount range, registration), sortable table columns, and active filter pills. Find any deal instantly.",
+    link: "/dashboard/deals",
+  },
+  {
     id: "2026-03-06-revenue-intelligence",
     date: "Mar 6",
     type: "feat",
