@@ -13,6 +13,12 @@ type Entry = {
 // Generated from real git log — update periodically
 const CHANGELOG: Entry[] = [
   {
+    date: "March 7, 2026",
+    commits: [
+      { hash: "NEW0030", type: "feat", message: "Partner Activity Heatmap (/dashboard/reports/activity) — GitHub-style contribution graph showing daily partner program activity over the past 12 months. Aggregates touchpoints, deal registrations, deal closures, and program events into a visual calendar grid. Color intensity scales with activity volume. Hover tooltips show date + event breakdown. Stats row: total events, current streak (consecutive active days), active days count with daily average, and busiest day. Activity breakdown bar chart by event type (touchpoints, deals created, deals closed, program events). Linked from Reports page and command palette. Helps VPs spot engagement patterns, identify quiet periods, and track program momentum at a glance." },
+    ],
+  },
+  {
     date: "March 6, 2026",
     commits: [
       { hash: "NEW0029", type: "feat", message: "Win/Loss Analysis (/dashboard/reports/win-loss) — deep dive into deal outcomes. Overall win rate with deal counts, avg deal size comparison (won vs lost), deal velocity (days to close), revenue totals. Won vs Lost comparison table (touchpoint counts, velocity, size). Monthly 6-month trend with stacked bars. Win rate by deal size bucket, by partner (with tier badges), and by product. Top 5 won deals and recent losses tables. Auto-generated Key Insights: deal size correlation, velocity patterns, touchpoint engagement impact, per-partner outperformance. QBR-ready reporting for VPs." },

@@ -98,6 +98,7 @@ const COMMANDS: CommandItem[] = [
   { id: "data-export", label: "Data Export Center", icon: Download, href: "/dashboard/reports/export", category: "navigation", keywords: ["export", "csv", "download", "data", "bulk"] },
   { id: "reconciliation", label: "Reconciliation Report", icon: DollarSign, href: "/dashboard/reports/reconciliation", category: "navigation", keywords: ["reconciliation", "quarter", "end", "payout", "summary"] },
   { id: "win-loss", label: "Win/Loss Analysis", icon: Target, href: "/dashboard/reports/win-loss", category: "navigation", keywords: ["win", "loss", "analysis", "rate", "outcome", "close", "won", "lost", "velocity"] },
+  { id: "activity-heatmap", label: "Partner Activity Heatmap", icon: Activity, href: "/dashboard/reports/activity", category: "navigation", keywords: ["activity", "heatmap", "engagement", "daily", "streak", "calendar", "contribution", "touchpoint"] },
   { id: "forecasting", label: "Forecasting", icon: TrendingUp, href: "/dashboard/forecasting", category: "navigation", keywords: ["forecast", "predict", "projection", "pipeline", "growth"] },
   { id: "benchmarks", label: "Benchmarks", icon: Crosshair, href: "/dashboard/benchmarks", category: "navigation", keywords: ["benchmark", "compare", "quartile", "performance"] },
   { id: "cohorts", label: "Cohort Analysis", icon: BarChart3, href: "/dashboard/cohorts", category: "navigation", keywords: ["cohort", "segment", "group", "analysis", "trend"] },

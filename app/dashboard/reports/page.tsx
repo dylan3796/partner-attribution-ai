@@ -309,6 +309,9 @@ function ReportsContent({
           <Link href="/dashboard/reports/win-loss" className="btn-outline" style={{ fontSize: ".85rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
             🎯 Win/Loss Analysis
           </Link>
+          <Link href="/dashboard/reports/activity" className="btn-outline" style={{ fontSize: ".85rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
+            📊 Activity Heatmap
+          </Link>
           <Link href="/dashboard/reports/export" className="btn-outline" style={{ fontSize: ".85rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
             📁 Export Center
           </Link>

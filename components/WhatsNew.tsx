@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-07-activity-heatmap",
+    date: "Mar 7",
+    type: "feat",
+    title: "Partner Activity Heatmap",
+    description: "GitHub-style contribution graph showing daily partner program activity over 12 months. Streak tracking, busiest day, activity breakdown by type. Spot engagement patterns at a glance.",
+    link: "/dashboard/reports/activity",
+  },
+  {
     id: "2026-03-06-win-loss",
     date: "Mar 6",
     type: "feat",

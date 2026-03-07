@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as activityHeatmap from "../activityHeatmap.js";
 import type * as agents from "../agents.js";
 import type * as apiKeys from "../apiKeys.js";
 import type * as benchmarks from "../benchmarks.js";
@@ -78,6 +79,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  activityHeatmap: typeof activityHeatmap;
   agents: typeof agents;
   apiKeys: typeof apiKeys;
   benchmarks: typeof benchmarks;
