@@ -19,25 +19,73 @@ import {
   Wallet,
   Send,
   FileText,
+  Package,
+  MapPin,
+  BarChart3,
+  Megaphone,
+  BookOpen,
+  GraduationCap,
 } from "lucide-react";
 import { PortalProvider, usePortal } from "@/lib/portal-context";
 import PortalGate from "@/components/PortalGate";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { UserButton, SignedIn } from "@clerk/nextjs";
 
-const sidebarLinks = [
-  { name: "Dashboard", href: "/portal", icon: LayoutDashboard },
-  { name: "Getting Started", href: "/portal/onboarding", icon: Rocket },
-  { name: "My Deals", href: "/portal/deals", icon: Briefcase },
-  { name: "My Commissions", href: "/portal/commissions", icon: DollarSign },
-  { name: "My Performance", href: "/portal/performance", icon: Trophy },
-  { name: "Submit a Lead", href: "/portal/submit-lead", icon: Send },
-  { name: "My Leads", href: "/portal/leads", icon: FileText },
-  { name: "Referral Links", href: "/portal/referrals", icon: Link2 },
-  { name: "Payouts", href: "/portal/payouts", icon: Wallet },
-  { name: "Notifications", href: "/portal/notifications", icon: Bell },
-  { name: "Help & Support", href: "/portal/support", icon: HelpCircle },
-  { name: "Profile", href: "/portal/profile", icon: User },
+type PortalNavItem = {
+  name: string;
+  href: string;
+  icon: typeof LayoutDashboard;
+};
+
+type PortalNavSection = {
+  label: string;
+  items: PortalNavItem[];
+};
+
+const navSections: PortalNavSection[] = [
+  {
+    label: "",
+    items: [
+      { name: "Dashboard", href: "/portal", icon: LayoutDashboard },
+      { name: "Getting Started", href: "/portal/onboarding", icon: Rocket },
+      { name: "Notifications", href: "/portal/notifications", icon: Bell },
+    ],
+  },
+  {
+    label: "Deals & Revenue",
+    items: [
+      { name: "My Deals", href: "/portal/deals", icon: Briefcase },
+      { name: "Submit a Lead", href: "/portal/submit-lead", icon: Send },
+      { name: "My Leads", href: "/portal/leads", icon: FileText },
+      { name: "My Commissions", href: "/portal/commissions", icon: DollarSign },
+      { name: "Payouts", href: "/portal/payouts", icon: Wallet },
+      { name: "MDF Requests", href: "/portal/mdf", icon: Megaphone },
+    ],
+  },
+  {
+    label: "Program",
+    items: [
+      { name: "My Performance", href: "/portal/performance", icon: Trophy },
+      { name: "Products", href: "/portal/products", icon: Package },
+      { name: "Territory", href: "/portal/territory", icon: MapPin },
+      { name: "Volume & Rebates", href: "/portal/volume", icon: BarChart3 },
+      { name: "Referral Links", href: "/portal/referrals", icon: Link2 },
+    ],
+  },
+  {
+    label: "Learn",
+    items: [
+      { name: "Enablement", href: "/portal/enablement", icon: GraduationCap },
+      { name: "Resources", href: "/portal/resources", icon: BookOpen },
+      { name: "Help & Support", href: "/portal/support", icon: HelpCircle },
+    ],
+  },
+  {
+    label: "",
+    items: [
+      { name: "Profile", href: "/portal/profile", icon: User },
+    ],
+  },
 ];
 
 function PortalSidebar() {
@@ -139,35 +187,53 @@ function PortalSidebar() {
 
         {/* Nav links */}
         <nav style={{ flex: 1, padding: "0.75rem 0.75rem", overflowY: "auto" }}>
-          {sidebarLinks.map((link) => {
-            const isActive =
-              link.href === "/portal"
-                ? pathname === "/portal"
-                : pathname.startsWith(link.href);
-            return (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.6rem",
-                  padding: "0.6rem 0.75rem",
-                  borderRadius: 8,
-                  fontSize: "0.9rem",
-                  fontWeight: 500,
-                  color: isActive ? "var(--fg)" : "var(--muted)",
-                  background: isActive ? "var(--subtle)" : "transparent",
-                  transition: "all 0.15s",
-                  marginBottom: "0.25rem",
-                }}
-              >
-                <link.icon size={18} />
-                {link.name}
-              </Link>
-            );
-          })}
+          {navSections.map((section, si) => (
+            <div key={si} style={{ marginTop: section.label ? "1.25rem" : si === 0 ? 0 : "0.5rem" }}>
+              {section.label && (
+                <p style={{
+                  fontSize: "0.65rem",
+                  fontWeight: 700,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "var(--muted)",
+                  padding: "0 0.75rem 0.35rem",
+                  opacity: 0.5,
+                  margin: 0,
+                }}>
+                  {section.label}
+                </p>
+              )}
+              {section.items.map((link) => {
+                const isActive =
+                  link.href === "/portal"
+                    ? pathname === "/portal"
+                    : pathname.startsWith(link.href);
+                return (
+                  <Link
+                    key={link.name}
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.6rem",
+                      padding: "0.6rem 0.75rem",
+                      borderRadius: 8,
+                      fontSize: "0.9rem",
+                      fontWeight: 500,
+                      color: isActive ? "var(--fg)" : "var(--muted)",
+                      background: isActive ? "var(--subtle)" : "transparent",
+                      transition: "all 0.15s",
+                      marginBottom: "0.15rem",
+                    }}
+                  >
+                    <link.icon size={18} />
+                    {link.name}
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </nav>
 
         {/* Footer */}

@@ -32,6 +32,8 @@ import {
   Star,
   ClipboardList,
   Package,
+  HeartPulse,
+  Lightbulb,
 } from "lucide-react";
 
 // ─── Nav structure ───────────────────────────────────────────────────────────
@@ -67,10 +69,11 @@ const navSections: NavSection[] = [
   {
     label: "Partners",
     items: [
-      { name: "All Partners",  href: "/dashboard/partners",             icon: Users },
-      { name: "Leads",         href: "/dashboard/leads",                icon: Star },
-      { name: "Applications",  href: "/dashboard/partner-applications", icon: ClipboardList },
-      { name: "Onboarding",    href: "/dashboard/onboarding",           icon: Rocket },
+      { name: "All Partners",    href: "/dashboard/partners",             icon: Users },
+      { name: "Partner Health", href: "/dashboard/partner-health",      icon: HeartPulse },
+      { name: "Leads",          href: "/dashboard/leads",               icon: Star },
+      { name: "Applications",   href: "/dashboard/partner-applications", icon: ClipboardList },
+      { name: "Onboarding",     href: "/dashboard/onboarding",          icon: Rocket },
     ],
   },
   {
@@ -97,12 +100,13 @@ const navSections: NavSection[] = [
   {
     label: "Analytics",
     items: [
-      { name: "Goals",        href: "/dashboard/goals",       icon: Target },
-      { name: "Leaderboard",  href: "/dashboard/leaderboard", icon: Trophy },
-      { name: "Reports",      href: "/dashboard/reports",     icon: PieChart },
-      { name: "Forecasting",  href: "/dashboard/forecasting", icon: TrendingUp },
-      { name: "Benchmarks",   href: "/dashboard/benchmarks",  icon: Crosshair },
-      { name: "Cohorts",      href: "/dashboard/cohorts",     icon: BarChart2 },
+      { name: "Goals",           href: "/dashboard/goals",           icon: Target },
+      { name: "Leaderboard",    href: "/dashboard/leaderboard",    icon: Trophy },
+      { name: "Reports",        href: "/dashboard/reports",        icon: PieChart },
+      { name: "Recommendations", href: "/dashboard/recommendations", icon: Lightbulb },
+      { name: "Forecasting",    href: "/dashboard/forecasting",    icon: TrendingUp },
+      { name: "Benchmarks",     href: "/dashboard/benchmarks",     icon: Crosshair },
+      { name: "Cohorts",        href: "/dashboard/cohorts",        icon: BarChart2 },
     ],
   },
   {
