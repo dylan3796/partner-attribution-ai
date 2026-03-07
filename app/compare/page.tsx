@@ -429,6 +429,43 @@ export default function ComparePage() {
           </div>
         </div>
 
+        {/* Detailed Comparison Pages */}
+        <div style={{ marginBottom: "3rem" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", textAlign: "center", marginBottom: ".5rem" }}>
+            Detailed comparisons
+          </h2>
+          <p style={{ color: "#666", textAlign: "center", marginBottom: "1.5rem", fontSize: ".95rem" }}>
+            Deep-dive feature comparisons with specific competitors.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
+            {[
+              { name: "PartnerStack", slug: "partnerstack", desc: "Partner management & payouts platform for SaaS" },
+              { name: "impact.com", slug: "impact-com", desc: "Enterprise affiliate & partnership management" },
+              { name: "Crossbeam (Reveal)", slug: "crossbeam", desc: "Account mapping & co-sell intelligence" },
+            ].map((c) => (
+              <Link
+                key={c.slug}
+                href={`/compare/${c.slug}`}
+                style={{
+                  padding: "1.5rem", borderRadius: 12, border: "1px solid #1a1a1a",
+                  background: "#0a0a0a", textDecoration: "none", color: "inherit",
+                  transition: "border-color .2s",
+                }}
+              >
+                <div style={{ fontSize: "1rem", fontWeight: 700, color: "#fff", marginBottom: 6 }}>
+                  Covant vs {c.name}
+                </div>
+                <p style={{ fontSize: ".8rem", color: "#666", margin: "0 0 12px", lineHeight: 1.5 }}>
+                  {c.desc}
+                </p>
+                <span style={{ fontSize: ".8rem", color: "#6366f1", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 4 }}>
+                  Compare features <ArrowRight size={14} />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {/* Head-to-Head Cards */}
         <div style={{ marginBottom: "4rem" }}>
           <h2
