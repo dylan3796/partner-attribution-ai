@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-06-keyboard-shortcuts",
+    date: "Mar 6",
+    type: "polish",
+    title: "Keyboard Shortcuts",
+    description: "Press ? to see all shortcuts. G+key navigation: G then D for Dashboard, G then P for Partners, G then E for Deals, and more. Power-user navigation.",
+    link: "/dashboard",
+  },
+  {
     id: "2026-03-06-deals-advanced",
     date: "Mar 6",
     type: "feat",

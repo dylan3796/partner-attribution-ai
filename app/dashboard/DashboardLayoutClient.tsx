@@ -8,6 +8,7 @@ import { NotificationBell } from "@/components/NotificationBell";
 import { WhatsNewButton } from "@/components/WhatsNew";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { KeyboardShortcuts } from "@/components/KeyboardShortcuts";
 import { Menu, X } from "lucide-react";
 
 const CommandPalette = dynamic(
@@ -21,6 +22,7 @@ export function DashboardLayoutClient({ children }: { children: React.ReactNode 
   return (
     <>
       <CommandPalette />
+      <KeyboardShortcuts />
       <div className="dash-layout-v2">
         <DashboardSidebar mobileOpen={mobileMenuOpen} onMobileClose={() => setMobileMenuOpen(false)} />
         <main className="dash-main" id="main-content" tabIndex={-1}>
