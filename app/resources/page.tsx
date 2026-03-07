@@ -81,6 +81,16 @@ const LEARN: Resource[] = [
     tagColor: "#6366f1",
   },
   {
+    title: "Help Center",
+    description:
+      "Step-by-step guides for every product workflow — setup, attribution, commissions, partner portal, reporting, and integrations.",
+    href: "/help",
+    icon: BookOpen,
+    color: "#22c55e",
+    tag: "Guide",
+    tagColor: "#22c55e",
+  },
+  {
     title: "API Documentation",
     description:
       "REST API reference for partners, deals, commissions, attribution, and webhooks. Everything you need to integrate Covant into your stack.",

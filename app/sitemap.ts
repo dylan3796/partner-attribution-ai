@@ -45,6 +45,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/blog/true-cost-of-spreadsheet-partner-programs`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/3-attribution-models-every-vp-should-know`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/status`, lastModified: now, changeFrequency: 'daily', priority: 0.5 },
+    { url: `${base}/help`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${base}/docs`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
     { url: `${base}/privacy`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     { url: `${base}/terms`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },

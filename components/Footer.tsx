@@ -18,6 +18,7 @@ const RESOURCE_LINKS = [
   { name: "Early Access", href: "/beta" },
   { name: "Live Demo", href: "/demo" },
   { name: "Customer Stories", href: "/customers" },
+  { name: "Help Center", href: "/help" },
   { name: "API Docs", href: "/docs" },
   { name: "Changelog", href: "/changelog" },
   { name: "Use Cases", href: "/use-cases" },
