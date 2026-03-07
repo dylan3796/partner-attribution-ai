@@ -91,7 +91,7 @@ function EmptyState({ dealCount, partnerCount }: { dealCount: number; partnerCou
         </p>
         <div style={{ display: "flex", gap: ".75rem", marginTop: ".5rem" }}>
           <Link href="/dashboard/deals" className="btn-primary">View Deals</Link>
-          <Link href="/dashboard/reports" className="btn-outline">Attribution Reports</Link>
+          <Link href="/dashboard/reports/attribution" className="btn-outline">Attribution Reports</Link>
         </div>
       </div>
     </div>

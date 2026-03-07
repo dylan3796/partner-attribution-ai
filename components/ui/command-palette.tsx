@@ -91,7 +91,8 @@ const COMMANDS: CommandItem[] = [
   // ── Analytics ──
   { id: "goals", label: "Goals & Targets", icon: Target, href: "/dashboard/goals", category: "navigation", keywords: ["goal", "target", "objective", "kpi", "quarterly"] },
   { id: "leaderboard", label: "Partner Leaderboard", icon: Trophy, href: "/dashboard/leaderboard", category: "navigation", keywords: ["leaderboard", "rank", "top", "gamification", "competition"] },
-  { id: "reports", label: "Attribution Reports", icon: PieChart, href: "/dashboard/reports", category: "navigation", keywords: ["report", "analytics", "chart", "attribution"] },
+  { id: "reports-hub", label: "Reports", icon: PieChart, href: "/dashboard/reports", category: "navigation", keywords: ["report", "analytics", "hub", "overview"] },
+  { id: "reports", label: "Attribution Reports", icon: PieChart, href: "/dashboard/reports/attribution", category: "navigation", keywords: ["report", "analytics", "chart", "attribution"] },
   { id: "revenue-intel", label: "Revenue Intelligence", icon: TrendingUp, href: "/dashboard/reports/revenue", category: "navigation", keywords: ["revenue", "intelligence", "concentration", "breakdown", "analytics"] },
   { id: "weekly-digest", label: "Weekly Performance Digest", icon: FileText, href: "/dashboard/reports/digest", category: "navigation", keywords: ["weekly", "digest", "summary", "exec", "report", "wow"] },
   { id: "qbr", label: "QBR Reports", icon: PieChart, href: "/dashboard/reports/qbr", category: "navigation", keywords: ["qbr", "quarterly", "business", "review", "executive"] },

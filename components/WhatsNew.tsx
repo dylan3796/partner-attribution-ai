@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-07-reports-hub",
+    date: "Mar 7",
+    type: "feat",
+    title: "Reports Hub",
+    description: "Centralized reports overview — all 8 analytics reports organized in one page with quick-access shortcuts for Attribution, Weekly Digest, and QBR.",
+    link: "/dashboard/reports",
+  },
+  {
     id: "2026-03-07-blog-enhancements",
     date: "Mar 7",
     type: "polish",

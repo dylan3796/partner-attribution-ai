@@ -110,7 +110,7 @@ export default function HealthPage() {
       {
         key: "revenue", label: "Partner Revenue", value: totalRevenue, target: totalRevenue * 1.2 || 100000, unit: "$",
         trend: totalRevenue > 0 ? "up" : "flat", trendValue: "+18%", status: totalRevenue > 0 ? "healthy" : "warning",
-        icon: DollarSign, color: "#22c55e", href: "/dashboard/reports",
+        icon: DollarSign, color: "#22c55e", href: "/dashboard/reports/attribution",
       },
       {
         key: "pipeline", label: "Pipeline Health", value: pipelineValue, target: totalRevenue * 3 || 300000, unit: "$",
@@ -291,7 +291,7 @@ export default function HealthPage() {
             { label: "Review tier changes", href: "/dashboard/scoring/tier-reviews", icon: Shield },
             { label: "Check onboarding pipeline", href: "/dashboard/onboarding", icon: Users },
             { label: "Approve payouts", href: "/dashboard/payouts", icon: DollarSign },
-            { label: "View attribution report", href: "/dashboard/reports", icon: Activity },
+            { label: "View attribution report", href: "/dashboard/reports/attribution", icon: Activity },
           ].map((action) => (
             <Link key={action.label} href={action.href} style={{
               display: "flex", alignItems: "center", gap: 8, padding: "10px 14px",

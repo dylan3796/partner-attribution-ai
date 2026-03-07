@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 
 const PRODUCT_LINKS = [
   { name: "Product Tour", href: "/product" },
-  { name: "Attribution", href: "/dashboard/reports" },
+  { name: "Attribution", href: "/dashboard/reports/attribution" },
   { name: "Payouts", href: "/dashboard/payouts" },
   { name: "Partner Portal", href: "/portal" },
   { name: "Become a Partner", href: "/apply" },

@@ -443,7 +443,7 @@ export default function RevenueIntelligencePage() {
 
       {/* Links */}
       <div style={{ display: "flex", gap: "1rem", fontSize: ".82rem" }}>
-        <Link href="/dashboard/reports" style={{ color: "#6366f1", display: "flex", alignItems: "center", gap: 4 }}>
+        <Link href="/dashboard/reports/attribution" style={{ color: "#6366f1", display: "flex", alignItems: "center", gap: 4 }}>
           ← Attribution Reports
         </Link>
         <Link href="/dashboard/reports/qbr" style={{ color: "#6366f1", display: "flex", alignItems: "center", gap: 4 }}>

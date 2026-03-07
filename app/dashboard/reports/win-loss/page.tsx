@@ -108,7 +108,7 @@ export default function WinLossAnalysisPage() {
     return (
       <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Link href="/dashboard/reports" style={{ color: "var(--muted)" }}><ArrowLeft size={18} /></Link>
+          <Link href="/dashboard/reports/attribution" style={{ color: "var(--muted)" }}><ArrowLeft size={18} /></Link>
           <h1 style={{ fontSize: "1.6rem", fontWeight: 800, letterSpacing: "-.02em" }}>Win/Loss Analysis</h1>
         </div>
         <div className="card" style={{ padding: "3rem", textAlign: "center" }}>
@@ -133,7 +133,7 @@ export default function WinLossAnalysisPage() {
       {/* Header */}
       <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <Link href="/dashboard/reports" style={{ color: "var(--muted)" }}><ArrowLeft size={18} /></Link>
+          <Link href="/dashboard/reports/attribution" style={{ color: "var(--muted)" }}><ArrowLeft size={18} /></Link>
           <h1 style={{ fontSize: "1.6rem", fontWeight: 800, letterSpacing: "-.02em" }}>Win/Loss Analysis</h1>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: ".8rem", color: "var(--muted)" }}>

@@ -179,7 +179,7 @@ export default function WeeklyDigestPage() {
       >
         <div>
           <Link
-            href="/dashboard/reports"
+            href="/dashboard/reports/attribution"
             style={{
               display: "inline-flex",
               alignItems: "center",
