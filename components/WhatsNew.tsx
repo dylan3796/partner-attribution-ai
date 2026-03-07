@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-06-revenue-intelligence",
+    date: "Mar 6",
+    type: "feat",
+    title: "Revenue Intelligence",
+    description: "Deep analytics on partner-attributed revenue — breakdown by type & tier, monthly trends (partner-sourced vs direct), concentration risk analysis, top partners, and largest deals.",
+    link: "/dashboard/reports/revenue",
+  },
+  {
     id: "2026-03-06-partner-compare",
     date: "Mar 6",
     type: "feat",

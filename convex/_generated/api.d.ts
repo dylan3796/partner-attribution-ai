@@ -56,6 +56,7 @@ import type * as products from "../products.js";
 import type * as programConfig from "../programConfig.js";
 import type * as queries_analytics from "../queries/analytics.js";
 import type * as recommendations from "../recommendations.js";
+import type * as revenueIntelligence from "../revenueIntelligence.js";
 import type * as search from "../search.js";
 import type * as seedDemo from "../seedDemo.js";
 import type * as setup from "../setup.js";
@@ -123,6 +124,7 @@ declare const fullApi: ApiFromModules<{
   programConfig: typeof programConfig;
   "queries/analytics": typeof queries_analytics;
   recommendations: typeof recommendations;
+  revenueIntelligence: typeof revenueIntelligence;
   search: typeof search;
   seedDemo: typeof seedDemo;
   setup: typeof setup;

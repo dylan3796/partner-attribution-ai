@@ -297,6 +297,9 @@ function ReportsContent({
           </p>
         </div>
         <div style={{ display: "flex", gap: "0.75rem" }}>
+          <Link href="/dashboard/reports/revenue" className="btn-outline" style={{ fontSize: ".85rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
+            💰 Revenue Intelligence
+          </Link>
           <Link href="/dashboard/reports/qbr" className="btn-outline" style={{ fontSize: ".85rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
             📊 QBR Report
           </Link>
