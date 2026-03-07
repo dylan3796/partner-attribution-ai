@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-06-win-loss",
+    date: "Mar 6",
+    type: "feat",
+    title: "Win/Loss Analysis",
+    description: "Deep dive into deal outcomes — win rates by partner, product, and deal size. Deal velocity comparison, touchpoint correlation, monthly trends, auto-generated insights. QBR-ready.",
+    link: "/dashboard/reports/win-loss",
+  },
+  {
     id: "2026-03-06-keyboard-shortcuts",
     date: "Mar 6",
     type: "polish",

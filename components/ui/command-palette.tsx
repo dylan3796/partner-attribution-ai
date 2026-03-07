@@ -97,6 +97,7 @@ const COMMANDS: CommandItem[] = [
   { id: "qbr", label: "QBR Reports", icon: PieChart, href: "/dashboard/reports/qbr", category: "navigation", keywords: ["qbr", "quarterly", "business", "review", "executive"] },
   { id: "data-export", label: "Data Export Center", icon: Download, href: "/dashboard/reports/export", category: "navigation", keywords: ["export", "csv", "download", "data", "bulk"] },
   { id: "reconciliation", label: "Reconciliation Report", icon: DollarSign, href: "/dashboard/reports/reconciliation", category: "navigation", keywords: ["reconciliation", "quarter", "end", "payout", "summary"] },
+  { id: "win-loss", label: "Win/Loss Analysis", icon: Target, href: "/dashboard/reports/win-loss", category: "navigation", keywords: ["win", "loss", "analysis", "rate", "outcome", "close", "won", "lost", "velocity"] },
   { id: "forecasting", label: "Forecasting", icon: TrendingUp, href: "/dashboard/forecasting", category: "navigation", keywords: ["forecast", "predict", "projection", "pipeline", "growth"] },
   { id: "benchmarks", label: "Benchmarks", icon: Crosshair, href: "/dashboard/benchmarks", category: "navigation", keywords: ["benchmark", "compare", "quartile", "performance"] },
   { id: "cohorts", label: "Cohort Analysis", icon: BarChart3, href: "/dashboard/cohorts", category: "navigation", keywords: ["cohort", "segment", "group", "analysis", "trend"] },
