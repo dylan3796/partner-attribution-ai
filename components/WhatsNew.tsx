@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-07-blog-enhancements",
+    date: "Mar 7",
+    type: "polish",
+    title: "Blog Article Enhancements",
+    description: "Table of contents, social sharing (LinkedIn, X, copy link), related posts at bottom of every article, and Article JSON-LD for Google rich results.",
+    link: "/blog",
+  },
+  {
     id: "2026-03-07-certifications",
     date: "Mar 7",
     type: "feat",
