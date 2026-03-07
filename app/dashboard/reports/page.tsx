@@ -303,6 +303,9 @@ function ReportsContent({
           <Link href="/dashboard/reports/qbr" className="btn-outline" style={{ fontSize: ".85rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
             📊 QBR Report
           </Link>
+          <Link href="/dashboard/reports/digest" className="btn-outline" style={{ fontSize: ".85rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
+            📅 Weekly Digest
+          </Link>
           <Link href="/dashboard/reports/export" className="btn-outline" style={{ fontSize: ".85rem", padding: ".5rem 1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
             📁 Export Center
           </Link>

@@ -68,6 +68,7 @@ import type * as touchpoints_mutations from "../touchpoints/mutations.js";
 import type * as touchpoints_queries from "../touchpoints/queries.js";
 import type * as users from "../users.js";
 import type * as webhooks from "../webhooks.js";
+import type * as weeklyDigest from "../weeklyDigest.js";
 
 import type {
   ApiFromModules,
@@ -136,6 +137,7 @@ declare const fullApi: ApiFromModules<{
   "touchpoints/queries": typeof touchpoints_queries;
   users: typeof users;
   webhooks: typeof webhooks;
+  weeklyDigest: typeof weeklyDigest;
 }>;
 
 /**
