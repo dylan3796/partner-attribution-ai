@@ -1024,4 +1024,115 @@ export const ARTICLE_CONTENT: Record<string, Section[]> = {
       ],
     },
   ],
+
+  "partner-onboarding-first-deal-in-30-days": [
+    {
+      paragraphs: [
+        "You signed the partner agreement. Everyone celebrated. Then nothing happened for 90 days.",
+        "This is the most common failure mode in partner programs — and it has nothing to do with partner quality. It's an onboarding problem. The gap between 'signed' and 'productive' is where most partnerships die, and most VPs of Partnerships don't have a structured approach to closing it.",
+        "The best partner programs get new partners to their first deal registration within 30 days. Not because they have better partners — because they have better onboarding. Here's the system that makes it work.",
+      ],
+    },
+    {
+      heading: "Why most partner onboarding fails",
+      paragraphs: [
+        "The typical partner onboarding experience looks like this: a 45-minute kickoff call where you dump information about your product, commission rates, portal login, and deal registration process. You email them a PDF. They say 'great, we'll start sending deals.' Then silence.",
+        "This fails for three reasons:",
+      ],
+      bullets: [
+        "Information overload: Partners retain about 10% of a kickoff call. They don't remember your commission tiers, your deal registration URL, or which products qualify for bonuses. The PDF goes unread.",
+        "No clear next action: 'Start sending deals' isn't an action — it's a hope. Without a specific, immediate next step, partners default to whatever they were doing before, which is working with other vendors who made activation easier.",
+        "No accountability timeline: If there's no expectation for when the first deal should happen, there's no urgency. 30 days becomes 60 becomes 90 becomes 'we should probably check in on that partner we signed.'",
+      ],
+    },
+    {
+      heading: "The 30-day onboarding framework",
+      paragraphs: [
+        "Effective onboarding isn't a single event — it's a structured sequence of actions over 30 days, each building on the last. The goal isn't to teach everything. It's to get one deal registered.",
+      ],
+      bullets: [
+        "Day 1: Portal access + profile completion. The partner should be logged into your portal within 24 hours of signing. Not next week, not 'when we get around to sending the invite.' Day one. Profile completion means they've confirmed their contact info, territory, and partnership type. This takes 5 minutes and establishes the habit of logging in.",
+        "Day 3-5: Product training (15 minutes, not 45). A focused session on one thing: how to identify a qualified opportunity for your product. Not feature walkthroughs. Not competitive positioning. Just: 'here's the customer problem we solve, here's how to spot it in conversations you're already having, here's the deal size range.' If it takes more than 15 minutes, you're overcomplicating it.",
+        "Day 7: First deal registration attempt. This is the critical milestone. Even if the deal isn't real — a customer they're already talking to who might be a fit — the act of registering a deal proves they know how the system works. Walk them through it on a call if needed. The mechanical act of submitting a deal reg removes the friction for all future submissions.",
+        "Day 14: Commission structure walkthrough. Now that they've registered a deal and understand the workflow, show them the money. Walk through their tier, commission rates by product, any SPIFFs or bonuses active this quarter. Seeing real dollar amounts attached to real deal sizes motivates action.",
+        "Day 21: Pipeline review. Check in on the deal they registered. Is it progressing? Do they have questions about positioning? Are there other opportunities in their pipeline? This is the first 'working session' — not training, but actual deal collaboration.",
+        "Day 30: Activation check. Did they register at least one deal? If yes, they're activated — shift to regular cadence. If no, you have a decision: invest another 30 days of onboarding effort, or accept that this partner may not be a fit for active selling.",
+      ],
+    },
+    {
+      heading: "The metrics that prove onboarding works",
+      paragraphs: [
+        "Most partner programs track 'number of partners recruited.' The best ones track onboarding metrics that predict long-term performance:",
+      ],
+      bullets: [
+        "Time to first deal registration (T1DR): The single most important onboarding metric. Industry median is 68 days. Top programs hit 21 days. Every day past 30 reduces the likelihood of the partner ever becoming productive by roughly 3%.",
+        "Portal login within 48 hours: Partners who log into the portal within 48 hours of signing are 4x more likely to register a deal in the first quarter. If they haven't logged in by day 3, send a direct message — not an automated email, a personal outreach.",
+        "Day-30 activation rate: What percentage of new partners registered at least one deal within 30 days? If this is below 40%, your onboarding process needs work. Top programs hit 60-70%.",
+        "Day-90 retention rate: Of partners who were activated in 30 days, what percentage are still active at 90 days? This measures whether your onboarding creates lasting engagement or just a one-time action. Target: 80%+.",
+        "Onboarding completion rate: If you have a structured checklist (portal setup → training → first deal → commission review → pipeline check), what percentage of partners complete all steps? Track where partners drop off to identify friction points.",
+      ],
+    },
+    {
+      heading: "Automation that makes onboarding scalable",
+      paragraphs: [
+        "At 5 new partners per month, you can hand-hold each one through onboarding. At 15-20 per month, you can't. The solution isn't to hire more people — it's to automate the repeatable parts and reserve human touch for the moments that matter.",
+      ],
+      bullets: [
+        "Automated welcome sequence: Portal invite sent within 1 hour of agreement signing. Day-3 email with training link. Day-7 reminder to register first deal. Day-14 commission guide. These fire automatically — no human remembers to send them.",
+        "Onboarding progress tracking: A visual checklist in both the admin dashboard and the partner portal showing what's been completed and what's next. The admin sees which partners are stuck. The partner sees exactly what to do next. No ambiguity.",
+        "Triggered alerts for stalled partners: If a partner hasn't logged in by day 3, hasn't registered a deal by day 10, or hasn't completed training by day 7 — the system alerts the partner manager. Early intervention is the difference between a 30-day activation and a 90-day writeoff.",
+        "Self-service training: Recorded 15-minute product modules, a searchable help center, and a glossary of program terms. Partners learn at their own pace, revisit when needed, and don't require a live call for standard information.",
+      ],
+    },
+    {
+      heading: "The onboarding handoff problem",
+      paragraphs: [
+        "In many programs, the person who recruited the partner is different from the person who onboards them. This handoff is where context dies.",
+        "The recruiting conversation revealed: why this partner wanted to join, what customers they're targeting, what other vendors they work with, their technical capabilities, and their revenue expectations. If none of this transfers to the onboarding person, day one starts cold.",
+        "The fix is simple: structured notes that transfer. When a partner agreement is signed, the recruiter fills out a partner brief — 5 fields: why they joined, target customer profile, other vendor relationships, technical capability level, and expected quarterly deal volume. The onboarding person reads this before the first call. The partner doesn't have to repeat themselves.",
+        "In the portal, this should be visible too. The partner should see their profile — territory, type, tier, program details — and confirm it's accurate. First impressions matter. A partner whose profile is already populated feels expected. A partner who has to fill everything out from scratch feels like an afterthought.",
+      ],
+    },
+    {
+      heading: "What great onboarding emails look like",
+      paragraphs: [
+        "Most partner onboarding emails are terrible. They're long, corporate, and bury the action under three paragraphs of 'we're thrilled to welcome you to our partner ecosystem.'",
+        "Effective onboarding emails share three traits:",
+      ],
+      bullets: [
+        "One email, one action: 'Log into your portal' or 'Register your first deal' or 'Watch this 15-minute training.' Never two actions in one email. The partner should know exactly what to do without scrolling.",
+        "Subject lines that create urgency: 'Your partner portal is ready — log in now' beats 'Welcome to the Partner Program!' The first implies something is waiting for them. The second is ignorable.",
+        "Proof of value early: By email 3 (day 7), include a concrete example: 'Partners who register their first deal in week one earn an average of $X in Q1 commissions.' Abstract benefits don't motivate. Dollar amounts do.",
+      ],
+    },
+    {
+      heading: "The certification layer",
+      paragraphs: [
+        "For programs with complex products or compliance requirements, adding a lightweight certification to onboarding accomplishes two things: it ensures partners actually understand what they're selling, and it creates a credentialing system that drives tier advancement.",
+        "The key word is 'lightweight.' A 2-hour certification with a quiz kills onboarding momentum. A 20-minute module with 5 questions validates knowledge without creating a barrier.",
+        "The best approach: make the basic certification optional for deal registration but required for tier advancement. Partners can start selling immediately (friction = bad), but progressing to higher commission rates requires demonstrated competency (quality = good). This balances speed-to-first-deal with program quality at scale.",
+      ],
+    },
+    {
+      heading: "Common onboarding mistakes",
+      paragraphs: [
+        "After reviewing onboarding processes across dozens of partner programs, the same patterns emerge:",
+      ],
+      bullets: [
+        "Front-loading information: Dumping everything in the kickoff call. Partners don't need to know about your MDF process on day one. They need to know how to register a deal. Sequence information in the order they'll need it.",
+        "Treating all partners the same: A reseller with 50 reps needs different onboarding than a solo consultant who refers 2 deals a quarter. At minimum, have two onboarding tracks: high-touch (resellers, strategic) and self-serve (referral, affiliate).",
+        "No portal until 'everything is ready': Some programs delay portal access until the partner has completed training, signed additional documents, or been 'fully processed.' Every day without portal access is a day the partner isn't engaged. Give access on day one, with progressive feature unlocks if needed.",
+        "Measuring recruitment, not activation: If your team is compensated on partner signings rather than partner activations, you'll recruit plenty of partners and activate few. The metric that matters is partners who register a deal in 30 days — not partners who signed an agreement.",
+        "One-size-fits-all timelines: A technology partner building an integration needs a different onboarding arc than a referral partner sending warm intros. Build 2-3 onboarding tracks mapped to partnership type, not one generic flow.",
+      ],
+    },
+    {
+      heading: "The 30-day standard",
+      paragraphs: [
+        "Thirty days is not arbitrary. It's the window where a new partner's attention and enthusiasm are at their peak. After 30 days without meaningful activity, the probability of activation drops precipitously. By 90 days of inactivity, you're not onboarding anymore — you're re-engaging, which is 3x harder and 3x more expensive.",
+        "Set the expectation explicitly at signing: 'Our goal is to get you to your first deal registration within 30 days. Here's exactly how we'll get there.' Then track it, automate it, and intervene when partners fall behind.",
+        "The programs that consistently hit 30-day activation share one trait: they treat onboarding as a product, not a process. They measure it, iterate on it, A/B test email sequences, track where partners drop off, and optimize relentlessly. Because every partner who activates in 30 days instead of 90 days represents two extra months of revenue contribution to the program.",
+      ],
+    },
+  ],
 };

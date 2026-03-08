@@ -640,7 +640,7 @@ export default function LandingPage() {
           {/* Stats bar */}
           <div style={{ display: "flex", justifyContent: "center", gap: "2.5rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
             {[
-              { num: "80+", label: "Pages" },
+              { num: "85+", label: "Pages" },
               { num: "85+", label: "Features" },
               { num: "8", label: "Report Types" },
               { num: "90+", label: "Shipped Items" },

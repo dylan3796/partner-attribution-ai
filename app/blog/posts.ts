@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "partner-onboarding-first-deal-in-30-days",
+    title: "Partner Onboarding: How to Get New Partners to First Deal in 30 Days",
+    description:
+      "You signed the partner agreement. Everyone celebrated. Then nothing happened for 90 days. Here's the structured onboarding system that gets new partners to their first deal registration in 30 days — not 90.",
+    date: "March 8, 2026",
+    readTime: "8 min read",
+    category: "operations",
+  },
+  {
     slug: "how-to-scale-partner-program",
     title: "How to Scale Your Partner Program from 10 to 100+ Partners",
     description:
