@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import {
   Calculator, ClipboardCheck, GitBranch, BookOpen, FileText,
-  ArrowRight, Sparkles, BarChart3, Code2, Layers, HelpCircle, LayoutTemplate,
+  ArrowRight, Sparkles, BarChart3, Code2, Layers, HelpCircle, LayoutTemplate, Target,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -56,6 +56,16 @@ const TOOLS: Resource[] = [
     color: "#ec4899",
     tag: "Interactive",
     tagColor: "#ec4899",
+  },
+  {
+    title: "Program Benchmarks",
+    description:
+      "16 key partner program metrics with industry ranges. Compare your attribution, commissions, engagement, and revenue against top-quartile performers.",
+    href: "/benchmarks",
+    icon: Target,
+    color: "#06b6d4",
+    tag: "Interactive",
+    tagColor: "#06b6d4",
   },
   {
     title: "Competitive Comparison",
