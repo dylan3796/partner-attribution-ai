@@ -516,6 +516,55 @@ export const seedDemoData = mutation({
       }
     }
 
+    // ── Seed announcements ──────────────────────────────────────────────
+    const demoAnnouncements = [
+      {
+        title: "Q1 2026 Incentive Boost — 2x Commission on Enterprise Deals",
+        body: "Great news! For the rest of Q1 2026, all enterprise-tier deals (>$50K) will earn double commission rates. This applies to both new business and expansion deals. Make sure your pipeline is updated and reach out to your partner manager if you have prospects in the enterprise segment.\n\nEligibility: All active partners in Silver tier and above.\nDuration: Now through March 31, 2026.",
+        type: "incentive" as const,
+        isPinned: true,
+        isPublished: true,
+      },
+      {
+        title: "New Product Launch: Horizon Analytics Pro",
+        body: "We're excited to announce Horizon Analytics Pro — our most advanced analytics suite yet. Key features include real-time dashboards, predictive forecasting, and custom report builder.\n\nPartner enablement materials are now available in the Resources section. Complete the new product certification to unlock higher commission tiers on Analytics Pro deals.",
+        type: "product" as const,
+        isPinned: false,
+        isPublished: true,
+      },
+      {
+        title: "Updated Partner Program Terms — Effective April 1",
+        body: "We've updated our partner program agreement to reflect new compliance requirements and simplified commission structures. Key changes:\n\n• Deal registration window extended from 90 to 120 days\n• New tiered rebate program for volume partners\n• Simplified co-sell engagement rules\n• Updated data handling addendum\n\nPlease review the updated terms in your portal and reach out to your partner manager with any questions.",
+        type: "policy" as const,
+        isPinned: false,
+        isPublished: true,
+      },
+      {
+        title: "Partner Summit 2026 — Save the Date!",
+        body: "Mark your calendars! The annual Horizon Partner Summit will be held June 15-17, 2026 in San Francisco. Three days of product roadmap previews, sales training, networking, and strategy sessions.\n\nEarly bird registration opens April 1. Gold and Platinum partners receive complimentary passes.",
+        type: "event" as const,
+        isPinned: false,
+        isPublished: true,
+      },
+    ];
+
+    const announcementNow = Date.now();
+    for (let i = 0; i < demoAnnouncements.length; i++) {
+      const a = demoAnnouncements[i];
+      await ctx.db.insert("announcements", {
+        organizationId: orgId,
+        title: a.title,
+        body: a.body,
+        type: a.type,
+        isPinned: a.isPinned,
+        isPublished: a.isPublished,
+        authorName: "Program Team",
+        authorEmail: "partners@horizon.software",
+        publishedAt: announcementNow - i * 3 * 86400000, // stagger by 3 days
+        createdAt: announcementNow - i * 3 * 86400000,
+      });
+    }
+
     return {
       success: true,
       message: "Demo data created successfully for Horizon Software",
@@ -549,6 +598,7 @@ export const clearDemoData = mutation({
       "partnerVolumes",
       "certifications",
       "partnerCertifications",
+      "announcements",
     ];
 
     let totalDeleted = 0;

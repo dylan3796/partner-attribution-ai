@@ -86,6 +86,7 @@ const COMMANDS: CommandItem[] = [
   { id: "incentives", label: "Incentive Programs", icon: Gift, href: "/dashboard/incentives", category: "navigation", keywords: ["incentive", "spif", "bonus", "accelerator", "program"] },
   { id: "certs", label: "Certifications", icon: Award, href: "/dashboard/certifications", category: "navigation", keywords: ["cert", "certification", "badge", "training"] },
   { id: "mdf", label: "MDF Programs", icon: Megaphone, href: "/dashboard/mdf", category: "navigation", keywords: ["mdf", "market", "development", "fund"] },
+  { id: "announcements", label: "Announcements", icon: Megaphone, href: "/dashboard/announcements", category: "navigation", keywords: ["announcement", "broadcast", "news", "update", "partner communication"] },
   { id: "volume", label: "Volume Rebates", icon: BarChart3, href: "/dashboard/volume-rebates", category: "navigation", keywords: ["volume", "rebate", "distributor"] },
 
   // ── Analytics ──

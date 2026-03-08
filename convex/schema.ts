@@ -981,4 +981,27 @@ export default defineSchema({
   })
     .index("by_partner", ["partnerId"])
     .index("by_org_and_partner", ["organizationId", "partnerId"]),
+
+  // Announcements — admin broadcasts to partners
+  announcements: defineTable({
+    organizationId: v.id("organizations"),
+    title: v.string(),
+    body: v.string(),
+    type: v.union(
+      v.literal("general"),
+      v.literal("product"),
+      v.literal("incentive"),
+      v.literal("policy"),
+      v.literal("event")
+    ),
+    isPinned: v.optional(v.boolean()),
+    isPublished: v.optional(v.boolean()),
+    authorName: v.string(),
+    authorEmail: v.string(),
+    publishedAt: v.optional(v.number()),
+    createdAt: v.number(),
+    updatedAt: v.optional(v.number()),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_published", ["organizationId", "isPublished"]),
 });

@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-07-announcements",
+    date: "Mar 7",
+    type: "feat",
+    title: "Partner Announcements",
+    description: "Broadcast product updates, incentive campaigns, policy changes, and events to your entire partner network. Draft, publish, pin, and manage from the dashboard — partners see a curated feed in their portal.",
+    link: "/dashboard/announcements",
+  },
+  {
     id: "2026-03-07-features-page",
     date: "Mar 7",
     type: "feat",

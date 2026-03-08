@@ -10,6 +10,7 @@
 
 import type * as activityHeatmap from "../activityHeatmap.js";
 import type * as agents from "../agents.js";
+import type * as announcements from "../announcements.js";
 import type * as apiKeys from "../apiKeys.js";
 import type * as benchmarks from "../benchmarks.js";
 import type * as certifications from "../certifications.js";
@@ -82,6 +83,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   activityHeatmap: typeof activityHeatmap;
   agents: typeof agents;
+  announcements: typeof announcements;
   apiKeys: typeof apiKeys;
   benchmarks: typeof benchmarks;
   certifications: typeof certifications;

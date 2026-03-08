@@ -34,6 +34,7 @@ import {
   Package,
   HeartPulse,
   Lightbulb,
+  Radio,
 } from "lucide-react";
 
 // ─── Nav structure ───────────────────────────────────────────────────────────
@@ -94,6 +95,7 @@ const navSections: NavSection[] = [
       { name: "Incentives",       href: "/dashboard/incentives",    icon: Gift },
       { name: "Certifications",   href: "/dashboard/certifications", icon: Award },
       { name: "MDF",              href: "/dashboard/mdf",           icon: Megaphone },
+      { name: "Announcements",    href: "/dashboard/announcements", icon: Radio },
       { name: "Volume Rebates",   href: "/dashboard/volume-rebates", icon: Scale },
     ],
   },

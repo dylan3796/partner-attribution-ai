@@ -25,6 +25,7 @@ import {
   Megaphone,
   BookOpen,
   GraduationCap,
+  Radio,
 } from "lucide-react";
 import { PortalProvider, usePortal } from "@/lib/portal-context";
 import PortalGate from "@/components/PortalGate";
@@ -49,6 +50,7 @@ const navSections: PortalNavSection[] = [
       { name: "Dashboard", href: "/portal", icon: LayoutDashboard },
       { name: "Getting Started", href: "/portal/onboarding", icon: Rocket },
       { name: "Notifications", href: "/portal/notifications", icon: Bell },
+      { name: "Announcements", href: "/portal/announcements", icon: Radio },
     ],
   },
   {
