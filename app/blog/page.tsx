@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Rss } from "lucide-react";
 import { BLOG_POSTS, CATEGORY_CONFIG } from "./posts";
+import BlogSubscribe from "@/components/BlogSubscribe";
 
 export default function BlogPage() {
   return (
@@ -90,8 +91,13 @@ export default function BlogPage() {
           })}
         </div>
 
+        {/* Newsletter Subscribe */}
+        <div style={{ padding: "48px 0 24px", borderTop: "1px solid #111" }}>
+          <BlogSubscribe variant="card" />
+        </div>
+
         {/* CTA */}
-        <div style={{ textAlign: "center", padding: "48px 0 80px", borderTop: "1px solid #111" }}>
+        <div style={{ textAlign: "center", padding: "32px 0 80px" }}>
           <p style={{ color: "#555", fontSize: ".95rem", marginBottom: 20 }}>
             Building a partner program? Join the beta and see Covant in action.
           </p>

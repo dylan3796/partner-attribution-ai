@@ -5,6 +5,7 @@ import { BLOG_POSTS, CATEGORY_CONFIG } from "../posts";
 import { ARTICLE_CONTENT } from "./content";
 import type { Metadata } from "next";
 import ShareButtons from "./ShareButtons";
+import BlogSubscribe from "@/components/BlogSubscribe";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -178,6 +179,9 @@ export default async function BlogPostPage({ params }: Props) {
           <p style={{ color: "#555", fontSize: ".85rem", fontWeight: 600, margin: 0 }}>Share this article</p>
           <ShareButtons slug={slug} title={post.title} />
         </div>
+
+        {/* Newsletter Subscribe */}
+        <BlogSubscribe variant="inline" />
 
         {/* CTA */}
         <div style={{ borderTop: "1px solid #1a1a1a", padding: "48px 0", textAlign: "center" }}>
