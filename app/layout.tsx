@@ -10,6 +10,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import AskCovant from "@/components/AskCovant";
 import AnnouncementBar from "@/components/AnnouncementBar";
+import CookieConsent from "@/components/CookieConsent";
 import { OrganizationSchema, WebSiteSchema, SoftwareApplicationSchema } from "@/components/StructuredData";
 
 const inter = Inter({
@@ -68,6 +69,7 @@ export default function RootLayout({
                 {children}
                 <Footer />
                 <AskCovant />
+                <CookieConsent />
               </PlatformConfigProvider>
             </StoreProvider>
           </Providers>

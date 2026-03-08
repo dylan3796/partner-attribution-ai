@@ -13,6 +13,13 @@ type Entry = {
 // Generated from real git log — update periodically
 const CHANGELOG: Entry[] = [
   {
+    date: "March 8, 2026",
+    commits: [
+      { hash: "NEW0044", type: "polish", message: "Cookie Consent Banner — GDPR/CCPA-compliant cookie consent component on all marketing pages. Accept/decline buttons with preferences persisted via localStorage. Links to privacy policy. Slides up with animation after 1.5s delay. Hidden on dashboard, portal, auth, and admin pages. Enterprise compliance trust signal — VPs evaluating vendors check for privacy compliance." },
+      { hash: "NEW0045", type: "polish", message: "Ship Log stats updated — landing page now accurately reflects 70+ pages, 75+ features, and 80+ shipped items (was showing stale counts of 55/45/32)." },
+    ],
+  },
+  {
     date: "March 7, 2026",
     commits: [
       { hash: "NEW0043", type: "feat", message: "Site-wide announcement bar — dismissable top banner on all marketing pages promoting early access and beta signup. Gradient background with indigo accent, sparkle icon, inline CTA linking to /beta. Dismiss state persisted via localStorage so it stays hidden once closed. Hidden on dashboard, portal, auth, and admin pages. Drives beta conversion from every marketing page visit." },

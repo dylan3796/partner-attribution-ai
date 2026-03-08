@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-08-cookie-consent",
+    date: "Mar 8",
+    type: "polish",
+    title: "Cookie Consent Banner",
+    description: "GDPR/CCPA-compliant cookie consent banner on all marketing pages. Accept/decline with persisted preferences. Links to privacy policy. Enterprise compliance trust signal.",
+    link: "/privacy",
+  },
+  {
     id: "2026-03-07-dashboard-preview",
     date: "Mar 7",
     type: "feat",
@@ -276,7 +284,7 @@ const RECENT_CHANGES: ChangeEntry[] = [
 ];
 
 const STORAGE_KEY = "covant-whats-new-seen";
-const LATEST_VERSION = "2026-03-07";
+const LATEST_VERSION = "2026-03-08";
 
 function getSeenVersion(): string | null {
   if (typeof window === "undefined") return null;
