@@ -9,6 +9,7 @@ import { Providers } from "./providers";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import AskCovant from "@/components/AskCovant";
+import AnnouncementBar from "@/components/AnnouncementBar";
 import { OrganizationSchema, WebSiteSchema, SoftwareApplicationSchema } from "@/components/StructuredData";
 
 const inter = Inter({
@@ -62,6 +63,7 @@ export default function RootLayout({
           <Providers>
             <StoreProvider>
               <PlatformConfigProvider>
+                <AnnouncementBar />
                 <Nav />
                 {children}
                 <Footer />
