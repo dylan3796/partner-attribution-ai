@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-07-features-page",
+    date: "Mar 7",
+    type: "feat",
+    title: "Features Page",
+    description: "Comprehensive feature reference with 45+ capabilities organized into 7 categories — the page VPs forward to procurement teams during vendor evaluation.",
+    link: "/features",
+  },
+  {
     id: "2026-03-07-reports-hub",
     date: "Mar 7",
     type: "feat",

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const PRODUCT_LINKS = [
+  { name: "All Features", href: "/features" },
   { name: "Product Tour", href: "/product" },
   { name: "Attribution", href: "/dashboard/reports/attribution" },
   { name: "Payouts", href: "/dashboard/payouts" },
