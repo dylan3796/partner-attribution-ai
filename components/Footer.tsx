@@ -28,6 +28,7 @@ const RESOURCE_LINKS = [
   { name: "Roadmap", href: "/roadmap" },
   { name: "FAQ", href: "/faq" },
   { name: "Blog", href: "/blog" },
+  { name: "Glossary", href: "/glossary" },
   { name: "All Resources", href: "/resources" },
 ];
 

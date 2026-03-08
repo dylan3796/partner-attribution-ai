@@ -134,6 +134,16 @@ const COMPANY: Resource[] = [
     tagColor: "#818cf8",
   },
   {
+    title: "Glossary",
+    description:
+      "33 partner program terms defined — attribution models, commission rules, deal registration, PRM, and more.",
+    href: "/glossary",
+    icon: BookOpen,
+    color: "#22c55e",
+    tag: "Learn",
+    tagColor: "#22c55e",
+  },
+  {
     title: "About Covant",
     description:
       "Why we built Covant, the problem we're solving, and our approach to partner intelligence.",
