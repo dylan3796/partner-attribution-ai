@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "API Documentation — Covant",
-  description: "Complete REST API reference for the Covant partner attribution platform. Endpoints for partners, deals, attribution, payouts, and webhooks.",
+  title: "API Documentation — REST API & Webhooks | Covant",
+  description: "Covant REST API documentation. Endpoints for partners, deals, commissions, touchpoints, and webhooks. Authentication, rate limits, and code examples.",
   openGraph: {
-    title: "Covant API Documentation",
-    description: "REST API reference for partner attribution, deal management, and commission payouts.",
+    title: "API Documentation — REST API & Webhooks | Covant",
+    description: "Covant REST API documentation. Endpoints for partners, deals, commissions, touchpoints, and webhooks.",
+    url: "https://covant.ai/docs",
   },
 };
 
-export default function DocsLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

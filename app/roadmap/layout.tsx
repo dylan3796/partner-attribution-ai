@@ -1,20 +1,15 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Product Roadmap — Covant",
-  description:
-    "See what Covant has shipped, what's in progress, and what's planned. Public roadmap for partner attribution, commission automation, and program management.",
+  title: "Product Roadmap — What's Shipped & What's Next | Covant",
+  description: "Track Covant's development: 38+ shipped features, current priorities, and upcoming capabilities. Updated weekly.",
   openGraph: {
-    title: "Covant Product Roadmap — What's Shipped & What's Next",
-    description:
-      "Transparent product roadmap: shipped features, in-progress builds, and planned capabilities through Q3 2026.",
+    title: "Product Roadmap — What's Shipped & What's Next | Covant",
+    description: "38+ shipped features and counting. See what's built, in progress, and planned for Covant.",
+    url: "https://covant.ai/roadmap",
   },
 };
 
-export default function RoadmapLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

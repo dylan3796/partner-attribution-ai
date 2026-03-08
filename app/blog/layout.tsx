@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Blog | Covant",
-  description: "Insights on partner attribution, commission management, and building high-performance partner programs.",
+  title: "Blog — Partner Program Strategy & Best Practices | Covant",
+  description: "Expert guides on partner attribution, commission structures, deal registration, program scaling, KPIs, and partner intelligence. Written for VPs of Partnerships.",
   openGraph: {
-    title: "Covant Blog",
-    description: "Insights on partner attribution, commission management, and building high-performance partner programs.",
+    title: "Blog — Partner Program Strategy & Best Practices | Covant",
+    description: "Expert guides on partner attribution, commissions, deal registration, and partner intelligence.",
+    url: "https://covant.ai/blog",
   },
 };
 
-export default function BlogLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return children;
 }

@@ -1,20 +1,15 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ROI Calculator — Covant",
-  description:
-    "Calculate the ROI of automating your partner program with Covant. See time saved, revenue impact, and cost comparison vs. spreadsheets and legacy PRMs.",
+  title: "ROI Calculator — Partner Program Savings & Returns | Covant",
+  description: "Calculate the ROI of automating your partner program. Estimate time saved, dispute reduction, and net returns based on your program size.",
   openGraph: {
-    title: "Partner Program ROI Calculator — Covant",
-    description:
-      "How much is your partner program leaving on the table? Calculate time saved and revenue impact with automated attribution and commissions.",
+    title: "ROI Calculator — Partner Program Savings & Returns | Covant",
+    description: "Calculate the ROI of automating your partner program. Estimate time saved and net returns.",
+    url: "https://covant.ai/roi",
   },
 };
 
-export default function RoiLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

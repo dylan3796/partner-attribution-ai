@@ -1,21 +1,15 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Features — Covant | Partner Intelligence Platform",
-  description:
-    "45+ features for partner attribution, commission automation, portal management, analytics, and integrations. See every capability in one place.",
+  title: "All Features — 45+ Partner Program Capabilities | Covant",
+  description: "Explore every Covant feature: attribution models, commission automation, partner portal, analytics, integrations, and productivity tools. The complete partner intelligence platform.",
   openGraph: {
-    title: "Features — Covant | Partner Intelligence Platform",
-    description:
-      "45+ features for partner attribution, commission automation, portal management, analytics, and integrations.",
+    title: "All Features — 45+ Partner Program Capabilities | Covant",
+    description: "Explore every Covant feature: attribution, commissions, partner portal, analytics, integrations, and more.",
     url: "https://covant.ai/features",
   },
 };
 
-export default function FeaturesLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

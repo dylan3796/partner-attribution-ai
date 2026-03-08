@@ -1,17 +1,15 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Partner Program Benchmarks 2026 | Covant",
-  description:
-    "16 key partner program benchmarks across attribution, commissions, engagement, and revenue. Compare your program against industry medians and top-quartile performers.",
+  title: "Partner Program Benchmarks 2026 — Industry Metrics & Comparison Tool | Covant",
+  description: "Compare your partner program against industry benchmarks. 16 key metrics across attribution, commissions, engagement, and revenue with interactive percentile rankings.",
   openGraph: {
-    title: "Partner Program Benchmarks 2026 | Covant",
-    description:
-      "16 key partner program benchmarks with interactive comparison tool. See how your program stacks up.",
+    title: "Partner Program Benchmarks 2026 — Industry Metrics & Comparison Tool",
+    description: "Compare your partner program against industry benchmarks. 16 key metrics with interactive percentile rankings.",
     url: "https://covant.ai/benchmarks",
   },
 };
 
-export default function BenchmarksLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return children;
 }

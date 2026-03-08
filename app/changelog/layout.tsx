@@ -1,14 +1,15 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Changelog — Covant",
-  description: "Latest updates, features, and improvements to the Covant partner attribution platform.",
+  title: "Changelog — What's New at Covant",
+  description: "Every feature, fix, and improvement shipped to Covant. Follow our daily shipping cadence — 90+ items and counting.",
   openGraph: {
-    title: "Covant Changelog — What's New",
-    description: "See the latest features and improvements to the Covant platform.",
+    title: "Changelog — What's New at Covant",
+    description: "Every feature, fix, and improvement shipped to Covant. 90+ items and counting.",
+    url: "https://covant.ai/changelog",
   },
 };
 
-export default function ChangelogLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

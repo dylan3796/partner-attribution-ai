@@ -1,20 +1,15 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Partner Program Assessment — Covant",
-  description:
-    "Take the 2-minute partner program maturity assessment. Score your attribution, commissions, deal registration, and partner experience across 8 dimensions.",
+  title: "Partner Program Assessment — Free Maturity Quiz | Covant",
+  description: "Take a free 8-question assessment to evaluate your partner program maturity. Get a personalized score and recommendations for attribution, commissions, and operations.",
   openGraph: {
-    title: "How Mature Is Your Partner Program? — Covant Assessment",
-    description:
-      "Free interactive quiz: score your partner program across attribution, commissions, deal reg, and operations. Get personalized recommendations.",
+    title: "Partner Program Assessment — Free Maturity Quiz | Covant",
+    description: "Evaluate your partner program maturity in 2 minutes. Free assessment with personalized recommendations.",
+    url: "https://covant.ai/assessment",
   },
 };
 
-export default function AssessmentLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

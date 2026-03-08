@@ -1,11 +1,15 @@
-import type { Metadata } from "next";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Customer Stories — Covant",
-  description:
-    "See how partner teams use Covant to automate attribution, commissions, and partner program management. Real scenarios, real results.",
+  title: "Customer Stories — How Teams Use Covant | Covant",
+  description: "See how partner teams automate attribution, streamline commissions, and scale their programs with Covant. Real results from real partner programs.",
+  openGraph: {
+    title: "Customer Stories — How Teams Use Covant",
+    description: "See how partner teams automate attribution, streamline commissions, and scale programs with Covant.",
+    url: "https://covant.ai/customers",
+  },
 };
 
-export default function CustomersLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return children;
 }

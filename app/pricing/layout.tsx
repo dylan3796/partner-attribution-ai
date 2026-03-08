@@ -1,20 +1,15 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing — Covant",
-  description:
-    "Engine-based pricing. Partner Portal always free. Add Attribution, Incentives, Intelligence, and CRM engines individually or bundled. Starter, Growth, and Scale tiers.",
+  title: "Pricing — Free Tier, No Credit Card Required | Covant",
+  description: "Start free with up to 5 partners. Pro from $99/mo, Scale from $349/mo. Pay by active partners, not seats. No time-limited trial — free tier is forever.",
   openGraph: {
-    title: "Covant Pricing — Pay for the engines you use",
-    description:
-      "Partner Portal is always free. Add AI engines to automate attribution, commissions, insights, and CRM sync — individually or bundled.",
+    title: "Pricing — Free Tier, No Credit Card Required | Covant",
+    description: "Start free with up to 5 partners. Pro $99/mo, Scale $349/mo. Pay by active partners, not seats.",
+    url: "https://covant.ai/pricing",
   },
 };
 
-export default function PricingLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }

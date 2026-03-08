@@ -1,15 +1,15 @@
-import { Metadata } from 'next';
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: 'Beta Access — Covant',
-  description: 'Join the Covant beta. Automate partner attribution, commission rules, and payouts for your B2B partner program. First 20 teams onboard free with hands-on support.',
+  title: "Join the Beta — Early Access to Covant",
+  description: "Get early access to the partner intelligence platform. Free beta for VPs of Partnerships, RevOps, and partner managers building or scaling channel programs.",
   openGraph: {
-    title: 'Join the Covant Beta — Partner Intelligence Platform',
-    description: 'Automate attribution, commission rules, and payouts for your partner program. First 20 teams onboard free.',
-    url: 'https://covant.ai/beta',
+    title: "Join the Beta — Early Access to Covant",
+    description: "Get early access to Covant. Free beta for VPs of Partnerships, RevOps, and partner managers.",
+    url: "https://covant.ai/beta",
   },
 };
 
-export default function BetaLayout({ children }: { children: React.ReactNode }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return children;
 }
