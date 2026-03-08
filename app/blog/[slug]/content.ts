@@ -5,6 +5,128 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "how-to-scale-partner-program": [
+    {
+      paragraphs: [
+        "At 10 partners, you know everyone by name. You remember who closed what deal, what commission rate you promised, and which partner's CEO you met at a conference. The program runs on relationships, tribal knowledge, and a spreadsheet that one person maintains.",
+        "At 30 partners, cracks start showing. Deal registrations pile up. Commission disputes surface. Two partners claim the same customer. You hire a partner ops person just to keep up.",
+        "At 100 partners, the entire model breaks. Not because the partners are bad — because the infrastructure was never designed for scale. The VP who built the program from 0 to 30 is now drowning in operational complexity instead of driving strategy.",
+        "Scaling a partner program isn't about adding more partners. It's about building the systems that let you add partners without adding proportional headcount. Here's how the best programs do it.",
+      ],
+    },
+    {
+      heading: "The three scaling walls",
+      paragraphs: [
+        "Every partner program hits the same three walls in the same order. Recognizing which wall you're approaching lets you solve it before it becomes a crisis.",
+      ],
+      bullets: [
+        "Wall 1: Attribution chaos (15-25 partners). Multiple partners start claiming the same deals. Your spreadsheet can't track overlapping touchpoints. Disputes escalate because there's no auditable record of who did what. Solution: implement a real attribution model (deal reg protection, source wins, or role split) with an audit trail.",
+        "Wall 2: Commission complexity (25-50 partners). Flat commission rates stop making sense. Your top reseller earning the same % as a partner who sends one referral a quarter. You need tiers, product-specific rates, and volume incentives — but managing them manually is a full-time job. Solution: rules-based commission engine that calculates automatically.",
+        "Wall 3: Partner engagement decay (50-100+ partners). Your bottom 60% of partners go dormant. Onboarding takes too long. Partners can't find information, track their own performance, or see their commissions. The program grows numerically but not productively. Solution: self-service partner portal with real-time data.",
+      ],
+    },
+    {
+      heading: "Infrastructure before recruitment",
+      paragraphs: [
+        "The biggest mistake in scaling a partner program is recruiting before your infrastructure can handle it. Every partner you add to a broken system creates more operational debt — more disputes, more manual payout calculations, more confused emails asking 'where's my commission?'",
+        "Before you recruit partner 31, make sure you have:",
+      ],
+      bullets: [
+        "Automated attribution: Every deal should trace back to the partner(s) who influenced it, with a calculation chain that's auditable by both sides. If your attribution requires a human to decide, it won't scale past 20 partners.",
+        "Rules-based commissions: Commission rates should be calculated by rules (partner tier × product × deal type), not looked up in a spreadsheet. When a deal closes, the payout amount should already be known.",
+        "Self-service portal: Partners need to register deals, check commission status, and view their performance without emailing you. Every email a partner sends you about 'what's my payout this month?' is a failure of self-service.",
+        "Structured onboarding: New partner activation should follow a checklist — not a 45-minute call where you explain how everything works and hope they remember. Time-to-first-deal-registration is the metric that tells you if onboarding works.",
+      ],
+    },
+    {
+      heading: "The tier system that actually scales",
+      paragraphs: [
+        "At 10 partners, everyone's equal. At 100, they can't be. Your top 5 partners drive 40-60% of revenue. Your bottom 50 might drive 5% combined. Treating them identically wastes high-touch resources on low-engagement partners and under-serves the ones who matter most.",
+        "A scalable tier system needs three things:",
+      ],
+      bullets: [
+        "Clear qualification criteria: Revenue thresholds, deal counts, certification completions — whatever metrics define tier levels, they need to be measurable and automatic. Manual tier reviews don't scale. If a partner hits Gold criteria at 2am on a Saturday, they should see Gold status on Monday morning without anyone intervening.",
+        "Meaningful tier differentiation: The jump from Silver to Gold needs to be worth the effort. Higher commission rates, co-marketing funds, priority deal registration, named partner manager access. If the only difference between tiers is a badge, partners won't bother.",
+        "Automatic tier management: Quarterly tier reviews should pull from real data — revenue, engagement, certification status. The system proposes upgrades and downgrades; you approve the edge cases. Reviewing 100 partners manually every quarter is 2-3 days of work that a rules engine handles in seconds.",
+      ],
+    },
+    {
+      heading: "Automation is not optional",
+      paragraphs: [
+        "At 10 partners, a human can process deal registrations, calculate commissions, and resolve conflicts. At 100, that human is working 60-hour weeks and still falling behind. The math is simple: if each partner generates 3 deal registrations per month and each takes 10 minutes to process, you're at 50 hours/month of pure admin at 100 partners.",
+        "What to automate first, in order of impact:",
+      ],
+      bullets: [
+        "Commission calculations: This is the highest-ROI automation. When a deal closes, the system should identify the attribution, look up the applicable commission rate (factoring in tier, product, and deal size), calculate the payout, and queue it for approval. Zero spreadsheet involvement.",
+        "Deal registration conflict detection: When Partner A registers a deal and Partner B already registered the same customer, the system should flag it immediately — not after both partners assume they're getting paid. Automatic conflict detection prevents disputes before they start.",
+        "Partner notifications: Deal status changes, commission payments, tier upgrades, new program announcements — these should fire automatically. Partners who feel informed stay engaged. Partners who have to chase information go dormant.",
+        "Reporting and QBRs: Monthly partner performance reports, quarterly business reviews, and board-level program summaries should generate from live data. Building a QBR slide deck from scratch every quarter is the most expensive report in your program.",
+      ],
+    },
+    {
+      heading: "The portal is your scale multiplier",
+      paragraphs: [
+        "A partner portal isn't a nice-to-have at scale — it's the mechanism that lets you serve 100 partners with the same team that served 20. Every question a partner can answer themselves in the portal is an email you don't have to write, a call you don't have to take.",
+        "The portals that actually get used share three characteristics:",
+      ],
+      bullets: [
+        "Real-time data: Partners should see their deals, commissions, tier status, and performance metrics updated in real time — not a weekly export dumped into a shared folder. If the data is stale, they'll email you for the latest numbers anyway.",
+        "Actionable workflows: Register deals, submit MDF requests, upload certifications, view payout history. The portal should let partners do things, not just see things. A portal that's read-only is a dashboard; a portal with workflows is a product.",
+        "No 'Powered by' badge: At scale, your portal represents your program. White-labeling — custom domain, your branding, your colors — is the difference between 'our partner platform' and 'some tool our vendor uses.' Partners need to feel like they're in your ecosystem.",
+      ],
+    },
+    {
+      heading: "Engagement at scale: the 60/20/20 model",
+      paragraphs: [
+        "In any partner program with 100+ partners, roughly 20% are highly active, 20% are completely dormant, and 60% are in the middle — engaged enough to not ignore, but not active enough to drive meaningful revenue.",
+        "The 60% in the middle is where scale programs are won or lost. Here's how to work each segment:",
+      ],
+      bullets: [
+        "Top 20% (active): Named partner manager, quarterly business reviews, co-marketing investments, early access to new features and programs. These partners justify high-touch because they drive disproportionate revenue.",
+        "Middle 60% (occasional): Automated nurture — monthly performance emails, in-portal announcements, certification reminders, SPIFF campaigns. The goal is to move 10-15% of this group up to active each quarter. Automated touchpoints keep them engaged without consuming your team's time.",
+        "Bottom 20% (dormant): Re-activation campaign every 6 months. If they don't respond after two outreach cycles, consider offboarding. Dormant partners in your system create noise — they dilute your 'active partner' metrics and make your program look less healthy than it is.",
+      ],
+    },
+    {
+      heading: "Metrics that matter at each stage",
+      paragraphs: [
+        "The metrics you track at 10 partners are different from the metrics you track at 100. As the program scales, shift your focus:",
+      ],
+      bullets: [
+        "10-25 partners: Track total revenue, partner-sourced vs. influenced, and time-to-first-deal. You're validating that the program model works.",
+        "25-50 partners: Add partner activation rate (% of new partners registering a deal within 90 days), commission-to-revenue ratio, and deal registration velocity. You're optimizing operations.",
+        "50-100 partners: Add revenue concentration risk (% from top 3 partners), partner health scores, and engagement decay rate. You're managing a portfolio, not individual relationships.",
+        "100+ partners: Add lifetime partner value, program ROI (total program cost vs. partner-attributed revenue), and cohort analysis (which recruiting channels produce the best partners). You're running a business unit.",
+      ],
+    },
+    {
+      heading: "The team structure question",
+      paragraphs: [
+        "At 10 partners, you might be the entire partner team. At 100, you need help — but not as much as you think, if your infrastructure is right.",
+        "A well-automated partner program at 100 partners typically needs 3-4 people: a VP/Director (strategy, top-partner relationships, board reporting), a partner ops person (commission management, dispute resolution, data integrity), a partner development rep (recruitment, onboarding, activation), and optionally a partner marketing person (co-marketing, content, events).",
+        "Compare that to the alternative: 100 partners with spreadsheet infrastructure typically needs 6-8 people doing the same work manually. The difference is $300-500K/year in headcount that could go toward program investment instead of program administration.",
+      ],
+    },
+    {
+      heading: "Common scaling mistakes",
+      paragraphs: [
+        "After working with dozens of partner leaders scaling their programs, the same mistakes come up repeatedly:",
+      ],
+      bullets: [
+        "Recruiting before infrastructure: Adding partners to a broken system makes the system more broken, not more productive. Build the rails first, then drive traffic.",
+        "Treating all partners equally: Equal treatment at scale means your best partners feel underserved and your worst partners get more attention than they deserve. Tiers exist for a reason.",
+        "Manual attribution at scale: If a human is deciding who gets credit for every deal, you have a bottleneck that grows linearly with deal volume. Attribution rules need to be systematic.",
+        "Ignoring the middle 60%: Most programs focus on top partners and try to recruit new ones, completely ignoring the 60% of existing partners who could be activated with the right incentives and engagement.",
+        "Over-indexing on partner count: '100 partners' sounds better than '40 partners' in a board deck. But 40 active partners generating $10M beats 100 partners where 60 are dormant. Active partner count is the metric; total partner count is vanity.",
+      ],
+    },
+    {
+      paragraphs: [
+        "Scaling a partner program is a systems problem, not a people problem. The programs that scale successfully invest in infrastructure before they invest in recruitment. They automate the repetitive work, build self-service for partners, and focus human attention on the relationships and decisions that actually require judgment.",
+        "The VP who scales from 10 to 100 partners successfully isn't the one who works 10x harder. It's the one who builds systems that work 10x harder for them. Start with attribution, add commission automation, launch a portal, and tier your engagement. The partners will follow.",
+      ],
+    },
+  ],
   "partner-intelligence-data-driven-programs": [
     {
       paragraphs: [

@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "how-to-scale-partner-program",
+    title: "How to Scale Your Partner Program from 10 to 100+ Partners",
+    description:
+      "The playbook that works at 10 partners breaks at 30 and collapses at 100. Here's the infrastructure, automation, and mindset shift required to scale a partner program without scaling your team 10x.",
+    date: "March 8, 2026",
+    readTime: "9 min read",
+    category: "strategy",
+  },
+  {
     slug: "partner-program-kpis-metrics-to-track",
     title: "The 15 Partner Program KPIs That Actually Matter in 2026",
     description:
