@@ -263,6 +263,42 @@ const ROADMAP: RoadmapItem[] = [
     tag: "Marketing",
   },
 
+  {
+    title: "Dashboard Preview",
+    description: "Marketing page showcasing the admin command center — 6 interactive mock sections covering attribution, commissions, intelligence, reports, and operations.",
+    icon: LayoutGrid,
+    status: "shipped",
+    tag: "Marketing",
+  },
+  {
+    title: "Portal Preview",
+    description: "Marketing page showcasing the partner-facing experience — deal registration, commission tracking, performance analytics, certifications, and announcements.",
+    icon: Globe,
+    status: "shipped",
+    tag: "Marketing",
+  },
+  {
+    title: "Partner Announcements",
+    description: "Broadcast system for partner communication — create, draft, publish, and pin announcements. Partners see a curated feed in their portal.",
+    icon: Bell,
+    status: "shipped",
+    tag: "Portal",
+  },
+  {
+    title: "Blog RSS Feed",
+    description: "Standard RSS feed at /blog/feed.xml for content syndication and SEO discoverability. Auto-discovery link in page head.",
+    icon: Sparkles,
+    status: "shipped",
+    tag: "Marketing",
+  },
+  {
+    title: "Cookie Consent",
+    description: "GDPR/CCPA-compliant cookie consent banner on all marketing pages. Enterprise compliance trust signal for vendor evaluation.",
+    icon: Shield,
+    status: "shipped",
+    tag: "Compliance",
+  },
+
   // In Progress
   {
     title: "Salesforce Integration",

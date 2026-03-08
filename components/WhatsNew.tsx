@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-08-blog-rss",
+    date: "Mar 8",
+    type: "feat",
+    title: "Blog RSS Feed",
+    description: "Subscribe to Covant's blog via RSS at /blog/feed.xml. Auto-discovery in page head for RSS readers. Standard content syndication for SEO and subscriber engagement.",
+    link: "/blog/feed.xml",
+  },
+  {
     id: "2026-03-08-cookie-consent",
     date: "Mar 8",
     type: "polish",

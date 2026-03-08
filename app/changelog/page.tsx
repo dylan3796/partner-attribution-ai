@@ -15,8 +15,9 @@ const CHANGELOG: Entry[] = [
   {
     date: "March 8, 2026",
     commits: [
+      { hash: "NEW0046", type: "feat", message: "Blog RSS Feed (/blog/feed.xml) — standard RSS 2.0 feed with Atom self-link for all 8 blog articles. Auto-discovery <link> tag in root layout head. RSS button on blog index page. Improves SEO discoverability (Google crawls RSS feeds for new content) and enables RSS reader subscriptions for beta prospects tracking Covant's content." },
+      { hash: "NEW0045", type: "polish", message: "Roadmap page updated — added 5 recently shipped features (Dashboard Preview, Portal Preview, Partner Announcements, Blog RSS, Cookie Consent). Shipped count now 38 and counting." },
       { hash: "NEW0044", type: "polish", message: "Cookie Consent Banner — GDPR/CCPA-compliant cookie consent component on all marketing pages. Accept/decline buttons with preferences persisted via localStorage. Links to privacy policy. Slides up with animation after 1.5s delay. Hidden on dashboard, portal, auth, and admin pages. Enterprise compliance trust signal — VPs evaluating vendors check for privacy compliance." },
-      { hash: "NEW0045", type: "polish", message: "Ship Log stats updated — landing page now accurately reflects 70+ pages, 75+ features, and 80+ shipped items (was showing stale counts of 55/45/32)." },
     ],
   },
   {

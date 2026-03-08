@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Rss } from "lucide-react";
 import { BLOG_POSTS, CATEGORY_CONFIG } from "./posts";
 
 export default function BlogPage() {
@@ -27,9 +27,32 @@ export default function BlogPage() {
           <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, letterSpacing: "-0.04em", color: "#fff", margin: "0 0 16px" }}>
             Blog
           </h1>
-          <p style={{ color: "#555", fontSize: "1.1rem", lineHeight: 1.6, maxWidth: 560 }}>
-            Practical insights on partner attribution, commission ops, and building programs that scale.
-          </p>
+          <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+            <p style={{ color: "#555", fontSize: "1.1rem", lineHeight: 1.6, maxWidth: 560, margin: 0 }}>
+              Practical insights on partner attribution, commission ops, and building programs that scale.
+            </p>
+            <a
+              href="/blog/feed.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="RSS Feed"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 5,
+                padding: "6px 12px",
+                borderRadius: 6,
+                border: "1px solid #222",
+                color: "#666",
+                fontSize: ".78rem",
+                fontWeight: 500,
+                textDecoration: "none",
+                flexShrink: 0,
+              }}
+            >
+              <Rss size={13} /> RSS
+            </a>
+          </div>
         </div>
 
         {/* Posts */}
