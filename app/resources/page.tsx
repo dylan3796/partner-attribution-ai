@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import {
   Calculator, ClipboardCheck, GitBranch, BookOpen, FileText,
-  ArrowRight, Sparkles, BarChart3, Code2, Layers, HelpCircle,
+  ArrowRight, Sparkles, BarChart3, Code2, Layers, HelpCircle, LayoutTemplate,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -46,6 +46,16 @@ const TOOLS: Resource[] = [
     color: "#8b5cf6",
     tag: "Interactive",
     tagColor: "#8b5cf6",
+  },
+  {
+    title: "Program Templates",
+    description:
+      "Pre-built blueprints for SaaS reseller, referral, tech alliance, affiliate, and co-sell programs. Commission structures, tier configs, and KPIs included.",
+    href: "/templates",
+    icon: LayoutTemplate,
+    color: "#ec4899",
+    tag: "Interactive",
+    tagColor: "#ec4899",
   },
   {
     title: "Competitive Comparison",

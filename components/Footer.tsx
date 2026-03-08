@@ -29,6 +29,7 @@ const RESOURCE_LINKS = [
   { name: "FAQ", href: "/faq" },
   { name: "Blog", href: "/blog" },
   { name: "Glossary", href: "/glossary" },
+  { name: "Templates", href: "/templates" },
   { name: "All Resources", href: "/resources" },
 ];
 
