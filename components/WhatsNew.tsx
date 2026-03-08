@@ -252,7 +252,7 @@ const RECENT_CHANGES: ChangeEntry[] = [
 ];
 
 const STORAGE_KEY = "covant-whats-new-seen";
-const LATEST_VERSION = "2026-03-06";
+const LATEST_VERSION = "2026-03-07";
 
 function getSeenVersion(): string | null {
   if (typeof window === "undefined") return null;
