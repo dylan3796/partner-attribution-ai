@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/features`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${base}/product`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
     { url: `${base}/portal-preview`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/dashboard-preview`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/demo`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/integrations`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/integrations/salesforce`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },

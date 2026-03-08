@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-07-dashboard-preview",
+    date: "Mar 7",
+    type: "feat",
+    title: "Dashboard Preview",
+    description: "See the admin command center VPs use to run their programs — attribution audit trails, commission management, partner intelligence, QBR reports, and pipeline operations. The counterpart to Portal Preview.",
+    link: "/dashboard-preview",
+  },
+  {
     id: "2026-03-07-portal-preview",
     date: "Mar 7",
     type: "feat",
