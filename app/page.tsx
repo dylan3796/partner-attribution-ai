@@ -624,7 +624,71 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── 12. PRICING CTA ──────────────────────────────── */}
+      {/* ── 12. SHIP LOG ──────────────────────────────────── */}
+      <section style={{ padding: "6rem 0", borderTop: "1px solid rgba(255,255,255,.06)" }}>
+        <div className="wrap">
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <p style={{ fontSize: ".75rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(129,140,248,.7)", marginBottom: ".75rem" }}>Ship Log</p>
+            <h2 style={{ fontSize: "clamp(1.6rem, 3vw, 2.2rem)", fontWeight: 800, lineHeight: 1.15, letterSpacing: "-.02em", marginBottom: ".75rem" }}>
+              We ship fast. Really fast.
+            </h2>
+            <p className="muted" style={{ maxWidth: 520, margin: "0 auto", lineHeight: 1.6 }}>
+              New features every day. Here&apos;s what landed this week.
+            </p>
+          </div>
+
+          {/* Stats bar */}
+          <div style={{ display: "flex", justifyContent: "center", gap: "2.5rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
+            {[
+              { num: "55+", label: "Pages" },
+              { num: "45+", label: "Features" },
+              { num: "8", label: "Report Types" },
+              { num: "32", label: "Shipped Items" },
+            ].map(s => (
+              <div key={s.label} style={{ textAlign: "center" }}>
+                <div style={{ fontSize: "1.75rem", fontWeight: 800, letterSpacing: "-.02em", color: "#fff" }}>{s.num}</div>
+                <div style={{ fontSize: ".75rem", color: "#555", fontWeight: 600, letterSpacing: ".05em", textTransform: "uppercase" }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Recent features grid */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
+            {[
+              { date: "Mar 7", title: "Dashboard Preview", desc: "Marketing page showing the full admin experience — 6 interactive mock sections, 16 capabilities." },
+              { date: "Mar 7", title: "Partner Certifications", desc: "Full certification program management with levels, categories, awards, and tier requirements." },
+              { date: "Mar 7", title: "Activity Heatmap", desc: "GitHub-style contribution graph showing 12 months of partner program engagement patterns." },
+              { date: "Mar 7", title: "Partner Scorecard", desc: "Print-ready one-page performance report with health scores, trends, and auto-generated insights." },
+              { date: "Mar 6", title: "Revenue Intelligence", desc: "Deep analytics on partner-attributed revenue — concentration risk, leaderboard, 12-month trends." },
+              { date: "Mar 6", title: "Win/Loss Analysis", desc: "Deal outcome deep dive with win rate by partner, product, and deal size. QBR-ready." },
+              { date: "Mar 6", title: "Bulk Actions & Tags", desc: "Select multiple partners for batch tier changes, tagging, status updates, and CSV export." },
+              { date: "Mar 6", title: "Partner Comparison", desc: "Select 2–4 partners and compare side-by-side on 12 metrics with auto-generated insights." },
+            ].map(f => (
+              <div key={f.title} style={{
+                padding: "1.25rem 1.5rem",
+                background: "rgba(255,255,255,.03)",
+                borderRadius: 10,
+                border: "1px solid rgba(255,255,255,.06)",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
+                  <span style={{ fontSize: ".65rem", fontWeight: 700, color: "#22c55e", background: "rgba(34,197,94,.12)", padding: "2px 8px", borderRadius: 4, letterSpacing: ".03em" }}>NEW</span>
+                  <span style={{ fontSize: ".7rem", color: "#444" }}>{f.date}</span>
+                </div>
+                <div style={{ fontWeight: 700, fontSize: ".9rem", marginBottom: 4 }}>{f.title}</div>
+                <p style={{ color: "#555", fontSize: ".8rem", lineHeight: 1.5, margin: 0 }}>{f.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: "center" }}>
+            <Link href="/changelog" style={{ color: "rgba(129,140,248,.8)", fontSize: ".9rem", textDecoration: "none", fontWeight: 600 }}>
+              View full changelog →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 13. PRICING CTA ──────────────────────────────── */}
       <section style={{ padding: "5rem 0", background: "#000" }} id="pricing">
         <div className="wrap" style={{ textAlign: "center" }}>
           <div className="tag">Pricing</div>
