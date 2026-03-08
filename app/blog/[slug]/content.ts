@@ -747,4 +747,159 @@ export const ARTICLE_CONTENT: Record<string, Section[]> = {
       ],
     },
   ],
+
+  "partner-program-kpis-metrics-to-track": [
+    {
+      paragraphs: [
+        "Every VP of Partnerships tracks revenue. It's the number you bring to the board meeting, the one that justifies the program's existence, the one your CEO cares about. And it's completely insufficient.",
+        "Revenue tells you what happened. It doesn't tell you why. It doesn't tell you which partners are about to churn, which deals are stuck in registration limbo, or whether your commission spend is generating returns. It's a lagging indicator dressed up as a strategy.",
+        "The VPs who consistently outperform — the ones running programs that grow 40%+ year over year — track 15 metrics across four categories. Not because they love dashboards, but because each metric answers a specific question that revenue alone can't.",
+      ],
+    },
+    {
+      heading: "Category 1: Attribution & revenue metrics",
+      paragraphs: [
+        "These are the numbers your CEO and board care about. They measure the program's financial impact.",
+      ],
+    },
+    {
+      heading: "1. Partner-sourced revenue",
+      paragraphs: [
+        "Revenue from deals where a partner was the primary source — they brought the lead, introduced the opportunity, or registered the deal first. This is the cleanest measure of partner value because it separates deals partners actually created from deals they merely touched.",
+        "Benchmark: Top-quartile programs source 25-40% of total company revenue through partners. If you're below 15%, your partners are influencing but not sourcing — different problem, different solution.",
+      ],
+    },
+    {
+      heading: "2. Partner-influenced revenue",
+      paragraphs: [
+        "Revenue from deals where a partner contributed but wasn't the primary source. They provided a reference, helped with a technical eval, or co-sold alongside your AE. This is the 'assist' metric — valuable but murkier than sourced revenue.",
+        "Track this separately from sourced revenue. Combining them inflates the number and makes it impossible to answer 'what would happen if we cut the partner program?' If your influenced number is 3x your sourced number, you have partners adding value but not generating pipeline.",
+      ],
+    },
+    {
+      heading: "3. Partner revenue as % of total",
+      paragraphs: [
+        "The single number that answers 'how important is the channel?' If partner revenue is 5% of total, the program is a nice-to-have. At 30%+, it's a strategic asset. This percentage determines your internal political capital, your budget, and your headcount.",
+        "More importantly, track the trend. A program going from 15% to 22% in two quarters is a story. A program stuck at 15% for a year is a problem.",
+      ],
+    },
+    {
+      heading: "4. Average partner deal size",
+      paragraphs: [
+        "Compare this to your direct sales average deal size. Partner deals are typically 15-30% larger because partners bring domain expertise and existing relationships. If your partner deals are smaller than direct deals, something is wrong — either you're attracting the wrong partners or your commission structure incentivizes volume over value.",
+      ],
+    },
+    {
+      heading: "Category 2: Partner engagement metrics",
+      paragraphs: [
+        "Revenue metrics tell you what happened last quarter. Engagement metrics tell you what's going to happen next quarter. They're leading indicators — the early warning system for your program.",
+      ],
+    },
+    {
+      heading: "5. Active partner rate",
+      paragraphs: [
+        "Percentage of partners who registered at least one deal or logged a touchpoint in the last 90 days. This is the most honest measure of program health because it separates active partners from paper partnerships.",
+        "Benchmark: Median programs have 40-55% active partner rates. Top-quartile programs hit 65-80%. If you're below 40%, you're carrying dead weight — partners who signed up, never engaged, and are now inflating your 'partner count' slide without generating any value.",
+      ],
+    },
+    {
+      heading: "6. Deal registration velocity",
+      paragraphs: [
+        "How many days from deal registration to first status update (approved, rejected, or returned for more info). This metric directly impacts partner satisfaction because nothing kills partner trust faster than submitting a deal and hearing nothing for two weeks.",
+        "Target: Under 48 hours for initial response. Under 24 hours for top-tier partners. If your average is over 5 days, your partners are registering deals elsewhere.",
+      ],
+    },
+    {
+      heading: "7. Portal login frequency",
+      paragraphs: [
+        "How often partners actually log into your portal. Not how many accounts exist — how many people use it. A portal with 200 accounts and 15 monthly active users is a failed product.",
+        "The fix isn't more features — it's fewer reasons to leave. Partners should be able to register a deal, check their commissions, and see their pipeline in under 2 minutes. If your portal can't do that, the metrics will show it.",
+      ],
+    },
+    {
+      heading: "8. Partner health score",
+      paragraphs: [
+        "A composite metric that weighs deal activity, revenue trend, engagement recency, and payout history into a single 0-100 score. Partners scoring below 40 are at risk. Partners scoring above 80 are your champions.",
+        "The value isn't the number itself — it's the prioritization. When you have 50+ partners, you can't check in with all of them. Health scores tell you which 5 need attention this week.",
+      ],
+    },
+    {
+      heading: "Category 3: Operational efficiency metrics",
+      paragraphs: [
+        "These metrics measure how well your program runs. They're the difference between a program that scales and one that breaks at 30 partners.",
+      ],
+    },
+    {
+      heading: "9. Commission-to-revenue ratio",
+      paragraphs: [
+        "Total commissions paid divided by total partner-sourced revenue. This is your unit economics metric. If you're paying 20% commission on deals that would have closed direct at 0% commission cost, the math doesn't work. If you're paying 15% on deals that would never have existed without the partner, it's a bargain.",
+        "Benchmark: 12-20% is typical for SaaS. Below 10% means you're probably under-investing in partner incentives. Above 25% means your commission structure needs a hard look — or your attribution is over-crediting partners.",
+      ],
+    },
+    {
+      heading: "10. Payout cycle time",
+      paragraphs: [
+        "Days from deal close to commission payment hitting the partner's account. This is the operational metric partners care about most — even more than the commission rate. A program paying 15% in 14 days beats a program paying 20% in 90 days every time.",
+        "Target: Under 30 days for standard payouts. Under 14 days for top-tier partners. If you're above 60 days, you're actively damaging partner relationships.",
+      ],
+    },
+    {
+      heading: "11. Dispute rate",
+      paragraphs: [
+        "Percentage of deals with a commission dispute (attribution disagreement, amount contested, or status challenged). Some disputes are inevitable — the goal isn't zero, it's low single digits.",
+        "Benchmark: Under 5% is healthy. Over 10% signals a systemic attribution problem — your model isn't matching how deals actually flow. Over 20% means your partners don't trust your numbers, and that's a program-level crisis.",
+      ],
+    },
+    {
+      heading: "12. Win rate (partner vs. direct)",
+      paragraphs: [
+        "Compare the close rate of partner-sourced deals to direct sales deals. Partner deals should win at a higher rate — if they don't, your partners might be registering deals they're not actually influencing.",
+        "Benchmark: Partner win rates typically run 5-15 percentage points higher than direct. If they're equal or lower, dig into whether your deal registration process is actually validating partner involvement.",
+      ],
+    },
+    {
+      heading: "Category 4: Growth & pipeline metrics",
+      paragraphs: [
+        "These metrics measure the program's future, not its past. They answer 'where is this program going?'",
+      ],
+    },
+    {
+      heading: "13. Partner pipeline coverage",
+      paragraphs: [
+        "Total open pipeline from partner-sourced deals divided by your partner revenue target. If your target is $2M and your partner pipeline is $3M, you have 1.5x coverage — tight but workable at typical win rates. Below 2x coverage and you're behind.",
+        "This is the metric that catches revenue misses a quarter early. If coverage drops below 2x mid-quarter, it's time to activate dormant partners, run a SPIFF, or accelerate deal registrations.",
+      ],
+    },
+    {
+      heading: "14. New partner activation rate",
+      paragraphs: [
+        "Percentage of newly recruited partners who register their first deal within 90 days. This measures whether your onboarding actually works. A program that recruits 10 partners a quarter but only activates 3 is wasting 70% of its recruitment effort.",
+        "Benchmark: 40-60% activation within 90 days is strong. Below 30% means your onboarding is broken — too slow, too confusing, or not delivering enough value to justify the partner's time investment.",
+      ],
+    },
+    {
+      heading: "15. Revenue concentration risk",
+      paragraphs: [
+        "Percentage of partner revenue coming from your top 3 partners. If one partner accounts for 40%+ of your partner revenue, you have a concentration risk that belongs in your board deck. Losing that partner doesn't just hurt — it cripples the program.",
+        "Target: No single partner above 25%. Top 3 combined below 50%. If you're above these thresholds, your #1 priority is diversifying the partner base, not growing revenue from existing partners.",
+      ],
+    },
+    {
+      heading: "Putting it together: the monthly review",
+      paragraphs: [
+        "You don't need to check all 15 metrics every day. Here's how the best VPs use them:",
+      ],
+      bullets: [
+        "Weekly: Active partner rate, deal registration velocity, new pipeline created. These are the pulse metrics — if something's off, you catch it fast.",
+        "Monthly: Revenue metrics, commission-to-revenue ratio, payout cycle time, partner health scores. This is your operating review — are we efficient and on track?",
+        "Quarterly: Growth metrics, revenue concentration, win rate comparison, dispute trends. This is your strategy review — where is the program going and what needs to change?",
+      ],
+    },
+    {
+      paragraphs: [
+        "The difference between a VP who gets asked 'is the partner program working?' and one who walks in saying 'here's exactly how the program is performing, here's what's changing, and here's what I need' — that difference is these 15 metrics. The first is defending. The second is leading.",
+        "Track them, benchmark them, act on them. The data is there. The question is whether you're using it.",
+      ],
+    },
+  ],
 };

@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "partner-program-kpis-metrics-to-track",
+    title: "The 15 Partner Program KPIs That Actually Matter in 2026",
+    description:
+      "Most VPs track revenue and call it a day. The best ones track 15 metrics across attribution, engagement, operations, and growth — and use them to make decisions, not decorate slide decks.",
+    date: "March 8, 2026",
+    readTime: "8 min read",
+    category: "strategy",
+  },
+  {
     slug: "partner-intelligence-data-driven-programs",
     title: "From Gut Feel to Partner Intelligence: How Data Changes Everything",
     description:

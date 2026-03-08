@@ -39,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/resources`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${base}/roadmap`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${base}/blog/partner-program-kpis-metrics-to-track`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/partner-intelligence-data-driven-programs`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/partner-portal-partners-actually-use`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/measure-partner-program-roi`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },

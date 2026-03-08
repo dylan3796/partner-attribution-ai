@@ -640,10 +640,10 @@ export default function LandingPage() {
           {/* Stats bar */}
           <div style={{ display: "flex", justifyContent: "center", gap: "2.5rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
             {[
-              { num: "70+", label: "Pages" },
-              { num: "75+", label: "Features" },
+              { num: "75+", label: "Pages" },
+              { num: "80+", label: "Features" },
               { num: "8", label: "Report Types" },
-              { num: "80+", label: "Shipped Items" },
+              { num: "85+", label: "Shipped Items" },
             ].map(s => (
               <div key={s.label} style={{ textAlign: "center" }}>
                 <div style={{ fontSize: "1.75rem", fontWeight: 800, letterSpacing: "-.02em", color: "#fff" }}>{s.num}</div>
@@ -655,14 +655,14 @@ export default function LandingPage() {
           {/* Recent features grid */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
             {[
+              { date: "Mar 8", title: "Partner Program Benchmarks", desc: "16 industry metrics with interactive comparison tool — enter your numbers, see how you rank." },
+              { date: "Mar 8", title: "Program Templates", desc: "5 pre-built blueprints for SaaS Reseller, Referral, Alliance, Affiliate, and Co-Sell programs." },
+              { date: "Mar 8", title: "Partner Glossary", desc: "33 SEO-optimized partner program terms with definitions, examples, and cross-links." },
+              { date: "Mar 8", title: "Blog: Partner KPIs", desc: "The 15 metrics every VP of Partnerships should track — attribution, engagement, ops, and growth." },
               { date: "Mar 7", title: "Dashboard Preview", desc: "Marketing page showing the full admin experience — 6 interactive mock sections, 16 capabilities." },
               { date: "Mar 7", title: "Partner Certifications", desc: "Full certification program management with levels, categories, awards, and tier requirements." },
               { date: "Mar 7", title: "Activity Heatmap", desc: "GitHub-style contribution graph showing 12 months of partner program engagement patterns." },
-              { date: "Mar 7", title: "Partner Scorecard", desc: "Print-ready one-page performance report with health scores, trends, and auto-generated insights." },
-              { date: "Mar 6", title: "Revenue Intelligence", desc: "Deep analytics on partner-attributed revenue — concentration risk, leaderboard, 12-month trends." },
-              { date: "Mar 6", title: "Win/Loss Analysis", desc: "Deal outcome deep dive with win rate by partner, product, and deal size. QBR-ready." },
-              { date: "Mar 6", title: "Bulk Actions & Tags", desc: "Select multiple partners for batch tier changes, tagging, status updates, and CSV export." },
-              { date: "Mar 6", title: "Partner Comparison", desc: "Select 2–4 partners and compare side-by-side on 12 metrics with auto-generated insights." },
+              { date: "Mar 7", title: "Revenue Intelligence", desc: "Deep analytics on partner-attributed revenue — concentration risk, leaderboard, 12-month trends." },
             ].map(f => (
               <div key={f.title} style={{
                 padding: "1.25rem 1.5rem",
