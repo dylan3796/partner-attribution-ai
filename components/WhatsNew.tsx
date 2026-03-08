@@ -28,6 +28,14 @@ const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string
 // Recent notable features — curated highlights, not exhaustive git log
 const RECENT_CHANGES: ChangeEntry[] = [
   {
+    id: "2026-03-07-portal-preview",
+    date: "Mar 7",
+    type: "feat",
+    title: "Partner Portal Preview",
+    description: "See what your partners experience — dedicated marketing page with interactive mockups of the portal dashboard, deal registration, commission tracking, performance analytics, certifications, and announcements.",
+    link: "/portal-preview",
+  },
+  {
     id: "2026-03-07-announcements",
     date: "Mar 7",
     type: "feat",

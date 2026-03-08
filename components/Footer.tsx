@@ -8,7 +8,7 @@ const PRODUCT_LINKS = [
   { name: "Product Tour", href: "/product" },
   { name: "Attribution", href: "/dashboard/reports/attribution" },
   { name: "Payouts", href: "/dashboard/payouts" },
-  { name: "Partner Portal", href: "/portal" },
+  { name: "Partner Portal", href: "/portal-preview" },
   { name: "Become a Partner", href: "/apply" },
   { name: "Integrations", href: "/integrations" },
   { name: "Compare", href: "/compare" },
