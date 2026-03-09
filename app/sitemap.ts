@@ -39,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/resources`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${base}/roadmap`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${base}/blog/co-sell-program-strategy`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/how-to-run-partner-qbr`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/partner-enablement-strategy`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/how-to-design-partner-tiers`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },

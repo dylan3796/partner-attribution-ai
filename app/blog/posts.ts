@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "co-sell-program-strategy",
+    title: "Co-Selling with Partners: How to Build a Co-Sell Program That Actually Works",
+    description:
+      "Most co-sell programs are just joint Slack channels and good intentions. Here's how to build a co-sell motion with clear roles, shared attribution, and revenue that shows up on both sides of the ledger.",
+    date: "March 9, 2026",
+    readTime: "9 min read",
+    category: "strategy",
+  },
+  {
     slug: "how-to-run-partner-qbr",
     title: "How to Run a Partner QBR That Actually Drives Action",
     description:

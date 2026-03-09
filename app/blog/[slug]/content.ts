@@ -5,6 +5,139 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "co-sell-program-strategy": [
+    {
+      paragraphs: [
+        "Your CEO heard that co-selling is the future. Your CRO wants 'ecosystem-led growth.' Your partner team created a Slack channel with three technology partners, made introductions over email, and called it a co-sell program. Six months later, the Slack channel is dead, the introductions led nowhere, and everyone agrees co-selling 'didn't work for us.'",
+        "It didn't fail because co-selling doesn't work. It failed because you built a collaboration wish instead of a co-sell motion. Real co-selling — the kind that generates pipeline and closes revenue — requires defined roles, shared attribution, aligned incentives, and operational infrastructure that most partner teams never build. Here's how to build a co-sell program that actually produces revenue.",
+      ],
+    },
+    {
+      heading: "Why most co-sell programs fail",
+      paragraphs: [
+        "Co-selling fails for structural reasons, not effort reasons. Partner teams put enormous energy into co-sell motions and get nothing back — not because they're lazy, but because they're missing the scaffolding that makes co-selling work.",
+      ],
+      bullets: [
+        "No defined roles per deal: The most common co-sell failure is two partners showing up to an account with overlapping value propositions and no agreement on who does what. One partner thinks they're leading the deal. The other partner thinks they are. The customer gets two pitches that don't connect. Without predefined roles — who sources, who sells, who implements, who supports — co-sell deals die from confusion, not competition.",
+        "No shared attribution model: If partner A sources the deal and partner B helps close it, who gets credit? In most programs, the answer is 'whoever registered the deal first' — which means the partner who added the most value often gets nothing. Without a multi-partner attribution model that recognizes different roles, partners learn that co-selling means doing free work for someone else's commission check.",
+        "Misaligned incentives: Your reseller partner gets a 25% commission on deals they close independently. On co-sell deals, they split that 25% with a technology partner who contributed an integration. Why would they co-sell? The math doesn't work. Co-sell incentives need to be structured so the total pie is bigger — not so partners are dividing the same pie into smaller pieces.",
+        "No operational infrastructure: Co-sell deals have more moving parts than single-partner deals — multiple contacts, joint discovery calls, shared proposals, coordinated demos. Without a system to track who's doing what, deals fall through the cracks between partners. The 'who was supposed to follow up?' question kills more co-sell pipeline than any competitor.",
+        "Wrong partner pairings: Not every partner combination creates value. Two resellers targeting the same persona is competition, not co-selling. A technology partner and a services partner targeting complementary pain points — that's co-selling. Most programs don't evaluate partner complementarity before launching co-sell motions, so they pair partners based on relationships rather than customer value.",
+      ],
+    },
+    {
+      heading: "The three co-sell models that work",
+      paragraphs: [
+        "Not all co-selling is the same. The model you choose determines how you structure roles, attribution, and incentives. Pick the wrong model and you'll build infrastructure for a motion that doesn't match how your partners actually sell.",
+      ],
+      bullets: [
+        "Model 1 — Sell-with (joint selling): Both partners actively participate in the sales process. One partner may source the opportunity while the other provides technical validation, a complementary product demo, or executive sponsorship. Both are in the room (or on the call) during key deal stages. This works best when partners have complementary products that are frequently purchased together. Example: a CRM vendor and an implementation partner jointly pitching to a prospect who needs both software and services. Attribution: Role Split with predefined percentages based on contribution type.",
+        "Model 2 — Sell-through (influenced deals): One partner owns the customer relationship and sales motion. The other partner's product or service is included in the deal as a component — bundled, integrated, or recommended. The selling partner does the work; the technology partner provides enablement, integration support, and sometimes co-branded materials. This works best when one partner has strong customer relationships and the other has a product that adds value to those relationships. Attribution: the selling partner gets primary credit (60-80%), the technology partner gets influenced credit (20-40%).",
+        "Model 3 — Sell-to (account mapping and warm intros): Partners share account lists, identify overlapping customers and prospects, and make warm introductions. There's no joint selling — one partner introduces the opportunity and the other partner runs the sales process independently. This is the lightest co-sell model and the easiest to start with. It works best as an entry point before graduating to sell-with on deals where both partners can add direct value. Attribution: the sourcing partner gets referral credit; the closing partner gets sales credit.",
+      ],
+    },
+    {
+      heading: "Building co-sell roles that eliminate confusion",
+      paragraphs: [
+        "Every co-sell deal needs exactly one answer to each of these questions before the first customer conversation happens. Not 'we'll figure it out as we go.' Before the first conversation.",
+      ],
+      bullets: [
+        "Who owns the customer relationship? One partner is the primary point of contact. The customer should never receive conflicting follow-ups, competing proposals, or duplicate outreach. The relationship owner schedules meetings, sends summaries, and manages expectations. This doesn't mean the other partner is passive — it means there's one quarterback.",
+        "Who leads each stage of the sale? Discovery might be led by the partner closest to the customer's pain point. Demo might be split — each partner demos their portion. Negotiation is led by whoever has pricing authority. Map every deal stage to a lead partner before the deal enters pipeline. Covant's Role Split attribution model lets you assign percentage credit per role, so the partner leading discovery and the partner leading technical validation both get recognized.",
+        "Who handles post-sale? The deal closes. Now what? If both partners assume the other is handling onboarding, the customer's experience falls off a cliff. Define handoff points: who onboards, who provides ongoing support, who owns the renewal conversation. Post-sale confusion is the #1 reason customers churn out of co-sell deals — they don't know who to call.",
+        "What's each partner's minimum commitment? If partner A commits to providing SE resources for joint demos and then ghosts for three weeks, the deal stalls. Define minimums: response time SLAs (24 hours for deal-related requests), meeting attendance commitments, content or collateral each partner provides. Write it down. Partners who can't commit to minimums shouldn't be in co-sell motions.",
+      ],
+    },
+    {
+      heading: "Attribution for multi-partner deals",
+      paragraphs: [
+        "Single-partner attribution is straightforward: one partner sourced it, one partner gets paid. Multi-partner attribution is where most programs break. The partner who sourced the deal feels cheated if they split credit. The partner who closed the deal feels cheated if they split commission. And whoever did the technical work in the middle feels invisible.",
+        "The solution is role-based attribution — not equal splits, not winner-take-all, but predefined credit percentages based on the role each partner played in the deal.",
+      ],
+      bullets: [
+        "Define role categories: Sourcing (identified the opportunity), Selling (led the sales process), Technical Validation (provided demos, POCs, or integration support), Implementation (post-sale delivery), and Influence (brand association, warm intro, or executive sponsorship). Not every deal has all roles. Most have 2-3.",
+        "Assign credit percentages per role: A typical role split might be: Sourcing 20%, Selling 40%, Technical Validation 25%, Influence 15%. These percentages should be published and consistent — not negotiated deal by deal. When partners know the rules before they engage, they make rational decisions about which co-sell opportunities to pursue.",
+        "Commission follows attribution: If the deal pays $10,000 in total commission and the role split is 40/35/25 between three partners, each partner sees their exact commission amount and the calculation behind it in their portal. No black boxes. No 'we'll true it up at quarter end.' Covant's attribution audit trail shows every touchpoint, every role assignment, and the exact math that produced each partner's payout — which eliminates the disputes that kill co-sell programs.",
+        "Track touchpoints per partner per deal: Every meeting attended, demo delivered, email sent, and proposal reviewed should be logged as a touchpoint with the contributing partner identified. This creates the evidence base for attribution. Without touchpoints, attribution is opinion. With touchpoints, it's auditable fact.",
+      ],
+    },
+    {
+      heading: "Incentive structures that make co-selling rational",
+      paragraphs: [
+        "Partners are rational economic actors. They will co-sell if and only if the expected return exceeds the expected return of selling independently. Your incentive structure needs to make co-selling the higher-ROI activity — not an act of charity.",
+      ],
+      bullets: [
+        "Commission uplift on co-sell deals: If solo deals pay 20% commission, co-sell deals should pay 25-30% total — split across roles but with a higher total pool. The partners collectively earn more by working together than either would earn alone. This is the single most important incentive design decision. If the total commission pool doesn't increase, co-selling is a zero-sum game and partners won't play.",
+        "Co-sell deal bonuses: Quarterly bonuses for partners who complete a threshold of co-sell deals (e.g., 3+ co-sell closed-won deals per quarter = $5,000 bonus or 5% commission uplift on all deals next quarter). This rewards the behavior of co-selling, not just the outcome. Partners who invest in building co-sell relationships should see that investment recognized even when individual deals take time to close.",
+        "Tiered co-sell rewards: Partners who consistently co-sell at high volume should unlock better terms. A partner with 10+ co-sell deals per quarter might get priority deal registration, faster payout cycles, or access to exclusive leads. This creates a flywheel: the more you co-sell, the better the terms, the more rational it becomes to co-sell more.",
+        "Eliminate the co-sell tax: In some programs, co-sell deals take longer to process because they require manual attribution review, multiple approval chains, and reconciliation across partner accounts. If co-sell payouts take 60 days while solo payouts take 30, you've created a time-value penalty on collaboration. Automate multi-partner attribution and pay co-sell deals on the same cycle as solo deals.",
+      ],
+    },
+    {
+      heading: "Account mapping: the co-sell pipeline engine",
+      paragraphs: [
+        "Co-sell pipeline doesn't come from Slack intros. It comes from systematic account mapping — comparing your customer and prospect lists with your partners' lists to identify overlaps, whitespace, and warm paths into target accounts.",
+      ],
+      bullets: [
+        "Start with customer overlap: Which of your existing customers are also customers of your co-sell partner? These are the easiest co-sell opportunities — both partners already have relationships, the customer already trusts both products, and the conversation is about expanding value rather than establishing credibility. Customer overlap is your highest-conversion co-sell pipeline source.",
+        "Map prospect overlap next: Which of your target prospects are existing customers of your partner? These are warm introductions — your partner can vouch for you, provide context on the prospect's environment, and even make a joint pitch. Prospect-to-customer overlap is the classic 'ecosystem-led growth' play and typically converts at 2-3x the rate of cold outbound.",
+        "Identify whitespace: Which of your partner's customers are in your ICP but not in your prospect list? This is net-new pipeline generation — accounts you wouldn't have found on your own. Whitespace identification is the long-term value of co-sell partnerships and the reason ecosystem-led growth compounds over time.",
+        "Refresh maps quarterly: Account maps go stale fast. New customers, new prospects, new logos lost, new competitors in accounts. Run account mapping exercises every quarter with your top co-sell partners. Use the mapping session as a pipeline planning meeting: 'Here are 15 new overlaps since last quarter — which 5 should we pursue together?'",
+      ],
+    },
+    {
+      heading: "Operational infrastructure for co-sell at scale",
+      paragraphs: [
+        "A co-sell program with 3 partners can run on Slack and good intentions. A co-sell program with 30 partners needs infrastructure. Without it, you'll spend more time coordinating partners than closing deals.",
+      ],
+      bullets: [
+        "Shared deal visibility: Both partners need to see deal status, next steps, and activity history without asking each other for updates. A partner portal that shows co-sell deal progress — stage, last activity, expected close date, assigned roles — eliminates 80% of the 'where does this deal stand?' emails that clog co-sell programs. Covant's portal gives each partner a view of their co-sell deals with full touchpoint history and commission projections.",
+        "Co-sell deal registration: Standard deal registration protects one partner. Co-sell deal registration needs to protect multiple partners simultaneously — logging each partner's role, expected contribution, and attribution split at the time of registration. This prevents the 'I registered it first' disputes that plague multi-partner deals.",
+        "Automated notifications: When a co-sell deal moves stages, both partners should know immediately — not when someone remembers to send an update. Stage-change notifications, overdue activity alerts, and commission status updates keep all parties aligned without requiring manual communication.",
+        "Co-sell reporting: Your standard partner reports show per-partner performance. Co-sell reporting needs to show per-partnership performance — which partner pairings produce the most pipeline, the highest win rates, and the fastest deal cycles. This data tells you which co-sell relationships to invest in and which to sunset. Without it, you're making partnership decisions on vibes.",
+        "Conflict detection: Multi-partner deals increase the risk of deal overlap. Two separate co-sell partnerships might both be pursuing the same account with different partner combinations. A conflict detection engine that flags overlapping accounts across co-sell registrations prevents the internal competition that poisons partner relationships.",
+      ],
+    },
+    {
+      heading: "Launching a co-sell program: the 90-day playbook",
+      paragraphs: [
+        "Don't try to launch co-selling with all your partners at once. Start narrow, prove the model, then scale what works.",
+      ],
+      bullets: [
+        "Days 1-30 — Select and align: Choose 2-3 partner pairings with strong complementarity (different products, overlapping customers, compatible sales motions). Run account mapping with each pairing. Define the co-sell model (sell-with, sell-through, or sell-to) for each. Agree on role definitions and attribution splits. Publish the co-sell incentive structure. Set a target: 5 co-sell deal registrations per pairing in the first 90 days.",
+        "Days 31-60 — Activate and track: Make introductions on the first batch of mapped accounts. Hold weekly 15-minute co-sell standups with each partner pairing (pipeline review, blocker removal, intro scheduling). Log every touchpoint — who attended which call, who sent which follow-up. Track deal progress in your partner platform, not in a spreadsheet. By day 60, you should have at least 3-5 co-sell deals in active pipeline per pairing.",
+        "Days 61-90 — Close and learn: Push the first co-sell deals toward close. Resolve any attribution disputes immediately — the first few multi-partner payouts set the precedent for the entire program. Run a retrospective with each partner pairing: what worked, what didn't, which accounts were worth pursuing, which weren't. Document the playbook for each partner pairing based on what you learned.",
+        "Day 90+ — Scale or kill: If a partner pairing produced pipeline and closed revenue, expand the account mapping and increase the deal registration target. If a pairing produced nothing after 90 days, end it — not every partnership is a co-sell partnership, and that's fine. Redirect those partners to referral or reseller motions where they might be more effective. Add one new co-sell partnership per quarter, applying the playbook you built in the first 90 days.",
+      ],
+    },
+    {
+      heading: "Measuring co-sell program success",
+      paragraphs: [
+        "Co-sell programs need their own metrics — standard partner program KPIs don't capture the unique dynamics of multi-partner deals.",
+      ],
+      bullets: [
+        "Co-sell pipeline generated: Total pipeline value of deals with 2+ partners involved. Track this separately from single-partner pipeline. Target: co-sell pipeline should be 15-25% of total partner pipeline within 6 months of launch.",
+        "Co-sell win rate vs. solo win rate: Multi-partner deals should close at a higher rate than single-partner deals — if they don't, your partner pairings aren't adding complementary value. Target: co-sell win rate should be 10-20% higher than solo partner deals. If it's lower, the co-sell motion is adding complexity without adding value.",
+        "Average deal size comparison: Co-sell deals should be larger than solo deals because the combined partner value proposition addresses more of the customer's needs. If co-sell deals are the same size as solo deals, partners aren't cross-selling effectively — they're just showing up together.",
+        "Time to close: Co-sell deals have more stakeholders and more coordination overhead. Monitor whether co-sell deals close faster (because of stronger combined value) or slower (because of coordination friction). If slower, streamline your operational infrastructure before scaling the program.",
+        "Partner pairing performance: Rank your co-sell partnerships by pipeline generated, win rate, and deal size. Invest in the top 3 pairings. Review the bottom 3. Not every combination works — the data tells you which ones do.",
+        "Attribution dispute rate: What percentage of co-sell deals have attribution disputes? If it's above 10%, your role definitions and attribution model aren't clear enough. Below 5% means the system is working. Zero means nobody is paying attention.",
+      ],
+    },
+    {
+      heading: "Common co-sell mistakes to avoid",
+      paragraphs: [
+        "Every co-sell program makes some of these mistakes. The ones that survive learn from them quickly.",
+      ],
+      bullets: [
+        "Launching without role clarity: 'We'll figure out who does what as we go' is the death sentence of co-sell programs. Define roles before the first customer conversation, not after the first deal falls through.",
+        "Equal splits by default: 50/50 attribution splits feel fair but reward the wrong behavior. The partner who sourced, sold, and implemented a deal shouldn't get the same credit as the partner who sent one introduction email. Credit should reflect contribution.",
+        "Too many co-sell partners at once: Start with 2-3 partner pairings, not 20. Each co-sell relationship requires account mapping, role alignment, and operational coordination. Spreading yourself across too many partnerships means none of them get enough attention to produce results.",
+        "Ignoring the customer experience: Two partners showing up to a customer meeting without a coordinated narrative is worse than one partner showing up prepared. Co-sell should make the customer experience better — more comprehensive solutions, smoother handoffs, broader expertise. If it makes the experience more confusing, you're doing it wrong.",
+        "Measuring co-sell as an add-on, not a motion: Co-selling isn't a side project. It's a sales motion with its own pipeline, metrics, and operational requirements. If you're tracking co-sell results in a sidebar of your partner report instead of as a dedicated section with dedicated goals, you're not treating it seriously enough to succeed.",
+      ],
+    },
+  ],
   "how-to-run-partner-qbr": [
     {
       paragraphs: [
