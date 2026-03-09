@@ -39,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/resources`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${base}/roadmap`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${base}/blog/ecosystem-led-growth`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/technology-partner-program`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/how-to-build-reseller-program`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/partner-incentive-programs-spifs-bonuses-accelerators`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },

@@ -5,6 +5,111 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "ecosystem-led-growth": [
+    {
+      paragraphs: [
+        "Every partnerships keynote in 2025-2026 mentions ecosystem-led growth. Most of the companies talking about it are still running a referral program with a new label. ELG is not channel sales with better branding — it's a fundamentally different growth motion where your partner ecosystem generates pipeline, accelerates existing deals, reduces churn, and creates compounding network effects that get stronger as the ecosystem grows.",
+        "The difference between a partner program and an ecosystem is the difference between a supply chain and a marketplace. A partner program is linear: you recruit partners, they send deals, you pay commissions. An ecosystem is networked: partners interact with each other, data flows between products, customers benefit from the collective value of the network, and every new participant makes the whole system more valuable. This guide covers how to build an ecosystem that compounds — not just a partner list that grows.",
+      ],
+    },
+    {
+      heading: "What ecosystem-led growth actually means",
+      paragraphs: [
+        "ELG uses your partner ecosystem as a primary growth lever across the entire customer lifecycle — not just acquisition. That means partners help you find prospects (sourcing), close them faster (acceleration), expand accounts (upsell), and keep them longer (retention). When all four motions are working, the growth compounds: more partners bring more customers, more customers attract more partners, and the data connecting them gets richer over time.",
+        "Here's what separates ELG from traditional channel programs:",
+      ],
+      bullets: [
+        "Multi-directional value: In a traditional channel, value flows one way — partner sells, vendor pays. In an ecosystem, value flows in every direction. Partners get leads from the vendor, from each other, and from the shared customer base. Customers get more value because products integrate. The vendor gets pipeline, market intelligence, and reduced churn. Every participant is both a producer and consumer of value.",
+        "Data as the connective tissue: ELG runs on shared data — account mapping, product usage signals, CRM overlap, integration adoption rates, and co-sell intelligence. Without shared data, you have a collection of bilateral partnerships. With it, you have an ecosystem where every data point improves targeting, prioritization, and attribution for everyone.",
+        "Compounding returns: Partner programs grow linearly — add a partner, get their deals. Ecosystems grow exponentially — add a partner, they interact with existing partners, unlock new account overlaps, create new integration use cases, and generate referral loops you didn't plan. The 50th partner in an ecosystem is exponentially more valuable than the 50th partner in a channel program because they connect to 49 existing nodes.",
+        "Lifecycle coverage: Channel programs focus on acquisition — partner sources or influences a new deal. ELG covers the entire lifecycle. Partners help with implementation (reducing time to value), product adoption (integration usage drives stickiness), account expansion (co-sell on upsells), and renewal support (multi-product customers churn less). When your ecosystem touches every lifecycle stage, partner-influenced revenue isn't 20% of new business — it's 40-60% of total revenue.",
+      ],
+    },
+    {
+      heading: "The three layers of an ecosystem growth engine",
+      paragraphs: [
+        "Building an ELG motion isn't a single initiative — it's three interconnected layers that build on each other. Get the foundation wrong and the upper layers collapse.",
+      ],
+      bullets: [
+        "Layer 1 — Account intelligence (the data foundation): Before you can co-sell, you need to know where to co-sell. This means systematic account mapping across your entire ecosystem: shared customers, shared prospects, whitespace opportunities, and integration adoption data. Most companies do account mapping as a quarterly exercise with spreadsheets. ELG requires always-on account intelligence — automated CRM overlap analysis, product usage signals (which customers use which integrations), and real-time updates when accounts enter or exit your pipeline. Covant's account mapping engine automates this layer: import partner data, identify overlap automatically, and surface the highest-value co-sell targets based on deal size, stage, and partner engagement. Without this layer, every co-sell conversation starts with 'so, which accounts do you work with?' — and that's too slow.",
+        "Layer 2 — Co-sell orchestration (the motion layer): With account intelligence in place, you need a system for acting on it. This means co-sell workflows: who initiates, how introductions happen, what data is shared, how credit is assigned, and how deals move through the pipeline. The most common ELG failure is having great data and no process. You know you overlap on 200 accounts with a partner, but nobody knows who should email whom, who owns the relationship, or what happens when the deal closes. Co-sell orchestration means defined playbooks: for warm introductions (partner introduces your AE to their champion), for joint demos (both products shown together), for competitive displacement (your integration is the wedge), and for account expansion (land with one product, expand with the ecosystem). Each playbook has a trigger, a sequence, and attribution rules.",
+        "Layer 3 — Ecosystem flywheel (the compounding layer): The flywheel is what turns a partner program into an ecosystem. It has four components: (1) Partners generate pipeline through co-sell and referrals. (2) Closed deals create shared customers who adopt integrations. (3) Integration adoption generates product usage data that improves account intelligence. (4) Better account intelligence surfaces more co-sell opportunities, generating more pipeline. Each cycle makes the next one faster. The first rotation takes months — you're building data, establishing processes, and proving ROI. The third rotation takes weeks. By the fifth, your ecosystem is self-reinforcing: partners are generating pipeline without you asking because the data tells them exactly where to focus.",
+      ],
+    },
+    {
+      heading: "Attribution for ecosystem-led growth",
+      paragraphs: [
+        "Traditional partner attribution — who sourced the deal — doesn't work for ELG. Ecosystem deals involve multiple partners, multiple touchpoints, and influence patterns that span months. If a tech partner's integration was mentioned on 4 sales calls, a referral partner made the initial introduction, and a consulting partner helped the customer during evaluation — who 'sourced' the deal? Nobody and everybody.",
+        "ELG attribution needs three capabilities:",
+      ],
+      bullets: [
+        "Multi-partner credit: Ecosystem deals regularly involve 2-4 partners. Your attribution model must handle multiple partners per deal with clear, predefined credit allocation. Covant's Role Split model assigns credit by partner role — the sourcing partner gets 40-50%, the technical partner gets 15-25%, the influencing partner gets 20-30%. These splits are configured at the program level, not negotiated per deal. When your AE closes a $200K deal with three partners involved, each partner's credit is calculated automatically based on their role, and each sees their attribution in their portal.",
+        "Influence measurement: Not every partner contribution is a direct referral. Integration mentions, joint marketing, co-branded content, partner-trained champions inside the prospect's org — these are influence touchpoints that accelerate deals without directly sourcing them. Tracking influence means logging every partner touchpoint: integration demo conducted, partner champion referenced product, joint case study shared, partner attended pricing call. More touchpoints = higher influence credit. Partners whose integration is consistently mentioned in won deals should get measurable credit — that's what keeps them investing in the partnership.",
+        "Lifecycle attribution beyond acquisition: ELG attribution should extend past the initial close. If a partner's integration reduces churn by 15% across shared customers, that's attributable value. If a consulting partner's implementation accelerates time-to-value by 30 days, reducing first-year churn from 12% to 4%, that partner contributed real retention revenue. Mature ELG programs track partner influence on expansion revenue (upsells where integrations are a factor), retention (churn rates for integrated vs non-integrated customers), and NPS (customer satisfaction correlated with ecosystem depth). This data justifies increasing ecosystem investment when finance asks 'what's the ROI of all these partnerships?'",
+      ],
+    },
+    {
+      heading: "Building an ecosystem-led GTM motion",
+      paragraphs: [
+        "An ecosystem-led GTM isn't something you announce — it's something you build deal by deal until it becomes the primary growth engine. Here's the 90-day sequence:",
+      ],
+      bullets: [
+        "Days 1-30 — Map and prioritize: Run account mapping with your top 5 partners. Identify the top 50 accounts with the highest overlap and deal potential. Score these accounts by deal size, stage, and partner engagement level. Pick 10-15 for initial co-sell activation. Don't try to map 50 partners at once — start with 5, build the muscle, then scale the process. The goal for Month 1 is a prioritized co-sell target list, not a comprehensive ecosystem map.",
+        "Days 31-60 — Activate co-sell motions: Execute your first co-sell plays on the 10-15 priority accounts. Track every touchpoint: introductions made, joint calls conducted, integration demos delivered, competitive intelligence shared. Measure pipeline created, deal velocity change, and win rate on co-sell vs solo deals. This data is your proof of concept. One good data point: 'co-sell deals closed 30% faster and 25% larger than solo deals' is enough to justify scaling. Two bad months means your targeting or execution needs work — not that ELG doesn't work.",
+        "Days 61-90 — Build the flywheel infrastructure: Based on Month 2 learnings, formalize the co-sell process into repeatable playbooks. Set up automated account mapping (not quarterly spreadsheets). Configure multi-partner attribution in your partner platform so partners see their influence credited in real time. Launch a partner portal where ecosystem partners can view shared account intelligence, register co-sell deals, and track their attribution. The goal for Month 3 is infrastructure that makes ELG repeatable — not heroic manual coordination.",
+        "Day 90+ — Scale and compound: Expand from 5 partners to 15-25. Onboard new ecosystem partners with the playbooks you built. Start tracking ecosystem metrics (next section) to identify which partners and motions produce the best returns. Introduce partner-to-partner co-sell where two ecosystem partners collaborate on deals without your direct involvement. The flywheel starts spinning when partners are creating pipeline with each other — not just with you.",
+      ],
+    },
+    {
+      heading: "Measuring ecosystem-led growth: the metrics that matter",
+      paragraphs: [
+        "Traditional partner metrics (partner-sourced revenue, number of partners) don't capture ecosystem value. ELG needs metrics that measure network effects, compounding, and lifecycle impact:",
+      ],
+      bullets: [
+        "Ecosystem-influenced pipeline: Total pipeline where at least one ecosystem partner was involved — through sourcing, co-sell, integration influence, or warm introduction. Target: 40-60% of total pipeline. This is the headline metric for ELG. If ecosystem influence is below 20%, you have a partner program, not an ecosystem. If it's above 50%, your ecosystem is working as a primary growth engine.",
+        "Co-sell win rate vs solo win rate: The most convincing ELG proof point. Track win rates on deals with partner involvement against deals closed solo. Healthy ecosystems show 1.5-2x higher win rates on co-sell deals. If co-sell deals don't win at a higher rate, your co-sell motions need better targeting or execution — the partnerships aren't adding enough value to the buyer.",
+        "Ecosystem depth per customer: How many ecosystem products does the average customer use? Single-product customers churn at 2-3x the rate of multi-product customers. Track integration adoption: if your average customer uses 1.2 ecosystem integrations at Month 6, you want that at 2.5+ by Month 12. Deeper ecosystem adoption = lower churn = higher LTV. This metric connects your ecosystem investment directly to retention — a language finance understands.",
+        "Partner-to-partner pipeline: Deals generated between ecosystem partners without your direct involvement. This is the ultimate sign of a healthy ecosystem — the network creates value independently. If Partner A is referring deals to Partner B because they share customers, your ecosystem has network effects. If every deal requires your partnership team to broker introductions, you have a hub-and-spoke program, not an ecosystem.",
+        "Time to ecosystem activation: How long from signing a new ecosystem partner to their first co-sell activity? Measure this in days, not quarters. Healthy ecosystems activate new partners in 14-21 days — account mapping on Day 1, first co-sell target list by Day 7, first introduction made by Day 14. If activation takes 90 days, your onboarding is too slow and you're losing the enthusiasm window.",
+        "Ecosystem ROI: Total revenue influenced by the ecosystem (acquired + expanded + retained) divided by total ecosystem investment (partnership team, technology, incentives, events). Mature ELG programs target 5-10x ROI on ecosystem investment. Track this quarterly and present it in a format finance can compare against other growth channels — CAC per ecosystem-sourced deal vs direct vs marketing-sourced.",
+      ],
+    },
+    {
+      heading: "Common ELG mistakes that kill momentum",
+      paragraphs: [
+        "Ecosystem-led growth fails more often from execution errors than from the wrong strategy. Here are the patterns that kill ELG programs:",
+      ],
+      bullets: [
+        "Rebranding your referral program as 'ecosystem': Calling 20 referral partners an 'ecosystem' doesn't make it one. If partners don't interact with each other, data doesn't flow between products, and the only motion is one-way deal referrals — you have a referral program with a trendy label. An ecosystem requires network effects. If removing one partner doesn't affect any other partner's performance, there's no ecosystem.",
+        "Over-investing in technology partnerships without GTM: Signing integration partnerships is exciting. Building connectors is engineering's comfort zone. But integrations without go-to-market motions are features, not growth engines. For every integration partnership, allocate equal time to the commercial side: account mapping, co-sell playbooks, joint pipeline targets, and partner-facing collateral that shows the integration value to buyers. The integration is the foundation; the GTM is the house.",
+        "No shared data layer: ELG runs on data — and most companies share none. Your CRM data stays in your CRM. Partner data stays in theirs. Nobody knows which accounts overlap until a sales call makes it obvious. Invest in account mapping and shared data infrastructure before scaling co-sell. Covant provides this data layer by importing partner and deal data, identifying account overlap automatically, and surfacing co-sell opportunities based on deal stage and engagement signals.",
+        "Treating all ecosystem partners equally: Not all partners create equal ecosystem value. A tech partner whose integration is used by 200 of your customers and influences 15% of pipeline deserves different investment than a partner with 3 shared customers and zero pipeline influence. Tier your ecosystem investment: strategic partners (top 5) get dedicated co-sell resources, growth partners (5-20) get self-serve account mapping, and long-tail partners get marketplace presence and automated attribution.",
+        "Measuring only acquisition: If your ELG metrics are all about new logos, you're missing 60% of the value. Ecosystem partners impact expansion (multi-product customers expand 2x faster), retention (integrated customers churn 30-50% less), and efficiency (co-sell deals have lower CAC). A VP who reports only ecosystem-sourced new logos will consistently undervalue the program — and be the first budget cut in a downturn.",
+        "Manual everything at scale: ELG with 5 partners can run on spreadsheets and Slack channels. ELG with 25 partners requires automated account mapping, real-time attribution, self-serve partner portals, and programmatic co-sell workflows. The companies that stall at 10-15 ecosystem partners almost always stall because the manual coordination overhead exceeds the partnership team's capacity. Invest in automation before you hit the wall, not after.",
+      ],
+    },
+    {
+      heading: "How Covant powers ecosystem-led growth",
+      paragraphs: [
+        "Covant's architecture was built for multi-partner, multi-motion programs — exactly what ELG requires. Here's how the platform maps to ecosystem growth:",
+      ],
+      bullets: [
+        "Account mapping engine: Import partner data, automatically identify customer overlap, prospect overlap, and whitespace. Updated continuously from CRM syncs — not quarterly spreadsheet exercises. Prioritize co-sell targets by deal size, pipeline stage, and partner engagement level. The data foundation for every co-sell motion.",
+        "Multi-partner attribution (Role Split): Assign credit to multiple partners per deal based on their role — sourcing, influencing, co-selling, technical validation. Partners see their attribution in real time through their portal. No more 'who deserves credit' arguments — the model is transparent and pre-configured.",
+        "Influence tracking: Log every partner touchpoint throughout the deal cycle. Integration mentions, joint calls, warm introductions, partner-trained champions. Influence attribution gives partial credit based on engagement density. Partners who consistently influence deals see that contribution measured and credited — which keeps them investing in the relationship.",
+        "Partner portal with ecosystem intelligence: Partners don't just see their own deals — they see account overlap, co-sell opportunities, and ecosystem context. Self-serve account mapping, deal registration for co-sell opportunities, and real-time attribution visibility. The portal becomes the ecosystem's operating system, not just a commission tracker.",
+        "Lifecycle attribution: Track partner influence beyond acquisition — expansion revenue where integrations are a factor, retention rates for integrated vs non-integrated customers, and ecosystem depth per account. Build the full-lifecycle ROI story that justifies growing ecosystem investment quarter over quarter.",
+      ],
+    },
+    {
+      heading: "Building an ecosystem that compounds",
+      paragraphs: [
+        "The hardest part of ELG isn't the strategy — it's the patience. Ecosystem effects take 6-12 months to materialize. The first 90 days feel like a traditional partner program with extra steps. The compounding happens when account intelligence gets rich enough to automate targeting, when co-sell playbooks get repeatable enough to scale, and when partners start generating pipeline with each other without your team brokering every interaction.",
+        "The companies that succeed at ELG share three traits: they invest in the data layer early (account mapping, attribution, shared intelligence), they measure ecosystem value across the full lifecycle (not just acquisition), and they treat ecosystem growth as a primary GTM motion — not a side project managed by one person with 40 other responsibilities.",
+        "Your partner ecosystem is either your largest competitive moat or your most expensive cost center. The difference is whether you treat it as a network with compounding effects or a list of bilateral relationships that you manage one at a time.",
+      ],
+    },
+  ],
   "technology-partner-program": [
     {
       paragraphs: [

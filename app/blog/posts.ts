@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "ecosystem-led-growth",
+    title: "Ecosystem-Led Growth: How to Build a Partner Ecosystem That Drives Compounding Revenue",
+    description:
+      "ELG isn't a rebrand of channel sales — it's a fundamentally different growth motion where your ecosystem generates pipeline, accelerates deals, and reduces churn simultaneously. Here's how to build one that compounds.",
+    date: "March 9, 2026",
+    readTime: "11 min read",
+    category: "strategy",
+  },
+  {
     slug: "technology-partner-program",
     title: "How to Build a Technology Partner Program That Drives Revenue",
     description:

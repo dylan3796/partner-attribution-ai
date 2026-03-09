@@ -715,8 +715,8 @@ export default function LandingPage() {
             {[
               { num: "95+", label: "Pages" },
               { num: "90+", label: "Features" },
-              { num: "22", label: "Blog Articles" },
-              { num: "130+", label: "Shipped Items" },
+              { num: "23", label: "Blog Articles" },
+              { num: "135+", label: "Shipped Items" },
             ].map(s => (
               <div key={s.label} style={{ textAlign: "center" }}>
                 <div style={{ fontSize: "1.75rem", fontWeight: 800, letterSpacing: "-.02em", color: "#fff" }}>{s.num}</div>
@@ -728,14 +728,14 @@ export default function LandingPage() {
           {/* Recent features grid */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
             {[
-              { date: "Mar 8", title: "SEO Metadata Overhaul", desc: "Page-specific titles, descriptions, and Open Graph tags for all 14 marketing pages — better Google indexing." },
-              { date: "Mar 8", title: "Blog: 6 New Articles", desc: "Partner recruitment, PRM evaluation, conflict resolution, onboarding, scaling, and KPIs — 14 total." },
-              { date: "Mar 8", title: "Blog UX Polish", desc: "Reading progress bar, category filter tabs, previous/next article navigation across all posts." },
+              { date: "Mar 9", title: "Blog: Ecosystem-Led Growth", desc: "Comprehensive ELG guide — the 23rd SEO article targeting the hottest keyword in partnerships today." },
+              { date: "Mar 9", title: "Blog: 8 New Strategy Guides", desc: "Reseller programs, co-selling, incentive design, MDF, enablement, tiers, QBRs, and tech partnerships." },
+              { date: "Mar 9", title: "Blog Search", desc: "Keyword search across all articles with ⌘/ shortcut, result counts, and category filter composition." },
               { date: "Mar 8", title: "Partner Program Benchmarks", desc: "16 industry metrics with interactive comparison tool — enter your numbers, see how you rank." },
               { date: "Mar 8", title: "Program Templates", desc: "5 pre-built blueprints for SaaS Reseller, Referral, Alliance, Affiliate, and Co-Sell programs." },
-              { date: "Mar 8", title: "Partner Glossary", desc: "33 SEO-optimized partner program terms with definitions, examples, and cross-links." },
+              { date: "Mar 8", title: "SEO Metadata Overhaul", desc: "Page-specific titles, descriptions, and Open Graph tags for all 14 marketing pages." },
+              { date: "Mar 8", title: "Blog UX Polish", desc: "Reading progress bar, category filter tabs, previous/next article navigation across all posts." },
               { date: "Mar 7", title: "Dashboard Preview", desc: "Marketing page showing the full admin experience — 6 interactive mock sections, 16 capabilities." },
-              { date: "Mar 7", title: "Partner Certifications", desc: "Full certification program management with levels, categories, awards, and tier requirements." },
             ].map(f => (
               <div key={f.title} style={{
                 padding: "1.25rem 1.5rem",
