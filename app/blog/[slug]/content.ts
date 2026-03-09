@@ -5,6 +5,125 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "how-to-design-partner-tiers": [
+    {
+      paragraphs: [
+        "Every partner program has tiers. Silver, Gold, Platinum. Bronze, Silver, Gold. Registered, Authorized, Premier. The names change but the structure is always the same — because everyone copies everyone else.",
+        "Here's the problem: most tier structures are designed backwards. They reward tenure and training completion instead of revenue contribution. A partner who signed up two years ago, completed onboarding certifications, and has never registered a single deal sits at Gold. A partner who joined six months ago and has closed $400K in attributed revenue sits at Silver because they haven't hit the 'time in program' requirement.",
+        "That's not a tier structure. That's a loyalty program. And it's costing you money — because your commission budget, MDF allocations, lead sharing, and partner manager time are all distributed by tier instead of performance.",
+      ],
+    },
+    {
+      heading: "Why most tier structures fail",
+      paragraphs: [
+        "The standard approach to partner tiering has three fundamental problems that compound as programs scale:",
+      ],
+      bullets: [
+        "Input metrics instead of output metrics: Most tiers gate on training completions, certifications, and 'business plan submissions.' These are inputs — they measure effort, not results. A partner can check every input box and produce zero revenue. The tier system should reward what matters: deals closed, revenue attributed, customer satisfaction, and pipeline generated. Inputs can be prerequisites for joining, but they shouldn't determine tier placement after year one.",
+        "Static annual reviews: Partners get reviewed once a year, usually at renewal. This means a partner who had one good quarter in Q1 and went dormant for Q2-Q4 keeps their tier for the full year. Conversely, a partner who's been crushing it for the last 90 days has to wait until the annual cycle to get upgraded. Annual reviews create a 'set it and forget it' dynamic where neither upgrades nor downgrades happen when they should.",
+        "Too many tiers create entitlement, too few create apathy: Programs with 5+ tiers end up with most partners clustered in the middle two, unable to distinguish meaningful differences. Programs with only 2 tiers (partner vs. not partner) give nobody anything to strive for. The sweet spot is 3-4 tiers with meaningful, visible gaps between each level.",
+      ],
+    },
+    {
+      heading: "The revenue-first tier model",
+      paragraphs: [
+        "Redesigning your tier structure starts with one principle: tiers should reflect and reward revenue contribution. Not effort. Not tenure. Not certifications passed. Revenue attributed to the partner, period.",
+        "Here's the framework that works for programs from 10 to 200+ partners:",
+      ],
+      bullets: [
+        "Tier 1 — Registered (0-$50K attributed revenue, trailing 12 months): Entry level. Partner has signed the agreement, completed basic onboarding, and has portal access. Commission rate: base rate (e.g., 10-15%). No MDF. Limited co-marketing. This tier should be easy to enter and hard to stay in — if a partner hasn't generated any revenue in 12 months, they shouldn't consume partner manager time.",
+        "Tier 2 — Authorized ($50K-$200K attributed revenue, trailing 12 months): The partner is producing. They've proven they can identify opportunities, register deals, and close. Commission rate: base + 3-5% uplift. Small MDF allocation ($2-5K/quarter). Priority deal registration (shorter approval windows). This is where most active partners should live — and where the revenue-per-partner economics start working.",
+        "Tier 3 — Premier ($200K-$500K attributed revenue, trailing 12 months): Top performers. These partners are strategic — they consistently drive significant revenue and deserve investment. Commission rate: base + 8-10% uplift. Meaningful MDF ($10-25K/quarter). Dedicated partner manager. Joint marketing campaigns. Lead sharing from your inbound pipeline. Named account access.",
+        "Tier 4 — Strategic ($500K+ attributed revenue, trailing 12 months): Reserved for your top 5-10 partners. These are essentially extensions of your sales team. Commission rate: base + 12-15% uplift (or custom deal-by-deal structures). Executive sponsor. Quarterly business reviews with your leadership. Joint product roadmap input. First access to new products and features. Custom portal branding.",
+      ],
+    },
+    {
+      heading: "Rolling windows vs. annual reviews",
+      paragraphs: [
+        "Annual tier reviews are a relic of a time when partner data lived in spreadsheets and manual review was the only option. Modern partner platforms can evaluate tier qualification continuously.",
+        "The rolling 12-month window is the right approach. Here's why and how to implement it:",
+      ],
+      bullets: [
+        "Trailing 12-month revenue: Calculate each partner's attributed revenue over the last 365 days, updated monthly. This naturally handles seasonality — a partner who closes big deals in Q4 doesn't lose credit for them in January just because the calendar flipped. It also means partners who go dormant gradually lose tier status instead of keeping it by default until the annual review.",
+        "Automatic upgrades, human-reviewed downgrades: When a partner crosses an upgrade threshold, promote them immediately. Don't make them wait for a review cycle — the motivation benefit of instant recognition is huge. For downgrades, insert a 30-day grace period and require partner manager review. Sometimes revenue dips are temporary (key AE left, seasonal cycle, big deal slipped). The review catches false negatives without letting genuinely inactive partners hold premium tier slots forever.",
+        "Quarterly tier health reports: Even with continuous evaluation, send quarterly reports to each partner showing their current tier standing, revenue trajectory, and what they need to reach the next level. 'You're $35K away from Premier — here are 3 deals in your pipeline that would get you there.' This turns the tier system into a coaching tool, not just a classification system.",
+        "Tier protection for new partners: Give new partners a 6-month grace period where they can't be tiered below Registered regardless of performance. It takes time to ramp — penalizing slow starts discourages exactly the partners you want to nurture. After 6 months, normal rolling evaluation applies.",
+      ],
+    },
+    {
+      heading: "Commission uplift: the real motivator",
+      paragraphs: [
+        "The single most effective lever in your tier structure is the commission rate differential between tiers. Partners care about money. If the difference between Registered and Authorized is 2%, nobody's going to change their behavior. If it's 5%, they will.",
+        "Here's the math that makes tier progression irresistible:",
+      ],
+      bullets: [
+        "Make the gap meaningful: A partner closing $100K in deals at 12% (Registered) earns $12K. At 17% (Authorized), that same $100K earns $17K — a $5K difference. At $200K in revenue (Premier, 22%), they're at $44K vs. $24K at the base rate. The gap compounds with revenue — which is exactly the behavior you want to reinforce. Partners who sell more earn disproportionately more.",
+        "Stack commission types: Base commission is just the floor. Layer on deal size accelerators ($50K+ deals get an extra 2%), product-specific bonuses (new product launches at premium rates for 90 days), and quarterly performance kickers (hit 120% of your pipeline target, get a 3% bonus on all deals that quarter). Multiple paths to higher earnings keep partners engaged even when one path is slow.",
+        "Publish the rates transparently: Every partner should see the full commission schedule — not just their tier's rates, but every tier's rates. The gap between where they are and where they could be is the most powerful motivator in your program. Hide it and you lose the motivational effect. Publish it in the partner portal where they see it every time they log in.",
+        "Pay fast: Commission structure means nothing if partners wait 60-90 days for payouts. Net-30 should be the standard for approved deals. The faster partners get paid, the more they associate selling your product with getting paid — and the more they prioritize your deals over competitors' partner programs that pay slower.",
+      ],
+    },
+    {
+      heading: "Beyond revenue: secondary tier qualifiers",
+      paragraphs: [
+        "Revenue should be the primary qualifier (weighted 60-70% of tier score), but secondary metrics add important nuance. Here's what to weight and why:",
+      ],
+      bullets: [
+        "Deal registration quality (15-20% of tier score): A partner who registers 50 deals and closes 5 is worse than a partner who registers 12 and closes 8. Win rate on registered deals measures qualification ability — partners who register everything that moves waste your sales team's time on approvals and create conflict with other partners. Reward partners with high registration-to-close ratios.",
+        "Customer satisfaction (10-15% of tier score): If you have CSAT or NPS data on partner-influenced deals, use it. A partner who closes revenue but leaves customers unhappy is a liability, not an asset. Track post-sale satisfaction for partner-attributed deals and factor it into tier qualification. Partners who drive revenue AND happy customers deserve premium status.",
+        "Engagement health (5-10% of tier score): Portal login frequency, content consumption, training completion, event attendance. These aren't enough on their own to determine tiers, but they're leading indicators of future performance. A partner who's logging in weekly, consuming sales enablement content, and attending your webinars is more likely to produce next quarter than one who's been silent for 60 days. Use engagement as a tiebreaker, not a primary qualifier.",
+        "Pipeline contribution (bonus modifier): Partners who consistently build pipeline — even if close rates vary quarter to quarter — deserve credit for filling the funnel. A partner with $500K in active pipeline is more valuable than one with the same revenue but zero open opportunities. Pipeline contribution should provide a bonus modifier on top of the base tier score, not replace revenue as the primary metric.",
+      ],
+    },
+    {
+      heading: "Communicating tier changes",
+      paragraphs: [
+        "How you communicate tier changes matters as much as the changes themselves. Upgrades and downgrades both have protocols that, when done well, strengthen the partner relationship instead of damaging it.",
+      ],
+      bullets: [
+        "Upgrades: Make it an event. Personalized email from the partner manager (not an automated system notification) within 24 hours of qualification. Highlight the specific deals or metrics that earned the promotion. List every new benefit they've unlocked — new commission rates, MDF access, dedicated resources, named accounts. The partner should feel like they earned something valuable, because they did.",
+        "Downgrades: Never surprise a partner. Send a 'tier health' warning 60 days before a potential downgrade: 'Your trailing 12-month revenue has dropped below the Premier threshold. You need $45K in closed revenue in the next 60 days to maintain your tier.' Include specific pipeline deals that could close the gap. If the downgrade happens despite the warning, the partner manager should call (not email) to discuss. Acknowledge the change, explain the path back, and offer support. The goal is to motivate a comeback, not punish a slump.",
+        "Transparency in portal: Every partner should see their current tier, their tier score breakdown, and exactly what they need for the next level — all in the partner portal, all in real time. No surprises. No 'I didn't know I was close.' The best partner portals show a progress bar: 'You're 72% of the way to Premier — $56K more in attributed revenue to qualify.' That number gets checked weekly by motivated partners.",
+      ],
+    },
+    {
+      heading: "Tier structure mistakes to avoid",
+      paragraphs: [
+        "After reviewing hundreds of partner programs, these are the patterns that consistently undermine tier effectiveness:",
+      ],
+      bullets: [
+        "Grandfathering legacy partners indefinitely: Your founding partners matter, but a partner who was Premier in 2022 and hasn't closed a deal since shouldn't still be Premier in 2026. Implement a 12-month transition period for legacy partners when you redesign tiers, then evaluate everyone on the same criteria. Grandfathering creates resentment among active partners who see inactive ones getting better rates.",
+        "Making tiers aspirational instead of achievable: If only 2% of your partners can reach your top tier, the other 98% stop trying. Design tier thresholds so approximately 5-10% of partners are at the top tier, 20-30% at the second tier, and the remainder split between the bottom two. If your top tier requires $2M in annual revenue and your average partner does $80K, that's a decoration, not a tier.",
+        "One-size-fits-all across partner types: Resellers, referral partners, technology partners, and affiliate partners have fundamentally different economics. A reseller closing $500K in deals and a referral partner generating $500K in influenced revenue are both valuable, but they shouldn't be evaluated on the same tier criteria. Either create partner-type-specific tier tracks or weight metrics differently by partner type within a unified structure.",
+        "Changing tier criteria mid-year without notice: Nothing destroys partner trust faster than moving the goalposts. If you need to adjust tier thresholds (and you will), announce changes with at least 90 days notice, grandfather current-tier partners through the end of their current evaluation period, and clearly communicate the rationale. Partners plan their business around tier benefits — surprise changes make them plan their business around a different vendor's program instead.",
+      ],
+    },
+    {
+      heading: "Measuring tier system effectiveness",
+      paragraphs: [
+        "Your tier structure is working if these five metrics are trending in the right direction:",
+      ],
+      bullets: [
+        "Tier upgrade rate: What percentage of partners move up a tier each quarter? Target: 10-15% of eligible partners upgrading per quarter. If it's below 5%, your thresholds are too high or your benefits aren't motivating enough. If it's above 25%, your thresholds are too low and tiers aren't differentiating.",
+        "Revenue concentration by tier: Your top tier should generate 50-60% of total partner revenue despite being 5-10% of partners. If revenue is evenly distributed across tiers, your tier system isn't identifying and rewarding your best partners. If the top tier generates 90%+, your lower tiers aren't contributing enough — which usually means lower-tier benefits aren't motivating enough to push partners up.",
+        "Tier retention rate: What percentage of partners maintain their tier at evaluation? Target: 70-80% retention within tier per quarter. Below 60% means too much churn — either thresholds are volatile or partner support at that tier is insufficient. Above 90% means tiers are too easy to maintain and aren't challenging enough.",
+        "Time-to-tier-upgrade: How long does it take a new partner to move from Registered to Authorized? Target: 6-12 months for active partners. If it takes 18+ months, the gap between tiers is too large or the support to get there is insufficient. Track this metric alongside new partner activation rates to understand the full ramp journey.",
+        "Revenue per partner by tier: The ultimate test. Revenue per partner should increase meaningfully at each tier — not just because of the revenue threshold, but because the tier benefits (higher commissions, MDF, dedicated support) actually drive more sales activity. If revenue per partner at Premier is only 2x Authorized despite a 4x threshold, the tier benefits aren't amplifying partner performance — they're just classifying it.",
+      ],
+    },
+    {
+      heading: "Getting started: the 30-day tier redesign",
+      paragraphs: [
+        "You don't need to overhaul your entire program to fix your tier structure. Here's a practical 30-day plan:",
+      ],
+      bullets: [
+        "Week 1 — Audit current state: Pull tier distribution (how many partners at each tier), revenue distribution by tier, and tier-to-revenue correlation. Identify the biggest gaps: partners at premium tiers producing no revenue, and partners at low tiers producing significant revenue. This data makes the case for change.",
+        "Week 2 — Design new thresholds: Set revenue-based thresholds for each tier using trailing 12-month data. Model the impact: how many partners would move up? How many would move down? Adjust thresholds until the distribution looks right (5-10% top, 20-30% second, 30-40% third, 20-30% bottom).",
+        "Week 3 — Define benefits per tier: Map commission rates, MDF budgets, support levels, and portal features to each tier. Calculate the total cost of tier benefits and ensure the commission uplift at each tier is funded by the incremental revenue those partners generate. Benefits should feel meaningful at every transition — if a partner asks 'what do I get for moving up?' the answer should take more than one sentence.",
+        "Week 4 — Communicate and launch: Announce the new structure with 90-day transition period. Send every partner their current standing under the new model and a clear path to their next tier. Update the partner portal to show real-time tier progress. The best launches include a webinar walking partners through the new structure, the rationale behind it, and specific examples of how to reach each tier.",
+      ],
+    },
+  ],
   "how-to-recruit-channel-partners": [
     {
       paragraphs: [

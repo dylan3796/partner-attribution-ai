@@ -13,6 +13,12 @@ type Entry = {
 // Generated from real git log — update periodically
 const CHANGELOG: Entry[] = [
   {
+    date: "March 9, 2026",
+    commits: [
+      { hash: "NEW0057", type: "feat", message: "Blog — new SEO article: \"How to Design Partner Tiers That Drive Real Growth\" — comprehensive tiering guide targeting 'partner tier structure' and 'how to tier partner program.' Covers why most tier structures fail (input vs output metrics, static annual reviews, wrong number of tiers), the revenue-first tier model (Registered → Authorized → Premier → Strategic with specific revenue thresholds), rolling 12-month evaluation windows vs annual reviews, commission uplift as the real motivator (rate gaps, stacked commission types, transparent publishing, fast payout), secondary tier qualifiers (deal reg quality, customer satisfaction, engagement health, pipeline contribution), communicating upgrades and downgrades, 5 common tier structure mistakes to avoid, 5 metrics for measuring tier system effectiveness, and a practical 30-day tier redesign plan. Cross-links to Covant's tier management, commission rules, and partner portal features. 15th blog article. Added to sitemap and RSS feed. Ship Log stats updated to 15 blog articles, 105+ shipped items." },
+    ],
+  },
+  {
     date: "March 8, 2026",
     commits: [
       { hash: "NEW0056", type: "feat", message: "Blog — new SEO article: \"How to Recruit Channel Partners That Actually Sell\" — comprehensive partner recruitment guide targeting 'how to recruit channel partners' and 'partner recruitment strategy.' Covers why most recruitment fails (no Ideal Partner Profile, selling commissions instead of partnerships, no qualification gate), building an IPP across 5 dimensions (customer overlap, sales motion compatibility, technical capability, capacity, strategic motivation), the 4-stage recruitment pipeline (sourcing → qualification → engagement → activation), outbound vs inbound recruitment strategy, the recruitment pitch framework (their problem → joint value → specifics), recruitment channels ranked by activation rate (shadow partners at 75%+ down to inbound applications at 15-25%), partner count guidance by program stage, and 5 metrics that actually measure recruitment quality (IPP match score, 30-day activation rate, time to first revenue, revenue per partner, cost per activated partner). Cross-links to onboarding article and partner applications page. 14th blog article. Added to sitemap and RSS feed." },

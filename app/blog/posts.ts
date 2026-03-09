@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "how-to-design-partner-tiers",
+    title: "How to Design Partner Tiers That Drive Real Growth (Not Just Logos)",
+    description:
+      "Most tier structures are copy-pasted from competitors and reward the wrong behavior. Here's how to build a tiering system that motivates partners to sell more, not just exist longer.",
+    date: "March 9, 2026",
+    readTime: "9 min read",
+    category: "strategy",
+  },
+  {
     slug: "how-to-recruit-channel-partners",
     title: "How to Recruit Channel Partners That Actually Sell",
     description:

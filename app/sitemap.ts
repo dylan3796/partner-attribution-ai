@@ -39,6 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/resources`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${base}/roadmap`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${base}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${base}/blog/how-to-design-partner-tiers`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/how-to-recruit-channel-partners`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/how-to-evaluate-prm-software`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/blog/channel-conflict-resolution-guide`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
