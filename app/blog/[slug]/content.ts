@@ -5,6 +5,116 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "mdf-market-development-funds-guide": [
+    {
+      paragraphs: [
+        "Your partner team has a $500K annual MDF budget. At the end of Q4, you've disbursed $380K across 40 partners — dinners, trade show booths, co-branded webinars, and a few 'awareness campaigns' that nobody can tie to a single deal. Finance asks for the ROI. You produce a spreadsheet with spend categories and a column labeled 'estimated pipeline influence' that you both know is fiction.",
+        "This is how most MDF programs operate: a compliance exercise dressed up as a growth strategy. Partners submit requests, someone approves them based on vibes and relationship equity, receipts come back 90 days later, and nobody can draw a line from the $15K trade show sponsorship to the $200K deal that closed six months after. MDF becomes an entitlement — partners expect it, finance tolerates it, and nobody optimizes it. Here's how to fix that.",
+      ],
+    },
+    {
+      heading: "Why most MDF programs fail to generate pipeline",
+      paragraphs: [
+        "MDF programs fail for structural reasons, not budget reasons. The VP who doubles the MDF budget without fixing the structure just doubles the waste. Here's what's actually broken:",
+      ],
+      bullets: [
+        "Approval is relationship-based, not criteria-based: The top partner gets $50K because they're the top partner. The mid-tier partner who proposed a targeted ABM campaign with named accounts gets $5K because they're mid-tier. MDF allocation based on partner status rather than activity quality means the best marketing ideas get underfunded while mediocre ones get rubber-stamped because of who's asking.",
+        "No pipeline attribution on MDF-funded activities: Partners run a co-branded webinar with MDF money. 200 people attend. Then what? Most programs have no mechanism to track which webinar attendees entered the pipeline, which became opportunities, and which closed. The MDF spend exists in one system, the pipeline exists in another, and the connection between them is a best-guess estimate in a QBR slide.",
+        "Reimbursement friction kills participation: The partner runs the event, pays upfront, submits receipts, waits 45-60 days for reimbursement, then chases the payment when it doesn't show up on time. For smaller partners, fronting $10K for a marketing activity and waiting two months for reimbursement is a cash flow problem. Many eligible partners simply don't apply because the process isn't worth the hassle.",
+        "One-size-fits-all fund design: Reseller partners need demand gen support — events, ads, content syndication. Technology partners need co-marketing — joint webinars, integration showcases, technical content. Referral partners need enablement materials — case studies, ROI tools, competitive battle cards. Most MDF programs offer the same fund structure to all partner types, which means the wrong activities get funded for the wrong partners.",
+        "No performance feedback loop: Partner A spent $20K on Google Ads and generated 15 qualified leads that turned into $180K in pipeline. Partner B spent $20K on a golf event and generated zero measurable pipeline. Next quarter, both partners get approved for the same amount. Without performance data flowing back into allocation decisions, MDF programs can't learn or improve.",
+      ],
+    },
+    {
+      heading: "Designing an MDF program that generates pipeline",
+      paragraphs: [
+        "Effective MDF programs share five design principles that separate them from the reimbursement programs they replace. None of these require more budget — they require better structure.",
+      ],
+      bullets: [
+        "Tiered allocation with earned increases: Base MDF allocation by partner tier — but make the allocation a floor, not a ceiling. Partners who demonstrate strong pipeline ROI from previous MDF activities earn increased allocations. A Gold partner who generated 5x pipeline return on last quarter's MDF gets a 50% increase next quarter. A Platinum partner who generated 0.5x gets a hold-and-review. The budget follows the results, not the logo.",
+        "Activity categories with pipeline expectations: Define 4-6 approved activity categories (demand gen events, digital campaigns, content syndication, ABM programs, technical workshops, partner-to-partner co-marketing) and assign each a minimum pipeline expectation. A $10K demand gen event should generate at least $30K in new pipeline within 90 days. A $5K digital campaign should produce at least 25 marketing-qualified leads. Partners choose their activities knowing the performance bar they're agreeing to hit.",
+        "Pre-approval with milestone-based disbursement: Instead of approve-then-reimburse, use approve-then-disburse-on-milestones. Partner submits a proposal with specific deliverables and timeline. You approve and release 50% upfront. Partner executes and submits proof of completion (event happened, ads ran, leads captured). You release the remaining 50%. This eliminates reimbursement friction while maintaining accountability.",
+        "UTM and lead tracking requirements: Every MDF-funded activity must include trackable elements — UTM parameters on digital activities, dedicated landing pages for events, unique registration codes for in-person activities. This isn't optional. If a partner can't provide trackable leads from an MDF-funded activity, they can't demonstrate ROI, and future funding is at risk. The tracking requirement is the forcing function that makes pipeline attribution possible.",
+        "Quarterly performance reviews per partner: Review each partner's MDF ROI quarterly — not just total spend, but pipeline generated per dollar, lead-to-opportunity conversion rate, and time-to-pipeline from activity completion. Share results transparently with partners. Top performers get case-studied and allocated more. Underperformers get coaching on activity selection and execution before their next request.",
+      ],
+    },
+    {
+      heading: "The MDF request and approval workflow",
+      paragraphs: [
+        "The request-to-disbursement workflow is where most MDF programs create unnecessary friction or lose visibility. A clean workflow has six steps, and each one matters:",
+      ],
+      bullets: [
+        "Step 1 — Partner submits a structured proposal: Not a free-text email, but a form that captures: activity type (from your approved categories), target audience and estimated reach, specific deliverables with dates, requested amount with cost breakdown, expected pipeline outcome, and how leads will be tracked. Structured proposals force partners to think through execution before asking for money.",
+        "Step 2 — Automatic eligibility check: Before a human reviews the proposal, the system checks: Is this partner tier-eligible for MDF? Have they exhausted their current allocation? Is the activity type approved? Is the amount within single-approval limits? Automatic checks eliminate the 'submit and wait' problem where partners don't know if they're even eligible.",
+        "Step 3 — Manager review with SLA: A partner manager reviews the proposal against pipeline expectations for that activity type. Approval, modification request, or rejection within 5 business days — with the SLA visible to the partner. If a proposal sits unreviewed for 7 days, it auto-escalates. Partners need to plan marketing activities months in advance; a 3-week approval cycle kills their timeline.",
+        "Step 4 — Funds committed and initial disbursement: On approval, the funds are committed against the partner's allocation (even if not yet disbursed). First tranche released based on your disbursement model — 50% upfront for pre-funded, or 100% post-completion for reimbursement. Committed funds prevent over-allocation across multiple concurrent approvals.",
+        "Step 5 — Execution proof and completion: Partner submits proof of completion — event attendance records, campaign screenshots, lead lists, media receipts. The proof requirements should be defined at approval time so there's no ambiguity about what constitutes 'completed.' A co-branded webinar needs attendee numbers, recording link, and lead capture data — not just a screenshot of the invite.",
+        "Step 6 — Pipeline attribution and performance scoring: Within 90 days of activity completion, measure pipeline generated. Tag MDF-funded leads in your CRM with the activity and partner. Calculate cost-per-lead and pipeline-per-dollar. Feed these results back into the partner's MDF performance score, which influences future allocation decisions.",
+      ],
+    },
+    {
+      heading: "MDF allocation models that work",
+      paragraphs: [
+        "How you allocate MDF across your partner ecosystem determines whether the fund drives growth or just rewards incumbency. Three allocation models work in practice — choose based on your program maturity:",
+      ],
+      bullets: [
+        "Fixed percentage of partner revenue: Allocate MDF as a percentage (typically 2-5%) of each partner's trailing-twelve-month revenue. A partner who generated $1M in revenue last year gets $20K-$50K in MDF this year. Simple, transparent, and directly tied to performance. Works well for mature programs with established revenue partners. Downside: penalizes new partners who haven't generated revenue yet but need marketing support to get started.",
+        "Tiered allocation pools: Assign a base MDF amount by tier — e.g., Registered $2K, Silver $10K, Gold $25K, Platinum $50K. Within each tier, partners can request funds up to their allocation. Works well for mid-stage programs with clear tier structures. Add a performance modifier: partners who demonstrated strong ROI in previous quarters get 1.5x their tier allocation. Partners with poor ROI stay at 1x or get reduced to 0.5x with a performance improvement plan.",
+        "Proposal-based competitive allocation: No preset allocations — partners submit proposals into a quarterly review cycle, and the best proposals get funded regardless of tier. A small partner with a killer ABM campaign targeting 50 named accounts could get funded over a large partner proposing another generic webinar. Works well for innovation-focused programs that want to reward creative marketing. Requires strong review criteria and risks relationship friction when large partners get declined.",
+      ],
+    },
+    {
+      paragraphs: [
+        "The most effective programs blend models: tier-based baseline allocation (everyone gets something) plus a competitive pool for exceptional proposals (the best ideas get more). This gives partners predictability while rewarding creativity.",
+      ],
+    },
+    {
+      heading: "Measuring MDF program effectiveness",
+      paragraphs: [
+        "MDF measurement goes beyond 'how much did we spend.' Five metrics tell you whether your fund is driving growth or subsidizing activities that would have happened anyway:",
+      ],
+      bullets: [
+        "Pipeline generated per MDF dollar: The core metric. If your program generates $5 in pipeline for every $1 of MDF spent, that's strong. Below $3, you're overpaying for pipeline. Above $8, you're probably under-investing in MDF and should increase allocations. Calculate this per partner, per activity type, and per quarter to identify what works and what doesn't.",
+        "MDF utilization rate: What percentage of allocated MDF actually gets requested and spent? Below 50% means your partners either don't know about the fund, find the process too painful, or don't see value in the available activities. Above 90% means demand exceeds supply — consider increasing the fund or tightening eligibility. The sweet spot is 70-85%: high enough to justify the budget, low enough that you're not turning down good proposals.",
+        "Time from MDF activity to pipeline: How long after a funded activity does pipeline appear? If the average is 120+ days, your MDF is funding brand awareness, not demand gen. For demand gen activities, target 30-60 days to first pipeline. For content and thought leadership, accept 60-90 days. Activities that haven't generated pipeline after 120 days need scrutiny — the money may have been better spent elsewhere.",
+        "Partner participation rate: What percentage of MDF-eligible partners actually submitted at least one request in the past 12 months? Low participation (<30%) signals process friction, poor communication about the program, or misaligned activity categories. High participation (>70%) with strong ROI is the gold standard — it means partners see MDF as a valuable growth tool, not an administrative burden.",
+        "Repeat request rate from high-ROI partners: Are your best-performing MDF partners coming back for more? A partner who generated 8x pipeline ROI on their first MDF activity and submits three more requests next quarter is a signal that the program works. If high-ROI partners aren't reapplying, the process friction is outweighing the value — fix the workflow before increasing the budget.",
+      ],
+    },
+    {
+      heading: "Common MDF mistakes that burn budget",
+      paragraphs: [
+        "After reviewing hundreds of MDF programs, these seven mistakes account for the vast majority of wasted partner marketing dollars:",
+      ],
+      bullets: [
+        "Funding 'awareness' without defining it: If a partner requests MDF for 'brand awareness,' ask: awareness among whom, measured how, with what expected downstream action? Awareness is a valid marketing objective, but only if it's specific enough to measure. 'Increase brand awareness' is not a proposal — 'reach 500 IT directors in financial services via a co-branded content syndication campaign' is.",
+        "Treating MDF as partner compensation: Some partners view MDF as an entitlement — additional margin on top of their commission. They'll propose activities that look like marketing but function as subsidized business expenses (team dinners, travel, 'customer appreciation events' with no lead capture). Your approval criteria should explicitly exclude activities without measurable lead or pipeline outcomes.",
+        "No clawback on non-execution: Partner gets approved for $15K, starts the campaign, spends $3K on initial setup, then ghosts. The remaining $12K sits committed but unused for the rest of the quarter. Build clawback provisions: if milestones aren't met within the agreed timeline, uncommitted funds return to the pool. Communicate this upfront — it's not punitive, it's responsible fund management.",
+        "Approving based on partner request, not market opportunity: A partner requests MDF for a webinar targeting 'small businesses in the northeast.' Before approving, check: does your product sell to small businesses? Is the northeast a growth market? Does this partner have reach into that segment? MDF should fund activities aligned with your go-to-market strategy, not just activities partners want to do.",
+        "Annual budgeting without quarterly reallocation: Setting the full-year MDF budget in January and locking it means you can't redirect funds from underperforming partners to outperforming ones mid-year. Allocate quarterly, with each quarter's allocation informed by the previous quarter's performance. This creates a natural feedback loop: strong performance earns more funding, weak performance triggers review.",
+        "No post-activity debrief: The activity happened. The receipts were submitted. The reimbursement was processed. Nobody talked about what worked. A 15-minute debrief call after each major MDF activity (what was the actual attendance? which leads are progressing? what would you do differently?) generates insights that improve every future activity. It also signals to partners that you care about outcomes, not just compliance.",
+        "Spreadsheet tracking at scale: Managing MDF requests, approvals, disbursements, and performance tracking in spreadsheets works for 10 partners. At 30+, you lose visibility into committed vs available funds, partner-level ROI trends, and approval pipeline status. You need a system that tracks the full MDF lifecycle — request through pipeline attribution — in one place.",
+      ],
+    },
+    {
+      heading: "Building the MDF-to-pipeline connection",
+      paragraphs: [
+        "The entire point of MDF is pipeline generation. But connecting a $10K marketing activity to $150K in closed-won revenue requires infrastructure that most programs don't have. Here's how to build it:",
+      ],
+      bullets: [
+        "Require CRM-trackable lead capture on every activity: Every MDF-funded activity must produce leads that enter your CRM with the MDF activity tagged as the source. For digital campaigns: UTM parameters → landing page → form submission → CRM. For events: registration list → CRM import with activity tag. For content: gated asset download → CRM. No CRM entry, no attribution, no future MDF.",
+        "Tag MDF-sourced pipeline separately from partner-sourced pipeline: A deal that came from an MDF-funded webinar is different from a deal that a partner sourced through their own network. Track both, but don't conflate them. MDF-sourced pipeline tells you whether your marketing spend is working. Partner-sourced pipeline tells you whether your partners are selling. You need both numbers for accurate program ROI.",
+        "Build a 90-day attribution window: Give MDF activities a defined attribution window — typically 90 days from activity completion. Any deal that enters the pipeline from an MDF-sourced lead within that window gets attributed to the MDF activity. After 90 days, the lead is still in the system but the MDF attribution expires. This prevents programs from claiming pipeline credit indefinitely on activities from 18 months ago.",
+        "Report MDF ROI at the partner and activity level: Aggregate MDF ROI is meaningless for decision-making. You need to know that Partner A's ABM campaigns generate 10x pipeline but their webinars generate 1.5x. You need to know that demand gen events across all partners generate 6x but content syndication generates 2x. Partner-level and activity-level ROI is what drives allocation improvements.",
+      ],
+    },
+    {
+      paragraphs: [
+        "The best MDF programs treat marketing funds the way a VC treats investments: deploy capital into the highest-probability opportunities, measure returns rigorously, double down on what works, and cut what doesn't. The partners who generate pipeline from MDF get more of it. The activities that convert get prioritized. The fund gets smarter every quarter.",
+        "Covant's MDF tracking connects partner-submitted requests through approval, disbursement, and pipeline attribution in one system — so the ROI question that stumps most VPs at QBR time has an actual answer. Because a market development fund that can't prove it develops markets isn't a fund — it's a donation.",
+      ],
+    },
+  ],
   "co-sell-program-strategy": [
     {
       paragraphs: [

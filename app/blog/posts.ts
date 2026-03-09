@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "mdf-market-development-funds-guide",
+    title: "MDF (Market Development Funds): How to Run a Partner Fund That Actually Drives Pipeline",
+    description:
+      "Most MDF programs are a reimbursement headache that partners avoid and finance questions every quarter. Here's how to design a market development fund that generates measurable pipeline — not just receipts.",
+    date: "March 9, 2026",
+    readTime: "9 min read",
+    category: "operations",
+  },
+  {
     slug: "co-sell-program-strategy",
     title: "Co-Selling with Partners: How to Build a Co-Sell Program That Actually Works",
     description:
