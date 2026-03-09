@@ -5,6 +5,104 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "how-to-run-partner-qbr": [
+    {
+      paragraphs: [
+        "Every quarter, you sit down with your top partners for a Quarterly Business Review. You pull up a slide deck. Page one: last quarter's revenue numbers. Page two: a pipeline chart. Page three: 'areas of opportunity' with bullet points nobody wrote down afterward. The partner nods, says 'great quarter,' and you both go back to doing exactly what you were doing before.",
+        "That's not a QBR. That's a status update with a calendar invite. A real Quarterly Business Review is the single highest-leverage meeting in your partner program — the one where you diagnose what's working, identify what's broken, make commitments with deadlines, and create accountability that lasts until the next one. Most partner teams waste this meeting. Here's how to stop.",
+      ],
+    },
+    {
+      heading: "Why most partner QBRs fail",
+      paragraphs: [
+        "The standard partner QBR fails for three reasons that compound into total ineffectiveness:",
+      ],
+      bullets: [
+        "Backward-looking data without forward-looking action: You spend 40 minutes reviewing what happened last quarter and 5 minutes on what to do next. The data review becomes a performance defense exercise — the partner explains why numbers were down, you nod sympathetically, and nobody identifies what specifically will change. QBRs should be 20% backward, 80% forward. The data exists to inform decisions, not to fill time.",
+        "No pre-work, no structure, no artifacts: The meeting starts with 'so, how did things go?' instead of a structured agenda sent 48 hours in advance with pre-populated data both sides have already reviewed. Without pre-work, you spend half the meeting aligning on basic facts. Without structure, the conversation wanders. Without artifacts — a written summary of decisions and action items — nothing sticks.",
+        "Wrong people in the room: You're meeting with the partner's alliance manager while the reps who actually sell your product are absent. Or your partner manager runs the QBR without the sales leader who owns the pipeline targets. The QBR needs decision-makers from both sides — people who can commit to actions, allocate resources, and be held accountable for results.",
+      ],
+    },
+    {
+      heading: "The QBR structure that works",
+      paragraphs: [
+        "A high-impact partner QBR follows a specific structure. Each section has a defined time allocation and a clear output. The total meeting should be 60 minutes — not 90, not 30. Sixty minutes forces discipline and respects everyone's time.",
+      ],
+      bullets: [
+        "Section 1 — Scorecard Review (10 minutes): Pre-populated partner scorecard sent 48 hours before the meeting. Both sides arrive having already read it. Key metrics: revenue attributed (vs. target), deal count and average size, win rate, pipeline generated, time-to-close, commission earned, engagement score. Don't present these numbers — confirm them. 'You've seen the scorecard. Any data questions before we move on?' If the data is wrong, fix it offline. Do not burn QBR time on data reconciliation.",
+        "Section 2 — Win/Loss Analysis (10 minutes): Review the 3 biggest wins and 3 biggest losses from the quarter. For wins: what worked, what's repeatable, how do we do more of this? For losses: what went wrong, was it a product gap, competitive loss, or execution miss? This is where you learn what's actually happening in the field. Partners will tell you things in a QBR they won't put in a Slack message — competitive intelligence, customer objections, product shortcomings. Listen more than you talk.",
+        "Section 3 — Pipeline Deep Dive (15 minutes): Review the current open pipeline deal by deal. Not a summary — the actual deals. For each: expected close date, current stage, blockers, what help the partner needs from you (SE support, exec alignment, reference customer, pricing approval). This is the most actionable section. Every deal should leave this section with a clear next step and an owner. Flag any deal that's been in the same stage for 30+ days — it's either stuck or dead.",
+        "Section 4 — Action Planning (20 minutes): This is the section most QBRs skip or rush. Identify 3-5 specific actions for the next quarter. Each action must have: an owner (by name, not by team), a deadline (a date, not 'next quarter'), a measurable outcome ('register 5 new deals in manufacturing vertical' not 'focus more on manufacturing'), and a check-in cadence (monthly sync, or waiting until next QBR?). Write these down during the meeting. Both sides confirm. These become the first agenda item in the next QBR.",
+        "Section 5 — Partner Feedback (5 minutes): 'What's the one thing we could do differently to help you sell more?' Ask this every QBR. Track the answers over time. If a partner gives the same feedback two quarters in a row and you haven't addressed it, you've told them their input doesn't matter. This question also surfaces product gaps, portal friction, commission disputes, and competitive threats you wouldn't discover otherwise.",
+      ],
+    },
+    {
+      heading: "Pre-QBR preparation that makes or breaks the meeting",
+      paragraphs: [
+        "The QBR itself is only as good as the preparation that precedes it. Most partner managers wing it — pulling data the morning of, building slides during lunch, and hoping the conversation flows naturally. That's how you get a 60-minute status update instead of a strategy session.",
+      ],
+      bullets: [
+        "Partner scorecard sent 48 hours in advance: A one-page performance summary covering all key metrics with quarter-over-quarter trends. Revenue, pipeline, win rate, deal count, average deal size, commission earned, engagement score, and health score. Include the partner's tier status and progress toward the next tier. Both your team and the partner's team should have reviewed this before anyone joins the call. Tools like Covant's partner scorecard can generate this automatically — no manual slide building required.",
+        "Pre-identified talking points from your side: Review the partner's recent deal activity, escalations, and support tickets before the meeting. Come with specific observations: 'I noticed your win rate dropped from 38% to 22% this quarter — was that the healthcare vertical losses or something broader?' Specific observations show you've done your homework and shortcut the conversation to what matters.",
+        "Action item review from last QBR: Pull up the commitments from the previous quarter. What was the partner supposed to do? What were you supposed to do? Grade both sides honestly. If you committed to providing updated competitive battle cards and didn't deliver, say so before the partner does. Credibility in a QBR comes from accountability, not from presenting polished slides.",
+        "Agenda sent 72 hours in advance: Don't surprise anyone. Send the agenda with section timings, the scorecard data, and a note asking both sides to identify their top 3 discussion topics. If the partner's top topic is 'commission disputes are taking 45 days to resolve' and your planned agenda doesn't cover it, you've wasted the meeting on your priorities instead of theirs.",
+      ],
+    },
+    {
+      heading: "The metrics that matter in a partner QBR",
+      paragraphs: [
+        "Not all metrics belong in a QBR. Including 25 data points creates a spreadsheet review, not a business discussion. The right QBR scorecard has 8-10 metrics organized into three categories:",
+      ],
+      bullets: [
+        "Revenue metrics (the what): Attributed revenue vs. target, quarter-over-quarter growth rate, average deal size, and commission earned. These tell you what happened. Don't over-rotate on explaining why revenue was up or down — the win/loss section handles that. Revenue metrics in a QBR serve one purpose: measuring whether the partnership is on track against mutual goals.",
+        "Pipeline metrics (the future): Open pipeline value, number of deals by stage, pipeline-to-target coverage ratio, and average days in stage. Pipeline tells you where next quarter is headed. If pipeline coverage is below 3x the target, you're going to miss — and you need to discuss why new pipeline isn't being generated. Pipeline is the leading indicator that prevents QBR surprises.",
+        "Health metrics (the how): Partner engagement score, portal login frequency, deal registration velocity (days from opportunity identification to deal reg submission), and enablement completion. Health metrics reveal the operational quality of the partnership. A partner can hit revenue targets through one whale deal while their overall engagement is declining — health metrics catch that before it becomes a problem two quarters from now.",
+      ],
+    },
+    {
+      heading: "Tiering your QBR approach by partner segment",
+      paragraphs: [
+        "Not every partner gets the same QBR. Running a full 60-minute executive review for a partner who generated $12K last quarter is a misallocation of your time. Segment your QBR approach by partner contribution:",
+      ],
+      bullets: [
+        "Strategic partners (top 10% by revenue): Full 60-minute QBR with executive sponsors from both sides. In-person when possible — fly out once a year minimum. These partners warrant custom slide decks, joint business plans, and co-marketing commitments. Frequency: quarterly, with monthly check-ins between QBRs. You should know their top 5 deals by name.",
+        "Growth partners (next 20% by revenue): 45-minute QBR focused on removing specific blockers to scaling. These partners have proven they can sell — the question is what's preventing them from selling more. Is it enablement? Deal support? Product gaps? Lack of leads? Frequency: quarterly QBRs, with ad-hoc check-ins when deals require support. Use templatized scorecards to keep prep time under 30 minutes.",
+        "Tail partners (remaining 70%): Replace individual QBRs with group program reviews — a monthly 30-minute webinar where you share program updates, new resources, and aggregate performance data. Invite 1-on-1 QBR requests from any partner who wants one, but don't schedule them proactively. For partners producing less than $5K per quarter, a personalized scorecard email with a 'book time to discuss' link is more efficient than a standing meeting both sides dread.",
+      ],
+    },
+    {
+      heading: "After the QBR: making commitments stick",
+      paragraphs: [
+        "The QBR's value is determined entirely by what happens in the 89 days between it and the next one. Most QBR action items die within two weeks because there's no follow-up system.",
+      ],
+      bullets: [
+        "Written summary within 24 hours: Send a one-page summary to all attendees within 24 hours. Include: key metrics reviewed, decisions made, action items with owners and deadlines, and next QBR date. This isn't a transcript — it's a commitment document. If it's not written down, it didn't happen.",
+        "Monthly action item check-ins: Don't wait 90 days to discover that the partner never followed up on the 5 manufacturing leads you sent. Schedule a 15-minute monthly sync specifically to review QBR action item progress. Not a full meeting — just a quick accountability check. 'You committed to registering 3 deals in the healthcare vertical by April 15. Where are we?'",
+        "Track QBR-to-QBR trends: Maintain a running log of action items, outcomes, and partner feedback across quarters. If a partner's win rate has been declining for 3 consecutive quarters, that's a different conversation than a single-quarter dip. If they've raised the same commission dispute concern for 2 quarters, escalation is overdue. Pattern recognition across QBRs is where strategic insights live.",
+        "Automate the data, humanize the conversation: Use automated QBR reports to handle the data assembly — revenue summaries, pipeline snapshots, health scores, deal lists. Spend your preparation time on the human elements: what questions will drive the best discussion, what difficult feedback needs to be delivered, and what commitments will actually move the needle. The best QBR is one where the data was assembled in 5 minutes and the partner manager spent 55 minutes thinking about strategy.",
+      ],
+    },
+    {
+      heading: "Common QBR mistakes that kill partner trust",
+      paragraphs: [
+        "Beyond structure and preparation, there are specific behaviors that damage partner relationships during QBRs:",
+      ],
+      bullets: [
+        "Surprising partners with bad data: If a partner's revenue dropped 40%, they should know before the QBR — not discover it on slide 3 while your VP is watching. Send the scorecard early. Flag concerning trends in the cover email. Let the partner prepare their perspective before the meeting. Ambush QBRs create defensive partners, not productive ones.",
+        "Making promises you can't keep: 'We'll get you early access to the new product,' 'I'll push for higher commission rates,' 'Let me see about getting you more leads.' If you can't commit to it with a date and an owner, don't say it. Partners remember broken promises far longer than they remember polished presentations. Under-promise, over-deliver. Every. Single. Time.",
+        "Treating every QBR the same: A partner who's growing 50% quarter-over-quarter needs a different QBR than one who's flat. An enterprise-focused partner needs different metrics than a referral partner. Customize the conversation. A template scorecard is fine — a template discussion is not.",
+        "Skipping the partner's perspective: You've built 20 slides about what the partner should do differently. But did you ask what you should do differently? The most productive QBR question is: 'What's the biggest thing blocking your team from closing more deals with us?' If you don't ask, you're running a performance review, not a business review. And partners have enough performance reviews.",
+      ],
+    },
+    {
+      heading: "Making the QBR a competitive advantage",
+      paragraphs: [
+        "Your partners have QBRs with multiple vendors. Most of those QBRs are forgettable — data dumps followed by generic commitments. If your QBR is the one where partners feel heard, where data is pre-prepared and accurate, where action items actually get followed up on, and where the conversation is about their business growth (not just your revenue targets) — you win mindshare.",
+        "Mindshare is everything in partner programs. When a partner's rep encounters a customer who could use your product or a competitor's, the vendor who runs the best QBR gets the deal registration. Not because of commission rates or product superiority — because the partner trusts that the deal will be supported, the commission will be paid, and the next QBR will celebrate the win.",
+        "Start with the structure above. Run it for two quarters. Measure whether partners who get structured QBRs outperform those who don't. They will — because a good QBR isn't a meeting, it's a management system. And the programs that systematize their partner relationships are the ones that scale.",
+      ],
+    },
+  ],
   "partner-enablement-strategy": [
     {
       paragraphs: [

@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "how-to-run-partner-qbr",
+    title: "How to Run a Partner QBR That Actually Drives Action",
+    description:
+      "Most partner QBRs are a slideshow of last quarter's numbers followed by vague commitments for next quarter. Here's how to run quarterly business reviews that surface real problems, lock in specific actions, and measurably improve partner performance.",
+    date: "March 9, 2026",
+    readTime: "9 min read",
+    category: "operations",
+  },
+  {
     slug: "partner-enablement-strategy",
     title: "Partner Enablement: How to Arm Your Channel to Sell as Well as Your Direct Team",
     description:
