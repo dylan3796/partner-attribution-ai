@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "partner-enablement-strategy",
+    title: "Partner Enablement: How to Arm Your Channel to Sell as Well as Your Direct Team",
+    description:
+      "Your partners want to sell your product. They just can't — because your enablement program gives them a 200-slide deck and a login they'll never use. Here's how to build enablement that actually enables.",
+    date: "March 9, 2026",
+    readTime: "9 min read",
+    category: "strategy",
+  },
+  {
     slug: "how-to-design-partner-tiers",
     title: "How to Design Partner Tiers That Drive Real Growth (Not Just Logos)",
     description:

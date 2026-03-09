@@ -5,6 +5,96 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "partner-enablement-strategy": [
+    {
+      paragraphs: [
+        "Your partners want to sell your product. Most of them signed a partner agreement because they see a real opportunity — their customers need what you build, and selling it alongside their own services is a natural fit.",
+        "So why aren't they selling?",
+        "Because your enablement program is a content dump disguised as training. You gave them a partner portal login, a 200-slide product deck, a 45-minute recorded webinar from 2024, and a PDF pricing sheet with 14 footnotes. Then you waited for deals to roll in.",
+        "That's not enablement. That's an information overload problem wearing a trenchcoat. Real partner enablement means giving partners the minimum they need to have a confident first conversation with a prospect — and then layering depth as they close deals. Not the other way around.",
+      ],
+    },
+    {
+      heading: "Why most enablement programs fail",
+      paragraphs: [
+        "The typical partner enablement program makes three mistakes that compound into total program failure:",
+      ],
+      bullets: [
+        "Too much content, no prioritization: You built a 'partner university' with 40 modules, 12 certification tracks, and a resource library with 300 assets. Your partners completed module one, skimmed module two, and never logged in again. The problem isn't that your content is bad — it's that nobody told them which 3 things actually matter for closing a deal this week. Partners are busy selling their own products too. They'll invest 30 minutes in your enablement, maybe an hour. If the first 30 minutes don't teach them how to identify an opportunity and pitch your product, the other 39 modules are wasted.",
+        "Product training instead of sales training: Your enablement teaches partners how your product works — features, architecture, integrations, roadmap. But partners don't need to be product experts. They need to identify buying signals, position your product against the status quo, handle the top 3 objections, and know when to bring in your SE. The difference between product training and sales enablement is the difference between a feature list and a closed deal.",
+        "One-time certification instead of continuous reinforcement: Partners complete onboarding training, pass a quiz, get certified, and then... nothing. No refresher content when you launch a new feature. No updated competitive intelligence when a rival drops pricing. No deal coaching when they lose their first opportunity. Enablement isn't a moment — it's a system. Programs that treat it as a one-time event see partner engagement crater within 90 days of certification.",
+      ],
+    },
+    {
+      heading: "The 3-layer enablement framework",
+      paragraphs: [
+        "Effective partner enablement has three layers, delivered in order. Each layer builds on the last, and partners shouldn't move to the next layer until they've proven competency at the current one.",
+      ],
+      bullets: [
+        "Layer 1 — The First Conversation Kit (Day 1-7): Everything a partner needs to have a confident first conversation with a prospect. This is exactly 4 assets: a 1-page value proposition summary (not a product brief — a 'why customers buy' brief), a 3-minute elevator pitch script with the top 3 pain points your product solves, a discovery question list (7-10 questions that uncover whether a prospect is a fit), and a 1-page competitive positioning cheat sheet ('when they mention [competitor], say [this]'). That's it. Four assets. A partner should be able to consume all four in 20 minutes and feel ready to have a real conversation the same day.",
+        "Layer 2 — The Deal Closer Toolkit (Day 7-30): Once a partner has had their first conversation and registered a deal, they need depth. This layer includes: a detailed demo script they can run themselves (or a guide for when to bring in your SE), an ROI calculator or business case template they can customize per prospect, objection handling for the top 10 objections with specific responses, a customer reference list organized by industry and use case, and a pricing and packaging guide with discount authority and deal desk escalation paths. Layer 2 is earned — partners access it after they register their first deal. This creates a natural incentive loop: register a deal, unlock better tools to close it.",
+        "Layer 3 — The Expert Program (Day 30+): For partners who've closed deals and are ready to go deeper. Technical certification (not product features — integration architecture, deployment best practices, advanced use cases), co-selling playbooks for complex deals, access to your product roadmap and beta features, joint marketing campaign kits, and speaking opportunity pipelines at your events. Layer 3 is for your top 20% of partners. Giving it to everyone dilutes its value and wastes your enablement team's time on partners who aren't producing.",
+      ],
+    },
+    {
+      heading: "Content formats that actually work",
+      paragraphs: [
+        "The format of your enablement content matters as much as the content itself. Partners consume information differently than your internal sales team — they're juggling multiple vendor relationships, their own products, and customer demands. Your content needs to fit into their workflow, not demand they change it.",
+      ],
+      bullets: [
+        "2-minute videos over 45-minute webinars: Record a 2-minute video for each key topic — 'How to position [product] against spreadsheets,' 'The 3 buying signals to listen for,' 'When to bring in an SE.' Partners will watch a 2-minute video between calls. They will never watch your 45-minute deep dive. If a topic needs more than 5 minutes, it's too complex for partner self-service — make it a live session instead.",
+        "Battle cards over product decks: A battle card is a single page with 4 sections: what we do (2 sentences), why customers switch (3 bullets), top objections with responses (3-5), and competitive differentiators (3-4 vs. the status quo). Partners pin battle cards to their monitors. They never open your 60-slide deck. Every product, competitor, and use case should have its own battle card.",
+        "Deal templates over blank forms: Don't give partners an empty proposal template — give them a pre-filled example they can modify. A real proposal for a real (anonymized) customer in their industry vertical. Same for business cases, ROI calculators, and implementation plans. The distance from template to sent proposal should be 15 minutes of customization, not 3 hours of creation from scratch.",
+        "Slack channels over LMS portals: Your partners live in Slack or Teams, not your learning management system. Create a private partner Slack channel where they can ask questions, share wins, and get answers from your team in real time. The best enablement happens in conversation, not in courseware. Use the LMS for certification tracking, not day-to-day enablement.",
+      ],
+    },
+    {
+      heading: "Measuring enablement effectiveness",
+      paragraphs: [
+        "Most programs measure enablement by training completion rates. 'Eighty-five percent of partners completed onboarding certification!' Congratulations — but are they selling? Completion is an input metric. These are the output metrics that matter:",
+      ],
+      bullets: [
+        "Time to first deal registration: How many days between partner activation and their first deal registration? If enablement is working, this number should be going down. Benchmark: top programs see first deal reg within 21 days of enablement completion. If your average is 60+ days, your enablement isn't teaching partners how to identify opportunities — it's teaching them features they can't apply.",
+        "Win rate on partner-sourced deals: Compare win rates between enabled and non-enabled partners, and between partners who completed different enablement layers. If Layer 2 completers win at 35% and Layer 1-only partners win at 20%, your deal closer toolkit is working. If there's no difference, your Layer 2 content isn't practical enough — partners are consuming it but not applying it.",
+        "Partner confidence score: After each enablement module, ask one question: 'How confident are you in having a sales conversation about this topic?' (1-5 scale). Track this over time. If confidence doesn't increase after training, the content is too theoretical. Partners need to feel ready, not just informed. A partner who rates themselves 4/5 on confidence will initiate 3x more customer conversations than one who rates 2/5.",
+        "Deal involvement ratio: Of all deals where a partner's customer could have been introduced to your product, how many did the partner actually bring to you? If a partner has 50 customers in your ICP and they've introduced 2, enablement hasn't given them the tools to identify opportunities in their existing base. This metric reveals whether partners can apply what they learned, not just whether they learned it.",
+        "Content utilization: Track which enablement assets partners actually download, share, and use in deals. If your battle cards get downloaded 10x more than your product deck, that tells you something. Double down on what partners actually use and deprecate what they don't. Most programs have 10x more content than partners consume — the goal is a smaller library of high-utilization assets, not a bigger library of ignored ones.",
+      ],
+    },
+    {
+      heading: "The enablement delivery cadence",
+      paragraphs: [
+        "Enablement isn't a one-time event — it's a continuous system. Here's the cadence that keeps partners sharp without overwhelming them:",
+      ],
+      bullets: [
+        "Weekly: One micro-update — a new competitive insight, a customer win story, a product tip. Delivered via email or Slack, consumable in 2 minutes. The goal is to keep your product top-of-mind in a partner's crowded vendor portfolio. If they don't hear from you weekly, another vendor is filling that mental space.",
+        "Monthly: One live session — product update, deal clinic, or competitive deep dive. 30 minutes max, recorded for those who can't attend. Include a Q&A section where partners can bring real deal scenarios. These sessions build community between partners and your team — they also surface objections and challenges you didn't know existed.",
+        "Quarterly: Refreshed battle cards, updated competitive positioning, new customer references. Review which content got used and which didn't. Deprecate unused assets and create new ones based on partner feedback and deal patterns. Publish a 'what's new for partners' brief that summarizes product launches, new enablement resources, and program changes.",
+        "Annually: Full enablement audit. Survey partners on what's working, what's missing, and what's outdated. Compare enablement completion to revenue production across your partner base. Restructure layers based on data, not assumptions. The partners producing the most revenue should be interviewed about what enablement they actually used — their answer is your roadmap.",
+      ],
+    },
+    {
+      heading: "Scaling enablement without scaling your team",
+      paragraphs: [
+        "At 10 partners, you can enable everyone personally. At 50, you can't. At 100+, you need a system that scales without requiring one enablement manager per 15 partners.",
+      ],
+      bullets: [
+        "Automate Layer 1 completely: The First Conversation Kit should be delivered automatically on partner activation — no human involvement. Drip emails on day 1, 3, and 7 with exactly the right assets in the right order. If a partner hasn't opened the day 1 email by day 3, send a different version. If they've consumed everything by day 2, accelerate to Layer 2. This is a product, not a process.",
+        "Peer enablement for Layer 2: Your top-performing partners are the best teachers for new ones. Create a partner champion program where experienced partners mentor newer ones, share deal stories in group sessions, and contribute to your enablement content library. Partners trust other partners more than they trust your marketing team. Incentivize it with bonus commission, event speaking slots, or early product access.",
+        "AI-assisted deal coaching: When a partner registers a deal, automatically provide contextual enablement — relevant case studies for that industry, objection handling for that company size, competitive intelligence for that prospect's current vendor. Don't make partners search your content library. Push the right content at the right moment based on deal context.",
+        "Partner portal as the enablement hub: Every enablement asset, training module, battle card, and certification should be accessible from one place — the partner portal. Not a separate LMS, not a shared Google Drive, not an email attachment from 6 months ago. When a partner logs into the portal, enablement is one click away. Track consumption per partner and use it as an engagement health signal.",
+      ],
+    },
+    {
+      heading: "The enablement-to-revenue connection",
+      paragraphs: [
+        "Partner enablement isn't a cost center — it's a revenue multiplier. But only if you can prove the connection. Here's the framework:",
+        "Map every closed-won partner deal back to the enablement assets the partner consumed before closing it. Over time, you'll see patterns: partners who use the ROI calculator close 40% larger deals. Partners who attend the monthly deal clinic have 2x the win rate. Partners who complete Layer 2 within their first 30 days produce 3x more revenue in their first year than those who don't.",
+        "These aren't hypothetical numbers — they're the patterns that emerge when you instrument your enablement program and connect it to attribution data. The programs that do this can answer a question most can't: 'If I invest $1 in partner enablement, how much revenue does it produce?' That answer is what turns enablement from a line item into a strategic investment.",
+        "Start small. Deliver 4 assets in the first week. Measure whether partners who consume them register deals faster than those who don't. Iterate from there. The worst enablement program is the one that tries to teach everything and teaches nothing. The best one teaches 3 things well and builds from there.",
+      ],
+    },
+  ],
   "how-to-design-partner-tiers": [
     {
       paragraphs: [
