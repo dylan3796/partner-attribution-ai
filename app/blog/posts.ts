@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "channel-sales-strategy",
+    title: "Channel Sales Strategy: How to Build an Indirect Revenue Engine That Outperforms Direct",
+    description:
+      "Most channel strategies fail because they're bolt-ons to a direct sales motion — not a real engine. Here's how to design, launch, and scale a channel sales strategy that generates predictable indirect revenue.",
+    date: "March 9, 2026",
+    readTime: "11 min read",
+    category: "strategy",
+  },
+  {
     slug: "ecosystem-led-growth",
     title: "Ecosystem-Led Growth: How to Build a Partner Ecosystem That Drives Compounding Revenue",
     description:

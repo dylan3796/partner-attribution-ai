@@ -5,6 +5,145 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "channel-sales-strategy": [
+    {
+      paragraphs: [
+        "Channel sales — selling through partners instead of (or alongside) your direct sales team — accounts for 75% of world trade according to Forrester. Yet most B2B companies treat their channel as an afterthought: a handful of referral agreements, a commission structure copied from a competitor, and a prayer that partners will sell as well as the direct team. They don't. And it's not the partners' fault.",
+        "A channel sales strategy isn't a partner program bolted onto a direct motion. It's a deliberate architecture for how your product reaches customers through other businesses — resellers, VARs, MSPs, consultants, technology partners, and affiliates. When designed correctly, channel sales compounds: every new partner opens access to customers your direct team will never reach, at a fraction of the CAC. When designed poorly, it's a margin drain with misaligned incentives and zero accountability.",
+      ],
+    },
+    {
+      heading: "Why most channel sales strategies fail",
+      paragraphs: [
+        "Before building a channel strategy, understand why they typically collapse. The failure patterns are consistent across industries and company stages:",
+      ],
+      bullets: [
+        "Channel conflict with direct sales: This is the #1 killer. Your AE is working an account. A partner registers the same account. Nobody knows who owns it, the deal stalls, and the partner never registers another deal. Channel conflict isn't an edge case — it's the default outcome when you don't have deal registration rules, territory agreements, and a conflict resolution process designed before the first partner signs up. Covant's conflict detection engine catches duplicate registrations automatically and applies configurable protection rules.",
+        "No real attribution: If you can't prove which partners drive revenue, you can't justify the margin you're giving them. Most companies track partner-sourced deals in a spreadsheet or a CRM custom field that gets updated inconsistently. When the CFO asks 'what's the ROI of our channel?', the VP of Partnerships shows a pie chart built on incomplete data. Without auditable attribution — touchpoints, credit allocation, calculation chains — channel investment looks like a cost center, not a growth engine.",
+        "Undifferentiated partner economics: Paying every partner the same 15% regardless of deal size, product, partner tier, or effort creates a program where top performers subsidize underperformers and everyone's incentives are misaligned. High-performing resellers who invest in training, certification, and dedicated headcount deserve better economics than partners who forward an occasional lead. Without tiered, performance-based commission structures, your best partners leave for competitors who reward effort.",
+        "No partner enablement: You hire an AE and give them 6 weeks of training, battle cards, competitive positioning, objection handling scripts, and a demo environment. You sign a channel partner and give them a PDF and a login. Then you wonder why they don't sell. Partners are extensions of your sales team — if you don't enable them like your sales team, they'll perform exactly as poorly as an untrained rep would.",
+        "Treating channel as a 'set it and forget it' motion: Building a channel takes 12-18 months of active management before it becomes self-sustaining. Companies that launch a partner program, hire one partner manager, and check back in 6 months find a graveyard of inactive partners and zero attributed revenue. Channel requires the same operational rigor as direct sales — pipeline reviews, QBRs, forecast accuracy, coaching, and performance management.",
+      ],
+    },
+    {
+      heading: "The five components of a channel sales strategy",
+      paragraphs: [
+        "A real channel strategy has five components. Skip any one and the whole system underperforms.",
+      ],
+      bullets: [
+        "Channel model selection: Which type of partners will you sell through? Resellers buy and resell your product (they own the customer relationship and billing). Referral partners send leads for a finder's fee (you own the customer). VARs bundle your product with services. MSPs deliver your product as part of a managed service. Technology partners co-sell alongside integrated products. Affiliates drive top-of-funnel traffic. Most companies start with one model and add others as they scale. The model you choose determines your economics, your support requirements, and your attribution needs. A reseller model requires deal registration and tiered commissions. A referral model requires Source Wins attribution and fast payout cycles. A co-sell model with tech partners requires Role Split attribution and multi-partner credit. Choose the model first, then design everything else around it.",
+        "Partner economics: Your commission structure is the single biggest lever for partner behavior. Design it wrong and no amount of enablement or technology fixes the problem. Effective partner economics have four layers: (1) base commission rates by product and partner type, (2) tier-based multipliers that reward sustained performance, (3) SPIFs and accelerators for strategic objectives (new products, new verticals, competitive displacement), and (4) clear rules for deal stacking and multi-partner attribution. The key principle: partner economics should make the highest-performing behaviors the most lucrative. If you want partners to sell enterprise deals, enterprise deals need higher commission rates. If you want partners to invest in certification, certified partners need better margins.",
+        "Deal flow operations: How deals move from partner identification to closed revenue. This includes deal registration (the partner claims an opportunity and gets protection for a defined window), pipeline management (tracking deal stage, size, and next steps), approval workflows (reviewing registrations, resolving conflicts, managing exceptions), and commission calculation (automated, auditable, transparent). Without operational infrastructure, deal flow is a series of emails and spreadsheet updates that break at 15 partners. With it, you can manage 100+ partners with a 3-person team.",
+        "Partner experience: What your partners see, touch, and feel when they work with you. This is the portal — deal registration forms, commission dashboards, performance analytics, enablement content, program announcements, and tier progress tracking. The standard today is abysmal: most partner portals are glorified login walls with stale content. The bar you need to clear: a partner can log in, register a deal in under 2 minutes, see exactly what they'll earn on close, check their tier status, and access the content they need — all without calling their partner manager. Covant's white-label partner portal delivers this out of the box.",
+        "Measurement and attribution: How you prove channel works. You need three layers: (1) Partner-sourced attribution — deals the partner originated, tracked through deal registration with full audit trails, (2) Partner-influenced attribution — deals where partner involvement accelerated or expanded the opportunity, tracked through touchpoint logging, and (3) Program-level metrics — revenue per partner, activation rates, deal velocity comparison (channel vs direct), commission-to-revenue ratio, and partner health scores. If you can't produce a board-ready slide showing channel ROI in 10 minutes, your measurement infrastructure isn't ready.",
+      ],
+    },
+    {
+      heading: "Designing your channel model: reseller, referral, or co-sell",
+      paragraphs: [
+        "The three most common channel models each serve different go-to-market strategies. Choosing the wrong model is expensive because it determines your attribution approach, commission structure, legal agreements, and operational complexity.",
+      ],
+      bullets: [
+        "Reseller model — when partners own the customer: Partners buy your product (at a discount or on commission) and resell it, often bundling with their own services. The partner owns the billing relationship and customer support. You provide the product, enablement, and deal support. Best for: products that benefit from local customization, implementation services, or industry-specific packaging. Attribution: Deal Reg Protection — the registering partner wins. Economics: typically 20-40% margin depending on partner investment level. Operational requirement: deal registration with protection windows (30-90 days), conflict resolution for territory overlap, tiered pricing based on annual volume. The reseller model scales the best but requires the most operational infrastructure.",
+        "Referral model — when partners send leads: Partners identify opportunities and refer them to your sales team. The partner gets a finder's fee (typically 10-20% of first-year revenue) but doesn't participate in the sales process or own the customer. Best for: products with complex sales cycles that require your direct team's expertise, or when you want partner reach without giving up customer ownership. Attribution: Source Wins — the referring partner gets credit for deals they originated. Economics: lower rates than reseller (partner does less work) but faster payout cycles to keep referrers motivated. Operational requirement: simple referral submission, fast lead follow-up (partners stop referring if their leads die), and transparent tracking so referrers can see deal progress.",
+        "Co-sell model — when partners sell with you: Partners participate in the sales process alongside your direct team. This includes joint discovery calls, co-branded demos, technical validation, and shared account planning. Neither party 'owns' the deal — both contribute and both get credit. Best for: technology partnerships, strategic alliances, and enterprise deals where buyers want to see the ecosystem. Attribution: Role Split — predefined credit percentages based on each partner's role (sourcing 40-50%, co-selling 25-35%, technical influence 15-25%). Economics: partner compensation tied to their defined role, not a flat rate. Operational requirement: multi-partner deal registration, account mapping to identify co-sell targets, and a partner portal where partners can see shared pipeline intelligence.",
+      ],
+    },
+    {
+      heading: "Building the operational foundation",
+      paragraphs: [
+        "Channel strategy without operations is just a partner agreement collecting dust. Here's the operational infrastructure you need before recruiting your first partner:",
+      ],
+      bullets: [
+        "Deal registration system: The single most important operational component. Partners register deals by submitting company name, contact, estimated value, and expected close date. The system checks for duplicates (against other partner registrations and your direct pipeline), applies a protection window (typically 90 days, renewable once), and confirms registration with the partner including expected commission. Without deal reg, partners have no incentive to share pipeline early — and you have no visibility into channel-sourced pipeline.",
+        "Commission engine: Automated calculation of partner earnings based on deal outcome, attribution model, partner tier, product line, and any active incentive programs. The engine should handle: base rate by partner type and tier, product-specific overrides, accelerator multipliers for performance thresholds, SPIF additions for promotional periods, and multi-partner splits for co-sell deals. Manual commission calculation breaks at 20 partners. Covant's commission engine handles all of these rules with full audit trails — partners see exactly how their commission was calculated, which eliminates disputes.",
+        "Partner portal: Where partners do their work. Minimum viable portal: deal registration form, commission dashboard (earned, pending, paid with full history), performance analytics (deals, revenue, tier progress), and program content (enablement materials, announcements, product updates). Advanced portal: account mapping intelligence, co-sell opportunity feed, certification tracking, MDF request submission, and leaderboard rankings. The quality of your partner portal directly correlates with partner engagement. If partners need to email their partner manager for basic information, your portal isn't good enough.",
+        "Attribution and reporting: Every deal needs a clear, auditable attribution trail: which partner was involved, what role they played, what touchpoints occurred, and how credit was calculated. This data feeds three audiences: partners (who need to see their contribution credited fairly), your leadership team (who need to see channel ROI), and finance (who need to approve commission payouts with confidence). Covant's attribution engine provides per-deal audit trails with touchpoint timelines, calculation chains, and model-specific explanations.",
+        "Conflict resolution process: Define rules before conflicts happen. Registration priority (first to register with a qualified opportunity wins), protection windows (registered partner has exclusive protection for X days), direct vs channel rules (what happens when your AE is already working the same account), and escalation paths (who decides when rules don't cover the situation). Document these rules. Share them with every partner during onboarding. A partner who loses a deal to clear, pre-published rules is disappointed. A partner who loses to an ad hoc decision is gone.",
+      ],
+    },
+    {
+      heading: "The 90-day channel launch playbook",
+      paragraphs: [
+        "Don't try to build a 50-partner channel in quarter one. Build a 5-partner channel that generates revenue, then scale what works.",
+      ],
+      bullets: [
+        "Days 1-15 — Infrastructure first: Set up your deal registration system, commission rules, partner portal, and attribution model. Configure your partner tiers (start with 2-3, not 5). Create your partner agreement template. Build your onboarding sequence (what a new partner needs to know in their first 7 days). Prepare three enablement assets: a 2-minute product positioning video, a competitive battle card, and a deal registration walkthrough. Do all of this before you recruit a single partner. The biggest channel mistake is recruiting partners into a program that isn't ready for them.",
+        "Days 16-30 — First 5 partners: Recruit 5 design partners — companies you already have a relationship with who represent your target partner profile. Ideal: partners already selling adjacent products to your target buyer, with at least 2 salespeople who would sell your product. Onboard each one personally: walk through the portal, register a test deal together, show them exactly how commissions are calculated and when they get paid. The first 5 partners are building your playbook — their feedback tells you what works and what's missing.",
+        "Days 31-60 — First deals through the funnel: Your 5 design partners should have registered 5-15 deals total. Track everything: time from registration to first meeting, deal stage progression, partner engagement level, and conversion rate. Run weekly 15-minute check-ins with each partner. Identify patterns: which partners are active and why? Which enablement content do they actually use? Where do deals stall? Fix operational issues in real time — slow registration approval, unclear commission calculations, missing portal features. Every friction point you fix now saves 50 partners from hitting it later.",
+        "Days 61-90 — Prove ROI, plan scale: By Day 60, you should have at least 2-3 closed-won deals through the channel. Calculate your metrics: partner-sourced pipeline, channel win rate vs direct, average deal size, commission-to-revenue ratio, and partner activation rate. Build your first channel QBR slide: 'In 60 days, 5 partners generated $X pipeline, closed $Y revenue, at Z% commission — a W:1 ROI.' If the ROI is positive, plan your expansion to 15-25 partners. If it's not, diagnose whether the problem is partner selection (wrong profile), enablement (partners can't sell), economics (commissions too low to motivate), or operations (too much friction).",
+        "Day 90+ — Scale what works: Recruit the next 10-20 partners using the profile of your most successful design partners. Automate onboarding: self-serve portal access, automated welcome sequences, pre-built enablement paths. Introduce partner tiers with performance-based benefits. Launch your first SPIF (a 30-day incentive targeting a specific behavior, like registering deals in a new product line or closing deals in a new vertical). Begin monthly partner newsletters and quarterly QBRs with your top partners.",
+      ],
+    },
+    {
+      heading: "Channel sales metrics that matter",
+      paragraphs: [
+        "Track these 8 metrics weekly. They tell you whether your channel is healthy, growing, and worth the investment.",
+      ],
+      bullets: [
+        "Partner-sourced revenue: Total closed-won revenue attributed to partner-sourced deals. This is the headline metric for channel ROI. Track it as both an absolute number and a percentage of total company revenue. Healthy channel programs contribute 20-40% of total revenue within 18-24 months.",
+        "Channel vs direct deal velocity: How fast do partner-sourced deals move compared to direct deals? If channel deals are 20-30% faster (common when partners bring warm introductions and pre-qualified pipeline), that's a powerful argument for channel investment. If they're slower, investigate — it usually means your deal reg approval is too slow or partners aren't qualifying properly.",
+        "Partner activation rate: What percentage of recruited partners register their first deal within 30 days? Target: 60-70%. Below 40% means your onboarding is failing or you're recruiting the wrong partners. Above 80% means you're probably being too selective. Track 30-day, 60-day, and 90-day activation separately — the drop-off pattern tells you where the onboarding process breaks.",
+        "Commission-to-revenue ratio: Total commissions paid divided by total partner-sourced revenue. A healthy ratio is 12-22% depending on your model (resellers higher, referrals lower). If it's above 25%, your economics are too generous or you're paying on deals that would have closed anyway. Below 10%, your partners aren't motivated enough — expect retention problems.",
+        "Deal registration volume: Leading indicator for future channel revenue. Track registrations per partner per month and overall. A partner registering 3-5 deals per month is engaged. A partner who hasn't registered in 60 days is at risk of churning. Use this metric to trigger partner health alerts and proactive outreach.",
+        "Win rate by partner: Which partners close at the highest rate? This tells you more than revenue alone — a partner with 40% win rate on smaller deals might be more valuable than one with 20% win rate on large deals. Use win rate to identify your best partners for expansion, your worst for coaching, and the ones in between who could improve with better enablement.",
+        "Average deal size comparison: Are channel deals larger or smaller than direct? In many businesses, channel deals are 15-30% larger because partners bring local context, industry expertise, and buyer relationships that expand scope. If your channel deals are consistently smaller, partners may be cherry-picking easy deals — adjust incentives to reward larger opportunities.",
+        "Revenue concentration risk: What percentage of channel revenue comes from your top 3 partners? Above 60% is dangerous — losing one partner wrecks your channel number. Below 30% means good diversification. Track this quarterly and actively recruit into segments where you're over-concentrated.",
+      ],
+    },
+    {
+      heading: "Scaling from 10 to 100 partners without breaking",
+      paragraphs: [
+        "The transition from 10 to 100 partners is where most channel programs collapse. What worked with manual coordination fails with scale. Here's what needs to change:",
+      ],
+      bullets: [
+        "Automate commission calculations: At 10 partners, you can calculate commissions in a spreadsheet. At 50, you can't. Automated commission engines that apply rules based on partner tier, product line, deal size, and active incentive programs eliminate calculation errors, reduce disputes, and free your partner ops team from monthly commission hell. Covant's commission engine handles tiered rates, product-specific overrides, accelerators, and multi-partner splits automatically — with full audit trails for every calculation.",
+        "Segment your partner base: At 100 partners, you can't give everyone the same attention. Segment into three tiers: strategic (top 10-15%, dedicated partner manager, quarterly QBRs, custom business plans), growth (next 25-30%, monthly group calls, self-serve analytics, tier advancement path), and community (remaining 55-65%, automated engagement, self-serve portal, group enablement). Your partner managers should spend 60% of their time on strategic partners, 30% on growth, and 10% on community. Covant's partner health scoring automatically identifies which partners belong in each segment based on deal activity, engagement, and revenue trajectory.",
+        "Invest in self-serve: Every question a partner asks their partner manager is a question your portal should have answered. Self-serve commission tracking, deal registration status, tier progress, enablement content library, MDF request submission, and program announcements. The best channel programs run at a 30:1 partner-to-manager ratio. Without self-serve, you hit capacity at 10:1.",
+        "Build partner-led pipeline: At scale, your channel should generate its own pipeline — not just close pipeline your marketing team created. This means equipping partners with co-brandable content, joint webinar programs, partner-specific landing pages, and local event sponsorship. Track partner-generated vs vendor-generated pipeline separately — the goal is for partner-generated to exceed 50% of total channel pipeline by Month 18.",
+        "Standardize QBRs: Quarterly business reviews with every strategic and growth partner. Covant's QBR reports auto-generate with quarter-over-quarter metrics, deal analysis, action items, and performance trends — so your partner managers spend 15 minutes customizing instead of 3 hours building slides.",
+      ],
+    },
+    {
+      heading: "Channel sales vs direct sales: complement, don't compete",
+      paragraphs: [
+        "The most destructive myth in channel strategy is that channel replaces direct. It doesn't. The best-performing companies use channel and direct as complementary motions that cover different segments of the market.",
+      ],
+      bullets: [
+        "Segment by deal size: Direct sales for enterprise deals (>$100K ACV) where your team's product expertise and negotiation skill matter most. Channel for mid-market ($20K-$100K ACV) where partner relationships and local market knowledge provide the edge. Self-serve or affiliate for SMB (<$20K ACV) where economics don't support direct selling.",
+        "Segment by geography: Direct in your core markets where you have sales offices and brand awareness. Channel in expansion markets where partners have the relationships, language, and compliance knowledge you don't. Channel is often the fastest way to enter new countries or regions without hiring local teams.",
+        "Segment by vertical: Direct for your core vertical where you have deep expertise. Channel for adjacent verticals where partners already have buyer relationships and industry credibility. A healthcare IT reseller can position your product in hospitals more credibly than your generalist AE ever could.",
+        "Rules of engagement: Published, unambiguous rules for every scenario. What happens when an AE is already working an account a partner registers? (Registration priority with time-based protection.) What happens when a partner wants to pursue a named direct account? (Account-level opt-in/opt-out lists.) What happens when a deal involves both a partner and an AE? (Co-sell rules with defined credit splits.) The absence of rules doesn't create flexibility — it creates conflict. Write the rules. Publish them. Enforce them consistently.",
+      ],
+    },
+    {
+      heading: "How Covant powers channel sales strategy",
+      paragraphs: [
+        "Covant provides the operational infrastructure that turns a channel strategy from a deck into a revenue engine:",
+      ],
+      bullets: [
+        "Three attribution models for every channel type: Deal Reg Protection for reseller programs (registering partner wins), Source Wins for referral programs (sourcing partner gets credit), and Role Split for co-sell motions (predefined credit percentages by partner role). Each model produces full audit trails — per-deal touchpoint timelines, credit calculations, and model-specific explanations that partners can verify in their portal.",
+        "Automated commission engine: Tiered rates by partner level, product-specific overrides, accelerator multipliers, SPIF additions, and multi-partner splits — all calculated automatically with transparent audit trails. Partners see exactly how their commission was calculated. Finance approves payouts with confidence. Disputes drop to near zero because the math is visible.",
+        "White-label partner portal: Partners register deals, track commissions, view tier progress, access enablement content, and monitor performance — all in a branded experience that looks like yours, not Covant's. No 'Powered by' badges. Custom domains supported. The portal experience directly drives partner engagement and deal registration velocity.",
+        "Partner intelligence: Health scoring identifies at-risk partners before they churn. Revenue intelligence shows concentration risk and partner ROI. Win/loss analysis reveals which partners and motions drive the best outcomes. Weekly digests and QBR reports auto-generate so your team spends time acting on insights, not building slides.",
+        "Conflict detection: Automatic duplicate registration detection, configurable protection windows, territory overlap identification, and audit trails for every conflict resolution. Channel conflict goes from a relationship-destroying surprise to a handled operational event.",
+      ],
+    },
+    {
+      heading: "The channel sales strategy checklist",
+      paragraphs: [
+        "Before investing in channel, validate these prerequisites. Attempting to scale channel without them burns budget and damages partner relationships that are hard to repair.",
+      ],
+      bullets: [
+        "Product-market fit confirmed: Your product works for direct customers. Partners can't sell a product that your own team struggles to sell. Channel amplifies what's already working — it doesn't fix what's broken.",
+        "Sales process documented: You have a repeatable sales motion with defined stages, win/loss patterns, and a playbook a partner can learn in 2 weeks. If your sales process lives in your top AE's head, it's not ready for channel.",
+        "Commission economics modeled: You know your fully loaded CAC for direct sales and can show that channel CAC (commission + partner management + enablement + technology) is lower. If channel is more expensive than direct, the only justification is market access you can't get otherwise.",
+        "Deal registration and attribution system ready: You have a platform (like Covant) that handles deal registration, commission calculation, partner portal, and attribution reporting before your first partner signs up. Building these systems while partners are active is like changing the engine while the car is moving.",
+        "Partner manager hired: You have at least one person whose full-time job is partner management — onboarding, enablement, QBRs, conflict resolution, and performance coaching. Channel without a dedicated owner is channel that dies.",
+        "Commitment to 12 months: Channel takes 3-4 months to show first revenue and 12-18 months to become a predictable, scalable motion. If your leadership expects channel ROI in 90 days, set expectations before you start — or don't start.",
+      ],
+    },
+  ],
   "ecosystem-led-growth": [
     {
       paragraphs: [
