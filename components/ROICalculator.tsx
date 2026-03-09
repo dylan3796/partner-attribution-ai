@@ -3,8 +3,8 @@
 import { useState } from "react";
 
 export default function ROICalculator() {
-  const [partners, setPartners] = useState(15);
-  const [partnerRevenue, setPartnerRevenue] = useState(250_000);
+  const [partners, setPartners] = useState(25);
+  const [partnerRevenue, setPartnerRevenue] = useState(500_000);
   const [hoursPerMonth, setHoursPerMonth] = useState(20);
 
   // Conservative fixed assumptions
@@ -16,7 +16,7 @@ export default function ROICalculator() {
   const getTier = (p: number) => {
     if (p <= 5)   return { name: "Free",       monthly: 0,   annual: 0    };
     if (p <= 25)  return { name: "Pro",        monthly: 99,  annual: 1188 };
-    if (p <= 100) return { name: "Scale",      monthly: 349, annual: 4188 };
+    if (p <= 200) return { name: "Scale",      monthly: 349, annual: 4188 };
     return              { name: "Enterprise", monthly: null, annual: null };
   };
 
@@ -61,7 +61,7 @@ export default function ROICalculator() {
             <span className="input-val">{partners}</span>
           </div>
           <input
-            type="range" min={1} max={100} step={1}
+            type="range" min={1} max={1000} step={5}
             value={partners}
             onChange={e => setPartners(Number(e.target.value))}
           />
@@ -74,7 +74,7 @@ export default function ROICalculator() {
             <span className="input-val">{fmt(partnerRevenue)}/yr</span>
           </div>
           <input
-            type="range" min={50_000} max={2_000_000} step={25_000}
+            type="range" min={50_000} max={50_000_000} step={250_000}
             value={partnerRevenue}
             onChange={e => setPartnerRevenue(Number(e.target.value))}
           />
