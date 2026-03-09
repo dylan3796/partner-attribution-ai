@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Rss } from "lucide-react";
-import { BLOG_POSTS, CATEGORY_CONFIG } from "./posts";
+import { ArrowLeft, Rss } from "lucide-react";
+import { BLOG_POSTS } from "./posts";
 import BlogSubscribe from "@/components/BlogSubscribe";
+import BlogPostList from "@/components/BlogPostList";
 
 export default function BlogPage() {
   return (
@@ -56,40 +57,8 @@ export default function BlogPage() {
           </div>
         </div>
 
-        {/* Posts */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 0, paddingBottom: 80 }}>
-          {BLOG_POSTS.map((post, i) => {
-            const cat = CATEGORY_CONFIG[post.category];
-            return (
-              <Link
-                key={post.slug}
-                href={`/blog/${post.slug}`}
-                style={{ textDecoration: "none", color: "inherit", display: "block", padding: "36px 0", borderTop: i === 0 ? "1px solid #1a1a1a" : "none", borderBottom: "1px solid #1a1a1a" }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
-                  <span style={{
-                    fontSize: ".7rem", fontWeight: 700, letterSpacing: "0.05em", color: cat.color,
-                    background: `${cat.color}18`, padding: "3px 10px", borderRadius: 4,
-                  }}>
-                    {cat.label.toUpperCase()}
-                  </span>
-                  <span style={{ color: "#444", fontSize: ".8rem" }}>{post.date}</span>
-                  <span style={{ color: "#333", fontSize: ".8rem" }}>·</span>
-                  <span style={{ color: "#444", fontSize: ".8rem" }}>{post.readTime}</span>
-                </div>
-                <h2 style={{ fontSize: "1.35rem", fontWeight: 700, color: "#fff", margin: "0 0 8px", letterSpacing: "-0.02em" }}>
-                  {post.title}
-                </h2>
-                <p style={{ color: "#666", fontSize: ".95rem", lineHeight: 1.6, margin: "0 0 12px" }}>
-                  {post.description}
-                </p>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 4, color: "#888", fontSize: ".85rem", fontWeight: 500 }}>
-                  Read more <ArrowRight size={14} />
-                </span>
-              </Link>
-            );
-          })}
-        </div>
+        {/* Filtered Post List */}
+        <BlogPostList posts={BLOG_POSTS} />
 
         {/* Newsletter Subscribe */}
         <div style={{ padding: "48px 0 24px", borderTop: "1px solid #111" }}>
