@@ -5,6 +5,136 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "how-to-recruit-channel-partners": [
+    {
+      paragraphs: [
+        "Every VP of Partnerships has the same story. Leadership says 'we need more partners.' So the team signs 30 new partners in a quarter. Everyone celebrates. Six months later, 4 of those partners have registered a deal. The other 26 logged into the portal once, collected their welcome kit, and disappeared.",
+        "Partner recruitment isn't broken because of volume. It's broken because most programs optimize for signatures instead of sales. The partner agreement is the starting line, not the finish line — and most recruitment strategies don't account for what happens after the ink dries.",
+        "The programs that consistently build high-performing partner ecosystems don't recruit differently. They recruit deliberately. Here's the system that turns partner recruitment from a hope-based numbers game into a predictable revenue pipeline.",
+      ],
+    },
+    {
+      heading: "Why most partner recruitment fails",
+      paragraphs: [
+        "The standard recruitment playbook has three steps: find companies in adjacent markets, pitch them on your partner program, and get them to sign. It's efficient at generating partner counts. It's terrible at generating partner revenue.",
+        "Three structural problems kill most recruitment efforts:",
+      ],
+      bullets: [
+        "No Ideal Partner Profile (IPP): You have an Ideal Customer Profile. You probably have buyer personas. But do you have a documented profile of what makes a partner successful in your program? Most teams don't. They recruit any company that says yes, then wonder why 80% of partners produce nothing.",
+        "Selling the program, not the partnership: Most recruitment pitches focus on commission rates and portal features. Partners don't join programs for commission rates — they join because partnering with you makes their existing business more valuable. If you're leading with 'we pay 15%,' you're attracting mercenaries, not partners.",
+        "No qualification gate: In direct sales, you'd never let an unqualified lead into your pipeline. In partner recruitment, most programs accept every applicant. No assessment of customer overlap, technical capability, sales capacity, or strategic alignment. The result: a partner roster padded with companies that were never going to produce.",
+      ],
+    },
+    {
+      heading: "Building your Ideal Partner Profile",
+      paragraphs: [
+        "Before you recruit a single new partner, reverse-engineer your best existing ones. Look at the top 10% of partners by revenue contribution and find the patterns. Not their company size or industry — those are surface-level. Look at the structural characteristics that predict performance.",
+        "The five dimensions that matter:",
+      ],
+      bullets: [
+        "Customer overlap: How much do their existing customers match your ICP? A partner whose customer base is 80% overlap with your target market will produce 10x more than one with 20% overlap. This is the single strongest predictor of partner success. Pull their customer list (or estimate it from their website, case studies, and LinkedIn) and score the overlap before you ever make contact.",
+        "Sales motion compatibility: Does their sales process naturally lead to conversations where your product is relevant? A partner who sells ERP implementations will naturally encounter companies that need your financial integration tool. A partner who sells social media management probably won't. The less behavior change required, the more likely they are to actually sell.",
+        "Technical capability: Can they demo your product, answer technical questions, and support implementation? For reseller partners, this is critical. A partner who can't do a basic product walkthrough will never close a deal independently. For referral partners, this matters less — they just need to identify qualified opportunities.",
+        "Sales capacity: How many reps do they have? How many customer conversations per week? A 5-person firm with 2 sales reps will produce a fraction of what a 200-person firm with 40 reps can. Match your expectations to their capacity — and don't give a 5-person referral firm the same tier targets as a 200-person reseller.",
+        "Strategic motivation: Why do they want to partner? 'More revenue' is table stakes. The best partnerships have strategic alignment — your product fills a gap in their solution, helps them win competitive deals, or lets them expand into a new segment. Strategic partners invest time. Transactional partners don't.",
+      ],
+    },
+    {
+      heading: "The recruitment pipeline",
+      paragraphs: [
+        "Partner recruitment should look like a sales funnel, not a marketing campaign. You're not blasting a 'become a partner' message to thousands of companies. You're identifying, qualifying, and closing partnerships with companies that match your IPP.",
+        "Here's the four-stage pipeline that works:",
+      ],
+      bullets: [
+        "Stage 1 — Sourcing (identify 50-100 candidates per quarter): Start with your existing deal data. Which companies already refer customers to you informally? Which system integrators or consultants do your customers mention during onboarding? These 'shadow partners' are already generating value — you're just not tracking it. Beyond that, look at technology ecosystems adjacent to yours (integration partners, complementary products), industry communities (conferences, Slack groups, LinkedIn communities), and your competitors' partner pages (their partners may be open to a better program).",
+        "Stage 2 — Qualification (narrow to 15-25 genuine fits): Score each candidate against your IPP. Customer overlap, sales motion compatibility, technical capability, capacity, and strategic motivation. Be honest about fit — a partner with 3 out of 5 strong dimensions is worth pursuing. A partner with 1 out of 5 is a waste of both your time and theirs. This is the step most programs skip, and it's the reason most programs have 80% inactive partners.",
+        "Stage 3 — Engagement (convert 8-12 to signed partners): This is where recruitment feels like enterprise sales. Personalized outreach showing you understand their business, their customers, and specifically how the partnership creates value for them — not just for you. Lead with a specific joint customer scenario: 'Your clients at [segment] are dealing with [problem]. Our product solves it, and your team is already in those conversations. The partnership means you close bigger deals with an integrated solution.' Schedule a co-selling walkthrough, not a program overview.",
+        "Stage 4 — Activation (get 6-10 to first deal in 30 days): Signing isn't success. First deal is success. The recruitment team should own the partner through activation — not hand them off to a 'partner success' team that has no context. The recruiter knows why this partner joined, what customers they're targeting, and what motivates them. That context is gold for onboarding. Measure recruitment success by activated partners, not signed partners.",
+      ],
+    },
+    {
+      heading: "Outbound vs. inbound recruitment",
+      paragraphs: [
+        "Most programs rely too heavily on one or the other. The right mix depends on your program's maturity and market position.",
+      ],
+      bullets: [
+        "Inbound recruitment (partner application page, marketplace listing, 'become a partner' CTA): Works well when you have brand recognition and an established program. Partners come to you because they've heard of your success. The advantage: inbound partners are pre-motivated. The risk: inbound alone attracts everyone, including companies that don't fit your IPP. You need a qualification step — not every applicant should become a partner.",
+        "Outbound recruitment (targeted outreach, conference networking, partner-led co-selling propositions): Works well at any stage but especially early. You control the quality. You choose companies that match your IPP, craft a personalized pitch, and build the relationship deliberately. The advantage: higher-quality partners with better strategic alignment. The cost: it's labor-intensive. Budget 4-6 hours per qualified partner for the full outreach-to-signed cycle.",
+        "The best programs run both. Inbound catches the long tail — partners you'd never have found through outbound. Outbound targets the 20 partners who would transform your program. The ratio shifts over time: early programs are 80/20 outbound/inbound. Mature programs flip to 30/70.",
+      ],
+    },
+    {
+      heading: "The recruitment pitch that works",
+      paragraphs: [
+        "Forget program brochures with generic commission tables and tier charts. The pitch that converts qualified partners is a story about their business, not yours.",
+        "Structure it in three parts:",
+      ],
+      bullets: [
+        "Part 1 — Their customer's problem: 'Your clients in mid-market SaaS are struggling with [specific problem]. We know this because 68% of our customers came from that segment.' You're establishing that you understand their world. This takes research — read their case studies, customer testimonials, and sales materials before the pitch.",
+        "Part 2 — The joint value proposition: 'When our product is part of your solution, you solve a bigger problem for the customer, which means bigger deal sizes and stickier relationships. Partners selling our solution alongside theirs see average deal sizes increase by 30%.' This isn't about your commission rate — it's about how you make their existing business better.",
+        "Part 3 — The specifics: Now you talk program details. Commission structure, portal access, attribution model, support. But frame everything through their lens: 'You get deal registration protection — meaning if you source the deal, you're guaranteed credit even if another partner touches it later. No more losing commissions to partners who showed up late.'",
+      ],
+    },
+    {
+      heading: "Recruitment channels ranked by quality",
+      paragraphs: [
+        "Not all recruitment channels produce the same quality of partner. After analyzing activation rates across hundreds of partner programs, a clear hierarchy emerges:",
+      ],
+      bullets: [
+        "Tier 1 — Customer referrals and shadow partners (75%+ activation rate): Companies already sending you business informally. They've self-selected. They know your product works. Formalizing the partnership is almost always a yes, and they activate faster than any other source because the behavior is already happening.",
+        "Tier 2 — Existing partner referrals (60%+ activation rate): Your best partners know other good partners. Incentivize referrals — not just with cash, but with co-marketing opportunities and strategic benefits. A warm intro from a successful partner carries more weight than any outbound pitch.",
+        "Tier 3 — Industry events and communities (40-50% activation rate): Conference networking, industry Slack groups, partner ecosystem communities. These partners have demonstrated interest in the space. The activation rate is moderate because motivation varies — some are genuinely interested, some are just collecting options.",
+        "Tier 4 — Outbound cold outreach (20-30% activation rate): Targeted LinkedIn and email campaigns to IPP-matched companies. Lower activation rate but controllable quality if your targeting is sharp. The key is specificity: 'I noticed your team works with mid-market SaaS companies on CRM implementations' beats 'would you like to join our partner program?'",
+        "Tier 5 — Inbound applications (15-25% activation rate): The 'become a partner' form on your website. Volume is high, quality varies wildly. Without strong qualification, you'll sign partners who joined on impulse and never engage. Add a screening step: require applicants to describe their customer base, their current tech partnerships, and why they're interested before accepting them.",
+      ],
+    },
+    {
+      heading: "How many partners you actually need",
+      paragraphs: [
+        "There's a persistent myth in channel programs that more partners equals more revenue. The data says otherwise.",
+        "The Pareto principle holds ruthlessly in partner programs: 20% of partners generate 80% of partner-sourced revenue. In many programs, the concentration is even more extreme — 10% of partners generating 90%+ of revenue. This means the question isn't 'how do I get to 200 partners?' It's 'how do I get 20 partners who each produce $100K+ per year?'",
+        "Here's a practical framework for partner count by program stage:",
+      ],
+      bullets: [
+        "Validation stage (0-12 months): 5-15 partners. Enough to test your program model, refine your IPP, and prove that partners can generate revenue through your system. If you can't make 10 partners successful, you can't make 100 successful — and trying just spreads your attention too thin.",
+        "Optimization stage (12-24 months): 15-50 partners. You've proven the model works. Now recruit partners that match the patterns you saw in validation. Expand into new geographies or segments where your IPP holds. Invest in the top 20% of your existing roster — accelerators, co-marketing, dedicated support.",
+        "Scale stage (24+ months): 50-200+ partners. Automation handles onboarding. Tiered programs segment partners by performance. You have the data, tooling, and team to support a larger ecosystem. But even at 200 partners, the top 20-40 will drive the majority of revenue. Your recruitment strategy should always prioritize quality over quantity.",
+      ],
+    },
+    {
+      heading: "Measuring recruitment effectiveness",
+      paragraphs: [
+        "If you're only tracking 'partners signed,' you're measuring effort, not results. Here are the metrics that actually indicate recruitment quality:",
+      ],
+      bullets: [
+        "IPP match score: What percentage of recruited partners match 4+ of your 5 IPP dimensions? If this is below 60%, your sourcing or qualification process needs tightening. Recruiting partners who don't fit your IPP is burning onboarding resources on partners who won't produce.",
+        "30-day activation rate: Of partners signed this quarter, what percentage registered at least one deal within 30 days? This is the truest measure of recruitment quality. A partner who doesn't register a deal in 30 days is 3x less likely to ever become productive. Target: 50%+ for outbound-recruited partners, 70%+ for shadow partners and referrals.",
+        "Time to first revenue: How long from partner signature to first closed-won deal attributed to that partner? Industry average is 120+ days. Top programs hit 60-75 days. If your time to first revenue is stretching past 90 days consistently, the problem is recruitment quality — you're signing partners who can't or won't sell.",
+        "Revenue per partner: Total partner-sourced revenue divided by number of active partners. This tells you whether your ecosystem is productive or just large. A program with 50 partners generating $5M is outperforming one with 200 partners generating $3M, and it's doing it with far less operational overhead.",
+        "Recruitment cost per activated partner: Total recruitment spend (team time, events, content, tools) divided by number of partners who activated within 30 days. Not signed — activated. This number forces honest evaluation of your recruitment channels and helps you invest in the sources that produce real results.",
+      ],
+    },
+    {
+      heading: "The partner recruitment stack",
+      paragraphs: [
+        "You don't need much technology to recruit well, but you need the right infrastructure:",
+      ],
+      bullets: [
+        "A public application page with qualification questions: Not a generic 'sign up' form. Include fields that help you score IPP fit: customer segments served, number of sales reps, current technology partnerships, annual revenue range, and why they want to partner. Applicants who can't or won't answer these fields are self-selecting out — which is exactly what you want.",
+        "A partner pipeline tracker: CRM-style tracking of recruitment candidates through sourcing → qualified → engaged → signed → activated stages. You need visibility into where candidates are dropping off. If 80% of qualified candidates ghost after the first call, your pitch needs work. If 80% of signed partners don't activate, your onboarding needs work.",
+        "Attribution and analytics: From the moment a partner is recruited, you should be able to track every deal they touch, every commission they earn, and their overall trajectory. This data feeds back into your IPP — the patterns in your successful partners inform who you recruit next.",
+        "An onboarding system connected to recruitment: The recruiter's context (why this partner joined, what customers they're targeting, their expectations) should flow directly into the onboarding workflow. No separate handoff documents. No 'let me introduce you to your partner manager.' The data follows the partner.",
+      ],
+    },
+    {
+      heading: "The quality-over-quantity mindset",
+      paragraphs: [
+        "The hardest shift in partner recruitment is saying no. When leadership measures success by partner count, every applicant feels like progress. But signing a partner who doesn't fit your IPP isn't progress — it's operational debt. That partner will consume onboarding time, generate support tickets, and eventually churn — all while producing zero revenue.",
+        "The best VPs of Partnerships defend their roster like a product manager defends their roadmap. Every partner added should make the ecosystem stronger. Every recruitment decision should be measured not by the signing, but by what that partner does in their first 90 days.",
+        "Recruit fewer partners. Recruit better partners. Give them the tooling, data, and support to succeed. Then let the results speak louder than any partner count ever could.",
+      ],
+    },
+  ],
   "how-to-evaluate-prm-software": [
     {
       paragraphs: [

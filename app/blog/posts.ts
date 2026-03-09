@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "how-to-recruit-channel-partners",
+    title: "How to Recruit Channel Partners That Actually Sell",
+    description:
+      "Most partner recruitment is a numbers game played badly — sign 50 partners, hope 5 produce. Here's the systematic approach that builds a pipeline of partners who close revenue, not just collect logos.",
+    date: "March 8, 2026",
+    readTime: "9 min read",
+    category: "strategy",
+  },
+  {
     slug: "how-to-evaluate-prm-software",
     title: "How to Evaluate PRM Software: A VP's Buyer Checklist for 2026",
     description:
