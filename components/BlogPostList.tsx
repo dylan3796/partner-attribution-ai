@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Search, X } from "lucide-react";
 import { BlogPost, CATEGORY_CONFIG } from "@/app/blog/posts";
 
 const ALL_CATEGORIES = [
@@ -16,8 +16,36 @@ const ALL_CATEGORIES = [
 
 export default function BlogPostList({ posts }: { posts: BlogPost[] }) {
   const [active, setActive] = useState<"all" | BlogPost["category"]>("all");
+  const [query, setQuery] = useState("");
+  const [searchFocused, setSearchFocused] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const filtered = active === "all" ? posts : posts.filter((p) => p.category === active);
+  // ⌘/ or Ctrl+/ to focus search
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === "/") {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+      if (e.key === "Escape" && document.activeElement === inputRef.current) {
+        setQuery("");
+        inputRef.current?.blur();
+      }
+    }
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
+
+  const q = query.toLowerCase().trim();
+  const byCategory = active === "all" ? posts : posts.filter((p) => p.category === active);
+  const filtered = q
+    ? byCategory.filter(
+        (p) =>
+          p.title.toLowerCase().includes(q) ||
+          p.description.toLowerCase().includes(q) ||
+          p.slug.toLowerCase().includes(q)
+      )
+    : byCategory;
 
   const counts = {
     all: posts.length,
@@ -28,6 +56,88 @@ export default function BlogPostList({ posts }: { posts: BlogPost[] }) {
 
   return (
     <>
+      {/* Search Bar */}
+      <div
+        style={{
+          position: "relative",
+          marginBottom: 20,
+        }}
+      >
+        <Search
+          size={16}
+          style={{
+            position: "absolute",
+            left: 14,
+            top: "50%",
+            transform: "translateY(-50%)",
+            color: searchFocused ? "#888" : "#444",
+            transition: "color 0.15s",
+            pointerEvents: "none",
+          }}
+        />
+        <input
+          ref={inputRef}
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setSearchFocused(true)}
+          onBlur={() => setSearchFocused(false)}
+          placeholder="Search articles…"
+          style={{
+            width: "100%",
+            background: searchFocused ? "#111" : "#0a0a0a",
+            border: `1px solid ${searchFocused ? "#333" : "#1a1a1a"}`,
+            borderRadius: 10,
+            padding: "12px 80px 12px 40px",
+            fontSize: ".9rem",
+            color: "#e5e5e5",
+            outline: "none",
+            transition: "all 0.15s ease",
+            fontFamily: "inherit",
+          }}
+        />
+        {query ? (
+          <button
+            onClick={() => { setQuery(""); inputRef.current?.focus(); }}
+            style={{
+              position: "absolute",
+              right: 14,
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "#222",
+              border: "none",
+              borderRadius: 4,
+              padding: "3px 5px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              color: "#888",
+            }}
+          >
+            <X size={14} />
+          </button>
+        ) : (
+          <kbd
+            style={{
+              position: "absolute",
+              right: 14,
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "#1a1a1a",
+              border: "1px solid #222",
+              borderRadius: 4,
+              padding: "2px 6px",
+              fontSize: ".7rem",
+              color: "#555",
+              fontFamily: "inherit",
+              pointerEvents: "none",
+            }}
+          >
+            ⌘/
+          </kbd>
+        )}
+      </div>
+
       {/* Category Tabs */}
       <div
         style={{
@@ -73,6 +183,13 @@ export default function BlogPostList({ posts }: { posts: BlogPost[] }) {
           );
         })}
       </div>
+
+      {/* Search result count */}
+      {q && filtered.length > 0 && (
+        <p style={{ color: "#555", fontSize: ".82rem", marginBottom: 16, marginTop: -16 }}>
+          {filtered.length} {filtered.length === 1 ? "article" : "articles"} matching &ldquo;{query}&rdquo;
+        </p>
+      )}
 
       {/* Posts */}
       <div style={{ display: "flex", flexDirection: "column", gap: 0, paddingBottom: 80 }}>
@@ -141,7 +258,29 @@ export default function BlogPostList({ posts }: { posts: BlogPost[] }) {
 
         {filtered.length === 0 && (
           <div style={{ padding: "60px 0", textAlign: "center" }}>
-            <p style={{ color: "#444", fontSize: ".95rem" }}>No articles in this category yet.</p>
+            <p style={{ color: "#444", fontSize: ".95rem" }}>
+              {q
+                ? `No articles matching "${query}"${active !== "all" ? ` in ${CATEGORY_CONFIG[active].label}` : ""}.`
+                : "No articles in this category yet."}
+            </p>
+            {q && (
+              <button
+                onClick={() => { setQuery(""); setActive("all"); }}
+                style={{
+                  marginTop: 12,
+                  background: "transparent",
+                  border: "1px solid #222",
+                  borderRadius: 6,
+                  padding: "8px 16px",
+                  color: "#888",
+                  fontSize: ".85rem",
+                  cursor: "pointer",
+                  fontFamily: "inherit",
+                }}
+              >
+                Clear search
+              </button>
+            )}
           </div>
         )}
       </div>
