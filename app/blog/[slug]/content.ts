@@ -5,6 +5,127 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "how-to-build-reseller-program": [
+    {
+      paragraphs: [
+        "You signed five reseller partners last quarter. Two registered a deal. One closed. The other three haven't logged into your portal since onboarding. You're not alone — most reseller programs follow this pattern because they're built around hope instead of structure. A good reseller program isn't a commission rate and a partner agreement. It's an operating system: deal registration that protects the partner, attribution that proves who drove the deal, commissions that scale with performance, and a portal that makes the whole thing self-service.",
+        "This guide covers how to build a reseller program from scratch — or restructure one that stalled — with the architecture to support 5 partners or 500. No theory. No 'it depends.' Just the decisions, the order, and the mistakes to avoid.",
+      ],
+    },
+    {
+      heading: "Why most reseller programs stall at 20 partners",
+      paragraphs: [
+        "The failure pattern is consistent. A VP of Partnerships signs a handful of resellers, manages them personally via email, tracks deals in a spreadsheet, and pays commissions manually. It works at 5 partners. It breaks at 20. Here's why:",
+      ],
+      bullets: [
+        "No deal registration system: Without a formal deal reg process, partners have no protection. They source a deal, an AE picks it up directly, and the partner gets nothing. After this happens twice, the partner stops sourcing. Deal reg isn't bureaucracy — it's the contract that makes reselling rational. If you can't guarantee that the partner who registered a deal gets credit for it, you don't have a reseller program. You have a referral suggestion box.",
+        "Attribution is a spreadsheet argument: When a deal closes, who actually drove it? The partner who introduced the prospect? The AE who ran the demo? The marketing campaign that generated the original lead? Without a defined attribution model, every closed deal becomes a negotiation. At 5 partners, you can resolve this over email. At 20, it consumes your week. At 50, it destroys trust across the channel.",
+        "Commission rules that don't scale: 'Everyone gets 20%' works until you need to motivate different behaviors. Your top reseller closing $500K/quarter shouldn't earn the same rate as a new partner on their first deal. Product-specific rates, tiered commissions, and accelerators are how you grow revenue per partner — but they require infrastructure to calculate and pay correctly.",
+        "Manual operations eat your team: Tracking registrations in a spreadsheet, calculating commissions by hand, sending payout summaries via email, resolving conflicts in Slack threads. Each of these is manageable alone. Together, they consume 60-80% of a partner manager's time — time that should be spent on partner development, not data entry.",
+        "Partners can't self-serve: If a partner has to email you to check their commission status, register a deal, or see their pipeline, you've built a dependency that doesn't scale. Every email you answer is a process you haven't automated. The best reseller programs give partners a portal where 90% of their questions are answered without human involvement.",
+      ],
+    },
+    {
+      heading: "The five pillars of a scalable reseller program",
+      paragraphs: [
+        "A reseller program that works at scale has five structural components. Skip any one and you'll hit a ceiling. Build them in this order — each pillar depends on the one before it.",
+      ],
+      bullets: [
+        "Deal registration with protection: The foundation. Partners register deals before working them. Registration creates a protection window (typically 90 days) during which the registering partner owns that opportunity. If another partner or an AE tries to register the same account, the system flags the conflict. If the deal closes within the protection window, the registering partner gets credit. No arguments, no email threads, no politics. This is what Covant calls 'Deal Reg Protection' — the attribution model built for reseller programs. The registering partner wins. Period.",
+        "Attribution that's auditable: Every deal needs a paper trail. Not just 'Partner X gets credit' but the full chain: when did they register, what touchpoints occurred, which model applied, and how was credit calculated. When your AE questions a payout or your CFO asks how partner-sourced revenue is measured, you point to the audit trail. Attribution without auditability is just a number someone can dispute.",
+        "Tiered commission structure: Flat rates don't motivate growth. A tiered structure — Bronze at 15%, Silver at 20%, Gold at 25% — gives partners a reason to sell more. Tie tier qualification to trailing revenue, deal volume, or a composite score. Make the tiers visible: partners should see exactly where they stand and what they need to do to move up. Commission rates are the language resellers speak. Make sure yours says something motivating.",
+        "Partner portal with real-time visibility: Partners need to see their deals, commissions, tier status, and pipeline without asking anyone. A portal that shows real-time data — pending registrations, approved deals, earned commissions, payout history — is the difference between a program partners trust and one they tolerate. Add deal registration directly in the portal and you've eliminated 80% of the emails your team handles today.",
+        "Automated commission calculation and payouts: Manual commission calculation breaks at scale and introduces errors that erode trust. When a deal closes, the system should automatically: identify the registering partner, look up the applicable commission rate (based on tier, product, deal size), calculate the payout, and queue it for approval. The partner sees the pending commission in their portal immediately. Your ops team reviews and approves in bulk. Payouts go out on schedule, not whenever someone gets to the spreadsheet.",
+      ],
+    },
+    {
+      heading: "Setting up deal registration that partners actually use",
+      paragraphs: [
+        "Deal registration is the single most important process in a reseller program. Get it right and partners will source deals actively because they trust the protection. Get it wrong and partners will treat your program as a side channel they use when convenient. Here's how to build deal reg that works:",
+      ],
+      bullets: [
+        "Keep the form short — 5-7 fields maximum: Company name, contact name, contact email, estimated deal size, expected close date, product interest, and a brief description. Every additional field reduces completion rates. Partners register deals between meetings — they need to do it in 60 seconds, not 10 minutes. If you need more detail, collect it after registration as the deal progresses.",
+        "Auto-detect conflicts immediately: When a partner submits a registration, the system should instantly check for existing registrations on the same account (by company name, domain, or contact email). If a conflict exists, show it immediately — don't let the partner invest weeks in a deal they can't win. Transparent conflict detection builds more trust than any partner agreement clause.",
+        "Set clear protection windows: 90 days is standard for mid-market SaaS deals. Enterprise with longer cycles may need 120-180 days. Publish the windows prominently — in the partner agreement, on the registration confirmation, and in the portal. Partners should never have to guess whether their registration is still active.",
+        "Automate approval with SLAs: Most deal registrations should be approved automatically if there are no conflicts. For flagged registrations (conflicts, large deal size, strategic accounts), route to a manager with a 24-48 hour SLA. Partners waiting a week for registration approval will stop registering. Speed of approval is speed of trust.",
+        "Send confirmation with commission estimate: When a registration is approved, the confirmation should include the estimated commission based on the deal size and the partner's current tier. 'Your registration for Acme Corp ($85,000 estimated) has been approved. At your Gold tier (25%), estimated commission: $21,250. Protection expires: June 15, 2026.' This reinforces the value of registering and the value of their tier.",
+      ],
+    },
+    {
+      heading: "Designing commission tiers that drive growth",
+      paragraphs: [
+        "The commission structure is the economic engine of your reseller program. It determines how much effort partners invest, which products they push, and whether they stick around or leave for a competitor. Here's the framework for tiers that drive behavior:",
+      ],
+      bullets: [
+        "Three to four tiers is the sweet spot: Fewer than three and there's no ladder to climb. More than four and the differences between tiers aren't meaningful enough to motivate movement. A common structure: Registered (10-15%, no revenue requirement — just signed up and completed onboarding), Silver (15-20%, $50K-$100K trailing 12-month revenue), Gold (20-25%, $100K-$250K trailing revenue), Platinum (25-30%, $250K+ trailing revenue). Adjust thresholds for your deal sizes and market.",
+        "Revenue should be the primary qualifier: Secondary qualifiers (certifications, deal reg quality, customer satisfaction) add nuance, but revenue must be the dominant factor. Partners understand revenue. They can calculate whether they'll hit Gold tier next quarter. Complex composite scores that weight 8 different metrics confuse more than they motivate. Lead with revenue, layer in secondary criteria at 10-20% weight.",
+        "Make tier benefits tangible beyond commission rates: Higher tiers should unlock real advantages: priority deal registration review (24h vs 48h), dedicated partner manager (Gold+), co-marketing funds (Platinum), early access to new products, featured placement in your partner directory, and invitation to annual partner advisory board. Commission rates alone don't build loyalty — the full package does.",
+        "Use rolling 12-month evaluation, not annual resets: Annual tier evaluation punishes partners who had a slow Q1 but crushed Q2-Q4. Rolling 12-month windows mean every deal matters, every month. Partners can see their trailing revenue in the portal and know exactly where they stand. Automatic upgrades when thresholds are crossed (don't make them wait for a review cycle). Downgrades should have a 60-day grace period with a warning.",
+        "Add product-specific rate adjustments: Not all products deserve the same commission rate. New products you're trying to drive adoption for should carry a higher rate (base + 5-10%). Mature products with established demand can carry standard rates. Services and professional services typically carry lower rates (5-10%) because margins are thinner. Publish a clear commission schedule by product line so partners can calculate their earnings on any deal.",
+      ],
+    },
+    {
+      heading: "Building the partner portal experience",
+      paragraphs: [
+        "The portal is where your reseller program lives or dies in daily practice. A portal that partners visit weekly is a program that's working. A portal partners forget exists is a program running on your team's back. Here's what the portal needs:",
+      ],
+      bullets: [
+        "Dashboard with the three numbers that matter: Total earned (paid + pending commissions), current pipeline (registered deals in progress), and tier status (current tier + progress toward next tier). Partners should see these within 2 seconds of logging in. Everything else is secondary.",
+        "Deal registration directly in the portal: Partners shouldn't email deal registrations. The portal should have a one-click 'Register a Deal' flow with the short form described above, immediate conflict checking, and instant confirmation. Historical registrations visible with status badges (pending, approved, expired, won, lost).",
+        "Commission transparency down to the dollar: For every deal, the partner should see: deal value, their commission rate (and why — tier + product adjustments), calculated commission amount, payout status (pending approval, approved, paid), and payment date. No black boxes. No 'we'll let you know.' Full visibility.",
+        "White-label the experience: Your partners shouldn't feel like they're using your vendor's software. Custom domain, your partner program's branding, no 'powered by' badges. The portal should feel like an extension of your company, not a third-party tool. This matters especially for enterprise resellers who want to present a unified brand to their customers.",
+        "Performance analytics they can act on: Win rate by product, deal velocity trends, commission history over time, tier progress trajectory. Partners who can see their performance improving are partners who stay engaged. Partners who see a flat line or decline will either ask for help (good) or quietly disengage (preventable with the right data).",
+      ],
+    },
+    {
+      heading: "The 90-day launch playbook",
+      paragraphs: [
+        "You don't need six months to launch a reseller program. Here's the 90-day plan that gets you from zero to functioning with real revenue in the pipeline:",
+      ],
+      bullets: [
+        "Days 1-15 — Foundation: Define your attribution model (Deal Reg Protection for most reseller programs), set commission tiers and rates, draft the partner agreement with deal reg terms, and configure your partner platform. Don't overthink the tiers — you can adjust rates quarterly based on data. Ship the 80% version and iterate.",
+        "Days 16-30 — First five partners: Recruit 5 resellers you already have relationships with. Walk them through the portal, register their first deal together, show them the commission estimate. These partners are your design partners — their feedback shapes the program before you scale it. Ask them: 'What would make you register more deals?' and 'What would make you stop?'",
+        "Days 31-60 — Iterate and formalize: Based on feedback from your first 5, adjust deal reg fields, commission visibility, and portal UX. Formalize your partner onboarding process — every new partner should go through the same sequence (portal access Day 1, first deal reg by Day 7, commission walkthrough by Day 14). Start measuring: time to first deal, deal reg volume per partner, portal login frequency.",
+        "Days 61-90 — Scale to 15-25: With a proven process and a working portal, recruit your next cohort. Focus on partners who already sell to your ICP — the product conversation is easier when the customer base overlaps. By Day 90, you should have: 15-25 active partners, a functioning deal reg process, at least 5 deals registered, and clear data on which partners are engaging and which aren't.",
+        "Day 90+ — Optimize: Review tier thresholds against actual partner performance. Are enough partners hitting Silver? If not, lower the threshold or increase the rate differential. Add accelerators for top performers. Launch your first SPIF to activate mid-tier partners. The program is now a machine — your job shifts from building to tuning.",
+      ],
+    },
+    {
+      heading: "Seven reseller program mistakes that kill momentum",
+      paragraphs: [
+        "These mistakes show up in nearly every reseller program that stalls. Most are structural decisions made early that become expensive to fix later:",
+      ],
+      bullets: [
+        "No deal protection — partners register, then watch AEs close their deals directly: This is the number one program killer. If partners can't trust that registered deals are protected, they'll stop registering. Enforce protection rigorously — even when an AE objects. The short-term deal isn't worth the long-term channel damage.",
+        "Paying commissions 90+ days after close: Partners are businesses with their own cash flow. If you close a deal in January and pay the commission in April, you've trained partners to discount the value of closing through your program. Net-30 payouts should be the target. Net-60 maximum. Anything longer and you're borrowing trust you'll eventually run out of.",
+        "Treating all resellers the same regardless of performance: Your partner who closes $500K/year and your partner who closed one deal six months ago should not have the same experience. Tier them. Give your top performers dedicated support, higher rates, and early access. Give new partners a structured ramp with clear milestones. Equal treatment isn't fair — it punishes your best partners.",
+        "No onboarding beyond sending a login: Partners who don't register a deal in their first 30 days rarely become active. The onboarding period is when engagement habits are formed. A structured 30-day program (portal tour, first deal reg, commission walkthrough) dramatically increases activation rates. A login email and a 'let us know if you have questions' message is not onboarding.",
+        "Building the program around your largest partner: Your biggest partner is not representative of your program. Designing commission rules, portal features, and processes around their specific needs creates a program that works for one partner and confuses the other 49. Build for the 80% case. Handle the outlier with custom terms in their agreement.",
+        "No conflict resolution process: When two partners register the same account — and they will — you need a documented process. First to register wins? Whoever has more touchpoints? Manager discretion? Pick a rule, publish it, and apply it consistently. Ad hoc conflict resolution erodes trust faster than any other program failure.",
+        "Measuring success by partner count instead of partner revenue: Signing 50 partners means nothing if 45 are inactive. The metrics that matter: revenue per active partner, deal reg volume per partner per quarter, partner activation rate (% who register at least one deal in first 60 days), and revenue concentration (are you dependent on 2-3 partners for 80% of channel revenue). Vanity partner counts are how stalled programs justify their existence.",
+      ],
+    },
+    {
+      heading: "How Covant automates the hard parts",
+      paragraphs: [
+        "Building a reseller program is a strategy problem. Running one at scale is an infrastructure problem. Covant handles the infrastructure so you can focus on the strategy:",
+      ],
+      bullets: [
+        "Deal Reg Protection attribution model: Covant's built-in Deal Reg Protection model automatically credits the registering partner when a deal closes within the protection window. No manual attribution decisions. No spreadsheet lookups. The partner who registered wins — enforced by the system, not by policy.",
+        "Automated commission calculation: When a deal closes, Covant looks up the partner's tier, applies product-specific rate adjustments, calculates the commission, and queues the payout for approval. Your team reviews in bulk. Partners see their pending commission in the portal immediately. Zero manual math.",
+        "Conflict detection at registration: When a partner submits a deal registration, Covant checks for existing registrations on the same account. Conflicts surface instantly — before anyone invests time in a deal they can't win. Resolution follows your published rules, not your team's judgment calls.",
+        "Full audit trail on every commission: Every payout has a paper trail: deal value, registration date, protection window, attribution model applied, commission rate (and why), calculated amount, approval status. When anyone questions a number, the receipts are one click away.",
+        "White-label partner portal: Partners register deals, track commissions, see their tier progress, and access program resources — all under your brand. No 'powered by' badges. Custom domain support. The portal your partners think you built yourself.",
+      ],
+    },
+    {
+      heading: "What a mature reseller program looks like",
+      paragraphs: [
+        "After 12 months of disciplined execution, a well-built reseller program should look like this: 30-50 active resellers (not signed — active, meaning they've registered at least one deal in the last 90 days). Partner-sourced revenue represents 20-35% of total company revenue. Average time from partner signup to first deal registration is under 21 days. Commission-to-revenue ratio is 15-22% (sustainable and motivating). Deal registration disputes are under 5% of total registrations because the system resolves them automatically. Your partner team spends 70% of their time on partner development and 30% on operations (not the reverse). And you have the data to prove all of it — because every deal, every commission, and every attribution decision has a paper trail.",
+        "That's not a reseller program. That's a revenue channel. And it scales from there.",
+      ],
+    },
+  ],
   "partner-incentive-programs-spifs-bonuses-accelerators": [
     {
       paragraphs: [

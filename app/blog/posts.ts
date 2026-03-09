@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "how-to-build-reseller-program",
+    title: "How to Build a Reseller Program That Actually Scales",
+    description:
+      "Most reseller programs stall at 20 partners because they were designed for 5. Here's how to build a reseller channel with deal registration, tiered commissions, and attribution that holds up at scale.",
+    date: "March 9, 2026",
+    readTime: "10 min read",
+    category: "strategy",
+  },
+  {
     slug: "partner-incentive-programs-spifs-bonuses-accelerators",
     title: "Partner Incentive Programs: How to Design SPIFs, Bonuses & Accelerators That Drive Revenue",
     description:

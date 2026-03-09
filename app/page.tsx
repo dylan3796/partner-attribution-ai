@@ -715,7 +715,7 @@ export default function LandingPage() {
             {[
               { num: "95+", label: "Pages" },
               { num: "90+", label: "Features" },
-              { num: "20", label: "Blog Articles" },
+              { num: "21", label: "Blog Articles" },
               { num: "125+", label: "Shipped Items" },
             ].map(s => (
               <div key={s.label} style={{ textAlign: "center" }}>
