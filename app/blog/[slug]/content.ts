@@ -5,6 +5,138 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "technology-partner-program": [
+    {
+      paragraphs: [
+        "Your company just signed an integration partnership with a platform that has 10,000 customers. Marketing announces it. Engineering builds the connector. Sales mentions it on calls. Six months later, nobody can tell you how much revenue the partnership actually influenced — because you're running a technology partnership on reseller infrastructure.",
+        "Technology partner programs are fundamentally different from reseller and referral programs. The value isn't in direct deal sourcing — it's in ecosystem leverage: joint customers who buy more, integrations that reduce churn, co-sell motions where both sales teams work the same opportunity. The attribution is harder, the incentive structures are different, and the operating cadence has almost nothing in common with a channel reseller program. This guide covers how to build a technology partner program that creates measurable pipeline — not just press releases.",
+      ],
+    },
+    {
+      heading: "Why technology partnerships fail to generate revenue",
+      paragraphs: [
+        "Most technology partnerships follow the same arc: announce the integration, do a joint webinar, add each other's logos to the integrations page, then slowly forget the partnership exists. Revenue influence is vague, nobody owns the number, and both companies eventually deprioritize the relationship. Here's why:",
+      ],
+      bullets: [
+        "No attribution model for influence: Reseller programs have deal registration — the partner who registers wins. Technology partnerships don't work that way. A tech partner might introduce a prospect at a conference, their integration might be mentioned in 4 of 8 sales calls, and the customer might cite the integration as a buying factor — but none of that gets captured in CRM. Without an attribution model designed for multi-touch influence, technology partnerships produce zero measurable revenue. Not because they don't drive revenue, but because nobody's tracking it.",
+        "Treating tech partners like resellers: Tech partners don't sell your product. They build on it, integrate with it, and co-sell alongside it. Running them through a reseller program with deal registration and commission payouts misses the point entirely. Tech partners need account mapping, co-sell coordination, and influence-based attribution — not a portal login and a 15% commission rate.",
+        "Integration launches without go-to-market: The engineering team builds the integration. Product management approves it. Marketing writes a blog post. Nobody builds a joint pipeline plan. An integration without go-to-market is a feature, not a partnership. The revenue comes from joint selling, not from the connector existing.",
+        "No shared account visibility: Both companies sell to overlapping customers. Neither company knows which accounts overlap until a rep mentions it on a call. Account mapping — systematically identifying shared customers, shared prospects, and whitespace — is the foundation of technology partnership revenue. Without it, co-sell motions are accidental.",
+        "Wrong metrics: Measuring a technology partnership by sourced deals is like measuring marketing by closed revenue. Tech partnerships influence deals — they warm up prospects, validate purchasing decisions, reduce competitive pressure, and increase deal size. If you only count deals a tech partner directly sourced, you'll undercount their impact by 5-10x and eventually defund the program.",
+      ],
+    },
+    {
+      heading: "The three types of technology partnerships",
+      paragraphs: [
+        "Not all tech partnerships work the same way. The program structure, attribution model, and incentive design depend on which type of partnership you're building:",
+      ],
+      bullets: [
+        "Integration partners (ISVs): Companies whose product connects to yours. The integration creates joint value — customers who use both products get more from each than from either alone. Revenue model: mutual customer expansion, reduced churn for shared customers, and co-sell on new logos where the integration is a differentiator. Examples: a CRM that integrates with your analytics platform, a payment processor that connects to your commerce tool. Attribution challenge: the integration influences every deal where it's mentioned, but rarely sources deals directly. You need influence-based attribution, not source attribution.",
+        "Technology alliances (platform partnerships): Deeper strategic relationships with technology platforms — cloud providers, infrastructure vendors, or ecosystem leaders. Revenue model: marketplace listings, co-sell programs with the platform's sales team, joint solutions for enterprise customers. These partnerships typically involve formal alliance agreements, dedicated alliance managers, and shared revenue targets. Attribution challenge: the platform partner's sales team is involved in your deals, your sales team is involved in theirs, and both companies claim credit. You need role-based attribution that assigns credit by contribution type.",
+        "Ecosystem partners (build-on partners): Companies that build applications, plugins, or extensions on your platform. Revenue model: ecosystem growth drives platform stickiness, marketplace revenue sharing, and joint customer acquisition. Attribution challenge: ecosystem partners may source customers directly through the marketplace or influence deals through their existing customer base. You need a model that handles both direct sourcing and influence attribution depending on how the partner engaged.",
+      ],
+    },
+    {
+      heading: "Attribution models for technology partnerships",
+      paragraphs: [
+        "The attribution model is the most important structural decision in a technology partner program. Get it wrong and you'll either undercount partner influence (killing the program) or overcount it (destroying finance credibility). Technology partnerships need different models than reseller programs because the influence patterns are fundamentally different.",
+      ],
+      bullets: [
+        "Role Split for co-sell partnerships: When your sales team and a tech partner's sales team both work the same deal, you need predefined credit allocation by role. Covant's Role Split model assigns percentages based on what each party contributed: the partner who sourced the opportunity gets 40-50%, the partner who provided technical validation gets 15-25%, the partner who managed the relationship gets 20-30%. These splits are defined at the program level, not negotiated per deal. Role Split eliminates the 'who deserves credit' argument by making the rules transparent before the deal starts.",
+        "Influence tracking for integration partners: Integration partners rarely source deals directly. Instead, they influence deals by being mentioned in sales conversations, being part of the customer's evaluation criteria, or being used by the prospect at their current company. Tracking this requires logging partner touchpoints throughout the deal cycle: integration mentioned on discovery call (touchpoint), joint demo conducted (touchpoint), customer cites integration as buying factor (touchpoint). Influence attribution gives partial credit based on touchpoint density — a deal with 6 integration-related touchpoints gets more partner credit than a deal with 1.",
+        "Source Wins for marketplace and direct referrals: When a tech partner sends a lead directly — through a marketplace listing, an in-product referral, or a direct introduction — source attribution is appropriate. The partner who originated the opportunity gets full credit. This model works for ecosystem partners driving leads through your marketplace and for tech partners making direct referrals from their customer base. Covant's Source Wins model handles this cleanly.",
+        "The hybrid approach: Most mature technology partner programs use multiple models simultaneously. A tech partner might source some deals directly (Source Wins), co-sell on others (Role Split), and influence the rest through integration presence (influence tracking). The attribution model should match the engagement pattern, not force all deals into a single framework. Configure model selection by deal type or partner engagement level.",
+      ],
+    },
+    {
+      heading: "Building the account mapping engine",
+      paragraphs: [
+        "Account mapping is the pipeline engine for technology partnerships. Without it, co-sell opportunities are discovered by accident. With it, you know exactly which accounts to target, who to introduce, and where the overlap creates leverage. Here's how to build it:",
+      ],
+      bullets: [
+        "Start with customer overlap: Import your customer list and your tech partner's customer list. The intersection — companies that are customers of both — is your most valuable segment. These accounts already trust both products. They're candidates for deeper integration adoption, joint case studies, upsell campaigns, and product expansion. If you have 2,000 customers and your partner has 5,000, you might find 200 overlap — that's 200 warm accounts for cross-sell.",
+        "Map prospect overlap next: Companies in both pipelines are immediate co-sell candidates. If your AE is working Acme Corp and your partner's AE is also working Acme Corp, that's a coordination opportunity. Joint meetings, shared intelligence about the buying committee, and integration-focused demos close faster and at higher deal sizes than solo pursuits. Prospect overlap is where co-sell revenue lives.",
+        "Identify whitespace: Companies that are your partner's customers but not yours — that's your whitespace. Your partner already has the relationship and trust. A warm introduction from their account manager is worth more than 50 cold emails. Whitespace is the highest-ROI new logo pipeline available. Structure it with formal introduction processes — not ad hoc 'hey can you intro me to your customer' requests.",
+        "Refresh quarterly: Account maps go stale. Customers churn, prospects close or go dark, new logos get added. Run a full account mapping refresh every quarter. Identify new overlap, flag churned accounts, and reprioritize co-sell targets based on current pipeline state. The quarterly mapping refresh should feed directly into the co-sell planning session.",
+        "Score and prioritize: Not all overlapping accounts are equal. Score them by: combined ARR potential (both products), sales cycle stage (active pipeline vs customer expansion), strategic value (logo, industry, deal size), and existing relationship depth. Focus your co-sell efforts on the top 20-30 accounts, not the full overlap list. A prioritized target account list converts; a spreadsheet of 500 overlapping accounts doesn't.",
+      ],
+    },
+    {
+      heading: "Incentive structures that work for tech partnerships",
+      paragraphs: [
+        "Technology partners aren't motivated by commission checks — at least not primarily. They're motivated by joint customer success, ecosystem growth, and strategic alignment. Your incentive structure needs to reflect that reality:",
+      ],
+      bullets: [
+        "Referral fees for sourced opportunities: When a tech partner directly introduces a prospect who becomes a customer, pay a referral fee. Typical range: 10-20% of first-year ACV. This is the simplest incentive and the most directly measurable. But don't make it the only incentive — most tech partnership value comes from influence, not sourcing.",
+        "Influence bonuses for co-sell participation: When a tech partner participates in a deal (joint demo, technical validation, executive sponsor introduction) that closes, pay an influence bonus. Smaller than a referral fee (5-10% of ACV) but applicable to far more deals. This incentivizes the co-sell motion that actually drives pipeline for tech partnerships.",
+        "MDF for joint go-to-market: Market Development Funds earmarked for joint activities — co-branded webinars, joint content, integration launch campaigns, joint booth at industry events. Allocate MDF based on partnership tier and past pipeline performance. Require pipeline reporting on MDF-funded activities so you can measure ROI.",
+        "Integration development support: For ISV partners building integrations, offer technical support, sandbox environments, early API access, and co-development resources. The integration is the foundation of the partnership — investing in its quality and depth pays returns across every co-sell opportunity.",
+        "Tiered partnership benefits: Structure tiers around engagement and results, not just revenue. A technology partner tier might require: minimum number of co-sell deals per quarter, integration quality standards, joint customer satisfaction scores, and go-to-market commitment (content, events, account mapping participation). Higher tiers unlock: larger MDF allocations, dedicated alliance manager, priority co-sell support, executive sponsor access, and joint roadmap influence.",
+      ],
+    },
+    {
+      heading: "The 90-day technology partner program launch",
+      paragraphs: [
+        "Building a tech partner program is more complex than a reseller program because the relationships are deeper and the revenue attribution is harder to set up. Here's the focused 90-day plan:",
+      ],
+      bullets: [
+        "Days 1-20 — Foundation: Select 2-3 technology partners to start with — companies where you already have an integration, an existing relationship, and overlapping customer bases. Don't try to launch a program with 15 partners. Define your attribution model (Role Split for co-sell, Source Wins for direct referrals). Set up account mapping with your first partner. Define co-sell rules of engagement: how deals get flagged, who coordinates, how credit is assigned.",
+        "Days 21-40 — First co-sell motion: Run the first account mapping with your launch partners. Identify the top 10 shared accounts and top 10 whitespace accounts. Assign AE pairings for the top 5 co-sell opportunities. Conduct the first joint deal review — what's in pipeline on both sides, where can we help each other. The goal isn't to close deals in 20 days — it's to establish the co-sell rhythm that generates pipeline over the next quarter.",
+        "Days 41-60 — Measure and formalize: Track partner-influenced pipeline (deals where the tech partner had touchpoints), co-sell meeting frequency, account mapping coverage, and introduction conversion rate. Formalize the partnership agreement: attribution model, incentive structure, data sharing terms, co-sell SLAs, and quarterly review cadence. Publish a partner portal where tech partners can see their attributed deals, influence metrics, and pipeline overlap.",
+        "Days 61-90 — Scale to 5-8 partners: With a proven co-sell process and working attribution, expand to your next cohort of tech partners. Focus on partners where integration depth is strong and customer overlap is significant. Establish the quarterly business review cadence — every tech partnership should have a QBR that reviews: pipeline influenced, deals co-sold, integration adoption, customer satisfaction overlap, and next-quarter targets.",
+        "Day 90+ — Build the ecosystem engine: Introduce tiered partnership levels based on first-quarter results. Launch joint marketing initiatives with top-performing partners. Build the account mapping into a repeatable quarterly process. Start measuring ecosystem metrics: how many customers use 2+ partner integrations, what's the retention rate for integrated vs non-integrated customers, what's the average deal size with vs without co-sell involvement.",
+      ],
+    },
+    {
+      heading: "Measuring technology partnership ROI",
+      paragraphs: [
+        "The metrics that matter for technology partnerships are different from reseller metrics. Revenue is still the north star, but the path to revenue is influence-based, not source-based. Here are the metrics that prove a tech partnership program is working:",
+      ],
+      bullets: [
+        "Partner-influenced pipeline: The total pipeline value of deals where a tech partner had at least one touchpoint. This is the leading indicator — influenced pipeline today becomes influenced revenue in 1-2 quarters. Target: 20-40% of total pipeline should have technology partner influence.",
+        "Co-sell win rate vs solo win rate: Deals with active co-sell involvement should close at a higher rate than solo deals. If they don't, the co-sell motion isn't adding value. Typical uplift: 15-30% higher win rate on co-sold deals. If you're seeing less, the co-sell is not deep enough — the partner is being introduced but not actively participating in the sales process.",
+        "Average deal size with partner influence: Deals where a tech partner is involved typically close larger because the integration expands the solution scope. Track the deal size differential: co-sold and partner-influenced deals should be 20-40% larger than solo deals. If they're not, you may need to improve how the integration value is positioned in the sales process.",
+        "Integration adoption rate: What percentage of your customers actually use the integration with each tech partner? High adoption (40%+) indicates product-market fit for the integration. Low adoption (<15%) suggests the integration isn't solving a real customer problem — which means the partnership isn't creating differentiated value.",
+        "Time to co-sell activation: How quickly do new tech partnerships produce their first co-sell opportunity? Target: first co-sell pipeline within 45 days of partnership launch. If it's taking 90+ days, the account mapping isn't happening fast enough or the co-sell rules of engagement aren't clear.",
+        "Revenue concentration by partner: Track how much influenced revenue comes from each tech partner. Diversification matters — if 80% of your partner-influenced pipeline comes from one technology partner, you have a dependency risk. Build toward a portfolio of 5-8 active technology partnerships, each contributing meaningful pipeline.",
+        "Customer retention differential: Customers using your product plus a tech partner's integration should retain at higher rates than non-integrated customers. This is the long-term strategic argument for technology partnerships: they create ecosystem stickiness that reduces churn. Track 12-month retention for integrated vs non-integrated cohorts.",
+      ],
+    },
+    {
+      heading: "Common technology partnership mistakes",
+      paragraphs: [
+        "These mistakes show up in almost every early-stage technology partner program. Most are avoidable if you recognize the patterns:",
+      ],
+      bullets: [
+        "Building integrations without go-to-market plans: An integration is a feature. A partnership is a revenue channel. If you're not planning joint webinars, co-sell motions, and account mapping before the integration launches, you're building a feature that marketing will announce and sales will forget about. Every integration should have a 90-day go-to-market plan attached to it before engineering starts building.",
+        "Measuring tech partnerships with reseller metrics: Sourced deals and direct commissions are the wrong primary metrics for tech partnerships. If you're telling your board that your technology partner program 'only sourced 3 deals this quarter,' you're framing the value incorrectly. Influence, co-sell pipeline, integration adoption, and retention uplift are the metrics that capture what tech partnerships actually do.",
+        "Equal partnership investment regardless of potential: Not all tech partnerships deserve the same investment. A partner with 50% customer overlap and a deep integration deserves a dedicated alliance manager, regular QBRs, and significant MDF. A partner with 5% overlap and a basic API connection deserves a support email and a quarterly check-in. Tiering isn't just for resellers — it's how you allocate finite resources to maximum partnership ROI.",
+        "No executive sponsor alignment: Technology partnerships that exist only at the partnership manager level don't survive priority changes. Both companies need executive sponsors who believe in the strategic value of the partnership and will allocate resources (engineering, sales, marketing) when competing priorities arise. The executive relationship is insurance against the partnership being deprioritized during the next reorg.",
+        "Announcing partnerships before proving value: The press release comes out. Both companies tweet about it. The integration page goes live. Six months later, zero joint revenue. Premature announcement creates expectations that unproven partnerships can't meet — and makes it harder to quietly wind down partnerships that don't work. Prove pipeline impact with 2-3 co-sell wins before going public.",
+        "Ignoring the partner's incentives: Your tech partner's sales team won't co-sell with you out of goodwill. They need a reason: referral fees, influence bonuses, SPIF campaigns, or at minimum, clear visibility into how the partnership helps their own quota. If you haven't answered 'what's in it for their AE?', your co-sell program is an ask, not an opportunity.",
+      ],
+    },
+    {
+      heading: "How Covant powers technology partner programs",
+      paragraphs: [
+        "Technology partnerships need attribution infrastructure that goes beyond deal registration and flat commission rates. Covant provides the operating system for tech partnerships at scale:",
+      ],
+      bullets: [
+        "Role Split attribution for co-sell: Covant's Role Split model assigns credit to every partner involved in a deal based on their role — sourcer, influencer, technical validator, executive sponsor. Credit percentages are defined at the program level, applied automatically when deals close, and visible to every partner in the audit trail. No more post-close arguments about who deserves credit.",
+        "Influence tracking across the deal cycle: Log partner touchpoints throughout the sales process — introductions, joint meetings, technical demos, executive alignments. Covant tracks which partners touched which deals, how often, and at what stage. When the deal closes, influence attribution uses the touchpoint data to assign partial credit based on actual engagement, not guesswork.",
+        "Account mapping integration: Map customer and prospect overlap between your company and each tech partner. Identify co-sell targets, whitespace opportunities, and integration adoption gaps. The account map feeds directly into co-sell planning and partner health scoring.",
+        "Partner-specific analytics: Each technology partner gets a dedicated view: influenced pipeline, co-sell win rate, integration adoption, referral conversion rate, and ROI metrics. QBR-ready dashboards that show both companies the value the partnership is creating — not just activity metrics, but revenue impact.",
+        "Multi-model flexibility: Run different attribution models for different partnership types — Role Split for co-sell alliances, Source Wins for marketplace referrals, and influence-based credit for integration partners. Covant handles the complexity so your partnership team doesn't need spreadsheets to figure out who gets credit for what.",
+      ],
+    },
+    {
+      heading: "What a mature technology partner ecosystem looks like at 12 months",
+      paragraphs: [
+        "A well-built technology partner program at 12 months typically shows these characteristics: 5-8 active technology partnerships with regular co-sell cadence, 25-40% of pipeline showing partner influence, 15-30% higher win rates on co-sold deals, 20-40% larger average deal sizes with partner involvement, quarterly account mapping refreshes driving new co-sell opportunities, and integrated customers retaining at 10-20% higher rates than non-integrated customers. The program isn't just generating revenue — it's creating ecosystem stickiness that compounds over time.",
+        "The difference between a technology partner program and a list of integrations is attribution, incentives, and operating cadence. Build the infrastructure to track influence, reward participation, and maintain the co-sell rhythm — and the integrations your engineering team built will finally generate the revenue your leadership expected.",
+      ],
+    },
+  ],
   "how-to-build-reseller-program": [
     {
       paragraphs: [

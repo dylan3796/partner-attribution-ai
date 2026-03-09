@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "technology-partner-program",
+    title: "How to Build a Technology Partner Program That Drives Revenue",
+    description:
+      "Technology partnerships are not reseller programs with different logos. ISV alliances, integration partners, and tech ecosystems require their own attribution model, incentive structure, and operating cadence. Here's how to build a tech partner program that creates measurable pipeline.",
+    date: "March 9, 2026",
+    readTime: "10 min read",
+    category: "strategy",
+  },
+  {
     slug: "how-to-build-reseller-program",
     title: "How to Build a Reseller Program That Actually Scales",
     description:
