@@ -5,6 +5,123 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "channel-conflict-resolution-guide": [
+    {
+      paragraphs: [
+        "It's 4 PM on a Thursday. Your inbox has three fires: a reseller claiming they sourced a $200K deal that your direct AE also registered. A referral partner who introduced the customer eight months ago but hasn't touched the account since. And two partners who both submitted deal registrations for the same prospect within 48 hours of each other.",
+        "Welcome to channel conflict — the tax every partner program pays for growth. At 10 partners, conflicts are rare and personal. At 50, they're weekly. At 100+, they're a systemic problem that erodes partner trust, wastes ops time, and can tank your best relationships if handled badly.",
+        "Most VPs treat conflicts reactively: wait for the complaint, investigate manually, make a judgment call, and hope neither side is too angry. That approach doesn't scale. Here's how to build a conflict resolution system that's fair, fast, and — most importantly — trusted by every partner in your program.",
+      ],
+    },
+    {
+      heading: "Why channel conflict is getting worse",
+      paragraphs: [
+        "Channel conflict isn't a sign that something is broken. It's a sign that your program is working — multiple partners are actively pursuing the same market. The problem isn't conflict itself. It's unresolved conflict.",
+        "Three structural trends are making conflicts more frequent:",
+      ],
+      bullets: [
+        "Overlapping go-to-market motions. Your reseller runs an email campaign targeting mid-market fintech. Your referral partner introduces you to a fintech company they advise. Your AE has been cold-calling the same account for months. Three legitimate touchpoints, one deal. Who gets credit?",
+        "Longer sales cycles. Enterprise deals take 6-12 months. A partner who sourced a lead in January may have no touchpoints by July when the deal closes. Does the original introduction still count? Without a system, this becomes a subjective argument.",
+        "Multi-partner deals. Modern enterprise sales involve ecosystems, not single partners. An SI implements, a tech partner integrates, and a referral partner made the introduction. Splitting credit across three partners requires rules, not gut feel.",
+      ],
+    },
+    {
+      heading: "The four types of channel conflict",
+      paragraphs: [
+        "Not all conflicts are created equal. Understanding the type determines how you resolve it.",
+      ],
+      bullets: [
+        "Partner vs. Partner (same deal): Two partners claim the same opportunity. The most common type. Usually resolved by deal registration timestamps, attribution data, or predefined territory rules. Resolution speed matters most here — every day of ambiguity erodes both partners' trust.",
+        "Partner vs. Direct (channel cannibalization): Your own sales team is competing with your partners for the same accounts. This is the most damaging type because it signals to partners that the program isn't real — you'll undercut them when the deal is big enough. Resolution requires clear rules of engagement between direct and channel sales.",
+        "Partner vs. Partner (territory overlap): Two partners have overlapping territory assignments or market focus. Unlike deal-level conflicts, this is structural — it will keep producing conflicts until you fix the territory design. Resolution requires adjusting assignments, creating exclusive vs. non-exclusive designations, or implementing industry/segment splits.",
+        "Historical vs. Active: A partner sourced a lead months ago but hasn't engaged since. Another partner is actively working the deal now. The sourcing partner feels entitled to credit; the active partner feels they're doing all the work. Resolution requires clear engagement windows and activity requirements.",
+      ],
+    },
+    {
+      heading: "Building a conflict resolution framework",
+      paragraphs: [
+        "Ad-hoc conflict resolution is a relationship risk. When partners believe outcomes depend on who yells loudest or who has a closer relationship with you, they stop trusting the program. A framework makes resolution predictable, which makes it trusted.",
+        "Every framework needs three components:",
+      ],
+      bullets: [
+        "Rules of engagement (preventive): Define upfront who gets credit and when. Deal registration with first-to-register priority. Territory assignments with exclusive vs. non-exclusive zones. Engagement windows (e.g., sourcing credit expires after 90 days of inactivity). These rules prevent 70% of conflicts from happening in the first place.",
+        "Detection system (proactive): Don't wait for partners to report conflicts. Automated conflict detection should flag when two partners register the same account, when a direct AE is pursuing a partner-registered deal, or when territory overlaps exist. Flag early, resolve early.",
+        "Resolution process (reactive): When conflicts do occur, the process must be fast (SLA of 48-72 hours), transparent (both parties see the same data), and documented (decisions create precedent). Assign a neutral reviewer — not the partner manager who owns the relationship with one side.",
+      ],
+    },
+    {
+      heading: "The deal registration defense",
+      paragraphs: [
+        "Deal registration is your strongest preventive tool against channel conflict. When it works well, 'who registered first' becomes the default tiebreaker, and partners learn to register early.",
+        "But most deal registration systems have gaps that actually create more conflicts:",
+      ],
+      bullets: [
+        "No duplicate detection. If two partners can register the same company without either knowing, you've just manufactured a conflict. Real-time duplicate checking against existing registrations, direct pipeline, and other partner registrations should flag potential overlaps at submission time — before they become disputes.",
+        "Vague registration criteria. 'I registered the company' isn't the same as 'I have a meeting with the decision maker next week.' Registration should require evidence of engagement: contact name, use case, expected timeline. This separates territorial staking from legitimate deal pursuit.",
+        "Infinite registration windows. A deal registration that stays active for 12 months with no activity is just squatting. Set clear windows — 90 days is standard — with extension available if the partner demonstrates continued engagement (new touchpoints, updated deal details, communication with the prospect).",
+        "No visibility for partners. Partners should be able to see that a deal is already registered (without seeing who registered it). A simple 'this account has an active registration' warning at submission time prevents the most common conflict scenario.",
+      ],
+    },
+    {
+      heading: "When direct sales competes with channel",
+      paragraphs: [
+        "Partner vs. direct conflict is the most politically charged and the most damaging to program health. Partners talk to each other. If one partner gets undercut by your AE on a $500K deal, every partner in your program hears about it within a month.",
+        "The solution is a clear rules-of-engagement policy that your sales leadership actually enforces:",
+      ],
+      bullets: [
+        "Registration lock: Once a partner registers a deal, direct sales cannot pursue that account for the registration window. No exceptions for deal size. No 'but our AE was already talking to them.' If the AE was already engaged, they should have registered it in the CRM before the partner did.",
+        "Named account lists: If certain accounts are reserved for direct sales (usually the top 50-100 enterprise accounts), publish the list. Partners can see which accounts are off-limits before they invest time. Surprise exclusions after a partner has engaged are program-killers.",
+        "Co-sell agreements: For accounts where both direct and partner are engaged, define the split upfront. Partner sources the intro, AE runs the process, partner gets X% commission. This turns competition into collaboration — but only if the terms are agreed before the deal closes, not after.",
+        "Escalation path: When an AE and a partner both claim ownership, there must be a decision authority who isn't the AE's manager. Revenue ops or partner ops makes the call based on data (CRM activity, registration timestamps, touchpoint history), not politics.",
+      ],
+    },
+    {
+      heading: "Resolution in practice: the 48-hour protocol",
+      paragraphs: [
+        "Speed matters more than perfection in conflict resolution. A fair decision in 48 hours beats a perfect decision in two weeks — because two weeks of ambiguity means two partners who've stopped working deals while they wait.",
+        "Here's a resolution protocol that works at scale:",
+      ],
+      bullets: [
+        "Hour 0-4: Acknowledge. Both parties receive a notification that the conflict has been flagged, with a case ID and expected resolution timeline. This alone reduces 'where's my resolution?' follow-ups by 80%.",
+        "Hour 4-24: Gather evidence. Pull the attribution data: registration timestamps, touchpoint history, CRM activity, email correspondence. Present both partners' engagement timelines side by side. Don't rely on either party's version of events — use system data.",
+        "Hour 24-48: Decide and document. Apply your rules of engagement to the evidence. First-to-register wins if both have legitimate engagement. Strongest engagement wins if one partner has gone dormant. Split credit if both partners demonstrably influenced the deal through different touchpoints. Document the decision, the reasoning, and the rule applied. This becomes precedent for future conflicts.",
+        "Hour 48+: Communicate. Notify both parties simultaneously with the same information. Include the data that drove the decision. Never reveal one partner's confidential information to the other — share the framework, not the competitor's pipeline details.",
+      ],
+    },
+    {
+      heading: "Measuring conflict health",
+      paragraphs: [
+        "You can't eliminate channel conflict, but you can measure whether your resolution system is working. Track these four metrics:",
+      ],
+      bullets: [
+        "Conflict rate: Number of conflicts per 100 deal registrations. Below 5% is healthy. Above 10% means your preventive rules need work — territory overlaps, missing duplicate detection, or vague registration criteria.",
+        "Resolution time: Average hours from conflict flagged to decision communicated. Target: under 48 hours. If you're consistently above 72 hours, you need more resolution authority delegation or better data access for reviewers.",
+        "Satisfaction score: After each resolution, both parties rate fairness on a 1-5 scale. You won't get 5s from the losing side, but consistent 2s or below mean your process feels arbitrary. The winning side should be 4-5; the losing side should be 3+ (they disagree with the outcome but trust the process).",
+        "Repeat conflict rate: How often the same partner pair conflicts on multiple deals. High repeat rates mean the structural issue (territory overlap, market overlap) hasn't been addressed — you're treating symptoms instead of causes.",
+      ],
+    },
+    {
+      heading: "Technology that prevents conflicts",
+      paragraphs: [
+        "Manual conflict resolution works at 20 partners. At 100, you need systems that prevent conflicts before they escalate and resolve them with data instead of opinions.",
+        "The minimum technology stack for conflict management includes:",
+      ],
+      bullets: [
+        "Real-time duplicate detection at deal registration — cross-referencing new registrations against existing partner registrations, direct pipeline, and historical deals. Alert at submission time, not after both partners have invested weeks.",
+        "Attribution audit trail — every touchpoint logged with timestamps, so when a conflict occurs, the evidence is already collected. No 'he said, she said' — just data.",
+        "Automated conflict flagging — system identifies potential conflicts (same company registered by multiple partners, direct AE pursuing a partner-registered account, expired registrations with new activity) and creates cases before anyone complains.",
+        "Resolution workflow — structured process with case assignment, evidence gathering, decision recording, and notification. Not an email thread between three people and a spreadsheet. Covant's conflict detection engine handles all four layers — real-time duplicate detection, attribution-based evidence gathering, automated conflict flagging, and structured resolution with full audit trails.",
+      ],
+    },
+    {
+      heading: "The partner trust equation",
+      paragraphs: [
+        "Partners don't expect to win every conflict. They expect the process to be fair, fast, and consistent. A partner who loses a well-adjudicated dispute will keep working deals. A partner who loses an arbitrary one will quietly redirect their best leads to a competitor's program.",
+        "The trust equation is simple: transparent rules + consistent application + fast resolution = partners who invest in your program even when individual outcomes don't go their way. Break any leg of that equation, and you'll see engagement drop before you see complaints — the most dangerous kind of churn is the partner who stays in your portal but sends their best deals somewhere else.",
+        "Build the framework before you need it. Every conflict resolved fairly today is a partner retained tomorrow.",
+      ],
+    },
+  ],
   "how-to-scale-partner-program": [
     {
       paragraphs: [

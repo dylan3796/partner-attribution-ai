@@ -640,10 +640,10 @@ export default function LandingPage() {
           {/* Stats bar */}
           <div style={{ display: "flex", justifyContent: "center", gap: "2.5rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
             {[
-              { num: "85+", label: "Pages" },
+              { num: "90+", label: "Pages" },
               { num: "85+", label: "Features" },
               { num: "8", label: "Report Types" },
-              { num: "90+", label: "Shipped Items" },
+              { num: "95+", label: "Shipped Items" },
             ].map(s => (
               <div key={s.label} style={{ textAlign: "center" }}>
                 <div style={{ fontSize: "1.75rem", fontWeight: 800, letterSpacing: "-.02em", color: "#fff" }}>{s.num}</div>

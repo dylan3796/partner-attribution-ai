@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "channel-conflict-resolution-guide",
+    title: "Channel Conflict Resolution: The VP's Playbook for Partner Disputes",
+    description:
+      "Two partners claiming the same deal. An AE who registered it directly. A partner who sourced it six months ago. Channel conflict is inevitable — here's how to resolve it without destroying relationships.",
+    date: "March 8, 2026",
+    readTime: "8 min read",
+    category: "operations",
+  },
+  {
     slug: "partner-onboarding-first-deal-in-30-days",
     title: "Partner Onboarding: How to Get New Partners to First Deal in 30 Days",
     description:
