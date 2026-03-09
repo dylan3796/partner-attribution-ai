@@ -7,6 +7,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import ROICalculator from "@/components/ROICalculator";
 import InsightDemo from "@/components/InsightDemo";
+import { BLOG_POSTS, CATEGORY_CONFIG } from "@/app/blog/posts";
 
 // Real SVG logos for integration partners
 function SalesforceLogo() {
@@ -255,6 +256,78 @@ export default function LandingPage() {
           </div>
 
           {/* removed */}
+        </div>
+      </section>
+
+      {/* ── 3b. LATEST INSIGHTS ─────────────────────────── */}
+      <section style={{ padding: "5rem 0", borderTop: "1px solid rgba(255,255,255,.06)" }}>
+        <div className="wrap">
+          <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
+            <p style={{ fontSize: ".75rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(129,140,248,.7)", marginBottom: ".75rem" }}>From the Blog</p>
+            <h2 style={{ fontSize: "clamp(1.4rem, 2.5vw, 1.8rem)", fontWeight: 800, lineHeight: 1.2, letterSpacing: "-.02em", marginBottom: ".5rem" }}>
+              Insights for partner leaders
+            </h2>
+            <p className="muted" style={{ maxWidth: 480, margin: "0 auto", lineHeight: 1.6, fontSize: ".9rem" }}>
+              Playbooks, frameworks, and strategies from people who&apos;ve run partner programs.
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.25rem", marginBottom: "2rem" }}>
+            {BLOG_POSTS.slice(0, 3).map((post) => {
+              const cat = CATEGORY_CONFIG[post.category];
+              return (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  style={{
+                    display: "block",
+                    padding: "1.5rem",
+                    background: "rgba(255,255,255,.03)",
+                    borderRadius: 12,
+                    border: "1px solid rgba(255,255,255,.06)",
+                    textDecoration: "none",
+                    transition: "border-color .2s, background .2s",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(129,140,248,.3)";
+                    e.currentTarget.style.background = "rgba(255,255,255,.05)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,.06)";
+                    e.currentTarget.style.background = "rgba(255,255,255,.03)";
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 10 }}>
+                    <span style={{
+                      fontSize: ".65rem",
+                      fontWeight: 700,
+                      color: cat.color,
+                      background: `${cat.color}18`,
+                      padding: "2px 8px",
+                      borderRadius: 4,
+                      letterSpacing: ".03em",
+                      textTransform: "uppercase",
+                    }}>
+                      {cat.label}
+                    </span>
+                    <span style={{ fontSize: ".7rem", color: "#444" }}>{post.readTime}</span>
+                  </div>
+                  <h3 style={{ fontSize: ".95rem", fontWeight: 700, color: "#fff", lineHeight: 1.35, marginBottom: 8 }}>
+                    {post.title}
+                  </h3>
+                  <p style={{ color: "#666", fontSize: ".8rem", lineHeight: 1.55, margin: 0 }}>
+                    {post.description.length > 120 ? post.description.slice(0, 120) + "…" : post.description}
+                  </p>
+                </Link>
+              );
+            })}
+          </div>
+
+          <div style={{ textAlign: "center" }}>
+            <Link href="/blog" style={{ color: "rgba(129,140,248,.8)", fontSize: ".9rem", textDecoration: "none", fontWeight: 600 }}>
+              Read all {BLOG_POSTS.length} articles →
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -640,10 +713,10 @@ export default function LandingPage() {
           {/* Stats bar */}
           <div style={{ display: "flex", justifyContent: "center", gap: "2.5rem", flexWrap: "wrap", marginBottom: "2.5rem" }}>
             {[
-              { num: "90+", label: "Pages" },
-              { num: "85+", label: "Features" },
-              { num: "8", label: "Report Types" },
-              { num: "95+", label: "Shipped Items" },
+              { num: "95+", label: "Pages" },
+              { num: "90+", label: "Features" },
+              { num: "14", label: "Blog Articles" },
+              { num: "100+", label: "Shipped Items" },
             ].map(s => (
               <div key={s.label} style={{ textAlign: "center" }}>
                 <div style={{ fontSize: "1.75rem", fontWeight: 800, letterSpacing: "-.02em", color: "#fff" }}>{s.num}</div>
@@ -655,14 +728,14 @@ export default function LandingPage() {
           {/* Recent features grid */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
             {[
+              { date: "Mar 8", title: "SEO Metadata Overhaul", desc: "Page-specific titles, descriptions, and Open Graph tags for all 14 marketing pages — better Google indexing." },
+              { date: "Mar 8", title: "Blog: 6 New Articles", desc: "Partner recruitment, PRM evaluation, conflict resolution, onboarding, scaling, and KPIs — 14 total." },
+              { date: "Mar 8", title: "Blog UX Polish", desc: "Reading progress bar, category filter tabs, previous/next article navigation across all posts." },
               { date: "Mar 8", title: "Partner Program Benchmarks", desc: "16 industry metrics with interactive comparison tool — enter your numbers, see how you rank." },
               { date: "Mar 8", title: "Program Templates", desc: "5 pre-built blueprints for SaaS Reseller, Referral, Alliance, Affiliate, and Co-Sell programs." },
               { date: "Mar 8", title: "Partner Glossary", desc: "33 SEO-optimized partner program terms with definitions, examples, and cross-links." },
-              { date: "Mar 8", title: "Blog: Partner KPIs", desc: "The 15 metrics every VP of Partnerships should track — attribution, engagement, ops, and growth." },
               { date: "Mar 7", title: "Dashboard Preview", desc: "Marketing page showing the full admin experience — 6 interactive mock sections, 16 capabilities." },
               { date: "Mar 7", title: "Partner Certifications", desc: "Full certification program management with levels, categories, awards, and tier requirements." },
-              { date: "Mar 7", title: "Activity Heatmap", desc: "GitHub-style contribution graph showing 12 months of partner program engagement patterns." },
-              { date: "Mar 7", title: "Revenue Intelligence", desc: "Deep analytics on partner-attributed revenue — concentration risk, leaderboard, 12-month trends." },
             ].map(f => (
               <div key={f.title} style={{
                 padding: "1.25rem 1.5rem",
