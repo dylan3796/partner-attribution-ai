@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "how-to-evaluate-prm-software",
+    title: "How to Evaluate PRM Software: A VP's Buyer Checklist for 2026",
+    description:
+      "You've Googled 'PRM software,' sat through three demos, and they all look the same. Here's the checklist that separates platforms worth buying from expensive shelf-ware.",
+    date: "March 8, 2026",
+    readTime: "9 min read",
+    category: "strategy",
+  },
+  {
     slug: "channel-conflict-resolution-guide",
     title: "Channel Conflict Resolution: The VP's Playbook for Partner Disputes",
     description:

@@ -5,6 +5,132 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "how-to-evaluate-prm-software": [
+    {
+      paragraphs: [
+        "You've typed \"PRM software\" into Google. You've sat through three vendor demos. They all showed dashboards with green numbers going up. They all promised to \"transform your partner ecosystem.\" And you're no closer to knowing which one will actually work for your program.",
+        "Partner Relationship Management software has become a crowded category. Legacy PRMs built for the 2015 era of simple referral tracking sit alongside modern platforms designed for multi-model attribution, automated commissions, and real-time partner intelligence. The problem isn't finding options — it's knowing what actually matters when you're the one writing the check.",
+        "This isn't a product comparison. It's the evaluation framework we wish someone had given us before we started building Covant — the checklist that separates platforms worth buying from expensive shelf-ware that your partners will never log into.",
+      ],
+    },
+    {
+      heading: "Why most PRM evaluations fail",
+      paragraphs: [
+        "The typical PRM buying process looks like this: VP of Partnerships asks their team to research options. Someone makes a spreadsheet of features. Three vendors get demos. The one with the best demo wins. Six months later, partner adoption is 20% and the VP is back to spreadsheets.",
+        "This happens because feature checklists miss what actually determines success: how the platform handles your specific program model, whether partners will actually use it, and how quickly you can get from purchase to value. A PRM with 200 features and 8% partner login rates is worse than a focused platform with 40 features and 85% adoption.",
+        "The evaluation framework below focuses on the five dimensions that predict real-world success, not slide deck impressions.",
+      ],
+    },
+    {
+      heading: "Dimension 1: Attribution model fit",
+      paragraphs: [
+        "This is the single most important evaluation criterion — and the one most buyers skip. Your PRM's attribution model needs to match how your partner program actually works. If it doesn't, every number in the system is wrong, and your partners will never trust the data.",
+        "Ask these questions during every vendor demo:",
+      ],
+      bullets: [
+        "What attribution models does the platform support out of the box? You need at minimum: deal registration protection (registering partner gets credit), source wins (sourcing partner gets credit), and role-based splits (credit shared by defined percentages across partner types). If the vendor only supports first-touch or last-touch, they're solving a marketing problem, not a partnerships problem.",
+        "Can I change the attribution model after setup? Your program will evolve. A platform that locks you into a model during onboarding and requires professional services to change it is a trap. Look for self-serve model configuration that a RevOps person can adjust without filing a support ticket.",
+        "How does attribution handle multi-partner deals? In enterprise sales, three partners might touch the same deal: one sourced it, one provided technical validation, and one managed the relationship. If the platform can't split credit across roles, you'll be running a shadow spreadsheet for your most important deals.",
+        "Is there an attribution audit trail? When an AE challenges a partner's credit, you need to show the exact logic: which touchpoints were recorded, which rule applied, and how the math works. Without a paper trail, every attribution decision becomes a political argument.",
+        "Red flag: if the vendor can't clearly explain their attribution logic in under 2 minutes, their customers can't either — which means partners don't trust the numbers.",
+      ],
+    },
+    {
+      heading: "Dimension 2: Commission engine flexibility",
+      paragraphs: [
+        "Commissions are where PRM purchases live or die. A platform that can't handle your commission structure forces you to calculate payouts manually — defeating the entire purpose of buying software.",
+        "The commission engine needs to support at least these scenarios:",
+      ],
+      bullets: [
+        "Tiered rates by partner level. Bronze partners at 10%, Silver at 15%, Gold at 20%. This is table stakes. If a PRM can't do tiered commissions, it's not a PRM — it's a contact database with a portal bolted on.",
+        "Product-line-specific rates. Your hardware margins are different from your software margins. SaaS licensing has different commission economics than professional services. The platform should let you set rates per product or product category, not just a flat percentage across everything.",
+        "Performance accelerators. When a partner exceeds their quarterly target, the rate bumps from 15% to 20% for the remainder of the quarter. This is how you motivate top performers. If the platform requires manual rate overrides for accelerators, your ops team will spend more time adjusting commissions than the software saves.",
+        "Multi-partner split rules. Deal registration partner gets 60%, sourcing partner gets 25%, technical partner gets 15%. These splits need to be configurable by deal type, partner role, or attribution model — not hardcoded.",
+        "Automated payout calculations. The system should calculate commission amounts the moment a deal closes, route them for approval, and track payment status. If payout calculation requires an export-to-Excel step, you're buying a half-solution.",
+        "Test this during evaluation: give the vendor your three most complex commission scenarios and ask them to configure the rules live. If they can't do it in the demo, their platform can't do it in production.",
+      ],
+    },
+    {
+      heading: "Dimension 3: Partner portal experience",
+      paragraphs: [
+        "Your partners won't evaluate your PRM's admin dashboard. They'll evaluate the portal you give them access to. If the partner experience is clunky, slow, or confusing, adoption drops to zero — and a PRM with no partner adoption is a very expensive internal tool.",
+        "Evaluate the partner portal like a product, not a feature:",
+      ],
+      bullets: [
+        "Time to first value. How long does it take a new partner to log in, understand their dashboard, and register their first deal? If it's more than 5 minutes, something is wrong. The best portals guide partners through their first actions with contextual prompts, not a 45-page user manual.",
+        "Deal registration flow. This is the partner's most frequent interaction with your platform. It should take under 60 seconds, show real-time conflict detection (is another partner already working this account?), display the expected commission rate before submission, and confirm receipt immediately. Count the clicks in the demo. More than 5 is too many.",
+        "Commission transparency. Partners want to see exactly what they've earned, what's pending, and when they'll get paid. The portal should show a clear commission history with deal-level attribution — not just a number. When a partner can see the math behind their payout, disputes drop by 70%.",
+        "White-label capability. Your partners should see your brand, not your vendor's. Custom domains, your logo, your colors. No \"Powered by [Vendor]\" badges. Partners evaluate your professionalism through every touchpoint — including the portal URL.",
+        "Mobile accessibility. Partners don't sit at desks all day. They check deal status on their phones between meetings. If the portal isn't responsive on mobile, you're losing engagement from your most active partners.",
+        "The acid test: ask for a partner-perspective demo, not an admin demo. Watch the vendor navigate the portal as a partner would. If they fumble or skip it, the partner experience isn't their priority.",
+      ],
+    },
+    {
+      heading: "Dimension 4: Data and intelligence layer",
+      paragraphs: [
+        "A PRM that stores data but doesn't surface insights is a database with a UI. The intelligence layer is what separates modern platforms from legacy tools — and it's where the actual ROI lives.",
+        "Look for these capabilities:",
+      ],
+      bullets: [
+        "Partner health scoring. An automated composite score that tells you which partners are thriving, which are at risk, and which have already churned — before you have to manually check. The score should weight deal activity, engagement frequency, revenue trends, and recency of last interaction. If the platform only shows you raw metrics without synthesizing them, you'll spend hours in spreadsheets doing the analysis yourself.",
+        "Revenue intelligence. Where is partner-attributed revenue coming from? How concentrated is it across your top partners? What's the trend over the last 4 quarters? A PRM without revenue analytics forces your finance team to build these views manually every quarter for the board deck.",
+        "Predictive signals. Based on historical patterns, which partners are likely to produce deals next quarter? Which ones are showing early signs of disengagement? Predictive analytics is the difference between reacting to churn and preventing it.",
+        "Benchmarking. How does your program compare to industry standards? What's a good partner-sourced revenue percentage? What win rate should you expect from referred deals? Without context, your numbers are just numbers.",
+        "Exportable reports. QBR reports, weekly digests, win/loss analysis — the platform should generate these automatically. Your VP shouldn't spend Friday afternoon building a slide deck from raw data.",
+      ],
+    },
+    {
+      heading: "Dimension 5: Implementation and time-to-value",
+      paragraphs: [
+        "The best PRM in the world is worthless if it takes 6 months to implement. Time-to-value is the dimension that enterprise PRM buyers consistently underweight — and the one that most often determines whether the purchase succeeds or becomes shelf-ware.",
+        "Evaluate implementation ruthlessly:",
+      ],
+      bullets: [
+        "Setup time. How long from purchase to a working system with your data? The answer should be days, not months. If the vendor quotes a 90-day implementation timeline with a dedicated project manager, you're buying professional services, not software. Modern PRMs should be self-serve configurable.",
+        "CRM integration. Your partner data lives in Salesforce or HubSpot. The PRM needs native, bidirectional sync — not a CSV import. Deals created in your CRM should appear in the PRM automatically. Attribution data from the PRM should flow back to your CRM. If the integration requires custom middleware or a third-party iPaaS tool, factor that cost and maintenance into your evaluation.",
+        "Data migration. If you're switching from another PRM or from spreadsheets, how does your existing data get into the new system? Look for structured import tools, field mapping capabilities, and historical data preservation. Losing your attribution history during migration defeats the purpose of switching.",
+        "Onboarding support. Not a 6-week training program — a guided setup experience that configures the platform based on your program structure. AI-assisted setup that asks about your program and configures attribution models, commission rules, and partner tiers automatically is the new standard.",
+        "API and webhooks. Even if you don't need integrations today, you will. A PRM without a documented API and outbound webhooks is a closed system that will bottleneck your operations as your program grows.",
+        "Ask the vendor: what does week 1 look like? If the answer involves a kickoff call, a project plan, and a statement of work — that's enterprise software circa 2015. In 2026, week 1 should end with your program live and your first partners logging in.",
+      ],
+    },
+    {
+      heading: "The evaluation scorecard",
+      paragraphs: [
+        "Score each vendor on the five dimensions above using a simple 1-5 scale. But weight them based on your program's maturity:",
+      ],
+      bullets: [
+        "Building from scratch (< 15 partners): Weight implementation and portal experience highest. You need speed and partner adoption, not advanced analytics.",
+        "Scaling (15-50 partners): Weight commission flexibility and attribution model fit highest. This is where program complexity explodes and manual processes break.",
+        "Mature (50+ partners): Weight intelligence layer highest. You have the data — you need insights. Partner health scoring, revenue intelligence, and predictive signals become the primary value drivers.",
+        "All stages: Never compromise on attribution audit trails and commission accuracy. These aren't features — they're trust. And trust is the only currency that matters in partner programs.",
+      ],
+    },
+    {
+      heading: "Questions to ask every vendor",
+      paragraphs: [
+        "Bring these to every demo call. The answers will tell you more than any feature matrix:",
+      ],
+      bullets: [
+        "Show me the attribution audit trail for a multi-partner deal. If they can't, their attribution is a black box.",
+        "What's the average partner portal login rate across your customers? If they don't track it or won't share it, portal adoption isn't their priority.",
+        "Configure my most complex commission rule live in the demo. If they need to 'follow up' on this, the commission engine has limits they're not disclosing.",
+        "How many clicks does it take a partner to register a deal? Count them. More than 5 means the UX was designed by an admin, not a partner.",
+        "What happens to my data if I leave? Full export in standard formats (CSV, API) should be table stakes. Data hostage scenarios are a red flag.",
+        "Show me a report I can send to my CEO tomorrow. If generating an exec summary requires configuration or manual data assembly, the reporting layer is immature.",
+      ],
+    },
+    {
+      heading: "The PRM market in 2026",
+      paragraphs: [
+        "The PRM category is splitting into two camps. Legacy platforms built on 2015-era architecture — think Salesforce Communities-based portals and manual referral tracking — are adding AI features as bolt-ons. Modern platforms built AI-native from day one are treating intelligence as the core, not the upsell.",
+        "The legacy camp offers breadth: hundreds of features, dozens of integrations, and the comfort of brand recognition. But breadth comes with complexity — longer implementations, steeper learning curves, and partner portals that feel like enterprise software instead of consumer products.",
+        "The modern camp offers depth: fewer features, but each one designed around how partner programs actually work in 2026. Attribution models that reflect real-world deal dynamics. Commission engines that handle the complexity VPs actually face. Portals that partners actually use.",
+        "The right choice depends on your program's needs. But the question isn't \"which PRM has the most features?\" It's \"which PRM will my partners actually log into, and will I trust the numbers it shows me?\"",
+        "That's the evaluation that matters.",
+      ],
+    },
+  ],
   "channel-conflict-resolution-guide": [
     {
       paragraphs: [
