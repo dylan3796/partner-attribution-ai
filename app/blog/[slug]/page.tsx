@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { BLOG_POSTS, CATEGORY_CONFIG } from "../posts";
 import { ARTICLE_CONTENT } from "./content";
 import type { Metadata } from "next";
 import ShareButtons from "./ShareButtons";
 import BlogSubscribe from "@/components/BlogSubscribe";
+import ReadingProgressBar from "@/components/ReadingProgressBar";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -36,6 +37,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+function getAdjacentPosts(currentSlug: string) {
+  const idx = BLOG_POSTS.findIndex((p) => p.slug === currentSlug);
+  return {
+    prev: idx < BLOG_POSTS.length - 1 ? BLOG_POSTS[idx + 1] : null,
+    next: idx > 0 ? BLOG_POSTS[idx - 1] : null,
+  };
+}
+
 function getRelatedPosts(currentSlug: string, currentCategory: string) {
   // Prefer same category, then fill with other categories
   const sameCat = BLOG_POSTS.filter(
@@ -58,6 +67,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   const cat = CATEGORY_CONFIG[post.category];
   const relatedPosts = getRelatedPosts(slug, post.category);
+  const { prev, next } = getAdjacentPosts(slug);
   const headings = content.filter((s) => s.heading).map((s) => s.heading!);
 
   // Article JSON-LD structured data
@@ -87,6 +97,8 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5", fontFamily: "var(--font-inter), Inter, sans-serif" }}>
+      <ReadingProgressBar />
+
       {/* JSON-LD */}
       <script
         type="application/ld+json"
@@ -206,6 +218,71 @@ export default async function BlogPostPage({ params }: Props) {
             </Link>
           </div>
         </div>
+
+        {/* Previous / Next Article */}
+        {(prev || next) && (
+          <div style={{
+            borderTop: "1px solid #1a1a1a",
+            padding: "32px 0",
+            display: "grid",
+            gridTemplateColumns: prev && next ? "1fr 1fr" : "1fr",
+            gap: 16,
+          }}>
+            {prev && (
+              <Link
+                href={`/blog/${prev.slug}`}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 10,
+                  textDecoration: "none",
+                  padding: "16px 20px",
+                  border: "1px solid #1a1a1a",
+                  borderRadius: 10,
+                  transition: "border-color 0.2s",
+                }}
+              >
+                <ChevronLeft size={18} style={{ color: "#555", flexShrink: 0, marginTop: 2 }} />
+                <div>
+                  <span style={{ fontSize: ".7rem", fontWeight: 600, letterSpacing: "0.06em", color: "#444", textTransform: "uppercase" }}>
+                    Previous
+                  </span>
+                  <p style={{ fontSize: ".85rem", fontWeight: 600, color: "#ccc", margin: "4px 0 0", lineHeight: 1.3 }}>
+                    {prev.title}
+                  </p>
+                </div>
+              </Link>
+            )}
+            {next && (
+              <Link
+                href={`/blog/${next.slug}`}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 10,
+                  textDecoration: "none",
+                  padding: "16px 20px",
+                  border: "1px solid #1a1a1a",
+                  borderRadius: 10,
+                  textAlign: "right",
+                  justifyContent: "flex-end",
+                  transition: "border-color 0.2s",
+                  gridColumn: !prev ? "1" : undefined,
+                }}
+              >
+                <div>
+                  <span style={{ fontSize: ".7rem", fontWeight: 600, letterSpacing: "0.06em", color: "#444", textTransform: "uppercase" }}>
+                    Next
+                  </span>
+                  <p style={{ fontSize: ".85rem", fontWeight: 600, color: "#ccc", margin: "4px 0 0", lineHeight: 1.3 }}>
+                    {next.title}
+                  </p>
+                </div>
+                <ChevronRight size={18} style={{ color: "#555", flexShrink: 0, marginTop: 2 }} />
+              </Link>
+            )}
+          </div>
+        )}
 
         {/* Related Posts */}
         {relatedPosts.length > 0 && (
