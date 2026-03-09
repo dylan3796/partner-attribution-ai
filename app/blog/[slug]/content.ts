@@ -5,6 +5,113 @@ type Section = {
 };
 
 export const ARTICLE_CONTENT: Record<string, Section[]> = {
+  "partner-incentive-programs-spifs-bonuses-accelerators": [
+    {
+      paragraphs: [
+        "Your partner commission structure is live. Rates are published. Partners know what they earn on every deal. And yet — the same 15% of your partners produce 80% of the revenue, the mid-tier partners aren't accelerating, and the long tail is essentially dormant. The base commission isn't the problem. The problem is that base commissions maintain behavior — they don't change it.",
+        "Incentive programs exist to change behavior. A SPIF (Sales Performance Incentive Fund) isn't a bonus for doing what partners were already going to do. It's a targeted lever that gets a specific group of partners to do a specific thing during a specific timeframe that they wouldn't have done otherwise. When designed well, incentive programs are the highest-ROI spend in your partner budget. When designed badly, they're a tax on your margins that rewards behavior that was already happening.",
+      ],
+    },
+    {
+      heading: "Why most partner incentive programs fail",
+      paragraphs: [
+        "Before building the incentive structure that works, you need to understand why the one you probably have doesn't. These five failure modes account for most broken incentive programs:",
+      ],
+      bullets: [
+        "The incentive is too small to change behavior: A $250 bonus on a deal the partner was already going to close is a nice surprise, not a motivator. For an incentive to change behavior, it needs to be large enough relative to the effort required that a rational person would alter their priorities. A $500 SPIF on a product that takes 3 months to sell and pays $5K in standard commission doesn't move the needle. A $2,500 SPIF on a new product line that partners haven't tried selling yet — that gets attention.",
+        "Everyone qualifies, so nobody hustles: If every partner is eligible for every incentive, you're running a universal discount, not an incentive program. The best SPIF programs have specific eligibility criteria — tier, geography, product certification, or partner type — so the partners who qualify feel selected, not just included. Scarcity drives action. 'Top 20 partners who hit target by March 31' motivates differently than 'all partners who close a deal.'",
+        "The rules are too complicated to remember: If a partner rep can't explain the SPIF to their colleague in one sentence, it won't drive behavior. 'Sell 3 Enterprise licenses this quarter, get $5K' works. 'Achieve 115% of quarterly target on products in the Enterprise Suite category excluding renewals and migrations, with credit weighted by your tier status and adjusted for regional multipliers' does not. Complex rules get ignored — partners default to selling what they already know how to sell.",
+        "Incentives reward results, not behavior change: Paying your top performer a bonus for being the top performer doesn't change anything — they were going to be the top performer anyway. Effective incentives target the behavior gap: mid-tier partners who could move to top-tier with a push, dormant partners whose first deal unlocks ongoing engagement, or any partner selling a new product they haven't sold before. Target the change you want, not the outcome you already have.",
+        "No urgency or deadline: Open-ended incentives become background noise. 'Close more Enterprise deals and earn a bonus' is a suggestion. 'Close 2 Enterprise deals before April 30 and earn $3,000' is a deadline with a reward. Time-bounded incentives create urgency. Evergreen incentives create apathy.",
+      ],
+    },
+    {
+      heading: "The three incentive types that work",
+      paragraphs: [
+        "Partner incentive programs fall into three categories, each designed for a different purpose. The best programs layer all three — SPIFs for short bursts, accelerators for sustained performance, and bonuses for strategic milestones.",
+      ],
+      bullets: [
+        "SPIFs (Sales Performance Incentive Funds) — short-term behavior changers: SPIFs are 30-90 day campaigns designed to drive a specific behavior. Launch a new product? Run a SPIF on first sales. Breaking into a new vertical? SPIF partners who close deals in that industry. End-of-quarter pipeline gap? SPIF deals that close before quarter end. The key attributes: specific trigger (what action earns it), clear amount (what the partner gets), hard deadline (when it expires), and limited scope (who's eligible). SPIFs should run 2-4 times per year. More than that, and they become expected — which kills the urgency that makes them work.",
+        "Accelerators — sustained performance multipliers: Accelerators increase the commission rate as partners exceed performance thresholds within a period. Hit 100% of quarterly target, earn standard rate. Hit 120%, earn 1.5x on everything above 100%. Hit 150%, earn 2x on everything above 120%. Accelerators work because they're progressive — the more you sell, the higher your rate becomes, which creates a compounding incentive to keep pushing. Unlike SPIFs (which have a fixed payout), accelerators scale with performance. They're most effective on quarterly cycles tied to your revenue periods.",
+        "Milestone bonuses — strategic behavior rewards: Milestone bonuses reward partners for achieving strategic objectives that don't show up in deal-level commissions. First deal closed after onboarding ($500 bonus). Achieving certification ($1,000 bonus). Generating a case study with a customer ($2,500 bonus). Attending partner summit and completing all workshops ($1,000 travel credit). Milestone bonuses are powerful for driving non-revenue behaviors that increase long-term partner quality — certification completion, content contribution, program engagement, and customer satisfaction.",
+      ],
+    },
+    {
+      heading: "Designing a SPIF that changes behavior",
+      paragraphs: [
+        "A well-designed SPIF has seven components. Missing any one of them weakens the program. Here's the framework:",
+      ],
+      bullets: [
+        "Objective — What specific business problem are you solving? 'Increase revenue' is not a SPIF objective. 'Drive 50 new Enterprise Suite deals from mid-tier partners who haven't sold Enterprise before' is. The objective determines everything else — who's eligible, what the trigger is, and how much to pay.",
+        "Eligibility — Who can participate? Narrow is better. If the objective is activating mid-tier partners, exclude top performers (they'll sell anyway) and new partners (they're not ready). If the objective is new product adoption, restrict to partners who've completed the product certification. Eligibility should feel earned, not given.",
+        "Trigger — What specific action earns the payout? 'Close a deal' is too broad. 'Close a new-logo Enterprise Suite deal worth $25K+ with a customer not previously in your pipeline' is a trigger that drives the specific behavior you want. The trigger should be binary — either the partner did the thing or they didn't. No partial credit on SPIFs.",
+        "Amount — How much? Rule of thumb: SPIF payouts should be 25-50% of the standard commission on the target deal type. If a partner normally earns $2,000 on an Enterprise deal, a $500-$1,000 SPIF is meaningful. Below 15%, it won't change behavior. Above 75%, you're overpaying and training partners to wait for SPIFs before selling.",
+        "Duration — How long? 30 days for urgency-driven SPIFs (quarter-end push, product launch burst). 60 days for behavior-change SPIFs (new market, new product line). 90 days for strategic SPIFs (new vertical penetration, competitive displacement). Never more than 90 days — if you need something longer, that's an accelerator, not a SPIF.",
+        "Communication — How will partners hear about it? Email announcement, portal banner, partner manager outreach to eligible partners, and a dedicated SPIF page in the partner portal with real-time progress tracking. If partners have to ask their partner manager whether a SPIF is running, your communication failed.",
+        "Measurement — How will you know it worked? Before launching, define the baseline: what was the behavior before the SPIF? If mid-tier partners close an average of 1.2 Enterprise deals per quarter, the SPIF succeeded if that number moves meaningfully during the SPIF period. Track incremental revenue (revenue that wouldn't have happened without the SPIF) separately from total revenue attributed to the SPIF.",
+      ],
+    },
+    {
+      heading: "Building an accelerator structure",
+      paragraphs: [
+        "Accelerators are the workhorse of sustained partner motivation. Unlike SPIFs (which create bursts), accelerators create consistent upward pressure on partner performance throughout the quarter. Here's how to structure them:",
+      ],
+      bullets: [
+        "Set achievable base targets: The 100% target should be achievable by 60-70% of eligible partners in a given quarter. If only your top 10% can hit base target, the accelerator discourages rather than motivates. Use trailing-two-quarter average as the base for each partner, or set tier-specific targets (Gold partners: $200K/quarter, Silver: $100K/quarter).",
+        "Design meaningful rate jumps: The rate increase at each tier needs to be large enough to feel different. Going from 15% to 16% at 120% of target is insulting. Going from 15% to 20% gets attention. A common structure: 100% target = base rate, 120% = 1.5x, 150% = 2x, 200% = 2.5x. The jumps should feel like levels in a game — each one meaningfully more rewarding than the last.",
+        "Apply accelerators to the right revenue: Accelerated rates should apply to revenue above the threshold, not retroactively to all revenue. If a partner hits 120% of target, they earn 1.5x on the revenue between 100% and 120% — not on every dollar from zero. Retroactive accelerators are dramatically more expensive and train partners to sandpile deals until they hit the next tier, which creates end-of-quarter clumping instead of sustained selling.",
+        "Reset quarterly with carryover bonuses: Accelerators should reset each quarter to maintain urgency. But offer a carryover bonus for partners who hit accelerator targets in consecutive quarters — a $5K consistency bonus for hitting 120%+ three quarters in a row rewards sustained performance and discourages the feast-and-famine pattern where partners sprint one quarter and coast the next.",
+        "Make progress visible: Partners need to see their progress toward the next accelerator tier in real-time — not in a monthly email. A portal dashboard showing current revenue vs. target, days remaining in quarter, current rate, revenue needed for next tier, and projected earnings at current pace. Visibility drives behavior. If a partner can see they're $15K from the 2x tier with 3 weeks left, they'll push.",
+      ],
+    },
+    {
+      heading: "Milestone bonuses that build program quality",
+      paragraphs: [
+        "Not everything worth incentivizing shows up in a deal. Milestone bonuses reward the partner behaviors that make your program stronger over time — even though they don't generate direct commission revenue.",
+      ],
+      bullets: [
+        "First deal activation bonus: $500-$1,000 for a partner's first closed deal after onboarding. This is the single highest-ROI incentive in your program. Partners who close a first deal within 30 days have a 4x higher lifetime revenue contribution than partners who take 90+ days. The activation bonus compresses that timeline by making the first deal feel special and urgent.",
+        "Certification completion bonus: $500-$2,000 for completing product or sales certifications. Certified partners have 2-3x higher win rates on average, but certification completion rates are typically below 40% because partners don't see the ROI of spending time on training. A cash bonus plus visible 'Certified' badge in the partner portal creates both financial and social incentive to complete the program.",
+        "Customer reference and case study bonus: $2,000-$5,000 for partners who facilitate a customer case study or reference call. Partner-sourced case studies are worth far more than the bonus — they're sales tools, marketing content, and social proof rolled into one. The bonus compensates the partner for the relationship capital they spend asking their customer to participate.",
+        "Annual program engagement bonus: $1,000-$3,000 for partners who maintain active engagement throughout the year — attending quarterly webinars, completing annual re-certification, submitting accurate forecasts, maintaining portal activity. This rewards the behavior that makes partners predictable and manageable at scale, and it costs far less than re-recruiting a churned partner.",
+        "Competitive displacement bonus: $1,000-$5,000 for deals that replace a named competitor. When you're trying to take market share from a specific competitor, incentivize partners to target their install base. Provide the competitive battle card, the migration playbook, and a meaningful bonus for every displacement deal. Partners will prioritize competitive deals when the incremental reward justifies the extra effort of a rip-and-replace sale.",
+      ],
+    },
+    {
+      heading: "Avoiding the seven incentive mistakes that burn budget",
+      paragraphs: [
+        "Every one of these mistakes has been made by programs you'd recognize. They're easy to make and expensive to sustain:",
+      ],
+      bullets: [
+        "Stacking incentives until margins disappear: A partner closes a deal and earns: base commission (15%) + SPIF ($1,500) + accelerator bump (1.5x on excess) + new product bonus ($500) + competitive displacement ($1,000). Your effective payout on that deal is 35% of revenue. Incentive stacking happens when each program is designed in isolation. Before launching any new incentive, calculate the maximum theoretical payout on a single deal when all applicable incentives stack. If it's above 30% of deal value, restructure.",
+        "Running SPIFs so frequently they become expected: If partners know there's always a SPIF running, they'll delay deals to wait for the next one instead of closing now. SPIFs work because they're intermittent and time-bounded. Two to four per year is optimal. More than that, and you're just running a complicated variable compensation plan that nobody fully understands.",
+        "Incentivizing revenue that was already coming: The most expensive incentive mistake is paying a bonus on deals that would have closed without the incentive. If your top partner was already going to close $2M this quarter, a SPIF that pays them an extra $10K for hitting $2M isn't driving incremental revenue — it's a $10K gift. Target incentives at behavior change (new products, new markets, dormant partners activating) rather than at your most predictable revenue.",
+        "Paying on registration instead of closed revenue: Some programs SPIF deal registration rather than deal closure. This fills your pipeline with unqualified registrations from partners gaming the SPIF. Always tie incentive payouts to closed-won revenue — the behavior you're actually trying to drive. You can offer a small registration incentive ($50-$100) as an engagement trigger, but the real payout should follow the real revenue.",
+        "Making incentive earnings invisible: If a partner can't see their SPIF progress, accelerator status, and milestone completion in one place, the incentive program isn't working at full power. Dedicate a section of the partner portal to incentive tracking — current SPIFs with eligibility and progress, accelerator tier with revenue-to-next-level, available milestones with completion status, and lifetime incentive earnings. Transparency drives engagement.",
+        "No post-program analysis: Every SPIF should have a post-mortem: How much incremental revenue did it generate? What was the cost per incremental dollar? Which partner segments responded? What was the baseline vs. SPIF-period performance? Without this analysis, you can't optimize future programs — you're just guessing at what works and repeating what's comfortable.",
+        "Designing incentives in a vacuum: The VP of Partnerships designs incentives, the CFO approves the budget, and the partner managers execute. Nobody asks the partners what would motivate them. Before building your next incentive program, survey your mid-tier partners: 'What would need to be true for you to prioritize selling our Enterprise product this quarter?' The answers will surprise you — sometimes it's not money, it's training, leads, or co-selling support.",
+      ],
+    },
+    {
+      heading: "The incentive stack: putting it all together",
+      paragraphs: [
+        "A complete partner incentive program layers all three types — SPIFs, accelerators, and milestone bonuses — into a coherent stack with clear rules about how they interact:",
+      ],
+      bullets: [
+        "Base commission (always active): Your standard commission rates by partner type, tier, and product line. This is the foundation — it should be competitive enough that partners sell your product as part of their normal business without any additional incentive.",
+        "Quarterly accelerators (always active): Performance multipliers that kick in when partners exceed their quarterly target. Resets each quarter. Published rates. Visible progress in portal. This creates sustained upward pressure on performance throughout the year.",
+        "Seasonal SPIFs (2-4 per year): Time-bounded campaigns targeting specific behaviors — new product launch, competitive displacement quarter, end-of-fiscal push, vertical expansion. Each SPIF runs 30-90 days with narrow eligibility and clear triggers.",
+        "Milestone bonuses (ongoing catalog): A published list of strategic milestones with fixed payouts — first deal, certification, case study, engagement bonuses. Partners can pursue these at any time. Update the catalog annually to reflect current program priorities.",
+        "Stacking rules: Document explicitly which incentives stack and which don't. Example: 'Accelerators apply to base commission only. SPIFs are additive to accelerated commission. Milestone bonuses are independent and always stack.' No ambiguity. No disputes.",
+      ],
+    },
+    {
+      paragraphs: [
+        "The goal isn't to maximize total incentive spend — it's to maximize revenue per incentive dollar. A well-designed incentive stack should generate $5-10 in incremental revenue for every $1 in incentive payouts. Below $3, your incentives are subsidizing existing behavior. Above $15, you're probably under-investing in incentives and leaving revenue on the table.",
+        "Track incentive ROI the same way you'd track marketing ROI: rigorously, per program, per quarter, per partner segment. The programs that drive the most incremental revenue per dollar get expanded. The programs that reward existing behavior get restructured or killed. That's how you build an incentive program that compounds — not one that just costs money.",
+      ],
+    },
+  ],
   "mdf-market-development-funds-guide": [
     {
       paragraphs: [

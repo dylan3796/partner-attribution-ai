@@ -9,6 +9,15 @@ export type BlogPost = {
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "partner-incentive-programs-spifs-bonuses-accelerators",
+    title: "Partner Incentive Programs: How to Design SPIFs, Bonuses & Accelerators That Drive Revenue",
+    description:
+      "Flat commissions don't motivate. Overcomplicated bonus structures confuse. Here's how to design partner incentive programs — SPIFs, bonuses, and accelerators — that change partner behavior and move revenue.",
+    date: "March 9, 2026",
+    readTime: "9 min read",
+    category: "operations",
+  },
+  {
     slug: "mdf-market-development-funds-guide",
     title: "MDF (Market Development Funds): How to Run a Partner Fund That Actually Drives Pipeline",
     description:
