@@ -56,40 +56,34 @@ export default function ROICalculator() {
       {/* Inputs */}
       <div className="roi-inputs">
         <div className="input-group">
-          <div className="input-label-row">
-            <label>Active partners</label>
-            <span className="input-val">{partners}</span>
-          </div>
+          <label>Active partners</label>
           <input
-            type="range" min={1} max={1000} step={5}
+            type="number" min={1}
             value={partners}
-            onChange={e => setPartners(Number(e.target.value))}
+            onChange={e => setPartners(Math.max(1, Number(e.target.value)))}
+            className="num-input"
           />
           <div className="input-hint">How many active partners do you manage?</div>
         </div>
 
         <div className="input-group">
-          <div className="input-label-row">
-            <label>Partner-influenced revenue</label>
-            <span className="input-val">{fmt(partnerRevenue)}/yr</span>
-          </div>
+          <label>Partner-influenced revenue ($/yr)</label>
           <input
-            type="range" min={50_000} max={50_000_000} step={250_000}
+            type="number" min={0} step={10000}
             value={partnerRevenue}
-            onChange={e => setPartnerRevenue(Number(e.target.value))}
+            onChange={e => setPartnerRevenue(Math.max(0, Number(e.target.value)))}
+            className="num-input"
           />
           <div className="input-hint">Revenue sourced or influenced by your partners annually</div>
         </div>
 
         <div className="input-group">
-          <div className="input-label-row">
-            <label>Hours/month on manual ops</label>
-            <span className="input-val">{hoursPerMonth} hrs</span>
-          </div>
+          <label>Hours/month on manual ops</label>
           <input
-            type="range" min={5} max={80} step={5}
+            type="number" min={1}
             value={hoursPerMonth}
-            onChange={e => setHoursPerMonth(Number(e.target.value))}
+            onChange={e => setHoursPerMonth(Math.max(1, Number(e.target.value)))}
+            className="num-input"
           />
           <div className="input-hint">Spreadsheets, commission disputes, deal tracking, reporting</div>
         </div>
@@ -178,13 +172,6 @@ export default function ROICalculator() {
           margin-bottom: 2rem;
         }
 
-        .input-label-row {
-          display: flex;
-          justify-content: space-between;
-          align-items: baseline;
-          margin-bottom: .5rem;
-        }
-
         label {
           font-size: .85rem;
           color: #aaa;
@@ -197,10 +184,22 @@ export default function ROICalculator() {
           color: #fff;
         }
 
-        input[type=range] {
+        .num-input {
           width: 100%;
-          accent-color: #fff;
-          cursor: pointer;
+          background: #111;
+          border: 1px solid #2a2a2a;
+          border-radius: 6px;
+          color: #fff;
+          font-size: 1rem;
+          font-weight: 600;
+          padding: .6rem .9rem;
+          margin-top: .4rem;
+          outline: none;
+          font-family: Inter, sans-serif;
+        }
+
+        .num-input:focus {
+          border-color: #444;
         }
 
         .input-hint {
