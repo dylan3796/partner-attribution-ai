@@ -78,5 +78,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/industries/saas`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/industries/fintech`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/industries/cybersecurity`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/industries/healthcare`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/industries/cloud`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
   ];
 }

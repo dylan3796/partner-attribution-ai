@@ -480,6 +480,303 @@ export const INDUSTRIES: Record<string, IndustryDetail> = {
       "We went from 0 to 38 partners in 6 months. By partner 15, the spreadsheet was already breaking. Deal conflicts, cert tracking, commission disputes — we needed a system before we needed more partners.",
     relatedSlugs: ["saas", "fintech"],
   },
+  healthcare: {
+    slug: "healthcare",
+    name: "Healthcare IT",
+    headline:
+      "Partner Programs for Healthcare IT Companies That Scale Through Compliance-First Channels",
+    subheadline:
+      "Healthcare IT partner programs operate under HIPAA, HITECH, and regulatory constraints that generic PRMs can't handle. Covant gives you auditable attribution, compliance-gated onboarding, and the partner intelligence to scale your channel without risking patient data or regulatory standing.",
+    color: "#14b8a6",
+    heroStats: [
+      {
+        value: "55%",
+        label: "Of healthcare IT sales flow through channel partners",
+      },
+      {
+        value: "12-24mo",
+        label: "Average enterprise deal cycle with compliance reviews",
+      },
+      {
+        value: "4x",
+        label: "More due diligence required per partner vs general SaaS",
+      },
+    ],
+    partnerTypes: [
+      "Value-Added Resellers (VARs) — EHR integrations, clinical workflows",
+      "Health system consultants — advisory, implementation, change management",
+      "Technology integration partners — EHR/EMR vendors, interoperability",
+      "Referral partners — healthcare IT advisors, compliance consultants",
+      "Managed service providers — hosted/managed clinical infrastructure",
+      "Distribution partners — GPOs, buying consortiums",
+    ],
+    challenges: [
+      {
+        title: "HIPAA compliance gates everything",
+        description:
+          "Partners who handle PHI need BAAs, security assessments, and compliance training before touching a deal. Generic PRMs treat onboarding as 'fill out a form' — in healthcare, onboarding is a compliance process with legal requirements.",
+      },
+      {
+        title: "12-24 month deal cycles lose partner attribution",
+        description:
+          "Healthcare enterprise deals involve committees, pilot programs, and procurement layers. The partner who introduced the opportunity 18 months ago gets lost in CRM notes by the time the deal closes. Without continuous attribution tracking, partners lose credit and walk.",
+      },
+      {
+        title: "Group purchasing organizations complicate payouts",
+        description:
+          "Deals that flow through GPOs or buying consortiums add layers between you and the end customer. Commission calculations need to account for GPO pricing tiers, volume rebates, and the actual selling partner — not just whoever submitted the PO.",
+      },
+      {
+        title: "Multi-stakeholder deals blur contribution",
+        description:
+          "A clinical consultant influences the evaluation, a VAR runs the implementation, and a technology partner provides the EHR integration. Three partners, one deal — and each expects credit for the role they played.",
+      },
+      {
+        title: "Regulatory audits demand full traceability",
+        description:
+          "When auditors ask 'who sold this to which health system, through which partner, with what commission?' you need an instant answer with full calculation chains. 'Check the spreadsheet' fails compliance reviews.",
+      },
+    ],
+    solutions: [
+      {
+        title: "Compliance-gated partner onboarding",
+        description:
+          "BAA tracking, security assessment completion, HIPAA training verification — all required before a partner can access deal registration. Expiring certifications automatically block new registrations.",
+        feature: "Partner Certifications",
+      },
+      {
+        title: "Long-cycle attribution tracking",
+        description:
+          "Track partner touchpoints across 12-24 month deal cycles. Every introduction, clinical demo, pilot support session, and procurement review is recorded and attributed — no partner contribution gets lost to time.",
+        feature: "Attribution Engine",
+      },
+      {
+        title: "GPO-aware commission engine",
+        description:
+          "Commission rules that account for GPO pricing tiers, volume rebates, and multi-layer distribution. Automatic reconciliation between GPO-reported and CRM-tracked revenue with full audit trails.",
+        feature: "Commission Rules",
+      },
+      {
+        title: "Multi-partner deal attribution",
+        description:
+          "Role Split model credits clinical consultants, implementation VARs, and technology partners each for their defined role. Audit trails show exactly why each partner received their share.",
+        feature: "Role Split Attribution",
+      },
+      {
+        title: "Audit-ready compliance dashboard",
+        description:
+          "Every attribution decision, commission calculation, and payout has a tamper-evident audit trail with timestamps and calculation chains. One-click export for regulatory reviews.",
+        feature: "Attribution Audit Trail",
+      },
+    ],
+    attributionModel: {
+      recommended: "Deal Reg Protection",
+      why: "Healthcare IT deals typically have a primary selling partner who registers the opportunity and manages the procurement relationship. Deal Reg Protection gives that partner clear credit with the audit trails that healthcare compliance demands. For enterprise deals with multiple partners (consultant + VAR + integrator), layer Role Split on top.",
+      alternatives: [
+        "Role Split for multi-partner enterprise deals (consultant + VAR + tech partner)",
+        "Source Wins for referral networks (healthcare IT advisors)",
+      ],
+    },
+    metrics: [
+      {
+        name: "Partner-sourced revenue",
+        benchmark: "30-55% of total revenue",
+        description:
+          "Healthcare IT relies heavily on trusted advisors and consultants for distribution into health systems.",
+      },
+      {
+        name: "Compliance completion rate",
+        benchmark: ">98%",
+        description:
+          "Percentage of active partners with current BAAs, HIPAA training, and security assessments. Non-negotiable in healthcare.",
+      },
+      {
+        name: "Attribution dispute rate",
+        benchmark: "<2%",
+        description:
+          "Long deal cycles make disputes more likely — robust audit trails are the only way to keep this under 3%.",
+      },
+      {
+        name: "Average deal cycle (partner)",
+        benchmark: "180-360 days",
+        description:
+          "Healthcare enterprise deals are long — track partner-influenced vs direct to prove partners accelerate procurement.",
+      },
+      {
+        name: "Partner activation rate",
+        benchmark: ">50% in 120 days",
+        description:
+          "Healthcare partners need more ramp time due to compliance requirements — but once active, they're high-value and sticky.",
+      },
+      {
+        name: "Commission audit pass rate",
+        benchmark: "100%",
+        description:
+          "Every commission payout must be traceable to a deal, attribution calculation, and approval chain. No exceptions in regulated healthcare.",
+      },
+    ],
+    programTips: [
+      "Make BAA completion and HIPAA training mandatory before deal registration access — retroactive compliance is a liability, not a process",
+      "Build separate partner tracks for VARs, consultants, and technology partners — a clinical consultant's value metric is influence, not closed revenue",
+      "Invest in GPO/buying consortium relationship mapping early — understanding which health systems buy through which GPOs determines your entire channel strategy",
+      "Maintain attribution records for 7+ years minimum — HIPAA and HITECH audit requirements outlast most vendor contracts",
+      "Run quarterly compliance audits of your partner base — a partner whose BAA lapsed three months ago is a ticking regulatory risk",
+    ],
+    quotePerson: "Sarah Chen",
+    quoteRole: "VP Partnerships, healthcare IT platform",
+    quoteText:
+      "Our compliance team used to block every new partner for 6 weeks. Now onboarding is structured — partners complete BAA, training, and certification in the portal, and the system only unlocks deal reg when they're fully compliant. We onboard in 2 weeks.",
+    relatedSlugs: ["fintech", "cybersecurity"],
+  },
+  cloud: {
+    slug: "cloud",
+    name: "Cloud Infrastructure",
+    headline:
+      "Partner Programs for Cloud Infrastructure Companies That Drive Consumption Revenue",
+    subheadline:
+      "Cloud infrastructure partner programs run on consumption, not contracts. Covant gives you usage-based attribution, tiered commission automation, and the partner intelligence to scale a marketplace and channel ecosystem that compounds.",
+    color: "#f59e0b",
+    heroStats: [
+      {
+        value: "80%+",
+        label: "Of cloud deals involve at least one partner",
+      },
+      {
+        value: "$2.4M",
+        label: "Average cloud partner-sourced deal value (enterprise)",
+      },
+      {
+        value: "5-10",
+        label: "Partner types in a cloud ecosystem",
+      },
+    ],
+    partnerTypes: [
+      "Cloud resellers & distributors — license/consumption resale",
+      "Managed Service Providers (MSPs) — ongoing management, optimization",
+      "System Integrators (SIs) — migration, implementation, modernization",
+      "ISV partners — marketplace listings, co-sell motions",
+      "Technology alliance partners — joint solutions, integrations",
+      "Referral & consulting partners — cloud advisory, strategy",
+      "Training & certification partners — skills enablement",
+    ],
+    challenges: [
+      {
+        title: "Consumption-based revenue breaks traditional commissions",
+        description:
+          "Cloud revenue grows (or shrinks) with customer usage. A partner who lands a $50K deal that grows to $500K in consumption deserves different economics than a static contract. One-time commission payouts don't align incentives with consumption growth.",
+      },
+      {
+        title: "Marketplace attribution is a black box",
+        description:
+          "When a customer buys through a cloud marketplace (AWS, Azure, GCP), attribution to the partner who influenced the deal gets lost. Marketplace transactions don't carry partner metadata unless you've built the plumbing to track it.",
+      },
+      {
+        title: "Multi-motion deals involve 3-5 partners",
+        description:
+          "An ISV builds on your platform, a reseller brings the customer, an SI does the implementation, and an MSP manages ongoing operations. That's 4 partners on one deal — who gets what credit, and how do you split commissions fairly?",
+      },
+      {
+        title: "MSP recurring revenue needs ongoing tracking",
+        description:
+          "MSPs generate monthly recurring consumption. Commissions need to flow monthly based on active usage, not just initial deal value. Customer churn should stop commission accrual. This is a fundamentally different model than one-time resale.",
+      },
+      {
+        title: "Co-sell motions require real-time partner visibility",
+        description:
+          "Cloud co-sell programs (like AWS ACE, Azure co-sell, GCP partner advantage) require shared deal visibility, aligned incentives, and coordinated execution. Partners need to see pipeline, not just their own registered deals.",
+      },
+    ],
+    solutions: [
+      {
+        title: "Consumption-based commission engine",
+        description:
+          "Commission rules tied to customer consumption, not just initial deal value. Automatic monthly calculations based on usage data. Accelerators for consumption growth, with churn-adjusted payouts.",
+        feature: "Commission Rules",
+      },
+      {
+        title: "Marketplace attribution tracking",
+        description:
+          "Track partner influence on marketplace transactions. Map marketplace buyer IDs back to partner relationships. Attribute consumption revenue to the partner who sourced or influenced the marketplace listing adoption.",
+        feature: "Attribution Engine",
+      },
+      {
+        title: "Multi-partner co-sell attribution",
+        description:
+          "Role Split model assigns predefined credit to each partner role — ISV, reseller, SI, MSP — with full audit trails. Partners see their share before the deal closes, reducing disputes and improving co-sell participation.",
+        feature: "Role Split Attribution",
+      },
+      {
+        title: "MSP recurring revenue automation",
+        description:
+          "Monthly commission calculations tied to active customer consumption. Automatic churn detection stops accrual. Revenue-share models with usage tiers. Partners see real-time commission accrual in their portal.",
+        feature: "Revenue Intelligence",
+      },
+      {
+        title: "Co-sell pipeline visibility",
+        description:
+          "Shared deal views for co-sell partners with role-based access. Real-time pipeline updates, deal stage notifications, and coordinated deal registration — built for cloud co-sell programs.",
+        feature: "Partner Portal",
+      },
+    ],
+    attributionModel: {
+      recommended: "Role Split",
+      why: "Cloud deals almost always involve multiple partners — an ISV partner, a reseller, an SI, and an MSP can all touch the same deal. Role Split assigns predefined credit percentages to each partner role, ensuring fair attribution across the ecosystem and reducing disputes in complex multi-partner motions.",
+      alternatives: [
+        "Deal Reg Protection for pure reseller channels",
+        "Source Wins for referral and advisory partners",
+      ],
+    },
+    metrics: [
+      {
+        name: "Partner-influenced consumption",
+        benchmark: "60-80% of total consumption",
+        description:
+          "Cloud is partner-first — if less than 50% of consumption flows through partners, your channel strategy is underperforming.",
+      },
+      {
+        name: "Consumption growth rate (partner accounts)",
+        benchmark: ">15% QoQ",
+        description:
+          "Partner-managed accounts should grow consumption faster than self-serve — this proves partner value beyond initial sale.",
+      },
+      {
+        name: "Co-sell deal velocity",
+        benchmark: "30-40% faster than solo deals",
+        description:
+          "Co-sell deals should close faster — if they're slower, your co-sell process has friction that needs fixing.",
+      },
+      {
+        name: "Marketplace attribution rate",
+        benchmark: ">70%",
+        description:
+          "Percentage of marketplace transactions that can be attributed to a partner influence. Below 50% means attribution gaps.",
+      },
+      {
+        name: "MSP customer retention",
+        benchmark: ">92% annually",
+        description:
+          "MSP-managed customers should retain better than self-managed. If not, your MSP enablement or selection needs work.",
+      },
+      {
+        name: "Partner-sourced pipeline",
+        benchmark: "40-60% of total pipeline",
+        description:
+          "Pipeline generated by partners — not just influenced. Strong programs see partners as a primary demand generation engine.",
+      },
+    ],
+    programTips: [
+      "Build consumption-based commission models from day one — retrofitting usage-based payouts on top of deal-based commissions creates accounting nightmares",
+      "Invest in marketplace attribution tracking before scaling ISV partnerships — without it, you'll undercredit ISV partners and they'll deprioritize your platform",
+      "Create separate program tracks for MSPs vs resellers vs ISVs — their business models, metrics, and incentive structures are fundamentally different",
+      "Align your co-sell motion with cloud marketplace programs (AWS ACE, Azure co-sell) — partners already use those and expect integration, not a parallel system",
+      "Track consumption growth per partner account, not just initial deal size — the best cloud partners are the ones whose accounts grow 3-5x after landing",
+    ],
+    quotePerson: "Elena Torres",
+    quoteRole: "VP Partnerships, cloud infrastructure platform",
+    quoteText:
+      "We had 200 partners and no idea which ones actually drove consumption growth vs. just landing small deals that churned. Once we had consumption-based attribution, we restructured our entire tier system around growth — not just revenue.",
+    relatedSlugs: ["saas", "cybersecurity"],
+  },
 };
 
 export const INDUSTRY_LIST = Object.values(INDUSTRIES).map((i) => ({
