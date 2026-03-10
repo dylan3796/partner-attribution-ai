@@ -59,7 +59,7 @@ export default function OnboardPage() {
         letterSpacing: '-0.03em',
         margin: 0,
       }}>
-        covant
+        Covant.ai
       </h1>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
         <Spinner />

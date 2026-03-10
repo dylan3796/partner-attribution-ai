@@ -221,7 +221,7 @@ export default function ProductTourPage() {
             letterSpacing: "-0.03em",
           }}
         >
-          covant
+          Covant.ai
         </Link>
         <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
           <Link href="/demo" style={{ color: "#888", fontSize: ".85rem", textDecoration: "none" }}>

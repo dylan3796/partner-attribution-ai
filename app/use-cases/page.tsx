@@ -107,7 +107,7 @@ export default function UseCasesPage() {
       {/* Header */}
       <header style={{ borderBottom: "1px solid #1a1a1a", padding: "1rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff", textDecoration: "none", letterSpacing: "-.02em" }}>covant</Link>
+          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff", textDecoration: "none", letterSpacing: "-.02em" }}>Covant.ai</Link>
           <span style={{ color: "#333" }}>/</span>
           <span style={{ fontSize: ".9rem", color: "#888" }}>Use Cases</span>
         </div>

@@ -32,7 +32,7 @@ export default function OgImage() {
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 48 }}>
           <span style={{ color: '#fff', fontSize: 28, fontWeight: 700, letterSpacing: '-0.03em' }}>
-            covant
+            Covant.ai
           </span>
           <span style={{
             marginLeft: 12, color: '#555', fontSize: 14,

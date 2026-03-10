@@ -188,7 +188,7 @@ export default function ComparePage() {
               letterSpacing: "-.02em",
             }}
           >
-            covant
+            Covant.ai
           </Link>
           <span style={{ color: "#333" }}>/</span>
           <span style={{ fontSize: ".9rem", color: "#888" }}>Compare</span>

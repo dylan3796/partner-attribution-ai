@@ -181,7 +181,7 @@ export default function FAQPage() {
             letterSpacing: "-0.03em",
           }}
         >
-          covant
+          Covant.ai
         </Link>
         <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
           <Link

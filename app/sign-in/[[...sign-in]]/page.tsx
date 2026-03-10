@@ -13,7 +13,7 @@ export default function SignInPage() {
     }}>
       <div style={{ marginBottom: 32, textAlign: 'center' }}>
         <h1 style={{ color: '#fff', fontSize: '2rem', fontWeight: 800, letterSpacing: '-0.03em' }}>
-          covant
+          Covant.ai
         </h1>
         <p style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>Partner Intelligence Platform</p>
       </div>

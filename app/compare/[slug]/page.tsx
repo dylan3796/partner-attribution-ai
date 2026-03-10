@@ -242,7 +242,7 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
       {/* Header */}
       <header style={{ borderBottom: "1px solid #1a1a1a", padding: "1rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff", textDecoration: "none", letterSpacing: "-.02em" }}>covant</Link>
+          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff", textDecoration: "none", letterSpacing: "-.02em" }}>Covant.ai</Link>
           <span style={{ color: "#333" }}>/</span>
           <Link href="/compare" style={{ fontSize: ".9rem", color: "#888", textDecoration: "none" }}>Compare</Link>
           <span style={{ color: "#333" }}>/</span>

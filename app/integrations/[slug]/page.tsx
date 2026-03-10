@@ -366,7 +366,7 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
       {/* Nav */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 40px', borderBottom: '1px solid #111' }}>
         <Link href="/" style={{ color: '#fff', textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.03em' }}>
-          covant
+          Covant.ai
         </Link>
         <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
           <Link href="/integrations" style={{ color: '#555', fontSize: '0.85rem', textDecoration: 'none' }}>

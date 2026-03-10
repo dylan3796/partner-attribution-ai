@@ -91,7 +91,7 @@ export default function ApplyPage() {
       <div style={{ minHeight: "100vh", background: "#000", color: "#fff" }}>
         <nav style={{ padding: "1.25rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,.06)" }}>
           <Link href="/" style={{ fontWeight: 800, fontSize: "1.25rem", letterSpacing: "-.02em", color: "#fff", textDecoration: "none" }}>
-            covant
+            Covant.ai
           </Link>
         </nav>
         <div style={{ maxWidth: 560, margin: "0 auto", padding: "6rem 2rem", textAlign: "center" }}>
@@ -123,7 +123,7 @@ export default function ApplyPage() {
       {/* Nav */}
       <nav style={{ padding: "1.25rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,.06)" }}>
         <Link href="/" style={{ fontWeight: 800, fontSize: "1.25rem", letterSpacing: "-.02em", color: "#fff", textDecoration: "none" }}>
-          covant
+          Covant.ai
         </Link>
         <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
           <Link href="/sign-up" style={{ padding: ".5rem 1rem", borderRadius: 8, background: "#fff", color: "#000", fontWeight: 700, fontSize: ".85rem", textDecoration: "none" }}>

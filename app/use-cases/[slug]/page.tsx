@@ -215,7 +215,7 @@ export default async function UseCaseDetailPage({ params }: Props) {
       {/* Nav */}
       <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 40px", borderBottom: "1px solid #111" }}>
         <Link href="/" style={{ color: "#fff", textDecoration: "none", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "-0.03em" }}>
-          covant
+          Covant.ai
         </Link>
         <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
           <Link href="/use-cases" style={{ color: "#666", fontSize: ".85rem", textDecoration: "none" }}>All Use Cases</Link>

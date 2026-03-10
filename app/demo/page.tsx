@@ -323,7 +323,7 @@ export default function DemoPage() {
         borderBottom: "1px solid #111",
       }}>
         <Link href="/" style={{ fontSize: "1.1rem", fontWeight: 800, color: "#fff", textDecoration: "none", letterSpacing: "-0.02em" }}>
-          Covant
+          Covant.ai
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <button
