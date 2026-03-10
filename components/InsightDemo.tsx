@@ -105,7 +105,7 @@ export default function InsightDemo() {
           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#333" }} />
         </div>
         <span style={{ flex: 1, textAlign: "center", fontSize: ".75rem", color: "#444", fontWeight: 500 }}>
-          Covant — Partner Intelligence
+          Covant.ai — Partner Intelligence
         </span>
       </div>
 

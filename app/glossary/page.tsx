@@ -3,11 +3,11 @@ import Link from "next/link";
 import { ArrowLeft, BookOpen, Search, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Partner Program Glossary | Covant",
+  title: "Partner Program Glossary | Covant.ai",
   description:
     "A comprehensive glossary of partner program terms — attribution, commissions, deal registration, PRM, and more. The definitive reference for VPs of Partnerships and channel teams.",
   openGraph: {
-    title: "Partner Program Glossary | Covant",
+    title: "Partner Program Glossary | Covant.ai",
     description: "Every term a VP of Partnerships needs to know, defined clearly.",
     url: "https://covant.ai/glossary",
   },

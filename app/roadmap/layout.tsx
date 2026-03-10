@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Product Roadmap — What's Shipped & What's Next | Covant",
+  title: "Product Roadmap — What's Shipped & What's Next | Covant.ai",
   description: "Track Covant's development: 38+ shipped features, current priorities, and upcoming capabilities. Updated weekly.",
   openGraph: {
-    title: "Product Roadmap — What's Shipped & What's Next | Covant",
+    title: "Product Roadmap — What's Shipped & What's Next | Covant.ai",
     description: "38+ shipped features and counting. See what's built, in progress, and planned for Covant.",
     url: "https://covant.ai/roadmap",
   },

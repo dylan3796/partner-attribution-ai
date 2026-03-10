@@ -118,7 +118,7 @@ export default function Footer() {
             textDecoration: "none",
             letterSpacing: "-0.02em",
           }}>
-            Covant
+            Covant.ai
           </Link>
           <p style={{
             marginTop: "0.8rem",

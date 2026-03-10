@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ROI Calculator — Partner Program Savings & Returns | Covant",
+  title: "ROI Calculator — Partner Program Savings & Returns | Covant.ai",
   description: "Calculate the ROI of automating your partner program. Estimate time saved, dispute reduction, and net returns based on your program size.",
   openGraph: {
-    title: "ROI Calculator — Partner Program Savings & Returns | Covant",
+    title: "ROI Calculator — Partner Program Savings & Returns | Covant.ai",
     description: "Calculate the ROI of automating your partner program. Estimate time saved and net returns.",
     url: "https://covant.ai/roi",
   },

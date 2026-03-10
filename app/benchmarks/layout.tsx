@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Partner Program Benchmarks 2026 — Industry Metrics & Comparison Tool | Covant",
+  title: "Partner Program Benchmarks 2026 — Industry Metrics & Comparison Tool | Covant.ai",
   description: "Compare your partner program against industry benchmarks. 16 key metrics across attribution, commissions, engagement, and revenue with interactive percentile rankings.",
   openGraph: {
     title: "Partner Program Benchmarks 2026 — Industry Metrics & Comparison Tool",

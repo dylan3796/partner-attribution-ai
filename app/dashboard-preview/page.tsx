@@ -29,11 +29,11 @@ import {
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Dashboard Preview — See Your Command Center | Covant",
+  title: "Dashboard Preview — See Your Command Center | Covant.ai",
   description:
     "See the admin dashboard VPs of Partnerships use to run their programs. Attribution audit trails, commission management, partner intelligence, QBR reports — all in one place.",
   openGraph: {
-    title: "Dashboard Preview — Your Partner Program Command Center | Covant",
+    title: "Dashboard Preview — Your Partner Program Command Center | Covant.ai",
     description:
       "The admin experience that replaces spreadsheets. See how VPs manage attribution, commissions, and partner intelligence from a single dashboard.",
   },

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Customer Stories — How Teams Use Covant | Covant",
+  title: "Customer Stories — How Teams Use Covant | Covant.ai",
   description: "See how partner teams automate attribution, streamline commissions, and scale their programs with Covant. Real results from real partner programs.",
   openGraph: {
     title: "Customer Stories — How Teams Use Covant",

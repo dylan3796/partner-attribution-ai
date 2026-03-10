@@ -182,7 +182,7 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
         {/* Header */}
         <div className="dash-sidebar-header">
           {showLabels && (
-            <Link href="/dashboard" className="dash-sidebar-brand">Covant</Link>
+            <Link href="/dashboard" className="dash-sidebar-brand">Covant.ai</Link>
           )}
           <button
             onClick={toggleCollapsed}
