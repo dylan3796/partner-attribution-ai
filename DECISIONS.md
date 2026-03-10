@@ -46,3 +46,18 @@
 **Why:** Sonnet is fast and cheap for chat. Opus for production code is non-negotiable quality bar.
 
 ---
+
+---
+
+## 2026-03-09 — Modern vs Legacy PRM Positioning
+
+**Decision:** Covant competes with legacy PRM tools but NEVER names them directly.
+
+**Framing:** "Built for modern partner programs" — legacy tools were built for a different era. The real competition is spreadsheets + outdated tooling, not named vendors.
+
+**Crossbeam:** Complementary (pre-deal intelligence), not a competitor. Never position against them.
+
+**Phrases to use:** "modern partner programs", "built for how programs work today", "the old way", "partner programs have outgrown the old tools"
+**Phrases to avoid:** Any competitor names, "better than X", "replaces X"
+
+**Why:** Naming competitors slots you into their category and picks a fight with companies 100x our size. Let the positioning do the work — VPs already know exactly who we're talking about.

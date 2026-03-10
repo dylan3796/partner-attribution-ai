@@ -79,7 +79,7 @@ export default function LandingPage() {
           <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "rgba(129,140,248,.8)", marginBottom: ".75rem" }}>Partner Intelligence Platform</p>
           <h1>The intelligence layer for your partner business.</h1>
           <p className="subtitle" style={{ maxWidth: 680, margin: "0 auto 2.5rem" }}>
-            Attribution you can defend. Commissions that pay themselves. Partner programs that actually scale.
+            Modern partner programs run on Covant. Real-time attribution, automated commissions, and a partner portal your partners will actually use.
           </p>
 
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
@@ -350,6 +350,54 @@ export default function LandingPage() {
           <div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Globe size={20} strokeWidth={1.5} /></div><h3>Self-service partner portal</h3><p>Partners register deals, track commissions, and access co-branded assets — no more email chains.</p></div>
           <div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Eye size={20} strokeWidth={1.5} /></div><h3>Full transparency, zero disputes</h3><p>Every touchpoint logged. Attribution disputes resolved automatically. Every decision auditable.</p></div>
           <div className="card module-card"><div style={{ width: 40, height: 40, borderRadius: 10, background: 'rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '.8rem' }}><Sparkles size={20} strokeWidth={1.5} /></div><h3>AI Partner Recommendations</h3><p>Covant analyzes your historical deal data to recommend which partners to engage for each new opportunity.</p></div>
+        </div>
+      </section>
+
+      {/* ── OLD WAY vs COVANT ────────────────────────────── */}
+      <section style={{ padding: "6rem 0", borderTop: "1px solid rgba(255,255,255,.06)" }}>
+        <div className="wrap">
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <h2 style={{ fontSize: "clamp(1.8rem,4vw,2.8rem)", fontWeight: 700, marginBottom: "1rem" }}>
+              Partner programs have outgrown the old tools.
+            </h2>
+            <p style={{ color: "rgba(255,255,255,.5)", maxWidth: 560, margin: "0 auto" }}>
+              The way partner programs are managed hasn&apos;t changed in 15 years. The programs themselves have.
+            </p>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", maxWidth: 860, margin: "0 auto" }}>
+            <div style={{ background: "rgba(255,255,255,.03)", border: "1px solid rgba(255,255,255,.08)", borderRadius: 16, padding: "2rem" }}>
+              <p style={{ fontWeight: 700, fontSize: "1rem", color: "rgba(255,255,255,.4)", marginBottom: "1.5rem", letterSpacing: ".06em", textTransform: "uppercase" }}>The Old Way</p>
+              {[
+                "Spreadsheets and manual tracking",
+                "Commission disputes with no paper trail",
+                "Partners in the dark — no self-serve portal",
+                "Implementation takes months",
+                "Pricing built for enterprises, not growing teams",
+                "Attribution is whoever shouts loudest",
+              ].map((item) => (
+                <div key={item} style={{ display: "flex", gap: ".75rem", marginBottom: "1rem", alignItems: "flex-start" }}>
+                  <span style={{ color: "rgba(255,80,80,.7)", fontSize: "1.1rem", lineHeight: 1.4, flexShrink: 0 }}>✕</span>
+                  <span style={{ color: "rgba(255,255,255,.4)", fontSize: ".95rem", lineHeight: 1.5 }}>{item}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ background: "rgba(99,102,241,.06)", border: "1px solid rgba(99,102,241,.25)", borderRadius: 16, padding: "2rem" }}>
+              <p style={{ fontWeight: 700, fontSize: "1rem", color: "rgba(129,140,248,.9)", marginBottom: "1.5rem", letterSpacing: ".06em", textTransform: "uppercase" }}>Covant</p>
+              {[
+                "Real-time attribution with a full audit trail",
+                "Commissions calculated automatically, paid on time",
+                "Partner portal — self-serve from day one",
+                "Live in days, not months",
+                "Pricing that grows with you",
+                "AI-powered attribution — every deal, every touchpoint",
+              ].map((item) => (
+                <div key={item} style={{ display: "flex", gap: ".75rem", marginBottom: "1rem", alignItems: "flex-start" }}>
+                  <span style={{ color: "rgba(99,255,140,.8)", fontSize: "1.1rem", lineHeight: 1.4, flexShrink: 0 }}>✓</span>
+                  <span style={{ color: "rgba(255,255,255,.85)", fontSize: ".95rem", lineHeight: 1.5 }}>{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
