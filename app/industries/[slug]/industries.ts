@@ -777,6 +777,302 @@ export const INDUSTRIES: Record<string, IndustryDetail> = {
       "We had 200 partners and no idea which ones actually drove consumption growth vs. just landing small deals that churned. Once we had consumption-based attribution, we restructured our entire tier system around growth — not just revenue.",
     relatedSlugs: ["saas", "cybersecurity"],
   },
+  manufacturing: {
+    slug: "manufacturing",
+    name: "Manufacturing & Industrial",
+    headline:
+      "Partner Programs for Manufacturing Companies That Scale Through Distribution Networks",
+    subheadline:
+      "Manufacturing partner programs manage complex distribution tiers, territory exclusivity, and volume-based incentives that generic PRMs weren't designed for. Covant gives you multi-tier attribution, volume rebate automation, and the partner intelligence to optimize a distribution network that drives predictable revenue.",
+    color: "#8b5cf6",
+    heroStats: [
+      {
+        value: "70%+",
+        label: "Of manufacturing revenue flows through channel partners",
+      },
+      {
+        value: "3-5",
+        label: "Distribution tiers between manufacturer and end customer",
+      },
+      {
+        value: "$1.2M",
+        label: "Average annual revenue per top-performing distributor",
+      },
+    ],
+    partnerTypes: [
+      "Authorized distributors — regional, national, specialty",
+      "Value-Added Resellers (VARs) — integration, customization, support",
+      "Original Equipment Manufacturers (OEMs) — embedded components, white-label",
+      "System Integrators — turnkey solutions, industrial automation",
+      "Manufacturer's representatives — territory-based, commission-only",
+      "Referral partners — industry consultants, engineering firms",
+    ],
+    challenges: [
+      {
+        title: "Multi-tier distribution obscures end-customer visibility",
+        description:
+          "Products move from manufacturer to master distributor to regional distributor to VAR to end customer. By the time revenue registers, you've lost visibility into who actually sold to whom, making attribution guesswork.",
+      },
+      {
+        title: "Volume rebates and SPIFs create commission complexity",
+        description:
+          "Quarterly volume rebates, annual growth incentives, product-line SPIFs, and territory bonuses all stack. Calculating what each distributor actually earned requires reconciling POS data, purchase orders, and rebate thresholds — a nightmare in spreadsheets.",
+      },
+      {
+        title: "Territory exclusivity breeds conflicts",
+        description:
+          "Exclusive territory agreements are foundational in manufacturing — but customers don't respect territory lines. When a national account spans three distributors' territories, who gets credit? Without automated territory mapping and conflict resolution, every large deal becomes a dispute.",
+      },
+      {
+        title: "Long product lifecycles need sustained partner engagement",
+        description:
+          "Industrial products have 5-15 year lifecycles with spare parts, upgrades, and service agreements. Partner value isn't just the initial sale — it's the aftermarket revenue. Commission structures need to reflect lifetime partner contribution, not just POs.",
+      },
+      {
+        title: "POS data reconciliation is manual and error-prone",
+        description:
+          "Distributors report point-of-sale data in different formats, on different schedules, with different levels of detail. Reconciling distributor-reported sales against your shipment records to calculate accurate commissions is a monthly headache.",
+      },
+    ],
+    solutions: [
+      {
+        title: "Multi-tier distribution tracking",
+        description:
+          "Track products from shipment through each distribution tier to end customer. Map POS data back to the correct selling partner at each level. Reconcile distributor reports against shipment records automatically.",
+        feature: "Attribution Engine",
+      },
+      {
+        title: "Volume rebate automation",
+        description:
+          "Quarterly and annual volume rebate calculations with tiered thresholds, product-line multipliers, and growth accelerators. Partners see real-time progress toward rebate targets in their portal.",
+        feature: "Commission Rules",
+      },
+      {
+        title: "Territory conflict detection",
+        description:
+          "Automated territory mapping with account-level assignment. Conflict detection when deals cross territory boundaries. Rules-based resolution for national accounts and multi-territory opportunities.",
+        feature: "Deal Registration",
+      },
+      {
+        title: "Aftermarket revenue attribution",
+        description:
+          "Track spare parts, service agreements, and upgrade revenue back to the original selling partner. Lifecycle attribution ensures partners earn from the full customer relationship, not just initial sale.",
+        feature: "Revenue Intelligence",
+      },
+      {
+        title: "Distributor POS reconciliation",
+        description:
+          "Import and normalize POS data from multiple distributors. Automatic matching against shipment records. Discrepancy flagging and resolution workflows. Accurate commission calculations from reconciled data.",
+        feature: "Attribution Audit Trail",
+      },
+    ],
+    attributionModel: {
+      recommended: "Deal Reg Protection",
+      why: "Manufacturing distribution relies on territory exclusivity and deal registration. The authorized distributor or rep who registers the opportunity and manages the customer relationship gets credit. Clear deal reg rules with territory validation prevent conflicts and align with how industrial sales actually work.",
+      alternatives: [
+        "Role Split for OEM + SI + distributor deals with multiple contributors",
+        "Source Wins for manufacturer's rep referral models",
+      ],
+    },
+    metrics: [
+      {
+        name: "Channel revenue percentage",
+        benchmark: "65-80%",
+        description:
+          "Manufacturing is channel-first — most revenue flows through distributors, VARs, and reps rather than direct sales.",
+      },
+      {
+        name: "POS reconciliation accuracy",
+        benchmark: ">95%",
+        description:
+          "Percentage of distributor-reported POS data that matches shipment records. Below 90% indicates data quality issues.",
+      },
+      {
+        name: "Territory conflict rate",
+        benchmark: "<5%",
+        description:
+          "Percentage of deals that trigger territory disputes. Above 8% suggests territory mapping or account assignment problems.",
+      },
+      {
+        name: "Volume rebate attainment",
+        benchmark: "60-75% of partners hit targets",
+        description:
+          "If fewer than 50% of distributors hit rebate targets, thresholds are too high or enablement is lacking.",
+      },
+      {
+        name: "Aftermarket attachment rate",
+        benchmark: "30-50%",
+        description:
+          "Percentage of initial equipment sales that generate aftermarket revenue (parts, service, upgrades) through the same partner.",
+      },
+      {
+        name: "Partner activation rate",
+        benchmark: ">65% in 90 days",
+        description:
+          "Percentage of authorized partners who place their first order within 90 days of onboarding.",
+      },
+    ],
+    programTips: [
+      "Build POS data reconciliation into your commission process from day one — retrofitting at 100 distributors means months of disputed payouts",
+      "Design territory rules with national account exceptions built in — every manufacturing program eventually has customers that span territories",
+      "Include aftermarket revenue in partner scorecards — distributors who drive service and upgrade revenue are 3x more valuable than order-takers",
+      "Set volume rebate thresholds at 3-4 tiers with the lowest achievable by 60%+ of partners — unattainable targets demotivate instead of incentivize",
+      "Invest in a partner portal that shows real-time rebate progress — distributors who can see they're $50K from the next tier push harder in Q4",
+    ],
+    quotePerson: "Marcus Webb",
+    quoteRole: "VP Channel Sales, industrial automation company",
+    quoteText:
+      "We had 85 distributors across 6 territories and spent the last two weeks of every quarter reconciling POS data against shipments. Half our rebate payments were late because the calculations took so long. Now it's automated — distributors see their progress in real time and payouts go out on schedule.",
+    relatedSlugs: ["cloud", "healthcare"],
+  },
+  telecom: {
+    slug: "telecom",
+    name: "Telecom & Communications",
+    headline:
+      "Partner Programs for Telecom Companies That Drive Recurring Revenue Through Agents and Resellers",
+    subheadline:
+      "Telecom partner programs are built on recurring revenue, agent commissions, and complex product bundles. Covant gives you residual commission automation, multi-product attribution, and the partner intelligence to scale an agent and reseller network that compounds monthly recurring revenue.",
+    color: "#0ea5e9",
+    heroStats: [
+      {
+        value: "60%+",
+        label: "Of telecom revenue sourced through indirect channels",
+      },
+      {
+        value: "24-36mo",
+        label: "Average contract length requiring residual commission tracking",
+      },
+      {
+        value: "15-25%",
+        label: "Typical agent commission on monthly recurring revenue",
+      },
+    ],
+    partnerTypes: [
+      "Master agents — sub-agent recruitment, back-office, commissions",
+      "Sub-agents & independent agents — direct selling, territory-based",
+      "Value-Added Resellers (VARs) — bundled solutions, managed services",
+      "Technology Service Distributors (TSDs) — agent aggregation, enablement",
+      "Referral partners — IT consultants, MSPs, business advisors",
+      "White-label partners — branded resale of connectivity and UCaaS",
+    ],
+    challenges: [
+      {
+        title: "Residual commissions span years of contract life",
+        description:
+          "Agents earn monthly residuals on recurring revenue for the life of the contract — 24 to 36 months or beyond. Tracking monthly usage, applying commission rates, handling upgrades/downgrades, and stopping commissions on churned accounts requires automation, not spreadsheets.",
+      },
+      {
+        title: "Master agent / sub-agent splits add commission layers",
+        description:
+          "Master agents recruit sub-agents and take a split of their commissions. That means every monthly commission calculation involves: base rate → agent share → master agent override → any SPIFs or bonuses. Multi-layer splits with hundreds of agents create calculation nightmares.",
+      },
+      {
+        title: "Multi-product bundles complicate attribution",
+        description:
+          "Telecom deals bundle voice, data, UCaaS, SD-WAN, and security — each with different commission rates and terms. When an agent sells a 5-product bundle, you need per-product commission calculations with product-specific rates, not a flat percentage on total MRR.",
+      },
+      {
+        title: "Customer migrations and upgrades disrupt commission trails",
+        description:
+          "When a customer migrates from legacy voice to UCaaS, or upgrades their data circuit, does the original agent keep residuals? Do commissions reset? Does the new product earn at a different rate? Every migration triggers commission logic questions.",
+      },
+      {
+        title: "Agent churn erodes program investment",
+        description:
+          "Telecom agents switch carriers for better rates, faster payouts, or better portal experience. The average agent sells for 3-5 carriers simultaneously. If your portal is harder to use or your commissions are slower, you lose agent mindshare to competitors.",
+      },
+    ],
+    solutions: [
+      {
+        title: "Residual commission automation",
+        description:
+          "Monthly residual calculations tied to active customer MRR. Automatic churn detection stops accrual. Rate changes applied on renewal dates. Multi-year commission tracking with full audit trails for every monthly payment.",
+        feature: "Commission Rules",
+      },
+      {
+        title: "Master agent / sub-agent split engine",
+        description:
+          "Multi-tier commission splits with configurable override rates. Master agents see their sub-agent portfolios. Sub-agents see their earnings. Every split calculation is auditable with the full chain visible.",
+        feature: "Commission Rules",
+      },
+      {
+        title: "Per-product bundle attribution",
+        description:
+          "Product-level commission rates applied to individual line items in bundles. Voice at 12%, UCaaS at 18%, SD-WAN at 20% — all calculated automatically per customer, per month, per product.",
+        feature: "Attribution Engine",
+      },
+      {
+        title: "Migration and upgrade commission logic",
+        description:
+          "Rules for how commissions transition when customers upgrade, migrate, or change products. Configurable: keep original agent, split credit, or reset commission clock. All transitions logged in audit trail.",
+        feature: "Revenue Intelligence",
+      },
+      {
+        title: "Agent-first portal experience",
+        description:
+          "Real-time MRR dashboard, commission statements with per-customer detail, deal registration with instant conflict checking, product catalog with commission rate previews. Built to win agent mindshare against competing carrier portals.",
+        feature: "Partner Portal",
+      },
+    ],
+    attributionModel: {
+      recommended: "Source Wins",
+      why: "Telecom agent programs are sourcing-driven — the agent who brings the customer owns the relationship and earns residuals. Source Wins clearly assigns ongoing attribution to the originating agent, with audit trails that support monthly residual calculations across multi-year contracts.",
+      alternatives: [
+        "Deal Reg Protection for VAR and reseller channels with territory rules",
+        "Role Split for co-sell deals involving agent + VAR + technology partner",
+      ],
+    },
+    metrics: [
+      {
+        name: "Agent-sourced MRR",
+        benchmark: "50-70% of total MRR",
+        description:
+          "Monthly recurring revenue sourced through agent and reseller channels. Telecom is heavily channel-dependent.",
+      },
+      {
+        name: "Residual commission accuracy",
+        benchmark: ">99%",
+        description:
+          "Percentage of monthly residual payments that don't require post-hoc adjustment. Agents notice every penny — accuracy is trust.",
+      },
+      {
+        name: "Agent activation rate",
+        benchmark: ">40% in 60 days",
+        description:
+          "Percentage of onboarded agents who submit their first order within 60 days. Low activation means your portal or rates aren't competitive.",
+      },
+      {
+        name: "Customer churn (agent-sourced)",
+        benchmark: "<2% monthly",
+        description:
+          "Monthly churn rate of agent-sourced customers. Higher than 3% means agents are selling on price alone without retention focus.",
+      },
+      {
+        name: "Average products per customer",
+        benchmark: "2.5-4.0",
+        description:
+          "Bundle depth — agents who sell multi-product bundles drive higher ARPU and lower churn. Track and reward this behavior.",
+      },
+      {
+        name: "Commission payout speed",
+        benchmark: "<15 days after month close",
+        description:
+          "Days from month-end to agent commission payment. Agents compare payout speed across carriers — slow payouts lose mindshare.",
+      },
+    ],
+    programTips: [
+      "Pay residuals on time, every time — agents sell for multiple carriers and the one that pays fastest gets the most mindshare. Automate payout processing.",
+      "Build per-product commission visibility into the portal — agents need to see exactly what they earn on each line item to position bundles effectively during sales conversations",
+      "Invest in master agent relationships but don't ignore direct agents — the best programs have both channels with clear rules about when master agents recruit vs. when you recruit directly",
+      "Track bundle depth per agent and reward multi-product selling — agents who sell voice + UCaaS + SD-WAN drive 3x the ARPU of single-product agents",
+      "Make your portal the best in the agent's portfolio — agents log into 3-5 carrier portals daily. The one with the best UX, fastest quoting, and clearest commission statements gets the deals",
+    ],
+    quotePerson: "Elena Torres",
+    quoteRole: "VP Channel Sales, UCaaS provider with 200+ agents",
+    quoteText:
+      "We were calculating residual commissions for 200 agents across 3,000 customer accounts in Excel. Every month it took a week, and every month agents found errors. Now residuals calculate automatically — agents see their statements on the 1st, and disputes dropped to near zero.",
+    relatedSlugs: ["saas", "cloud"],
+  },
 };
 
 export const INDUSTRY_LIST = Object.values(INDUSTRIES).map((i) => ({

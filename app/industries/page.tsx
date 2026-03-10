@@ -7,11 +7,11 @@ import { INDUSTRY_LIST } from "./[slug]/industries";
 export const metadata: Metadata = {
   title: "Partner Programs by Industry — Covant",
   description:
-    "See how Covant powers partner programs for SaaS, fintech, and cybersecurity companies. Industry-specific attribution models, commission structures, and benchmarks.",
+    "See how Covant powers partner programs across SaaS, fintech, cybersecurity, healthcare IT, cloud infrastructure, manufacturing, and telecom. Industry-specific attribution models, commission structures, and benchmarks.",
   openGraph: {
     title: "Partner Programs by Industry — Covant",
     description:
-      "Industry-specific partner program strategies, attribution models, and benchmarks for SaaS, fintech, and cybersecurity.",
+      "Industry-specific partner program strategies, attribution models, and benchmarks across 7 verticals — SaaS, fintech, cybersecurity, healthcare, cloud, manufacturing, and telecom.",
     url: "https://covant.ai/industries",
   },
 };

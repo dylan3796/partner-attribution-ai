@@ -80,5 +80,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/industries/cybersecurity`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/industries/healthcare`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/industries/cloud`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/industries/manufacturing`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${base}/industries/telecom`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
   ];
 }
