@@ -238,7 +238,7 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
               >
                 <span style={{ fontSize: 13, opacity: 0.5 }}>⌨</span>
                 <span>Shortcuts</span>
-                <kbd style={{ marginLeft: "auto", fontSize: ".6rem", padding: "1px 5px", borderRadius: 3, background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.35)", fontFamily: "inherit" }}>?</kbd>
+                <kbd style={{ marginLeft: "auto", fontSize: ".6rem", padding: "1px 5px", borderRadius: 3, background: "var(--subtle)", border: "1px solid var(--border)", color: "var(--muted)", fontFamily: "inherit" }}>?</kbd>
               </button>
             </>
           )}

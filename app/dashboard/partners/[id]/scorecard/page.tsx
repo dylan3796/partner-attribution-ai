@@ -38,13 +38,13 @@ function MetricCard({ label, value, icon: Icon, sub, trend }: {
   trend?: number;
 }) {
   return (
-    <div style={{ background: "#111", border: "1px solid #222", borderRadius: 10, padding: "16px 20px" }}>
+    <div style={{ background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 10, padding: "16px 20px" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6 }}>
-        <Icon size={14} color="#666" />
-        <span style={{ fontSize: ".75rem", color: "#888", textTransform: "uppercase", letterSpacing: ".05em", fontWeight: 600 }}>{label}</span>
+        <Icon size={14} color="var(--muted)" />
+        <span style={{ fontSize: ".75rem", color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".05em", fontWeight: 600 }}>{label}</span>
       </div>
       <div style={{ display: "flex", alignItems: "baseline", gap: 10 }}>
-        <span style={{ fontSize: "1.5rem", fontWeight: 700, color: "#fff" }}>{value}</span>
+        <span style={{ fontSize: "1.5rem", fontWeight: 700, color: "var(--bg)" }}>{value}</span>
         {trend !== undefined && trend !== 0 && (
           <span style={{ display: "inline-flex", alignItems: "center", gap: 3, fontSize: ".75rem", color: trend > 0 ? "#22c55e" : "#ef4444" }}>
             {trend > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
@@ -52,7 +52,7 @@ function MetricCard({ label, value, icon: Icon, sub, trend }: {
           </span>
         )}
       </div>
-      {sub && <div style={{ fontSize: ".7rem", color: "#666", marginTop: 4 }}>{sub}</div>}
+      {sub && <div style={{ fontSize: ".7rem", color: "var(--muted)", marginTop: 4 }}>{sub}</div>}
     </div>
   );
 }
@@ -60,13 +60,13 @@ function MetricCard({ label, value, icon: Icon, sub, trend }: {
 function ScorecardSkeleton() {
   return (
     <div style={{ maxWidth: 900, margin: "0 auto", padding: "40px 24px" }}>
-      <div style={{ height: 32, width: 300, background: "#222", borderRadius: 6, marginBottom: 24 }} className="animate-pulse" />
+      <div style={{ height: 32, width: 300, background: "var(--card-bg)", borderRadius: 6, marginBottom: 24 }} className="animate-pulse" />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16, marginBottom: 32 }}>
         {[1, 2, 3, 4].map(i => (
-          <div key={i} style={{ height: 90, background: "#111", borderRadius: 10, border: "1px solid #222" }} className="animate-pulse" />
+          <div key={i} style={{ height: 90, background: "var(--card-bg)", borderRadius: 10, border: "1px solid var(--border)" }} className="animate-pulse" />
         ))}
       </div>
-      <div style={{ height: 200, background: "#111", borderRadius: 10, border: "1px solid #222" }} className="animate-pulse" />
+      <div style={{ height: 200, background: "var(--card-bg)", borderRadius: 10, border: "1px solid var(--border)" }} className="animate-pulse" />
     </div>
   );
 }
@@ -175,7 +175,7 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
   if (!partner) {
     return (
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "40px 24px", textAlign: "center" }}>
-        <p style={{ color: "#888" }}>Partner not found.</p>
+        <p style={{ color: "var(--muted)" }}>Partner not found.</p>
         <Link href="/dashboard/partners" style={{ color: "#6366f1", fontSize: ".875rem" }}>← Back to Partners</Link>
       </div>
     );
@@ -200,22 +200,22 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
       <div className="scorecard-page" style={{ maxWidth: 900, margin: "0 auto", padding: "40px 24px" }}>
         {/* Top actions bar — hidden in print */}
         <div className="no-print" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
-          <Link href={`/dashboard/partners/${id}`} style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "#888", fontSize: ".875rem", textDecoration: "none" }}>
+          <Link href={`/dashboard/partners/${id}`} style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--muted)", fontSize: ".875rem", textDecoration: "none" }}>
             <ArrowLeft size={16} /> Back to Partner
           </Link>
           <button
             onClick={() => window.print()}
-            style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", background: "#222", border: "1px solid #333", borderRadius: 8, color: "#fff", fontSize: ".8rem", cursor: "pointer" }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 8, color: "var(--bg)", fontSize: ".8rem", cursor: "pointer" }}
           >
             <Printer size={14} /> Print / Save PDF
           </button>
         </div>
 
         {/* ── Header ── */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32, borderBottom: "1px solid #222", paddingBottom: 24 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32, borderBottom: "1px solid var(--border)", paddingBottom: 24 }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
-              <h1 style={{ fontSize: "1.75rem", fontWeight: 700, color: "#fff", margin: 0 }}>{partner.name}</h1>
+              <h1 style={{ fontSize: "1.75rem", fontWeight: 700, color: "var(--bg)", margin: 0 }}>{partner.name}</h1>
               <span style={{
                 display: "inline-flex", padding: "3px 10px", borderRadius: 12,
                 fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em",
@@ -225,7 +225,7 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
                 {TIER_LABELS[partner.tier || "bronze"] || partner.tier}
               </span>
             </div>
-            <div style={{ display: "flex", gap: 20, color: "#888", fontSize: ".8rem" }}>
+            <div style={{ display: "flex", gap: 20, color: "var(--muted)", fontSize: ".8rem" }}>
               <span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
                 <Building2 size={13} /> {PARTNER_TYPE_LABELS[partner.type as keyof typeof PARTNER_TYPE_LABELS] || partner.type}
               </span>
@@ -242,13 +242,13 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
             </div>
           </div>
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: ".7rem", color: "#555", textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 4 }}>Partner Scorecard</div>
-            <div style={{ fontSize: ".75rem", color: "#666" }}>{generatedDate}</div>
+            <div style={{ fontSize: ".7rem", color:'#6b7280', textTransform: "uppercase", letterSpacing: ".05em", marginBottom: 4 }}>Partner Scorecard</div>
+            <div style={{ fontSize: ".75rem", color: "var(--muted)" }}>{generatedDate}</div>
           </div>
         </div>
 
         {/* ── Health Score Banner ── */}
-        <div style={{ display: "flex", alignItems: "center", gap: 20, background: "#111", border: "1px solid #222", borderRadius: 12, padding: "16px 24px", marginBottom: 24 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 20, background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 12, padding: "16px 24px", marginBottom: 24 }}>
           <div style={{ position: "relative", width: 64, height: 64 }}>
             <svg width="64" height="64" viewBox="0 0 64 64">
               <circle cx="32" cy="32" r="28" fill="none" stroke="#222" strokeWidth="5" />
@@ -266,10 +266,10 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
             </div>
           </div>
           <div>
-            <div style={{ fontSize: "1rem", fontWeight: 600, color: "#fff" }}>
+            <div style={{ fontSize: "1rem", fontWeight: 600, color: "var(--bg)" }}>
               Health Score: <span style={{ color: healthColor(metrics.healthScore) }}>{healthLabel(metrics.healthScore)}</span>
             </div>
-            <div style={{ fontSize: ".8rem", color: "#888", marginTop: 2 }}>
+            <div style={{ fontSize: ".8rem", color: "var(--muted)", marginTop: 2 }}>
               {metrics.daysSinceActivity < 999
                 ? `Last activity ${metrics.daysSinceActivity === 0 ? "today" : `${metrics.daysSinceActivity}d ago`}`
                 : "No recorded activity"
@@ -295,15 +295,15 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
         </div>
 
         {/* ── Revenue Trend (6 months) ── */}
-        <div style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: "20px 24px", marginBottom: 24 }}>
-          <h3 style={{ fontSize: ".85rem", fontWeight: 600, color: "#fff", margin: "0 0 16px" }}>
+        <div style={{ background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 12, padding: "20px 24px", marginBottom: 24 }}>
+          <h3 style={{ fontSize: ".85rem", fontWeight: 600, color: "var(--bg)", margin: "0 0 16px" }}>
             <Activity size={14} style={{ display: "inline", marginRight: 6, verticalAlign: "middle" }} />
             Revenue Trend (6 Months)
           </h3>
           <div style={{ display: "flex", alignItems: "flex-end", gap: 8, height: 120 }}>
             {metrics.monthlyRevenue.map((m, i) => (
               <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                <span style={{ fontSize: ".65rem", color: "#888" }}>
+                <span style={{ fontSize: ".65rem", color: "var(--muted)" }}>
                   {m.revenue > 0 ? formatCurrency(m.revenue) : "—"}
                 </span>
                 <div style={{
@@ -313,7 +313,7 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
                   borderRadius: "4px 4px 0 0",
                   transition: "height .3s",
                 }} />
-                <span style={{ fontSize: ".65rem", color: "#666" }}>{m.month}</span>
+                <span style={{ fontSize: ".65rem", color: "var(--muted)" }}>{m.month}</span>
               </div>
             ))}
           </div>
@@ -321,19 +321,19 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
 
         {/* ── Top Deals ── */}
         {metrics.topDeals.length > 0 && (
-          <div style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: "20px 24px", marginBottom: 24 }}>
-            <h3 style={{ fontSize: ".85rem", fontWeight: 600, color: "#fff", margin: "0 0 12px" }}>
+          <div style={{ background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 12, padding: "20px 24px", marginBottom: 24 }}>
+            <h3 style={{ fontSize: ".85rem", fontWeight: 600, color: "var(--bg)", margin: "0 0 12px" }}>
               <TrendingUp size={14} style={{ display: "inline", marginRight: 6, verticalAlign: "middle" }} />
               Top Closed Deals
             </h3>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {metrics.topDeals.map((deal: any, i: number) => (
-                <div key={deal._id || i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", background: "#0a0a0a", borderRadius: 8, border: "1px solid #1a1a1a" }}>
+                <div key={deal._id || i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 12px", background: "var(--bg)", borderRadius: 8, border: "1px solid var(--card-bg)" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <span style={{ fontSize: ".7rem", fontWeight: 700, color: "#555", width: 18 }}>#{i + 1}</span>
+                    <span style={{ fontSize: ".7rem", fontWeight: 700, color:'#6b7280', width: 18 }}>#{i + 1}</span>
                     <div>
-                      <div style={{ fontSize: ".8rem", fontWeight: 500, color: "#fff" }}>{deal.name || deal.dealName || "Untitled Deal"}</div>
-                      {deal.productName && <div style={{ fontSize: ".65rem", color: "#666" }}>{deal.productName}</div>}
+                      <div style={{ fontSize: ".8rem", fontWeight: 500, color: "var(--bg)" }}>{deal.name || deal.dealName || "Untitled Deal"}</div>
+                      {deal.productName && <div style={{ fontSize: ".65rem", color: "var(--muted)" }}>{deal.productName}</div>}
                     </div>
                   </div>
                   <span style={{ fontSize: ".85rem", fontWeight: 600, color: "#22c55e" }}>{formatCurrency(deal.amount || 0)}</span>
@@ -344,14 +344,14 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
         )}
 
         {/* ── Quick Insights ── */}
-        <div style={{ background: "#111", border: "1px solid #222", borderRadius: 12, padding: "20px 24px" }}>
-          <h3 style={{ fontSize: ".85rem", fontWeight: 600, color: "#fff", margin: "0 0 12px" }}>
+        <div style={{ background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 12, padding: "20px 24px" }}>
+          <h3 style={{ fontSize: ".85rem", fontWeight: 600, color: "var(--bg)", margin: "0 0 12px" }}>
             💡 Key Insights
           </h3>
-          <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: ".8rem", color: "#ccc" }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8, fontSize: ".8rem", color:'#374151' }}>
             {metrics.totalRevenue > 0 && metrics.totalCommissions > 0 && (
               <p style={{ margin: 0 }}>
-                Commission-to-revenue ratio: <strong style={{ color: "#fff" }}>
+                Commission-to-revenue ratio: <strong style={{ color: "var(--bg)" }}>
                   {(metrics.totalCommissions / metrics.totalRevenue * 100).toFixed(1)}%
                 </strong>
               </p>
@@ -378,7 +378,7 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
             )}
             {metrics.avgVelocity > 0 && (
               <p style={{ margin: 0 }}>
-                ⏱️ Average deal closes in <strong style={{ color: "#fff" }}>{metrics.avgVelocity} days</strong>
+                ⏱️ Average deal closes in <strong style={{ color: "var(--bg)" }}>{metrics.avgVelocity} days</strong>
               </p>
             )}
             {metrics.pendingCommissions > 0 && (
@@ -388,7 +388,7 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
             )}
             {metrics.openPipeline > 0 && (
               <p style={{ margin: 0 }}>
-                🔮 <strong style={{ color: "#fff" }}>{formatCurrency(metrics.openPipeline)}</strong> in open pipeline across {metrics.openDeals} deals
+                🔮 <strong style={{ color: "var(--bg)" }}>{formatCurrency(metrics.openPipeline)}</strong> in open pipeline across {metrics.openDeals} deals
               </p>
             )}
             {metrics.daysSinceActivity > 60 && metrics.daysSinceActivity < 999 && (
@@ -400,9 +400,9 @@ export default function ScorecardPage({ params }: { params: Promise<{ id: string
         </div>
 
         {/* Footer */}
-        <div style={{ marginTop: 32, paddingTop: 16, borderTop: "1px solid #222", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <span style={{ fontSize: ".7rem", color: "#555" }}>Generated by Covant · {generatedDate}</span>
-          <span style={{ fontSize: ".7rem", color: "#555" }}>covant.ai</span>
+        <div style={{ marginTop: 32, paddingTop: 16, borderTop: "1px solid var(--border)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{ fontSize: ".7rem", color:'#6b7280' }}>Generated by Covant · {generatedDate}</span>
+          <span style={{ fontSize: ".7rem", color:'#6b7280' }}>covant.ai</span>
         </div>
       </div>
     </>

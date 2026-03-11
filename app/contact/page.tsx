@@ -59,7 +59,7 @@ export default function ContactPage() {
     padding: "12px 16px",
     borderRadius: 10,
     border: "1px solid #222",
-    background: "#0a0a0a",
+    background:'#f9fafb',
     color: "#e5e5e5",
     fontSize: ".9rem",
     fontFamily: "inherit",
@@ -68,14 +68,14 @@ export default function ContactPage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5" }}>
+    <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5" }}>
       <div style={{ maxWidth: 860, margin: "0 auto", padding: "3rem 1.5rem" }}>
         {/* Back link */}
         <Link
           href="/"
           style={{
             display: "inline-flex", alignItems: "center", gap: 6,
-            color: "#666", fontSize: ".85rem", textDecoration: "none", marginBottom: 24,
+            color:'#6b7280', fontSize: ".85rem", textDecoration: "none", marginBottom: 24,
           }}
         >
           <ArrowLeft size={14} /> Back to Covant
@@ -85,11 +85,11 @@ export default function ContactPage() {
         <div style={{ marginBottom: "3rem" }}>
           <h1 style={{
             fontSize: "clamp(2rem, 4vw, 2.75rem)", fontWeight: 800,
-            letterSpacing: "-.03em", lineHeight: 1.1, color: "#fff", marginBottom: ".75rem",
+            letterSpacing: "-.03em", lineHeight: 1.1, color:'#0a0a0a', marginBottom: ".75rem",
           }}>
             Let&apos;s talk partner intelligence
           </h1>
-          <p style={{ color: "#666", fontSize: "1.05rem", maxWidth: 520, lineHeight: 1.6 }}>
+          <p style={{ color:'#6b7280', fontSize: "1.05rem", maxWidth: 520, lineHeight: 1.6 }}>
             Whether you&apos;re evaluating Covant for your team or have questions about the platform — we&apos;d love to hear from you.
           </p>
         </div>
@@ -103,7 +103,7 @@ export default function ContactPage() {
                 background: "#0a1a0a", textAlign: "center",
               }}>
                 <CheckCircle2 size={48} style={{ color: "#22c55e", marginBottom: 16 }} />
-                <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: 8 }}>
+                <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: 8 }}>
                   We&apos;ll be in touch
                 </h2>
                 <p style={{ color: "#888", lineHeight: 1.6, maxWidth: 360, margin: "0 auto" }}>
@@ -246,7 +246,7 @@ export default function ContactPage() {
                   )}
                 </button>
 
-                <p style={{ fontSize: ".75rem", color: "#444", lineHeight: 1.5 }}>
+                <p style={{ fontSize: ".75rem", color:'#374151', lineHeight: 1.5 }}>
                   We typically respond within a few hours. No spam, no 12-email nurture sequence.
                 </p>
               </form>
@@ -257,16 +257,16 @@ export default function ContactPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {/* Quick contact */}
             <div style={{
-              padding: "1.25rem", borderRadius: 14, border: "1px solid #1a1a1a", background: "#0a0a0a",
+              padding: "1.25rem", borderRadius: 14, border: "1px solid #1a1a1a", background:'#f9fafb',
             }}>
-              <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: "#555", marginBottom: 12 }}>
+              <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color:'#6b7280', marginBottom: 12 }}>
                 Quick contact
               </div>
               <a
                 href="mailto:hello@covant.ai"
                 style={{
                   display: "flex", alignItems: "center", gap: 10, padding: "10px 0",
-                  color: "#ccc", textDecoration: "none", fontSize: ".85rem",
+                  color:'#374151', textDecoration: "none", fontSize: ".85rem",
                   borderBottom: "1px solid #111",
                 }}
               >
@@ -277,7 +277,7 @@ export default function ContactPage() {
                 href="mailto:sales@covant.ai"
                 style={{
                   display: "flex", alignItems: "center", gap: 10, padding: "10px 0",
-                  color: "#ccc", textDecoration: "none", fontSize: ".85rem",
+                  color:'#374151', textDecoration: "none", fontSize: ".85rem",
                 }}
               >
                 <MessageSquare size={16} style={{ color: "#22c55e" }} />
@@ -287,9 +287,9 @@ export default function ContactPage() {
 
             {/* What to expect */}
             <div style={{
-              padding: "1.25rem", borderRadius: 14, border: "1px solid #1a1a1a", background: "#0a0a0a",
+              padding: "1.25rem", borderRadius: 14, border: "1px solid #1a1a1a", background:'#f9fafb',
             }}>
-              <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: "#555", marginBottom: 12 }}>
+              <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color:'#6b7280', marginBottom: 12 }}>
                 What to expect
               </div>
               {[
@@ -305,7 +305,7 @@ export default function ContactPage() {
                     padding: "8px 0", fontSize: ".8rem", color: "#888", lineHeight: 1.5,
                   }}
                 >
-                  <item.icon size={15} style={{ color: "#555", flexShrink: 0, marginTop: 2 }} />
+                  <item.icon size={15} style={{ color:'#6b7280', flexShrink: 0, marginTop: 2 }} />
                   {item.text}
                 </div>
               ))}
@@ -319,7 +319,7 @@ export default function ContactPage() {
               <div style={{ fontSize: ".85rem", color: "#a5b4fc", fontWeight: 600, marginBottom: 6 }}>
                 Built for partner teams
               </div>
-              <p style={{ fontSize: ".8rem", color: "#666", lineHeight: 1.5, margin: 0 }}>
+              <p style={{ fontSize: ".8rem", color:'#6b7280', lineHeight: 1.5, margin: 0 }}>
                 Covant is purpose-built for VPs of Partnerships, RevOps, and Partner Managers 
                 managing programs from 5 to 500+ partners.
               </p>

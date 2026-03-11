@@ -88,9 +88,9 @@ export default function ApplyPage() {
 
   if (submitted) {
     return (
-      <div style={{ minHeight: "100vh", background: "#000", color: "#fff" }}>
-        <nav style={{ padding: "1.25rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,.06)" }}>
-          <Link href="/" style={{ fontWeight: 800, fontSize: "1.25rem", letterSpacing: "-.02em", color: "#fff", textDecoration: "none" }}>
+      <div style={{ minHeight: "100vh", background:'#f9fafb', color:'#0a0a0a' }}>
+        <nav style={{ padding: "1.25rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom:'1px solid #e5e7eb' }}>
+          <Link href="/" style={{ fontWeight: 800, fontSize: "1.25rem", letterSpacing: "-.02em", color:'#0a0a0a', textDecoration: "none" }}>
             Covant.ai
           </Link>
         </nav>
@@ -101,14 +101,14 @@ export default function ApplyPage() {
           <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-.02em", marginBottom: ".75rem" }}>
             Application Received
           </h1>
-          <p style={{ fontSize: "1.1rem", color: "rgba(255,255,255,.6)", lineHeight: 1.6, marginBottom: "2rem" }}>
+          <p style={{ fontSize: "1.1rem", color:"#374151", lineHeight: 1.6, marginBottom: "2rem" }}>
             Thanks, {form.contactName.split(" ")[0]}! We&apos;ll review your application and get back to you within 1-2 business days.
           </p>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
             <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", padding: ".75rem 1.5rem", borderRadius: 10, background: "#fff", color: "#000", fontWeight: 700, fontSize: ".9rem", textDecoration: "none" }}>
               Back to Covant
             </Link>
-            <Link href="/demo" style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", padding: ".75rem 1.5rem", borderRadius: 10, border: "1px solid rgba(255,255,255,.15)", color: "#fff", fontWeight: 600, fontSize: ".9rem", textDecoration: "none" }}>
+            <Link href="/demo" style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", padding: ".75rem 1.5rem", borderRadius: 10, border:'1px solid #e5e7eb', color:'#0a0a0a', fontWeight: 600, fontSize: ".9rem", textDecoration: "none" }}>
               Try the Demo <ArrowRight size={16} />
             </Link>
           </div>
@@ -119,10 +119,10 @@ export default function ApplyPage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#fff" }}>
+    <div style={{ minHeight: "100vh", background:'#f9fafb', color:'#0a0a0a' }}>
       {/* Nav */}
-      <nav style={{ padding: "1.25rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid rgba(255,255,255,.06)" }}>
-        <Link href="/" style={{ fontWeight: 800, fontSize: "1.25rem", letterSpacing: "-.02em", color: "#fff", textDecoration: "none" }}>
+      <nav style={{ padding: "1.25rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom:'1px solid #e5e7eb' }}>
+        <Link href="/" style={{ fontWeight: 800, fontSize: "1.25rem", letterSpacing: "-.02em", color:'#0a0a0a', textDecoration: "none" }}>
           Covant.ai
         </Link>
         <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
@@ -135,13 +135,13 @@ export default function ApplyPage() {
       {/* Hero */}
       <section style={{ maxWidth: 1100, margin: "0 auto", padding: "4rem 2rem 2rem" }}>
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", padding: ".35rem .85rem", borderRadius: 999, background: "rgba(99,102,241,.12)", border: "1px solid rgba(99,102,241,.2)", marginBottom: "1rem", fontSize: ".8rem", fontWeight: 600, color: "#818cf8" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", padding: ".35rem .85rem", borderRadius: 999, background:'#f3f4f6', border: "1px solid rgba(99,102,241,.2)", marginBottom: "1rem", fontSize: ".8rem", fontWeight: 600, color:'#0a0a0a' }}>
             <Handshake size={14} /> Partner Program
           </div>
           <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, letterSpacing: "-.03em", lineHeight: 1.1, marginBottom: "1rem" }}>
             Grow with Covant
           </h1>
-          <p style={{ fontSize: "1.15rem", color: "rgba(255,255,255,.55)", maxWidth: 600, margin: "0 auto", lineHeight: 1.6 }}>
+          <p style={{ fontSize: "1.15rem", color:"#6b7280", maxWidth: 600, margin: "0 auto", lineHeight: 1.6 }}>
             Join our partner program and earn commissions for every deal you bring. Real-time attribution, transparent payouts, and a portal built for you.
           </p>
         </div>
@@ -149,10 +149,10 @@ export default function ApplyPage() {
         {/* Benefits */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "1rem", marginBottom: "3rem" }}>
           {BENEFITS.map((b) => (
-            <div key={b.title} style={{ padding: "1.25rem", borderRadius: 12, border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.02)" }}>
-              <b.icon size={22} style={{ color: "#818cf8", marginBottom: ".75rem" }} />
+            <div key={b.title} style={{ padding: "1.25rem", borderRadius: 12, border:'1px solid #e5e7eb', background:"#f9fafb" }}>
+              <b.icon size={22} style={{ color:'#0a0a0a', marginBottom: ".75rem" }} />
               <h3 style={{ fontWeight: 700, fontSize: ".95rem", marginBottom: ".25rem" }}>{b.title}</h3>
-              <p style={{ fontSize: ".85rem", color: "rgba(255,255,255,.5)", lineHeight: 1.5 }}>{b.desc}</p>
+              <p style={{ fontSize: ".85rem", color:"#6b7280", lineHeight: 1.5 }}>{b.desc}</p>
             </div>
           ))}
         </div>
@@ -160,11 +160,11 @@ export default function ApplyPage() {
 
       {/* Application Form */}
       <section style={{ maxWidth: 640, margin: "0 auto", padding: "0 2rem 6rem" }}>
-        <div style={{ padding: "2rem", borderRadius: 16, border: "1px solid rgba(255,255,255,.1)", background: "rgba(255,255,255,.03)" }}>
+        <div style={{ padding: "2rem", borderRadius: 16, border:'1px solid #e5e7eb', background:"#f9fafb" }}>
           <h2 style={{ fontSize: "1.35rem", fontWeight: 800, letterSpacing: "-.02em", marginBottom: ".25rem" }}>
             Apply to Partner
           </h2>
-          <p style={{ fontSize: ".9rem", color: "rgba(255,255,255,.5)", marginBottom: "1.5rem" }}>
+          <p style={{ fontSize: ".9rem", color:"#6b7280", marginBottom: "1.5rem" }}>
             Fill in the basics — we&apos;ll follow up within 1-2 business days.
           </p>
 
@@ -172,25 +172,25 @@ export default function ApplyPage() {
             {/* Company + Name */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               <div>
-                <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color: "rgba(255,255,255,.7)", marginBottom: ".35rem" }}>
+                <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color:"#374151", marginBottom: ".35rem" }}>
                   Company Name *
                 </label>
                 <input
                   value={form.companyName}
                   onChange={(e) => updateField("companyName", e.target.value)}
                   placeholder="Acme Corp"
-                  style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border: "1px solid rgba(255,255,255,.12)", background: "rgba(255,255,255,.05)", color: "#fff", fontSize: ".9rem", outline: "none" }}
+                  style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border:'1px solid #e5e7eb', background:"#f9fafb", color:'#0a0a0a', fontSize: ".9rem", outline: "none" }}
                 />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color: "rgba(255,255,255,.7)", marginBottom: ".35rem" }}>
+                <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color:"#374151", marginBottom: ".35rem" }}>
                   Your Name *
                 </label>
                 <input
                   value={form.contactName}
                   onChange={(e) => updateField("contactName", e.target.value)}
                   placeholder="Jane Smith"
-                  style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border: "1px solid rgba(255,255,255,.12)", background: "rgba(255,255,255,.05)", color: "#fff", fontSize: ".9rem", outline: "none" }}
+                  style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border:'1px solid #e5e7eb', background:"#f9fafb", color:'#0a0a0a', fontSize: ".9rem", outline: "none" }}
                 />
               </div>
             </div>
@@ -198,7 +198,7 @@ export default function ApplyPage() {
             {/* Email + Website */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
               <div>
-                <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color: "rgba(255,255,255,.7)", marginBottom: ".35rem" }}>
+                <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color:"#374151", marginBottom: ".35rem" }}>
                   Work Email *
                 </label>
                 <input
@@ -206,25 +206,25 @@ export default function ApplyPage() {
                   value={form.email}
                   onChange={(e) => updateField("email", e.target.value)}
                   placeholder="jane@acme.com"
-                  style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border: "1px solid rgba(255,255,255,.12)", background: "rgba(255,255,255,.05)", color: "#fff", fontSize: ".9rem", outline: "none" }}
+                  style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border:'1px solid #e5e7eb', background:"#f9fafb", color:'#0a0a0a', fontSize: ".9rem", outline: "none" }}
                 />
               </div>
               <div>
-                <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color: "rgba(255,255,255,.7)", marginBottom: ".35rem" }}>
+                <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color:"#374151", marginBottom: ".35rem" }}>
                   Website
                 </label>
                 <input
                   value={form.website}
                   onChange={(e) => updateField("website", e.target.value)}
                   placeholder="https://acme.com"
-                  style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border: "1px solid rgba(255,255,255,.12)", background: "rgba(255,255,255,.05)", color: "#fff", fontSize: ".9rem", outline: "none" }}
+                  style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border:'1px solid #e5e7eb', background:"#f9fafb", color:'#0a0a0a', fontSize: ".9rem", outline: "none" }}
                 />
               </div>
             </div>
 
             {/* Partnership Type */}
             <div>
-              <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color: "rgba(255,255,255,.7)", marginBottom: ".5rem" }}>
+              <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color:"#374151", marginBottom: ".5rem" }}>
                 Partnership Type *
               </label>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".5rem" }}>
@@ -238,14 +238,14 @@ export default function ApplyPage() {
                       borderRadius: 10,
                       border: form.partnerType === pt.value ? "2px solid #6366f1" : "1px solid rgba(255,255,255,.1)",
                       background: form.partnerType === pt.value ? "rgba(99,102,241,.1)" : "transparent",
-                      color: "#fff",
+                      color:'#0a0a0a',
                       textAlign: "left",
                       cursor: "pointer",
                       transition: "all .15s",
                     }}
                   >
                     <div style={{ fontWeight: 700, fontSize: ".85rem" }}>{pt.label}</div>
-                    <div style={{ fontSize: ".75rem", color: "rgba(255,255,255,.45)", marginTop: ".1rem" }}>{pt.desc}</div>
+                    <div style={{ fontSize: ".75rem", color:"#6b7280", marginTop: ".1rem" }}>{pt.desc}</div>
                   </button>
                 ))}
               </div>
@@ -253,13 +253,13 @@ export default function ApplyPage() {
 
             {/* Team Size */}
             <div>
-              <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color: "rgba(255,255,255,.7)", marginBottom: ".35rem" }}>
+              <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color:"#374151", marginBottom: ".35rem" }}>
                 Team Size
               </label>
               <select
                 value={form.partnerCount}
                 onChange={(e) => updateField("partnerCount", e.target.value)}
-                style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border: "1px solid rgba(255,255,255,.12)", background: "rgba(255,255,255,.05)", color: "#fff", fontSize: ".9rem", outline: "none" }}
+                style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border:'1px solid #e5e7eb', background:"#f9fafb", color:'#0a0a0a', fontSize: ".9rem", outline: "none" }}
               >
                 <option value="" style={{ color: "#000" }}>Select team size</option>
                 {PARTNER_COUNTS.map((pc) => (
@@ -270,7 +270,7 @@ export default function ApplyPage() {
 
             {/* Message */}
             <div>
-              <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color: "rgba(255,255,255,.7)", marginBottom: ".35rem" }}>
+              <label style={{ display: "block", fontSize: ".8rem", fontWeight: 600, color:"#374151", marginBottom: ".35rem" }}>
                 Why do you want to partner with us?
               </label>
               <textarea
@@ -278,7 +278,7 @@ export default function ApplyPage() {
                 onChange={(e) => updateField("message", e.target.value)}
                 rows={3}
                 placeholder="Tell us about your business and how you'd like to work together..."
-                style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border: "1px solid rgba(255,255,255,.12)", background: "rgba(255,255,255,.05)", color: "#fff", fontSize: ".9rem", outline: "none", resize: "vertical", fontFamily: "inherit" }}
+                style={{ width: "100%", padding: ".65rem .85rem", borderRadius: 8, border:'1px solid #e5e7eb', background:"#f9fafb", color:'#0a0a0a', fontSize: ".9rem", outline: "none", resize: "vertical", fontFamily: "inherit" }}
               />
             </div>
 
@@ -314,11 +314,11 @@ export default function ApplyPage() {
               {!submitting && <ArrowRight size={18} />}
             </button>
 
-            <p style={{ fontSize: ".75rem", color: "rgba(255,255,255,.35)", textAlign: "center" }}>
+            <p style={{ fontSize: ".75rem", color:"#9ca3af", textAlign: "center" }}>
               By applying, you agree to our{" "}
-              <Link href="/terms" style={{ color: "rgba(255,255,255,.5)", textDecoration: "underline" }}>Terms</Link>
+              <Link href="/terms" style={{ color:"#6b7280", textDecoration: "underline" }}>Terms</Link>
               {" "}and{" "}
-              <Link href="/privacy" style={{ color: "rgba(255,255,255,.5)", textDecoration: "underline" }}>Privacy Policy</Link>.
+              <Link href="/privacy" style={{ color:"#6b7280", textDecoration: "underline" }}>Privacy Policy</Link>.
             </p>
           </form>
         </div>

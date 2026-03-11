@@ -247,7 +247,7 @@ export default function AssessmentPage() {
   // --- INTRO ---
   if (step === 0) {
     return (
-      <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5" }}>
+      <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5" }}>
         <div style={{ maxWidth: 680, margin: "0 auto", padding: "8rem 2rem 4rem" }}>
           <div className="tag" style={{ marginBottom: "1.5rem" }}>Free Assessment</div>
           <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.03em", marginBottom: "1.5rem" }}>
@@ -277,7 +277,7 @@ export default function AssessmentPage() {
             ].map((item) => (
               <div key={item.label} style={{ padding: "1rem", borderRadius: 12, border: "1px solid #1a1a1a" }}>
                 <div style={{ fontWeight: 600, fontSize: ".9rem", marginBottom: 4 }}>{item.label}</div>
-                <div style={{ color: "#666", fontSize: ".8rem" }}>{item.sub}</div>
+                <div style={{ color:'#6b7280', fontSize: ".8rem" }}>{item.sub}</div>
               </div>
             ))}
           </div>
@@ -290,9 +290,9 @@ export default function AssessmentPage() {
   if (currentQuestion) {
     const Icon = currentQuestion.categoryIcon;
     return (
-      <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5" }}>
+      <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5" }}>
         {/* Progress bar */}
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 3, background: "#1a1a1a", zIndex: 50 }}>
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 3, background:'#f9fafb', zIndex: 50 }}>
           <div style={{ height: "100%", background: "#fff", width: `${progress}%`, transition: "width .3s ease" }} />
         </div>
 
@@ -301,19 +301,19 @@ export default function AssessmentPage() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "2.5rem" }}>
             <button
               onClick={() => setStep(step - 1)}
-              style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color: "#666", cursor: "pointer", fontSize: ".85rem", fontFamily: "inherit" }}
+              style={{ display: "flex", alignItems: "center", gap: 6, background: "none", border: "none", color:'#6b7280', cursor: "pointer", fontSize: ".85rem", fontFamily: "inherit" }}
             >
               <ArrowLeft size={16} /> Back
             </button>
-            <span style={{ color: "#555", fontSize: ".85rem", fontWeight: 500 }}>
+            <span style={{ color:'#6b7280', fontSize: ".85rem", fontWeight: 500 }}>
               {step} of {QUESTIONS.length}
             </span>
           </div>
 
           {/* Category */}
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: "1rem" }}>
-            <Icon size={16} style={{ color: "#666" }} />
-            <span style={{ color: "#666", fontSize: ".8rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".04em" }}>
+            <Icon size={16} style={{ color:'#6b7280' }} />
+            <span style={{ color:'#6b7280', fontSize: ".8rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".04em" }}>
               {currentQuestion.category}
             </span>
           </div>
@@ -342,9 +342,9 @@ export default function AssessmentPage() {
                 >
                   <div>
                     <div style={{ fontWeight: 500 }}>{opt.label}</div>
-                    {opt.detail && <div style={{ color: "#555", fontSize: ".8rem", marginTop: 2 }}>{opt.detail}</div>}
+                    {opt.detail && <div style={{ color:'#6b7280', fontSize: ".8rem", marginTop: 2 }}>{opt.detail}</div>}
                   </div>
-                  {isSelected && <CheckCircle2 size={18} style={{ color: "#fff", flexShrink: 0 }} />}
+                  {isSelected && <CheckCircle2 size={18} style={{ color:'#0a0a0a', flexShrink: 0 }} />}
                 </button>
               );
             })}
@@ -357,8 +357,8 @@ export default function AssessmentPage() {
   // --- EMAIL CAPTURE ---
   if (!submitted) {
     return (
-      <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5" }}>
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 3, background: "#1a1a1a", zIndex: 50 }}>
+      <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5" }}>
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 3, background:'#f9fafb', zIndex: 50 }}>
           <div style={{ height: "100%", background: "#fff", width: "100%", transition: "width .3s ease" }} />
         </div>
 
@@ -398,7 +398,7 @@ export default function AssessmentPage() {
             onClick={skipToResults}
             style={{
               display: "block", width: "100%", textAlign: "center", marginTop: "1rem",
-              background: "none", border: "none", color: "#555", fontSize: ".8rem",
+              background: "none", border: "none", color:'#6b7280', fontSize: ".8rem",
               cursor: "pointer", fontFamily: "inherit",
             }}
           >
@@ -415,7 +415,7 @@ export default function AssessmentPage() {
   const percentage = Math.round((totalScore / maxScore) * 100);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5" }}>
+    <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5" }}>
       <div style={{ maxWidth: 720, margin: "0 auto", padding: "6rem 2rem 4rem" }}>
         {/* Score header */}
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
@@ -428,7 +428,7 @@ export default function AssessmentPage() {
             }}>
               {totalScore}
             </div>
-            <div style={{ color: "#666", fontSize: ".85rem", marginTop: ".5rem" }}>
+            <div style={{ color:'#6b7280', fontSize: ".85rem", marginTop: ".5rem" }}>
               out of {maxScore}
             </div>
           </div>
@@ -451,7 +451,7 @@ export default function AssessmentPage() {
 
         {/* Category breakdown */}
         <div style={{ marginBottom: "2.5rem" }}>
-          <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: "1rem", textTransform: "uppercase", letterSpacing: ".04em", color: "#666" }}>
+          <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: "1rem", textTransform: "uppercase", letterSpacing: ".04em", color:'#6b7280' }}>
             Score Breakdown
           </h3>
           <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
@@ -462,9 +462,9 @@ export default function AssessmentPage() {
                 <div key={cat.category}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4, fontSize: ".85rem" }}>
                     <span style={{ fontWeight: 500 }}>{cat.category}</span>
-                    <span style={{ color: "#666" }}>{cat.score}/{cat.max}</span>
+                    <span style={{ color:'#6b7280' }}>{cat.score}/{cat.max}</span>
                   </div>
-                  <div style={{ height: 6, background: "#1a1a1a", borderRadius: 3, overflow: "hidden" }}>
+                  <div style={{ height: 6, background:'#f9fafb', borderRadius: 3, overflow: "hidden" }}>
                     <div style={{ height: "100%", background: barColor, borderRadius: 3, width: `${pct}%`, transition: "width .5s ease" }} />
                   </div>
                 </div>
@@ -475,14 +475,14 @@ export default function AssessmentPage() {
 
         {/* Recommendations */}
         <div style={{ marginBottom: "2.5rem" }}>
-          <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: "1rem", textTransform: "uppercase", letterSpacing: ".04em", color: "#666" }}>
+          <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: "1rem", textTransform: "uppercase", letterSpacing: ".04em", color:'#6b7280' }}>
             Recommendations
           </h3>
           <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
             {maturity.recommendations.map((rec, i) => (
-              <div key={i} style={{ display: "flex", gap: 12, padding: "1rem", borderRadius: 12, border: "1px solid #1a1a1a", background: "#0a0a0a" }}>
+              <div key={i} style={{ display: "flex", gap: 12, padding: "1rem", borderRadius: 12, border: "1px solid #1a1a1a", background:'#f9fafb' }}>
                 <span style={{ color: maturity.color, fontWeight: 700, fontSize: ".85rem", flexShrink: 0 }}>{i + 1}.</span>
-                <span style={{ fontSize: ".9rem", lineHeight: 1.6, color: "#ccc" }}>{rec}</span>
+                <span style={{ fontSize: ".9rem", lineHeight: 1.6, color:'#374151' }}>{rec}</span>
               </div>
             ))}
           </div>
@@ -515,12 +515,12 @@ export default function AssessmentPage() {
         <div style={{ textAlign: "center", marginTop: "2rem" }}>
           <button
             onClick={() => { setStep(0); setAnswers({}); setEmail(""); setName(""); setSubmitted(false); }}
-            style={{ background: "none", border: "none", color: "#555", fontSize: ".8rem", cursor: "pointer", fontFamily: "inherit" }}
+            style={{ background: "none", border: "none", color:'#6b7280', fontSize: ".8rem", cursor: "pointer", fontFamily: "inherit" }}
           >
             Retake assessment
           </button>
           <span style={{ color: "#333", margin: "0 .75rem" }}>·</span>
-          <Link href="/beta" style={{ color: "#555", fontSize: ".8rem" }}>
+          <Link href="/beta" style={{ color:'#6b7280', fontSize: ".8rem" }}>
             Join the beta
           </Link>
         </div>

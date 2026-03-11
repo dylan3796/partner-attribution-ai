@@ -105,7 +105,7 @@ export default function Footer() {
     `}</style>
     <footer style={{
       borderTop: "1px solid #1a1a1a",
-      background: "#000",
+      background:'#f9fafb',
       padding: "3rem 2rem 2rem",
     }}>
       <div className="covant-footer-grid">
@@ -114,7 +114,7 @@ export default function Footer() {
           <Link href="/" style={{
             fontWeight: 800,
             fontSize: "1.1rem",
-            color: "#fff",
+            color:'#0a0a0a',
             textDecoration: "none",
             letterSpacing: "-0.02em",
           }}>
@@ -124,7 +124,7 @@ export default function Footer() {
             marginTop: "0.8rem",
             fontSize: "0.8rem",
             lineHeight: 1.6,
-            color: "#666",
+            color:'#6b7280',
           }}>
             Track attribution.<br />
             Calculate commissions.<br />
@@ -133,7 +133,7 @@ export default function Footer() {
           <p style={{
             marginTop: "0.8rem",
             fontSize: "0.75rem",
-            color: "#444",
+            color:'#374151',
           }}>
             © {new Date().getFullYear()} Covant, Inc.
           </p>
@@ -155,7 +155,7 @@ export default function Footer() {
             {PRODUCT_LINKS.map((link) => (
               <Link key={link.name} href={link.href} style={{
                 fontSize: "0.8rem",
-                color: "#555",
+                color:'#6b7280',
                 textDecoration: "none",
                 transition: "color 0.15s",
               }}>
@@ -181,7 +181,7 @@ export default function Footer() {
             {RESOURCE_LINKS.map((link) => (
               <Link key={link.name} href={link.href} style={{
                 fontSize: "0.8rem",
-                color: "#555",
+                color:'#6b7280',
                 textDecoration: "none",
                 transition: "color 0.15s",
               }}>
@@ -207,7 +207,7 @@ export default function Footer() {
             {COMPANY_LINKS.map((link) => (
               <Link key={link.name} href={link.href} style={{
                 fontSize: "0.8rem",
-                color: "#555",
+                color:'#6b7280',
                 textDecoration: "none",
                 transition: "color 0.15s",
               }}>
@@ -234,9 +234,9 @@ export default function Footer() {
           Built for partner teams that want to stop guessing.
         </p>
         <div style={{ display: "flex", gap: "1rem" }}>
-          <Link href="/pricing" style={{ fontSize: "0.75rem", color: "#444", textDecoration: "none" }}>Pricing</Link>
-          <Link href="/beta" style={{ fontSize: "0.75rem", color: "#444", textDecoration: "none" }}>Join Beta</Link>
-          <a href="mailto:hello@covant.ai" style={{ fontSize: "0.75rem", color: "#444", textDecoration: "none" }}>hello@covant.ai</a>
+          <Link href="/pricing" style={{ fontSize: "0.75rem", color:'#374151', textDecoration: "none" }}>Pricing</Link>
+          <Link href="/beta" style={{ fontSize: "0.75rem", color:'#374151', textDecoration: "none" }}>Join Beta</Link>
+          <a href="mailto:hello@covant.ai" style={{ fontSize: "0.75rem", color:'#374151', textDecoration: "none" }}>hello@covant.ai</a>
         </div>
       </div>
     </footer>

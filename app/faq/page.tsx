@@ -155,8 +155,8 @@ export default function FAQPage() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#000",
-        color: "#fff",
+        background:'#f9fafb',
+        color:'#0a0a0a',
         fontFamily: "var(--font-inter), Inter, sans-serif",
       }}
     >
@@ -174,7 +174,7 @@ export default function FAQPage() {
         <Link
           href="/"
           style={{
-            color: "#fff",
+            color:'#0a0a0a',
             textDecoration: "none",
             fontWeight: 700,
             fontSize: "1.1rem",
@@ -215,7 +215,7 @@ export default function FAQPage() {
             display: "inline-flex",
             alignItems: "center",
             gap: "6px",
-            color: "#666",
+            color:'#6b7280',
             fontSize: "0.85rem",
             textDecoration: "none",
             marginBottom: "2rem",
@@ -245,7 +245,7 @@ export default function FAQPage() {
         >
           Everything you need to know about Covant. Can&apos;t find what you&apos;re looking
           for?{" "}
-          <Link href="/contact" style={{ color: "#818cf8", textDecoration: "none" }}>
+          <Link href="/contact" style={{ color:'#0a0a0a', textDecoration: "none" }}>
             Get in touch
           </Link>
           .
@@ -261,7 +261,7 @@ export default function FAQPage() {
                 fontSize: "1.1rem",
                 fontWeight: 700,
                 letterSpacing: "-0.02em",
-                color: "#fff",
+                color:'#0a0a0a',
                 marginBottom: "1rem",
                 paddingBottom: "0.75rem",
                 borderBottom: "1px solid #1a1a1a",
@@ -342,7 +342,7 @@ export default function FAQPage() {
               gap: "6px",
               padding: "12px 24px",
               background: "transparent",
-              color: "#fff",
+              color:'#0a0a0a',
               border: "1px solid #333",
               borderRadius: "8px",
               fontWeight: 600,

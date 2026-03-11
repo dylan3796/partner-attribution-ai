@@ -16,7 +16,7 @@ export default function OgImage() {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'flex-start',
-          background: '#000',
+          background:'#f9fafb',
           padding: '80px',
           fontFamily: 'system-ui, sans-serif',
         }}
@@ -31,11 +31,11 @@ export default function OgImage() {
 
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 48 }}>
-          <span style={{ color: '#fff', fontSize: 28, fontWeight: 700, letterSpacing: '-0.03em' }}>
+          <span style={{ color:'#0a0a0a', fontSize: 28, fontWeight: 700, letterSpacing: '-0.03em' }}>
             Covant.ai
           </span>
           <span style={{
-            marginLeft: 12, color: '#555', fontSize: 14,
+            marginLeft: 12, color:'#6b7280', fontSize: 14,
             border: '1px solid #333', borderRadius: 4,
             padding: '2px 8px', letterSpacing: '0.05em',
           }}>
@@ -45,7 +45,7 @@ export default function OgImage() {
 
         {/* Headline */}
         <div style={{
-          color: '#fff', fontSize: 64, fontWeight: 800,
+          color:'#0a0a0a', fontSize: 64, fontWeight: 800,
           letterSpacing: '-0.04em', lineHeight: 1.1,
           marginBottom: 24, maxWidth: 800,
           display: 'flex', flexWrap: 'wrap',
@@ -68,7 +68,7 @@ export default function OgImage() {
         }}>
           <div style={{ display: 'flex', gap: 32 }}>
             {['Attribution', 'Commission Rules', 'Partner Portal', 'Payouts'].map(f => (
-              <span key={f} style={{ color: '#444', fontSize: 14 }}>{f}</span>
+              <span key={f} style={{ color:'#374151', fontSize: 14 }}>{f}</span>
             ))}
           </div>
           <span style={{ color: '#333', fontSize: 14 }}>covant.ai</span>

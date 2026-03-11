@@ -681,7 +681,7 @@ export default function DealsPage() {
                   onClick={() => setShowAdd(true)}
                   style={{
                     display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 20px",
-                    borderRadius: 8, background: "#6366f1", color: "#fff", border: "none",
+                    borderRadius: 8, background: "#6366f1", color:'#0a0a0a', border: "none",
                     fontWeight: 600, fontSize: ".85rem", cursor: "pointer", fontFamily: "inherit",
                   }}
                 >

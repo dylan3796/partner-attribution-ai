@@ -165,12 +165,12 @@ export default function PricingPage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#fff", fontFamily: "Inter, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background: "#ffffff", color: "#0a0a0a", fontFamily: "Inter, sans-serif" }}>
 
       {/* ── Nav ── */}
-      <nav style={{ padding: "1.25rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #111" }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: "1.15rem", color: "#fff", textDecoration: "none" }}>Covant</Link>
-        <Link href="/sign-up" style={{ background: "#fff", color: "#000", padding: "8px 20px", borderRadius: 8, fontWeight: 600, fontSize: ".85rem", textDecoration: "none" }}>Get Started Free</Link>
+      <nav style={{ padding: "1.25rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e5e7eb" }}>
+        <Link href="/" style={{ fontWeight: 700, fontSize: "1.15rem", color: "#0a0a0a", textDecoration: "none" }}>Covant</Link>
+        <Link href="/sign-up" style={{ background: "#0a0a0a", color: "#ffffff", padding: "8px 20px", borderRadius: 8, fontWeight: 600, fontSize: ".85rem", textDecoration: "none" }}>Get Started Free</Link>
       </nav>
 
       {/* ── Hero ── */}
@@ -185,7 +185,7 @@ export default function PricingPage() {
         <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, lineHeight: 1.1, margin: "0 0 20px" }}>
           Pay for the engines you use.
         </h1>
-        <p style={{ fontSize: "1.05rem", color: "rgba(255,255,255,.55)", maxWidth: 560, margin: "0 auto 12px", lineHeight: 1.7 }}>
+        <p style={{ fontSize: "1.05rem", color: "#6b7280", maxWidth: 560, margin: "0 auto 12px", lineHeight: 1.7 }}>
           Partner Portal is always free. Add AI engines to automate attribution, commissions, insights, and CRM sync — individually or bundled.
         </p>
       </section>
@@ -193,8 +193,8 @@ export default function PricingPage() {
       {/* ── Tier Toggle ── */}
       <section style={{ maxWidth: 500, margin: "0 auto 3rem", padding: "0 1.5rem" }}>
         <div style={{
-          display: "flex", background: "#111", borderRadius: 10, padding: 4,
-          border: "1px solid #222",
+          display: "flex", background: "#f9fafb", borderRadius: 10, padding: 4,
+          border: "1px solid #e5e7eb",
         }}>
           {(["starter", "growth", "scale"] as Tier[]).map((t) => (
             <button
@@ -202,14 +202,14 @@ export default function PricingPage() {
               onClick={() => setTier(t)}
               style={{
                 flex: 1, padding: "10px 0", borderRadius: 8, border: "none",
-                background: tier === t ? "#1f1f1f" : "transparent",
-                color: tier === t ? "#fff" : "#666",
+                background: tier === t ? "#ffffff" : "transparent",
+                color: tier === t ? "#0a0a0a" : "#6b7280",
                 fontWeight: 600, fontSize: ".85rem", cursor: "pointer",
                 fontFamily: "inherit", transition: "all .15s",
               }}
             >
               {TIER_LABELS[t].name}
-              <span style={{ display: "block", fontSize: ".7rem", fontWeight: 400, color: tier === t ? "#888" : "#444", marginTop: 2 }}>
+              <span style={{ display: "block", fontSize: ".7rem", fontWeight: 400, color: tier === t ? "#6b7280" : "#9ca3af", marginTop: 2 }}>
                 {TIER_LABELS[t].partners}
               </span>
             </button>
@@ -220,7 +220,7 @@ export default function PricingPage() {
       {/* ── Free Tier Banner ── */}
       <section style={{ maxWidth: 900, margin: "0 auto 2rem", padding: "0 1.5rem" }}>
         <div style={{
-          background: "#0d0d0d", border: "1px solid #1f1f1f", borderRadius: 12,
+          background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 12,
           padding: "1.25rem 1.5rem", display: "flex", alignItems: "center",
           justifyContent: "space-between", flexWrap: "wrap", gap: 16,
         }}>
@@ -233,7 +233,7 @@ export default function PricingPage() {
             </div>
             <div>
               <div style={{ fontWeight: 700, fontSize: ".95rem" }}>Free Tier</div>
-              <div style={{ fontSize: ".82rem", color: "#666" }}>
+              <div style={{ fontSize: ".82rem", color: "#6b7280" }}>
                 Portal + basic tracking · Up to 5 partners · No engines
               </div>
             </div>
@@ -241,8 +241,8 @@ export default function PricingPage() {
           <Link
             href="/sign-up"
             style={{
-              padding: "10px 20px", borderRadius: 8, border: "1px solid #333",
-              background: "transparent", color: "#e5e5e5", fontWeight: 600,
+              padding: "10px 20px", borderRadius: 8, border: "1px solid #d1d5db",
+              background: "transparent", color: "#374151", fontWeight: 600,
               fontSize: ".85rem", textDecoration: "none",
             }}
           >
@@ -253,7 +253,7 @@ export default function PricingPage() {
 
       {/* ── Engine Cards ── */}
       <section style={{ maxWidth: 900, margin: "0 auto 2rem", padding: "0 1.5rem" }}>
-        <h2 style={{ fontSize: "1rem", fontWeight: 600, color: "#888", marginBottom: "1rem", textTransform: "uppercase", letterSpacing: ".05em" }}>
+        <h2 style={{ fontSize: "1rem", fontWeight: 600, color: "#6b7280", marginBottom: "1rem", textTransform: "uppercase", letterSpacing: ".05em" }}>
           Select Engines
         </h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1rem" }}>
@@ -267,8 +267,8 @@ export default function PricingPage() {
                 onClick={() => !disabled && toggleEngine(key)}
                 disabled={disabled}
                 style={{
-                  background: isSelected ? "rgba(99,102,241,.08)" : "#0d0d0d",
-                  border: `1px solid ${isSelected ? "rgba(99,102,241,.4)" : "#1f1f1f"}`,
+                  background: isSelected ? "rgba(99,102,241,.08)" : "#ffffff",
+                  border: `1px solid ${isSelected ? "rgba(99,102,241,.4)" : "#e5e7eb"}`,
                   borderRadius: 12, padding: "1.25rem", textAlign: "left",
                   cursor: disabled ? "not-allowed" : "pointer",
                   opacity: disabled ? 0.5 : 1,
@@ -278,19 +278,19 @@ export default function PricingPage() {
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                   <div style={{
                     width: 36, height: 36, borderRadius: 8,
-                    background: isSelected ? "rgba(99,102,241,.15)" : "rgba(255,255,255,.05)",
+                    background: isSelected ? "rgba(99,102,241,.15)" : "#f9fafb",
                     display: "flex", alignItems: "center", justifyContent: "center",
-                    color: isSelected ? "#818cf8" : "#666",
+                    color: isSelected ? "#818cf8" : "#6b7280",
                   }}>
                     {engine.icon}
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: ".95rem", color: "#fff" }}>{engine.name}</div>
+                  <div style={{ fontWeight: 700, fontSize: ".95rem", color: "#0a0a0a" }}>{engine.name}</div>
                 </div>
-                <p style={{ fontSize: ".82rem", color: "#888", margin: "0 0 12px", lineHeight: 1.5 }}>
+                <p style={{ fontSize: ".82rem", color: "#6b7280", margin: "0 0 12px", lineHeight: 1.5 }}>
                   {engine.description}
                 </p>
-                <div style={{ fontWeight: 700, fontSize: "1.25rem", color: isSelected ? "#818cf8" : "#fff" }}>
-                  ${engine.prices[tier]}<span style={{ fontSize: ".8rem", fontWeight: 400, color: "#666" }}>/mo</span>
+                <div style={{ fontWeight: 700, fontSize: "1.25rem", color: isSelected ? "#818cf8" : "#0a0a0a" }}>
+                  ${engine.prices[tier]}<span style={{ fontSize: ".8rem", fontWeight: 400, color: "#6b7280" }}>/mo</span>
                 </div>
               </button>
             );
@@ -304,8 +304,8 @@ export default function PricingPage() {
           onClick={() => toggleEngine("bundle")}
           style={{
             width: "100%",
-            background: selectedEngines.has("bundle") ? "rgba(99,102,241,.1)" : "linear-gradient(135deg, #0d0d0d 0%, #111 100%)",
-            border: `2px solid ${selectedEngines.has("bundle") ? "#6366f1" : "#222"}`,
+            background: selectedEngines.has("bundle") ? "rgba(99,102,241,.1)" : "#f9fafb",
+            border: `2px solid ${selectedEngines.has("bundle") ? "#6366f1" : "#e5e7eb"}`,
             borderRadius: 14, padding: "1.5rem", textAlign: "left",
             cursor: "pointer", transition: "all .15s", fontFamily: "inherit",
             position: "relative", overflow: "hidden",
@@ -313,7 +313,7 @@ export default function PricingPage() {
         >
           <div style={{
             position: "absolute", top: 12, right: 16,
-            background: "#10b981", color: "#fff", fontSize: ".72rem", fontWeight: 700,
+            background: "#10b981", color: "#ffffff", fontSize: ".72rem", fontWeight: 700,
             padding: "4px 10px", borderRadius: 20,
           }}>
             Save ${getBundleSavings(tier)}/mo
@@ -321,23 +321,23 @@ export default function PricingPage() {
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
             <div style={{
               width: 44, height: 44, borderRadius: 10,
-              background: selectedEngines.has("bundle") ? "rgba(99,102,241,.2)" : "rgba(255,255,255,.05)",
+              background: selectedEngines.has("bundle") ? "rgba(99,102,241,.2)" : "#ffffff",
               display: "flex", alignItems: "center", justifyContent: "center",
-              color: selectedEngines.has("bundle") ? "#818cf8" : "#888",
+              color: selectedEngines.has("bundle") ? "#818cf8" : "#6b7280",
             }}>
               <Layers size={24} />
             </div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: "1.1rem", color: "#fff" }}>All Engines Bundle</div>
-              <div style={{ fontSize: ".82rem", color: "#888" }}>Attribution + Incentives + Intelligence + CRM</div>
+              <div style={{ fontWeight: 700, fontSize: "1.1rem", color: "#0a0a0a" }}>All Engines Bundle</div>
+              <div style={{ fontSize: ".82rem", color: "#6b7280" }}>Attribution + Incentives + Intelligence + CRM</div>
             </div>
           </div>
           <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-            <span style={{ fontWeight: 800, fontSize: "2rem", color: selectedEngines.has("bundle") ? "#818cf8" : "#fff" }}>
+            <span style={{ fontWeight: 800, fontSize: "2rem", color: selectedEngines.has("bundle") ? "#818cf8" : "#0a0a0a" }}>
               ${ENGINES.bundle.prices[tier]}
             </span>
-            <span style={{ fontSize: ".9rem", color: "#666" }}>/mo</span>
-            <span style={{ fontSize: ".85rem", color: "#444", marginLeft: 8, textDecoration: "line-through" }}>
+            <span style={{ fontSize: ".9rem", color: "#6b7280" }}>/mo</span>
+            <span style={{ fontSize: ".85rem", color: "#9ca3af", marginLeft: 8, textDecoration: "line-through" }}>
               ${ENGINES.attribution.prices[tier] + ENGINES.incentives.prices[tier] + ENGINES.intelligence.prices[tier] + ENGINES.crm.prices[tier]}
             </span>
           </div>
@@ -347,13 +347,13 @@ export default function PricingPage() {
       {/* ── Summary & Checkout ── */}
       {selectedEngines.size > 0 && (
         <section style={{
-          position: "sticky", bottom: 0, background: "#0a0a0a",
-          borderTop: "1px solid #222", padding: "1rem 1.5rem",
+          position: "sticky", bottom: 0, background: "#ffffff",
+          borderTop: "1px solid #e5e7eb", padding: "1rem 1.5rem",
           display: "flex", justifyContent: "space-between", alignItems: "center",
           flexWrap: "wrap", gap: 16, zIndex: 100,
         }}>
           <div>
-            <div style={{ fontSize: ".85rem", color: "#888" }}>
+            <div style={{ fontSize: ".85rem", color: "#6b7280" }}>
               {selectedEngines.has("bundle")
                 ? "All Engines Bundle"
                 : `${selectedEngines.size} engine${selectedEngines.size > 1 ? "s" : ""} selected`}
@@ -361,7 +361,7 @@ export default function PricingPage() {
               {TIER_LABELS[tier].name} tier
             </div>
             <div style={{ fontWeight: 800, fontSize: "1.5rem" }}>
-              ${totalPrice}<span style={{ fontSize: ".9rem", fontWeight: 400, color: "#666" }}>/mo</span>
+              ${totalPrice}<span style={{ fontSize: ".9rem", fontWeight: 400, color: "#6b7280" }}>/mo</span>
             </div>
           </div>
           <button
@@ -370,7 +370,7 @@ export default function PricingPage() {
             style={{
               display: "flex", alignItems: "center", gap: 8,
               padding: "14px 28px", borderRadius: 8, border: "none",
-              background: "#6366f1", color: "#fff", fontWeight: 700,
+              background: "#6366f1", color: "#ffffff", fontWeight: 700,
               fontSize: ".95rem", cursor: loading ? "wait" : "pointer",
               fontFamily: "inherit", opacity: loading ? 0.7 : 1,
             }}
@@ -393,8 +393,8 @@ export default function PricingPage() {
           {["Deal registration", "Commission tracking", "Performance dashboard", "Branded experience"].map((f) => (
             <div key={f} style={{
               display: "flex", alignItems: "center", gap: 6,
-              padding: "6px 12px", background: "#111", borderRadius: 20,
-              fontSize: ".8rem", color: "#aaa",
+              padding: "6px 12px", background: "#f9fafb", borderRadius: 20,
+              fontSize: ".8rem", color: "#6b7280",
             }}>
               <Check size={12} color="#10b981" />
               {f}
@@ -409,16 +409,16 @@ export default function PricingPage() {
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".85rem" }}>
             <thead>
-              <tr style={{ borderBottom: "1px solid #222" }}>
+              <tr style={{ borderBottom: "1px solid #e5e7eb" }}>
                 <th style={{ textAlign: "left", padding: "12px", color: "#6b7280", fontWeight: 500 }}>Engine</th>
                 {(["starter", "growth", "scale"] as Tier[]).map((t) => (
                   <th key={t} style={{
                     textAlign: "center", padding: "12px",
-                    color: tier === t ? "#818cf8" : "#aaa",
+                    color: tier === t ? "#818cf8" : "#6b7280",
                     fontWeight: tier === t ? 700 : 500,
                   }}>
                     {TIER_LABELS[t].name}
-                    <div style={{ fontSize: ".7rem", fontWeight: 400, color: "#555" }}>{TIER_LABELS[t].partners}</div>
+                    <div style={{ fontSize: ".7rem", fontWeight: 400, color: "#9ca3af" }}>{TIER_LABELS[t].partners}</div>
                   </th>
                 ))}
               </tr>
@@ -429,10 +429,10 @@ export default function PricingPage() {
                 const isBundle = key === "bundle";
                 return (
                   <tr key={key} style={{
-                    borderBottom: "1px solid #111",
-                    background: isBundle ? "rgba(99,102,241,.04)" : i % 2 === 0 ? "transparent" : "rgba(255,255,255,.015)",
+                    borderBottom: "1px solid #f3f4f6",
+                    background: isBundle ? "rgba(99,102,241,.04)" : i % 2 === 0 ? "transparent" : "#fafafa",
                   }}>
-                    <td style={{ padding: "14px 12px", color: "#e5e5e5", fontWeight: isBundle ? 700 : 400 }}>
+                    <td style={{ padding: "14px 12px", color: "#1f2937", fontWeight: isBundle ? 700 : 400 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                         {engine.icon}
                         {engine.name}
@@ -440,10 +440,10 @@ export default function PricingPage() {
                     </td>
                     {(["starter", "growth", "scale"] as Tier[]).map((t) => (
                       <td key={t} style={{ textAlign: "center", padding: "14px 12px" }}>
-                        <span style={{ fontWeight: 700, color: tier === t ? "#fff" : "#888" }}>
+                        <span style={{ fontWeight: 700, color: tier === t ? "#0a0a0a" : "#6b7280" }}>
                           ${engine.prices[t]}
                         </span>
-                        <span style={{ color: "#555", fontSize: ".75rem" }}>/mo</span>
+                        <span style={{ color: "#9ca3af", fontSize: ".75rem" }}>/mo</span>
                       </td>
                     ))}
                   </tr>
@@ -459,13 +459,13 @@ export default function PricingPage() {
         <h2 style={{ textAlign: "center", fontSize: "1.5rem", fontWeight: 700, marginBottom: "2rem" }}>Common questions</h2>
         <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
           {FAQS.map((faq, i) => (
-            <div key={i} style={{ borderBottom: "1px solid #1a1a1a" }}>
+            <div key={i} style={{ borderBottom: "1px solid #e5e7eb" }}>
               <button
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 style={{
                   width: "100%", textAlign: "left", background: "none", border: "none",
                   padding: "1rem 0", cursor: "pointer", display: "flex", justifyContent: "space-between",
-                  alignItems: "center", gap: 16, color: "#fff", fontFamily: "inherit",
+                  alignItems: "center", gap: 16, color: "#0a0a0a", fontFamily: "inherit",
                   fontSize: ".9rem", fontWeight: 500,
                 }}
               >
@@ -473,7 +473,7 @@ export default function PricingPage() {
                 {openFaq === i ? <ChevronUp size={16} color="#6b7280" /> : <ChevronDown size={16} color="#6b7280" />}
               </button>
               {openFaq === i && (
-                <p style={{ margin: "0 0 1rem", color: "#aaa", fontSize: ".88rem", lineHeight: 1.7 }}>{faq.a}</p>
+                <p style={{ margin: "0 0 1rem", color: "#6b7280", fontSize: ".88rem", lineHeight: 1.7 }}>{faq.a}</p>
               )}
             </div>
           ))}
@@ -481,17 +481,17 @@ export default function PricingPage() {
       </section>
 
       {/* ── Bottom CTA ── */}
-      <section style={{ textAlign: "center", padding: "4rem 1.5rem 6rem", borderTop: "1px solid #111" }}>
+      <section style={{ textAlign: "center", padding: "4rem 1.5rem 6rem", borderTop: "1px solid #e5e7eb" }}>
         <h2 style={{ fontSize: "1.75rem", fontWeight: 700, marginBottom: 12 }}>Start free. Add engines as you grow.</h2>
         <p style={{ color: "#6b7280", marginBottom: 28 }}>Portal included free. Up to 5 partners, no credit card.</p>
         <Link href="/sign-up" style={{
           display: "inline-flex", alignItems: "center", gap: 8,
-          background: "#fff", color: "#000", padding: "14px 28px",
+          background: "#0a0a0a", color: "#ffffff", padding: "14px 28px",
           borderRadius: 8, fontWeight: 700, fontSize: "1rem", textDecoration: "none",
         }}>
           Get Started Free <ArrowRight size={16} />
         </Link>
-        <p style={{ marginTop: 16, fontSize: ".85rem", color: "#444" }}>
+        <p style={{ marginTop: 16, fontSize: ".85rem", color: "#9ca3af" }}>
           Enterprise? <a href="mailto:sales@covant.ai" style={{ color: "#6366f1" }}>Talk to sales →</a>
         </p>
       </section>

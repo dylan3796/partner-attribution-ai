@@ -50,11 +50,11 @@ export default function BetaPage() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', background: '#000', color: '#fff', fontFamily: 'var(--font-inter), Inter, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background:'#f9fafb', color:'#0a0a0a', fontFamily: 'var(--font-inter), Inter, sans-serif' }}>
 
       {/* Nav */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 40px', borderBottom: '1px solid #111' }}>
-        <Link href="/" style={{ color: '#fff', textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.03em' }}>
+        <Link href="/" style={{ color:'#0a0a0a', textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.03em' }}>
           Covant.ai
         </Link>
         <Link href="/sign-in" style={{ color: '#888', fontSize: '0.85rem', textDecoration: 'none' }}>
@@ -75,7 +75,7 @@ export default function BetaPage() {
           <h1 style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1, margin: '0 0 24px' }}>
             Partner programs run on<br />spreadsheets. Yours doesn't have to.
           </h1>
-          <p style={{ color: '#666', fontSize: '1.2rem', maxWidth: 580, margin: '0 auto 48px', lineHeight: 1.6 }}>
+          <p style={{ color:'#6b7280', fontSize: '1.2rem', maxWidth: 580, margin: '0 auto 48px', lineHeight: 1.6 }}>
             Covant automates attribution, commission rules, and partner payouts for B2B partner programs.
             Join the beta — we're onboarding hands-on with the first 20 teams.
           </p>
@@ -88,7 +88,7 @@ export default function BetaPage() {
           <div>
             {/* Pain points */}
             <div style={{ marginBottom: 56 }}>
-              <p style={{ color: '#555', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 20 }}>IF THIS SOUNDS FAMILIAR</p>
+              <p style={{ color:'#6b7280', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 20 }}>IF THIS SOUNDS FAMILIAR</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {PAIN_POINTS.map(p => (
                   <div key={p.text} style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -101,7 +101,7 @@ export default function BetaPage() {
 
             {/* What you get */}
             <div>
-              <p style={{ color: '#555', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>WHAT YOU GET</p>
+              <p style={{ color:'#6b7280', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>WHAT YOU GET</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
                 {WHAT_YOU_GET.map(item => (
                   <div key={item.title}>
@@ -109,15 +109,15 @@ export default function BetaPage() {
                       <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', display: 'inline-block' }} />
                       <span style={{ fontWeight: 600, fontSize: '0.95rem' }}>{item.title}</span>
                     </div>
-                    <p style={{ color: '#666', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, paddingLeft: 16 }}>{item.desc}</p>
+                    <p style={{ color:'#6b7280', fontSize: '0.875rem', lineHeight: 1.6, margin: 0, paddingLeft: 16 }}>{item.desc}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Beta terms */}
-            <div style={{ marginTop: 56, padding: '24px', background: '#0a0a0a', borderRadius: 8, border: '1px solid #1a1a1a' }}>
-              <p style={{ color: '#555', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 16 }}>BETA PROGRAM</p>
+            <div style={{ marginTop: 56, padding: '24px', background:'#f9fafb', borderRadius: 8, border: '1px solid #1a1a1a' }}>
+              <p style={{ color:'#6b7280', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 16 }}>BETA PROGRAM</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {[
                   'Free during beta — no credit card',
@@ -126,7 +126,7 @@ export default function BetaPage() {
                   'Locked-in pricing when we launch ($0 → Pro rate)',
                 ].map(item => (
                   <div key={item} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-                    <span style={{ color: '#444', marginTop: 2 }}>✓</span>
+                    <span style={{ color:'#374151', marginTop: 2 }}>✓</span>
                     <span style={{ color: '#888', fontSize: '0.875rem' }}>{item}</span>
                   </div>
                 ))}
@@ -141,12 +141,12 @@ export default function BetaPage() {
                 <div style={{ textAlign: 'center', padding: '24px 0' }}>
                   <div style={{ fontSize: '2rem', marginBottom: 16 }}>✓</div>
                   <h3 style={{ fontWeight: 700, fontSize: '1.2rem', margin: '0 0 12px' }}>You're on the list.</h3>
-                  <p style={{ color: '#666', fontSize: '0.875rem', lineHeight: 1.6, margin: '0 0 24px' }}>
+                  <p style={{ color:'#6b7280', fontSize: '0.875rem', lineHeight: 1.6, margin: '0 0 24px' }}>
                     We'll reach out within 48 hours to schedule your onboarding.
                     In the meantime, explore the demo.
                   </p>
                   <Link href="/demo" style={{
-                    display: 'inline-block', color: '#fff', fontSize: '0.875rem',
+                    display: 'inline-block', color:'#0a0a0a', fontSize: '0.875rem',
                     border: '1px solid #333', borderRadius: 6, padding: '10px 20px',
                     textDecoration: 'none',
                   }}>
@@ -158,13 +158,13 @@ export default function BetaPage() {
                   <h2 style={{ fontWeight: 700, fontSize: '1.25rem', margin: '0 0 6px', letterSpacing: '-0.02em' }}>
                     Request beta access
                   </h2>
-                  <p style={{ color: '#555', fontSize: '0.85rem', margin: '0 0 28px' }}>
+                  <p style={{ color:'#6b7280', fontSize: '0.85rem', margin: '0 0 28px' }}>
                     We review every application — we're not just collecting emails.
                   </p>
 
                   <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                     <div>
-                      <label style={{ display: 'block', color: '#666', fontSize: '0.75rem', marginBottom: 6 }}>Work email *</label>
+                      <label style={{ display: 'block', color:'#6b7280', fontSize: '0.75rem', marginBottom: 6 }}>Work email *</label>
                       <input
                         type="email"
                         required
@@ -173,14 +173,14 @@ export default function BetaPage() {
                         placeholder="you@company.com"
                         style={{
                           width: '100%', background: '#0f0f0f', border: '1px solid #222',
-                          borderRadius: 6, padding: '10px 12px', color: '#fff',
+                          borderRadius: 6, padding: '10px 12px', color:'#0a0a0a',
                           fontSize: '0.875rem', outline: 'none', boxSizing: 'border-box',
                         }}
                       />
                     </div>
 
                     <div>
-                      <label style={{ display: 'block', color: '#666', fontSize: '0.75rem', marginBottom: 6 }}>Company</label>
+                      <label style={{ display: 'block', color:'#6b7280', fontSize: '0.75rem', marginBottom: 6 }}>Company</label>
                       <input
                         type="text"
                         value={company}
@@ -188,14 +188,14 @@ export default function BetaPage() {
                         placeholder="Acme Corp"
                         style={{
                           width: '100%', background: '#0f0f0f', border: '1px solid #222',
-                          borderRadius: 6, padding: '10px 12px', color: '#fff',
+                          borderRadius: 6, padding: '10px 12px', color:'#0a0a0a',
                           fontSize: '0.875rem', outline: 'none', boxSizing: 'border-box',
                         }}
                       />
                     </div>
 
                     <div>
-                      <label style={{ display: 'block', color: '#666', fontSize: '0.75rem', marginBottom: 6 }}>Your role</label>
+                      <label style={{ display: 'block', color:'#6b7280', fontSize: '0.75rem', marginBottom: 6 }}>Your role</label>
                       <select
                         value={role}
                         onChange={e => setRole(e.target.value)}
@@ -217,7 +217,7 @@ export default function BetaPage() {
                     </div>
 
                     <div>
-                      <label style={{ display: 'block', color: '#666', fontSize: '0.75rem', marginBottom: 6 }}>How many active partners?</label>
+                      <label style={{ display: 'block', color:'#6b7280', fontSize: '0.75rem', marginBottom: 6 }}>How many active partners?</label>
                       <select
                         value={partners}
                         onChange={e => setPartners(e.target.value)}

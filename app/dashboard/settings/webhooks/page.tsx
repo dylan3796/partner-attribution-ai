@@ -127,7 +127,7 @@ function EndpointModal({
           maxWidth: 560,
           maxHeight: "85vh",
           overflow: "auto",
-          background: "var(--card, #111)",
+          background: "var(--card-bg)",
           border: "1px solid var(--border)",
           borderRadius: 16,
           padding: "2rem",

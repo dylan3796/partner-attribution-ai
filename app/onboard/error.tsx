@@ -17,7 +17,7 @@ export default function OnboardError({
 
   return (
     <div style={{
-      minHeight: "100vh", background: "#000", color: "#e5e5e5",
+      minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5",
       display: "flex", alignItems: "center", justifyContent: "center",
       fontFamily: "Inter, system-ui, sans-serif",
     }}>
@@ -29,10 +29,10 @@ export default function OnboardError({
         }}>
           <AlertTriangle size={32} />
         </div>
-        <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: ".5rem" }}>
+        <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: ".5rem" }}>
           Couldn&apos;t set up your account
         </h2>
-        <p style={{ color: "#666", marginBottom: "2rem", lineHeight: 1.6 }}>
+        <p style={{ color:'#6b7280', marginBottom: "2rem", lineHeight: 1.6 }}>
           We hit an issue provisioning your organization. Please try again — if the problem persists, reach out to support.
         </p>
         <div style={{ display: "flex", gap: ".75rem", justifyContent: "center" }}>

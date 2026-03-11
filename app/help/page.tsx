@@ -639,14 +639,14 @@ function ArticleContent({ article }: { article: Article }) {
           fontFamily: "inherit",
         }}
       >
-        <div style={{ marginTop: 2, flexShrink: 0, color: "#555" }}>
+        <div style={{ marginTop: 2, flexShrink: 0, color:'#6b7280' }}>
           {expanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
         </div>
         <div style={{ flex: 1 }}>
-          <h3 style={{ fontSize: ".95rem", fontWeight: 700, color: "#fff", margin: 0, lineHeight: 1.4 }}>
+          <h3 style={{ fontSize: ".95rem", fontWeight: 700, color:'#0a0a0a', margin: 0, lineHeight: 1.4 }}>
             {article.title}
           </h3>
-          <p style={{ fontSize: ".8rem", color: "#666", margin: "4px 0 0", lineHeight: 1.5 }}>
+          <p style={{ fontSize: ".8rem", color:'#6b7280', margin: "4px 0 0", lineHeight: 1.5 }}>
             {article.summary}
           </p>
         </div>
@@ -660,7 +660,7 @@ function ArticleContent({ article }: { article: Article }) {
                 <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
                   <span style={{
                     display: "inline-flex", alignItems: "center", justifyContent: "center",
-                    width: 22, height: 22, borderRadius: "50%", background: "#1a1a1a",
+                    width: 22, height: 22, borderRadius: "50%", background:'#f9fafb',
                     fontSize: ".7rem", fontWeight: 800, color: "#888", flexShrink: 0,
                   }}>
                     {i + 1}
@@ -678,7 +678,7 @@ function ArticleContent({ article }: { article: Article }) {
 
           {article.relatedLinks && article.relatedLinks.length > 0 && (
             <div style={{ marginTop: 20, paddingTop: 16, borderTop: "1px solid #111" }}>
-              <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "#555", marginBottom: 8 }}>
+              <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color:'#6b7280', marginBottom: 8 }}>
                 Related
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -723,28 +723,28 @@ export default function HelpCenterPage() {
   const totalArticles = CATEGORIES.reduce((sum, c) => sum + c.articles.length, 0);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5" }}>
+    <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5" }}>
       {/* Header */}
       <div style={{ borderBottom: "1px solid #111", padding: "3rem 1.5rem 2.5rem", textAlign: "center" }}>
         <Link
           href="/"
           style={{
             display: "inline-flex", alignItems: "center", gap: 6,
-            color: "#666", fontSize: ".8rem", textDecoration: "none", marginBottom: 16,
+            color:'#6b7280', fontSize: ".8rem", textDecoration: "none", marginBottom: 16,
           }}
         >
           <ArrowLeft size={14} /> Back to Covant
         </Link>
-        <h1 style={{ fontSize: "2.2rem", fontWeight: 800, letterSpacing: "-.03em", color: "#fff", margin: "0 0 8px" }}>
+        <h1 style={{ fontSize: "2.2rem", fontWeight: 800, letterSpacing: "-.03em", color:'#0a0a0a', margin: "0 0 8px" }}>
           Help Center
         </h1>
-        <p style={{ color: "#666", fontSize: ".95rem", maxWidth: 500, margin: "0 auto 24px" }}>
+        <p style={{ color:'#6b7280', fontSize: ".95rem", maxWidth: 500, margin: "0 auto 24px" }}>
           {totalArticles} guides across {CATEGORIES.length} categories. Everything you need to run your partner program.
         </p>
 
         {/* Search */}
         <div style={{ maxWidth: 480, margin: "0 auto", position: "relative" }}>
-          <Search size={16} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: "#555" }} />
+          <Search size={16} style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color:'#6b7280' }} />
           <input
             type="text"
             placeholder="Search guides..."
@@ -752,7 +752,7 @@ export default function HelpCenterPage() {
             onChange={(e) => setSearch(e.target.value)}
             style={{
               width: "100%", padding: "12px 16px 12px 40px", borderRadius: 10,
-              border: "1px solid #222", background: "#0a0a0a", color: "#e5e5e5",
+              border: "1px solid #222", background:'#f9fafb', color: "#e5e5e5",
               fontSize: ".9rem", outline: "none", fontFamily: "inherit",
             }}
           />
@@ -791,14 +791,14 @@ export default function HelpCenterPage() {
                     <Icon size={18} style={{ color: cat.color }} />
                   </div>
                   <div>
-                    <h3 style={{ fontSize: ".9rem", fontWeight: 700, color: "#fff", margin: "0 0 2px" }}>
+                    <h3 style={{ fontSize: ".9rem", fontWeight: 700, color:'#0a0a0a', margin: "0 0 2px" }}>
                       {cat.title}
                     </h3>
-                    <p style={{ fontSize: ".75rem", color: "#666", margin: 0, lineHeight: 1.4 }}>
+                    <p style={{ fontSize: ".75rem", color:'#6b7280', margin: 0, lineHeight: 1.4 }}>
                       {cat.description}
                     </p>
                   </div>
-                  <span style={{ fontSize: ".7rem", color: "#555" }}>
+                  <span style={{ fontSize: ".7rem", color:'#6b7280' }}>
                     {cat.articles.length} {cat.articles.length === 1 ? "article" : "articles"}
                   </span>
                 </button>
@@ -813,7 +813,7 @@ export default function HelpCenterPage() {
             onClick={() => setActiveCategory(null)}
             style={{
               display: "inline-flex", alignItems: "center", gap: 6,
-              background: "none", border: "none", color: "#666",
+              background: "none", border: "none", color:'#6b7280',
               fontSize: ".8rem", cursor: "pointer", marginBottom: 20,
               fontFamily: "inherit", padding: 0,
             }}
@@ -829,10 +829,10 @@ export default function HelpCenterPage() {
             <div key={cat.id} style={{ marginBottom: "2rem" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
                 <Icon size={18} style={{ color: cat.color }} />
-                <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#fff", margin: 0 }}>
+                <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color:'#0a0a0a', margin: 0 }}>
                   {cat.title}
                 </h2>
-                <span style={{ fontSize: ".7rem", color: "#555" }}>
+                <span style={{ fontSize: ".7rem", color:'#6b7280' }}>
                   {cat.articles.length} {cat.articles.length === 1 ? "article" : "articles"}
                 </span>
               </div>
@@ -849,10 +849,10 @@ export default function HelpCenterPage() {
         {search && filteredCategories.length === 0 && (
           <div style={{ textAlign: "center", padding: "3rem 0" }}>
             <HelpCircle size={40} style={{ color: "#333", marginBottom: 12 }} />
-            <p style={{ color: "#666", fontSize: ".9rem" }}>
+            <p style={{ color:'#6b7280', fontSize: ".9rem" }}>
               No guides found for &quot;{search}&quot;
             </p>
-            <p style={{ color: "#555", fontSize: ".8rem" }}>
+            <p style={{ color:'#6b7280', fontSize: ".8rem" }}>
               Try a different search term or <Link href="/contact" style={{ color: "#6366f1" }}>contact us</Link> for help.
             </p>
           </div>
@@ -863,10 +863,10 @@ export default function HelpCenterPage() {
           marginTop: "3rem", padding: "2rem", borderRadius: 12,
           border: "1px solid #1a1a1a", background: "#060606", textAlign: "center",
         }}>
-          <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#fff", margin: "0 0 8px" }}>
+          <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color:'#0a0a0a', margin: "0 0 8px" }}>
             Can&apos;t find what you&apos;re looking for?
           </h3>
-          <p style={{ color: "#666", fontSize: ".85rem", margin: "0 0 16px" }}>
+          <p style={{ color:'#6b7280', fontSize: ".85rem", margin: "0 0 16px" }}>
             Our team responds within 4 hours on business days.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
@@ -883,7 +883,7 @@ export default function HelpCenterPage() {
               href="/docs"
               style={{
                 padding: "10px 24px", borderRadius: 8, border: "1px solid #333",
-                color: "#ccc", fontSize: ".85rem", fontWeight: 600, textDecoration: "none",
+                color:'#374151', fontSize: ".85rem", fontWeight: 600, textDecoration: "none",
               }}
             >
               API Reference
@@ -892,7 +892,7 @@ export default function HelpCenterPage() {
               href="/faq"
               style={{
                 padding: "10px 24px", borderRadius: 8, border: "1px solid #333",
-                color: "#ccc", fontSize: ".85rem", fontWeight: 600, textDecoration: "none",
+                color:'#374151', fontSize: ".85rem", fontWeight: 600, textDecoration: "none",
               }}
             >
               FAQ

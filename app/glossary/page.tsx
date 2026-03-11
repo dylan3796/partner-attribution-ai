@@ -371,7 +371,7 @@ export default function GlossaryPage() {
           display: "inline-flex",
           alignItems: "center",
           gap: 6,
-          color: "#666",
+          color:'#6b7280',
           fontSize: ".85rem",
           textDecoration: "none",
           marginBottom: 12,
@@ -383,14 +383,14 @@ export default function GlossaryPage() {
       {/* Header */}
       <div style={{ marginBottom: "2.5rem" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
-          <BookOpen size={22} style={{ color: "#818cf8" }} />
+          <BookOpen size={22} style={{ color:'#0a0a0a' }} />
           <p
             style={{
               fontSize: ".75rem",
               fontWeight: 700,
               letterSpacing: ".1em",
               textTransform: "uppercase",
-              color: "rgba(129,140,248,.7)",
+              color:'#374151',
               margin: 0,
             }}
           >
@@ -408,7 +408,7 @@ export default function GlossaryPage() {
         >
           Partner Program Glossary
         </h1>
-        <p style={{ color: "#666", lineHeight: 1.6, maxWidth: 600 }}>
+        <p style={{ color:'#6b7280', lineHeight: 1.6, maxWidth: 600 }}>
           {TERMS.length} terms every VP of Partnerships, RevOps lead, and partner
           manager should know — from attribution models to webhook signing.
         </p>
@@ -422,9 +422,9 @@ export default function GlossaryPage() {
           gap: 4,
           marginBottom: "2.5rem",
           padding: "12px 16px",
-          background: "rgba(255,255,255,.03)",
+          background:"#f9fafb",
           borderRadius: 8,
-          border: "1px solid rgba(255,255,255,.06)",
+          border:'1px solid #e5e7eb',
         }}
       >
         {letters.map((l) => (
@@ -440,7 +440,7 @@ export default function GlossaryPage() {
               borderRadius: 6,
               fontSize: ".8rem",
               fontWeight: 700,
-              color: "#818cf8",
+              color:'#0a0a0a',
               textDecoration: "none",
               transition: "background 0.15s",
             }}
@@ -454,7 +454,7 @@ export default function GlossaryPage() {
             display: "flex",
             alignItems: "center",
             gap: 6,
-            color: "#444",
+            color:'#374151',
             fontSize: ".75rem",
           }}
         >
@@ -479,17 +479,17 @@ export default function GlossaryPage() {
               href={`#cat-${cat.toLowerCase().replace(/[^a-z]+/g, "-")}`}
               style={{
                 padding: "14px 16px",
-                background: "rgba(255,255,255,.03)",
+                background:"#f9fafb",
                 borderRadius: 8,
-                border: "1px solid rgba(255,255,255,.06)",
+                border:'1px solid #e5e7eb',
                 textDecoration: "none",
                 transition: "border-color 0.15s",
               }}
             >
-              <div style={{ fontWeight: 700, fontSize: ".85rem", color: "#fff", marginBottom: 2 }}>
+              <div style={{ fontWeight: 700, fontSize: ".85rem", color:'#0a0a0a', marginBottom: 2 }}>
                 {cat}
               </div>
-              <div style={{ fontSize: ".75rem", color: "#555" }}>{count} terms</div>
+              <div style={{ fontSize: ".75rem", color:'#6b7280' }}>{count} terms</div>
             </a>
           );
         })}
@@ -509,7 +509,7 @@ export default function GlossaryPage() {
                 fontSize: "1.1rem",
                 fontWeight: 800,
                 letterSpacing: "-.01em",
-                borderBottom: "1px solid rgba(255,255,255,.08)",
+                borderBottom:'1px solid #e5e7eb',
                 paddingBottom: 8,
                 marginBottom: "1.25rem",
               }}
@@ -523,9 +523,9 @@ export default function GlossaryPage() {
                   id={`term-${t.slug}`}
                   style={{
                     padding: "1.25rem 1.5rem",
-                    background: "rgba(255,255,255,.02)",
+                    background:"#f9fafb",
                     borderRadius: 10,
-                    border: "1px solid rgba(255,255,255,.05)",
+                    border:'1px solid #e5e7eb',
                   }}
                 >
                   <h3
@@ -533,7 +533,7 @@ export default function GlossaryPage() {
                       fontSize: ".95rem",
                       fontWeight: 700,
                       margin: "0 0 6px",
-                      color: "#fff",
+                      color:'#0a0a0a',
                     }}
                   >
                     {t.term}
@@ -562,7 +562,7 @@ export default function GlossaryPage() {
                         style={{
                           fontSize: ".7rem",
                           fontWeight: 700,
-                          color: "#818cf8",
+                          color:'#0a0a0a',
                           textTransform: "uppercase",
                           letterSpacing: ".06em",
                         }}
@@ -600,7 +600,7 @@ export default function GlossaryPage() {
                             gap: 4,
                             fontSize: ".75rem",
                             fontWeight: 600,
-                            color: "#818cf8",
+                            color:'#0a0a0a',
                             textDecoration: "none",
                             padding: "3px 10px",
                             borderRadius: 4,
@@ -621,7 +621,7 @@ export default function GlossaryPage() {
       })}
 
       {/* Alphabetical index */}
-      <section style={{ marginTop: "3rem", borderTop: "1px solid rgba(255,255,255,.06)", paddingTop: "2rem" }}>
+      <section style={{ marginTop: "3rem", borderTop:'1px solid #e5e7eb', paddingTop: "2rem" }}>
         <h2
           style={{
             fontSize: "1.1rem",
@@ -638,7 +638,7 @@ export default function GlossaryPage() {
               style={{
                 fontSize: "1.1rem",
                 fontWeight: 800,
-                color: "#818cf8",
+                color:'#0a0a0a',
                 marginBottom: 6,
               }}
             >
@@ -672,16 +672,16 @@ export default function GlossaryPage() {
         style={{
           marginTop: "3rem",
           padding: "2.5rem",
-          background: "rgba(255,255,255,.03)",
+          background:"#f9fafb",
           borderRadius: 12,
-          border: "1px solid rgba(255,255,255,.06)",
+          border:'1px solid #e5e7eb',
           textAlign: "center",
         }}
       >
         <h2 style={{ fontSize: "1.3rem", fontWeight: 800, marginBottom: 8 }}>
           See these concepts in action
         </h2>
-        <p style={{ color: "#666", fontSize: ".9rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
+        <p style={{ color:'#6b7280', fontSize: ".9rem", marginBottom: "1.5rem", lineHeight: 1.6 }}>
           Covant turns partner program theory into a working product — attribution,
           commissions, portal, and intelligence in one platform.
         </p>
@@ -697,7 +697,7 @@ export default function GlossaryPage() {
             href="/features"
             style={{
               textDecoration: "none",
-              color: "#818cf8",
+              color:'#0a0a0a',
               fontSize: ".85rem",
               fontWeight: 600,
               display: "flex",

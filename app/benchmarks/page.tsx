@@ -34,7 +34,7 @@ const CATEGORIES: Category[] = [
     id: "attribution",
     title: "Attribution & Tracking",
     icon: Target,
-    color: "#818cf8",
+    color:'#0a0a0a',
     benchmarks: [
       {
         metric: "Partner-Sourced Revenue",
@@ -245,7 +245,7 @@ export default function BenchmarksPage() {
           <div style={{ padding: 8, background: "#818cf818", borderRadius: 10 }}>
             <BarChart3 size={22} color="#818cf8" />
           </div>
-          <span style={{ fontSize: ".75rem", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#818cf8" }}>Industry Benchmarks</span>
+          <span style={{ fontSize: ".75rem", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color:'#0a0a0a' }}>Industry Benchmarks</span>
         </div>
         <h1 style={{ fontSize: "2.25rem", fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.15, marginBottom: 12 }}>
           Partner Program Benchmarks 2026
@@ -253,7 +253,7 @@ export default function BenchmarksPage() {
         <p style={{ color: "var(--muted)", lineHeight: 1.7, maxWidth: 680, fontSize: ".95rem" }}>
           {totalBenchmarks} key metrics across attribution, commissions, engagement, and revenue — with bottom-quartile, median, and top-quartile ranges from programs managing 10 to 500+ partners.
         </p>
-        <p style={{ color: "rgba(255,255,255,.35)", fontSize: ".8rem", marginTop: 8 }}>
+        <p style={{ color:"#9ca3af", fontSize: ".8rem", marginTop: 8 }}>
           Based on aggregate patterns across partner programs. Updated March 2026.
         </p>
       </div>
@@ -289,7 +289,7 @@ export default function BenchmarksPage() {
                 onClick={() => setExpandedCategory(isExpanded ? null : cat.id)}
                 style={{
                   display: "flex", alignItems: "center", gap: 12, width: "100%", padding: "16px 20px",
-                  background: "transparent", border: "none", cursor: "pointer", color: "#fff", textAlign: "left",
+                  background: "transparent", border: "none", cursor: "pointer", color:'#0a0a0a', textAlign: "left",
                 }}
               >
                 <div style={{ padding: 6, background: `${cat.color}18`, borderRadius: 8 }}>
@@ -328,7 +328,7 @@ export default function BenchmarksPage() {
                                 placeholder="Your value"
                                 style={{
                                   width: 90, padding: "6px 10px", background: "#ffffff10", border: "1px solid var(--border)",
-                                  borderRadius: 6, color: "#fff", fontSize: ".8rem", textAlign: "right",
+                                  borderRadius: 6, color:'#0a0a0a', fontSize: ".8rem", textAlign: "right",
                                 }}
                               />
                               <span style={{ fontSize: ".75rem", color: "var(--muted)", minWidth: 28 }}>{b.unit}</span>
@@ -468,7 +468,7 @@ export default function BenchmarksPage() {
           ].map((t, i) => (
             <div key={i} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
               <div style={{ width: 24, height: 24, borderRadius: 6, background: "#818cf818", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
-                <span style={{ fontSize: ".7rem", fontWeight: 800, color: "#818cf8" }}>{i + 1}</span>
+                <span style={{ fontSize: ".7rem", fontWeight: 800, color:'#0a0a0a' }}>{i + 1}</span>
               </div>
               <div>
                 <div style={{ fontSize: ".85rem", fontWeight: 700, marginBottom: 2 }}>{t.title}</div>

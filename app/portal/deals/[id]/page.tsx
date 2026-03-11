@@ -109,7 +109,7 @@ export default function PortalDealDetail({ params }: { params: Promise<{ id: str
 
         {/* Dispute Modal */}
         {showDispute && (
-          <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => { setShowDispute(false); setDisputed(false); }}>
+          <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.5)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center" }} onClick={() => { setShowDispute(false); setDisputed(false); }}>
             <div className="card" style={{ width: 480 }} onClick={(e) => e.stopPropagation()}>
               {disputed ? (
                 <div style={{ textAlign: "center", padding: "2rem 0" }}>

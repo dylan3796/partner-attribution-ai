@@ -39,7 +39,7 @@ function Toggle({ checked, onChange, disabled }: { checked: boolean; onChange: (
       onClick={() => !disabled && onChange(!checked)}
       style={{
         position: "relative", width: 44, height: 24, borderRadius: 12,
-        background: checked ? "var(--primary, #6366f1)" : "var(--border, #333)",
+        background: checked ? "var(--primary, #6366f1)" : "var(--border)",
         border: "none", cursor: disabled ? "not-allowed" : "pointer",
         transition: "background 0.2s", flexShrink: 0,
         opacity: disabled ? 0.5 : 1,
@@ -162,7 +162,7 @@ export default function NotificationPreferencesPage() {
           style={{
             display: "flex", alignItems: "center", gap: 6,
             padding: "10px 20px", borderRadius: 8,
-            background: dirty ? "var(--primary, #6366f1)" : "var(--border, #333)",
+            background: dirty ? "var(--primary, #6366f1)" : "var(--border)",
             color: dirty ? "#fff" : "var(--muted)",
             border: "none", fontWeight: 600, fontSize: ".85rem",
             cursor: dirty ? "pointer" : "default",
@@ -254,7 +254,7 @@ export default function NotificationPreferencesPage() {
                 onClick={() => { setEmailDigest(opt.value); setDirty(true); }}
                 style={{
                   padding: "8px 16px", borderRadius: 8, fontSize: ".8rem", fontWeight: 600,
-                  border: emailDigest === opt.value ? "1px solid var(--primary, #6366f1)" : "1px solid var(--border, #333)",
+                  border: emailDigest === opt.value ? "1px solid var(--primary, #6366f1)" : "1px solid var(--border)",
                   background: emailDigest === opt.value ? "rgba(99,102,241,.1)" : "transparent",
                   color: emailDigest === opt.value ? "var(--primary, #6366f1)" : "var(--muted)",
                   cursor: "pointer", transition: "all 0.15s",
@@ -336,8 +336,8 @@ export default function NotificationPreferencesPage() {
                 value={quietStart}
                 onChange={e => { setQuietStart(e.target.value); setDirty(true); }}
                 style={{
-                  padding: "6px 10px", borderRadius: 6, border: "1px solid var(--border, #333)",
-                  background: "var(--card, #111)", color: "var(--foreground)",
+                  padding: "6px 10px", borderRadius: 6, border: "1px solid var(--border)",
+                  background: "var(--card-bg)", color: "var(--foreground)",
                   fontSize: ".85rem",
                 }}
               />
@@ -349,8 +349,8 @@ export default function NotificationPreferencesPage() {
                 value={quietEnd}
                 onChange={e => { setQuietEnd(e.target.value); setDirty(true); }}
                 style={{
-                  padding: "6px 10px", borderRadius: 6, border: "1px solid var(--border, #333)",
-                  background: "var(--card, #111)", color: "var(--foreground)",
+                  padding: "6px 10px", borderRadius: 6, border: "1px solid var(--border)",
+                  background: "var(--card-bg)", color: "var(--foreground)",
                   fontSize: ".85rem",
                 }}
               />

@@ -211,14 +211,14 @@ export default async function UseCaseDetailPage({ params }: Props) {
     .filter(Boolean);
 
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5", fontFamily: "var(--font-inter), Inter, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5", fontFamily: "var(--font-inter), Inter, sans-serif" }}>
       {/* Nav */}
       <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "20px 40px", borderBottom: "1px solid #111" }}>
-        <Link href="/" style={{ color: "#fff", textDecoration: "none", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "-0.03em" }}>
+        <Link href="/" style={{ color:'#0a0a0a', textDecoration: "none", fontWeight: 700, fontSize: "1.1rem", letterSpacing: "-0.03em" }}>
           Covant.ai
         </Link>
         <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
-          <Link href="/use-cases" style={{ color: "#666", fontSize: ".85rem", textDecoration: "none" }}>All Use Cases</Link>
+          <Link href="/use-cases" style={{ color:'#6b7280', fontSize: ".85rem", textDecoration: "none" }}>All Use Cases</Link>
           <Link href="/beta" style={{ color: "#000", background: "#fff", fontSize: "0.85rem", textDecoration: "none", padding: "8px 16px", borderRadius: 6, fontWeight: 600 }}>
             Join Beta
           </Link>
@@ -228,7 +228,7 @@ export default async function UseCaseDetailPage({ params }: Props) {
       <main style={{ maxWidth: 760, margin: "0 auto", padding: "0 24px" }}>
         {/* Breadcrumb */}
         <div style={{ padding: "32px 0 0" }}>
-          <Link href="/use-cases" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "#555", fontSize: ".85rem", textDecoration: "none" }}>
+          <Link href="/use-cases" style={{ display: "inline-flex", alignItems: "center", gap: 6, color:'#6b7280', fontSize: ".85rem", textDecoration: "none" }}>
             <ArrowLeft size={14} /> All use cases
           </Link>
         </div>
@@ -238,7 +238,7 @@ export default async function UseCaseDetailPage({ params }: Props) {
           <div style={{ fontSize: ".75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".08em", color: uc.color, marginBottom: 16 }}>
             {uc.persona}
           </div>
-          <h1 style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", fontWeight: 800, color: "#fff", letterSpacing: "-.03em", lineHeight: 1.15, marginBottom: 20 }}>
+          <h1 style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", fontWeight: 800, color:'#0a0a0a', letterSpacing: "-.03em", lineHeight: 1.15, marginBottom: 20 }}>
             {uc.headline}
           </h1>
           <p style={{ fontSize: "1.05rem", color: "#888", lineHeight: 1.7, maxWidth: 640 }}>
@@ -248,9 +248,9 @@ export default async function UseCaseDetailPage({ params }: Props) {
           {/* Hero stats */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 16, marginTop: 40 }}>
             {uc.heroStats.map((s) => (
-              <div key={s.label} style={{ padding: "20px", borderRadius: 12, border: "1px solid #1a1a1a", background: "#0a0a0a" }}>
+              <div key={s.label} style={{ padding: "20px", borderRadius: 12, border: "1px solid #1a1a1a", background:'#f9fafb' }}>
                 <div style={{ fontSize: "1.75rem", fontWeight: 800, color: uc.color, marginBottom: 4 }}>{s.value}</div>
-                <div style={{ fontSize: ".8rem", color: "#666", lineHeight: 1.4 }}>{s.label}</div>
+                <div style={{ fontSize: ".8rem", color:'#6b7280', lineHeight: 1.4 }}>{s.label}</div>
               </div>
             ))}
           </div>
@@ -259,17 +259,17 @@ export default async function UseCaseDetailPage({ params }: Props) {
         {/* Problem section */}
         <section style={{ padding: "56px 0", borderBottom: "1px solid #1a1a1a" }}>
           <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "#ef4444", marginBottom: 12 }}>The Problem</div>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: 20 }}>{uc.problemTitle}</h2>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: 20 }}>{uc.problemTitle}</h2>
           <p style={{ fontSize: ".95rem", color: "#888", lineHeight: 1.8, marginBottom: 32 }}>{uc.problemNarrative}</p>
           
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
             {uc.painPoints.map((p) => (
-              <div key={p.title} style={{ padding: "20px", borderRadius: 12, background: "#0a0a0a", border: "1px solid #1a1a1a" }}>
+              <div key={p.title} style={{ padding: "20px", borderRadius: 12, background:'#f9fafb', border: "1px solid #1a1a1a" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                   <X size={14} style={{ color: "#ef4444", flexShrink: 0 }} />
-                  <div style={{ fontSize: ".9rem", fontWeight: 700, color: "#fff" }}>{p.title}</div>
+                  <div style={{ fontSize: ".9rem", fontWeight: 700, color:'#0a0a0a' }}>{p.title}</div>
                 </div>
-                <div style={{ fontSize: ".8rem", color: "#666", lineHeight: 1.6 }}>{p.description}</div>
+                <div style={{ fontSize: ".8rem", color:'#6b7280', lineHeight: 1.6 }}>{p.description}</div>
               </div>
             ))}
           </div>
@@ -278,7 +278,7 @@ export default async function UseCaseDetailPage({ params }: Props) {
         {/* Solution section */}
         <section style={{ padding: "56px 0", borderBottom: "1px solid #1a1a1a" }}>
           <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: uc.color, marginBottom: 12 }}>The Solution</div>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: 32 }}>{uc.solutionTitle}</h2>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: 32 }}>{uc.solutionTitle}</h2>
           
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {uc.solutionSteps.map((s, i) => (
@@ -287,7 +287,7 @@ export default async function UseCaseDetailPage({ params }: Props) {
                   {i + 1}
                 </div>
                 <div>
-                  <div style={{ fontSize: "1rem", fontWeight: 700, color: "#fff", marginBottom: 6 }}>{s.title}</div>
+                  <div style={{ fontSize: "1rem", fontWeight: 700, color:'#0a0a0a', marginBottom: 6 }}>{s.title}</div>
                   <div style={{ fontSize: ".9rem", color: "#888", lineHeight: 1.6 }}>{s.description}</div>
                 </div>
               </div>
@@ -298,18 +298,18 @@ export default async function UseCaseDetailPage({ params }: Props) {
         {/* Before / After */}
         <section style={{ padding: "56px 0", borderBottom: "1px solid #1a1a1a" }}>
           <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "#888", marginBottom: 12 }}>Before & After</div>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: 32 }}>The difference Covant makes</h2>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: 32 }}>The difference Covant makes</h2>
           
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             {uc.beforeAfter.map((ba, i) => (
               <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-                <div style={{ padding: "16px 20px", borderRadius: 10, background: "#0a0a0a", border: "1px solid #1a1a1a" }}>
+                <div style={{ padding: "16px 20px", borderRadius: 10, background:'#f9fafb', border: "1px solid #1a1a1a" }}>
                   <div style={{ fontSize: ".65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: "#ef4444", marginBottom: 6 }}>Before</div>
                   <div style={{ fontSize: ".85rem", color: "#888", lineHeight: 1.5 }}>{ba.before}</div>
                 </div>
                 <div style={{ padding: "16px 20px", borderRadius: 10, background: `${uc.color}08`, border: `1px solid ${uc.color}25` }}>
                   <div style={{ fontSize: ".65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: uc.color, marginBottom: 6 }}>After</div>
-                  <div style={{ fontSize: ".85rem", color: "#ccc", lineHeight: 1.5 }}>{ba.after}</div>
+                  <div style={{ fontSize: ".85rem", color:'#374151', lineHeight: 1.5 }}>{ba.after}</div>
                 </div>
               </div>
             ))}
@@ -318,14 +318,14 @@ export default async function UseCaseDetailPage({ params }: Props) {
 
         {/* Quote */}
         <section style={{ padding: "56px 0", borderBottom: "1px solid #1a1a1a" }}>
-          <blockquote style={{ margin: 0, padding: "32px", borderRadius: 16, background: "#0a0a0a", border: "1px solid #1a1a1a", position: "relative" }}>
+          <blockquote style={{ margin: 0, padding: "32px", borderRadius: 16, background:'#f9fafb', border: "1px solid #1a1a1a", position: "relative" }}>
             <div style={{ fontSize: "3rem", color: uc.color, lineHeight: 1, marginBottom: 8, fontWeight: 800 }}>&ldquo;</div>
-            <p style={{ fontSize: "1.05rem", color: "#ccc", lineHeight: 1.7, fontStyle: "italic", marginBottom: 20 }}>
+            <p style={{ fontSize: "1.05rem", color:'#374151', lineHeight: 1.7, fontStyle: "italic", marginBottom: 20 }}>
               {uc.quoteText}
             </p>
             <footer>
-              <div style={{ fontSize: ".9rem", fontWeight: 700, color: "#fff" }}>{uc.quotePerson}</div>
-              <div style={{ fontSize: ".8rem", color: "#666" }}>{uc.quoteRole}</div>
+              <div style={{ fontSize: ".9rem", fontWeight: 700, color:'#0a0a0a' }}>{uc.quotePerson}</div>
+              <div style={{ fontSize: ".8rem", color:'#6b7280' }}>{uc.quoteRole}</div>
             </footer>
           </blockquote>
         </section>
@@ -333,10 +333,10 @@ export default async function UseCaseDetailPage({ params }: Props) {
         {/* Outcomes */}
         <section style={{ padding: "56px 0", borderBottom: "1px solid #1a1a1a" }}>
           <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: uc.color, marginBottom: 12 }}>Results</div>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: 24 }}>{uc.outcomeTitle}</h2>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: 24 }}>{uc.outcomeTitle}</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {uc.outcomes.map((o) => (
-              <div key={o} style={{ display: "flex", alignItems: "flex-start", gap: 12, fontSize: ".95rem", color: "#ccc", lineHeight: 1.5 }}>
+              <div key={o} style={{ display: "flex", alignItems: "flex-start", gap: 12, fontSize: ".95rem", color:'#374151', lineHeight: 1.5 }}>
                 <Check size={16} style={{ color: uc.color, flexShrink: 0, marginTop: 3 }} />
                 <span>{o}</span>
               </div>
@@ -346,8 +346,8 @@ export default async function UseCaseDetailPage({ params }: Props) {
 
         {/* CTA */}
         <section style={{ padding: "64px 0 48px", textAlign: "center" }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: 12 }}>Ready to see it in action?</h2>
-          <p style={{ color: "#666", marginBottom: 24, fontSize: ".95rem" }}>Start free — no card required. Set up your program in under 5 minutes.</p>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: 12 }}>Ready to see it in action?</h2>
+          <p style={{ color:'#6b7280', marginBottom: 24, fontSize: ".95rem" }}>Start free — no card required. Set up your program in under 5 minutes.</p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
             <Link href="/sign-up" style={{ padding: "14px 28px", borderRadius: 8, background: "#fff", color: "#000", fontWeight: 700, fontSize: ".95rem", textDecoration: "none" }}>
               Get Started Free →
@@ -361,7 +361,7 @@ export default async function UseCaseDetailPage({ params }: Props) {
         {/* Related use cases */}
         {relatedCases.length > 0 && (
           <section style={{ padding: "48px 0 64px", borderTop: "1px solid #1a1a1a" }}>
-            <div style={{ fontSize: ".75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "#666", marginBottom: 20 }}>
+            <div style={{ fontSize: ".75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color:'#6b7280', marginBottom: 20 }}>
               Related use cases
             </div>
             <div style={{ display: "grid", gridTemplateColumns: `repeat(${relatedCases.length}, 1fr)`, gap: 16 }}>
@@ -373,7 +373,7 @@ export default async function UseCaseDetailPage({ params }: Props) {
                     padding: "20px",
                     borderRadius: 12,
                     border: "1px solid #1a1a1a",
-                    background: "#0a0a0a",
+                    background:'#f9fafb',
                     textDecoration: "none",
                     display: "flex",
                     flexDirection: "column",
@@ -381,8 +381,8 @@ export default async function UseCaseDetailPage({ params }: Props) {
                   }}
                 >
                   <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: rc.color }}>{rc.persona}</div>
-                  <div style={{ fontSize: ".95rem", fontWeight: 700, color: "#fff", lineHeight: 1.3 }}>{rc.headline.split("—")[0].trim()}</div>
-                  <div style={{ fontSize: ".8rem", color: "#666", display: "flex", alignItems: "center", gap: 4, marginTop: "auto" }}>
+                  <div style={{ fontSize: ".95rem", fontWeight: 700, color:'#0a0a0a', lineHeight: 1.3 }}>{rc.headline.split("—")[0].trim()}</div>
+                  <div style={{ fontSize: ".8rem", color:'#6b7280', display: "flex", alignItems: "center", gap: 4, marginTop: "auto" }}>
                     Read more <ArrowRight size={12} />
                   </div>
                 </Link>

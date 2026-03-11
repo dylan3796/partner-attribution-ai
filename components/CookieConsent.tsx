@@ -58,8 +58,8 @@ export default function CookieConsent() {
           maxWidth: 480,
           margin: "0 auto 0 0",
           marginLeft: "1rem",
-          background: "#111",
-          border: "1px solid rgba(255,255,255,.1)",
+          background:'#f9fafb',
+          border:'1px solid #e5e7eb',
           borderRadius: 14,
           padding: "1.25rem 1.5rem",
           pointerEvents: "auto",
@@ -80,15 +80,15 @@ export default function CookieConsent() {
               marginTop: 2,
             }}
           >
-            <Cookie size={18} strokeWidth={1.5} style={{ color: "rgba(129,140,248,.8)" }} />
+            <Cookie size={18} strokeWidth={1.5} style={{ color:'#374151' }} />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ fontSize: ".85rem", color: "rgba(255,255,255,.8)", lineHeight: 1.5, margin: 0 }}>
+            <p style={{ fontSize: ".85rem", color:"#374151", lineHeight: 1.5, margin: 0 }}>
               We use cookies to improve your experience and analyze site traffic.{" "}
               <Link
                 href="/privacy"
                 style={{
-                  color: "rgba(129,140,248,.8)",
+                  color:'#374151',
                   textDecoration: "none",
                   fontWeight: 500,
                 }}
@@ -122,8 +122,8 @@ export default function CookieConsent() {
                   fontSize: ".8rem",
                   fontWeight: 600,
                   background: "transparent",
-                  color: "rgba(255,255,255,.5)",
-                  border: "1px solid rgba(255,255,255,.12)",
+                  color:"#6b7280",
+                  border:'1px solid #e5e7eb',
                   borderRadius: 8,
                   cursor: "pointer",
                   transition: "all .15s",
@@ -147,7 +147,7 @@ export default function CookieConsent() {
             style={{
               background: "none",
               border: "none",
-              color: "rgba(255,255,255,.3)",
+              color:"#9ca3af",
               cursor: "pointer",
               padding: 4,
               flexShrink: 0,

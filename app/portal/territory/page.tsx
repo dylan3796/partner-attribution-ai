@@ -96,7 +96,7 @@ export default function PortalTerritoryPage() {
               .filter((pid) => pid !== partnerId)
               .map((pid) => partners.find((p) => p.id === pid)?.name || "Unknown");
             return (
-              <div key={conflict._id} style={{ padding: ".5rem .75rem", borderRadius: 6, background: "rgba(255,255,255,0.05)", marginBottom: ".35rem", border: "1px solid var(--border)" }}>
+              <div key={conflict._id} style={{ padding: ".5rem .75rem", borderRadius: 6, background: "var(--subtle)", marginBottom: ".35rem", border: "1px solid var(--border)" }}>
                 <p style={{ fontSize: ".85rem" }}>
                   <strong>{conflict.accountName}</strong> — also claimed by {otherPartnerNames.join(", ")}
                 </p>

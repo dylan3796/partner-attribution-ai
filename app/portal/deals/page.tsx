@@ -297,7 +297,7 @@ export default function PortalDealsPage() {
 
       {/* Register Modal */}
       {showRegister && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", backdropFilter: "blur(4px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={() => { setShowRegister(false); setSubmitted(false); }}>
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.5)", backdropFilter: "blur(4px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={() => { setShowRegister(false); setSubmitted(false); }}>
           <div className="card" style={{ width: 520, maxWidth: "100%" }} onClick={(e) => e.stopPropagation()}>
             {submitted ? (
               <div style={{ textAlign: "center", padding: "2rem 0" }}>

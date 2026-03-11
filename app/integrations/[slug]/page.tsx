@@ -362,14 +362,14 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
   const status = STATUS_CONFIG[integration.status];
 
   return (
-    <div style={{ minHeight: '100vh', background: '#000', color: '#e5e5e5', fontFamily: 'var(--font-inter), Inter, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background:'#f9fafb', color: '#e5e5e5', fontFamily: 'var(--font-inter), Inter, sans-serif' }}>
       {/* Nav */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 40px', borderBottom: '1px solid #111' }}>
-        <Link href="/" style={{ color: '#fff', textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.03em' }}>
+        <Link href="/" style={{ color:'#0a0a0a', textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.03em' }}>
           Covant.ai
         </Link>
         <div style={{ display: 'flex', gap: 24, alignItems: 'center' }}>
-          <Link href="/integrations" style={{ color: '#555', fontSize: '0.85rem', textDecoration: 'none' }}>
+          <Link href="/integrations" style={{ color:'#6b7280', fontSize: '0.85rem', textDecoration: 'none' }}>
             All Integrations
           </Link>
           <Link href="/beta" style={{ color: '#888', fontSize: '0.85rem', textDecoration: 'none' }}>
@@ -379,7 +379,7 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
       </nav>
 
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
-        <Link href="/integrations" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#555', fontSize: '.85rem', textDecoration: 'none', marginBottom: 24 }}>
+        <Link href="/integrations" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color:'#6b7280', fontSize: '.85rem', textDecoration: 'none', marginBottom: 24 }}>
           <ArrowLeft size={14} /> All Integrations
         </Link>
 
@@ -389,7 +389,7 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
             <span style={{ fontSize: '2.5rem' }}>{integration.logo}</span>
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.04em', color: '#fff', margin: 0 }}>
+                <h1 style={{ fontSize: 'clamp(1.8rem, 4vw, 2.5rem)', fontWeight: 800, letterSpacing: '-0.04em', color:'#0a0a0a', margin: 0 }}>
                   {integration.name}
                 </h1>
                 <span style={{
@@ -399,13 +399,13 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
                   {status.label}
                 </span>
               </div>
-              <p style={{ color: '#555', fontSize: '0.8rem', margin: '4px 0 0' }}>{integration.category} · {integration.tier} plan</p>
+              <p style={{ color:'#6b7280', fontSize: '0.8rem', margin: '4px 0 0' }}>{integration.category} · {integration.tier} plan</p>
             </div>
           </div>
           <p style={{ color: '#999', fontSize: '1.15rem', lineHeight: 1.6, fontWeight: 500, margin: '0 0 8px' }}>
             {integration.tagline}
           </p>
-          <p style={{ color: '#666', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, maxWidth: 700 }}>
+          <p style={{ color:'#6b7280', fontSize: '0.95rem', lineHeight: 1.7, margin: 0, maxWidth: 700 }}>
             {integration.description}
           </p>
         </div>
@@ -417,15 +417,15 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
               background: '#080808', border: '1px solid #1a1a1a', borderRadius: 12,
               padding: '20px', textAlign: 'center',
             }}>
-              <p style={{ color: '#fff', fontSize: '1.3rem', fontWeight: 800, margin: '0 0 4px' }}>{stat.value}</p>
-              <p style={{ color: '#555', fontSize: '0.75rem', margin: 0 }}>{stat.label}</p>
+              <p style={{ color:'#0a0a0a', fontSize: '1.3rem', fontWeight: 800, margin: '0 0 4px' }}>{stat.value}</p>
+              <p style={{ color:'#6b7280', fontSize: '0.75rem', margin: 0 }}>{stat.label}</p>
             </div>
           ))}
         </div>
 
         {/* Key Features */}
         <section style={{ marginBottom: 56 }}>
-          <p style={{ color: '#444', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>KEY FEATURES</p>
+          <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>KEY FEATURES</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
             {integration.keyFeatures.map((feature) => {
               const Icon = ICON_MAP[feature.icon] || Zap;
@@ -435,10 +435,10 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
                   padding: '24px',
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                    <Icon size={16} style={{ color: '#555' }} />
-                    <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff', margin: 0 }}>{feature.title}</h3>
+                    <Icon size={16} style={{ color:'#6b7280' }} />
+                    <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color:'#0a0a0a', margin: 0 }}>{feature.title}</h3>
                   </div>
-                  <p style={{ color: '#666', fontSize: '0.82rem', lineHeight: 1.6, margin: 0 }}>{feature.description}</p>
+                  <p style={{ color:'#6b7280', fontSize: '0.82rem', lineHeight: 1.6, margin: 0 }}>{feature.description}</p>
                 </div>
               );
             })}
@@ -447,27 +447,27 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
 
         {/* Data Flow */}
         <section style={{ marginBottom: 56 }}>
-          <p style={{ color: '#444', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>HOW DATA FLOWS</p>
+          <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>HOW DATA FLOWS</p>
           <div style={{ background: '#080808', border: '1px solid #1a1a1a', borderRadius: 12, padding: '28px 32px' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {integration.dataFlow.map((flow, i) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
                   <span style={{
-                    fontSize: '0.8rem', fontWeight: 700, color: '#fff',
-                    background: '#111', border: '1px solid #222', borderRadius: 8,
+                    fontSize: '0.8rem', fontWeight: 700, color:'#0a0a0a',
+                    background:'#f9fafb', border: '1px solid #222', borderRadius: 8,
                     padding: '6px 14px', minWidth: 100, textAlign: 'center',
                   }}>
                     {flow.from}
                   </span>
                   <ArrowRight size={16} style={{ color: '#333' }} />
                   <span style={{
-                    fontSize: '0.8rem', fontWeight: 700, color: '#fff',
-                    background: '#111', border: '1px solid #222', borderRadius: 8,
+                    fontSize: '0.8rem', fontWeight: 700, color:'#0a0a0a',
+                    background:'#f9fafb', border: '1px solid #222', borderRadius: 8,
                     padding: '6px 14px', minWidth: 100, textAlign: 'center',
                   }}>
                     {flow.to}
                   </span>
-                  <span style={{ fontSize: '0.78rem', color: '#555' }}>{flow.label}</span>
+                  <span style={{ fontSize: '0.78rem', color:'#6b7280' }}>{flow.label}</span>
                 </div>
               ))}
             </div>
@@ -476,7 +476,7 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
 
         {/* Setup Steps */}
         <section style={{ marginBottom: 56 }}>
-          <p style={{ color: '#444', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>SETUP IN {integration.setupSteps.length} STEPS</p>
+          <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>SETUP IN {integration.setupSteps.length} STEPS</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {integration.setupSteps.map((step) => (
               <div key={step.step} style={{
@@ -484,16 +484,16 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
                 padding: '24px 28px', display: 'flex', gap: 20, alignItems: 'flex-start',
               }}>
                 <span style={{
-                  fontSize: '0.8rem', fontWeight: 800, color: '#fff',
-                  background: '#111', border: '1px solid #222', borderRadius: '50%',
+                  fontSize: '0.8rem', fontWeight: 800, color:'#0a0a0a',
+                  background:'#f9fafb', border: '1px solid #222', borderRadius: '50%',
                   width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center',
                   flexShrink: 0,
                 }}>
                   {step.step}
                 </span>
                 <div>
-                  <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: '#fff', margin: '0 0 6px' }}>{step.title}</h3>
-                  <p style={{ color: '#666', fontSize: '0.82rem', lineHeight: 1.6, margin: 0 }}>{step.description}</p>
+                  <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color:'#0a0a0a', margin: '0 0 6px' }}>{step.title}</h3>
+                  <p style={{ color:'#6b7280', fontSize: '0.82rem', lineHeight: 1.6, margin: 0 }}>{step.description}</p>
                 </div>
               </div>
             ))}
@@ -502,14 +502,14 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
 
         {/* Use Cases */}
         <section style={{ marginBottom: 56 }}>
-          <p style={{ color: '#444', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>USE CASES</p>
+          <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>USE CASES</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {integration.useCases.map((uc, i) => (
               <div key={i} style={{
                 background: '#080808', border: '1px solid #1a1a1a', borderRadius: 12,
                 padding: '24px 28px',
               }}>
-                <p style={{ fontSize: '0.7rem', fontWeight: 700, color: '#444', letterSpacing: '0.08em', margin: '0 0 8px' }}>
+                <p style={{ fontSize: '0.7rem', fontWeight: 700, color:'#374151', letterSpacing: '0.08em', margin: '0 0 8px' }}>
                   {uc.persona.toUpperCase()}
                 </p>
                 <p style={{ color: '#888', fontSize: '0.88rem', lineHeight: 1.65, margin: 0 }}>{uc.scenario}</p>
@@ -520,15 +520,15 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
 
         {/* FAQ */}
         <section style={{ marginBottom: 56 }}>
-          <p style={{ color: '#444', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>FAQ</p>
+          <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>FAQ</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {integration.faq.map((item, i) => (
               <div key={i} style={{
                 background: '#080808', border: '1px solid #1a1a1a', borderRadius: 12,
                 padding: '24px 28px',
               }}>
-                <h3 style={{ fontSize: '0.88rem', fontWeight: 700, color: '#fff', margin: '0 0 8px' }}>{item.q}</h3>
-                <p style={{ color: '#666', fontSize: '0.82rem', lineHeight: 1.65, margin: 0 }}>{item.a}</p>
+                <h3 style={{ fontSize: '0.88rem', fontWeight: 700, color:'#0a0a0a', margin: '0 0 8px' }}>{item.q}</h3>
+                <p style={{ color:'#6b7280', fontSize: '0.82rem', lineHeight: 1.65, margin: 0 }}>{item.a}</p>
               </div>
             ))}
           </div>
@@ -536,7 +536,7 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
 
         {/* Other integrations */}
         <section style={{ marginBottom: 56 }}>
-          <p style={{ color: '#444', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>OTHER INTEGRATIONS</p>
+          <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>OTHER INTEGRATIONS</p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: 12 }}>
             {Object.values(INTEGRATIONS)
               .filter((i) => i.slug !== slug)
@@ -555,7 +555,7 @@ export default async function IntegrationDetailPage({ params }: { params: Promis
                   >
                     <span style={{ fontSize: '1.3rem' }}>{i.logo}</span>
                     <div>
-                      <p style={{ fontSize: '0.82rem', fontWeight: 700, color: '#fff', margin: 0 }}>{i.name}</p>
+                      <p style={{ fontSize: '0.82rem', fontWeight: 700, color:'#0a0a0a', margin: 0 }}>{i.name}</p>
                       <span style={{ fontSize: '0.6rem', color: s.color }}>{s.label}</span>
                     </div>
                   </Link>

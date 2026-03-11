@@ -101,7 +101,7 @@ function computeStats(days: Record<string, { count: number; types: Record<string
 function StatCard({ icon: Icon, label, value, sub }: { icon: typeof Activity; label: string; value: string | number; sub?: string }) {
   return (
     <div style={{
-      background: "#0a0a0a",
+      background: "var(--bg)",
       border: "1px solid #1e1e1e",
       borderRadius: 12,
       padding: "1.25rem",
@@ -110,7 +110,7 @@ function StatCard({ icon: Icon, label, value, sub }: { icon: typeof Activity; la
     }}>
       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
         <Icon size={16} style={{ color: "#555" }} />
-        <span style={{ fontSize: ".75rem", color: "#666", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".04em" }}>{label}</span>
+        <span style={{ fontSize: ".75rem", color: "var(--muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".04em" }}>{label}</span>
       </div>
       <div style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", fontVariantNumeric: "tabular-nums" }}>{value}</div>
       {sub && <div style={{ fontSize: ".75rem", color: "#555", marginTop: 4 }}>{sub}</div>}
@@ -157,8 +157,8 @@ function HeatmapCell({ count, max, date, types }: {
           bottom: "calc(100% + 8px)",
           left: "50%",
           transform: "translateX(-50%)",
-          background: "#1a1a1a",
-          border: "1px solid #333",
+          background: "var(--card-bg)",
+          border: "1px solid var(--border)",
           borderRadius: 8,
           padding: "8px 12px",
           zIndex: 50,
@@ -170,11 +170,11 @@ function HeatmapCell({ count, max, date, types }: {
           <div style={{ fontWeight: 700, color: "#fff", marginBottom: 2 }}>
             {count === 0 ? "No activity" : `${count} event${count === 1 ? "" : "s"}`}
           </div>
-          <div style={{ color: "#888", fontSize: ".7rem" }}>{formatDate(date)}</div>
+          <div style={{ color: "var(--muted)", fontSize: ".7rem" }}>{formatDate(date)}</div>
           {count > 0 && (
             <div style={{ marginTop: 4, display: "flex", flexDirection: "column", gap: 2 }}>
               {Object.entries(types).map(([type, c]) => (
-                <div key={type} style={{ color: "#666", fontSize: ".7rem" }}>
+                <div key={type} style={{ color: "var(--muted)", fontSize: ".7rem" }}>
                   {typeLabels[type] || type}: {c}
                 </div>
               ))}
@@ -262,7 +262,7 @@ export default function ActivityHeatmapPage() {
           <Activity size={22} style={{ color: "#39d353" }} />
           Partner Activity
         </h1>
-        <p style={{ color: "#666", fontSize: ".9rem", lineHeight: 1.5 }}>
+        <p style={{ color: "var(--muted)", fontSize: ".9rem", lineHeight: 1.5 }}>
           Daily partner program activity over the past year — touchpoints, deals, and program events.
         </p>
       </div>
@@ -277,7 +277,7 @@ export default function ActivityHeatmapPage() {
 
       {/* Heatmap */}
       <div style={{
-        background: "#0a0a0a",
+        background: "var(--bg)",
         border: "1px solid #1e1e1e",
         borderRadius: 12,
         padding: "1.5rem",
@@ -371,12 +371,12 @@ export default function ActivityHeatmapPage() {
 
       {/* Activity breakdown */}
       <div style={{
-        background: "#0a0a0a",
+        background: "var(--bg)",
         border: "1px solid #1e1e1e",
         borderRadius: 12,
         padding: "1.5rem",
       }}>
-        <h3 style={{ fontSize: ".85rem", fontWeight: 700, color: "#888", textTransform: "uppercase", letterSpacing: ".04em", marginBottom: "1rem" }}>
+        <h3 style={{ fontSize: ".85rem", fontWeight: 700, color: "var(--muted)", textTransform: "uppercase", letterSpacing: ".04em", marginBottom: "1rem" }}>
           Activity Breakdown
         </h3>
         <ActivityBreakdown days={data.days} />
@@ -402,7 +402,7 @@ export default function ActivityHeatmapPage() {
               border: "1px solid #1e1e1e",
               transition: "all .15s",
             }}
-            onMouseOver={(e) => { e.currentTarget.style.borderColor = "#333"; e.currentTarget.style.color = "#999"; }}
+            onMouseOver={(e) => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--muted)"; }}
             onMouseOut={(e) => { e.currentTarget.style.borderColor = "#1e1e1e"; e.currentTarget.style.color = "#555"; }}
           >
             {link.label} →
@@ -442,15 +442,15 @@ function ActivityBreakdown({ days }: { days: Record<string, { count: number; typ
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
       {sorted.map(([type, count]) => {
-        const cfg = typeConfig[type] || { label: type, color: "#666" };
+        const cfg = typeConfig[type] || { label: type, color: "var(--muted)" };
         const pct = Math.round((count / max) * 100);
         return (
           <div key={type}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
               <span style={{ fontSize: ".8rem", color: "#ccc", fontWeight: 600 }}>{cfg.label}</span>
-              <span style={{ fontSize: ".8rem", color: "#888", fontVariantNumeric: "tabular-nums" }}>{count.toLocaleString()}</span>
+              <span style={{ fontSize: ".8rem", color: "var(--muted)", fontVariantNumeric: "tabular-nums" }}>{count.toLocaleString()}</span>
             </div>
-            <div style={{ height: 6, background: "#1a1a1a", borderRadius: 3, overflow: "hidden" }}>
+            <div style={{ height: 6, background: "var(--card-bg)", borderRadius: 3, overflow: "hidden" }}>
               <div style={{
                 height: "100%",
                 width: `${pct}%`,

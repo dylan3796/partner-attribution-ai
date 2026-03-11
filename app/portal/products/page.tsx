@@ -12,24 +12,24 @@ function LoadingSkeleton() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       <div>
-        <div style={{ width: 200, height: 28, borderRadius: 6, background: "rgba(255,255,255,.06)" }} />
-        <div style={{ width: 300, height: 16, borderRadius: 4, background: "rgba(255,255,255,.04)", marginTop: 8 }} />
+        <div style={{ width: 200, height: 28, borderRadius: 6, background: "var(--subtle)" }} />
+        <div style={{ width: 300, height: 16, borderRadius: 4, background: "var(--border)", marginTop: 8 }} />
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
         {[1, 2, 3].map((i) => (
           <div key={i} className="card" style={{ height: 100 }}>
-            <div style={{ width: "60%", height: 14, borderRadius: 4, background: "rgba(255,255,255,.06)", margin: "0 auto 12px" }} />
-            <div style={{ width: "40%", height: 28, borderRadius: 4, background: "rgba(255,255,255,.06)", margin: "0 auto" }} />
+            <div style={{ width: "60%", height: 14, borderRadius: 4, background: "var(--subtle)", margin: "0 auto 12px" }} />
+            <div style={{ width: "40%", height: 28, borderRadius: 4, background: "var(--subtle)", margin: "0 auto" }} />
           </div>
         ))}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "1rem" }}>
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="card" style={{ height: 180 }}>
-            <div style={{ width: "70%", height: 16, borderRadius: 4, background: "rgba(255,255,255,.06)", marginBottom: 8 }} />
-            <div style={{ width: "50%", height: 12, borderRadius: 4, background: "rgba(255,255,255,.04)", marginBottom: 16 }} />
-            <div style={{ width: "100%", height: 12, borderRadius: 4, background: "rgba(255,255,255,.04)", marginBottom: 6 }} />
-            <div style={{ width: "80%", height: 12, borderRadius: 4, background: "rgba(255,255,255,.04)" }} />
+            <div style={{ width: "70%", height: 16, borderRadius: 4, background: "var(--subtle)", marginBottom: 8 }} />
+            <div style={{ width: "50%", height: 12, borderRadius: 4, background: "var(--border)", marginBottom: 16 }} />
+            <div style={{ width: "100%", height: 12, borderRadius: 4, background: "var(--border)", marginBottom: 6 }} />
+            <div style={{ width: "80%", height: 12, borderRadius: 4, background: "var(--border)" }} />
           </div>
         ))}
       </div>

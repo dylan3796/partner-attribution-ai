@@ -56,7 +56,7 @@ function Skeleton({ width, height, style }: { width?: string | number; height?: 
         width: width ?? "100%",
         height: height ?? 20,
         borderRadius: 6,
-        background: "linear-gradient(90deg, rgba(255,255,255,.04) 25%, rgba(255,255,255,.08) 50%, rgba(255,255,255,.04) 75%)",
+        background: "linear-gradient(90deg, rgba(0,0,0,.04) 25%, rgba(0,0,0,.08) 50%, rgba(0,0,0,.04) 75%)",
         backgroundSize: "200% 100%",
         animation: "shimmer 1.5s infinite",
         ...style,
@@ -237,7 +237,7 @@ export default function PortalDashboard() {
                   <span style={{ fontSize: ".85rem", color: "var(--muted)" }}>Progress to {nextTier.label}</span>
                   <span style={{ fontSize: ".85rem", fontWeight: 600 }}>{tierProgress}%</span>
                 </div>
-                <div style={{ width: "100%", height: 8, background: "rgba(255,255,255,.1)", borderRadius: 4, overflow: "hidden" }}>
+                <div style={{ width: "100%", height: 8, background: "var(--border)", borderRadius: 4, overflow: "hidden" }}>
                   <div style={{ width: `${tierProgress}%`, height: "100%", background: tierColors.bg, borderRadius: 4, transition: "width 0.5s ease" }} />
                 </div>
                 <p style={{ fontSize: ".85rem", color: "var(--muted)", marginTop: ".5rem" }}>

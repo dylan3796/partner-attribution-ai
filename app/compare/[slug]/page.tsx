@@ -225,7 +225,7 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
 
   if (!comp) {
     return (
-      <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5", display: "flex", alignItems: "center", justifyContent: "center" }}>
         <div style={{ textAlign: "center" }}>
           <h1 style={{ fontSize: "2rem", fontWeight: 800, marginBottom: 8 }}>Comparison not found</h1>
           <Link href="/compare" style={{ color: "#6366f1", textDecoration: "none" }}>← Back to comparisons</Link>
@@ -238,18 +238,18 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
   const categories = [...new Set(comp.features.map((f) => f.category))];
 
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5" }}>
+    <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5" }}>
       {/* Header */}
       <header style={{ borderBottom: "1px solid #1a1a1a", padding: "1rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff", textDecoration: "none", letterSpacing: "-.02em" }}>Covant.ai</Link>
+          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color:'#0a0a0a', textDecoration: "none", letterSpacing: "-.02em" }}>Covant.ai</Link>
           <span style={{ color: "#333" }}>/</span>
           <Link href="/compare" style={{ fontSize: ".9rem", color: "#888", textDecoration: "none" }}>Compare</Link>
           <span style={{ color: "#333" }}>/</span>
-          <span style={{ fontSize: ".9rem", color: "#ccc" }}>{comp.name}</span>
+          <span style={{ fontSize: ".9rem", color:'#374151' }}>{comp.name}</span>
         </div>
         <div style={{ display: "flex", gap: 16 }}>
-          <Link href="/pricing" style={{ fontSize: ".8rem", color: "#666", textDecoration: "none" }}>Pricing</Link>
+          <Link href="/pricing" style={{ fontSize: ".8rem", color:'#6b7280', textDecoration: "none" }}>Pricing</Link>
           <Link href="/sign-up" style={{ fontSize: ".8rem", color: "#000", background: "#fff", padding: "6px 14px", borderRadius: 6, fontWeight: 600, textDecoration: "none" }}>
             Get Started
           </Link>
@@ -258,7 +258,7 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
 
       <main style={{ maxWidth: 900, margin: "0 auto", padding: "3rem 2rem 4rem" }}>
         {/* Back link */}
-        <Link href="/compare" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "#666", fontSize: ".85rem", textDecoration: "none", marginBottom: "2rem" }}>
+        <Link href="/compare" style={{ display: "inline-flex", alignItems: "center", gap: 6, color:'#6b7280', fontSize: ".85rem", textDecoration: "none", marginBottom: "2rem" }}>
           <ArrowLeft size={14} /> All comparisons
         </Link>
 
@@ -269,7 +269,7 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
               Comparison
             </span>
           </div>
-          <h1 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)", fontWeight: 800, color: "#fff", letterSpacing: "-.03em", lineHeight: 1.15, marginBottom: "1rem" }}>
+          <h1 style={{ fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)", fontWeight: 800, color:'#0a0a0a', letterSpacing: "-.03em", lineHeight: 1.15, marginBottom: "1rem" }}>
             Covant vs {comp.name}
           </h1>
           <p style={{ color: "#888", fontSize: "1.05rem", lineHeight: 1.6, maxWidth: 700 }}>
@@ -283,15 +283,15 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
           <div style={{ border: "1px solid #6366f133", borderRadius: 14, padding: "1.5rem", background: "#6366f108" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: "1rem" }}>
               <div style={{ width: 10, height: 10, borderRadius: 5, background: "#6366f1" }} />
-              <span style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff" }}>Covant</span>
+              <span style={{ fontWeight: 800, fontSize: "1.1rem", color:'#0a0a0a' }}>Covant</span>
             </div>
             <p style={{ fontSize: ".8rem", color: "#888", marginBottom: "1rem", lineHeight: 1.5 }}>
               Partner intelligence platform — attribution, commissions, revenue analytics, and partner portal.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <div style={{ fontSize: ".8rem" }}><span style={{ color: "#555" }}>Setup:</span> <span style={{ color: "#22c55e", fontWeight: 600 }}>15 minutes</span></div>
-              <div style={{ fontSize: ".8rem" }}><span style={{ color: "#555" }}>Pricing:</span> <span style={{ color: "#ccc", fontWeight: 600 }}>Free — $349/mo</span></div>
-              <div style={{ fontSize: ".8rem" }}><span style={{ color: "#555" }}>Best for:</span> <span style={{ color: "#ccc" }}>Strategic partner programs (10–100 partners)</span></div>
+              <div style={{ fontSize: ".8rem" }}><span style={{ color:'#6b7280' }}>Setup:</span> <span style={{ color: "#22c55e", fontWeight: 600 }}>15 minutes</span></div>
+              <div style={{ fontSize: ".8rem" }}><span style={{ color:'#6b7280' }}>Pricing:</span> <span style={{ color:'#374151', fontWeight: 600 }}>Free — $349/mo</span></div>
+              <div style={{ fontSize: ".8rem" }}><span style={{ color:'#6b7280' }}>Best for:</span> <span style={{ color:'#374151' }}>Strategic partner programs (10–100 partners)</span></div>
             </div>
           </div>
 
@@ -299,28 +299,28 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
           <div style={{ border: "1px solid #1a1a1a", borderRadius: 14, padding: "1.5rem" }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: "1rem" }}>
               <div style={{ width: 10, height: 10, borderRadius: 5, background: "#555" }} />
-              <span style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff" }}>{comp.name}</span>
+              <span style={{ fontWeight: 800, fontSize: "1.1rem", color:'#0a0a0a' }}>{comp.name}</span>
             </div>
             <p style={{ fontSize: ".8rem", color: "#888", marginBottom: "1rem", lineHeight: 1.5 }}>
               {comp.whatTheyAre}
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-              <div style={{ fontSize: ".8rem" }}><span style={{ color: "#555" }}>Founded:</span> <span style={{ color: "#ccc" }}>{comp.founded}</span></div>
-              <div style={{ fontSize: ".8rem" }}><span style={{ color: "#555" }}>Pricing:</span> <span style={{ color: "#ccc" }}>{comp.pricing}</span></div>
-              <div style={{ fontSize: ".8rem" }}><span style={{ color: "#555" }}>Best for:</span> <span style={{ color: "#ccc" }}>{comp.bestFor}</span></div>
+              <div style={{ fontSize: ".8rem" }}><span style={{ color:'#6b7280' }}>Founded:</span> <span style={{ color:'#374151' }}>{comp.founded}</span></div>
+              <div style={{ fontSize: ".8rem" }}><span style={{ color:'#6b7280' }}>Pricing:</span> <span style={{ color:'#374151' }}>{comp.pricing}</span></div>
+              <div style={{ fontSize: ".8rem" }}><span style={{ color:'#6b7280' }}>Best for:</span> <span style={{ color:'#374151' }}>{comp.bestFor}</span></div>
             </div>
           </div>
         </div>
 
         {/* Overview */}
-        <div style={{ marginBottom: "3rem", padding: "1.5rem", borderRadius: 14, border: "1px solid #1a1a1a", background: "#0a0a0a" }}>
-          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#fff", marginBottom: ".75rem" }}>The bottom line</h2>
-          <p style={{ color: "#999", fontSize: ".9rem", lineHeight: 1.7 }}>{comp.description}</p>
+        <div style={{ marginBottom: "3rem", padding: "1.5rem", borderRadius: 14, border: "1px solid #1a1a1a", background:'#f9fafb' }}>
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, color:'#0a0a0a', marginBottom: ".75rem" }}>The bottom line</h2>
+          <p style={{ color:'#6b7280', fontSize: ".9rem", lineHeight: 1.7 }}>{comp.description}</p>
         </div>
 
         {/* Feature Comparison Table */}
         <div style={{ marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: "#fff", marginBottom: "1.5rem" }}>Feature-by-feature comparison</h2>
+          <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color:'#0a0a0a', marginBottom: "1.5rem" }}>Feature-by-feature comparison</h2>
 
           <div style={{ borderRadius: 14, border: "1px solid #1a1a1a", overflow: "hidden" }}>
             {categories.map((category, catIdx) => {
@@ -334,7 +334,7 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
                     borderTop: catIdx > 0 ? "1px solid #1a1a1a" : undefined,
                     borderBottom: "1px solid #1a1a1a",
                   }}>
-                    <span style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "#555" }}>{category}</span>
+                    <span style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color:'#6b7280' }}>{category}</span>
                   </div>
 
                   {/* Feature rows */}
@@ -344,7 +344,7 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
                       borderBottom: i < catFeatures.length - 1 ? "1px solid #111" : undefined,
                     }}>
                       <div style={{ padding: "14px 20px" }}>
-                        <div style={{ fontSize: ".85rem", fontWeight: 500, color: "#ccc" }}>{feat.feature}</div>
+                        <div style={{ fontSize: ".85rem", fontWeight: 500, color:'#374151' }}>{feat.feature}</div>
                       </div>
                       <div style={{
                         padding: "14px 16px",
@@ -357,7 +357,7 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
                           <span style={{ fontSize: ".7rem", fontWeight: 700, color: "#6366f1" }}>Covant</span>
                         </div>
                         {feat.covantNote && (
-                          <span style={{ fontSize: ".72rem", color: "#666", lineHeight: 1.4 }}>{feat.covantNote}</span>
+                          <span style={{ fontSize: ".72rem", color:'#6b7280', lineHeight: 1.4 }}>{feat.covantNote}</span>
                         )}
                       </div>
                       <div style={{
@@ -367,10 +367,10 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
                       }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                           <StatusIcon status={feat.competitor} />
-                          <span style={{ fontSize: ".7rem", fontWeight: 700, color: "#555" }}>{comp.name}</span>
+                          <span style={{ fontSize: ".7rem", fontWeight: 700, color:'#6b7280' }}>{comp.name}</span>
                         </div>
                         {feat.competitorNote && (
-                          <span style={{ fontSize: ".72rem", color: "#555", lineHeight: 1.4 }}>{feat.competitorNote}</span>
+                          <span style={{ fontSize: ".72rem", color:'#6b7280', lineHeight: 1.4 }}>{feat.competitorNote}</span>
                         )}
                       </div>
                     </div>
@@ -398,12 +398,12 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", marginBottom: "3rem" }}>
           {/* Strengths */}
           <div>
-            <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#fff", marginBottom: "1rem" }}>
+            <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color:'#0a0a0a', marginBottom: "1rem" }}>
               Where {comp.name} excels
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               {comp.strengths.map((s) => (
-                <div key={s.title} style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #1a1a1a", background: "#0a0a0a" }}>
+                <div key={s.title} style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #1a1a1a", background:'#f9fafb' }}>
                   <h3 style={{ fontSize: ".85rem", fontWeight: 700, color: "#22c55e", marginBottom: 4 }}>{s.title}</h3>
                   <p style={{ fontSize: ".8rem", color: "#777", lineHeight: 1.55, margin: 0 }}>{s.description}</p>
                 </div>
@@ -413,12 +413,12 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
 
           {/* Weaknesses */}
           <div>
-            <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#fff", marginBottom: "1rem" }}>
+            <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color:'#0a0a0a', marginBottom: "1rem" }}>
               Where {comp.name} falls short
             </h2>
             <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
               {comp.weaknesses.map((w) => (
-                <div key={w.title} style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #1a1a1a", background: "#0a0a0a" }}>
+                <div key={w.title} style={{ padding: "1rem 1.25rem", borderRadius: 10, border: "1px solid #1a1a1a", background:'#f9fafb' }}>
                   <h3 style={{ fontSize: ".85rem", fontWeight: 700, color: "#ef4444", marginBottom: 4 }}>{w.title}</h3>
                   <p style={{ fontSize: ".8rem", color: "#777", lineHeight: 1.55, margin: 0 }}>{w.description}</p>
                 </div>
@@ -429,14 +429,14 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
 
         {/* Switch Reasons */}
         <div style={{ marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color: "#fff", marginBottom: "1.5rem" }}>
+          <h2 style={{ fontSize: "1.3rem", fontWeight: 800, color:'#0a0a0a', marginBottom: "1.5rem" }}>
             When to choose Covant over {comp.name}
           </h2>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
             {comp.switchReasons.map((r) => {
               const Icon = r.icon;
               return (
-                <div key={r.title} style={{ padding: "1.5rem", borderRadius: 12, border: "1px solid #1a1a1a", background: "#0a0a0a" }}>
+                <div key={r.title} style={{ padding: "1.5rem", borderRadius: 12, border: "1px solid #1a1a1a", background:'#f9fafb' }}>
                   <div style={{
                     width: 40, height: 40, borderRadius: 10, background: "#6366f115",
                     display: "flex", alignItems: "center", justifyContent: "center",
@@ -444,7 +444,7 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
                   }}>
                     <Icon size={20} />
                   </div>
-                  <h3 style={{ fontSize: ".9rem", fontWeight: 700, color: "#fff", marginBottom: 6, lineHeight: 1.3 }}>{r.title}</h3>
+                  <h3 style={{ fontSize: ".9rem", fontWeight: 700, color:'#0a0a0a', marginBottom: 6, lineHeight: 1.3 }}>{r.title}</h3>
                   <p style={{ fontSize: ".8rem", color: "#777", lineHeight: 1.6, margin: 0 }}>{r.description}</p>
                 </div>
               );
@@ -458,16 +458,16 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
           border: "1px solid #6366f133", background: "#6366f108",
           marginBottom: "3rem",
         }}>
-          <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color: "#fff", marginBottom: ".75rem" }}>Our honest take</h2>
-          <p style={{ color: "#999", fontSize: ".9rem", lineHeight: 1.7, margin: 0 }}>{comp.verdict}</p>
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 800, color:'#0a0a0a', marginBottom: ".75rem" }}>Our honest take</h2>
+          <p style={{ color:'#6b7280', fontSize: ".9rem", lineHeight: 1.7, margin: 0 }}>{comp.verdict}</p>
         </div>
 
         {/* CTA */}
         <div style={{ textAlign: "center", padding: "3rem 0", borderTop: "1px solid #1a1a1a" }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: ".75rem" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: ".75rem" }}>
             See the difference yourself
           </h2>
-          <p style={{ color: "#666", marginBottom: "1.5rem", maxWidth: 460, margin: "0 auto 1.5rem" }}>
+          <p style={{ color:'#6b7280', marginBottom: "1.5rem", maxWidth: 460, margin: "0 auto 1.5rem" }}>
             15 minutes to set up. No credit card. No implementation project.
           </p>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
@@ -479,7 +479,7 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
             </Link>
             <Link href="/demo" style={{
               padding: "12px 28px", borderRadius: 8, border: "1px solid #333",
-              color: "#999", fontWeight: 600, textDecoration: "none",
+              color:'#6b7280', fontWeight: 600, textDecoration: "none",
             }}>
               Try the demo →
             </Link>
@@ -491,14 +491,14 @@ export default async function CompareDetailPage({ params }: { params: Promise<{ 
               .filter((c) => c.slug !== comp.slug)
               .map((c) => (
                 <Link key={c.slug} href={`/compare/${c.slug}`} style={{
-                  fontSize: ".8rem", color: "#555", textDecoration: "none",
+                  fontSize: ".8rem", color:'#6b7280', textDecoration: "none",
                   padding: "6px 14px", borderRadius: 6, border: "1px solid #1a1a1a",
                 }}>
                   vs {c.name}
                 </Link>
               ))}
             <Link href="/compare" style={{
-              fontSize: ".8rem", color: "#555", textDecoration: "none",
+              fontSize: ".8rem", color:'#6b7280', textDecoration: "none",
               padding: "6px 14px", borderRadius: 6, border: "1px solid #1a1a1a",
             }}>
               All comparisons →

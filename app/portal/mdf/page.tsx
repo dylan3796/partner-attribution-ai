@@ -56,7 +56,7 @@ function LoadingSkeleton() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       <div>
-        <div style={{ width: 280, height: 32, background: "var(--border)", borderRadius: 8, marginBottom: 8 }} />
+        <div style={{ width: 280, height: 32, background: "var(--subtle)", borderRadius: 8, marginBottom: 8 }} />
         <div style={{ width: 320, height: 16, background: "var(--border)", borderRadius: 4 }} />
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem" }}>

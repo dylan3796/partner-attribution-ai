@@ -174,12 +174,12 @@ function DemoBanner() {
   }, []);
   if (!visible) return null;
   return (
-    <div style={{ background: "#1a1a1a", border: "1px solid #333", padding: "10px 16px", borderRadius: 8, marginBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
-      <p style={{ fontSize: ".85rem", color: "#e5e5e5", margin: 0 }}>
+    <div style={{ background: "var(--card-bg)", border: "1px solid var(--border)", padding: "10px 16px", borderRadius: 8, marginBottom: "1rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem" }}>
+      <p style={{ fontSize: ".85rem", color: "var(--fg)", margin: 0 }}>
         👋 You&apos;re in the Covant demo. Want to see it from a partner&apos;s perspective?{" "}
-        <Link href="/portal" style={{ color: "#fff", fontWeight: 600, textDecoration: "underline" }}>View Partner Portal →</Link>
+        <Link href="/portal" style={{ color: "var(--fg)", fontWeight: 600, textDecoration: "underline" }}>View Partner Portal →</Link>
       </p>
-      <button onClick={() => { setVisible(false); localStorage.setItem("covant_demo_banner_dismissed", "true"); }} style={{ background: "none", border: "none", color: "#999", cursor: "pointer", fontSize: "1.1rem", padding: "0 4px", fontFamily: "inherit" }}>×</button>
+      <button onClick={() => { setVisible(false); localStorage.setItem("covant_demo_banner_dismissed", "true"); }} style={{ background: "none", border: "none", color: "var(--muted)", cursor: "pointer", fontSize: "1.1rem", padding: "0 4px", fontFamily: "inherit" }}>×</button>
     </div>
   );
 }

@@ -96,7 +96,7 @@ export default function PortalVolumePage() {
 
   const tierInfo = activeProgram && myVol ? getVolumeTier(myVol.unitsTotal, activeProgram.tiers) : null;
   const tierColors = ["#6b7280", "#2563eb", "#d97706", "#059669"];
-  const tierBgs = ["#1a1a1a", "#0a1628", "#1a1400", "#0a1a14"];
+  const tierBgs = ["var(--subtle)", "rgba(37,99,235,0.08)", "rgba(217,119,6,0.08)", "rgba(5,150,105,0.08)"];
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
@@ -175,7 +175,7 @@ export default function PortalVolumePage() {
                   </div>
                 </>
               ) : (
-                <div style={{ padding: "1rem", borderRadius: 8, background: "#0a1a14", textAlign: "center" }}>
+                <div style={{ padding: "1rem", borderRadius: 8, background: "rgba(5,150,105,0.08)", textAlign: "center" }}>
                   <p style={{ fontWeight: 700, color: "#059669", fontSize: "1rem" }}>🎉 You&apos;re at the top tier!</p>
                   <p className="muted" style={{ fontSize: ".85rem" }}>Keep selling to maximize your rebate earnings</p>
                 </div>
@@ -230,8 +230,8 @@ export default function PortalVolumePage() {
                     padding: ".65rem .75rem",
                     borderRadius: 8,
                     marginBottom: ".35rem",
-                    background: entry.isMe ? "#1a1a2e" : "transparent",
-                    border: entry.isMe ? "1px solid #4338ca44" : "1px solid transparent",
+                    background: entry.isMe ? "rgba(67,56,202,0.08)" : "transparent",
+                    border: entry.isMe ? "1px solid rgba(67,56,202,0.25)" : "1px solid transparent",
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
@@ -247,13 +247,13 @@ export default function PortalVolumePage() {
           </div>
 
           {/* Projected Payout */}
-          <div className="card" style={{ background: "linear-gradient(135deg, #0a1a14, #0d1f17)", border: "1px solid #065f4644" }}>
+          <div className="card" style={{ background: "linear-gradient(135deg, rgba(5,150,105,0.06), rgba(5,150,105,0.1))", border: "1px solid rgba(5,150,105,0.25)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <div>
-                <p style={{ fontWeight: 700, fontSize: "1rem", color: "#34d399" }}>Projected Rebate Payout</p>
+                <p style={{ fontWeight: 700, fontSize: "1rem", color: "#22c55e" }}>Projected Rebate Payout</p>
                 <p style={{ fontSize: ".85rem", color: "#059669" }}>Based on current volume trajectory through end of period</p>
               </div>
-              <p style={{ fontSize: "2rem", fontWeight: 800, color: "#34d399" }}>{formatCurrency(myVol.rebateProjected)}</p>
+              <p style={{ fontSize: "2rem", fontWeight: 800, color: "#22c55e" }}>{formatCurrency(myVol.rebateProjected)}</p>
             </div>
           </div>
         </>

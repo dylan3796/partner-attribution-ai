@@ -58,7 +58,7 @@ const TIER_LABELS: Record<string, string> = {
 function ChartTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: "#111", border: "1px solid #333", borderRadius: 8, padding: "8px 12px", fontSize: ".8rem" }}>
+    <div style={{ background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", fontSize: ".8rem" }}>
       <p style={{ fontWeight: 600, marginBottom: 4 }}>{label}</p>
       {payload.map((p: any, i: number) => (
         <p key={i} style={{ color: p.color || p.fill, margin: 0 }}>
@@ -138,7 +138,7 @@ export default function RevenueIntelligencePage() {
   if (!data || data.summary.totalRevenue === 0) {
     return (
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "4rem 2rem", textAlign: "center" }}>
-        <div style={{ width: 64, height: 64, borderRadius: 16, background: "rgba(99,102,241,.15)", display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}>
+        <div style={{ width: 64, height: 64, borderRadius: 16, background:'#f3f4f6', display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "1rem" }}>
           <BarChart3 size={28} style={{ color: "#6366f1" }} />
         </div>
         <h2 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: ".5rem" }}>No Revenue Data Yet</h2>
@@ -146,7 +146,7 @@ export default function RevenueIntelligencePage() {
           Revenue intelligence requires closed-won deals. Register deals through the partner portal or import from your CRM.
         </p>
         <Link href="/dashboard/deals" style={{
-          padding: "10px 20px", borderRadius: 8, background: "#6366f1", color: "#fff",
+          padding: "10px 20px", borderRadius: 8, background: "#6366f1", color:'#0a0a0a',
           fontWeight: 600, fontSize: ".85rem", display: "inline-flex", alignItems: "center", gap: 6,
         }}>
           View Deals <ArrowRight size={14} />

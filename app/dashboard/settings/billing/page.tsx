@@ -41,7 +41,7 @@ const STATUS_CONFIG: Record<
   },
   trialing: {
     label: "Trial",
-    color: "#818cf8",
+    color:'#0a0a0a',
     icon: <Clock size={14} />,
   },
   past_due: {
@@ -56,7 +56,7 @@ const STATUS_CONFIG: Record<
   },
   incomplete: {
     label: "Incomplete",
-    color: "rgba(255,255,255,.4)",
+    color:'#9ca3af',
     icon: <AlertCircle size={14} />,
   },
 };
@@ -69,19 +69,19 @@ function BillingLoader() {
   }, []);
   if (timedOut) {
     return (
-      <div style={{ padding: "24px", borderRadius: 14, border: "1px solid rgba(255,255,255,.08)", background: "rgba(255,255,255,.02)" }}>
+      <div style={{ padding: "24px", borderRadius: 14, border:'1px solid #e5e7eb', background:'#f9fafb' }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
           <AlertCircle size={18} color="rgba(255,255,255,.4)" />
-          <span style={{ fontWeight: 600, color: "rgba(255,255,255,.7)" }}>Billing not configured</span>
+          <span style={{ fontWeight: 600, color:'#374151' }}>Billing not configured</span>
         </div>
-        <p style={{ fontSize: ".85rem", color: "rgba(255,255,255,.4)", lineHeight: 1.5 }}>
+        <p style={{ fontSize: ".85rem", color:'#9ca3af', lineHeight: 1.5 }}>
           Add your Stripe API keys in environment variables to enable billing.
         </p>
       </div>
     );
   }
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 8, color: "rgba(255,255,255,.4)" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 8, color:'#9ca3af' }}>
       <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />
       <span style={{ fontSize: ".85rem" }}>Loading billing info…</span>
     </div>
@@ -134,12 +134,12 @@ export default function BillingPage() {
           fontSize: "1.3rem",
           fontWeight: 700,
           marginBottom: 4,
-          color: "#fff",
+          color:'#0a0a0a',
         }}
       >
         Billing & Subscription
       </h1>
-      <p style={{ color: "rgba(255,255,255,.4)", fontSize: ".85rem", marginBottom: 32 }}>
+      <p style={{ color:'#9ca3af', fontSize: ".85rem", marginBottom: 32 }}>
         Manage your Covant subscription and payment details.
       </p>
 
@@ -150,8 +150,8 @@ export default function BillingPage() {
         <div
           style={{
             borderRadius: 14,
-            border: "1px solid rgba(255,255,255,.1)",
-            background: "rgba(255,255,255,.03)",
+            border:'1px solid #e5e7eb',
+            background:'#f9fafb',
             overflow: "hidden",
             marginBottom: 16,
           }}
@@ -160,7 +160,7 @@ export default function BillingPage() {
           <div
             style={{
               padding: "20px 24px",
-              borderBottom: "1px solid rgba(255,255,255,.06)",
+              borderBottom:'1px solid #e5e7eb',
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -173,10 +173,10 @@ export default function BillingPage() {
                 <Rocket size={18} color="rgba(255,255,255,.5)" />
               )}
               <div>
-                <div style={{ fontWeight: 700, fontSize: "1rem", color: "#fff" }}>
+                <div style={{ fontWeight: 700, fontSize: "1rem", color:'#0a0a0a' }}>
                   {PLAN_LABELS[subscription.plan] ?? subscription.plan} Plan
                 </div>
-                <div style={{ fontSize: ".75rem", color: "rgba(255,255,255,.4)" }}>
+                <div style={{ fontSize: ".75rem", color:'#9ca3af' }}>
                   Billed {subscription.interval === "year" ? "annually" : "monthly"}
                 </div>
               </div>
@@ -214,10 +214,10 @@ export default function BillingPage() {
               }}
             >
               <div>
-                <div style={{ fontSize: ".72rem", color: "rgba(255,255,255,.35)", marginBottom: 3, textTransform: "uppercase", letterSpacing: ".05em" }}>
+                <div style={{ fontSize: ".72rem", color:"#9ca3af", marginBottom: 3, textTransform: "uppercase", letterSpacing: ".05em" }}>
                   Next Billing Date
                 </div>
-                <div style={{ fontSize: ".9rem", color: "#fff", fontWeight: 600 }}>
+                <div style={{ fontSize: ".9rem", color:'#0a0a0a', fontWeight: 600 }}>
                   {formatDate(subscription.currentPeriodEnd)}
                 </div>
               </div>
@@ -263,9 +263,9 @@ export default function BillingPage() {
                   gap: 6,
                   padding: "9px 18px",
                   borderRadius: 8,
-                  border: "1px solid rgba(255,255,255,.15)",
+                  border:'1px solid #e5e7eb',
                   background: "transparent",
-                  color: "#fff",
+                  color:'#0a0a0a',
                   fontSize: ".85rem",
                   fontWeight: 600,
                   cursor: portalLoading ? "not-allowed" : "pointer",
@@ -293,7 +293,7 @@ export default function BillingPage() {
                     borderRadius: 8,
                     border: "none",
                     background: "#6366f1",
-                    color: "#fff",
+                    color:'#0a0a0a',
                     fontSize: ".85rem",
                     fontWeight: 600,
                     cursor: "pointer",
@@ -319,17 +319,17 @@ export default function BillingPage() {
         <div
           style={{
             borderRadius: 14,
-            border: "1px solid rgba(255,255,255,.08)",
-            background: "rgba(255,255,255,.02)",
+            border:'1px solid #e5e7eb',
+            background:'#f9fafb',
             padding: 28,
             marginBottom: 16,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
             <CreditCard size={20} color="rgba(255,255,255,.35)" />
-            <div style={{ fontWeight: 600, color: "rgba(255,255,255,.7)" }}>No active subscription</div>
+            <div style={{ fontWeight: 600, color:'#374151' }}>No active subscription</div>
           </div>
-          <p style={{ fontSize: ".85rem", color: "rgba(255,255,255,.4)", marginBottom: 20, lineHeight: 1.5 }}>
+          <p style={{ fontSize: ".85rem", color:'#9ca3af', marginBottom: 20, lineHeight: 1.5 }}>
             You&apos;re currently on the free trial. Upgrade to unlock full attribution, commission automation, and partner portal access.
           </p>
           <button
@@ -354,10 +354,10 @@ export default function BillingPage() {
         </div>
       )}
 
-      <p style={{ fontSize: ".75rem", color: "rgba(255,255,255,.25)", lineHeight: 1.5 }}>
+      <p style={{ fontSize: ".75rem", color:"#9ca3af", lineHeight: 1.5 }}>
         Billing is managed securely through Stripe. Covant never stores your payment details.
         For billing questions, email{" "}
-        <a href="mailto:billing@covant.ai" style={{ color: "rgba(255,255,255,.4)" }}>
+        <a href="mailto:billing@covant.ai" style={{ color:'#9ca3af' }}>
           billing@covant.ai
         </a>
       </p>

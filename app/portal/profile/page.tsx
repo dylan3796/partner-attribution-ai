@@ -287,7 +287,7 @@ function PortalProfilePageInner() {
 
 export default function PortalProfilePage() {
   return (
-    <Suspense fallback={<div style={{ padding: "2rem", color: "#fff" }}>Loading…</div>}>
+    <Suspense fallback={<div style={{ padding: "2rem", color: "var(--muted)" }}>Loading…</div>}>
       <PortalProfilePageInner />
     </Suspense>
   );

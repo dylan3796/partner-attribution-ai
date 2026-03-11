@@ -103,27 +103,27 @@ const additionalUseCases = [
 
 export default function UseCasesPage() {
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5" }}>
+    <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5" }}>
       {/* Header */}
       <header style={{ borderBottom: "1px solid #1a1a1a", padding: "1rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff", textDecoration: "none", letterSpacing: "-.02em" }}>Covant.ai</Link>
+          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color:'#0a0a0a', textDecoration: "none", letterSpacing: "-.02em" }}>Covant.ai</Link>
           <span style={{ color: "#333" }}>/</span>
           <span style={{ fontSize: ".9rem", color: "#888" }}>Use Cases</span>
         </div>
         <div style={{ display: "flex", gap: 16 }}>
-          <Link href="/docs" style={{ fontSize: ".8rem", color: "#666", textDecoration: "none" }}>API Docs</Link>
-          <Link href="/dashboard" style={{ fontSize: ".8rem", color: "#666", textDecoration: "none" }}>Dashboard →</Link>
+          <Link href="/docs" style={{ fontSize: ".8rem", color:'#6b7280', textDecoration: "none" }}>API Docs</Link>
+          <Link href="/dashboard" style={{ fontSize: ".8rem", color:'#6b7280', textDecoration: "none" }}>Dashboard →</Link>
         </div>
       </header>
 
       <main style={{ maxWidth: 900, margin: "0 auto", padding: "4rem 2rem" }}>
         {/* Hero */}
         <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-          <h1 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, color: "#fff", letterSpacing: "-.03em", lineHeight: 1.1, marginBottom: "1rem" }}>
+          <h1 style={{ fontSize: "clamp(2rem, 4vw, 3rem)", fontWeight: 800, color:'#0a0a0a', letterSpacing: "-.03em", lineHeight: 1.1, marginBottom: "1rem" }}>
             Built for how partner teams<br />actually work
           </h1>
-          <p style={{ color: "#666", fontSize: "1.1rem", maxWidth: 560, margin: "0 auto" }}>
+          <p style={{ color:'#6b7280', fontSize: "1.1rem", maxWidth: 560, margin: "0 auto" }}>
             Whether you&apos;re proving ROI to the board, automating commissions, or managing 100 partners — Covant fits your workflow.
           </p>
         </div>
@@ -138,7 +138,7 @@ export default function UseCasesPage() {
                   <span style={{ fontSize: "1.5rem" }}>{uc.emoji}</span>
                   <span style={{ fontSize: ".75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: uc.color }}>{uc.persona}</span>
                 </div>
-                <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: 8 }}>{uc.title}</h2>
+                <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: 8 }}>{uc.title}</h2>
                 <p style={{ color: "#888", fontSize: ".95rem" }}>{uc.subtitle}</p>
               </div>
 
@@ -162,8 +162,8 @@ export default function UseCasesPage() {
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                     {uc.solutions.map((s) => (
                       <div key={s.feature} style={{ padding: "12px 16px", borderRadius: 10, background: "#0d0d0d", border: "1px solid #1a1a1a" }}>
-                        <div style={{ fontSize: ".85rem", fontWeight: 700, color: "#fff", marginBottom: 4 }}>{s.feature}</div>
-                        <div style={{ fontSize: ".8rem", color: "#666", lineHeight: 1.5 }}>{s.description}</div>
+                        <div style={{ fontSize: ".85rem", fontWeight: 700, color:'#0a0a0a', marginBottom: 4 }}>{s.feature}</div>
+                        <div style={{ fontSize: ".8rem", color:'#6b7280', lineHeight: 1.5 }}>{s.description}</div>
                       </div>
                     ))}
                   </div>
@@ -173,10 +173,10 @@ export default function UseCasesPage() {
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "12px 16px", borderRadius: 10, background: `${uc.color}10`, border: `1px solid ${uc.color}30` }}>
                   <div>
                     <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".05em", color: uc.color, marginBottom: 4 }}>Outcome</div>
-                    <div style={{ fontSize: ".9rem", color: "#ccc" }}>{uc.outcome}</div>
+                    <div style={{ fontSize: ".9rem", color:'#374151' }}>{uc.outcome}</div>
                   </div>
                   <div style={{ display: "flex", gap: 8 }}>
-                    <Link href={`/use-cases/${uc.slug}`} style={{ padding: "8px 16px", borderRadius: 8, background: uc.color, color: "#fff", fontSize: ".8rem", fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>
+                    <Link href={`/use-cases/${uc.slug}`} style={{ padding: "8px 16px", borderRadius: 8, background: uc.color, color:'#0a0a0a', fontSize: ".8rem", fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}>
                       Deep dive →
                     </Link>
                   </div>
@@ -188,15 +188,15 @@ export default function UseCasesPage() {
 
         {/* Additional use cases grid */}
         <div style={{ marginBottom: "4rem" }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", textAlign: "center", marginBottom: "2rem" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', textAlign: "center", marginBottom: "2rem" }}>
             And everything else you need
           </h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "1rem" }}>
             {additionalUseCases.map((uc) => (
-              <div key={uc.title} style={{ padding: "1.25rem", borderRadius: 12, border: "1px solid #1a1a1a", background: "#0a0a0a" }}>
+              <div key={uc.title} style={{ padding: "1.25rem", borderRadius: 12, border: "1px solid #1a1a1a", background:'#f9fafb' }}>
                 <span style={{ fontSize: "1.3rem", display: "block", marginBottom: 8 }}>{uc.icon}</span>
-                <h3 style={{ fontSize: ".95rem", fontWeight: 700, color: "#fff", marginBottom: 6 }}>{uc.title}</h3>
-                <p style={{ fontSize: ".8rem", color: "#666", lineHeight: 1.5 }}>{uc.description}</p>
+                <h3 style={{ fontSize: ".95rem", fontWeight: 700, color:'#0a0a0a', marginBottom: 6 }}>{uc.title}</h3>
+                <p style={{ fontSize: ".8rem", color:'#6b7280', lineHeight: 1.5 }}>{uc.description}</p>
               </div>
             ))}
           </div>
@@ -204,8 +204,8 @@ export default function UseCasesPage() {
 
         {/* CTA */}
         <div style={{ textAlign: "center", padding: "3rem 0", borderTop: "1px solid #1a1a1a" }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: ".75rem" }}>Ready to see it in action?</h2>
-          <p style={{ color: "#666", marginBottom: "1.5rem" }}>Explore the live demo — no signup required.</p>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: ".75rem" }}>Ready to see it in action?</h2>
+          <p style={{ color:'#6b7280', marginBottom: "1.5rem" }}>Explore the live demo — no signup required.</p>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center" }}>
             <Link href="/dashboard" style={{ padding: "12px 24px", borderRadius: 8, background: "#fff", color: "#000", fontWeight: 700, textDecoration: "none" }}>Explore Demo</Link>
             <Link href="/setup" style={{ padding: "12px 24px", borderRadius: 8, border: "1px solid #333", color: "#999", fontWeight: 600, textDecoration: "none" }}>Set Up Your Program →</Link>

@@ -5,9 +5,9 @@ export default function DashboardNotFound() {
   return (
     <div className="flex-1 flex items-center justify-center px-6 py-20">
       <div className="text-center max-w-md">
-        <div className="text-6xl font-black text-white/[0.06] mb-6 select-none">404</div>
-        <h1 className="text-xl font-bold text-white mb-2">Page not found</h1>
-        <p className="text-neutral-500 text-sm mb-8">
+        <div className="text-6xl font-black mb-6 select-none" style={{ color: "var(--muted)", opacity: 0.3 }}>404</div>
+        <h1 className="text-xl font-bold mb-2" style={{ color: "var(--fg)" }}>Page not found</h1>
+        <p className="text-sm mb-8" style={{ color: "var(--muted)" }}>
           This dashboard page doesn&apos;t exist. It may have been moved or removed.
         </p>
 
@@ -21,9 +21,10 @@ export default function DashboardNotFound() {
             <Link
               key={href}
               href={href}
-              className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors group"
+              className="flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm transition-colors group"
+              style={{ color: "var(--muted)" }}
             >
-              <Icon className="w-4 h-4 text-neutral-600 group-hover:text-neutral-400" />
+              <Icon className="w-4 h-4" style={{ color: "var(--muted)" }} />
               {label}
               <ArrowRight className="w-3.5 h-3.5 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
             </Link>

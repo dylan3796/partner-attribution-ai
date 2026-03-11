@@ -155,15 +155,15 @@ function DecayCurve({ halfLife }: { halfLife: number }) {
 const card: React.CSSProperties = {
   padding: "1.5rem",
   borderRadius: 12,
-  background: "#1a1a1a",
-  border: "1px solid #333",
+  background: "var(--card-bg)",
+  border: "1px solid var(--border)",
 };
 
 const sectionTitle: React.CSSProperties = {
   fontSize: "1.1rem",
   fontWeight: 700,
   marginBottom: "1.25rem",
-  color: "#fff",
+  color:'#0a0a0a',
 };
 
 const label: React.CSSProperties = {
@@ -171,7 +171,7 @@ const label: React.CSSProperties = {
   fontSize: "0.9rem",
   fontWeight: 600,
   marginBottom: "0.4rem",
-  color: "#fff",
+  color:'#0a0a0a',
 };
 
 const muted: React.CSSProperties = {
@@ -183,9 +183,9 @@ const muted: React.CSSProperties = {
 const selectStyle: React.CSSProperties = {
   padding: "0.6rem 0.85rem",
   borderRadius: 8,
-  border: "1px solid #333",
-  background: "#000",
-  color: "#fff",
+  border: "1px solid var(--border)",
+  background:'#f9fafb',
+  color:'#0a0a0a',
   fontSize: "0.9rem",
   outline: "none",
   cursor: "pointer",
@@ -356,7 +356,7 @@ export default function AttributionSettingsPage() {
           <div style={{ border: "1px solid #2d2d2d", borderRadius: 10, overflow: "hidden" }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
-                <tr style={{ borderBottom: "1px solid #2d2d2d", background: "#111" }}>
+                <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--card-bg)" }}>
                   <th style={tableHeader}>Partner Type</th>
                   <th style={tableHeader}>Attribution Model</th>
                 </tr>
@@ -365,7 +365,7 @@ export default function AttributionSettingsPage() {
                 {PARTNER_TYPES.map((pt, i) => (
                   <tr
                     key={pt}
-                    style={{ borderBottom: i < PARTNER_TYPES.length - 1 ? "1px solid #222" : "none" }}
+                    style={{ borderBottom: i < PARTNER_TYPES.length - 1 ? "1px solid var(--border)" : "none" }}
                   >
                     <td style={{ padding: "0.75rem 1rem", fontWeight: 500, fontSize: "0.9rem" }}>
                       {PARTNER_TYPE_LABELS[pt]}
@@ -478,7 +478,7 @@ export default function AttributionSettingsPage() {
         <div style={{ border: "1px solid #2d2d2d", borderRadius: 10, overflow: "hidden", marginBottom: "1rem" }}>
           <table style={{ width: "100%", borderCollapse: "collapse" }}>
             <thead>
-              <tr style={{ borderBottom: "1px solid #2d2d2d", background: "#111" }}>
+              <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--card-bg)" }}>
                 <th style={tableHeader}>Name</th>
                 <th style={{ ...tableHeader, width: 240 }}>Weight (0 – 100)</th>
                 <th style={{ ...tableHeader, textAlign: "center" }}>Active</th>
@@ -495,7 +495,7 @@ export default function AttributionSettingsPage() {
                     style={{
                       borderBottom:
                         tp.expandedOverrides || i < touchpoints.length - 1
-                          ? "1px solid #222"
+                          ? "1px solid var(--border)"
                           : "none",
                       opacity: tp.active ? 1 : 0.55,
                     }}
@@ -508,7 +508,7 @@ export default function AttributionSettingsPage() {
                             marginLeft: 6,
                             fontSize: "0.7rem",
                             background: "#1e1b4b",
-                            color: "#818cf8",
+                            color:'#0a0a0a',
                             padding: "1px 6px",
                             borderRadius: 4,
                           }}
@@ -581,7 +581,7 @@ export default function AttributionSettingsPage() {
                       {tp.custom && (
                         <button
                           onClick={() => removeTouchpoint(tp.id)}
-                          style={{ background: "none", border: "none", cursor: "pointer", color: "#555", padding: 4, display: "inline-flex" }}
+                          style={{ background: "none", border: "none", cursor: "pointer", color:'#6b7280', padding: 4, display: "inline-flex" }}
                           title="Remove custom touchpoint"
                         >
                           <Trash2 size={14} />
@@ -598,7 +598,7 @@ export default function AttributionSettingsPage() {
                         style={{
                           background: "#0f0f0f",
                           padding: "0.75rem 1.25rem 1rem 2rem",
-                          borderBottom: "1px solid #222",
+                          borderBottom: "1px solid var(--border)",
                         }}
                       >
                         <p style={{ ...muted, marginBottom: "0.75rem" }}>
@@ -617,7 +617,7 @@ export default function AttributionSettingsPage() {
                               key={pt}
                               style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}
                             >
-                              <span style={{ fontSize: "0.85rem", minWidth: 148, color: "#ccc" }}>
+                              <span style={{ fontSize: "0.85rem", minWidth: 148, color:'#374151' }}>
                                 {PARTNER_TYPE_LABELS[pt]}
                               </span>
                               <input
@@ -663,10 +663,10 @@ export default function AttributionSettingsPage() {
         {showAddTouchpoint ? (
           <div
             style={{
-              border: "1px solid #333",
+              border: "1px solid var(--border)",
               borderRadius: 10,
               padding: "1rem 1.25rem",
-              background: "#111",
+              background: "var(--card-bg)",
               marginBottom: "0.5rem",
             }}
           >
@@ -747,7 +747,7 @@ export default function AttributionSettingsPage() {
             style={{
               textAlign: "center",
               padding: "2rem 1rem",
-              border: "1px dashed #333",
+              border: "1px dashed var(--border)",
               borderRadius: 10,
               color: "#a0a0a0",
               fontSize: "0.88rem",
@@ -767,7 +767,7 @@ export default function AttributionSettingsPage() {
                   alignItems: "center",
                   gap: "0.65rem",
                   padding: "0.75rem 1rem",
-                  background: "#111",
+                  background: "var(--card-bg)",
                   borderRadius: 10,
                   border: "1px solid #2a2a2a",
                   flexWrap: "wrap",
@@ -779,7 +779,7 @@ export default function AttributionSettingsPage() {
                     fontSize: "0.72rem",
                     fontWeight: 700,
                     background: "#1e1b4b",
-                    color: "#818cf8",
+                    color:'#0a0a0a',
                     padding: "2px 8px",
                     borderRadius: 12,
                     minWidth: 32,
@@ -850,7 +850,7 @@ export default function AttributionSettingsPage() {
                       background: "none",
                       border: "none",
                       cursor: idx === 0 ? "not-allowed" : "pointer",
-                      color: idx === 0 ? "#333" : "#888",
+                      color: "var(--muted)",
                       padding: 4,
                       display: "inline-flex",
                     }}
@@ -865,7 +865,7 @@ export default function AttributionSettingsPage() {
                       background: "none",
                       border: "none",
                       cursor: idx === rules.length - 1 ? "not-allowed" : "pointer",
-                      color: idx === rules.length - 1 ? "#333" : "#888",
+                      color: "var(--muted)",
                       padding: 4,
                       display: "inline-flex",
                     }}
@@ -879,7 +879,7 @@ export default function AttributionSettingsPage() {
                       background: "none",
                       border: "none",
                       cursor: "pointer",
-                      color: "#555",
+                      color:'#6b7280',
                       padding: 4,
                       display: "inline-flex",
                     }}
@@ -919,8 +919,8 @@ export default function AttributionSettingsPage() {
                   bottom: "calc(100% + 8px)",
                   left: "50%",
                   transform: "translateX(-50%)",
-                  background: "#1a1a1a",
-                  border: "1px solid #333",
+                  background: "var(--card-bg)",
+                  border: "1px solid var(--border)",
                   borderRadius: 8,
                   padding: "0.45rem 0.8rem",
                   fontSize: "0.8rem",
@@ -996,7 +996,7 @@ export default function AttributionSettingsPage() {
               justifyContent: "space-between",
               alignItems: "center",
               padding: "1rem 1.1rem",
-              background: "#111",
+              background: "var(--card-bg)",
               borderRadius: 10,
               border: "1px solid #2a2a2a",
               gap: "1rem",

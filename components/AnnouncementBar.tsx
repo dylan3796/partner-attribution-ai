@@ -61,12 +61,12 @@ export default function AnnouncementBar() {
           justifyContent: "center",
           gap: "8px",
           fontSize: ".85rem",
-          color: "rgba(255,255,255,.85)",
+          color:"#111827",
         }}
       >
         <Sparkles
           size={14}
-          style={{ color: "#818cf8", flexShrink: 0 }}
+          style={{ color:'#0a0a0a', flexShrink: 0 }}
         />
         <span>
           <strong style={{ color: "#a5b4fc", fontWeight: 600 }}>Early access is open.</strong>{" "}
@@ -75,7 +75,7 @@ export default function AnnouncementBar() {
         <Link
           href="/beta"
           style={{
-            color: "#818cf8",
+            color:'#0a0a0a',
             fontWeight: 600,
             textDecoration: "none",
             whiteSpace: "nowrap",
@@ -100,7 +100,7 @@ export default function AnnouncementBar() {
           transform: "translateY(-50%)",
           background: "none",
           border: "none",
-          color: "rgba(255,255,255,.4)",
+          color:"#6b7280",
           cursor: "pointer",
           padding: 4,
           borderRadius: 4,

@@ -96,25 +96,25 @@ function DashboardMock() {
           { label: "Partners", value: "5", change: "+2", up: true },
           { label: "Win Rate", value: "68%", change: "+5%", up: true },
         ].map((s) => (
-          <div key={s.label} style={{ background: "#111", borderRadius: 8, padding: "14px 16px", border: "1px solid #1a1a1a" }}>
-            <div style={{ fontSize: ".7rem", color: "#666", marginBottom: 6, textTransform: "uppercase", letterSpacing: ".04em" }}>{s.label}</div>
+          <div key={s.label} style={{ background:'#f9fafb', borderRadius: 8, padding: "14px 16px", border: "1px solid #1a1a1a" }}>
+            <div style={{ fontSize: ".7rem", color:'#6b7280', marginBottom: 6, textTransform: "uppercase", letterSpacing: ".04em" }}>{s.label}</div>
             <div style={{ fontSize: "1.3rem", fontWeight: 700 }}>{s.value}</div>
             <div style={{ fontSize: ".75rem", color: s.up ? "#22c55e" : "#ef4444", marginTop: 4 }}>{s.change}</div>
           </div>
         ))}
       </div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-        <div style={{ background: "#111", borderRadius: 8, padding: 16, border: "1px solid #1a1a1a" }}>
-          <div style={{ fontSize: ".75rem", color: "#666", marginBottom: 12, fontWeight: 600 }}>TOP PARTNERS BY REVENUE</div>
+        <div style={{ background:'#f9fafb', borderRadius: 8, padding: 16, border: "1px solid #1a1a1a" }}>
+          <div style={{ fontSize: ".75rem", color:'#6b7280', marginBottom: 12, fontWeight: 600 }}>TOP PARTNERS BY REVENUE</div>
           {["TechBridge Solutions — $247,400", "Apex Growth Group — $189,200", "Stackline Partners — $134,600"].map((p, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 0", borderTop: i > 0 ? "1px solid #1a1a1a" : "none" }}>
               <div style={{ width: 24, height: 24, borderRadius: "50%", background: ["#6366f1", "#10b981", "#f59e0b"][i], display: "flex", alignItems: "center", justifyContent: "center", fontSize: ".65rem", fontWeight: 700 }}>{i + 1}</div>
-              <span style={{ fontSize: ".8rem", color: "#ccc" }}>{p}</span>
+              <span style={{ fontSize: ".8rem", color:'#374151' }}>{p}</span>
             </div>
           ))}
         </div>
-        <div style={{ background: "#111", borderRadius: 8, padding: 16, border: "1px solid #1a1a1a" }}>
-          <div style={{ fontSize: ".75rem", color: "#666", marginBottom: 12, fontWeight: 600 }}>ACTION ITEMS</div>
+        <div style={{ background:'#f9fafb', borderRadius: 8, padding: 16, border: "1px solid #1a1a1a" }}>
+          <div style={{ fontSize: ".75rem", color:'#6b7280', marginBottom: 12, fontWeight: 600 }}>ACTION ITEMS</div>
           {[
             { text: "3 pending deal registrations", color: "#f59e0b" },
             { text: "2 partners need onboarding", color: "#6366f1" },
@@ -122,7 +122,7 @@ function DashboardMock() {
           ].map((a, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, padding: "8px 0", borderTop: i > 0 ? "1px solid #1a1a1a" : "none" }}>
               <div style={{ width: 8, height: 8, borderRadius: "50%", background: a.color, flexShrink: 0 }} />
-              <span style={{ fontSize: ".8rem", color: "#ccc" }}>{a.text}</span>
+              <span style={{ fontSize: ".8rem", color:'#374151' }}>{a.text}</span>
             </div>
           ))}
         </div>
@@ -134,15 +134,15 @@ function DashboardMock() {
 function AttributionMock() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ background: "#111", borderRadius: 8, padding: 16, border: "1px solid #1a1a1a" }}>
+      <div style={{ background:'#f9fafb', borderRadius: 8, padding: 16, border: "1px solid #1a1a1a" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
           <div>
             <div style={{ fontSize: ".95rem", fontWeight: 600 }}>Acme Corp — Enterprise License</div>
-            <div style={{ fontSize: ".8rem", color: "#666", marginTop: 2 }}>Deal value: $85,000 · Closed Won</div>
+            <div style={{ fontSize: ".8rem", color:'#6b7280', marginTop: 2 }}>Deal value: $85,000 · Closed Won</div>
           </div>
           <div style={{ background: "#22c55e20", color: "#22c55e", fontSize: ".7rem", fontWeight: 600, padding: "4px 10px", borderRadius: 20 }}>ATTRIBUTED</div>
         </div>
-        <div style={{ fontSize: ".7rem", color: "#666", fontWeight: 600, marginBottom: 10, textTransform: "uppercase", letterSpacing: ".04em" }}>ATTRIBUTION AUDIT TRAIL</div>
+        <div style={{ fontSize: ".7rem", color:'#6b7280', fontWeight: 600, marginBottom: 10, textTransform: "uppercase", letterSpacing: ".04em" }}>ATTRIBUTION AUDIT TRAIL</div>
         {[
           { step: "1", text: "TechBridge registered deal on Jan 15", detail: "Deal Reg Protection → 100% credit", color: "#6366f1" },
           { step: "2", text: "Credit: $85,000 × 100% = $85,000", detail: "Full deal value attributed to registering partner", color: "#10b981" },
@@ -152,7 +152,7 @@ function AttributionMock() {
             <div style={{ width: 24, height: 24, borderRadius: "50%", background: s.color, display: "flex", alignItems: "center", justifyContent: "center", fontSize: ".65rem", fontWeight: 700, flexShrink: 0 }}>{s.step}</div>
             <div>
               <div style={{ fontSize: ".8rem", color: "#e5e5e5", fontWeight: 500 }}>{s.text}</div>
-              <div style={{ fontSize: ".75rem", color: "#555", marginTop: 2 }}>{s.detail}</div>
+              <div style={{ fontSize: ".75rem", color:'#6b7280', marginTop: 2 }}>{s.detail}</div>
             </div>
           </div>
         ))}
@@ -164,8 +164,8 @@ function AttributionMock() {
 function CommissionsMock() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ background: "#111", borderRadius: 8, padding: 16, border: "1px solid #1a1a1a" }}>
-        <div style={{ fontSize: ".75rem", color: "#666", fontWeight: 600, marginBottom: 12, textTransform: "uppercase", letterSpacing: ".04em" }}>COMMISSION RULES</div>
+      <div style={{ background:'#f9fafb', borderRadius: 8, padding: 16, border: "1px solid #1a1a1a" }}>
+        <div style={{ fontSize: ".75rem", color:'#6b7280', fontWeight: 600, marginBottom: 12, textTransform: "uppercase", letterSpacing: ".04em" }}>COMMISSION RULES</div>
         {[
           { tier: "Gold", rate: "10%", condition: "≥$200K revenue or ≥5 deals/quarter", color: "#f59e0b" },
           { tier: "Silver", rate: "8%", condition: "≥$50K revenue or ≥2 deals/quarter", color: "#94a3b8" },
@@ -176,15 +176,15 @@ function CommissionsMock() {
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: r.color }} />
               <div>
                 <div style={{ fontSize: ".85rem", fontWeight: 600, color: "#e5e5e5" }}>{r.tier} Tier</div>
-                <div style={{ fontSize: ".7rem", color: "#555" }}>{r.condition}</div>
+                <div style={{ fontSize: ".7rem", color:'#6b7280' }}>{r.condition}</div>
               </div>
             </div>
             <div style={{ fontSize: ".95rem", fontWeight: 700, color: "#22c55e" }}>{r.rate}</div>
           </div>
         ))}
       </div>
-      <div style={{ background: "#111", borderRadius: 8, padding: 16, border: "1px solid #1a1a1a" }}>
-        <div style={{ fontSize: ".75rem", color: "#666", fontWeight: 600, marginBottom: 12, textTransform: "uppercase", letterSpacing: ".04em" }}>PENDING PAYOUTS</div>
+      <div style={{ background:'#f9fafb', borderRadius: 8, padding: 16, border: "1px solid #1a1a1a" }}>
+        <div style={{ fontSize: ".75rem", color:'#6b7280', fontWeight: 600, marginBottom: 12, textTransform: "uppercase", letterSpacing: ".04em" }}>PENDING PAYOUTS</div>
         {[
           { partner: "TechBridge Solutions", amount: "$8,500", deals: "2 deals", status: "Ready" },
           { partner: "Apex Growth Group", amount: "$6,200", deals: "1 deal", status: "Ready" },
@@ -193,7 +193,7 @@ function CommissionsMock() {
           <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 0", borderTop: i > 0 ? "1px solid #1a1a1a" : "none" }}>
             <div>
               <div style={{ fontSize: ".8rem", fontWeight: 500, color: "#e5e5e5" }}>{p.partner}</div>
-              <div style={{ fontSize: ".7rem", color: "#555" }}>{p.deals}</div>
+              <div style={{ fontSize: ".7rem", color:'#6b7280' }}>{p.deals}</div>
             </div>
             <div style={{ textAlign: "right" }}>
               <div style={{ fontSize: ".85rem", fontWeight: 600, color: "#22c55e" }}>{p.amount}</div>
@@ -209,10 +209,10 @@ function CommissionsMock() {
 function PortalMock() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-      <div style={{ background: "#111", borderRadius: 8, border: "1px solid #1a1a1a", overflow: "hidden" }}>
+      <div style={{ background:'#f9fafb', borderRadius: 8, border: "1px solid #1a1a1a", overflow: "hidden" }}>
         <div style={{ padding: "12px 16px", borderBottom: "1px solid #1a1a1a", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ fontSize: ".85rem", fontWeight: 600 }}>Horizon Software — Partner Portal</div>
-          <div style={{ fontSize: ".7rem", color: "#666" }}>sarah.chen@techbridge.io</div>
+          <div style={{ fontSize: ".7rem", color:'#6b7280' }}>sarah.chen@techbridge.io</div>
         </div>
         <div style={{ padding: 16 }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 10, marginBottom: 16 }}>
@@ -221,13 +221,13 @@ function PortalMock() {
               { label: "Commission Earned", value: "$18,550" },
               { label: "Active Deals", value: "8" },
             ].map((s) => (
-              <div key={s.label} style={{ background: "#0a0a0a", borderRadius: 6, padding: "10px 12px", textAlign: "center" }}>
-                <div style={{ fontSize: ".65rem", color: "#555", textTransform: "uppercase", letterSpacing: ".04em" }}>{s.label}</div>
+              <div key={s.label} style={{ background:'#f9fafb', borderRadius: 6, padding: "10px 12px", textAlign: "center" }}>
+                <div style={{ fontSize: ".65rem", color:'#6b7280', textTransform: "uppercase", letterSpacing: ".04em" }}>{s.label}</div>
                 <div style={{ fontSize: "1.1rem", fontWeight: 700, marginTop: 4 }}>{s.value}</div>
               </div>
             ))}
           </div>
-          <div style={{ fontSize: ".7rem", color: "#666", fontWeight: 600, marginBottom: 8, textTransform: "uppercase" }}>RECENT DEALS</div>
+          <div style={{ fontSize: ".7rem", color:'#6b7280', fontWeight: 600, marginBottom: 8, textTransform: "uppercase" }}>RECENT DEALS</div>
           {[
             { name: "Acme Corp — Enterprise", value: "$85,000", status: "Closed Won" },
             { name: "TechStart Inc — Pro", value: "$24,000", status: "In Progress" },
@@ -235,7 +235,7 @@ function PortalMock() {
             <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "8px 0", borderTop: i > 0 ? "1px solid #1a1a1a" : "none" }}>
               <div>
                 <div style={{ fontSize: ".8rem", color: "#e5e5e5" }}>{d.name}</div>
-                <div style={{ fontSize: ".7rem", color: "#555" }}>{d.value}</div>
+                <div style={{ fontSize: ".7rem", color:'#6b7280' }}>{d.value}</div>
               </div>
               <div style={{ fontSize: ".7rem", color: d.status === "Closed Won" ? "#22c55e" : "#f59e0b", fontWeight: 500, alignSelf: "center" }}>{d.status}</div>
             </div>
@@ -308,8 +308,8 @@ export default function DemoPage() {
   return (
     <div style={{
       minHeight: "100vh",
-      background: "#000",
-      color: "#fff",
+      background:'#f9fafb',
+      color:'#0a0a0a',
       fontFamily: "Inter, system-ui, sans-serif",
       display: "flex",
       flexDirection: "column",
@@ -322,7 +322,7 @@ export default function DemoPage() {
         padding: "16px 24px",
         borderBottom: "1px solid #111",
       }}>
-        <Link href="/" style={{ fontSize: "1.1rem", fontWeight: 800, color: "#fff", textDecoration: "none", letterSpacing: "-0.02em" }}>
+        <Link href="/" style={{ fontSize: "1.1rem", fontWeight: 800, color:'#0a0a0a', textDecoration: "none", letterSpacing: "-0.02em" }}>
           Covant.ai
         </Link>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
@@ -331,7 +331,7 @@ export default function DemoPage() {
             style={{
               background: "none",
               border: "none",
-              color: "#555",
+              color:'#6b7280',
               fontSize: ".8rem",
               cursor: "pointer",
               padding: "6px 12px",
@@ -454,7 +454,7 @@ export default function DemoPage() {
                   }}>
                     <f.icon size={16} color={current.color} />
                   </div>
-                  <span style={{ fontSize: ".9rem", color: "#ccc", lineHeight: 1.5, paddingTop: 5 }}>{f.text}</span>
+                  <span style={{ fontSize: ".9rem", color:'#374151', lineHeight: 1.5, paddingTop: 5 }}>{f.text}</span>
                 </div>
               ))}
             </div>
@@ -511,7 +511,7 @@ export default function DemoPage() {
             </div>
 
             {/* Step counter */}
-            <div style={{ fontSize: ".75rem", color: "#444" }}>
+            <div style={{ fontSize: ".75rem", color:'#374151' }}>
               {step + 1} of {STEPS.length}
             </div>
           </div>
@@ -519,7 +519,7 @@ export default function DemoPage() {
           {/* Right: mock UI */}
           {MockComponent && (
             <div style={{
-              background: "#0a0a0a",
+              background:'#f9fafb',
               borderRadius: 16,
               border: "1px solid #1a1a1a",
               padding: 20,
@@ -540,7 +540,7 @@ export default function DemoPage() {
         justifyContent: "center",
         gap: 24,
       }}>
-        <span style={{ fontSize: ".8rem", color: "#444" }}>
+        <span style={{ fontSize: ".8rem", color:'#374151' }}>
           Free forever for up to 5 partners · No credit card required
         </span>
         <Link
@@ -548,7 +548,7 @@ export default function DemoPage() {
           style={{
             fontSize: ".8rem",
             fontWeight: 600,
-            color: "#fff",
+            color:'#0a0a0a',
             textDecoration: "underline",
             textUnderlineOffset: 3,
           }}

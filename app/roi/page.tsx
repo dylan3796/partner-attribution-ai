@@ -6,10 +6,10 @@ import ROICalculator from "@/components/ROICalculator";
 
 export default function ROIPage() {
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#fff", fontFamily: "Inter, sans-serif" }}>
+    <div style={{ minHeight: "100vh", background:'#f9fafb', color:'#0a0a0a', fontFamily: "Inter, sans-serif" }}>
       {/* Nav */}
       <nav style={{ padding: "1.25rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #111" }}>
-        <Link href="/" style={{ fontWeight: 700, fontSize: "1.15rem", color: "#fff", textDecoration: "none" }}>Covant</Link>
+        <Link href="/" style={{ fontWeight: 700, fontSize: "1.15rem", color:'#0a0a0a', textDecoration: "none" }}>Covant</Link>
         <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
           <Link href="/pricing" style={{ color: "#9ca3af", fontSize: ".85rem", textDecoration: "none" }}>Pricing</Link>
           <Link href="/sign-up" style={{ background: "#fff", color: "#000", padding: "8px 20px", borderRadius: 8, fontWeight: 600, fontSize: ".85rem", textDecoration: "none" }}>Get Started Free</Link>
@@ -28,7 +28,7 @@ export default function ROIPage() {
         <h1 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, lineHeight: 1.1, margin: "0 0 20px" }}>
           Calculate what Covant<br />is worth to your program
         </h1>
-        <p style={{ fontSize: "1.05rem", color: "rgba(255,255,255,.55)", maxWidth: 560, margin: "0 auto", lineHeight: 1.7 }}>
+        <p style={{ fontSize: "1.05rem", color:"#6b7280", maxWidth: 560, margin: "0 auto", lineHeight: 1.7 }}>
           Most partner programs waste 30–40 hours per month on manual attribution, commission disputes, and spreadsheet reconciliation. See what you&apos;d save.
         </p>
       </section>
@@ -48,7 +48,7 @@ export default function ROIPage() {
             </div>
           </div>
           <div style={{ background: "#0d0d0d", border: "1px solid #1f1f1f", borderRadius: 12, padding: "1.5rem" }}>
-            <div style={{ fontSize: "2rem", fontWeight: 800, color: "#818cf8", marginBottom: ".5rem" }}>8–12×</div>
+            <div style={{ fontSize: "2rem", fontWeight: 800, color:'#0a0a0a', marginBottom: ".5rem" }}>8–12×</div>
             <div style={{ fontSize: ".85rem", color: "#888", lineHeight: 1.6 }}>
               Typical first-year ROI from automated attribution, reduced disputes, and better partner targeting
             </div>

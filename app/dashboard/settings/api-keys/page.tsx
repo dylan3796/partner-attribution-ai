@@ -201,7 +201,7 @@ export default function ApiKeysPage() {
             <button
               onClick={() => copyToClipboard(revealedKey.key)}
               style={{
-                background: copiedKey ? "#16a34a" : "#111", color: "white",
+                background: copiedKey ? "#16a34a" : "var(--card-bg)", color: "white",
                 border: "none", borderRadius: 6, padding: "6px 12px", cursor: "pointer",
                 display: "flex", alignItems: "center", gap: 4, fontSize: ".8rem", fontWeight: 600,
                 flexShrink: 0,

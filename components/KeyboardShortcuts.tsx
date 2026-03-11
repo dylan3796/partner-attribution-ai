@@ -122,7 +122,7 @@ export function KeyboardShortcuts() {
           zIndex: 9999,
           background: "rgba(255,255,255,0.1)",
           backdropFilter: "blur(12px)",
-          border: "1px solid rgba(255,255,255,0.15)",
+          border:'1px solid #e5e7eb',
           borderRadius: 8,
           padding: "8px 14px",
           fontSize: ".8rem",
@@ -137,7 +137,7 @@ export function KeyboardShortcuts() {
         <kbd
           style={{
             background: "rgba(255,255,255,0.15)",
-            border: "1px solid rgba(255,255,255,0.2)",
+            border:'1px solid #e5e7eb',
             borderRadius: 4,
             padding: "2px 6px",
             fontSize: ".7rem",
@@ -181,8 +181,8 @@ export function KeyboardShortcuts() {
           width: "min(480px, 90vw)",
           maxHeight: "80vh",
           overflowY: "auto",
-          background: "#0a0a0a",
-          border: "1px solid rgba(255,255,255,0.1)",
+          background:'#f9fafb',
+          border:'1px solid #e5e7eb',
           borderRadius: 12,
           padding: 0,
           fontFamily: "Inter, sans-serif",
@@ -196,12 +196,12 @@ export function KeyboardShortcuts() {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "16px 20px",
-            borderBottom: "1px solid rgba(255,255,255,0.08)",
+            borderBottom:'1px solid #e5e7eb',
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <Keyboard size={18} style={{ color: "rgba(255,255,255,0.5)" }} />
-            <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 600, color: "#fff" }}>
+            <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 600, color:'#0a0a0a' }}>
               Keyboard Shortcuts
             </h2>
           </div>
@@ -282,7 +282,7 @@ export function KeyboardShortcuts() {
                             fontWeight: 600,
                             fontFamily: "inherit",
                             background: "rgba(255,255,255,0.08)",
-                            border: "1px solid rgba(255,255,255,0.12)",
+                            border:'1px solid #e5e7eb',
                             color: "rgba(255,255,255,0.6)",
                             boxShadow: "0 1px 0 rgba(255,255,255,0.05)",
                           }}

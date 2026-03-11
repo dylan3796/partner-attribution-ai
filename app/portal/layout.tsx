@@ -164,8 +164,8 @@ function PortalSidebar() {
                 width: 40,
                 height: 40,
                 borderRadius: 10,
-                background: "#000",
-                color: "#fff",
+                background: "var(--fg)",
+                color: "var(--bg)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -291,7 +291,7 @@ function PortalSidebar() {
           style={{
             position: "fixed",
             inset: 0,
-            background: "rgba(0,0,0,0.3)",
+            background: "rgba(0,0,0,0.5)",
             zIndex: 140,
           }}
         />

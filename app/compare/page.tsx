@@ -60,7 +60,7 @@ function StatusIcon({ status, isSetup }: { status: "yes" | "partial" | "no"; isS
   }
   if (status === "yes") return <CheckCircle2 size={18} style={{ color: "#22c55e" }} />;
   if (status === "partial") return <MinusCircle size={18} style={{ color: "#eab308" }} />;
-  return <XCircle size={18} style={{ color: "#444" }} />;
+  return <XCircle size={18} style={{ color:'#374151' }} />;
 }
 
 type PositionCard = {
@@ -162,7 +162,7 @@ export default function ComparePage() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#000",
+        background:'#f9fafb',
         color: "#e5e5e5",
         fontFamily: "var(--font-inter), Inter, sans-serif",
       }}
@@ -183,7 +183,7 @@ export default function ComparePage() {
             style={{
               fontWeight: 800,
               fontSize: "1.1rem",
-              color: "#fff",
+              color:'#0a0a0a',
               textDecoration: "none",
               letterSpacing: "-.02em",
             }}
@@ -196,13 +196,13 @@ export default function ComparePage() {
         <div style={{ display: "flex", gap: 16 }}>
           <Link
             href="/use-cases"
-            style={{ fontSize: ".8rem", color: "#666", textDecoration: "none" }}
+            style={{ fontSize: ".8rem", color:'#6b7280', textDecoration: "none" }}
           >
             Use Cases
           </Link>
           <Link
             href="/pricing"
-            style={{ fontSize: ".8rem", color: "#666", textDecoration: "none" }}
+            style={{ fontSize: ".8rem", color:'#6b7280', textDecoration: "none" }}
           >
             Pricing
           </Link>
@@ -230,7 +230,7 @@ export default function ComparePage() {
             style={{
               fontSize: "clamp(2rem, 4vw, 3rem)",
               fontWeight: 800,
-              color: "#fff",
+              color:'#0a0a0a',
               letterSpacing: "-.03em",
               lineHeight: 1.1,
               marginBottom: "1rem",
@@ -240,7 +240,7 @@ export default function ComparePage() {
           </h1>
           <p
             style={{
-              color: "#666",
+              color:'#6b7280',
               fontSize: "1.1rem",
               maxWidth: 600,
               margin: "0 auto",
@@ -277,7 +277,7 @@ export default function ComparePage() {
                       padding: "16px 20px",
                       fontSize: ".75rem",
                       fontWeight: 700,
-                      color: "#555",
+                      color:'#6b7280',
                       textTransform: "uppercase",
                       letterSpacing: ".05em",
                       width: "30%",
@@ -291,13 +291,13 @@ export default function ComparePage() {
                       padding: "16px 12px",
                       fontSize: ".85rem",
                       fontWeight: 800,
-                      color: "#fff",
+                      color:'#0a0a0a',
                       background: "#6366f108",
                       borderLeft: "1px solid #1a1a1a",
                       borderRight: "1px solid #1a1a1a",
                     }}
                   >
-                    <span style={{ color: "#818cf8" }}>Covant</span>
+                    <span style={{ color:'#0a0a0a' }}>Covant</span>
                   </th>
                   <th
                     style={{
@@ -347,7 +347,7 @@ export default function ComparePage() {
                           padding: "12px 20px",
                           fontSize: ".85rem",
                           fontWeight: 500,
-                          color: "#ccc",
+                          color:'#374151',
                         }}
                       >
                         {row.feature}
@@ -388,7 +388,7 @@ export default function ComparePage() {
               gap: "1.5rem",
               padding: "12px 20px",
               borderTop: "1px solid #1a1a1a",
-              background: "#0a0a0a",
+              background:'#f9fafb',
             }}
           >
             <div
@@ -424,17 +424,17 @@ export default function ComparePage() {
                 color: "#888",
               }}
             >
-              <XCircle size={14} style={{ color: "#444" }} /> Not available
+              <XCircle size={14} style={{ color:'#374151' }} /> Not available
             </div>
           </div>
         </div>
 
         {/* Detailed Comparison Pages */}
         <div style={{ marginBottom: "3rem" }}>
-          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", textAlign: "center", marginBottom: ".5rem" }}>
+          <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', textAlign: "center", marginBottom: ".5rem" }}>
             Detailed comparisons
           </h2>
-          <p style={{ color: "#666", textAlign: "center", marginBottom: "1.5rem", fontSize: ".95rem" }}>
+          <p style={{ color:'#6b7280', textAlign: "center", marginBottom: "1.5rem", fontSize: ".95rem" }}>
             Deep-dive feature comparisons with specific competitors.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
@@ -448,14 +448,14 @@ export default function ComparePage() {
                 href={`/compare/${c.slug}`}
                 style={{
                   padding: "1.5rem", borderRadius: 12, border: "1px solid #1a1a1a",
-                  background: "#0a0a0a", textDecoration: "none", color: "inherit",
+                  background:'#f9fafb', textDecoration: "none", color: "inherit",
                   transition: "border-color .2s",
                 }}
               >
-                <div style={{ fontSize: "1rem", fontWeight: 700, color: "#fff", marginBottom: 6 }}>
+                <div style={{ fontSize: "1rem", fontWeight: 700, color:'#0a0a0a', marginBottom: 6 }}>
                   Covant vs {c.name}
                 </div>
-                <p style={{ fontSize: ".8rem", color: "#666", margin: "0 0 12px", lineHeight: 1.5 }}>
+                <p style={{ fontSize: ".8rem", color:'#6b7280', margin: "0 0 12px", lineHeight: 1.5 }}>
                   {c.desc}
                 </p>
                 <span style={{ fontSize: ".8rem", color: "#6366f1", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 4 }}>
@@ -472,7 +472,7 @@ export default function ComparePage() {
             style={{
               fontSize: "1.5rem",
               fontWeight: 800,
-              color: "#fff",
+              color:'#0a0a0a',
               textAlign: "center",
               marginBottom: ".5rem",
             }}
@@ -481,7 +481,7 @@ export default function ComparePage() {
           </h2>
           <p
             style={{
-              color: "#666",
+              color:'#6b7280',
               textAlign: "center",
               marginBottom: "2rem",
               fontSize: ".95rem",
@@ -534,7 +534,7 @@ export default function ComparePage() {
                       style={{
                         fontSize: "1.05rem",
                         fontWeight: 700,
-                        color: "#fff",
+                        color:'#0a0a0a',
                       }}
                     >
                       vs. {pos.competitor}
@@ -564,7 +564,7 @@ export default function ComparePage() {
                         fontWeight: 700,
                         textTransform: "uppercase",
                         letterSpacing: ".06em",
-                        color: "#555",
+                        color:'#6b7280',
                         marginBottom: 8,
                       }}
                     >
@@ -573,7 +573,7 @@ export default function ComparePage() {
                     <p
                       style={{
                         fontSize: ".85rem",
-                        color: "#999",
+                        color:'#6b7280',
                         lineHeight: 1.6,
                       }}
                     >
@@ -601,7 +601,7 @@ export default function ComparePage() {
                     <p
                       style={{
                         fontSize: ".85rem",
-                        color: "#999",
+                        color:'#6b7280',
                         lineHeight: 1.6,
                       }}
                     >
@@ -624,7 +624,7 @@ export default function ComparePage() {
                     <p
                       style={{
                         fontSize: ".85rem",
-                        color: "#999",
+                        color:'#6b7280',
                         lineHeight: 1.6,
                       }}
                     >
@@ -643,7 +643,7 @@ export default function ComparePage() {
             style={{
               fontSize: "1.5rem",
               fontWeight: 800,
-              color: "#fff",
+              color:'#0a0a0a',
               textAlign: "center",
               marginBottom: "2rem",
             }}
@@ -666,7 +666,7 @@ export default function ComparePage() {
                     padding: "1.5rem",
                     borderRadius: 12,
                     border: "1px solid #1a1a1a",
-                    background: "#0a0a0a",
+                    background:'#f9fafb',
                   }}
                 >
                   <div
@@ -674,7 +674,7 @@ export default function ComparePage() {
                       width: 40,
                       height: 40,
                       borderRadius: 10,
-                      background: "#111",
+                      background:'#f9fafb',
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -688,7 +688,7 @@ export default function ComparePage() {
                     style={{
                       fontSize: ".95rem",
                       fontWeight: 700,
-                      color: "#fff",
+                      color:'#0a0a0a',
                       marginBottom: 6,
                     }}
                   >
@@ -697,7 +697,7 @@ export default function ComparePage() {
                   <p
                     style={{
                       fontSize: ".82rem",
-                      color: "#666",
+                      color:'#6b7280',
                       lineHeight: 1.6,
                     }}
                   >
@@ -721,13 +721,13 @@ export default function ComparePage() {
             style={{
               fontSize: "1.5rem",
               fontWeight: 800,
-              color: "#fff",
+              color:'#0a0a0a',
               marginBottom: ".75rem",
             }}
           >
             See it for yourself
           </h2>
-          <p style={{ color: "#666", marginBottom: "1.5rem", maxWidth: 460, margin: "0 auto 1.5rem" }}>
+          <p style={{ color:'#6b7280', marginBottom: "1.5rem", maxWidth: 460, margin: "0 auto 1.5rem" }}>
             15 minutes to set up. No credit card. No 6-month implementation.
             Just import your partners and go.
           </p>
@@ -762,7 +762,7 @@ export default function ComparePage() {
                 padding: "12px 28px",
                 borderRadius: 8,
                 border: "1px solid #333",
-                color: "#999",
+                color:'#6b7280',
                 fontWeight: 600,
                 textDecoration: "none",
               }}

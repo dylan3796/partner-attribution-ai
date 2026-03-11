@@ -97,8 +97,8 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
           alignItems: "center",
           justifyContent: "center",
           minHeight: "100vh",
-          background: "#0c0c0c",
-          color: "#fff",
+          background:'#ffffff',
+          color:'#0a0a0a',
         }}
       >
         Loading...
@@ -114,7 +114,7 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
           alignItems: "center",
           justifyContent: "center",
           minHeight: "100vh",
-          background: "#0c0c0c",
+          background:'#ffffff',
           padding: "2rem",
         }}
       >
@@ -122,7 +122,7 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
           style={{
             width: "100%",
             maxWidth: 420,
-            background: "#161616",
+            background:'#ffffff',
             border: "1px solid #2a2a2a",
             borderRadius: 16,
             padding: "2.5rem",
@@ -137,13 +137,13 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
                 justifyContent: "center",
                 width: 64,
                 height: 64,
-                background: "#000",
+                background:'#f9fafb',
                 borderRadius: 16,
                 marginBottom: "1rem",
                 border: "1px solid #333",
                 fontSize: "2rem",
                 fontWeight: 800,
-                color: "#fff",
+                color:'#0a0a0a',
                 fontFamily: "'Inter', system-ui, sans-serif",
               }}
             >
@@ -153,7 +153,7 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
               style={{
                 fontSize: "1.5rem",
                 fontWeight: 700,
-                color: "#fff",
+                color:'#0a0a0a',
                 marginBottom: ".5rem",
               }}
             >
@@ -184,10 +184,10 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
                 style={{
                   width: "100%",
                   padding: ".75rem 1rem",
-                  background: "#0c0c0c",
+                  background:'#ffffff',
                   border: "1px solid #333",
                   borderRadius: 8,
-                  color: "#fff",
+                  color:'#0a0a0a',
                   fontSize: ".9rem",
                   boxSizing: "border-box",
                   outline: "none",
@@ -215,7 +215,7 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
                 padding: ".75rem",
                 background:
                   !email.trim() || submittedEmail !== null ? "#333" : "#6366f1",
-                color: "#fff",
+                color:'#0a0a0a',
                 border: "none",
                 borderRadius: 8,
                 fontSize: ".95rem",
@@ -250,7 +250,7 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
                     alignItems: "center",
                     gap: 10,
                     padding: "8px 12px",
-                    background: "#111",
+                    background:'#f9fafb',
                     border: "1px solid #2a2a2a",
                     borderRadius: 8,
                     cursor: "pointer",
@@ -259,12 +259,12 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
                     width: "100%",
                   }}
                 >
-                  <div style={{ width: 32, height: 32, borderRadius: 8, background: "#1a1a2e", color: "#818cf8", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: ".7rem", flexShrink: 0 }}>
+                  <div style={{ width: 32, height: 32, borderRadius: 8, background: "#1a1a2e", color:'#0a0a0a', display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: ".7rem", flexShrink: 0 }}>
                     {account.name.split(" ").map(w => w[0]).join("")}
                   </div>
                   <div>
                     <div style={{ fontSize: ".8rem", fontWeight: 600, color: "#ddd" }}>{account.name}</div>
-                    <div style={{ fontSize: ".7rem", color: "#666" }}>{account.company}</div>
+                    <div style={{ fontSize: ".7rem", color:'#6b7280' }}>{account.company}</div>
                   </div>
                 </button>
               ))}

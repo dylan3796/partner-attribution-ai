@@ -51,13 +51,13 @@ export default function BlogSubscribe({ variant = "inline" }: { variant?: "inlin
             background: "rgba(129,140,248,.12)",
             display: "flex", alignItems: "center", justifyContent: "center",
           }}>
-            <Mail size={20} style={{ color: "#818cf8" }} />
+            <Mail size={20} style={{ color:'#0a0a0a' }} />
           </div>
         </div>
-        <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color: "#fff", margin: "0 0 8px" }}>
+        <h3 style={{ fontSize: "1.1rem", fontWeight: 700, color:'#0a0a0a', margin: "0 0 8px" }}>
           Get partner intelligence insights
         </h3>
-        <p style={{ color: "#666", fontSize: ".85rem", lineHeight: 1.6, margin: "0 0 20px", maxWidth: 380, marginLeft: "auto", marginRight: "auto" }}>
+        <p style={{ color:'#6b7280', fontSize: ".85rem", lineHeight: 1.6, margin: "0 0 20px", maxWidth: 380, marginLeft: "auto", marginRight: "auto" }}>
           New articles on attribution, commissions, and scaling partner programs. No spam — just signal.
         </p>
 
@@ -75,10 +75,10 @@ export default function BlogSubscribe({ variant = "inline" }: { variant?: "inlin
               style={{
                 flex: 1,
                 padding: "10px 14px",
-                background: "rgba(255,255,255,.05)",
+                background:"#f9fafb",
                 border: errorMsg ? "1px solid #ef4444" : "1px solid #222",
                 borderRadius: 8,
-                color: "#fff",
+                color:'#0a0a0a',
                 fontSize: ".85rem",
                 outline: "none",
                 fontFamily: "inherit",
@@ -122,10 +122,10 @@ export default function BlogSubscribe({ variant = "inline" }: { variant?: "inlin
     >
       <div style={{ display: "flex", alignItems: "flex-start", gap: 16, flexWrap: "wrap" }}>
         <div style={{ flex: 1, minWidth: 220 }}>
-          <p style={{ color: "#fff", fontSize: ".95rem", fontWeight: 700, margin: "0 0 4px" }}>
+          <p style={{ color:'#0a0a0a', fontSize: ".95rem", fontWeight: 700, margin: "0 0 4px" }}>
             Stay sharp on partner intelligence
           </p>
-          <p style={{ color: "#555", fontSize: ".8rem", margin: 0, lineHeight: 1.5 }}>
+          <p style={{ color:'#6b7280', fontSize: ".8rem", margin: 0, lineHeight: 1.5 }}>
             New insights on attribution, commissions, and program ops. No fluff.
           </p>
         </div>
@@ -143,10 +143,10 @@ export default function BlogSubscribe({ variant = "inline" }: { variant?: "inlin
               onChange={(e) => { setEmail(e.target.value); setState("idle"); setErrorMsg(""); }}
               style={{
                 padding: "9px 14px",
-                background: "rgba(255,255,255,.05)",
+                background:"#f9fafb",
                 border: errorMsg ? "1px solid #ef4444" : "1px solid #222",
                 borderRadius: 8,
-                color: "#fff",
+                color:'#0a0a0a',
                 fontSize: ".85rem",
                 outline: "none",
                 width: 200,
@@ -161,8 +161,8 @@ export default function BlogSubscribe({ variant = "inline" }: { variant?: "inlin
                 alignItems: "center",
                 gap: 4,
                 padding: "9px 14px",
-                background: "rgba(255,255,255,.08)",
-                color: "#ccc",
+                background:"#f3f4f6",
+                color:'#374151',
                 border: "1px solid #333",
                 borderRadius: 8,
                 fontWeight: 600,

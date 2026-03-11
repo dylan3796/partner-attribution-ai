@@ -274,10 +274,10 @@ function CopyButton({ text }: { text: string }) {
 
 function CodeBlock({ code, label }: { code: string; label?: string }) {
   return (
-    <div style={{ background: "#0a0a0a", borderRadius: 10, overflow: "hidden", border: "1px solid #1a1a1a" }}>
+    <div style={{ background:'#f9fafb', borderRadius: 10, overflow: "hidden", border: "1px solid #1a1a1a" }}>
       {label && (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "6px 12px", borderBottom: "1px solid #1a1a1a", background: "#0d0d0d" }}>
-          <span style={{ fontSize: ".7rem", fontWeight: 600, color: "#555", textTransform: "uppercase", letterSpacing: ".04em" }}>{label}</span>
+          <span style={{ fontSize: ".7rem", fontWeight: 600, color:'#6b7280', textTransform: "uppercase", letterSpacing: ".04em" }}>{label}</span>
           <CopyButton text={code} />
         </div>
       )}
@@ -304,16 +304,16 @@ export default function DocsPage() {
   const section = API_SECTIONS.find((s) => s.id === activeSection)!;
 
   return (
-    <div style={{ minHeight: "100vh", background: "#000", color: "#e5e5e5" }}>
+    <div style={{ minHeight: "100vh", background:'#f9fafb', color: "#e5e5e5" }}>
       {/* Header */}
       <header style={{ borderBottom: "1px solid #1a1a1a", padding: "1rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color: "#fff", textDecoration: "none", letterSpacing: "-.02em" }}>Covant.ai</Link>
+          <Link href="/" style={{ fontWeight: 800, fontSize: "1.1rem", color:'#0a0a0a', textDecoration: "none", letterSpacing: "-.02em" }}>Covant.ai</Link>
           <span style={{ color: "#333" }}>/</span>
           <span style={{ fontSize: ".9rem", color: "#888" }}>API Documentation</span>
         </div>
         <div style={{ display: "flex", gap: 12 }}>
-          <Link href="/dashboard" style={{ fontSize: ".8rem", color: "#666", textDecoration: "none" }}>Dashboard →</Link>
+          <Link href="/dashboard" style={{ fontSize: ".8rem", color:'#6b7280', textDecoration: "none" }}>Dashboard →</Link>
         </div>
       </header>
 
@@ -321,12 +321,12 @@ export default function DocsPage() {
         {/* Sidebar */}
         <nav style={{ width: 220, flexShrink: 0, borderRight: "1px solid #1a1a1a", padding: "1.5rem 1rem", position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
           <div style={{ marginBottom: "1.5rem" }}>
-            <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "#555", marginBottom: 8 }}>Getting Started</div>
+            <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color:'#6b7280', marginBottom: 8 }}>Getting Started</div>
             <a href="#auth" style={{ display: "block", fontSize: ".85rem", padding: "6px 10px", borderRadius: 6, color: "#888", textDecoration: "none" }}>Authentication</a>
             <a href="#errors" style={{ display: "block", fontSize: ".85rem", padding: "6px 10px", borderRadius: 6, color: "#888", textDecoration: "none" }}>Errors</a>
           </div>
           <div>
-            <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color: "#555", marginBottom: 8 }}>Endpoints</div>
+            <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".06em", color:'#6b7280', marginBottom: 8 }}>Endpoints</div>
             {API_SECTIONS.map((s) => {
               const Icon = s.icon;
               const isActive = activeSection === s.id;
@@ -352,21 +352,21 @@ export default function DocsPage() {
         <main style={{ flex: 1, padding: "2rem 2.5rem", maxWidth: 800 }}>
           {/* Auth section */}
           <section id="auth" style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: ".5rem" }}>Authentication</h2>
+            <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: ".5rem" }}>Authentication</h2>
             <p style={{ color: "#888", lineHeight: 1.6, marginBottom: "1rem" }}>
-              All API requests require an API key passed in the <code style={{ background: "#1a1a1a", padding: "2px 6px", borderRadius: 4, fontSize: ".85rem" }}>Authorization</code> header.
+              All API requests require an API key passed in the <code style={{ background:'#f9fafb', padding: "2px 6px", borderRadius: 4, fontSize: ".85rem" }}>Authorization</code> header.
             </p>
             <CodeBlock label="Example" code={`curl ${BASE_URL}/partners \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -H "Content-Type: application/json"`} />
-            <p style={{ color: "#666", fontSize: ".8rem", marginTop: ".75rem" }}>
-              Find your API key in <Link href="/dashboard/settings" style={{ color: "#6366f1" }}>Dashboard → Settings</Link>. Use <code style={{ background: "#1a1a1a", padding: "1px 4px", borderRadius: 3 }}>cv_test_</code> prefix for sandbox, <code style={{ background: "#1a1a1a", padding: "1px 4px", borderRadius: 3 }}>cv_live_</code> for production.
+            <p style={{ color:'#6b7280', fontSize: ".8rem", marginTop: ".75rem" }}>
+              Find your API key in <Link href="/dashboard/settings" style={{ color: "#6366f1" }}>Dashboard → Settings</Link>. Use <code style={{ background:'#f9fafb', padding: "1px 4px", borderRadius: 3 }}>cv_test_</code> prefix for sandbox, <code style={{ background:'#f9fafb', padding: "1px 4px", borderRadius: 3 }}>cv_live_</code> for production.
             </p>
           </section>
 
           {/* Error codes */}
           <section id="errors" style={{ marginBottom: "3rem" }}>
-            <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff", marginBottom: ".5rem" }}>Error Codes</h2>
+            <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a', marginBottom: ".5rem" }}>Error Codes</h2>
             <div style={{ display: "grid", gap: 8 }}>
               {[
                 { code: "400", label: "Bad Request", desc: "Invalid parameters" },
@@ -379,7 +379,7 @@ export default function DocsPage() {
                 <div key={e.code} style={{ display: "flex", alignItems: "center", gap: 12, padding: "8px 0", borderBottom: "1px solid #111" }}>
                   <code style={{ fontSize: ".8rem", fontWeight: 700, color: parseInt(e.code) >= 500 ? "#ef4444" : parseInt(e.code) >= 400 ? "#eab308" : "#22c55e", width: 30 }}>{e.code}</code>
                   <span style={{ fontWeight: 600, fontSize: ".85rem", width: 120 }}>{e.label}</span>
-                  <span style={{ color: "#666", fontSize: ".85rem" }}>{e.desc}</span>
+                  <span style={{ color:'#6b7280', fontSize: ".85rem" }}>{e.desc}</span>
                 </div>
               ))}
             </div>
@@ -389,7 +389,7 @@ export default function DocsPage() {
           <section>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: ".5rem" }}>
               <section.icon size={22} style={{ color: "#6366f1" }} />
-              <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color: "#fff" }}>{section.title}</h2>
+              <h2 style={{ fontSize: "1.5rem", fontWeight: 800, color:'#0a0a0a' }}>{section.title}</h2>
             </div>
             <p style={{ color: "#888", marginBottom: "1.5rem" }}>{section.description}</p>
 
@@ -404,8 +404,8 @@ export default function DocsPage() {
                       style={{ display: "flex", alignItems: "center", gap: 12, padding: "12px 16px", cursor: "pointer", background: isExpanded ? "#0d0d0d" : "transparent" }}
                     >
                       <MethodBadge method={ep.method} />
-                      <code style={{ fontSize: ".85rem", color: "#ccc", flex: 1 }}>{ep.path}</code>
-                      <span style={{ fontSize: ".8rem", color: "#666" }}>{ep.description}</span>
+                      <code style={{ fontSize: ".85rem", color:'#374151', flex: 1 }}>{ep.path}</code>
+                      <span style={{ fontSize: ".8rem", color:'#6b7280' }}>{ep.description}</span>
                     </div>
 
                     {isExpanded && (
@@ -414,13 +414,13 @@ export default function DocsPage() {
 
                         {ep.params && ep.params.length > 0 && (
                           <div style={{ marginBottom: "1rem" }}>
-                            <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color: "#555", marginBottom: 8 }}>Parameters</div>
+                            <div style={{ fontSize: ".7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: ".04em", color:'#6b7280', marginBottom: 8 }}>Parameters</div>
                             {ep.params.map((p) => (
                               <div key={p.name} style={{ display: "flex", alignItems: "flex-start", gap: 8, padding: "6px 0", borderBottom: "1px solid #111", fontSize: ".85rem" }}>
                                 <code style={{ color: "#e5e5e5", fontWeight: 600, minWidth: 120 }}>{p.name}</code>
                                 <span style={{ color: "#6366f1", fontSize: ".75rem", minWidth: 60 }}>{p.type}</span>
                                 {p.required && <span style={{ fontSize: ".65rem", padding: "1px 6px", borderRadius: 4, background: "#ef444420", color: "#ef4444", fontWeight: 700 }}>required</span>}
-                                <span style={{ color: "#666" }}>{p.description}</span>
+                                <span style={{ color:'#6b7280' }}>{p.description}</span>
                               </div>
                             ))}
                           </div>

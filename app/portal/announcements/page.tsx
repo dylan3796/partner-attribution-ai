@@ -52,19 +52,19 @@ export default function PortalAnnouncementsPage() {
       <h1 style={{ fontSize: "1.5rem", fontWeight: 700, display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
         <Megaphone size={24} /> Announcements
       </h1>
-      <p style={{ color: "#888", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
+      <p style={{ color: "var(--muted)", fontSize: "0.85rem", marginBottom: "1.5rem" }}>
         Latest updates and news from the partner program.
       </p>
 
       {announcements.length === 0 ? (
         <div style={{
           textAlign: "center", padding: "3rem 1rem",
-          background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+          background: "var(--subtle)", border: "1px solid var(--border)",
           borderRadius: 12,
         }}>
-          <Megaphone size={40} style={{ color: "#333", margin: "0 auto 1rem" }} />
-          <p style={{ color: "#888" }}>No announcements yet.</p>
-          <p style={{ color: "#666", fontSize: "0.85rem", marginTop: 4 }}>
+          <Megaphone size={40} style={{ color: "var(--muted)", margin: "0 auto 1rem" }} />
+          <p style={{ color: "var(--muted)" }}>No announcements yet.</p>
+          <p style={{ color: "var(--muted)", fontSize: "0.85rem", marginTop: 4 }}>
             Check back soon for updates from the program team.
           </p>
         </div>
@@ -76,8 +76,8 @@ export default function PortalAnnouncementsPage() {
               <article
                 key={a._id}
                 style={{
-                  background: "rgba(255,255,255,0.03)",
-                  border: `1px solid ${a.isPinned ? "rgba(239,68,68,0.25)" : "rgba(255,255,255,0.08)"}`,
+                  background: "var(--card-bg)",
+                  border: `1px solid ${a.isPinned ? "rgba(239,68,68,0.25)" : "var(--border)"}`,
                   borderRadius: 12, padding: "1.25rem 1.5rem",
                 }}
               >
@@ -95,7 +95,7 @@ export default function PortalAnnouncementsPage() {
                       <Pin size={11} /> Pinned
                     </span>
                   )}
-                  <span style={{ fontSize: "0.75rem", color: "#666", marginLeft: "auto" }}>
+                  <span style={{ fontSize: "0.75rem", color: "var(--muted)", marginLeft: "auto" }}>
                     {timeAgo(a.publishedAt ?? a.createdAt)}
                   </span>
                 </div>
@@ -104,12 +104,12 @@ export default function PortalAnnouncementsPage() {
                 <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: 8 }}>{a.title}</h2>
 
                 {/* Body */}
-                <p style={{ color: "#bbb", fontSize: "0.9rem", lineHeight: 1.65, whiteSpace: "pre-wrap" }}>
+                <p style={{ color: "var(--muted)", fontSize: "0.9rem", lineHeight: 1.65, whiteSpace: "pre-wrap" }}>
                   {a.body}
                 </p>
 
                 {/* Author */}
-                <div style={{ marginTop: 12, fontSize: "0.75rem", color: "#555" }}>
+                <div style={{ marginTop: 12, fontSize: "0.75rem", color: "var(--muted)" }}>
                   Posted by {a.authorName}
                 </div>
               </article>

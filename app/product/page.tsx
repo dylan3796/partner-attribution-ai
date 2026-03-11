@@ -32,7 +32,7 @@ function MockWindow({ title, children }: { title: string; children: React.ReactN
   return (
     <div
       style={{
-        background: "#0a0a0a",
+        background:'#f9fafb',
         border: "1px solid #1a1a1a",
         borderRadius: 12,
         overflow: "hidden",
@@ -53,7 +53,7 @@ function MockWindow({ title, children }: { title: string; children: React.ReactN
           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#333" }} />
           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#333" }} />
         </div>
-        <span style={{ color: "#444", fontSize: ".75rem", marginLeft: 8 }}>{title}</span>
+        <span style={{ color:'#374151', fontSize: ".75rem", marginLeft: 8 }}>{title}</span>
       </div>
       <div style={{ padding: "20px 24px" }}>{children}</div>
     </div>
@@ -64,17 +64,17 @@ function StatCard({ label, value, trend }: { label: string; value: string; trend
   return (
     <div
       style={{
-        background: "#111",
+        background:'#f9fafb',
         borderRadius: 8,
         padding: "14px 16px",
         flex: 1,
         minWidth: 120,
       }}
     >
-      <div style={{ color: "#555", fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 4 }}>
+      <div style={{ color:'#6b7280', fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 4 }}>
         {label}
       </div>
-      <div style={{ color: "#fff", fontSize: "1.3rem", fontWeight: 700 }}>{value}</div>
+      <div style={{ color:'#0a0a0a', fontSize: "1.3rem", fontWeight: 700 }}>{value}</div>
       <div style={{ color: "#22c55e", fontSize: ".7rem", marginTop: 2 }}>{trend}</div>
     </div>
   );
@@ -159,7 +159,7 @@ function TourSection({
               padding: "3px 10px",
               borderRadius: 20,
               border: "1px solid #222",
-              color: "#666",
+              color:'#6b7280',
               fontSize: ".7rem",
               textTransform: "uppercase",
               letterSpacing: ".1em",
@@ -172,7 +172,7 @@ function TourSection({
             style={{
               fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
               fontWeight: 800,
-              color: "#fff",
+              color:'#0a0a0a',
               lineHeight: 1.15,
               letterSpacing: "-.02em",
               marginBottom: 8,
@@ -181,7 +181,7 @@ function TourSection({
             {title}
           </h2>
           <p style={{ color: "#888", fontSize: ".95rem", marginBottom: 12 }}>{subtitle}</p>
-          <p style={{ color: "#555", fontSize: ".85rem", lineHeight: 1.7 }}>{description}</p>
+          <p style={{ color:'#6b7280', fontSize: ".85rem", lineHeight: 1.7 }}>{description}</p>
         </div>
         <div style={{ order: reverse ? 1 : 2 }}>{children}</div>
       </div>
@@ -196,7 +196,7 @@ export default function ProductTourPage() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#000",
+        background:'#f9fafb',
         color: "#e5e5e5",
         fontFamily: "var(--font-inter), Inter, sans-serif",
       }}
@@ -214,7 +214,7 @@ export default function ProductTourPage() {
         <Link
           href="/"
           style={{
-            color: "#fff",
+            color:'#0a0a0a',
             textDecoration: "none",
             fontWeight: 700,
             fontSize: "1.1rem",
@@ -253,7 +253,7 @@ export default function ProductTourPage() {
               display: "inline-flex",
               alignItems: "center",
               gap: 6,
-              color: "#555",
+              color:'#6b7280',
               fontSize: ".85rem",
               textDecoration: "none",
               marginBottom: 32,
@@ -265,7 +265,7 @@ export default function ProductTourPage() {
             style={{
               fontSize: "clamp(2rem, 4vw, 3.2rem)",
               fontWeight: 800,
-              color: "#fff",
+              color:'#0a0a0a',
               lineHeight: 1.1,
               letterSpacing: "-.03em",
               marginBottom: 16,
@@ -275,7 +275,7 @@ export default function ProductTourPage() {
           </h1>
           <p
             style={{
-              color: "#666",
+              color:'#6b7280',
               fontSize: "1.1rem",
               lineHeight: 1.7,
               maxWidth: 520,
@@ -337,7 +337,7 @@ export default function ProductTourPage() {
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div
               style={{
-                background: "#111",
+                background:'#f9fafb',
                 borderRadius: 8,
                 padding: 14,
                 display: "flex",
@@ -348,7 +348,7 @@ export default function ProductTourPage() {
               <Brain size={16} style={{ color: "#888", marginTop: 2, flexShrink: 0 }} />
               <div>
                 <div style={{ color: "#888", fontSize: ".7rem", marginBottom: 4 }}>Covant AI</div>
-                <div style={{ color: "#ccc", fontSize: ".82rem", lineHeight: 1.6 }}>
+                <div style={{ color:'#374151', fontSize: ".82rem", lineHeight: 1.6 }}>
                   Tell me about your partner program — how many partners, what types, how do you
                   attribute deals today?
                 </div>
@@ -368,7 +368,7 @@ export default function ProductTourPage() {
               <Users size={16} style={{ color: "#22c55e", marginTop: 2, flexShrink: 0 }} />
               <div>
                 <div style={{ color: "#22c55e", fontSize: ".7rem", marginBottom: 4 }}>You</div>
-                <div style={{ color: "#ccc", fontSize: ".82rem", lineHeight: 1.6 }}>
+                <div style={{ color:'#374151', fontSize: ".82rem", lineHeight: 1.6 }}>
                   We have 35 reseller partners. Deal registration is how we attribute — whoever registers
                   first gets credit. 15% commission on closed-won.
                 </div>
@@ -456,8 +456,8 @@ export default function ProductTourPage() {
           <div style={{ marginBottom: 16 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 12 }}>
               <div>
-                <div style={{ color: "#fff", fontSize: "1rem", fontWeight: 700 }}>Acme Corp — Enterprise</div>
-                <div style={{ color: "#555", fontSize: ".75rem" }}>Deal value: $180,000</div>
+                <div style={{ color:'#0a0a0a', fontSize: "1rem", fontWeight: 700 }}>Acme Corp — Enterprise</div>
+                <div style={{ color:'#6b7280', fontSize: ".75rem" }}>Deal value: $180,000</div>
               </div>
               <Badge text="Closed Won" color="#22c55e" />
             </div>
@@ -510,10 +510,10 @@ export default function ProductTourPage() {
                   <span style={{ color: i === 0 ? "#22c55e" : "#666", fontSize: ".8rem", fontWeight: 600 }}>
                     {row.partner}
                   </span>
-                  <span style={{ color: "#444", fontSize: ".75rem", marginLeft: 8 }}>{row.action}</span>
+                  <span style={{ color:'#374151', fontSize: ".75rem", marginLeft: 8 }}>{row.action}</span>
                 </div>
                 <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-                  <span style={{ color: "#444", fontSize: ".7rem" }}>{row.date}</span>
+                  <span style={{ color:'#374151', fontSize: ".7rem" }}>{row.date}</span>
                   <span
                     style={{
                       color: i === 0 ? "#22c55e" : "#333",
@@ -532,7 +532,7 @@ export default function ProductTourPage() {
               style={{
                 marginTop: 12,
                 padding: "10px 12px",
-                background: "#111",
+                background:'#f9fafb',
                 borderRadius: 6,
                 display: "flex",
                 alignItems: "center",
@@ -540,7 +540,7 @@ export default function ProductTourPage() {
               }}
             >
               <Shield size={14} style={{ color: "#3b82f6", flexShrink: 0 }} />
-              <span style={{ color: "#666", fontSize: ".75rem", lineHeight: 1.5 }}>
+              <span style={{ color:'#6b7280', fontSize: ".75rem", lineHeight: 1.5 }}>
                 <strong style={{ color: "#aaa" }}>Model: Deal Reg Protection</strong> — TechBridge
                 registered first (Jan 12). Credit: 100% → $180,000 × 15% = <strong style={{ color: "#22c55e" }}>$27,000 commission</strong>
               </span>
@@ -562,8 +562,8 @@ export default function ProductTourPage() {
           <div style={{ marginBottom: 16 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
               <div>
-                <div style={{ color: "#fff", fontSize: ".95rem", fontWeight: 700 }}>Welcome back, Sarah</div>
-                <div style={{ color: "#555", fontSize: ".75rem" }}>TechBridge Solutions · Gold Partner</div>
+                <div style={{ color:'#0a0a0a', fontSize: ".95rem", fontWeight: 700 }}>Welcome back, Sarah</div>
+                <div style={{ color:'#6b7280', fontSize: ".75rem" }}>TechBridge Solutions · Gold Partner</div>
               </div>
               <Badge text="Gold" color="#eab308" />
             </div>
@@ -663,15 +663,15 @@ export default function ProductTourPage() {
                 justifyContent: "space-between",
                 alignItems: "center",
                 padding: "10px 12px",
-                background: "#111",
+                background:'#f9fafb',
                 borderRadius: 6,
                 marginBottom: 6,
                 opacity: rule.active ? 1 : 0.5,
               }}
             >
               <div>
-                <div style={{ color: "#ccc", fontSize: ".82rem", fontWeight: 600 }}>{rule.name}</div>
-                <div style={{ color: "#555", fontSize: ".7rem" }}>{rule.condition}</div>
+                <div style={{ color:'#374151', fontSize: ".82rem", fontWeight: 600 }}>{rule.name}</div>
+                <div style={{ color:'#6b7280', fontSize: ".7rem" }}>{rule.condition}</div>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <span style={{ color: "#22c55e", fontSize: ".85rem", fontWeight: 700 }}>{rule.rate}</span>
@@ -754,14 +754,14 @@ export default function ProductTourPage() {
                 justifyContent: "space-between",
                 alignItems: "center",
                 padding: "12px 12px",
-                background: "#111",
+                background:'#f9fafb',
                 borderRadius: 6,
                 marginBottom: 6,
               }}
             >
               <div style={{ flex: 1 }}>
-                <div style={{ color: "#ccc", fontSize: ".82rem", fontWeight: 600 }}>{deal.company}</div>
-                <div style={{ color: "#555", fontSize: ".7rem" }}>
+                <div style={{ color:'#374151', fontSize: ".82rem", fontWeight: 600 }}>{deal.company}</div>
+                <div style={{ color:'#6b7280', fontSize: ".7rem" }}>
                   via {deal.partner} · {deal.date}
                 </div>
               </div>
@@ -810,7 +810,7 @@ export default function ProductTourPage() {
             style={{
               fontSize: "clamp(1.6rem, 3vw, 2.4rem)",
               fontWeight: 800,
-              color: "#fff",
+              color:'#0a0a0a',
               lineHeight: 1.15,
               letterSpacing: "-.02em",
               marginBottom: 12,
@@ -818,7 +818,7 @@ export default function ProductTourPage() {
           >
             Ready to see it live?
           </h2>
-          <p style={{ color: "#666", fontSize: ".95rem", marginBottom: 28, lineHeight: 1.6 }}>
+          <p style={{ color:'#6b7280', fontSize: ".95rem", marginBottom: 28, lineHeight: 1.6 }}>
             Explore the full product with sample data — no signup required. Or start building your
             program for free.
           </p>
@@ -849,7 +849,7 @@ export default function ProductTourPage() {
                 padding: "14px 28px",
                 borderRadius: 10,
                 border: "1px solid #333",
-                color: "#ccc",
+                color:'#374151',
                 fontWeight: 600,
                 fontSize: ".95rem",
                 textDecoration: "none",

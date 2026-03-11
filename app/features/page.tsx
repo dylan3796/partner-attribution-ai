@@ -339,7 +339,7 @@ export default function FeaturesPage() {
             display: "inline-flex",
             alignItems: "center",
             gap: 6,
-            color: "#666",
+            color:'#6b7280',
             fontSize: ".85rem",
             textDecoration: "none",
             marginBottom: 16,
@@ -423,8 +423,8 @@ export default function FeaturesPage() {
                 const content = (
                   <div
                     style={{
-                      background: "#0a0a0a",
-                      border: "1px solid #1a1a1a",
+                      background: "#ffffff",
+                      border: "1px solid #e5e7eb",
                       borderRadius: 10,
                       padding: "1.25rem",
                       transition: "border-color 0.2s",
@@ -432,7 +432,7 @@ export default function FeaturesPage() {
                       height: "100%",
                     }}
                     onMouseEnter={(e) => (e.currentTarget.style.borderColor = `${category.color}40`)}
-                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#1a1a1a")}
+                    onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#e5e7eb")}
                   >
                     <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
                       <div style={{
@@ -451,7 +451,7 @@ export default function FeaturesPage() {
                         {feature.title}
                       </h3>
                     </div>
-                    <p style={{ fontSize: ".8rem", color: "#777", lineHeight: 1.55, margin: 0 }}>
+                    <p style={{ fontSize: ".8rem", color: "#6b7280", lineHeight: 1.55, margin: 0 }}>
                       {feature.description}
                     </p>
                     {feature.link && (
@@ -526,7 +526,7 @@ export default function FeaturesPage() {
               gap: 6,
               padding: "12px 24px",
               background: "transparent",
-              color: "#ccc",
+              color:'#374151',
               border: "1px solid #333",
               borderRadius: 8,
               fontWeight: 600,

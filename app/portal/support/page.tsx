@@ -173,7 +173,7 @@ export default function SupportPage() {
 
       {/* Ticket Form Modal */}
       {showForm && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", backdropFilter: "blur(4px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={() => setShowForm(false)}>
+        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.5)", backdropFilter: "blur(4px)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={() => setShowForm(false)}>
           <div className="card" style={{ width: 480, maxWidth: "100%" }} onClick={(e) => e.stopPropagation()}>
             {formSubmitted ? (
               <div style={{ textAlign: "center", padding: "2rem 0" }}>

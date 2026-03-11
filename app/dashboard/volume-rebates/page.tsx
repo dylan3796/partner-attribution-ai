@@ -229,7 +229,7 @@ export default function VolumeRebatesPage() {
                 <p style={{ fontSize: ".8rem", color: "var(--muted)", marginTop: ".25rem" }}>
                   {formatCurrency(tier.minRevenue)}–{tier.maxRevenue ? formatCurrency(tier.maxRevenue) : "∞"}
                 </p>
-                <div style={{ marginTop: ".75rem", padding: ".4rem .6rem", borderRadius: 6, background: "rgba(255,255,255,0.7)", fontSize: ".8rem", fontWeight: 600 }}>
+                <div style={{ marginTop: ".75rem", padding: ".4rem .6rem", borderRadius: 6, background: "var(--fg)", color: "var(--bg)", fontSize: ".8rem", fontWeight: 600 }}>
                   {partnersInTier.length} partner{partnersInTier.length !== 1 ? "s" : ""}
                 </div>
               </div>

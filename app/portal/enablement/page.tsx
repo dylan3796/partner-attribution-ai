@@ -1247,7 +1247,7 @@ export default function PortalEnablementPage() {
                 fontWeight: 700,
                 background:
                   activeTab === t.key
-                    ? "rgba(255,255,255,0.2)"
+                    ? "rgba(0,0,0,0.15)"
                     : "var(--subtle)",
                 padding: "1px 6px",
                 borderRadius: 10,

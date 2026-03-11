@@ -55,7 +55,7 @@ const SUGGESTED_TAGS = Object.keys(TAG_COLORS);
 function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: "#111", border: "1px solid #333", borderRadius: 8, padding: "8px 12px", fontSize: ".8rem" }}>
+    <div style={{ background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", fontSize: ".8rem" }}>
       <p style={{ fontWeight: 600, marginBottom: 4 }}>{label}</p>
       {payload.map((p: any, i: number) => (
         <p key={i} style={{ color: p.color, margin: 0 }}>{p.name}: {typeof p.value === "number" && p.name !== "Deals" ? formatCurrencyCompact(p.value) : p.value}</p>
@@ -256,7 +256,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                 style={{ width: 150, height: 28, fontSize: ".8rem", padding: "2px 8px" }}
               />
               {newTag.trim() === "" && (
-                <div style={{ position: "absolute", top: 32, left: 0, background: "#111", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 0", zIndex: 10, minWidth: 160 }}>
+                <div style={{ position: "absolute", top: 32, left: 0, background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 0", zIndex: 10, minWidth: 160 }}>
                   {SUGGESTED_TAGS.filter((t) => !(partner.tags || []).includes(t)).map((tag) => (
                     <button key={tag} onClick={async () => {
                       const tags = [...(partner.tags || []), tag];
@@ -408,7 +408,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                     </ResponsiveContainer>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 12px", justifyContent: "center" }}>
                       {tpData.map((t, i) => (
-                        <span key={i} style={{ fontSize: ".7rem", display: "flex", alignItems: "center", gap: 4, color: "#aaa" }}>
+                        <span key={i} style={{ fontSize: ".7rem", display: "flex", alignItems: "center", gap: 4, color: "var(--muted)" }}>
                           <span style={{ width: 6, height: 6, borderRadius: "50%", background: t.color, display: "inline-block" }} />
                           {t.name} ({t.value})
                         </span>
@@ -657,7 +657,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                     <div
                       style={{
                         width: 24, height: 24, borderRadius: "50%",
-                        background: "rgba(99,102,241,.15)", color: "#818cf8",
+                        background:'#f3f4f6', color:'#0a0a0a',
                         display: "flex", alignItems: "center", justifyContent: "center",
                         fontSize: ".65rem", fontWeight: 700,
                       }}
@@ -685,7 +685,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                       onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
                       onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
                     >
-                      {note.isPinned ? <PinOff size={13} color="#6366f1" /> : <Pin size={13} color="#888" />}
+                      {note.isPinned ? <PinOff size={13} color="#6366f1" /> : <Pin size={13} color="var(--muted)" />}
                     </button>
                     <button
                       onClick={() => {
@@ -697,7 +697,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                       onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
                       onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
                     >
-                      <Edit size={13} color="#888" />
+                      <Edit size={13} color="var(--muted)" />
                     </button>
                     <button
                       onClick={async () => {
@@ -711,7 +711,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                       onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
                       onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
                     >
-                      <Trash2 size={13} color="#888" />
+                      <Trash2 size={13} color="var(--muted)" />
                     </button>
                   </div>
                 </div>
@@ -748,7 +748,7 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                     </div>
                   </div>
                 ) : (
-                  <p style={{ fontSize: ".85rem", lineHeight: 1.6, whiteSpace: "pre-wrap", margin: 0, color: "rgba(255,255,255,.8)" }}>
+                  <p style={{ fontSize: ".85rem", lineHeight: 1.6, whiteSpace: "pre-wrap", margin: 0, color:"#374151" }}>
                     {note.content}
                   </p>
                 )}

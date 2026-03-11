@@ -217,25 +217,25 @@ export default function CertificationsPage() {
       <>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.5rem" }}>
           <div>
-            <div style={{ width: 280, height: 28, background: "#1f1f1f", borderRadius: 8, marginBottom: 8 }} />
-            <div style={{ width: 200, height: 16, background: "#1a1a1a", borderRadius: 6 }} />
+            <div style={{ width: 280, height: 28, background: "var(--subtle)", borderRadius: 8, marginBottom: 8 }} />
+            <div style={{ width: 200, height: 16, background: "var(--border)", borderRadius: 6 }} />
           </div>
         </div>
         <div className="stat-grid" style={{ marginBottom: "1.5rem" }}>
           {[...Array(4)].map((_, i) => (
             <div key={i} className="card" style={{ textAlign: "center", padding: "1.25rem" }}>
-              <div style={{ width: 80, height: 12, background: "#1a1a1a", borderRadius: 4, margin: "0 auto 8px" }} />
-              <div style={{ width: 40, height: 28, background: "#1f1f1f", borderRadius: 6, margin: "0 auto" }} />
+              <div style={{ width: 80, height: 12, background: "var(--border)", borderRadius: 4, margin: "0 auto 8px" }} />
+              <div style={{ width: 40, height: 28, background: "var(--subtle)", borderRadius: 6, margin: "0 auto" }} />
             </div>
           ))}
         </div>
         <div className="card" style={{ minHeight: 200 }}>
           {[...Array(3)].map((_, i) => (
             <div key={i} style={{ padding: "1rem 1.5rem", borderBottom: "1px solid var(--border)", display: "flex", gap: "1rem", alignItems: "center" }}>
-              <div style={{ width: 40, height: 40, background: "#1a1a1a", borderRadius: 8 }} />
+              <div style={{ width: 40, height: 40, background: "var(--border)", borderRadius: 8 }} />
               <div style={{ flex: 1 }}>
-                <div style={{ width: 180, height: 14, background: "#1f1f1f", borderRadius: 4, marginBottom: 6 }} />
-                <div style={{ width: 120, height: 10, background: "#1a1a1a", borderRadius: 4 }} />
+                <div style={{ width: 180, height: 14, background: "var(--subtle)", borderRadius: 4, marginBottom: 6 }} />
+                <div style={{ width: 120, height: 10, background: "var(--border)", borderRadius: 4 }} />
               </div>
             </div>
           ))}
@@ -308,12 +308,12 @@ export default function CertificationsPage() {
                 border: "none",
                 cursor: "pointer",
                 background: tab === t ? "#6366f1" : "transparent",
-                color: tab === t ? "#fff" : "var(--muted)",
+                color: tab === t ? "var(--bg)" : "var(--muted)",
               }}
             >
               {t === "programs" ? "Programs" : "Awarded"}
               {t === "awarded" && records.length > 0 && (
-                <span style={{ marginLeft: 6, padding: "1px 6px", borderRadius: 8, fontSize: ".7rem", background: tab === t ? "rgba(255,255,255,0.2)" : "rgba(99,102,241,0.15)", color: tab === t ? "#fff" : "#818cf8" }}>
+                <span style={{ marginLeft: 6, padding: "1px 6px", borderRadius: 8, fontSize: ".7rem", background: tab === t ? "rgba(255,255,255,0.2)" : "rgba(99,102,241,0.15)", color: tab === t ? "var(--bg)" : "#818cf8" }}>
                   {records.filter((r) => r.status === "completed").length}
                 </span>
               )}
@@ -396,7 +396,7 @@ export default function CertificationsPage() {
 
                 <div style={{ display: "flex", flexWrap: "wrap", gap: ".5rem", marginBottom: ".75rem" }}>
                   <LevelBadge level={cert.level} />
-                  <span style={{ display: "inline-flex", padding: "2px 8px", borderRadius: 10, fontSize: ".7rem", fontWeight: 600, background: "rgba(255,255,255,0.05)", color: "var(--muted)", textTransform: "capitalize" }}>
+                  <span style={{ display: "inline-flex", padding: "2px 8px", borderRadius: 10, fontSize: ".7rem", fontWeight: 600, background: "var(--subtle)", color: "var(--muted)", textTransform: "capitalize" }}>
                     {cert.category}
                   </span>
                   {isArchived && (

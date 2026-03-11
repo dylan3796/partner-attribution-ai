@@ -394,8 +394,8 @@ export function WhatsNewButton() {
             right: 0,
             width: 380,
             maxHeight: "70vh",
-            background: "#161616",
-            border: "1px solid rgba(255,255,255,.1)",
+            background:'#ffffff',
+            border:'1px solid #e5e7eb',
             borderRadius: 12,
             boxShadow: "0 20px 60px rgba(0,0,0,.5)",
             overflow: "hidden",
@@ -409,7 +409,7 @@ export function WhatsNewButton() {
             alignItems: "center",
             justifyContent: "space-between",
             padding: "14px 16px",
-            borderBottom: "1px solid rgba(255,255,255,.08)",
+            borderBottom:'1px solid #e5e7eb',
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
               <Sparkles size={16} color="#22c55e" />
@@ -511,7 +511,7 @@ export function WhatsNewButton() {
                     </p>
                   </div>
                   {entry.link && (
-                    <ChevronRight size={13} style={{ flexShrink: 0, marginTop: 3, color: "rgba(255,255,255,.2)" }} />
+                    <ChevronRight size={13} style={{ flexShrink: 0, marginTop: 3, color:"#9ca3af" }} />
                   )}
                 </button>
               );

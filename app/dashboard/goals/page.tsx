@@ -300,7 +300,7 @@ export default function GoalsPage() {
           <div
             key={s.label}
             style={{
-              background: "var(--card-bg, #111)", border: "1px solid var(--border, #222)",
+              background: "var(--card-bg)", border: "1px solid var(--border)",
               borderRadius: 10, padding: "14px 16px",
             }}
           >
@@ -320,7 +320,7 @@ export default function GoalsPage() {
           value={filterPeriod}
           onChange={(e) => setFilterPeriod(e.target.value)}
           style={{
-            background: "var(--card-bg, #111)", border: "1px solid var(--border, #222)",
+            background: "var(--card-bg)", border: "1px solid var(--border)",
             borderRadius: 8, padding: "6px 12px", color: "inherit", fontSize: ".8rem",
           }}
         >
@@ -333,7 +333,7 @@ export default function GoalsPage() {
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
           style={{
-            background: "var(--card-bg, #111)", border: "1px solid var(--border, #222)",
+            background: "var(--card-bg)", border: "1px solid var(--border)",
             borderRadius: 8, padding: "6px 12px", color: "inherit", fontSize: ".8rem",
           }}
         >
@@ -348,10 +348,10 @@ export default function GoalsPage() {
       {filteredGoals.length === 0 ? (
         <div style={{
           textAlign: "center", padding: "3rem 1rem",
-          background: "var(--card-bg, #111)", border: "1px solid var(--border, #222)",
+          background: "var(--card-bg)", border: "1px solid var(--border)",
           borderRadius: 12,
         }}>
-          <Target size={40} style={{ color: "#333", marginBottom: 12 }} />
+          <Target size={40} style={{ color: "var(--muted)", marginBottom: 12 }} />
           <h3 style={{ fontWeight: 700, marginBottom: 4 }}>No goals yet</h3>
           <p className="muted" style={{ fontSize: ".85rem", marginBottom: 16 }}>
             Set quarterly targets to track revenue, pipeline, partner growth, and more.
@@ -383,7 +383,7 @@ export default function GoalsPage() {
               <div
                 key={goal._id}
                 style={{
-                  background: "var(--card-bg, #111)", border: "1px solid var(--border, #222)",
+                  background: "var(--card-bg)", border: "1px solid var(--border)",
                   borderRadius: 12, padding: "18px 20px", position: "relative",
                 }}
               >
@@ -403,7 +403,7 @@ export default function GoalsPage() {
                           value={editLabel}
                           onChange={(e) => setEditLabel(e.target.value)}
                           style={{
-                            background: "transparent", border: "1px solid var(--border, #333)",
+                            background: "transparent", border: "1px solid var(--border)",
                             borderRadius: 6, padding: "2px 8px", color: "inherit",
                             fontWeight: 700, fontSize: ".9rem", width: 180,
                           }}
@@ -435,7 +435,7 @@ export default function GoalsPage() {
                     </span>
                   </div>
                   <div style={{
-                    height: 8, borderRadius: 4, background: "var(--border, #222)",
+                    height: 8, borderRadius: 4, background: "var(--border)",
                     overflow: "hidden", position: "relative",
                   }}>
                     <div style={{
@@ -482,7 +482,7 @@ export default function GoalsPage() {
                     placeholder="Notes (optional)"
                     rows={2}
                     style={{
-                      width: "100%", background: "transparent", border: "1px solid var(--border, #333)",
+                      width: "100%", background: "transparent", border: "1px solid var(--border)",
                       borderRadius: 6, padding: "6px 8px", color: "inherit", fontSize: ".8rem",
                       resize: "vertical", marginBottom: 8,
                     }}
@@ -503,7 +503,7 @@ export default function GoalsPage() {
                         type="number"
                         placeholder="Target"
                         style={{
-                          background: "transparent", border: "1px solid var(--border, #333)",
+                          background: "transparent", border: "1px solid var(--border)",
                           borderRadius: 6, padding: "4px 8px", color: "inherit",
                           fontSize: ".8rem", width: 100,
                         }}
@@ -556,7 +556,7 @@ export default function GoalsPage() {
           onClick={(e) => { if (e.target === e.currentTarget) setShowCreate(false); }}
         >
           <div style={{
-            background: "var(--card-bg, #111)", border: "1px solid var(--border, #222)",
+            background: "var(--card-bg)", border: "1px solid var(--border)",
             borderRadius: 14, padding: "24px", maxWidth: 420, width: "100%",
           }}>
             <h2 style={{ fontSize: "1.1rem", fontWeight: 800, marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }}>
@@ -581,7 +581,7 @@ export default function GoalsPage() {
                         style={{
                           display: "flex", alignItems: "center", gap: 4,
                           padding: "5px 10px", borderRadius: 6,
-                          border: `1px solid ${selected ? c.color : "var(--border, #333)"}`,
+                          border: `1px solid ${selected ? c.color : "var(--border)"}`,
                           background: selected ? `${c.color}18` : "transparent",
                           color: selected ? c.color : "inherit",
                           fontSize: ".75rem", fontWeight: 600, cursor: "pointer",
@@ -604,7 +604,7 @@ export default function GoalsPage() {
                   onChange={(e) => setNewLabel(e.target.value)}
                   placeholder={`e.g. ${getCurrentQuarter()} Revenue Target`}
                   style={{
-                    width: "100%", background: "transparent", border: "1px solid var(--border, #333)",
+                    width: "100%", background: "transparent", border: "1px solid var(--border)",
                     borderRadius: 8, padding: "8px 12px", color: "inherit", fontSize: ".85rem",
                   }}
                 />
@@ -621,7 +621,7 @@ export default function GoalsPage() {
                   type="number"
                   placeholder={newMetric === "win_rate" ? "e.g. 40" : newMetric === "revenue" ? "e.g. 500000" : "e.g. 50"}
                   style={{
-                    width: "100%", background: "transparent", border: "1px solid var(--border, #333)",
+                    width: "100%", background: "transparent", border: "1px solid var(--border)",
                     borderRadius: 8, padding: "8px 12px", color: "inherit", fontSize: ".85rem",
                   }}
                 />
@@ -636,7 +636,7 @@ export default function GoalsPage() {
                   value={newPeriod}
                   onChange={(e) => setNewPeriod(e.target.value)}
                   style={{
-                    width: "100%", background: "var(--card-bg, #111)", border: "1px solid var(--border, #333)",
+                    width: "100%", background: "var(--card-bg)", border: "1px solid var(--border)",
                     borderRadius: 8, padding: "8px 12px", color: "inherit", fontSize: ".85rem",
                   }}
                 >
@@ -657,7 +657,7 @@ export default function GoalsPage() {
                   placeholder="Context, strategy, or reasoning..."
                   rows={2}
                   style={{
-                    width: "100%", background: "transparent", border: "1px solid var(--border, #333)",
+                    width: "100%", background: "transparent", border: "1px solid var(--border)",
                     borderRadius: 8, padding: "8px 12px", color: "inherit", fontSize: ".85rem",
                     resize: "vertical",
                   }}
@@ -669,7 +669,7 @@ export default function GoalsPage() {
                 <button
                   onClick={() => setShowCreate(false)}
                   style={{
-                    padding: "8px 16px", borderRadius: 8, border: "1px solid var(--border, #333)",
+                    padding: "8px 16px", borderRadius: 8, border: "1px solid var(--border)",
                     background: "transparent", color: "inherit", fontWeight: 600,
                     fontSize: ".85rem", cursor: "pointer",
                   }}

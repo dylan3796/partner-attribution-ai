@@ -48,12 +48,12 @@ export default function OnboardPage() {
       justifyContent: 'center',
       alignItems: 'center',
       minHeight: '100vh',
-      background: '#000',
+      background:'#f9fafb',
       fontFamily: 'var(--font-inter), Inter, sans-serif',
       gap: 20,
     }}>
       <h1 style={{
-        color: '#fff',
+        color:'#0a0a0a',
         fontSize: '1.5rem',
         fontWeight: 700,
         letterSpacing: '-0.03em',

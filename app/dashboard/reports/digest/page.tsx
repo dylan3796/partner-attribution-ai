@@ -54,7 +54,7 @@ function DeltaBadge({ value, suffix = "" }: { value: number; suffix?: string }) 
         style={{
           fontSize: ".7rem",
           fontWeight: 600,
-          color: "#666",
+          color: "var(--muted)",
           display: "inline-flex",
           alignItems: "center",
           gap: 3,

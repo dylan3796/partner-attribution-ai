@@ -132,10 +132,10 @@ export default function IntegrationsPage() {
   const liveCount = INTEGRATIONS.filter(i => i.status === 'live').length;
 
   return (
-    <div style={{ minHeight: '100vh', background: '#000', color: '#e5e5e5', fontFamily: 'var(--font-inter), Inter, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background:'#f9fafb', color: '#e5e5e5', fontFamily: 'var(--font-inter), Inter, sans-serif' }}>
       {/* Nav */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 40px', borderBottom: '1px solid #111' }}>
-        <Link href="/" style={{ color: '#fff', textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.03em' }}>
+        <Link href="/" style={{ color:'#0a0a0a', textDecoration: 'none', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.03em' }}>
           Covant.ai
         </Link>
         <Link href="/beta" style={{ color: '#888', fontSize: '0.85rem', textDecoration: 'none' }}>
@@ -144,15 +144,15 @@ export default function IntegrationsPage() {
       </nav>
 
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '3rem 1.5rem 5rem' }}>
-        <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: '#555', fontSize: '.85rem', textDecoration: 'none', marginBottom: 24 }}>
+        <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color:'#6b7280', fontSize: '.85rem', textDecoration: 'none', marginBottom: 24 }}>
           <ArrowLeft size={14} /> Back
         </Link>
 
         {/* Hero */}
-        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1, color: '#fff', margin: '0 0 16px' }}>
+        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1, color:'#0a0a0a', margin: '0 0 16px' }}>
           Connects to your stack.
         </h1>
-        <p style={{ color: '#666', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: 48, maxWidth: 600 }}>
+        <p style={{ color:'#6b7280', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: 48, maxWidth: 600 }}>
           {liveCount} integrations live. Sync your CRM, push events via webhooks,
           or build custom workflows with the API. Your partner data stays in sync
           without manual exports.
@@ -167,16 +167,16 @@ export default function IntegrationsPage() {
                 background: '#080808', border: '1px solid #1a1a1a', borderRadius: 12,
                 padding: '20px 20px', display: 'flex', flexDirection: 'column', gap: 8,
               }}>
-                <Icon size={20} style={{ color: '#555' }} />
-                <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color: '#fff', margin: 0 }}>{cat.name}</h3>
-                <p style={{ fontSize: '0.75rem', color: '#555', lineHeight: 1.5, margin: 0 }}>{cat.description}</p>
+                <Icon size={20} style={{ color:'#6b7280' }} />
+                <h3 style={{ fontSize: '0.85rem', fontWeight: 700, color:'#0a0a0a', margin: 0 }}>{cat.name}</h3>
+                <p style={{ fontSize: '0.75rem', color:'#6b7280', lineHeight: 1.5, margin: 0 }}>{cat.description}</p>
               </div>
             );
           })}
         </div>
 
         {/* Integration cards */}
-        <p style={{ color: '#444', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>ALL INTEGRATIONS</p>
+        <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 24 }}>ALL INTEGRATIONS</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {INTEGRATIONS.map((integration) => {
             const status = STATUS_CONFIG[integration.status];
@@ -189,8 +189,8 @@ export default function IntegrationsPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <span style={{ fontSize: '1.5rem' }}>{integration.logo}</span>
                     <div>
-                      <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff', margin: 0 }}>{integration.name}</h3>
-                      <span style={{ fontSize: '0.7rem', color: '#555' }}>{integration.category} · {integration.tier} plan</span>
+                      <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color:'#0a0a0a', margin: 0 }}>{integration.name}</h3>
+                      <span style={{ fontSize: '0.7rem', color:'#6b7280' }}>{integration.category} · {integration.tier} plan</span>
                     </div>
                   </div>
                   <span style={{
@@ -209,7 +209,7 @@ export default function IntegrationsPage() {
                   {integration.features.map((feature) => (
                     <div key={feature} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <CheckCircle2 size={13} style={{ color: '#333', flexShrink: 0 }} />
-                      <span style={{ fontSize: '0.8rem', color: '#666' }}>{feature}</span>
+                      <span style={{ fontSize: '0.8rem', color:'#6b7280' }}>{feature}</span>
                     </div>
                   ))}
                 </div>
@@ -226,19 +226,19 @@ export default function IntegrationsPage() {
 
         {/* Build your own */}
         <section style={{ marginTop: 56, marginBottom: 56 }}>
-          <p style={{ color: '#444', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 16 }}>BUILD YOUR OWN</p>
+          <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 16 }}>BUILD YOUR OWN</p>
           <div style={{ background: '#080808', border: '1px solid #1a1a1a', borderRadius: 12, padding: '28px 32px' }}>
-            <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', margin: '0 0 8px' }}>
+            <h3 style={{ fontSize: '1rem', fontWeight: 700, color:'#0a0a0a', margin: '0 0 8px' }}>
               REST API + Webhooks = unlimited flexibility
             </h3>
-            <p style={{ color: '#666', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 16px' }}>
+            <p style={{ color:'#6b7280', fontSize: '0.9rem', lineHeight: 1.6, margin: '0 0 16px' }}>
               Every integration listed above uses the same API available to you.
               Create partners, register deals, query commissions, and receive
               real-time events — all programmatically.
             </p>
             <Link href="/docs" style={{
               display: 'inline-flex', alignItems: 'center', gap: 6,
-              color: '#fff', fontSize: '0.85rem', fontWeight: 600, textDecoration: 'none',
+              color:'#0a0a0a', fontSize: '0.85rem', fontWeight: 600, textDecoration: 'none',
             }}>
               Read the API docs <ArrowRight size={14} />
             </Link>

@@ -144,7 +144,7 @@ export default function AnnouncementsPage() {
           <h1 style={{ fontSize: "1.5rem", fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
             <Megaphone size={24} /> Announcements
           </h1>
-          <p style={{ color: "#999", fontSize: "0.85rem", marginTop: 4 }}>
+          <p style={{ color: "var(--muted)", fontSize: "0.85rem", marginTop: 4 }}>
             Broadcast updates, product news, and incentive campaigns to your partner network.
           </p>
         </div>
@@ -153,7 +153,7 @@ export default function AnnouncementsPage() {
           style={{
             display: "flex", alignItems: "center", gap: 6,
             padding: "0.5rem 1rem", borderRadius: 8,
-            background: "white", color: "black",
+            background: "var(--fg)", color: "var(--bg)",
             border: "none", cursor: "pointer", fontWeight: 600, fontSize: "0.85rem",
           }}
         >
@@ -172,7 +172,7 @@ export default function AnnouncementsPage() {
           <div
             key={s.label}
             style={{
-              background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)",
+              background: "var(--card-bg)", border: "1px solid var(--border)",
               borderRadius: 10, padding: "1rem", display: "flex", alignItems: "center", gap: 12,
             }}
           >
@@ -181,7 +181,7 @@ export default function AnnouncementsPage() {
             </div>
             <div>
               <div style={{ fontSize: "1.25rem", fontWeight: 700 }}>{s.value}</div>
-              <div style={{ color: "#888", fontSize: "0.75rem" }}>{s.label}</div>
+              <div style={{ color: "var(--muted)", fontSize: "0.75rem" }}>{s.label}</div>
             </div>
           </div>
         ))}
@@ -194,21 +194,21 @@ export default function AnnouncementsPage() {
           display: "flex", alignItems: "center", justifyContent: "center",
         }}>
           <div style={{
-            background: "#111", border: "1px solid rgba(255,255,255,0.1)",
+            background: "var(--card-bg)", border: "1px solid var(--border)",
             borderRadius: 12, padding: "1.5rem", width: "100%", maxWidth: 560,
           }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
               <h2 style={{ fontSize: "1.1rem", fontWeight: 700 }}>
                 {editId ? "Edit Announcement" : "New Announcement"}
               </h2>
-              <button onClick={resetForm} style={{ background: "none", border: "none", cursor: "pointer", color: "#999" }}>
+              <button onClick={resetForm} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted)" }}>
                 <X size={20} />
               </button>
             </div>
 
             {/* Type selector */}
             <div style={{ marginBottom: "1rem" }}>
-              <label style={{ fontSize: "0.75rem", color: "#888", display: "block", marginBottom: 6 }}>Type</label>
+              <label style={{ fontSize: "0.75rem", color: "var(--muted)", display: "block", marginBottom: 6 }}>Type</label>
               <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
                 {TYPE_OPTIONS.map((t) => (
                   <button
@@ -216,9 +216,9 @@ export default function AnnouncementsPage() {
                     onClick={() => setType(t.value)}
                     style={{
                       padding: "0.35rem 0.75rem", borderRadius: 6, fontSize: "0.8rem", fontWeight: 600,
-                      border: type === t.value ? `2px solid ${t.color}` : "1px solid rgba(255,255,255,0.1)",
+                      border: type === t.value ? `2px solid ${t.color}` : "1px solid var(--border)",
                       background: type === t.value ? `${t.color}22` : "transparent",
-                      color: type === t.value ? t.color : "#888",
+                      color: type === t.value ? t.color : "var(--muted)",
                       cursor: "pointer",
                     }}
                   >
@@ -230,22 +230,22 @@ export default function AnnouncementsPage() {
 
             {/* Title */}
             <div style={{ marginBottom: "1rem" }}>
-              <label style={{ fontSize: "0.75rem", color: "#888", display: "block", marginBottom: 6 }}>Title</label>
+              <label style={{ fontSize: "0.75rem", color: "var(--muted)", display: "block", marginBottom: 6 }}>Title</label>
               <input
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Announcement title..."
                 style={{
                   width: "100%", padding: "0.6rem 0.75rem", borderRadius: 8,
-                  background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
-                  color: "white", fontSize: "0.9rem", outline: "none",
+                  background: "var(--subtle)", border: "1px solid var(--border)",
+                  color: "var(--fg)", fontSize: "0.9rem", outline: "none",
                 }}
               />
             </div>
 
             {/* Body */}
             <div style={{ marginBottom: "1rem" }}>
-              <label style={{ fontSize: "0.75rem", color: "#888", display: "block", marginBottom: 6 }}>Message</label>
+              <label style={{ fontSize: "0.75rem", color: "var(--muted)", display: "block", marginBottom: 6 }}>Message</label>
               <textarea
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
@@ -253,8 +253,8 @@ export default function AnnouncementsPage() {
                 rows={5}
                 style={{
                   width: "100%", padding: "0.6rem 0.75rem", borderRadius: 8, resize: "vertical",
-                  background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
-                  color: "white", fontSize: "0.85rem", outline: "none", fontFamily: "inherit",
+                  background: "var(--subtle)", border: "1px solid var(--border)",
+                  color: "var(--fg)", fontSize: "0.85rem", outline: "none", fontFamily: "inherit",
                 }}
               />
             </div>
@@ -262,7 +262,7 @@ export default function AnnouncementsPage() {
             {/* Pin toggle */}
             <label style={{
               display: "flex", alignItems: "center", gap: 8, cursor: "pointer",
-              marginBottom: "1.5rem", fontSize: "0.85rem", color: "#ccc",
+              marginBottom: "1.5rem", fontSize: "0.85rem", color: "var(--fg)",
             }}>
               <input
                 type="checkbox"
@@ -279,8 +279,8 @@ export default function AnnouncementsPage() {
                 onClick={resetForm}
                 style={{
                   padding: "0.5rem 1rem", borderRadius: 8, fontSize: "0.85rem",
-                  background: "transparent", border: "1px solid rgba(255,255,255,0.15)",
-                  color: "#999", cursor: "pointer",
+                  background: "transparent", border: "1px solid var(--border)",
+                  color: "var(--muted)", cursor: "pointer",
                 }}
               >
                 Cancel
@@ -292,8 +292,8 @@ export default function AnnouncementsPage() {
                     disabled={saving || !title.trim() || !body.trim()}
                     style={{
                       padding: "0.5rem 1rem", borderRadius: 8, fontSize: "0.85rem",
-                      background: "rgba(255,255,255,0.1)", border: "none",
-                      color: "white", cursor: "pointer", fontWeight: 600,
+                      background: "var(--subtle)", border: "none",
+                      color: "var(--fg)", cursor: "pointer", fontWeight: 600,
                       opacity: saving || !title.trim() || !body.trim() ? 0.5 : 1,
                     }}
                   >
@@ -304,8 +304,8 @@ export default function AnnouncementsPage() {
                     disabled={saving || !title.trim() || !body.trim()}
                     style={{
                       padding: "0.5rem 1rem", borderRadius: 8, fontSize: "0.85rem",
-                      background: "white", border: "none",
-                      color: "black", cursor: "pointer", fontWeight: 600,
+                      background: "var(--fg)", border: "none",
+                      color: "var(--bg)", cursor: "pointer", fontWeight: 600,
                       display: "flex", alignItems: "center", gap: 6,
                       opacity: saving || !title.trim() || !body.trim() ? 0.5 : 1,
                     }}
@@ -320,8 +320,8 @@ export default function AnnouncementsPage() {
                     disabled={saving || !title.trim() || !body.trim()}
                     style={{
                       padding: "0.5rem 1rem", borderRadius: 8, fontSize: "0.85rem",
-                      background: "rgba(255,255,255,0.1)", border: "none",
-                      color: "white", cursor: "pointer", fontWeight: 600,
+                      background: "var(--subtle)", border: "none",
+                      color: "var(--fg)", cursor: "pointer", fontWeight: 600,
                       opacity: saving || !title.trim() || !body.trim() ? 0.5 : 1,
                     }}
                   >
@@ -332,8 +332,8 @@ export default function AnnouncementsPage() {
                     disabled={saving || !title.trim() || !body.trim()}
                     style={{
                       padding: "0.5rem 1rem", borderRadius: 8, fontSize: "0.85rem",
-                      background: "white", border: "none",
-                      color: "black", cursor: "pointer", fontWeight: 600,
+                      background: "var(--fg)", border: "none",
+                      color: "var(--bg)", cursor: "pointer", fontWeight: 600,
                       display: "flex", alignItems: "center", gap: 6,
                       opacity: saving || !title.trim() || !body.trim() ? 0.5 : 1,
                     }}
@@ -355,9 +355,9 @@ export default function AnnouncementsPage() {
             onClick={() => setFilter(f)}
             style={{
               padding: "0.4rem 0.85rem", borderRadius: 6, fontSize: "0.8rem", fontWeight: 600,
-              background: filter === f ? "rgba(255,255,255,0.12)" : "transparent",
-              border: "1px solid " + (filter === f ? "rgba(255,255,255,0.2)" : "transparent"),
-              color: filter === f ? "white" : "#888", cursor: "pointer",
+              background: filter === f ? "var(--subtle)" : "transparent",
+              border: "1px solid " + (filter === f ? "var(--border)" : "transparent"),
+              color: filter === f ? "var(--fg)" : "var(--muted)", cursor: "pointer",
               textTransform: "capitalize",
             }}
           >
@@ -370,12 +370,12 @@ export default function AnnouncementsPage() {
       {filtered && filtered.length === 0 ? (
         <div style={{
           textAlign: "center", padding: "3rem 1rem",
-          background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)",
+          background: "var(--subtle)", border: "1px solid var(--border)",
           borderRadius: 12,
         }}>
-          <Megaphone size={40} style={{ color: "#333", margin: "0 auto 1rem" }} />
-          <p style={{ color: "#888", fontSize: "0.9rem" }}>No announcements yet.</p>
-          <p style={{ color: "#666", fontSize: "0.8rem", marginTop: 4 }}>
+          <Megaphone size={40} style={{ color: "var(--muted)", margin: "0 auto 1rem" }} />
+          <p style={{ color: "var(--muted)", fontSize: "0.9rem" }}>No announcements yet.</p>
+          <p style={{ color: "var(--muted)", fontSize: "0.8rem", marginTop: 4 }}>
             Create your first announcement to broadcast to all partners.
           </p>
         </div>
@@ -385,8 +385,8 @@ export default function AnnouncementsPage() {
             <div
               key={a._id}
               style={{
-                background: "rgba(255,255,255,0.03)",
-                border: `1px solid ${a.isPinned ? "rgba(239,68,68,0.3)" : "rgba(255,255,255,0.08)"}`,
+                background: "var(--card-bg)",
+                border: `1px solid ${a.isPinned ? "rgba(239,68,68,0.3)" : "var(--border)"}`,
                 borderRadius: 10, padding: "1rem 1.25rem",
                 position: "relative",
               }}
@@ -412,7 +412,7 @@ export default function AnnouncementsPage() {
                 }}>
                   {a.isPublished ? "Published" : "Draft"}
                 </span>
-                <span style={{ fontSize: "0.7rem", color: "#666", marginLeft: "auto" }}>
+                <span style={{ fontSize: "0.7rem", color: "var(--muted)", marginLeft: "auto" }}>
                   <Calendar size={11} style={{ verticalAlign: "middle", marginRight: 3 }} />
                   {timeAgo(a.publishedAt ?? a.createdAt)}
                 </span>
@@ -423,7 +423,7 @@ export default function AnnouncementsPage() {
 
               {/* Body preview */}
               <p style={{
-                color: "#aaa", fontSize: "0.85rem", lineHeight: 1.5,
+                color: "var(--muted)", fontSize: "0.85rem", lineHeight: 1.5,
                 display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden",
               }}>
                 {a.body}
@@ -431,7 +431,7 @@ export default function AnnouncementsPage() {
 
               {/* Author + actions */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 10 }}>
-                <span style={{ fontSize: "0.75rem", color: "#666" }}>
+                <span style={{ fontSize: "0.75rem", color: "var(--muted)" }}>
                   by {a.authorName}
                 </span>
                 <div style={{ display: "flex", gap: 4 }}>
@@ -439,8 +439,8 @@ export default function AnnouncementsPage() {
                     onClick={() => updateAnnouncement({ id: a._id, isPinned: !a.isPinned })}
                     title={a.isPinned ? "Unpin" : "Pin"}
                     style={{
-                      background: "rgba(255,255,255,0.05)", border: "none", borderRadius: 6,
-                      padding: "0.35rem", cursor: "pointer", color: a.isPinned ? "#ef4444" : "#666",
+                      background: "var(--subtle)", border: "none", borderRadius: 6,
+                      padding: "0.35rem", cursor: "pointer", color: a.isPinned ? "#ef4444" : "var(--muted)",
                     }}
                   >
                     {a.isPinned ? <PinOff size={14} /> : <Pin size={14} />}
@@ -449,8 +449,8 @@ export default function AnnouncementsPage() {
                     onClick={() => updateAnnouncement({ id: a._id, isPublished: !a.isPublished })}
                     title={a.isPublished ? "Unpublish" : "Publish"}
                     style={{
-                      background: "rgba(255,255,255,0.05)", border: "none", borderRadius: 6,
-                      padding: "0.35rem", cursor: "pointer", color: a.isPublished ? "#22c55e" : "#666",
+                      background: "var(--subtle)", border: "none", borderRadius: 6,
+                      padding: "0.35rem", cursor: "pointer", color: a.isPublished ? "#22c55e" : "var(--muted)",
                     }}
                   >
                     {a.isPublished ? <EyeOff size={14} /> : <Eye size={14} />}
@@ -459,8 +459,8 @@ export default function AnnouncementsPage() {
                     onClick={() => startEdit(a)}
                     title="Edit"
                     style={{
-                      background: "rgba(255,255,255,0.05)", border: "none", borderRadius: 6,
-                      padding: "0.35rem", cursor: "pointer", color: "#888",
+                      background: "var(--subtle)", border: "none", borderRadius: 6,
+                      padding: "0.35rem", cursor: "pointer", color: "var(--muted)",
                     }}
                   >
                     <Pencil size={14} />
@@ -471,8 +471,8 @@ export default function AnnouncementsPage() {
                     }}
                     title="Delete"
                     style={{
-                      background: "rgba(255,255,255,0.05)", border: "none", borderRadius: 6,
-                      padding: "0.35rem", cursor: "pointer", color: "#666",
+                      background: "var(--subtle)", border: "none", borderRadius: 6,
+                      padding: "0.35rem", cursor: "pointer", color: "var(--muted)",
                     }}
                   >
                     <Trash2 size={14} />
