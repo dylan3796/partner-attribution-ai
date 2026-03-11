@@ -50,11 +50,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{if(localStorage.theme==='dark'||(!localStorage.theme&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch(e){}`,
-          }}
-        />
+        {/* Dark mode disabled — Covant is light-only */}
         <link rel="alternate" type="application/rss+xml" title="Covant Blog" href="/blog/feed.xml" />
         <OrganizationSchema />
         <WebSiteSchema />

@@ -603,46 +603,7 @@ select.input{appearance:auto;cursor:pointer}
   .trust-stat-label{font-size:.75rem}
 }
 
-/* === Dark Mode === */
-html.dark{
-  --bg:#0f0f0f;
-  --fg:#f5f5f5;
-  --muted:#9ca3af;
-  --subtle:#1a1a1a;
-  --border:#2a2a2a;
-  color-scheme:dark;
-}
-html.dark body{background:var(--bg);color:var(--fg)}
-html.dark .site-nav{background:rgba(15,15,15,.95);border-color:var(--border)}
-html.dark .card{background:var(--bg);border-color:var(--border);box-shadow:0 8px 30px rgba(0,0,0,.3)}
-html.dark .card-hover:hover{box-shadow:0 12px 40px rgba(0,0,0,.4)}
-html.dark .input{background:var(--subtle);border-color:var(--border);color:var(--fg)}
-html.dark .input:focus{border-color:var(--fg)}
-html.dark .btn{background:var(--fg);color:var(--bg)}
-html.dark .btn-outline{background:transparent;color:var(--fg);border-color:var(--border)}
-html.dark .btn-outline:hover{background:var(--subtle)}
-html.dark .badge{background:var(--fg);color:var(--bg)}
-html.dark .chip{background:var(--subtle);color:var(--fg)}
-html.dark .avatar{background:var(--fg);color:var(--bg)}
-html.dark .site-footer{background:var(--fg);color:var(--bg)}
-html.dark .orb{opacity:.9}
-html.dark .demo-response{background:var(--subtle)}
-html.dark .list-item:hover{background:var(--subtle)}
-html.dark .mobile-menu{background:var(--bg)}
-html.dark .mobile-menu-item:hover,html.dark .mobile-menu-item.active{background:var(--subtle)}
-html.dark .toast{background:var(--fg);color:var(--bg)}
-
-/* Dark mode sidebar */
-html.dark .dash-sidebar{background:var(--bg);border-color:var(--border)}
-html.dark .dash-sidebar-link.active{background:var(--subtle)}
-html.dark .dash-sidebar-link:hover{background:var(--subtle)}
-html.dark .dash-sidebar-toggle{border-color:var(--border);color:var(--muted)}
-html.dark .dash-sidebar-toggle:hover{background:var(--subtle);color:var(--fg)}
-html.dark .integration-logo{background:var(--subtle);border-color:var(--border)}
-html.dark .integration-logo:hover{border-color:var(--fg)}
-html.dark .testimonial-strip{background:#1a1a1a;color:#fff}
-html.dark .trust-bar{background:var(--subtle);border-color:var(--border)}
-html.dark select.input{color-scheme:dark}
+/* Dark mode intentionally disabled — Covant is light-only */
 
 /* Spinner animation for loading states */
 @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
