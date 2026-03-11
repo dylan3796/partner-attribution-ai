@@ -77,7 +77,7 @@ export default function LandingPage() {
             marginBottom: "1.5rem",
             color: "#0a0a0a"
           }}>
-            Your partners are driving revenue.<br />You just can&apos;t prove it.
+            The intelligence layer for your partner business.
           </h1>
           <p className="l-muted" style={{
             fontSize: "clamp(1.1rem, 2vw, 1.3rem)",
