@@ -437,9 +437,10 @@ export default function ComparePage() {
           <p style={{ color:'#6b7280', textAlign: "center", marginBottom: "1.5rem", fontSize: ".95rem" }}>
             Deep-dive feature comparisons with specific competitors.
           </p>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
             {[
               { name: "PartnerStack", slug: "partnerstack", desc: "Partner management & payouts platform for SaaS" },
+              { name: "Impartner PRM", slug: "impartner", desc: "Enterprise PRM for Fortune 1000 channel programs" },
               { name: "impact.com", slug: "impact-com", desc: "Enterprise affiliate & partnership management" },
               { name: "Crossbeam (Reveal)", slug: "crossbeam", desc: "Account mapping & co-sell intelligence" },
             ].map((c) => (
