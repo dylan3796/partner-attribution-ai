@@ -154,7 +154,7 @@ const TERMS: GlossaryTerm[] = [
     definition:
       "The end-of-period process of verifying that all commissions were calculated correctly, matching payouts against closed deals, and identifying discrepancies. Typically performed quarterly. A reconciliation report provides the audit trail for finance sign-off.",
     relatedLinks: [
-      { label: "ROI Calculator", href: "/roi" },
+      { label: "Tools", href: "/tools" },
     ],
   },
   {

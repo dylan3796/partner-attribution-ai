@@ -13,12 +13,12 @@ const PRODUCT_LINKS = [
   { name: "Become a Partner", href: "/apply" },
   { name: "Integrations", href: "/integrations" },
   { name: "Compare", href: "/compare" },
-  { name: "ROI Calculator", href: "/roi" },
 ];
 
 const RESOURCE_LINKS = [
   { name: "Early Access", href: "/beta" },
   { name: "Live Demo", href: "/demo" },
+  { name: "Tools", href: "/tools" },
   { name: "Customer Stories", href: "/customers" },
   { name: "Help Center", href: "/help" },
   { name: "API Docs", href: "/docs" },
