@@ -98,7 +98,7 @@ export default function LandingPage() {
           </div>
 
           <p className="l-muted" style={{ fontSize: ".9rem", fontWeight: 500 }}>
-            Join {leadsCount} companies in early access
+            Join early access
           </p>
         </div>
       </section>
