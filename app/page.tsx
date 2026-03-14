@@ -148,7 +148,7 @@ export default function LandingPage() {
             marginBottom: "3.5rem",
             color: "#0a0a0a"
           }}>
-            Three steps. Zero spreadsheets.
+            Your program structure. Your rules. Automated.
           </h2>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem", textAlign: "left" }}>
