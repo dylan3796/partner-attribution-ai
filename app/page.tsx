@@ -199,7 +199,7 @@ export default function LandingPage() {
                 03
               </div>
               <h3 style={{ fontWeight: 700, marginBottom: ".75rem", fontSize: "1.15rem", color: "#0a0a0a" }}>
-                Partners get paid. CFO gets proof.
+                Partners get paid. Nobody questions it.
               </h3>
               <p className="l-muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
                 Commissions calculated automatically. Partners see earnings in real time, finance gets clean reports.
