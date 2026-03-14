@@ -133,21 +133,7 @@ const CATEGORIES: Category[] = [
         description: "Partners see exactly what they've earned, what's pending, and the calculation behind each payout.",
         icon: Coins,
       },
-      {
-        title: "MDF Requests",
-        description: "Partners submit Market Development Fund requests. Admins review and approve with status tracking end-to-end.",
-        icon: Handshake,
-      },
-      {
-        title: "Territory & Conflict Management",
-        description: "Assigned territories, exclusive accounts, and channel conflict alerts with partner name resolution.",
-        icon: Target,
-      },
-      {
-        title: "Volume & Rebates",
-        description: "Volume program tracking with tier progress bars, leaderboard rankings, and projected rebate payouts.",
-        icon: TrendingUp,
-      },
+
     ],
   },
   {
@@ -180,11 +166,7 @@ const CATEGORIES: Category[] = [
         description: "Print-ready one-page performance report with health score, metrics, revenue trends, top deals, and key insights. PDF export for QBRs.",
         icon: FileDown,
       },
-      {
-        title: "Certifications",
-        description: "Create certification programs by level and category. Award certs to partners, track completion and expiration, gate tier advancement.",
-        icon: GraduationCap,
-      },
+
       {
         title: "Onboarding Tracking",
         description: "Progress bar on every partner showing onboarding completion. See exactly who needs attention and what steps remain.",
@@ -223,11 +205,7 @@ const CATEGORIES: Category[] = [
         description: "Automated weekly summary: KPIs with week-over-week deltas, top partner highlight, notable deals, at-risk alerts. Copy-to-clipboard for Slack.",
         icon: Calendar,
       },
-      {
-        title: "Partner Leaderboard",
-        description: "Gamified rankings with podium, medal tiers, composite scoring (revenue 35%, deals 25%, win rate 20%, engagement 20%).",
-        icon: Trophy,
-      },
+
       {
         title: "Goals & Targets",
         description: "Set quarterly objectives and track live progress. Color-coded pace indicators tell you if you're on track or behind.",
