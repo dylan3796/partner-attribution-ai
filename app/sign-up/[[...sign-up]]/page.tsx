@@ -17,7 +17,19 @@ export default function SignUpPage() {
         </h1>
         <p style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>Partner Intelligence Platform</p>
       </div>
-      <SignUp fallbackRedirectUrl="/onboard" />
+      <SignUp
+        fallbackRedirectUrl="/onboard"
+        appearance={{
+          elements: {
+            formFieldInput__username: { display: 'none' },
+            formFieldLabel__username: { display: 'none' },
+            formFieldRow__username: { display: 'none' },
+            formFieldInput__phoneNumber: { display: 'none' },
+            formFieldLabel__phoneNumber: { display: 'none' },
+            formFieldRow__phoneNumber: { display: 'none' },
+          }
+        }}
+      />
     </div>
   );
 }

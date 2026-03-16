@@ -263,8 +263,8 @@ export default function DashboardPage() {
   const sfStatus = useQuery(api.integrations.getSalesforceStatus, "skip");
 
   // Extract data from consolidated query or fall back to store
-  const stats = dashboardData?.stats ?? storeStats;
-  const recentDeals = (dashboardData?.recentDeals ?? [...storeDeals].sort((a, b) => b.createdAt - a.createdAt).slice(0, 5)) as unknown as Deal[];
+  const stats = dashboardData?.stats ?? storeStats ?? { totalPartners: 0, totalDeals: 0, activePartners: 0, totalRevenue: 0, pipelineValue: 0, wonDeals: 0, openDeals: 0, winRate: 0, avgDealSize: 0 };
+  const recentDeals = (dashboardData?.recentDeals ?? [...storeDeals].sort((a, b) => (b.createdAt ?? 0) - (a.createdAt ?? 0)).slice(0, 5)) as unknown as Deal[];
   const topPartners = (dashboardData?.topPartners ?? storePartners.filter((p) => p.status === "active").slice(0, 5)) as unknown as Partner[];
   const pendingPayouts = (dashboardData?.pendingPayouts ?? storePayouts.filter((p) => p.status === "pending_approval")) as unknown as (Payout & { partner?: Partner })[];
   const auditLog = (dashboardData?.auditLog ?? storeAuditLog.slice(0, 5)) as unknown as AuditEntry[];
@@ -517,14 +517,14 @@ export default function DashboardPage() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
             <div>
               <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Partner-Influenced Revenue</p>
-              <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{formatCurrencyCompact(stats.totalRevenue)}</p>
+              <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{formatCurrencyCompact(stats?.totalRevenue ?? 0)}</p>
             </div>
             <div style={{ background: "#ecfdf5", padding: ".5rem", borderRadius: 8 }}><TrendingUp size={18} color="#065f46" /></div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
             <Sparkline data={trends?.revenue ?? FALLBACK_REVENUE} color="#10b981" />
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <p style={{ fontSize: ".8rem", color: "#065f46" }}>↑ {stats.wonDeals} won deals</p>
+              <p style={{ fontSize: ".8rem", color: "#065f46" }}>↑ {stats?.wonDeals ?? 0} won deals</p>
               <TrendBadge data={trends?.revenue ?? FALLBACK_REVENUE} />
             </div>
           </div>
@@ -533,14 +533,14 @@ export default function DashboardPage() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
             <div>
               <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Partner-Touched Pipeline</p>
-              <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{formatCurrencyCompact(stats.pipelineValue)}</p>
+              <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{formatCurrencyCompact(stats?.pipelineValue ?? 0)}</p>
             </div>
             <div style={{ background: "#eef2ff", padding: ".5rem", borderRadius: 8 }}><Briefcase size={18} color="#3730a3" /></div>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: ".5rem", marginTop: ".5rem" }}>
             <Sparkline data={trends?.pipeline ?? FALLBACK_PIPELINE} color="#6366f1" />
             <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              <p style={{ fontSize: ".8rem", color: "#3730a3" }}>{stats.openDeals} active deals</p>
+              <p style={{ fontSize: ".8rem", color: "#3730a3" }}>{stats?.openDeals ?? 0} active deals</p>
               <TrendBadge data={trends?.pipeline ?? FALLBACK_PIPELINE} />
             </div>
           </div>
@@ -549,7 +549,7 @@ export default function DashboardPage() {
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start" }}>
             <div>
               <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".3rem" }}>Active Partners</p>
-              <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{stats.activePartners}</p>
+              <p style={{ fontSize: "1.8rem", fontWeight: 800 }}>{stats?.activePartners ?? 0}</p>
             </div>
             <div style={{ background: "#f0fdf4", padding: ".5rem", borderRadius: 8 }}><Users size={18} color="#166534" /></div>
           </div>

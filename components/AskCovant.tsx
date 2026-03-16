@@ -7,6 +7,7 @@ import { useStore } from "@/lib/store";
 import { askCovant, processQuery, type QueryContext } from "@/lib/ask-engine";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { usePathname } from "next/navigation";
 
 type Message = {
   id: string;
@@ -27,6 +28,7 @@ const EXAMPLE_QUERIES = [
 ];
 
 export default function AskCovant() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -35,6 +37,16 @@ export default function AskCovant() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const store = useStore();
+
+  // Hide on auth pages and onboarding/setup
+  if (
+    pathname?.startsWith("/sign-in") ||
+    pathname?.startsWith("/sign-up") ||
+    pathname?.startsWith("/onboard") ||
+    pathname?.startsWith("/setup")
+  ) {
+    return null;
+  }
 
   // Real Convex data
   const convexPartners = useQuery(api.partners.listWithStats) ?? [];
