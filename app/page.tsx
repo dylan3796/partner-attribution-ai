@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 
-// Real SVG logos for integration partners
 function SalesforceLogo() {
   return (
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,14 +44,8 @@ export default function LandingPage() {
 
   async function handleWaitlist(e: React.FormEvent) {
     e.preventDefault();
-    if (!email.trim()) {
-      setEmailError("Please enter your email");
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError("Please enter a valid email");
-      return;
-    }
+    if (!email.trim()) { setEmailError("Please enter your email"); return; }
+    if (!/\S+@\S+\.\S+/.test(email)) { setEmailError("Please enter a valid email"); return; }
     setEmailError("");
     try {
       await captureLead({ email, source: "landing_hero" });
@@ -66,9 +59,11 @@ export default function LandingPage() {
 
   return (
     <div className="landing">
+
       {/* ── 1. HERO ──────────────────────────────────────── */}
       <section style={{ padding: "9rem 0 7rem", textAlign: "center", background: "#ffffff" }}>
         <div className="wrap">
+          <p className="l-label" style={{ marginBottom: "1.25rem" }}>Partner Intelligence Platform</p>
           <h1 style={{
             fontSize: "clamp(2.5rem, 6vw, 4rem)",
             fontWeight: 800,
@@ -77,179 +72,109 @@ export default function LandingPage() {
             marginBottom: "1.5rem",
             color: "#0a0a0a"
           }}>
-            The intelligence layer for your partner business.
+            The intelligence layer<br />for your partner program.
           </h1>
           <p className="l-muted" style={{
-            fontSize: "clamp(1.1rem, 2vw, 1.3rem)",
-            maxWidth: 580,
+            fontSize: "clamp(1.05rem, 2vw, 1.2rem)",
+            maxWidth: 600,
             margin: "0 auto 2.5rem",
-            lineHeight: 1.5
+            lineHeight: 1.6
           }}>
-            Covant tracks every partner touchpoint, calculates commissions automatically, and gives partners a portal they&apos;ll actually use.
+            Attribution, commissions, incentives, partner portal, and revenue intelligence — in one platform built for how modern partner programs actually run.
           </p>
-
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", marginBottom: "1.5rem" }}>
-            <Link href="/sign-up" className="l-btn">
-              Get Started Free <span>→</span>
-            </Link>
-            <Link href="/demo" className="l-btn-outline">
-              Try with sample data <span>→</span>
-            </Link>
+            <Link href="/sign-up" className="l-btn">Get Started Free <span>→</span></Link>
+            <Link href="/demo" className="l-btn-outline">Try with sample data <span>→</span></Link>
           </div>
-
           <p className="l-muted" style={{ fontSize: ".9rem", fontWeight: 500 }}>
-            Join early access
+            {leadsCount > 0 ? `${leadsCount} teams on the waitlist` : "Join early access"}
           </p>
         </div>
       </section>
 
-      {/* ── 2. SOCIAL PROOF QUOTES ──────────────────────── */}
-      <section className="l-section-light" style={{ padding: "5rem 0" }}>
+      {/* ── 2. PLATFORM PILLARS ──────────────────────────── */}
+      <section style={{ padding: "5rem 0", background: "#f9fafb", borderTop: "1px solid #f3f4f6" }}>
+        <div className="wrap">
+          <p style={{ textAlign: "center", fontSize: ".85rem", fontWeight: 600, letterSpacing: ".08em", textTransform: "uppercase", color: "#9ca3af", marginBottom: "3rem" }}>
+            Everything your partner program needs
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1.5rem" }}>
+            {[
+              { icon: "◎", title: "Attribution", desc: "First, last, or multi-touch. Your rules." },
+              { icon: "⬡", title: "Incentives", desc: "Tiers, SPIFFs, MDF, volume bonuses." },
+              { icon: "◈", title: "Commissions", desc: "Auto-calculated. Zero disputes." },
+              { icon: "⊞", title: "Partner Portal", desc: "Self-service for every partner." },
+              { icon: "◫", title: "Revenue Intel", desc: "Pipeline by partner, channel, tier." },
+            ].map((p) => (
+              <div key={p.title} style={{
+                background: "#ffffff",
+                border: "1px solid #e5e7eb",
+                borderRadius: "12px",
+                padding: "1.5rem",
+                textAlign: "center"
+              }}>
+                <div style={{ fontSize: "1.5rem", marginBottom: ".75rem", color: "#374151" }}>{p.icon}</div>
+                <p style={{ fontWeight: 700, fontSize: ".95rem", color: "#0a0a0a", marginBottom: ".4rem" }}>{p.title}</p>
+                <p className="l-muted" style={{ fontSize: ".82rem", lineHeight: 1.5 }}>{p.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 3. SOCIAL PROOF ──────────────────────────────── */}
+      <section style={{ padding: "5rem 0", background: "#ffffff" }}>
         <div className="wrap">
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
             <div className="l-card">
               <p style={{ fontStyle: "italic", fontSize: ".95rem", lineHeight: 1.6, marginBottom: "1rem", color: "#374151" }}>
                 &ldquo;Every QBR turns into a fight about attribution. Nobody trusts the spreadsheet.&rdquo;
               </p>
-              <p className="l-muted" style={{ fontSize: ".8rem" }}>
-                VP of Partnerships, Series B SaaS
-              </p>
+              <p className="l-muted" style={{ fontSize: ".8rem" }}>VP of Partnerships, Series B SaaS</p>
             </div>
-
             <div className="l-card">
               <p style={{ fontStyle: "italic", fontSize: ".95rem", lineHeight: 1.6, marginBottom: "1rem", color: "#374151" }}>
-                &ldquo;We know partners are driving revenue — we just can&apos;t prove it to the CFO.&rdquo;
+                &ldquo;Partners have no visibility into their pipeline. They chase us for updates all day.&rdquo;
               </p>
-              <p className="l-muted" style={{ fontSize: ".8rem" }}>
-                Director of Channel Sales
-              </p>
+              <p className="l-muted" style={{ fontSize: ".8rem" }}>Director of Channel Sales</p>
             </div>
-
             <div className="l-card">
               <p style={{ fontStyle: "italic", fontSize: ".95rem", lineHeight: 1.6, marginBottom: "1rem", color: "#374151" }}>
                 &ldquo;Commission disputes are killing partner trust. I&apos;m a referee, not a program manager.&rdquo;
               </p>
-              <p className="l-muted" style={{ fontSize: ".8rem" }}>
-                Head of Partner Programs
-              </p>
+              <p className="l-muted" style={{ fontSize: ".8rem" }}>Head of Partner Programs</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ── 3. HOW IT WORKS ──────────────────────────────── */}
-      <section style={{ padding: "7rem 0", background: "#ffffff" }}>
-        <div className="wrap" style={{ textAlign: "center" }}>
-          <h2 style={{
-            fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
-            fontWeight: 800,
-            lineHeight: 1.1,
-            letterSpacing: "-.02em",
-            marginBottom: "3.5rem",
-            color: "#0a0a0a"
-          }}>
-            Your program structure. Your rules. Automated.
-          </h2>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2rem", textAlign: "left" }}>
-            <div className="l-card">
-              <div style={{
-                fontSize: "2.5rem",
-                fontWeight: 300,
-                color: "#d1d5db",
-                marginBottom: "1rem",
-                lineHeight: 1
-              }}>
-                01
-              </div>
-              <h3 style={{ fontWeight: 700, marginBottom: ".75rem", fontSize: "1.15rem", color: "#0a0a0a" }}>
-                Connect your stack
-              </h3>
-              <p className="l-muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
-                Import partners from your CRM and set attribution rules. Covant maps every partner to every deal from day one.
-              </p>
-            </div>
-
-            <div className="l-card">
-              <div style={{
-                fontSize: "2.5rem",
-                fontWeight: 300,
-                color: "#d1d5db",
-                marginBottom: "1rem",
-                lineHeight: 1
-              }}>
-                02
-              </div>
-              <h3 style={{ fontWeight: 700, marginBottom: ".75rem", fontSize: "1.15rem", color: "#0a0a0a" }}>
-                Every touchpoint attributed
-              </h3>
-              <p className="l-muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
-                Every partner interaction logged, linked, and weighted. Overlapping deals split by your rules, not gut feel.
-              </p>
-            </div>
-
-            <div className="l-card">
-              <div style={{
-                fontSize: "2.5rem",
-                fontWeight: 300,
-                color: "#d1d5db",
-                marginBottom: "1rem",
-                lineHeight: 1
-              }}>
-                03
-              </div>
-              <h3 style={{ fontWeight: 700, marginBottom: ".75rem", fontSize: "1.15rem", color: "#0a0a0a" }}>
-                Partners get paid. Nobody questions it.
-              </h3>
-              <p className="l-muted" style={{ lineHeight: 1.6, fontSize: ".95rem" }}>
-                Commissions calculated automatically. Partners see earnings in real time, finance gets clean reports.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 4. FEATURE DEEP-DIVES ────────────────────────── */}
-      {/* Deep-dive 1: Attribution (text left, card right) */}
+      {/* ── 4. DEEP-DIVE: ATTRIBUTION ────────────────────── */}
       <section style={{ padding: "7rem 0", background: "#ffffff" }}>
         <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "5rem", alignItems: "center" }}>
           <div>
             <span className="l-label">Attribution</span>
-            <h2 style={{
-              fontSize: "clamp(1.8rem, 3vw, 2.4rem)",
-              fontWeight: 800,
-              lineHeight: 1.15,
-              letterSpacing: "-.02em",
-              marginBottom: "1.2rem",
-              color: "#0a0a0a"
-            }}>
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 800, lineHeight: 1.15, letterSpacing: "-.02em", marginBottom: "1.2rem", color: "#0a0a0a" }}>
               Attribution that partners actually trust
             </h2>
             <p className="l-muted" style={{ fontSize: "1.05rem", lineHeight: 1.65 }}>
-              Choose from first-touch, last-touch, or multi-touch models. Configure once, apply automatically. Every calculation explainable — attribution disputes disappear.
+              First-touch, last-touch, or multi-touch — configure once, apply automatically. Every calculation is explainable to partners and to finance. Attribution disputes disappear.
             </p>
           </div>
           <div className="l-card">
             <h4 style={{ marginBottom: "1.2rem", fontWeight: 600, color: "#0a0a0a" }}>Deal: TechStar × CloudBridge</h4>
             <div className="l-bar-row">
               <span>TechStar (Reseller)</span>
-              <div className="l-bar-track">
-                <div className="l-bar-fill" style={{ width: "55%" }}></div>
-              </div>
+              <div className="l-bar-track"><div className="l-bar-fill" style={{ width: "55%" }}></div></div>
               <span style={{ fontWeight: 600 }}>55%</span>
             </div>
             <div className="l-bar-row">
               <span>CloudBridge (Referral)</span>
-              <div className="l-bar-track">
-                <div className="l-bar-fill" style={{ width: "30%" }}></div>
-              </div>
+              <div className="l-bar-track"><div className="l-bar-fill" style={{ width: "30%" }}></div></div>
               <span style={{ fontWeight: 600 }}>30%</span>
             </div>
             <div className="l-bar-row">
               <span>DataPipe (Integration)</span>
-              <div className="l-bar-track">
-                <div className="l-bar-fill" style={{ width: "15%" }}></div>
-              </div>
+              <div className="l-bar-track"><div className="l-bar-fill" style={{ width: "15%" }}></div></div>
               <span style={{ fontWeight: 600 }}>15%</span>
             </div>
             <p className="l-muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>Model: Role-Based (custom weights)</p>
@@ -257,160 +182,151 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Deep-dive 2: Visibility (card left, text right) */}
+      {/* ── 5. DEEP-DIVE: INCENTIVES ─────────────────────── */}
       <section style={{ padding: "7rem 0", background: "#f9fafb" }}>
         <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "5rem", alignItems: "center" }}>
           <div className="l-card">
-            <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
-              <div className="l-timeline-item">
-                <div className="l-avatar">TS</div>
-                <div style={{ flex: 1 }}>
-                  <strong style={{ display: "block", marginBottom: ".25rem" }}>TechStar registered deal</strong>
-                  <small className="l-muted">Jan 15 · Deal registration</small>
+            <h4 style={{ marginBottom: "1.25rem", fontWeight: 600, color: "#0a0a0a" }}>Incentive Programs</h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
+              {[
+                { badge: "Gold", desc: "20% base commission + 5% accelerator above $50k/qtr", color: "#f59e0b" },
+                { badge: "SPIFF", desc: "2× multiplier on CloudSecure deals through Q2", color: "#8b5cf6" },
+                { badge: "MDF", desc: "$5,000 co-marketing budget for TechStar — $3,200 remaining", color: "#3b82f6" },
+                { badge: "Bonus", desc: "$2,500 one-time new logo bonus for first 3 enterprise logos", color: "#10b981" },
+              ].map((item) => (
+                <div key={item.badge} style={{ display: "flex", alignItems: "flex-start", gap: ".75rem" }}>
+                  <span style={{
+                    background: item.color + "20",
+                    color: item.color,
+                    borderRadius: "6px",
+                    padding: ".2rem .55rem",
+                    fontSize: ".75rem",
+                    fontWeight: 700,
+                    whiteSpace: "nowrap",
+                    marginTop: ".1rem"
+                  }}>{item.badge}</span>
+                  <p style={{ fontSize: ".88rem", lineHeight: 1.5, color: "#374151", margin: 0 }}>{item.desc}</p>
                 </div>
-              </div>
-              <div className="l-timeline-item">
-                <div className="l-avatar">CB</div>
-                <div style={{ flex: 1 }}>
-                  <strong style={{ display: "block", marginBottom: ".25rem" }}>CloudBridge demo</strong>
-                  <small className="l-muted">Jan 22 · Co-sell activity</small>
-                </div>
-              </div>
-              <div className="l-timeline-item">
-                <div className="l-avatar">DP</div>
-                <div style={{ flex: 1 }}>
-                  <strong style={{ display: "block", marginBottom: ".25rem" }}>DataPipe integration</strong>
-                  <small className="l-muted">Jan 28 · Technical enablement</small>
-                </div>
-              </div>
-              <div className="l-timeline-item">
-                <div className="l-avatar" style={{ background: "#0a0a0a", color: "#fff" }}>✓</div>
-                <div style={{ flex: 1 }}>
-                  <strong style={{ display: "block", marginBottom: ".25rem" }}>Deal closed · $50,000</strong>
-                  <small className="l-muted">Feb 1 · Attribution calculated</small>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
           <div>
-            <span className="l-label">Visibility</span>
-            <h2 style={{
-              fontSize: "clamp(1.8rem, 3vw, 2.4rem)",
-              fontWeight: 800,
-              lineHeight: 1.15,
-              letterSpacing: "-.02em",
-              marginBottom: "1.2rem",
-              color: "#0a0a0a"
-            }}>
-              Every partner touchpoint, captured
+            <span className="l-label">Incentives</span>
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 800, lineHeight: 1.15, letterSpacing: "-.02em", marginBottom: "1.2rem", color: "#0a0a0a" }}>
+              Build programs partners actually work harder for
             </h2>
             <p className="l-muted" style={{ fontSize: "1.05rem", lineHeight: 1.65 }}>
-              Every interaction — referrals, demos, deal reg, co-sell — logged and linked. When a deal closes, you know who did what.
+              Tiers, SPIFFs, MDF budgets, volume accelerators, new logo bonuses — all configurable, all tracked automatically. If a partner earns it, Covant calculates it.
             </p>
           </div>
         </div>
       </section>
 
-      {/* Deep-dive 3: Payouts (text left, card right) */}
+      {/* ── 6. DEEP-DIVE: PARTNER PORTAL ─────────────────── */}
       <section style={{ padding: "7rem 0", background: "#ffffff" }}>
         <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "5rem", alignItems: "center" }}>
           <div>
-            <span className="l-label">Payouts</span>
-            <h2 style={{
-              fontSize: "clamp(1.8rem, 3vw, 2.4rem)",
-              fontWeight: 800,
-              lineHeight: 1.15,
-              letterSpacing: "-.02em",
-              marginBottom: "1.2rem",
-              color: "#0a0a0a"
-            }}>
-              Fair splits, zero manual work
+            <span className="l-label">Partner Portal</span>
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 800, lineHeight: 1.15, letterSpacing: "-.02em", marginBottom: "1.2rem", color: "#0a0a0a" }}>
+              Give partners a home — not a spreadsheet
             </h2>
             <p className="l-muted" style={{ fontSize: "1.05rem", lineHeight: 1.65 }}>
-              Attribution drives automatic commission calculations. Tier-based payouts, MDF allocations, SPIFFs — no more end-of-quarter surprises.
+              Every partner gets their own portal. Register deals, track pipeline, see commissions, download resources — no email chains, no manual updates. Partners stay in the program because they actually like using it.
             </p>
           </div>
-          <div className="l-card">
-            <h4 style={{ marginBottom: "1rem", fontWeight: 600, color: "#0a0a0a" }}>January Partner Payouts</h4>
-            <div className="l-payout-row">
-              <div className="l-avatar">TS</div>
-              <span style={{ flex: 1 }}>TechStar Solutions</span>
-              <strong style={{ fontSize: "1rem" }}>$12,450</strong>
+          <div className="l-card" style={{ padding: "1.5rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>
+              <h4 style={{ fontWeight: 600, color: "#0a0a0a", margin: 0 }}>TechStar · Partner Portal</h4>
+              <span style={{ fontSize: ".75rem", color: "#059669", fontWeight: 600, background: "#d1fae5", padding: ".2rem .55rem", borderRadius: "6px" }}>Gold Tier</span>
             </div>
-            <div className="l-payout-row">
-              <div className="l-avatar">CB</div>
-              <span style={{ flex: 1 }}>CloudBridge Partners</span>
-              <strong style={{ fontSize: "1rem" }}>$8,920</strong>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: ".75rem", marginBottom: "1.25rem" }}>
+              {[
+                { label: "Commissions (Q1)", val: "$24,320" },
+                { label: "Open Deals", val: "8" },
+                { label: "Pending Payout", val: "$6,150" },
+                { label: "MDF Remaining", val: "$3,200" },
+              ].map((s) => (
+                <div key={s.label} style={{ background: "#f9fafb", borderRadius: "8px", padding: ".75rem 1rem" }}>
+                  <p className="l-muted" style={{ fontSize: ".75rem", marginBottom: ".25rem" }}>{s.label}</p>
+                  <p style={{ fontWeight: 700, fontSize: "1.05rem", color: "#0a0a0a", margin: 0 }}>{s.val}</p>
+                </div>
+              ))}
             </div>
-            <div className="l-payout-row">
-              <div className="l-avatar">DP</div>
-              <span style={{ flex: 1 }}>DataPipe Agency</span>
-              <strong style={{ fontSize: "1rem" }}>$5,630</strong>
+            <div style={{ display: "flex", gap: ".5rem" }}>
+              <button style={{ flex: 1, padding: ".55rem", borderRadius: "8px", border: "1px solid #e5e7eb", background: "#0a0a0a", color: "#fff", fontSize: ".82rem", fontWeight: 600, cursor: "pointer" }}>Register Deal</button>
+              <button style={{ flex: 1, padding: ".55rem", borderRadius: "8px", border: "1px solid #e5e7eb", background: "#fff", color: "#374151", fontSize: ".82rem", fontWeight: 600, cursor: "pointer" }}>View Pipeline</button>
             </div>
-            <p className="l-muted" style={{ marginTop: ".8rem", fontSize: ".85rem" }}>Total: $27,000 · Based on role-based attribution</p>
           </div>
         </div>
       </section>
 
-      {/* ── 5. INTEGRATIONS ──────────────────────────────── */}
+      {/* ── 7. DEEP-DIVE: REVENUE INTELLIGENCE ───────────── */}
+      <section style={{ padding: "7rem 0", background: "#f9fafb" }}>
+        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "5rem", alignItems: "center" }}>
+          <div className="l-card">
+            <h4 style={{ marginBottom: "1.25rem", fontWeight: 600, color: "#0a0a0a" }}>Partner Revenue · Q1 2026</h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: ".6rem", marginBottom: "1.25rem" }}>
+              {[
+                { name: "TechStar Solutions", arr: "$142K", pct: 88, trend: "+12%" },
+                { name: "CloudBridge Partners", arr: "$98K", pct: 61, trend: "+31%" },
+                { name: "DataPipe Agency", arr: "$67K", pct: 42, trend: "+8%" },
+                { name: "NovaSys Group", arr: "$44K", pct: 27, trend: "New" },
+              ].map((r) => (
+                <div key={r.name}>
+                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: ".3rem" }}>
+                    <span style={{ fontSize: ".85rem", color: "#374151", fontWeight: 500 }}>{r.name}</span>
+                    <div style={{ display: "flex", gap: ".5rem", alignItems: "center" }}>
+                      <span style={{ fontSize: ".75rem", color: "#059669", fontWeight: 600 }}>{r.trend}</span>
+                      <span style={{ fontSize: ".85rem", fontWeight: 700, color: "#0a0a0a" }}>{r.arr}</span>
+                    </div>
+                  </div>
+                  <div className="l-bar-track">
+                    <div className="l-bar-fill" style={{ width: `${r.pct}%` }}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="l-muted" style={{ fontSize: ".8rem" }}>Total partner-sourced ARR: $351K · Up 18% QoQ</p>
+          </div>
+          <div>
+            <span className="l-label">Revenue Intelligence</span>
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 800, lineHeight: 1.15, letterSpacing: "-.02em", marginBottom: "1.2rem", color: "#0a0a0a" }}>
+              Know which partners drive revenue — before the QBR
+            </h2>
+            <p className="l-muted" style={{ fontSize: "1.05rem", lineHeight: 1.65 }}>
+              Partner-sourced pipeline by tier, channel, and region. Trend data that proves partner ROI to your CFO. No more &ldquo;we think partners are driving value&rdquo; — you&apos;ll know exactly.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 8. INTEGRATIONS ──────────────────────────────── */}
       <section style={{ padding: "6rem 0", background: "#ffffff" }}>
         <div className="wrap" style={{ textAlign: "center" }}>
-          <h2 style={{
-            fontSize: "clamp(1.8rem, 3vw, 2.5rem)",
-            fontWeight: 800,
-            lineHeight: 1.1,
-            letterSpacing: "-.02em",
-            marginBottom: ".75rem",
-            color: "#0a0a0a"
-          }}>
+          <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: ".75rem", color: "#0a0a0a" }}>
             Works with what you already use
           </h2>
           <p className="l-muted" style={{ fontSize: "1.05rem", maxWidth: 560, margin: "0 auto 3rem", lineHeight: 1.6 }}>
             Connects in minutes. No rip-and-replace required.
           </p>
           <div style={{ display: "flex", justifyContent: "center", gap: "1.5rem", alignItems: "center", flexWrap: "wrap" }}>
-            <div className="l-logo-box">
-              <SalesforceLogo />
-              <span className="l-logo-name">Salesforce</span>
-            </div>
-            <div className="l-logo-box">
-              <HubSpotLogo />
-              <span className="l-logo-name">HubSpot</span>
-            </div>
-            <div className="l-logo-box">
-              <PipedriveLogo />
-              <span className="l-logo-name">Pipedrive</span>
-            </div>
-            <div className="l-logo-box">
-              <SlackLogo />
-              <span className="l-logo-name">Slack</span>
-            </div>
+            <div className="l-logo-box"><SalesforceLogo /><span className="l-logo-name">Salesforce</span></div>
+            <div className="l-logo-box"><HubSpotLogo /><span className="l-logo-name">HubSpot</span></div>
+            <div className="l-logo-box"><PipedriveLogo /><span className="l-logo-name">Pipedrive</span></div>
+            <div className="l-logo-box"><SlackLogo /><span className="l-logo-name">Slack</span></div>
           </div>
         </div>
       </section>
 
-      {/* ── 6. FINAL CTA ──────────────────────────────────── */}
+      {/* ── 9. FINAL CTA ─────────────────────────────────── */}
       <section className="l-section-light" style={{ padding: "7rem 0" }}>
         <div className="wrap" style={{ textAlign: "center" }}>
-          <h2 style={{
-            fontSize: "clamp(2rem, 5vw, 3.2rem)",
-            fontWeight: 800,
-            lineHeight: 1.1,
-            letterSpacing: "-.02em",
-            marginBottom: "1rem",
-            color: "#0a0a0a"
-          }}>
-            Your partners are driving revenue. Start proving it.
+          <h2 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem", color: "#0a0a0a" }}>
+            Your partners are driving revenue.<br />Start proving it.
           </h2>
-          <p className="l-muted" style={{
-            fontSize: "clamp(1.05rem, 2vw, 1.25rem)",
-            maxWidth: 600,
-            margin: "0 auto 2.5rem",
-            lineHeight: 1.5
-          }}>
-            Add attribution. Automate commissions. Give partners a portal.
+          <p className="l-muted" style={{ fontSize: "clamp(1.05rem, 2vw, 1.2rem)", maxWidth: 600, margin: "0 auto 2.5rem", lineHeight: 1.5 }}>
+            Attribution, incentives, commissions, portal, and intelligence — one platform, up in an afternoon.
           </p>
-
           <form onSubmit={handleWaitlist} style={{ display: "flex", gap: ".75rem", maxWidth: 480, margin: "0 auto", flexWrap: "wrap", justifyContent: "center" }}>
             <div style={{ flex: "1 1 280px", position: "relative" }}>
               <input
@@ -418,23 +334,17 @@ export default function LandingPage() {
                 placeholder="Enter your work email"
                 className="l-input"
                 value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setEmailError("");
-                }}
+                onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
                 required
               />
               {emailError && (
-                <p style={{ position: "absolute", bottom: -20, left: 0, fontSize: ".75rem", color: "#dc2626" }}>
-                  {emailError}
-                </p>
+                <p style={{ position: "absolute", bottom: -20, left: 0, fontSize: ".75rem", color: "#dc2626" }}>{emailError}</p>
               )}
             </div>
             <button type="submit" className="l-btn" disabled={submitted} style={{ whiteSpace: "nowrap" }}>
               {submitted ? "✓ We'll be in touch!" : "Get Early Access"}
             </button>
           </form>
-
           {submitted && (
             <p style={{ marginTop: "1.5rem", fontSize: ".9rem", color: "#059669", fontWeight: 500 }}>
               We&apos;ll reach out within 24 hours.
@@ -442,6 +352,7 @@ export default function LandingPage() {
           )}
         </div>
       </section>
+
     </div>
   );
 }
