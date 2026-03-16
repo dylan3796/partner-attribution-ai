@@ -100,11 +100,52 @@ export default function LandingPage() {
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1.5rem" }}>
             {[
-              { icon: "◎", title: "Attribution", desc: "First, last, or multi-touch. Your rules." },
-              { icon: "⬡", title: "Incentives", desc: "Tiers, SPIFFs, MDF, volume bonuses." },
-              { icon: "◈", title: "Commissions", desc: "Auto-calculated. Zero disputes." },
-              { icon: "⊞", title: "Partner Portal", desc: "Self-service for every partner." },
-              { icon: "◫", title: "Revenue Intel", desc: "Pipeline by partner, channel, tier." },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/>
+                    <line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/>
+                    <line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/>
+                  </svg>
+                ),
+                title: "Attribution", desc: "First, last, or multi-touch. Your rules."
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                ),
+                title: "Incentives", desc: "Tiers, SPIFFs, MDF, volume bonuses."
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v2m0 8v2M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-1 2-2.5 3s-2.5 1.5-2.5 3a2.5 2.5 0 0 0 5 0"/>
+                  </svg>
+                ),
+                title: "Commissions", desc: "Auto-calculated. Zero disputes."
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                  </svg>
+                ),
+                title: "Partner Portal", desc: "Self-service for every partner."
+              },
+              {
+                icon: (
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
+                    <line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/>
+                  </svg>
+                ),
+                title: "Revenue Intel", desc: "Pipeline by partner, channel, tier."
+              },
             ].map((p) => (
               <div key={p.title} style={{
                 background: "#ffffff",
@@ -113,7 +154,7 @@ export default function LandingPage() {
                 padding: "1.5rem",
                 textAlign: "center"
               }}>
-                <div style={{ fontSize: "1.5rem", marginBottom: ".75rem", color: "#374151" }}>{p.icon}</div>
+                <div style={{ display: "flex", justifyContent: "center", marginBottom: ".75rem", color: "#374151" }}>{p.icon}</div>
                 <p style={{ fontWeight: 700, fontSize: ".95rem", color: "#0a0a0a", marginBottom: ".4rem" }}>{p.title}</p>
                 <p className="l-muted" style={{ fontSize: ".82rem", lineHeight: 1.5 }}>{p.desc}</p>
               </div>
