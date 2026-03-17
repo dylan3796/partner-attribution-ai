@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
@@ -276,11 +276,30 @@ export default function DashboardPage() {
   const openConflicts = convexChannelConflicts ?? [];
   const pendingMDF = (convexMdfRequests ?? []).filter((r: any) => r.status === "pending");
 
+    const seedMyOrg = useMutation(api.seedDemo.seedMyOrg);
+  const [seeding, setSeeding] = useState(false);
+  const [seedDone, setSeedDone] = useState(false);
+
+  const isEmpty = dashboardData !== undefined && dashboardData.stats.totalPartners === 0 && storePartners.length === 0;
+
+  async function handleLoadSampleData() {
+    setSeeding(true);
+    try {
+      await seedMyOrg({});
+      setSeedDone(true);
+      setTimeout(() => window.location.reload(), 800);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setSeeding(false);
+    }
+  }
+
   // First-run detection: redirect to setup if truly empty (no Convex data loaded yet, no store data)
   useEffect(() => {
     const setupComplete = localStorage.getItem("covant_setup_complete");
     if (!setupComplete && storePartners.length === 0 && storeDeals.length === 0 && dashboardData !== undefined && dashboardData.stats.totalPartners === 0) {
-      router.push("/setup");
+      // Don't redirect — show sample data prompt instead
     }
   }, [storePartners.length, storeDeals.length, dashboardData, router]);
 
@@ -290,6 +309,42 @@ export default function DashboardPage() {
       <DemoBanner />
       <UpgradeBanner />
       <WelcomeBanner />
+
+      {/* Empty org — offer sample data */}
+      {isEmpty && !seedDone && (
+        <div style={{
+          background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 12,
+          padding: "2.5rem", textAlign: "center", marginBottom: "2rem",
+        }}>
+          <div style={{ fontSize: "2rem", marginBottom: ".75rem" }}>📊</div>
+          <h3 style={{ fontWeight: 700, fontSize: "1.1rem", color: "#0a0a0a", marginBottom: ".5rem" }}>
+            Your dashboard is empty
+          </h3>
+          <p style={{ color: "#6b7280", fontSize: ".9rem", marginBottom: "1.5rem", maxWidth: 420, margin: "0 auto .75rem" }}>
+            Load a sample dataset to explore the full platform — 5 partners, 17 deals, attributions, and payouts already wired up.
+          </p>
+          <div style={{ display: "flex", gap: ".75rem", justifyContent: "center", flexWrap: "wrap", marginTop: "1.25rem" }}>
+            <button
+              onClick={handleLoadSampleData}
+              disabled={seeding}
+              style={{
+                background: "#0a0a0a", color: "#fff", border: "none", borderRadius: 8,
+                padding: ".65rem 1.5rem", fontWeight: 600, fontSize: ".9rem",
+                cursor: seeding ? "not-allowed" : "pointer", opacity: seeding ? .6 : 1,
+              }}
+            >
+              {seeding ? "Loading..." : seedDone ? "✓ Done — reloading..." : "Load sample data"}
+            </button>
+            <Link href="/setup" style={{
+              background: "#fff", color: "#374151", border: "1px solid #e5e7eb", borderRadius: 8,
+              padding: ".65rem 1.5rem", fontWeight: 600, fontSize: ".9rem", textDecoration: "none",
+              display: "inline-block",
+            }}>
+              Import my own data →
+            </Link>
+          </div>
+        </div>
+      )}
       <GettingStartedChecklist
         totalPartners={stats?.totalPartners ?? 0}
         totalDeals={stats?.totalDeals ?? 0}

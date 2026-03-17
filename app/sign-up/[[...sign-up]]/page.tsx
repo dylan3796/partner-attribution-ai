@@ -18,7 +18,7 @@ export default function SignUpPage() {
         <p style={{ color: '#888', fontSize: '0.85rem', marginTop: 4 }}>Partner Intelligence Platform</p>
       </div>
       <SignUp
-        fallbackRedirectUrl="/onboard"
+        fallbackRedirectUrl="/onboard/describe"
         appearance={{
           elements: {
             formFieldInput__username: { display: 'none' },

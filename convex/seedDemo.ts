@@ -252,3 +252,151 @@ export const clearDemo = mutation({
     return { status: "cleared", deleted };
   },
 });
+
+/**
+ * seedMyOrg — seeds demo data into the CURRENT authenticated user's org.
+ * Called from the dashboard "Load sample data" button.
+ * Idempotent: skips if org already has partners.
+ */
+export const seedMyOrg = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const { getOrg } = await import("./lib/getOrg");
+    const org = await getOrg(ctx);
+    if (!org) return { status: "no_org" };
+
+    // Idempotency: skip if already has partners
+    const existing = await ctx.db
+      .query("partners")
+      .withIndex("by_organization", (q) => q.eq("organizationId", org._id))
+      .first();
+    if (existing) return { status: "already_has_data", count: 1 };
+
+    const orgId = org._id;
+
+    // Commission rules
+    await ctx.db.insert("commissionRules", { organizationId: orgId, name: "Gold Reseller", partnerType: "reseller", partnerTier: "gold", rate: 0.18, priority: 1, createdAt: now - 85 * DAY });
+    await ctx.db.insert("commissionRules", { organizationId: orgId, name: "Standard Reseller", partnerType: "reseller", rate: 0.15, priority: 2, createdAt: now - 85 * DAY });
+    await ctx.db.insert("commissionRules", { organizationId: orgId, name: "Referral", partnerType: "referral", rate: 0.12, priority: 3, createdAt: now - 85 * DAY });
+    await ctx.db.insert("commissionRules", { organizationId: orgId, name: "Affiliate", partnerType: "affiliate", rate: 0.08, priority: 4, createdAt: now - 85 * DAY });
+
+    // Partners
+    const pIds: Id<"partners">[] = [];
+    for (const p of PARTNERS) {
+      const id = await ctx.db.insert("partners", {
+        organizationId: orgId,
+        name: p.name,
+        email: p.email,
+        contactName: p.contactName,
+        type: p.type,
+        tier: p.tier,
+        commissionRate: p.commissionRate,
+        status: p.status,
+        tags: p.tags,
+        notes: "",
+        createdAt: now - 80 * DAY,
+      });
+      pIds.push(id);
+    }
+
+    // Deals + attributions + payouts
+    for (let i = 0; i < DEALS.length; i++) {
+      const d = DEALS[i];
+      const primaryIdx = i % pIds.length;
+      const primaryId = pIds[primaryIdx];
+      const closedAt = d.status === "won" ? now - d.daysAgo * DAY : undefined;
+
+      const dealId = await ctx.db.insert("deals", {
+        organizationId: orgId,
+        name: d.name,
+        amount: d.amount,
+        status: d.status,
+        closedAt,
+        createdAt: now - (d.daysAgo + 14) * DAY,
+        registeredBy: primaryId,
+        registrationStatus: "approved",
+        productName: "Platform License",
+        contactName: d.name.split("—")[0].trim(),
+      });
+
+      await ctx.db.insert("touchpoints", {
+        organizationId: orgId,
+        dealId,
+        partnerId: primaryId,
+        type: "deal_registration",
+        notes: "Deal registered by partner",
+        createdAt: now - (d.daysAgo + 14) * DAY,
+      });
+
+      const hasSecond = i % 3 === 0;
+      const secondIdx = (primaryIdx + 2) % pIds.length;
+      const secondId = hasSecond && secondIdx !== primaryIdx ? pIds[secondIdx] : undefined;
+
+      if (secondId) {
+        await ctx.db.insert("touchpoints", {
+          organizationId: orgId,
+          dealId,
+          partnerId: secondId,
+          type: "referral",
+          notes: "Initial introduction",
+          createdAt: now - (d.daysAgo + 21) * DAY,
+        });
+      }
+
+      if (d.status === "won") {
+        const primaryPct = secondId ? 0.7 : 1.0;
+        const secondPct = secondId ? 0.3 : 0.0;
+        const primaryRate = PARTNERS[primaryIdx].commissionRate;
+
+        await ctx.db.insert("attributions", {
+          organizationId: orgId,
+          dealId,
+          partnerId: primaryId,
+          model: "role_based",
+          percentage: primaryPct,
+          amount: Math.round(d.amount * primaryPct),
+          commissionAmount: Math.round(d.amount * primaryPct * primaryRate),
+          calculatedAt: closedAt!,
+        });
+
+        const payoutStatus = d.daysAgo > 30 ? "paid" as const : d.daysAgo > 15 ? "approved" as const : "pending_approval" as const;
+        await ctx.db.insert("payouts", {
+          organizationId: orgId,
+          partnerId: primaryId,
+          amount: Math.round(d.amount * primaryPct * primaryRate),
+          status: payoutStatus,
+          paidAt: payoutStatus === "paid" ? closedAt! + 14 * DAY : undefined,
+          createdAt: closedAt!,
+        });
+
+        if (secondId) {
+          const secondRate = PARTNERS[secondIdx].commissionRate;
+          await ctx.db.insert("attributions", {
+            organizationId: orgId,
+            dealId,
+            partnerId: secondId,
+            model: "role_based",
+            percentage: secondPct,
+            amount: Math.round(d.amount * secondPct),
+            commissionAmount: Math.round(d.amount * secondPct * secondRate),
+            calculatedAt: closedAt!,
+          });
+          await ctx.db.insert("payouts", {
+            organizationId: orgId,
+            partnerId: secondId,
+            amount: Math.round(d.amount * secondPct * secondRate),
+            status: payoutStatus,
+            paidAt: payoutStatus === "paid" ? closedAt! + 14 * DAY : undefined,
+            createdAt: closedAt!,
+          });
+        }
+      }
+    }
+
+    return { status: "seeded", partners: PARTNERS.length, deals: DEALS.length };
+  },
+});
+
+// Aliases for backward compat (setup wizard, admin, demo pages)
+export const seedDemoData = seedAll;
+export const clearDemoData = clearDemo;
