@@ -10,7 +10,9 @@ const isProtectedRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
+  // Allow unauthenticated access to /dashboard?demo=true (live demo flow)
+  const isDemo = req.nextUrl.searchParams.get('demo') === 'true';
+  if (isProtectedRoute(req) && !isDemo) {
     await auth.protect();
   }
 });
