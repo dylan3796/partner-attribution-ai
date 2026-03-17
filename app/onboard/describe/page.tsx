@@ -145,6 +145,12 @@ export default function DescribePage() {
           <p style={{ color: "#6b7280", fontSize: "1rem", lineHeight: 1.5 }}>
             Tell us how it works — in plain English. We&apos;ll configure the rules automatically.
           </p>
+          <button
+            onClick={() => router.push("/dashboard")}
+            style={{ marginTop: ".75rem", background: "none", border: "none", color: "#9ca3af", fontSize: ".85rem", cursor: "pointer", textDecoration: "underline" }}
+          >
+            Skip for now →
+          </button>
         </div>
 
         {/* Text input */}
