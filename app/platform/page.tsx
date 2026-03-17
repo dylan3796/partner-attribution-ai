@@ -75,17 +75,17 @@ const WHO = [
   {
     role: "VP of Partnerships",
     pain: "Runs a $10M+ indirect channel on spreadsheets and hope.",
-    value: "Finally has a system of record that shows exactly what's working.",
+    after: "Finally has a system of record that shows exactly what's working.",
   },
   {
     role: "Channel Sales Manager",
     pain: "Spends 40% of time resolving commission disputes and chasing deal status.",
-    value: "Disputes drop. Partner satisfaction goes up. Time goes back to selling.",
+    after: "Disputes drop. Partner satisfaction goes up. Time goes back to selling.",
   },
   {
     role: "Head of Alliances",
     pain: "Can't prove partner ROI to the board, so budget stays flat.",
-    value: "Has the attribution data to show partner-sourced revenue clearly.",
+    after: "Has the attribution data to show partner-sourced revenue clearly.",
   },
 ];
 
@@ -368,7 +368,7 @@ export default function PlatformPage() {
                   </div>
                   <div>
                     <div style={{ fontSize: ".7rem", fontWeight: 600, color: "#22c55e", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "0.4rem" }}>After Covant</div>
-                    <p style={{ color: "#374151", fontSize: ".9rem", lineHeight: 1.6 }}>{w.after}</p>
+                    <p style={{ color: "#374151", fontSize: ".9rem", lineHeight: 1.6 }}>{w.after as string}</p>
                   </div>
                 </div>
               </div>
