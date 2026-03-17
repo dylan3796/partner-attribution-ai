@@ -1,618 +1,254 @@
+/**
+ * seedDemo.ts — Seed a realistic sample dataset into Covant.
+ *
+ * Run: npx convex run seedDemo:seedAll
+ *
+ * Creates 1 org, 5 partners, 17 deals, touchpoints, attributions,
+ * commission rules, and payouts — all scoped to the demo org.
+ *
+ * Portal login: use any partner email below with /portal
+ */
+
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
+import type { Id } from "./_generated/dataModel";
 
-// This seed script creates realistic demo data for Horizon Software
-export const seedDemoData = mutation({
+const DAY = 86_400_000;
+const now = Date.now();
+
+const DEMO_ORG_EMAIL = "ops@horizonsoftware.com";
+
+const PARTNERS = [
+  { name: "TechBridge Solutions",  email: "sarah.chen@techbridge.io",  contactName: "Sarah Chen",   type: "reseller" as const, tier: "gold" as const,   commissionRate: 0.18, status: "active" as const, tags: ["Top Performer", "Strategic"] },
+  { name: "Apex Growth Group",     email: "marcus.webb@apexgrowth.com", contactName: "Marcus Webb",  type: "referral" as const, tier: "silver" as const, commissionRate: 0.12, status: "active" as const, tags: ["Strategic"] },
+  { name: "Stackline Agency",      email: "priya.patel@stackline.co",   contactName: "Priya Patel",  type: "reseller" as const, tier: "silver" as const, commissionRate: 0.15, status: "active" as const, tags: ["Strategic"] },
+  { name: "Northlight Solutions",  email: "james.kim@northlight.io",    contactName: "James Kim",    type: "affiliate" as const,tier: "bronze" as const, commissionRate: 0.08, status: "active" as const, tags: ["New"] },
+  { name: "Clearpath Consulting",  email: "elena.torres@clearpath.io",  contactName: "Elena Torres", type: "referral" as const, tier: "gold" as const,   commissionRate: 0.12, status: "active" as const, tags: ["Top Performer", "Strategic"] },
+];
+
+const DEALS = [
+  { name: "Acme Corp — Enterprise License",       amount: 84000,  status: "won" as const,  daysAgo: 45 },
+  { name: "BlueSky Retail — Annual Plan",          amount: 36000,  status: "won" as const,  daysAgo: 38 },
+  { name: "Meridian Health — Platform Access",     amount: 120000, status: "won" as const,  daysAgo: 30 },
+  { name: "Finvest Capital — Team Plan",           amount: 48000,  status: "won" as const,  daysAgo: 22 },
+  { name: "Orbis Logistics — Integration Tier",   amount: 29000,  status: "won" as const,  daysAgo: 18 },
+  { name: "Cascade Foods — Growth Plan",           amount: 18000,  status: "won" as const,  daysAgo: 15 },
+  { name: "Voltex Energy — Enterprise",            amount: 95000,  status: "won" as const,  daysAgo: 60 },
+  { name: "Novo Ventures — Starter",               amount: 12000,  status: "won" as const,  daysAgo: 55 },
+  { name: "Paloma Studios — Annual",               amount: 24000,  status: "won" as const,  daysAgo: 50 },
+  { name: "HarbourTech — Scale Plan",              amount: 67000,  status: "won" as const,  daysAgo: 70 },
+  { name: "Summit Analytics — Enterprise",         amount: 110000, status: "open" as const, daysAgo: 5  },
+  { name: "GreenLeaf Markets — Annual",            amount: 42000,  status: "open" as const, daysAgo: 8  },
+  { name: "Ironclad Security — Platform",          amount: 78000,  status: "open" as const, daysAgo: 3  },
+  { name: "Vertex Systems — Growth",               amount: 33000,  status: "open" as const, daysAgo: 12 },
+  { name: "Pulse Media — Starter",                 amount: 9600,   status: "open" as const, daysAgo: 2  },
+  { name: "Nova Brands — Annual",                  amount: 15000,  status: "lost" as const, daysAgo: 25 },
+  { name: "Driftwood Logistics — Enterprise",      amount: 88000,  status: "lost" as const, daysAgo: 40 },
+];
+
+export const seedAll = mutation({
   args: {},
   handler: async (ctx) => {
-    // Create demo organization - Horizon Software
-    const orgId = await ctx.db.insert("organizations", {
-      name: "Horizon Software",
-      email: "admin@horizonsoftware.com",
-      apiKey: "demo-api-key-" + Date.now(),
-      plan: "growth",
-      defaultAttributionModel: "time_decay",
-      createdAt: Date.now() - 180 * 24 * 60 * 60 * 1000, // 6 months ago
-    });
-
-    // Create 5 realistic partner companies
-    const partners = [
-      {
-        name: "TechBridge Partners",
-        email: "sarah.chen@techbridge.io",
-        type: "reseller" as const,
-        tier: "gold" as const,
-        commissionRate: 18,
-        contactName: "Sarah Chen",
-        contactPhone: "+1-415-555-0142",
-        territory: "West Coast",
-        status: "active" as const,
-        notes: "Premier reseller partner since 2024. Strong enterprise relationships in Silicon Valley.",
-        tags: ["Top Performer", "Strategic", "Enterprise"],
-        createdAt: Date.now() - 150 * 24 * 60 * 60 * 1000,
-      },
-      {
-        name: "Apex Growth Group",
-        email: "marcus.webb@apexgrowth.com",
-        type: "referral" as const,
-        tier: "platinum" as const,
-        commissionRate: 20,
-        contactName: "Marcus Webb",
-        contactPhone: "+1-212-555-0193",
-        territory: "National",
-        status: "active" as const,
-        notes: "Top-tier strategic partner. Largest referral volume. Executive relationships at Fortune 500.",
-        tags: ["VIP", "Top Performer"],
-        createdAt: Date.now() - 200 * 24 * 60 * 60 * 1000,
-      },
-      {
-        name: "Stackline Agency",
-        email: "priya.patel@stackline.co",
-        type: "reseller" as const,
-        tier: "silver" as const,
-        commissionRate: 15,
-        contactName: "Priya Patel",
-        contactPhone: "+1-617-555-0287",
-        territory: "East Coast",
-        status: "active" as const,
-        notes: "Growing mid-market focus. Strong technical implementation team.",
-        tags: ["Expansion"],
-        createdAt: Date.now() - 120 * 24 * 60 * 60 * 1000,
-      },
-      {
-        name: "Northlight Solutions",
-        email: "james.kim@northlight.io",
-        type: "integration" as const,
-        tier: "gold" as const,
-        commissionRate: 12,
-        contactName: "James Kim",
-        contactPhone: "+65-8555-0341",
-        territory: "APAC",
-        status: "active" as const,
-        notes: "Key integration partner for Asia-Pacific expansion. Deep technical expertise.",
-        createdAt: Date.now() - 90 * 24 * 60 * 60 * 1000,
-      },
-      {
-        name: "Clearpath Consulting",
-        email: "elena.torres@clearpath.io",
-        type: "referral" as const,
-        tier: "bronze" as const,
-        commissionRate: 10,
-        contactName: "Elena Torres",
-        contactPhone: "+1-312-555-0456",
-        territory: "Midwest",
-        status: "active" as const,
-        notes: "Emerging partner in Midwest region. Building pipeline steadily.",
-        tags: ["New", "Needs Attention"],
-        createdAt: Date.now() - 60 * 24 * 60 * 60 * 1000,
-      },
-    ];
-
-    const partnerIds: Record<string, any> = {};
-    for (const partner of partners) {
-      const id = await ctx.db.insert("partners", {
-        organizationId: orgId,
-        ...partner,
-      });
-      partnerIds[partner.name] = id;
+    // ── Idempotency ───────────────────────────────────────────────
+    const existing = await ctx.db
+      .query("organizations")
+      .filter((q) => q.eq(q.field("email"), DEMO_ORG_EMAIL))
+      .first();
+    if (existing) {
+      return { status: "already_seeded", orgId: existing._id, message: "Already seeded. Run clearDemo first to reseed." };
     }
 
-    // Helper for date math
-    const DAY = 24 * 60 * 60 * 1000;
-    const now = Date.now();
+    // ── 1. Organization ───────────────────────────────────────────
+    const orgId = await ctx.db.insert("organizations", {
+      name: "Horizon Software",
+      email: DEMO_ORG_EMAIL,
+      apiKey: `ck_demo_${Math.random().toString(36).slice(2, 18)}`,
+      plan: "growth",
+      defaultAttributionModel: "role_based",
+      createdAt: now - 90 * DAY,
+    });
 
-    // Create 22 realistic deals across all partners with varied values, stages, statuses
-    const deals = [
-      // ── TechBridge Partners (Gold reseller, highest revenue) ──
-      { name: "CloudSync Enterprise License", amount: 85000, status: "won" as const, closedAt: now - 5 * DAY, contactName: "David Mitchell", contactEmail: "dmitchell@accenture.com", registeredBy: partnerIds["TechBridge Partners"], registrationStatus: "approved" as const, partner: "TechBridge Partners", productName: "Horizon Enterprise Suite", touchpoints: [{ type: "deal_registration" as const, daysAgo: 45 }, { type: "demo" as const, daysAgo: 30 }, { type: "proposal" as const, daysAgo: 15 }, { type: "negotiation" as const, daysAgo: 7 }] },
-      { name: "Security Platform Overhaul", amount: 145000, status: "won" as const, closedAt: now - 35 * DAY, contactName: "Laura Chen", contactEmail: "lchen@databricks.com", registeredBy: partnerIds["TechBridge Partners"], registrationStatus: "approved" as const, partner: "TechBridge Partners", productName: "Horizon Enterprise Suite", touchpoints: [{ type: "deal_registration" as const, daysAgo: 90 }, { type: "demo" as const, daysAgo: 75 }, { type: "technical_enablement" as const, daysAgo: 60 }, { type: "negotiation" as const, daysAgo: 40 }] },
-      { name: "Multi-Cloud Migration Suite", amount: 210000, status: "won" as const, closedAt: now - 65 * DAY, contactName: "James Wilson", contactEmail: "jwilson@twilio.com", partner: "TechBridge Partners", touchpoints: [{ type: "referral" as const, daysAgo: 120 }, { type: "demo" as const, daysAgo: 100 }, { type: "co_sell" as const, daysAgo: 80 }, { type: "proposal" as const, daysAgo: 70 }] },
-      { name: "Infrastructure Modernization", amount: 120000, status: "open" as const, expectedCloseDate: now + 45 * DAY, contactName: "Robert Kim", contactEmail: "rkim@snowflake.com", registeredBy: partnerIds["TechBridge Partners"], registrationStatus: "pending" as const, partner: "TechBridge Partners", touchpoints: [{ type: "deal_registration" as const, daysAgo: 14 }, { type: "demo" as const, daysAgo: 7 }] },
-      { name: "API Gateway Enterprise", amount: 67000, status: "open" as const, expectedCloseDate: now + 20 * DAY, contactName: "Sarah Park", contactEmail: "spark@figma.com", registeredBy: partnerIds["TechBridge Partners"], registrationStatus: "approved" as const, partner: "TechBridge Partners", touchpoints: [{ type: "deal_registration" as const, daysAgo: 30 }, { type: "demo" as const, daysAgo: 18 }, { type: "proposal" as const, daysAgo: 8 }] },
+    // ── 2. Commission Rules ───────────────────────────────────────
+    await ctx.db.insert("commissionRules", {
+      organizationId: orgId,
+      name: "Gold Reseller",
+      partnerType: "reseller",
+      partnerTier: "gold",
+      rate: 0.18,
+      priority: 1,
+      createdAt: now - 85 * DAY,
+    });
+    await ctx.db.insert("commissionRules", {
+      organizationId: orgId,
+      name: "Standard Reseller",
+      partnerType: "reseller",
+      rate: 0.15,
+      priority: 2,
+      createdAt: now - 85 * DAY,
+    });
+    await ctx.db.insert("commissionRules", {
+      organizationId: orgId,
+      name: "Referral",
+      partnerType: "referral",
+      rate: 0.12,
+      priority: 3,
+      createdAt: now - 85 * DAY,
+    });
+    await ctx.db.insert("commissionRules", {
+      organizationId: orgId,
+      name: "Affiliate",
+      partnerType: "affiliate",
+      rate: 0.08,
+      priority: 4,
+      createdAt: now - 85 * DAY,
+    });
 
-      // ── Apex Growth Group (referral, high volume, many smaller deals) ──
-      { name: "DevOps Transformation Suite", amount: 42000, status: "won" as const, closedAt: now - 12 * DAY, contactName: "Rachel Green", contactEmail: "rgreen@zendesk.com", partner: "Apex Growth Group", touchpoints: [{ type: "referral" as const, daysAgo: 60 }, { type: "introduction" as const, daysAgo: 50 }, { type: "demo" as const, daysAgo: 35 }, { type: "proposal" as const, daysAgo: 20 }] },
-      { name: "Customer Success Analytics", amount: 38000, status: "won" as const, closedAt: now - 28 * DAY, contactName: "Tom Richards", contactEmail: "trichards@intercom.com", partner: "Apex Growth Group", touchpoints: [{ type: "referral" as const, daysAgo: 70 }, { type: "demo" as const, daysAgo: 50 }, { type: "proposal" as const, daysAgo: 35 }] },
-      { name: "Marketing Automation Connector", amount: 25000, status: "won" as const, closedAt: now - 50 * DAY, contactName: "Nadia Patel", contactEmail: "npatel@notion.so", partner: "Apex Growth Group", touchpoints: [{ type: "referral" as const, daysAgo: 95 }, { type: "introduction" as const, daysAgo: 80 }, { type: "demo" as const, daysAgo: 65 }] },
-      { name: "Revenue Intelligence Platform", amount: 95000, status: "open" as const, expectedCloseDate: now + 30 * DAY, contactName: "Amanda Foster", contactEmail: "afoster@hubspot.com", registeredBy: partnerIds["Apex Growth Group"], registrationStatus: "approved" as const, partner: "Apex Growth Group", productName: "AI Analytics Module", touchpoints: [{ type: "deal_registration" as const, daysAgo: 35 }, { type: "co_sell" as const, daysAgo: 20 }, { type: "proposal" as const, daysAgo: 8 }] },
-      { name: "Sales Enablement Tool", amount: 18000, status: "open" as const, expectedCloseDate: now + 15 * DAY, contactName: "Jake Morrison", contactEmail: "jmorrison@gong.io", partner: "Apex Growth Group", touchpoints: [{ type: "referral" as const, daysAgo: 25 }, { type: "demo" as const, daysAgo: 12 }] },
-      { name: "Team Collaboration Hub", amount: 32000, status: "lost" as const, closedAt: now - 40 * DAY, contactName: "Emily Watson", contactEmail: "ewatson@asana.com", partner: "Apex Growth Group", touchpoints: [{ type: "referral" as const, daysAgo: 85 }, { type: "demo" as const, daysAgo: 65 }, { type: "proposal" as const, daysAgo: 50 }] },
+    // ── 3. Partners ───────────────────────────────────────────────
+    const pIds: Id<"partners">[] = [];
+    for (const p of PARTNERS) {
+      const id = await ctx.db.insert("partners", {
+        organizationId: orgId,
+        name: p.name,
+        email: p.email,
+        contactName: p.contactName,
+        type: p.type,
+        tier: p.tier,
+        commissionRate: p.commissionRate,
+        status: p.status,
+        tags: p.tags,
+        notes: "",
+        createdAt: now - 80 * DAY,
+      });
+      pIds.push(id);
+    }
 
-      // ── Stackline Agency (newer reseller, building pipeline) ──
-      { name: "Data Analytics Platform", amount: 67000, status: "open" as const, expectedCloseDate: now + 21 * DAY, contactName: "Jennifer Wu", contactEmail: "jwu@salesforce.com", registeredBy: partnerIds["Stackline Agency"], registrationStatus: "approved" as const, partner: "Stackline Agency", productName: "Horizon Professional", touchpoints: [{ type: "deal_registration" as const, daysAgo: 28 }, { type: "demo" as const, daysAgo: 14 }, { type: "technical_enablement" as const, daysAgo: 7 }] },
-      { name: "Compliance Dashboard", amount: 48000, status: "won" as const, closedAt: now - 22 * DAY, contactName: "Brian Lee", contactEmail: "blee@plaid.com", registeredBy: partnerIds["Stackline Agency"], registrationStatus: "approved" as const, partner: "Stackline Agency", touchpoints: [{ type: "deal_registration" as const, daysAgo: 55 }, { type: "demo" as const, daysAgo: 40 }, { type: "proposal" as const, daysAgo: 28 }] },
-      { name: "HR Analytics Dashboard", amount: 32000, status: "won" as const, closedAt: now - 42 * DAY, contactName: "Amy Zhao", contactEmail: "azhao@workday.com", registeredBy: partnerIds["Stackline Agency"], registrationStatus: "approved" as const, partner: "Stackline Agency", touchpoints: [{ type: "deal_registration" as const, daysAgo: 70 }, { type: "demo" as const, daysAgo: 55 }, { type: "proposal" as const, daysAgo: 45 }] },
-      { name: "Supply Chain Visibility Tool", amount: 24000, status: "won" as const, closedAt: now - 58 * DAY, contactName: "Derek Olson", contactEmail: "dolson@flexport.com", partner: "Stackline Agency", touchpoints: [{ type: "referral" as const, daysAgo: 85 }, { type: "demo" as const, daysAgo: 70 }, { type: "proposal" as const, daysAgo: 62 }] },
-      { name: "Workflow Automation Lite", amount: 15000, status: "open" as const, expectedCloseDate: now + 60 * DAY, contactName: "Maria Santos", contactEmail: "msantos@zapier.com", partner: "Stackline Agency", touchpoints: [{ type: "referral" as const, daysAgo: 10 }] },
-      { name: "Employee Onboarding Suite", amount: 22000, status: "lost" as const, closedAt: now - 15 * DAY, contactName: "Chris Taylor", contactEmail: "ctaylor@rippling.com", partner: "Stackline Agency", touchpoints: [{ type: "deal_registration" as const, daysAgo: 45 }, { type: "demo" as const, daysAgo: 30 }, { type: "proposal" as const, daysAgo: 20 }] },
+    // ── 4. Deals + Touchpoints + Attributions + Payouts ──────────
+    for (let i = 0; i < DEALS.length; i++) {
+      const d = DEALS[i];
+      const primaryIdx = i % pIds.length;
+      const primaryId = pIds[primaryIdx];
+      const closedAt = d.status === "won" ? now - d.daysAgo * DAY : undefined;
 
-      // ── Northlight Solutions (Gold reseller, strong performer) ──
-      { name: "Enterprise SSO Integration", amount: 28000, status: "open" as const, expectedCloseDate: now + 14 * DAY, contactName: "Michael Chang", contactEmail: "mchang@stripe.com", partner: "Northlight Solutions", touchpoints: [{ type: "referral" as const, daysAgo: 21 }, { type: "demo" as const, daysAgo: 10 }] },
-      { name: "Identity Management Platform", amount: 175000, status: "won" as const, closedAt: now - 18 * DAY, contactName: "Diana Ross", contactEmail: "dross@okta.com", registeredBy: partnerIds["Northlight Solutions"], registrationStatus: "approved" as const, partner: "Northlight Solutions", productName: "Horizon Enterprise Suite", touchpoints: [{ type: "deal_registration" as const, daysAgo: 60 }, { type: "demo" as const, daysAgo: 45 }, { type: "technical_enablement" as const, daysAgo: 30 }, { type: "negotiation" as const, daysAgo: 22 }] },
-      { name: "Zero Trust Architecture", amount: 250000, status: "open" as const, expectedCloseDate: now + 55 * DAY, contactName: "Victor Huang", contactEmail: "vhuang@crowdstrike.com", registeredBy: partnerIds["Northlight Solutions"], registrationStatus: "approved" as const, partner: "Northlight Solutions", productName: "Implementation Package", touchpoints: [{ type: "deal_registration" as const, daysAgo: 20 }, { type: "demo" as const, daysAgo: 12 }, { type: "co_sell" as const, daysAgo: 5 }] },
-      { name: "Endpoint Protection Suite", amount: 55000, status: "won" as const, closedAt: now - 75 * DAY, contactName: "Kate Miller", contactEmail: "kmiller@sentinelone.com", partner: "Northlight Solutions", touchpoints: [{ type: "referral" as const, daysAgo: 110 }, { type: "demo" as const, daysAgo: 95 }, { type: "proposal" as const, daysAgo: 80 }] },
-
-      // ── Clearpath Consulting (referral, mixed results) ──
-      { name: "Partner Portal Deployment", amount: 38000, status: "lost" as const, closedAt: now - 20 * DAY, contactName: "Kevin Park", contactEmail: "kpark@docusign.com", partner: "Clearpath Consulting", touchpoints: [{ type: "referral" as const, daysAgo: 55 }, { type: "demo" as const, daysAgo: 40 }, { type: "proposal" as const, daysAgo: 30 }] },
-      { name: "Content Management System", amount: 33000, status: "won" as const, closedAt: now - 45 * DAY, contactName: "Lisa Nguyen", contactEmail: "lnguyen@contentful.com", partner: "Clearpath Consulting", touchpoints: [{ type: "referral" as const, daysAgo: 90 }, { type: "introduction" as const, daysAgo: 75 }, { type: "demo" as const, daysAgo: 55 }] },
-      { name: "Digital Experience Platform", amount: 72000, status: "open" as const, expectedCloseDate: now + 40 * DAY, contactName: "Peter Walsh", contactEmail: "pwalsh@adobe.com", partner: "Clearpath Consulting", touchpoints: [{ type: "referral" as const, daysAgo: 18 }, { type: "demo" as const, daysAgo: 8 }] },
-    ];
-
-    for (const deal of deals) {
       const dealId = await ctx.db.insert("deals", {
         organizationId: orgId,
-        name: deal.name,
-        amount: deal.amount,
-        status: deal.status,
-        closedAt: deal.closedAt,
-        expectedCloseDate: deal.expectedCloseDate,
-        contactName: deal.contactName,
-        contactEmail: deal.contactEmail,
-        productName: (deal as any).productName,
-        registeredBy: deal.registeredBy,
-        registrationStatus: deal.registrationStatus,
-        createdAt: Date.now() - (deal.touchpoints[0]?.daysAgo || 30) * 24 * 60 * 60 * 1000,
+        name: d.name,
+        amount: d.amount,
+        status: d.status,
+        closedAt,
+        createdAt: now - (d.daysAgo + 14) * DAY,
+        registeredBy: primaryId,
+        registrationStatus: "approved",
+        productName: "Platform License",
+        contactName: d.name.split("—")[0].trim(),
       });
 
-      // Create touchpoints
-      const partnerId = partnerIds[deal.partner];
-      for (const tp of deal.touchpoints) {
+      // Primary touchpoint — deal registration
+      await ctx.db.insert("touchpoints", {
+        organizationId: orgId,
+        dealId,
+        partnerId: primaryId,
+        type: "deal_registration",
+        notes: "Deal registered by partner",
+        
+        createdAt: now - (d.daysAgo + 14) * DAY,
+      });
+
+      // ~40% of deals get a second partner (referral touchpoint)
+      const hasSecond = i % 3 === 0;
+      const secondIdx = (primaryIdx + 2) % pIds.length;
+      const secondId = hasSecond && secondIdx !== primaryIdx ? pIds[secondIdx] : undefined;
+
+      if (secondId) {
         await ctx.db.insert("touchpoints", {
           organizationId: orgId,
           dealId,
-          partnerId,
-          type: tp.type,
-          createdAt: Date.now() - tp.daysAgo * 24 * 60 * 60 * 1000,
+          partnerId: secondId,
+          type: "referral",
+          notes: "Initial introduction",
+          
+          createdAt: now - (d.daysAgo + 21) * DAY,
         });
       }
 
-      // Create attribution for won deals
-      if (deal.status === "won") {
-        const commissionRate = partners.find(p => p.name === deal.partner)?.commissionRate || 15;
-        const attributedAmount = deal.amount;
-        const commissionAmount = (attributedAmount * commissionRate) / 100;
+      // Attributions + payouts only for won deals
+      if (d.status === "won") {
+        const primaryPct = secondId ? 0.7 : 1.0;
+        const secondPct  = secondId ? 0.3 : 0.0;
 
         await ctx.db.insert("attributions", {
           organizationId: orgId,
           dealId,
-          partnerId,
-          model: "time_decay",
-          percentage: 100,
-          amount: attributedAmount,
-          commissionAmount,
-          calculatedAt: deal.closedAt!,
+          partnerId: primaryId,
+          model: "role_based",
+          percentage: primaryPct,
+          amount: Math.round(d.amount * primaryPct),
+          commissionAmount: Math.round(d.amount * primaryPct * PARTNERS[primaryIdx].commissionRate),
+          calculatedAt: closedAt!,
         });
 
-        // Create payout
+        const primaryRate = PARTNERS[primaryIdx].commissionRate;
+        const primaryCommission = Math.round(d.amount * primaryPct * primaryRate);
+        const payoutStatus = d.daysAgo > 30 ? "paid" as const : d.daysAgo > 15 ? "approved" as const : "pending_approval" as const;
+
         await ctx.db.insert("payouts", {
           organizationId: orgId,
-          partnerId,
-          amount: commissionAmount,
-          status: deal.closedAt! > Date.now() - 30 * 24 * 60 * 60 * 1000 
-            ? "pending_approval" 
-            : "paid",
-          period: new Date(deal.closedAt!).toISOString().slice(0, 7),
-          paidAt: deal.closedAt! < Date.now() - 30 * 24 * 60 * 60 * 1000 
-            ? deal.closedAt! + 7 * 24 * 60 * 60 * 1000 
-            : undefined,
-          createdAt: deal.closedAt!,
+          partnerId: primaryId,
+          amount: primaryCommission,
+          status: payoutStatus,
+          paidAt: payoutStatus === "paid" ? closedAt! + 14 * DAY : undefined,
+          createdAt: closedAt!,
         });
+
+        if (secondId) {
+          const secondRate = PARTNERS[secondIdx].commissionRate;
+          await ctx.db.insert("attributions", {
+            organizationId: orgId,
+            dealId,
+            partnerId: secondId,
+            model: "role_based",
+            percentage: secondPct,
+            amount: Math.round(d.amount * secondPct),
+            commissionAmount: Math.round(d.amount * secondPct * secondRate),
+            calculatedAt: closedAt!,
+          });
+          await ctx.db.insert("payouts", {
+            organizationId: orgId,
+            partnerId: secondId,
+            amount: Math.round(d.amount * secondPct * secondRate),
+            status: payoutStatus,
+            paidAt: payoutStatus === "paid" ? closedAt! + 14 * DAY : undefined,
+            createdAt: closedAt!,
+          });
+        }
       }
-    }
-
-    // Create realistic activity log entries
-    const activities = [
-      // Recent deal activity
-      { action: "deal.closed", entity: "deals", timestamp: now - 5 * DAY, metadata: '{"deal":"CloudSync Enterprise License","amount":"$85,000","partner":"TechBridge Partners"}' },
-      { action: "attribution.calculated", entity: "attributions", timestamp: now - 5 * DAY, metadata: '{"model":"deal_reg_protection","partner":"TechBridge Partners","amount":"$85,000"}' },
-      { action: "deal.closed", entity: "deals", timestamp: now - 12 * DAY, metadata: '{"deal":"DevOps Transformation Suite","amount":"$42,000","partner":"Apex Growth Group"}' },
-      { action: "deal.closed", entity: "deals", timestamp: now - 18 * DAY, metadata: '{"deal":"Identity Management Platform","amount":"$175,000","partner":"Northlight Solutions"}' },
-      { action: "deal.closed", entity: "deals", timestamp: now - 22 * DAY, metadata: '{"deal":"Compliance Dashboard","amount":"$48,000","partner":"Stackline Agency"}' },
-      { action: "deal.closed", entity: "deals", timestamp: now - 28 * DAY, metadata: '{"deal":"Customer Success Analytics","amount":"$38,000","partner":"Apex Growth Group"}' },
-      { action: "deal.lost", entity: "deals", timestamp: now - 15 * DAY, metadata: '{"deal":"Employee Onboarding Suite","reason":"Budget cut","partner":"Stackline Agency"}' },
-      { action: "deal.lost", entity: "deals", timestamp: now - 20 * DAY, metadata: '{"deal":"Partner Portal Deployment","reason":"Competitor selected","partner":"Clearpath Consulting"}' },
-      // Payouts
-      { action: "payout.created", entity: "payouts", timestamp: now - 4 * DAY, metadata: '{"partner":"TechBridge Partners","amount":"$15,300"}' },
-      { action: "payout.created", entity: "payouts", timestamp: now - 11 * DAY, metadata: '{"partner":"Apex Growth Group","amount":"$8,400"}' },
-      { action: "payout.approved", entity: "payouts", timestamp: now - 3 * DAY, metadata: '{"partner":"TechBridge Partners","amount":"$15,300","approver":"Admin"}' },
-      { action: "payout.paid", entity: "payouts", timestamp: now - 1 * DAY, metadata: '{"partner":"TechBridge Partners","amount":"$15,300"}' },
-      // Deal registrations
-      { action: "deal.registered", entity: "deals", timestamp: now - 14 * DAY, metadata: '{"deal":"Infrastructure Modernization","partner":"TechBridge Partners"}' },
-      { action: "deal.registered", entity: "deals", timestamp: now - 20 * DAY, metadata: '{"deal":"Zero Trust Architecture","partner":"Northlight Solutions"}' },
-      { action: "deal.approved", entity: "deals", timestamp: now - 19 * DAY, metadata: '{"deal":"Zero Trust Architecture","partner":"Northlight Solutions"}' },
-      // Partner events
-      { action: "partner.created", entity: "partners", timestamp: now - 120 * DAY, metadata: '{"partner":"TechBridge Partners","tier":"gold","type":"reseller"}' },
-      { action: "partner.created", entity: "partners", timestamp: now - 100 * DAY, metadata: '{"partner":"Apex Growth Group","tier":"silver","type":"referral"}' },
-      { action: "partner.created", entity: "partners", timestamp: now - 90 * DAY, metadata: '{"partner":"Stackline Agency","tier":"bronze","type":"reseller"}' },
-      { action: "partner.created", entity: "partners", timestamp: now - 85 * DAY, metadata: '{"partner":"Northlight Solutions","tier":"gold","type":"reseller"}' },
-      { action: "partner.created", entity: "partners", timestamp: now - 60 * DAY, metadata: '{"partner":"Clearpath Consulting","tier":"bronze","type":"referral"}' },
-      { action: "partner.tier_changed", entity: "partners", timestamp: now - 30 * DAY, metadata: '{"partner":"TechBridge Partners","from":"silver","to":"gold","reason":"Score threshold crossed"}' },
-      { action: "partner.tier_changed", entity: "partners", timestamp: now - 25 * DAY, metadata: '{"partner":"Northlight Solutions","from":"silver","to":"gold","reason":"Score threshold crossed"}' },
-      // Config
-      { action: "config.updated", entity: "programConfig", timestamp: now - 45 * DAY, metadata: '{"field":"attributionModel","from":"first_touch","to":"deal_reg_protection"}' },
-      { action: "commission_rule.created", entity: "commissionRules", timestamp: now - 44 * DAY, metadata: '{"rule":"Gold Reseller","rate":"20%"}' },
-      // Touchpoints
-      { action: "touchpoint.created", entity: "touchpoints", timestamp: now - 7 * DAY, metadata: '{"type":"demo","deal":"Infrastructure Modernization","partner":"TechBridge Partners"}' },
-      { action: "touchpoint.created", entity: "touchpoints", timestamp: now - 5 * DAY, metadata: '{"type":"co_sell","deal":"Zero Trust Architecture","partner":"Northlight Solutions"}' },
-    ];
-
-    for (const activity of activities) {
-      await ctx.db.insert("audit_log", {
-        organizationId: orgId,
-        action: activity.action,
-        entityType: activity.entity,
-        entityId: "demo-" + Math.random().toString(36).slice(2),
-        metadata: activity.metadata,
-        createdAt: activity.timestamp,
-      });
-    }
-
-    // ── Product Catalog ─────────────────────────────────────────────────
-    const productSeeds = [
-      { sku: "HRZ-ENT-001", name: "Horizon Enterprise Suite", category: "Software", msrp: 24000, distributorPrice: 16800, description: "Full-featured enterprise platform with unlimited users and SSO" },
-      { sku: "HRZ-PRO-001", name: "Horizon Professional", category: "Software", msrp: 9600, distributorPrice: 7200, description: "Mid-market solution with 50-user cap and standard integrations" },
-      { sku: "HRZ-STR-001", name: "Horizon Starter", category: "Software", msrp: 3600, distributorPrice: 2880, description: "Entry-level plan for small teams up to 10 users" },
-      { sku: "HRZ-API-001", name: "API Access Add-on", category: "Add-ons", msrp: 4800, distributorPrice: 3360, description: "REST + GraphQL API access with 100k requests/mo" },
-      { sku: "HRZ-AI-001", name: "AI Analytics Module", category: "Add-ons", msrp: 6000, distributorPrice: 3900, description: "Predictive analytics, churn scoring, and revenue forecasting" },
-      { sku: "HRZ-IMP-001", name: "Implementation Package", category: "Services", msrp: 15000, distributorPrice: 9000, description: "White-glove onboarding, data migration, and 30-day support" },
-      { sku: "HRZ-TRN-001", name: "Training & Certification", category: "Services", msrp: 5000, distributorPrice: 3000, description: "Partner certification program with 3-day instructor-led training" },
-      { sku: "HRZ-SUP-001", name: "Premium Support", category: "Services", msrp: 12000, distributorPrice: 8400, description: "24/7 support, dedicated CSM, 1-hour SLA" },
-    ];
-    const pNow = Date.now();
-    for (const p of productSeeds) {
-      const margin = Math.round(((p.msrp - p.distributorPrice) / p.msrp) * 100);
-      await ctx.db.insert("products", {
-        organizationId: orgId,
-        sku: p.sku,
-        name: p.name,
-        category: p.category,
-        msrp: p.msrp,
-        distributorPrice: p.distributorPrice,
-        margin,
-        status: "active",
-        description: p.description,
-        createdAt: pNow,
-        updatedAt: pNow,
-      });
-    }
-
-    // ── Commission Rules ──────────────────────────────────────────────────
-    const commissionRuleData = [
-      { name: "Gold Reseller", partnerType: "reseller" as const, partnerTier: "gold" as const, rate: 0.2, priority: 1 },
-      { name: "Reseller Standard", partnerType: "reseller" as const, rate: 0.15, priority: 2 },
-      { name: "Referral Partner", partnerType: "referral" as const, rate: 0.1, priority: 3 },
-      { name: "Enterprise Deals (>$100k)", rate: 0.12, minDealSize: 100000, priority: 4 },
-    ];
-    for (const rule of commissionRuleData) {
-      await ctx.db.insert("commissionRules", {
-        organizationId: orgId,
-        name: rule.name,
-        partnerType: rule.partnerType,
-        partnerTier: rule.partnerTier,
-        rate: rule.rate,
-        minDealSize: rule.minDealSize,
-        priority: rule.priority,
-        createdAt: Date.now(),
-      });
-    }
-
-    // Seed contracts
-    const partnerIdList = Object.values(partnerIds);
-    const contractSeeds = [
-      { partnerId: partnerIdList[0], title: "Strategic Partner Agreement 2025", type: "partner_agreement" as const, status: "active" as const, value: 500000, commissionRate: 25, territory: "North America", autoRenew: true, startDate: "2025-01-15", endDate: "2026-01-14", signedBy: "VP Partnerships", notes: "Includes co-marketing budget of $50k" },
-      { partnerId: partnerIdList[1], title: "Authorized Reseller Agreement", type: "reseller" as const, status: "expiring_soon" as const, value: 250000, commissionRate: 20, territory: "EMEA", autoRenew: false, startDate: "2024-06-01", endDate: "2026-03-01", signedBy: "Director of Alliances", notes: "Renewal discussion scheduled" },
-      { partnerId: partnerIdList[2], title: "Referral Partner Agreement", type: "referral" as const, status: "active" as const, value: 75000, commissionRate: 15, territory: "APAC", autoRenew: true, startDate: "2025-06-01", endDate: "2026-05-31", signedBy: "CEO", notes: "Strong pipeline in Singapore market" },
-      { partnerId: partnerIdList[3 % partnerIdList.length], title: "OEM Embedding License", type: "oem" as const, status: "pending_renewal" as const, value: 1200000, commissionRate: 30, territory: "Global", autoRenew: false, startDate: "2024-03-01", endDate: "2026-02-28", signedBy: "CTO", notes: "Negotiating expanded embedding rights" },
-      { partnerId: partnerIdList[4 % partnerIdList.length], title: "Technology Integration Partnership", type: "technology" as const, status: "active" as const, value: 800000, commissionRate: 22, territory: "North America + EMEA", autoRenew: true, startDate: "2025-04-01", endDate: "2027-03-31", signedBy: "SVP Alliances", notes: "Joint product launch Q2 2026" },
-    ];
-    for (const cs of contractSeeds) {
-      await ctx.db.insert("contracts", {
-        organizationId: orgId,
-        partnerId: cs.partnerId,
-        title: cs.title,
-        type: cs.type,
-        status: cs.status,
-        value: cs.value,
-        commissionRate: cs.commissionRate,
-        territory: cs.territory,
-        autoRenew: cs.autoRenew,
-        startDate: cs.startDate,
-        endDate: cs.endDate,
-        signedBy: cs.signedBy,
-        notes: cs.notes,
-        createdAt: Date.now(),
-        updatedAt: Date.now(),
-      });
-    }
-
-    // Seed territories
-    const territorySeeds = [
-      { name: "West Coast", region: "US West", partner: "TechBridge Partners", accounts: ["Accenture", "Databricks", "Twilio"], isExclusive: true },
-      { name: "East Coast", region: "US East", partner: "Apex Growth Group", accounts: ["Zendesk", "Intercom", "Notion", "HubSpot"], isExclusive: true },
-      { name: "National — Integration", region: "National", partner: "Stackline Agency", accounts: ["Salesforce", "Plaid", "Workday", "Zapier"], isExclusive: false },
-      { name: "APAC", region: "Asia Pacific", partner: "Northlight Solutions", accounts: ["Stripe", "Okta"], isExclusive: true },
-      { name: "Mid-Market National", region: "National", partner: "Clearpath Consulting", accounts: ["Gong", "Asana", "Rippling"], isExclusive: false },
-    ];
-    for (const ts of territorySeeds) {
-      const pid = partnerIds[ts.partner];
-      if (pid) {
-        await ctx.db.insert("territories", {
-          organizationId: orgId,
-          name: ts.name,
-          region: ts.region,
-          partnerId: pid,
-          accounts: ts.accounts,
-          isExclusive: ts.isExclusive,
-          createdAt: Date.now() - 60 * 24 * 60 * 60 * 1000,
-        });
-      }
-    }
-
-    // Seed channel conflicts
-    const conflictSeeds = [
-      {
-        accountName: "HubSpot",
-        partners: ["Apex Growth Group", "Stackline Agency"],
-        status: "open" as const,
-        reportedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
-      },
-      {
-        accountName: "Salesforce",
-        partners: ["Stackline Agency", "Northlight Solutions"],
-        status: "under_review" as const,
-        reportedAt: Date.now() - 5 * 24 * 60 * 60 * 1000,
-      },
-      {
-        accountName: "Stripe",
-        partners: ["Northlight Solutions", "TechBridge Partners"],
-        primaryPartnerId: "Northlight Solutions",
-        status: "resolved" as const,
-        resolution: "assign_primary" as const,
-        resolutionNotes: "Northlight had the initial referral and handled technical integration. TechBridge gets 15% co-sell attribution.",
-        resolvedBy: "Admin User",
-        resolvedAt: Date.now() - 10 * 24 * 60 * 60 * 1000,
-        reportedAt: Date.now() - 15 * 24 * 60 * 60 * 1000,
-      },
-    ];
-    for (const cs of conflictSeeds) {
-      const pIds = cs.partners.map((name) => partnerIds[name]).filter(Boolean);
-      if (pIds.length >= 2) {
-        await ctx.db.insert("channelConflicts", {
-          organizationId: orgId,
-          accountName: cs.accountName,
-          partnerIds: pIds,
-          status: cs.status,
-          resolution: (cs as any).resolution,
-          resolutionNotes: (cs as any).resolutionNotes,
-          resolvedBy: (cs as any).resolvedBy,
-          resolvedAt: (cs as any).resolvedAt,
-          primaryPartnerId: (cs as any).primaryPartnerId ? partnerIds[(cs as any).primaryPartnerId] : undefined,
-          reportedAt: cs.reportedAt,
-          createdAt: cs.reportedAt,
-        });
-      }
-    }
-
-    // Seed volume programs
-    const quarterlyProgramId = await ctx.db.insert("volumePrograms", {
-      organizationId: orgId,
-      name: "Q1 2026 Volume Rebate Program",
-      period: "quarterly",
-      startDate: now - 40 * DAY,
-      endDate: now + 50 * DAY,
-      status: "active",
-      tiers: [
-        { minUnits: 0, maxUnits: 100, rebatePercent: 5, label: "Standard" },
-        { minUnits: 101, maxUnits: 500, rebatePercent: 7, label: "Growth" },
-        { minUnits: 501, maxUnits: null, rebatePercent: 10, label: "Elite" },
-      ],
-      createdAt: now - 45 * DAY,
-    });
-
-    await ctx.db.insert("volumePrograms", {
-      organizationId: orgId,
-      name: "2026 Annual Volume Program",
-      period: "annual",
-      startDate: now - 40 * DAY,
-      endDate: now + 325 * DAY,
-      status: "active",
-      tiers: [
-        { minUnits: 0, maxUnits: 500, rebatePercent: 4, label: "Base" },
-        { minUnits: 501, maxUnits: 2000, rebatePercent: 6, label: "Accelerator" },
-        { minUnits: 2001, maxUnits: 5000, rebatePercent: 8, label: "Premier" },
-        { minUnits: 5001, maxUnits: null, rebatePercent: 12, label: "Champions Club" },
-      ],
-      createdAt: now - 45 * DAY,
-    });
-
-    // Seed partner volumes for the quarterly program
-    const volumeSeeds = [
-      { partner: "TechBridge Partners", units: 342, revenue: 684000, tier: 1, accrued: 23940, projected: 31500, daysAgo: 1 },
-      { partner: "Apex Growth Group", units: 89, revenue: 178000, tier: 0, accrued: 8900, projected: 12500, daysAgo: 2 },
-      { partner: "Stackline Agency", units: 156, revenue: 312000, tier: 1, accrued: 10920, projected: 18000, daysAgo: 1 },
-      { partner: "Northlight Solutions", units: 723, revenue: 1446000, tier: 2, accrued: 72300, projected: 95000, daysAgo: 1 },
-      { partner: "Clearpath Consulting", units: 67, revenue: 134000, tier: 0, accrued: 6700, projected: 9500, daysAgo: 3 },
-    ];
-    for (const vs of volumeSeeds) {
-      const pid = partnerIds[vs.partner];
-      if (pid) {
-        await ctx.db.insert("partnerVolumes", {
-          organizationId: orgId,
-          partnerId: pid,
-          programId: quarterlyProgramId,
-          period: "2026-Q1",
-          unitsTotal: vs.units,
-          revenueTotal: vs.revenue,
-          currentTierIndex: vs.tier,
-          rebateAccrued: vs.accrued,
-          rebateProjected: vs.projected,
-          lastUpdated: now - vs.daysAgo * DAY,
-        });
-      }
-    }
-
-    // Seed certification programs
-    const certSeeds = [
-      { name: "Sales Fundamentals", description: "Core selling skills for Horizon products — value props, objection handling, competitive positioning.", level: "beginner" as const, category: "sales" as const, requiredForTier: "silver" as const, validityMonths: 12 },
-      { name: "Solution Selling", description: "Consultative selling techniques for enterprise accounts. Discovery, ROI framing, multi-stakeholder navigation.", level: "intermediate" as const, category: "sales" as const, requiredForTier: "gold" as const, validityMonths: 12 },
-      { name: "Technical Integration", description: "API integration, deployment architecture, and technical enablement for implementation partners.", level: "advanced" as const, category: "technical" as const, validityMonths: 18 },
-      { name: "Enterprise Strategy", description: "Strategic account planning, executive engagement, and large deal orchestration.", level: "expert" as const, category: "sales" as const, requiredForTier: "platinum" as const, validityMonths: 24 },
-      { name: "Product Specialist", description: "Deep product knowledge across the Horizon platform — features, use cases, and demo delivery.", level: "intermediate" as const, category: "product" as const, validityMonths: 12 },
-      { name: "Security & Compliance", description: "Data handling, compliance requirements, and security best practices for partner implementations.", level: "intermediate" as const, category: "compliance" as const, validityMonths: 12 },
-    ];
-
-    const certIds: string[] = [];
-    for (const cs of certSeeds) {
-      const id = await ctx.db.insert("certifications", {
-        organizationId: orgId,
-        name: cs.name,
-        description: cs.description,
-        level: cs.level,
-        category: cs.category,
-        requiredForTier: cs.requiredForTier,
-        validityMonths: cs.validityMonths,
-        status: "active",
-        createdAt: now - 90 * DAY,
-        updatedAt: now - 90 * DAY,
-      });
-      certIds.push(id);
-    }
-
-    // Award certifications to demo partners
-    if (certIds.length > 0 && partnerIdList.length > 0) {
-      const awards = [
-        { partnerIdx: 0, certIdx: 0, score: 92, daysAgo: 60 },  // TechBridge — Sales Fundamentals
-        { partnerIdx: 0, certIdx: 1, score: 88, daysAgo: 30 },  // TechBridge — Solution Selling
-        { partnerIdx: 0, certIdx: 4, score: 95, daysAgo: 45 },  // TechBridge — Product Specialist
-        { partnerIdx: 1, certIdx: 0, score: 85, daysAgo: 50 },  // Apex Growth — Sales Fundamentals
-        { partnerIdx: 2, certIdx: 2, score: 97, daysAgo: 20 },  // Stackline — Technical Integration
-        { partnerIdx: 2, certIdx: 5, score: 90, daysAgo: 15 },  // Stackline — Security & Compliance
-        { partnerIdx: 3, certIdx: 0, score: 78, daysAgo: 40 },  // Northlight — Sales Fundamentals
-        { partnerIdx: 4, certIdx: 0, score: 91, daysAgo: 55 },  // Clearpath — Sales Fundamentals
-        { partnerIdx: 4, certIdx: 1, score: 86, daysAgo: 25 },  // Clearpath — Solution Selling
-        { partnerIdx: 4, certIdx: 3, score: 94, daysAgo: 10 },  // Clearpath — Enterprise Strategy
-      ];
-
-      for (const a of awards) {
-        const pid = partnerIdList[a.partnerIdx % partnerIdList.length];
-        const cid = certIds[a.certIdx % certIds.length] as any;
-        const cert = certSeeds[a.certIdx];
-        const completedAt = now - a.daysAgo * DAY;
-        const expiresAt = cert.validityMonths
-          ? completedAt + cert.validityMonths * 30 * DAY
-          : undefined;
-
-        await ctx.db.insert("partnerCertifications", {
-          organizationId: orgId,
-          partnerId: pid,
-          certificationId: cid,
-          status: "completed",
-          completedAt,
-          expiresAt,
-          score: a.score,
-          awardedBy: "admin",
-          createdAt: completedAt,
-        });
-      }
-    }
-
-    // ── Seed announcements ──────────────────────────────────────────────
-    const demoAnnouncements = [
-      {
-        title: "Q1 2026 Incentive Boost — 2x Commission on Enterprise Deals",
-        body: "Great news! For the rest of Q1 2026, all enterprise-tier deals (>$50K) will earn double commission rates. This applies to both new business and expansion deals. Make sure your pipeline is updated and reach out to your partner manager if you have prospects in the enterprise segment.\n\nEligibility: All active partners in Silver tier and above.\nDuration: Now through March 31, 2026.",
-        type: "incentive" as const,
-        isPinned: true,
-        isPublished: true,
-      },
-      {
-        title: "New Product Launch: Horizon Analytics Pro",
-        body: "We're excited to announce Horizon Analytics Pro — our most advanced analytics suite yet. Key features include real-time dashboards, predictive forecasting, and custom report builder.\n\nPartner enablement materials are now available in the Resources section. Complete the new product certification to unlock higher commission tiers on Analytics Pro deals.",
-        type: "product" as const,
-        isPinned: false,
-        isPublished: true,
-      },
-      {
-        title: "Updated Partner Program Terms — Effective April 1",
-        body: "We've updated our partner program agreement to reflect new compliance requirements and simplified commission structures. Key changes:\n\n• Deal registration window extended from 90 to 120 days\n• New tiered rebate program for volume partners\n• Simplified co-sell engagement rules\n• Updated data handling addendum\n\nPlease review the updated terms in your portal and reach out to your partner manager with any questions.",
-        type: "policy" as const,
-        isPinned: false,
-        isPublished: true,
-      },
-      {
-        title: "Partner Summit 2026 — Save the Date!",
-        body: "Mark your calendars! The annual Horizon Partner Summit will be held June 15-17, 2026 in San Francisco. Three days of product roadmap previews, sales training, networking, and strategy sessions.\n\nEarly bird registration opens April 1. Gold and Platinum partners receive complimentary passes.",
-        type: "event" as const,
-        isPinned: false,
-        isPublished: true,
-      },
-    ];
-
-    const announcementNow = Date.now();
-    for (let i = 0; i < demoAnnouncements.length; i++) {
-      const a = demoAnnouncements[i];
-      await ctx.db.insert("announcements", {
-        organizationId: orgId,
-        title: a.title,
-        body: a.body,
-        type: a.type,
-        isPinned: a.isPinned,
-        isPublished: a.isPublished,
-        authorName: "Program Team",
-        authorEmail: "partners@horizon.software",
-        publishedAt: announcementNow - i * 3 * 86400000, // stagger by 3 days
-        createdAt: announcementNow - i * 3 * 86400000,
-      });
     }
 
     return {
-      success: true,
-      message: "Demo data created successfully for Horizon Software",
-      partnersCreated: Object.keys(partnerIds).length,
-      dealsCreated: deals.length,
+      status: "seeded",
+      orgId,
+      partnersCreated: PARTNERS.length,
+      dealsCreated: DEALS.length,
+      portalEmails: PARTNERS.map(p => p.email),
+      message: `✅ Done. Portal login: use any partner email at /portal`,
     };
   },
 });
 
-// Clear all demo data
-export const clearDemoData = mutation({
+export const clearDemo = mutation({
   args: {},
   handler: async (ctx) => {
-    const tables = [
-      "organizations",
-      "users",
-      "partners",
-      "deals",
-      "touchpoints",
-      "attributions",
-      "payouts",
-      "audit_log",
-      "approvals",
-      "disputes",
-      "commissionRules",
-      "products",
-      "contracts",
-      "territories",
-      "channelConflicts",
-      "volumePrograms",
-      "partnerVolumes",
-      "certifications",
-      "partnerCertifications",
-      "announcements",
-    ];
+    const org = await ctx.db
+      .query("organizations")
+      .filter((q) => q.eq(q.field("email"), DEMO_ORG_EMAIL))
+      .first();
+    if (!org) return { status: "not_found" };
 
-    let totalDeleted = 0;
-    for (const table of tables) {
-      const records = await ctx.db.query(table as any).collect();
-      for (const record of records) {
-        await ctx.db.delete(record._id);
-        totalDeleted++;
-      }
+    let deleted = 0;
+    for (const table of ["commissionRules", "touchpoints", "attributions", "payouts", "partners", "deals"] as const) {
+      const rows = await ctx.db.query(table).filter((q) => q.eq(q.field("organizationId"), org._id)).collect();
+      for (const r of rows) { await ctx.db.delete(r._id); deleted++; }
     }
-
-    return {
-      success: true,
-      message: `Cleared ${totalDeleted} records from ${tables.length} tables`,
-    };
+    await ctx.db.delete(org._id);
+    return { status: "cleared", deleted };
   },
 });
