@@ -104,10 +104,15 @@ export function PortalProvider({ children }: { children: ReactNode }) {
     setSessionLoaded(true);
   }, []);
 
-  // Fetch partner data from Convex when session exists
+  // Validate Convex ID format before querying (prevents crash on stale/demo IDs)
+  const isValidConvexId = (id: string) => typeof id === "string" && id.length >= 10 && /^[a-zA-Z0-9_]+$/.test(id);
+
+  // Fetch partner data from Convex when session exists with a valid ID
   const convexPartner = useQuery(
     api.partners.get,
-    session?.partnerId ? { id: session.partnerId as Id<"partners"> } : "skip"
+    session?.partnerId && isValidConvexId(session.partnerId)
+      ? { id: session.partnerId as Id<"partners"> }
+      : "skip"
   );
 
   // Map Convex partner to PortalPartnerProfile when available
@@ -138,8 +143,13 @@ export function PortalProvider({ children }: { children: ReactNode }) {
         stripeOnboardingUrl: convexPartner.stripeOnboardingUrl,
       };
       setPartner(profile);
+    } else if (convexPartner === null && session) {
+      // Partner ID in session doesn't exist in DB — clear stale session
+      localStorage.removeItem(SESSION_KEY);
+      setSession(null);
+      setPartner(portalPartners[0]);
     } else if (!session && sessionLoaded) {
-      // Fallback to demo data when no session (for backwards compatibility)
+      // No session — show demo data
       setPartner(portalPartners[0]);
     }
   }, [convexPartner, session, sessionLoaded]);

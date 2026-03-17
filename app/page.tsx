@@ -37,7 +37,8 @@ function SlackLogo() {
 
 export default function LandingPage() {
   const captureLead = useMutation(api.leads.captureLead);
-  const leadsCount = useQuery(api.leads.getLeadsCount) ?? 0;
+  const leadsCountRaw = useQuery(api.leads.getLeadsCount);
+  const leadsCount = typeof leadsCountRaw === "number" ? leadsCountRaw : 0;
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [emailError, setEmailError] = useState("");
@@ -87,7 +88,7 @@ export default function LandingPage() {
             <Link href="/demo" className="l-btn-outline">Try with sample data <span>→</span></Link>
           </div>
           <p className="l-muted" style={{ fontSize: ".9rem", fontWeight: 500 }}>
-            {leadsCount > 0 ? `${leadsCount} teams on the waitlist` : "Join early access"}
+            {leadsCount > 0 ? `${leadsCount} ${leadsCount === 1 ? "team" : "teams"} on the waitlist` : "Join early access"}
           </p>
         </div>
       </section>

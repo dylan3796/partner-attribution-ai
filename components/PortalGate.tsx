@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-// Shield icon removed — replaced with lettermark
 
 const SESSION_KEY = "covant_portal_session";
 
@@ -37,6 +36,11 @@ export function usePortalSession() {
   return { session, loading, logout };
 }
 
+// Convex IDs are ~20+ char alphanumeric strings — validate before querying
+function isValidConvexId(id: string): boolean {
+  return typeof id === "string" && id.length >= 10 && /^[a-zA-Z0-9_]+$/.test(id);
+}
+
 export default function PortalGate({ children }: { children: React.ReactNode }) {
   const [email, setEmail] = useState("");
   const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
@@ -44,12 +48,18 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Check for existing session on mount
+  // Check for existing session on mount — validate partnerId format
   useEffect(() => {
     const stored = localStorage.getItem(SESSION_KEY);
     if (stored) {
       try {
-        setSession(JSON.parse(stored));
+        const parsed = JSON.parse(stored) as PortalSession;
+        // Clear stale/demo sessions with invalid Convex IDs
+        if (parsed && isValidConvexId(parsed.partnerId)) {
+          setSession(parsed);
+        } else {
+          localStorage.removeItem(SESSION_KEY);
+        }
       } catch {
         localStorage.removeItem(SESSION_KEY);
       }
@@ -82,25 +92,18 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
     }
   }, [partnerByEmail, submittedEmail]);
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!email.trim()) return;
+  function handleSubmit(e?: React.FormEvent, overrideEmail?: string) {
+    e?.preventDefault();
+    const target = (overrideEmail ?? email).trim().toLowerCase();
+    if (!target) return;
     setError("");
-    setSubmittedEmail(email.trim().toLowerCase());
+    setEmail(target);
+    setSubmittedEmail(target);
   }
 
   if (loading) {
     return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "100vh",
-          background:'#ffffff',
-          color:'#0a0a0a',
-        }}
-      >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", background: "#ffffff", color: "#0a0a0a" }}>
         Loading...
       </div>
     );
@@ -108,72 +111,30 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
 
   if (!session) {
     return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          minHeight: "100vh",
-          background:'#ffffff',
-          padding: "2rem",
-        }}
-      >
-        <div
-          style={{
-            width: "100%",
-            maxWidth: 420,
-            background:'#ffffff',
-            border: "1px solid #2a2a2a",
-            borderRadius: 16,
-            padding: "2.5rem",
-          }}
-        >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "100vh", background: "#ffffff", padding: "2rem" }}>
+        <div style={{ width: "100%", maxWidth: 420, background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 16, padding: "2.5rem", boxShadow: "0 4px 24px rgba(0,0,0,.06)" }}>
+
           {/* Logo */}
           <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 64,
-                height: 64,
-                background:'#f9fafb',
-                borderRadius: 16,
-                marginBottom: "1rem",
-                border: "1px solid #333",
-                fontSize: "2rem",
-                fontWeight: 800,
-                color:'#0a0a0a',
-                fontFamily: "'Inter', system-ui, sans-serif",
-              }}
-            >
+            <div style={{
+              display: "inline-flex", alignItems: "center", justifyContent: "center",
+              width: 56, height: 56, background: "#0a0a0a", borderRadius: 14,
+              marginBottom: "1rem", fontSize: "1.5rem", fontWeight: 800, color: "#ffffff",
+              fontFamily: "'Inter', system-ui, sans-serif",
+            }}>
               C
             </div>
-            <div
-              style={{
-                fontSize: "1.5rem",
-                fontWeight: 700,
-                color:'#0a0a0a',
-                marginBottom: ".5rem",
-              }}
-            >
+            <div style={{ fontSize: "1.4rem", fontWeight: 700, color: "#0a0a0a", marginBottom: ".4rem" }}>
               Partner Portal
             </div>
-            <p style={{ color: "#888", fontSize: ".9rem" }}>
+            <p style={{ color: "#6b7280", fontSize: ".9rem" }}>
               Enter your email to access your partner dashboard.
             </p>
           </div>
 
           <form onSubmit={handleSubmit}>
             <div style={{ marginBottom: "1rem" }}>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: ".85rem",
-                  color: "#aaa",
-                  marginBottom: ".5rem",
-                }}
-              >
+              <label style={{ display: "block", fontSize: ".82rem", fontWeight: 600, color: "#374151", marginBottom: ".5rem" }}>
                 Email address
               </label>
               <input
@@ -182,57 +143,39 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="you@company.com"
                 style={{
-                  width: "100%",
-                  padding: ".75rem 1rem",
-                  background:'#ffffff',
-                  border: "1px solid #333",
-                  borderRadius: 8,
-                  color:'#0a0a0a',
-                  fontSize: ".9rem",
-                  boxSizing: "border-box",
-                  outline: "none",
+                  width: "100%", padding: ".75rem 1rem", background: "#ffffff",
+                  border: "1px solid #d1d5db", borderRadius: 8, color: "#0a0a0a",
+                  fontSize: ".9rem", boxSizing: "border-box", outline: "none",
+                  transition: "border-color .15s",
                 }}
                 required
                 autoFocus
               />
             </div>
             {error && (
-              <p
-                style={{
-                  color: "#f87171",
-                  fontSize: ".85rem",
-                  marginBottom: ".75rem",
-                }}
-              >
-                {error}
-              </p>
+              <p style={{ color: "#ef4444", fontSize: ".85rem", marginBottom: ".75rem" }}>{error}</p>
             )}
             <button
               type="submit"
               disabled={!email.trim() || submittedEmail !== null}
               style={{
-                width: "100%",
-                padding: ".75rem",
-                background:
-                  !email.trim() || submittedEmail !== null ? "#333" : "#6366f1",
-                color:'#0a0a0a',
-                border: "none",
-                borderRadius: 8,
-                fontSize: ".95rem",
-                fontWeight: 600,
-                cursor:
-                  !email.trim() || submittedEmail !== null
-                    ? "not-allowed"
-                    : "pointer",
+                width: "100%", padding: ".75rem",
+                background: !email.trim() || submittedEmail !== null ? "#d1d5db" : "#0a0a0a",
+                color: "#ffffff", border: "none", borderRadius: 8,
+                fontSize: ".95rem", fontWeight: 600,
+                cursor: !email.trim() || submittedEmail !== null ? "not-allowed" : "pointer",
                 transition: "background 0.15s",
               }}
             >
               {submittedEmail ? "Checking..." : "Access Portal"}
             </button>
           </form>
+
           {/* Demo accounts */}
-          <div style={{ marginTop: "1.5rem", borderTop: "1px solid #2a2a2a", paddingTop: "1.5rem" }}>
-            <p style={{ fontSize: ".85rem", fontWeight: 600, color: "#aaa", marginBottom: ".75rem", textAlign: "center" }}>Try a demo account</p>
+          <div style={{ marginTop: "1.75rem", borderTop: "1px solid #f3f4f6", paddingTop: "1.5rem" }}>
+            <p style={{ fontSize: ".78rem", fontWeight: 600, color: "#9ca3af", marginBottom: ".75rem", textAlign: "center", letterSpacing: ".06em", textTransform: "uppercase" }}>
+              Try a demo account
+            </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               {[
                 { name: "Sarah Chen", company: "TechBridge Partners", email: "sarah.chen@techbridge.io" },
@@ -244,37 +187,37 @@ export default function PortalGate({ children }: { children: React.ReactNode }) 
                 <button
                   key={account.email}
                   type="button"
-                  onClick={() => setEmail(account.email)}
+                  onClick={() => handleSubmit(undefined, account.email)}
                   style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    padding: "8px 12px",
-                    background:'#f9fafb',
-                    border: "1px solid #2a2a2a",
-                    borderRadius: 8,
-                    cursor: "pointer",
-                    textAlign: "left",
-                    transition: "border-color 0.15s",
+                    display: "flex", alignItems: "center", gap: 10, padding: "8px 12px",
+                    background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 8,
+                    cursor: "pointer", textAlign: "left", transition: "border-color 0.15s, background .15s",
                     width: "100%",
                   }}
+                  onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#d1d5db"; e.currentTarget.style.background = "#f3f4f6"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.borderColor = "#e5e7eb"; e.currentTarget.style.background = "#f9fafb"; }}
                 >
-                  <div style={{ width: 32, height: 32, borderRadius: 8, background: "#1a1a2e", color:'#0a0a0a', display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, fontSize: ".7rem", flexShrink: 0 }}>
+                  <div style={{
+                    width: 32, height: 32, borderRadius: 8, background: "#0a0a0a",
+                    color: "#ffffff", display: "flex", alignItems: "center", justifyContent: "center",
+                    fontWeight: 700, fontSize: ".7rem", flexShrink: 0,
+                  }}>
                     {account.name.split(" ").map(w => w[0]).join("")}
                   </div>
                   <div>
-                    <div style={{ fontSize: ".8rem", fontWeight: 600, color: "#ddd" }}>{account.name}</div>
-                    <div style={{ fontSize: ".7rem", color:'#6b7280' }}>{account.company}</div>
+                    <div style={{ fontSize: ".82rem", fontWeight: 600, color: "#0a0a0a" }}>{account.name}</div>
+                    <div style={{ fontSize: ".72rem", color: "#6b7280" }}>{account.company}</div>
                   </div>
                 </button>
               ))}
             </div>
           </div>
+
         </div>
       </div>
     );
   }
 
-  // Logged in — render children
+  // Logged in — render portal
   return <>{children}</>;
 }
