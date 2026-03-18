@@ -257,10 +257,17 @@ const MOCK_MAP: Record<string, () => React.JSX.Element> = {
 export default function DemoPage() {
   const router = useRouter();
   const seedDemo = useMutation(api.seedDemo.seedDemoData);
+  const captureLead = useMutation(api.leads.captureLead);
   const [step, setStep] = useState(0);
   const [launching, setLaunching] = useState(false);
   const [seeded, setSeeded] = useState(false);
   const seedRan = useRef(false);
+
+  // Email gate state
+  const [email, setEmail] = useState("");
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [emailLoading, setEmailLoading] = useState(false);
 
   // Pre-seed in background on mount so dashboard loads instantly
   useEffect(() => {
@@ -273,28 +280,40 @@ export default function DemoPage() {
   const isLast = step === STEPS.length - 1;
   const MockComponent = current.mockUI ? MOCK_MAP[current.mockUI] : null;
 
-  function handleLaunch() {
+  async function handleEmailSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email)) {
+      setEmailError("Enter a valid email to continue");
+      return;
+    }
+    setEmailLoading(true);
+    try {
+      await captureLead({ email: email.trim(), source: "demo_gate" });
+    } catch { /* best effort */ }
+    setEmailSubmitted(true);
+    setEmailLoading(false);
+    doLaunch();
+  }
+
+  function doLaunch() {
     setLaunching(true);
     if (seeded) {
       router.replace("/dashboard?demo=true");
     } else {
-      // Wait for seed to finish
-      const check = setInterval(() => {
-        // seeded state will be true eventually; fallback after 5s
-      }, 200);
       setTimeout(() => {
-        clearInterval(check);
         router.replace("/dashboard?demo=true");
       }, 3000);
     }
   }
 
+  function handleLaunch() {
+    if (!emailSubmitted) return; // shouldn't happen but guard anyway
+    doLaunch();
+  }
+
   function handleNext() {
-    if (isLast) {
-      handleLaunch();
-    } else {
-      setStep((s) => s + 1);
-    }
+    if (isLast) return; // last step handled by email form
+    setStep((s) => s + 1);
   }
 
   function handlePrev() {
@@ -302,7 +321,7 @@ export default function DemoPage() {
   }
 
   function handleSkip() {
-    handleLaunch();
+    setStep(STEPS.length - 1);
   }
 
   return (
@@ -481,33 +500,57 @@ export default function DemoPage() {
                   <ArrowLeft size={16} /> Back
                 </button>
               )}
-              <button
-                onClick={handleNext}
-                disabled={launching}
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  padding: "12px 24px",
-                  borderRadius: 8,
-                  background: isLast ? current.color : "#fff",
-                  color: isLast ? "#fff" : "#000",
-                  border: "none",
-                  fontSize: ".9rem",
-                  fontWeight: 700,
-                  cursor: launching ? "wait" : "pointer",
-                  opacity: launching ? 0.7 : 1,
-                  transition: "all 0.2s",
-                }}
-              >
-                {launching ? (
-                  <>Loading demo…</>
-                ) : isLast ? (
-                  <>Launch Live Demo <ArrowRight size={16} /></>
-                ) : (
-                  <>Next <ChevronRight size={16} /></>
-                )}
-              </button>
+              {isLast ? (
+                <form onSubmit={handleEmailSubmit} style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => { setEmail(e.target.value); setEmailError(""); }}
+                    placeholder="Enter your work email"
+                    required
+                    style={{
+                      padding: "12px 16px",
+                      borderRadius: 8,
+                      border: emailError ? "1px solid #ef4444" : "1px solid #333",
+                      background: "#111",
+                      color: "#fff",
+                      fontSize: ".9rem",
+                      width: 220,
+                      outline: "none",
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    disabled={emailLoading || launching}
+                    style={{
+                      display: "flex", alignItems: "center", gap: 8,
+                      padding: "12px 24px", borderRadius: 8,
+                      background: current.color, color: "#fff", border: "none",
+                      fontSize: ".9rem", fontWeight: 700,
+                      cursor: emailLoading || launching ? "wait" : "pointer",
+                      opacity: emailLoading || launching ? 0.7 : 1,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {emailLoading || launching ? <>Loading…</> : <>Launch Live Demo <ArrowRight size={16} /></>}
+                  </button>
+                  {emailError && <span style={{ color: "#ef4444", fontSize: ".8rem" }}>{emailError}</span>}
+                </form>
+              ) : (
+                <button
+                  onClick={handleNext}
+                  disabled={launching}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 8,
+                    padding: "12px 24px", borderRadius: 8,
+                    background: "#fff", color: "#000", border: "none",
+                    fontSize: ".9rem", fontWeight: 700,
+                    cursor: "pointer", transition: "all 0.2s",
+                  }}
+                >
+                  Next <ChevronRight size={16} />
+                </button>
+              )}
             </div>
 
             {/* Step counter */}
