@@ -1,21 +1,8 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { clerkMiddleware } from '@clerk/nextjs/server';
 
-// Protected routes require Clerk auth.
-// /demo is intentionally open for unauthenticated demo viewing.
-// /dashboard requires auth so real customer data stays scoped.
-const isProtectedRoute = createRouteMatcher([
-  '/setup(.*)',
-  '/onboard(.*)',
-  '/dashboard(.*)',
-]);
-
-export default clerkMiddleware(async (auth, req) => {
-  // Allow unauthenticated access to /dashboard?demo=true (live demo flow)
-  const isDemo = req.nextUrl.searchParams.get('demo') === 'true';
-  if (isProtectedRoute(req) && !isDemo) {
-    await auth.protect();
-  }
-});
+// Auth is intentionally open while in beta (no customers yet).
+// Re-enable route protection when Clerk is fully configured.
+export default clerkMiddleware();
 
 export const config = {
   matcher: [
