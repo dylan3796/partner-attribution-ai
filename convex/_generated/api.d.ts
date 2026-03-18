@@ -13,6 +13,7 @@ import type * as agents from "../agents.js";
 import type * as announcements from "../announcements.js";
 import type * as apiKeys from "../apiKeys.js";
 import type * as benchmarks from "../benchmarks.js";
+import type * as bulkImport from "../bulkImport.js";
 import type * as certifications from "../certifications.js";
 import type * as cohorts from "../cohorts.js";
 import type * as commissionRules from "../commissionRules.js";
@@ -86,6 +87,7 @@ declare const fullApi: ApiFromModules<{
   announcements: typeof announcements;
   apiKeys: typeof apiKeys;
   benchmarks: typeof benchmarks;
+  bulkImport: typeof bulkImport;
   certifications: typeof certifications;
   cohorts: typeof cohorts;
   commissionRules: typeof commissionRules;

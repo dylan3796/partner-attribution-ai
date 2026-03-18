@@ -2,7 +2,8 @@
 
 import { useState, useRef, useCallback } from "react";
 import { Upload, Download, FileText, CheckCircle, AlertTriangle, X, Loader2, SkipForward } from "lucide-react";
-import { useStore } from "@/lib/store";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import { useToast } from "@/components/ui/toast";
 import {
   type ImportDataType,
@@ -16,6 +17,7 @@ import {
   readFileAsText,
   formatFileSize,
 } from "@/lib/csv-import";
+import type { Partner, Deal } from "@/lib/types";
 
 const DATA_TYPE_CONFIG: Record<ImportDataType, { label: string; icon: string; templateUrl: string; description: string }> = {
   partners: {
@@ -44,7 +46,18 @@ type PreviewData =
   | { type: "touchpoints"; preview: ImportPreview<TouchpointImportRow> };
 
 export default function CSVImport() {
-  const { partners, deals, addPartner, addDeal, addTouchpoint } = useStore();
+  // ── Convex queries for duplicate detection ──
+  const convexPartners = useQuery(api.partners.list);
+  const convexDeals = useQuery(api.dealsCrud.list);
+
+  // ── Convex mutations for persistent import ──
+  const importPartnersMut = useMutation(api.bulkImport.importPartners);
+  const importDealsMut = useMutation(api.bulkImport.importDeals);
+  const importTouchpointsMut = useMutation(api.bulkImport.importTouchpoints);
+
+  const partners = (convexPartners ?? []) as unknown as Partner[];
+  const deals = (convexDeals ?? []) as unknown as Deal[];
+
   const { toast } = useToast();
   const [activeType, setActiveType] = useState<ImportDataType>("partners");
   const [file, setFile] = useState<File | null>(null);
@@ -110,62 +123,90 @@ export default function CSVImport() {
     if (!previewData) return;
     setImporting(true);
 
-    // Simulate a slight delay for UX
-    await new Promise((r) => setTimeout(r, 300));
-
     try {
       const { preview } = previewData;
       const errorRows = new Set(preview.errors.map((e) => e.row));
       const dupRows = new Set(preview.duplicates);
-      let imported = 0;
-      let skipped = 0;
 
       if (previewData.type === "partners") {
-        (preview as ImportPreview<PartnerImportRow>).rows.forEach((row, idx) => {
+        const rows = (preview as ImportPreview<PartnerImportRow>).rows.filter((_, idx) => {
           const rowNum = idx + 2;
-          if (errorRows.has(rowNum)) return;
-          if (skipDuplicates && dupRows.has(rowNum)) {
-            skipped++;
-            return;
-          }
-          addPartner(row);
-          imported++;
+          if (errorRows.has(rowNum)) return false;
+          if (skipDuplicates && dupRows.has(rowNum)) return false;
+          return true;
         });
-      } else if (previewData.type === "deals") {
-        (preview as ImportPreview<DealImportRow>).rows.forEach((row, idx) => {
-          const rowNum = idx + 2;
-          if (errorRows.has(rowNum)) return;
-          if (skipDuplicates && dupRows.has(rowNum)) {
-            skipped++;
-            return;
-          }
-          addDeal(row);
-          imported++;
-        });
-      } else if (previewData.type === "touchpoints") {
-        (preview as ImportPreview<TouchpointImportRow>).rows.forEach((row, idx) => {
-          const rowNum = idx + 2;
-          if (errorRows.has(rowNum)) return;
-          addTouchpoint(row);
-          imported++;
-        });
-      }
 
-      const typeLabel = DATA_TYPE_CONFIG[previewData.type].label.toLowerCase();
-      let msg = `Imported ${imported} ${typeLabel}`;
-      if (skipped > 0) msg += ` (${skipped} duplicates skipped)`;
-      toast(msg);
+        if (rows.length > 0) {
+          // Batch in chunks of 50 (Convex mutation size limits)
+          const VALID_TYPES = ["affiliate", "referral", "reseller", "integration"] as const;
+          for (let i = 0; i < rows.length; i += 50) {
+            const batch = rows.slice(i, i + 50).map((r) => ({
+              name: r.name,
+              email: r.email,
+              type: (VALID_TYPES.includes(r.type as any) ? r.type : "referral") as "affiliate" | "referral" | "reseller" | "integration",
+              tier: r.tier || undefined,
+              commissionRate: (r.commissionRate ?? 10) / 100, // normalize to decimal
+              status: r.status as "active" | "inactive" | "pending",
+              contactName: r.contactName || undefined,
+            }));
+            await importPartnersMut({ partners: batch });
+          }
+          toast(`Imported ${rows.length} partners to Covant`);
+        }
+      } else if (previewData.type === "deals") {
+        const rows = (preview as ImportPreview<DealImportRow>).rows.filter((_, idx) => {
+          const rowNum = idx + 2;
+          if (errorRows.has(rowNum)) return false;
+          if (skipDuplicates && dupRows.has(rowNum)) return false;
+          return true;
+        });
+
+        if (rows.length > 0) {
+          for (let i = 0; i < rows.length; i += 50) {
+            const batch = rows.slice(i, i + 50).map((r) => ({
+              name: r.name,
+              amount: r.amount,
+              status: r.status,
+              contactName: r.contactName || undefined,
+              contactEmail: r.contactEmail || undefined,
+              expectedCloseDate: r.expectedCloseDate || undefined,
+              source: "manual" as const,
+            }));
+            await importDealsMut({ deals: batch });
+          }
+          toast(`Imported ${rows.length} deals to Covant`);
+        }
+      } else if (previewData.type === "touchpoints") {
+        const rows = (preview as ImportPreview<TouchpointImportRow>).rows.filter((_, idx) => {
+          const rowNum = idx + 2;
+          if (errorRows.has(rowNum)) return false;
+          return true;
+        });
+
+        if (rows.length > 0) {
+          for (let i = 0; i < rows.length; i += 50) {
+            const batch = rows.slice(i, i + 50).map((r) => ({
+              dealId: r.dealId as any, // ID types from CSV
+              partnerId: r.partnerId as any,
+              type: r.type,
+              notes: r.notes || undefined,
+            }));
+            await importTouchpointsMut({ touchpoints: batch });
+          }
+          toast(`Imported ${rows.length} touchpoints to Covant`);
+        }
+      }
 
       // Reset
       setFile(null);
       setPreviewData(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
-    } catch {
-      toast("Import failed. Please check your data and try again.", "error");
+    } catch (err: any) {
+      toast(err?.message || "Import failed. Please check your data and try again.", "error");
     } finally {
       setImporting(false);
     }
-  }, [previewData, skipDuplicates, addPartner, addDeal, addTouchpoint, toast]);
+  }, [previewData, skipDuplicates, importPartnersMut, importDealsMut, importTouchpointsMut, toast]);
 
   const resetImport = () => {
     setFile(null);
@@ -212,6 +253,23 @@ export default function CSVImport() {
             </button>
           );
         })}
+      </div>
+
+      {/* Convex persistence badge */}
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        gap: ".4rem",
+        padding: ".4rem .75rem",
+        background: "rgba(16,185,129,.08)",
+        border: "1px solid rgba(16,185,129,.2)",
+        borderRadius: 8,
+        fontSize: ".78rem",
+        color: "#059669",
+        fontWeight: 500,
+      }}>
+        <CheckCircle size={13} />
+        Imported data is saved permanently — no more lost data on refresh
       </div>
 
       {/* Instructions & Template Download */}
@@ -580,7 +638,7 @@ export default function CSVImport() {
               {importing ? (
                 <>
                   <Loader2 size={14} className="spin" />
-                  Importing...
+                  Saving to Covant...
                 </>
               ) : (
                 <>
