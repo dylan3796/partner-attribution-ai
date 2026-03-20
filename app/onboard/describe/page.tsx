@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Sparkles, ArrowRight, Loader2 } from "lucide-react";
+import { Sparkles, ArrowRight, Loader2, CheckCircle } from "lucide-react";
 
 const EXAMPLES = [
   "We have resellers who get 18%, referral partners who get 12%, and our top gold tier partners get a $5k MDF budget per quarter.",
@@ -96,9 +96,11 @@ function parseProgram(text: string): ParsedProgram {
 export default function DescribePage() {
   const router = useRouter();
   const seedMyOrg = useMutation(api.seedDemo.seedMyOrg);
+  const seedFromProgram = useMutation(api.seedFromProgram.seedFromProgram);
   const [text, setText] = useState("");
   const [parsed, setParsed] = useState<ParsedProgram | null>(null);
   const [loading, setLoading] = useState(false);
+  const [seedResult, setSeedResult] = useState<{ partners: number; deals: number; rules: number } | null>(null);
   const [exampleIdx, setExampleIdx] = useState(0);
 
   function handleParse() {
@@ -109,11 +111,31 @@ export default function DescribePage() {
 
   async function handleContinue() {
     setLoading(true);
-    // Store program description in localStorage for setup wizard
     localStorage.setItem("covant_nl_description", text);
     if (parsed) localStorage.setItem("covant_parsed_program", JSON.stringify(parsed));
-    // Seed demo data to give them something to look at immediately
-    try { await seedMyOrg({}); } catch {}
+
+    // Use personalized seeding when we have parsed program data
+    if (parsed && (parsed.partnerTypes.length > 0 || parsed.tiers.length > 0)) {
+      try {
+        const result = await seedFromProgram({
+          partnerTypes: parsed.partnerTypes,
+          tiers: parsed.tiers,
+          bonuses: parsed.bonuses,
+          summary: parsed.summary,
+          description: text,
+        });
+        if (result && "partners" in result) {
+          setSeedResult({ partners: result.partners as number, deals: result.deals as number, rules: result.rules as number });
+          // Brief pause to show success before navigating
+          await new Promise(r => setTimeout(r, 1200));
+        }
+      } catch {
+        // Fallback to generic seed
+        try { await seedMyOrg({}); } catch {}
+      }
+    } else {
+      try { await seedMyOrg({}); } catch {}
+    }
     router.push("/dashboard");
   }
 
@@ -254,6 +276,25 @@ export default function DescribePage() {
           </div>
         )}
 
+        {/* Success indicator */}
+        {seedResult && (
+          <div style={{
+            background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: 10,
+            padding: "1rem 1.25rem", marginBottom: "1rem",
+            display: "flex", alignItems: "center", gap: 10,
+          }}>
+            <CheckCircle size={18} style={{ color: "#16a34a", flexShrink: 0 }} />
+            <div>
+              <p style={{ fontSize: ".85rem", fontWeight: 600, color: "#15803d", margin: 0 }}>
+                Program configured!
+              </p>
+              <p style={{ fontSize: ".78rem", color: "#166534", margin: 0 }}>
+                Created {seedResult.rules} commission rule{seedResult.rules !== 1 ? "s" : ""}, {seedResult.partners} sample partner{seedResult.partners !== 1 ? "s" : ""}, and {seedResult.deals} deal{seedResult.deals !== 1 ? "s" : ""} matching your program.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Actions */}
         <div style={{ display: "flex", gap: ".75rem" }}>
           <button
@@ -267,7 +308,7 @@ export default function DescribePage() {
             }}
           >
             {loading ? <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} /> : <ArrowRight size={16} />}
-            {loading ? "Setting up..." : "Configure & go to dashboard"}
+            {loading ? "Configuring your program..." : parsed ? "Configure & go to dashboard" : "Configure & go to dashboard"}
           </button>
           <button
             onClick={handleSkip}
@@ -283,7 +324,7 @@ export default function DescribePage() {
         </div>
 
         <p style={{ textAlign: "center", fontSize: ".8rem", color: "#9ca3af", marginTop: "1.25rem" }}>
-          We&apos;ll load sample data so you can explore immediately. Replace it with your own anytime.
+          {parsed ? "We'll create sample data matching your program so you can explore immediately." : "We'll load sample data so you can explore immediately."} Replace it with your own anytime.
         </p>
       </div>
     </div>

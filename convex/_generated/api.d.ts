@@ -63,6 +63,7 @@ import type * as recommendations from "../recommendations.js";
 import type * as revenueIntelligence from "../revenueIntelligence.js";
 import type * as search from "../search.js";
 import type * as seedDemo from "../seedDemo.js";
+import type * as seedFromProgram from "../seedFromProgram.js";
 import type * as setup from "../setup.js";
 import type * as subscriptions from "../subscriptions.js";
 import type * as team from "../team.js";
@@ -137,6 +138,7 @@ declare const fullApi: ApiFromModules<{
   revenueIntelligence: typeof revenueIntelligence;
   search: typeof search;
   seedDemo: typeof seedDemo;
+  seedFromProgram: typeof seedFromProgram;
   setup: typeof setup;
   subscriptions: typeof subscriptions;
   team: typeof team;
