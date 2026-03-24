@@ -51,7 +51,7 @@ export default function LandingPage() {
             margin: "0 auto 2.5rem",
             lineHeight: 1.6,
           }}>
-            Know which partners drive revenue. Automate commissions. Give partners a portal they'll actually use.
+            See exactly which partners drive revenue, why, and what to do about it. Attribution, commission rules, and a portal your partners will actually use.
           </p>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", marginBottom: "1.5rem" }}>
             <Link href="/sign-up" className="l-btn">Get Started Free <span>→</span></Link>
