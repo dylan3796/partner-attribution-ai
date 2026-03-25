@@ -397,6 +397,182 @@ export const seedMyOrg = mutation({
   },
 });
 
+/**
+ * seedDemoOrg — creates a standalone "Covant Demo" org for the Try-it-live flow.
+ * Idempotent: calling it twice won't create duplicates.
+ * Returns the orgId so the dashboard can display demo data.
+ */
+export const seedDemoOrg = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const DEMO_ORG_NAME = "Covant Demo";
+    const DEMO_ORG_EMAIL_PREFIX = "demo@covant.ai";
+
+    // Check if demo org already exists
+    const existing = await ctx.db
+      .query("organizations")
+      .filter((q) => q.eq(q.field("name"), DEMO_ORG_NAME))
+      .first();
+
+    if (existing) {
+      // Already seeded — check if it has data
+      const hasPartners = await ctx.db
+        .query("partners")
+        .withIndex("by_organization", (q) => q.eq("organizationId", existing._id))
+        .first();
+
+      return {
+        status: "already_exists",
+        orgId: existing._id,
+        hasData: !!hasPartners,
+      };
+    }
+
+    // Create the demo organization
+    const orgId = await ctx.db.insert("organizations", {
+      name: DEMO_ORG_NAME,
+      email: DEMO_ORG_EMAIL_PREFIX,
+      apiKey: `ck_demo_${Math.random().toString(36).slice(2, 18)}`,
+      plan: "growth",
+      defaultAttributionModel: "role_based",
+      createdAt: now - 90 * DAY,
+    });
+
+    // Commission rules (3 rules as specified)
+    await ctx.db.insert("commissionRules", {
+      organizationId: orgId,
+      name: "Gold Partner",
+      partnerType: "reseller",
+      partnerTier: "gold",
+      rate: 0.18,
+      priority: 1,
+      createdAt: now - 85 * DAY,
+    });
+    await ctx.db.insert("commissionRules", {
+      organizationId: orgId,
+      name: "Silver Partner",
+      partnerType: "reseller",
+      partnerTier: "silver",
+      rate: 0.15,
+      priority: 2,
+      createdAt: now - 85 * DAY,
+    });
+    await ctx.db.insert("commissionRules", {
+      organizationId: orgId,
+      name: "Referral Bonus",
+      partnerType: "referral",
+      rate: 0.12,
+      priority: 3,
+      createdAt: now - 85 * DAY,
+    });
+
+    // Partners (5 partners with mix of tiers)
+    const DEMO_PARTNERS = [
+      { name: "TechBridge Solutions", email: "sarah.chen@techbridge.io", contactName: "Sarah Chen", type: "reseller" as const, tier: "gold" as const, commissionRate: 0.18, status: "active" as const, tags: ["Top Performer", "Strategic"] },
+      { name: "Apex Growth Group", email: "marcus.webb@apexgrowth.com", contactName: "Marcus Webb", type: "referral" as const, tier: "silver" as const, commissionRate: 0.12, status: "active" as const, tags: ["Strategic"] },
+      { name: "Stackline Agency", email: "priya.patel@stackline.co", contactName: "Priya Patel", type: "reseller" as const, tier: "silver" as const, commissionRate: 0.15, status: "active" as const, tags: ["Strategic"] },
+      { name: "Northlight Solutions", email: "james.kim@northlight.io", contactName: "James Kim", type: "affiliate" as const, tier: "bronze" as const, commissionRate: 0.08, status: "active" as const, tags: ["New"] },
+      { name: "Clearpath Consulting", email: "elena.torres@clearpath.io", contactName: "Elena Torres", type: "referral" as const, tier: "gold" as const, commissionRate: 0.12, status: "active" as const, tags: ["Top Performer", "Strategic"] },
+    ];
+
+    const pIds: Id<"partners">[] = [];
+    for (const p of DEMO_PARTNERS) {
+      const id = await ctx.db.insert("partners", {
+        organizationId: orgId,
+        name: p.name,
+        email: p.email,
+        contactName: p.contactName,
+        type: p.type,
+        tier: p.tier,
+        commissionRate: p.commissionRate,
+        status: p.status,
+        tags: p.tags,
+        notes: "",
+        createdAt: now - 80 * DAY,
+      });
+      pIds.push(id);
+    }
+
+    // Deals (12 deals with mix of won/lost/open)
+    const DEMO_DEALS = [
+      { name: "Acme Corp — Enterprise License", amount: 84000, status: "won" as const, daysAgo: 45 },
+      { name: "BlueSky Retail — Annual Plan", amount: 36000, status: "won" as const, daysAgo: 38 },
+      { name: "Meridian Health — Platform Access", amount: 120000, status: "won" as const, daysAgo: 30 },
+      { name: "Finvest Capital — Team Plan", amount: 48000, status: "won" as const, daysAgo: 22 },
+      { name: "Orbis Logistics — Integration Tier", amount: 29000, status: "won" as const, daysAgo: 18 },
+      { name: "Cascade Foods — Growth Plan", amount: 18000, status: "won" as const, daysAgo: 15 },
+      { name: "Summit Analytics — Enterprise", amount: 110000, status: "open" as const, daysAgo: 5 },
+      { name: "GreenLeaf Markets — Annual", amount: 42000, status: "open" as const, daysAgo: 8 },
+      { name: "Ironclad Security — Platform", amount: 78000, status: "open" as const, daysAgo: 3 },
+      { name: "Vertex Systems — Growth", amount: 33000, status: "open" as const, daysAgo: 12 },
+      { name: "Nova Brands — Annual", amount: 15000, status: "lost" as const, daysAgo: 25 },
+      { name: "Driftwood Logistics — Enterprise", amount: 88000, status: "lost" as const, daysAgo: 40 },
+    ];
+
+    for (let i = 0; i < DEMO_DEALS.length; i++) {
+      const d = DEMO_DEALS[i];
+      const primaryIdx = i % pIds.length;
+      const primaryId = pIds[primaryIdx];
+      const closedAt = d.status === "won" ? now - d.daysAgo * DAY : undefined;
+
+      const dealId = await ctx.db.insert("deals", {
+        organizationId: orgId,
+        name: d.name,
+        amount: d.amount,
+        status: d.status,
+        closedAt,
+        createdAt: now - (d.daysAgo + 14) * DAY,
+        registeredBy: primaryId,
+        registrationStatus: "approved",
+        productName: "Platform License",
+        contactName: d.name.split("—")[0].trim(),
+      });
+
+      // Touchpoint
+      await ctx.db.insert("touchpoints", {
+        organizationId: orgId,
+        dealId,
+        partnerId: primaryId,
+        type: "deal_registration",
+        notes: "Deal registered by partner",
+        createdAt: now - (d.daysAgo + 14) * DAY,
+      });
+
+      // Attributions and payouts for won deals
+      if (d.status === "won" && closedAt) {
+        const primaryRate = DEMO_PARTNERS[primaryIdx].commissionRate;
+        await ctx.db.insert("attributions", {
+          organizationId: orgId,
+          dealId,
+          partnerId: primaryId,
+          model: "role_based",
+          percentage: 1.0,
+          amount: d.amount,
+          commissionAmount: Math.round(d.amount * primaryRate),
+          calculatedAt: closedAt,
+        });
+
+        const payoutStatus = d.daysAgo > 30 ? "paid" as const : d.daysAgo > 15 ? "approved" as const : "pending_approval" as const;
+        await ctx.db.insert("payouts", {
+          organizationId: orgId,
+          partnerId: primaryId,
+          amount: Math.round(d.amount * primaryRate),
+          status: payoutStatus,
+          paidAt: payoutStatus === "paid" ? closedAt + 14 * DAY : undefined,
+          createdAt: closedAt,
+        });
+      }
+    }
+
+    return {
+      status: "seeded",
+      orgId,
+      partnersCreated: DEMO_PARTNERS.length,
+      dealsCreated: DEMO_DEALS.length,
+    };
+  },
+});
+
 // Aliases for backward compat (setup wizard, admin, demo pages)
 export const seedDemoData = seedAll;
 export const clearDemoData = clearDemo;

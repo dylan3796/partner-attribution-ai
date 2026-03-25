@@ -55,7 +55,7 @@ export default function LandingPage() {
           </p>
           <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap", marginBottom: "1.5rem" }}>
             <Link href="/sign-up" className="l-btn">Get Started Free <span>→</span></Link>
-            <Link href="/demo" className="l-btn-outline">See it in action <span>→</span></Link>
+            <Link href="/dashboard?demo=true" className="l-btn-outline">Try it live <span>→</span></Link>
           </div>
           <p className="l-muted" style={{ fontSize: ".9rem", fontWeight: 500 }}>
             {leadsCount > 0 ? `${leadsCount} ${leadsCount === 1 ? "team" : "teams"} on the waitlist` : "Free for up to 5 partners · No credit card required"}
@@ -170,8 +170,8 @@ export default function LandingPage() {
               ))}
             </div>
             <div style={{ display: "flex", gap: ".5rem" }}>
-              <button style={{ flex: 1, padding: ".55rem", borderRadius: "8px", border: "1px solid #e5e7eb", background: "#0a0a0a", color: "#fff", fontSize: ".82rem", fontWeight: 600, cursor: "pointer" }}>Register Deal</button>
-              <button style={{ flex: 1, padding: ".55rem", borderRadius: "8px", border: "1px solid #e5e7eb", background: "#fff", color: "#374151", fontSize: ".82rem", fontWeight: 600, cursor: "pointer" }}>View Pipeline</button>
+              <Link href="/dashboard/deals?demo=true" style={{ flex: 1, padding: ".55rem", borderRadius: "8px", border: "1px solid #e5e7eb", background: "#0a0a0a", color: "#fff", fontSize: ".82rem", fontWeight: 600, cursor: "pointer", textAlign: "center", textDecoration: "none" }}>Register Deal</Link>
+              <Link href="/dashboard/deals?demo=true" style={{ flex: 1, padding: ".55rem", borderRadius: "8px", border: "1px solid #e5e7eb", background: "#fff", color: "#374151", fontSize: ".82rem", fontWeight: 600, cursor: "pointer", textAlign: "center", textDecoration: "none" }}>View Pipeline</Link>
             </div>
           </div>
         </div>

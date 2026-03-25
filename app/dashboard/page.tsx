@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, Suspense, useRef } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
@@ -234,6 +234,43 @@ function SampleDataBanner() {
   );
 }
 
+function DemoAutoSeedInner({ dashboardData }: { dashboardData: any }) {
+  const searchParams = useSearchParams();
+  const seedDemoOrg = useMutation(api.seedDemo.seedDemoOrg);
+  const attemptedRef = useRef(false);
+
+  const isDemoMode = searchParams?.get("demo") === "true";
+
+  useEffect(() => {
+    async function autoSeedDemo() {
+      if (!isDemoMode) return;
+      if (attemptedRef.current) return;
+      if (dashboardData === undefined) return; // Still loading
+      if (dashboardData.stats.totalPartners > 0) return; // Already has data
+
+      attemptedRef.current = true;
+      try {
+        await seedDemoOrg({});
+        // Reload to show seeded data
+        window.location.reload();
+      } catch (e) {
+        console.error("Failed to seed demo org:", e);
+      }
+    }
+    autoSeedDemo();
+  }, [isDemoMode, dashboardData, seedDemoOrg]);
+
+  return null;
+}
+
+function DemoAutoSeed({ dashboardData }: { dashboardData: any }) {
+  return (
+    <Suspense fallback={null}>
+      <DemoAutoSeedInner dashboardData={dashboardData} />
+    </Suspense>
+  );
+}
+
 export default function DashboardPage() {
   const router = useRouter();
 
@@ -276,7 +313,7 @@ export default function DashboardPage() {
   const openConflicts = convexChannelConflicts ?? [];
   const pendingMDF = (convexMdfRequests ?? []).filter((r: any) => r.status === "pending");
 
-    const seedMyOrg = useMutation(api.seedDemo.seedMyOrg);
+  const seedMyOrg = useMutation(api.seedDemo.seedMyOrg);
   const [seeding, setSeeding] = useState(false);
   const [seedDone, setSeedDone] = useState(false);
 
@@ -305,6 +342,7 @@ export default function DashboardPage() {
 
   return (
     <>
+      <DemoAutoSeed dashboardData={dashboardData} />
       <SampleDataBanner />
       <DemoBanner />
       <UpgradeBanner />

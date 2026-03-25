@@ -81,7 +81,8 @@ export default function Nav() {
               null
             ) : (
               <>
-                <Link href="/demo" className="btn nav-cta-btn">View Demo</Link>
+                <Link href="/sign-in" style={{ color: "#6b7280", fontSize: ".9rem", fontWeight: 500, textDecoration: "none", marginRight: ".5rem" }}>Sign in</Link>
+                <Link href="/dashboard?demo=true" className="btn nav-cta-btn">Try it live</Link>
               </>
             )}
             <button
@@ -128,8 +129,11 @@ export default function Nav() {
                   </a>
                 ))}
                 <div className="mobile-menu-divider" />
-                <Link href="/demo" className="btn" style={{ margin: "0.5rem 1rem", textAlign: "center" }} onClick={() => setMobileOpen(false)}>
-                  View Demo
+                <Link href="/sign-in" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
+                  Sign in
+                </Link>
+                <Link href="/dashboard?demo=true" className="btn" style={{ margin: "0.5rem 1rem", textAlign: "center" }} onClick={() => setMobileOpen(false)}>
+                  Try it live
                 </Link>
               </>
             )}
