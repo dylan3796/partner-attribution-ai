@@ -85,6 +85,7 @@ export default function DealDetailPage({
   // Convex queries and mutations
   const dealData = useQuery(api.deals.getById, { id: id as Id<"deals"> });
   const closeDealMutation = useMutation(api.dealsCrud.closeDeal);
+  const recalculateAttributionMutation = useMutation(api.dealsCrud.recalculateAttribution);
   const addTouchpointMutation = useMutation(api.touchpoints.dashboard.add);
   const removeTouchpointMutation = useMutation(api.touchpoints.dashboard.remove);
 
@@ -543,6 +544,35 @@ export default function DealDetailPage({
         )}
       </div>
 
+      {/* Attribution CTA — won deal with touchpoints but no attribution */}
+      {deal.status === "won" && allAttributions.length === 0 && touchpoints.length > 0 && (
+        <div className="card" style={{ textAlign: "center", padding: "2rem" }}>
+          <div style={{ fontSize: "2rem", marginBottom: ".75rem" }}>📊</div>
+          <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: ".5rem" }}>Attribution not yet calculated</h3>
+          <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.25rem" }}>
+            This deal has {touchpoints.length} touchpoint{touchpoints.length !== 1 ? "s" : ""} from {involvedPartners.length} partner{involvedPartners.length !== 1 ? "s" : ""}. Calculate attribution to see how credit should be distributed.
+          </p>
+          <button
+            onClick={async () => {
+              setIsRecalculating(true);
+              try {
+                const result = await recalculateAttributionMutation({ dealId: id as Id<"deals"> });
+                toast(`🎉 Attribution calculated — ${result.attributionsCreated} results across ${result.modelsCalculated} models`, "success");
+              } catch (err: any) {
+                toast(err.message || "Failed to calculate", "error");
+              } finally {
+                setIsRecalculating(false);
+              }
+            }}
+            disabled={isRecalculating}
+            className="btn"
+            style={{ fontSize: ".9rem", padding: ".6rem 1.5rem" }}
+          >
+            {isRecalculating ? "Calculating..." : "Calculate Attribution →"}
+          </button>
+        </div>
+      )}
+
       {/* Attribution Audit Trail (only for won deals) */}
       {deal.status === "won" && allAttributions.length > 0 && (() => {
         const CONTRIBUTION_NOTES: Record<string, string> = {
@@ -577,7 +607,32 @@ export default function DealDetailPage({
         return (
           <div className="card">
             <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1.5rem" }}>
-              <h3 style={{ fontSize: "0.95rem", fontWeight: 600 }}>Attribution Audit Trail</h3>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                <h3 style={{ fontSize: "0.95rem", fontWeight: 600 }}>Attribution Audit Trail</h3>
+                <button
+                  onClick={async () => {
+                    setIsRecalculating(true);
+                    try {
+                      const result = await recalculateAttributionMutation({ dealId: id as Id<"deals"> });
+                      toast(`Attribution recalculated — ${result.attributionsCreated} results across ${result.modelsCalculated} models (${result.calculationTimeMs}ms)`, "success");
+                    } catch (err: any) {
+                      toast(err.message || "Failed to recalculate", "error");
+                    } finally {
+                      setIsRecalculating(false);
+                    }
+                  }}
+                  disabled={isRecalculating}
+                  style={{
+                    background: "none", border: "1px solid var(--border)", borderRadius: 6,
+                    padding: "4px 10px", fontSize: "0.75rem", fontWeight: 500,
+                    color: "var(--muted)", cursor: isRecalculating ? "not-allowed" : "pointer",
+                    display: "flex", alignItems: "center", gap: 4,
+                    opacity: isRecalculating ? 0.6 : 1,
+                  }}
+                >
+                  {isRecalculating ? "⟳ Recalculating..." : "⟳ Recalculate"}
+                </button>
+              </div>
               <span style={{ fontSize: "0.7rem", fontWeight: 600, background: "var(--subtle)", padding: "0.2rem 0.6rem", borderRadius: 12 }}>🔍 Fully auditable</span>
             </div>
 

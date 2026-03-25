@@ -18,6 +18,7 @@ export default function DealsPage() {
   const convexDeals = useQuery(api.dealsCrud.list);
   const convexPartners = useQuery(api.partners.list);
   const addDealMutation = useMutation(api.dealsCrud.create);
+  const calculateAllMissingMutation = useMutation(api.dealsCrud.calculateAllMissing);
 
   // Deal registration approvals
   const approveDeal = useMutation(api.deals.approveDealRegistration);
@@ -386,6 +387,18 @@ export default function DealsPage() {
               <List size={16} />
             </button>
           </div>
+          <button className="btn-outline" onClick={async () => {
+            try {
+              const result = await calculateAllMissingMutation({});
+              if (result.dealsProcessed === 0) {
+                toast("All won deals already have attribution data", "info");
+              } else {
+                toast(`✅ Calculated attribution for ${result.dealsProcessed} deal${result.dealsProcessed !== 1 ? "s" : ""} (${result.attributionsCreated} results)`, "success");
+              }
+            } catch (err: any) { toast(err.message || "Failed", "error"); }
+          }} style={{ fontSize: ".85rem", padding: ".5rem .8rem" }}>
+            <Target size={15} /> Calculate Attribution
+          </button>
           <button className="btn-outline" onClick={() => { exportDealsCSV(deals); toast("Deals exported"); }} style={{ fontSize: ".85rem", padding: ".5rem .8rem" }}>
             <Download size={15} /> Export
           </button>

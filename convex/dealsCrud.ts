@@ -6,6 +6,7 @@ import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 
 import { getOrg } from "./lib/getOrg";
+import { calculateDealAttribution, calculateMissingAttributions } from "./lib/attribution/calculator";
 
 async function defaultOrg(ctx: any) {
   return await getOrg(ctx);
@@ -67,11 +68,115 @@ export const closeDeal = mutation({
     status: v.union(v.literal("won"), v.literal("lost")),
   },
   handler: async (ctx, args) => {
+    const org = await defaultOrg(ctx);
+
     await ctx.db.patch(args.id, {
       status: args.status,
       closedAt: Date.now(),
     });
+
+    // Auto-calculate attribution when a deal is won
+    if (args.status === "won" && org) {
+      try {
+        const result = await calculateDealAttribution(ctx, args.id, org._id, {
+          replaceExisting: true,
+        });
+        // Audit log
+        await ctx.db.insert("audit_log", {
+          organizationId: org._id,
+          action: "attribution.calculated",
+          entityType: "deal",
+          entityId: args.id,
+          changes: JSON.stringify({
+            models: result.modelsCalculated,
+            attributionsCreated: result.totalAttributionsCreated,
+            calculationTimeMs: result.calculationTimeMs,
+          }),
+          createdAt: Date.now(),
+        });
+        return {
+          success: true,
+          attribution: {
+            modelsCalculated: result.modelsCalculated.length,
+            attributionsCreated: result.totalAttributionsCreated,
+          },
+        };
+      } catch (e: any) {
+        // Deal is still closed even if attribution fails (e.g. no touchpoints)
+        console.warn("Attribution calculation skipped:", e.message);
+        return { success: true, attribution: null, reason: e.message };
+      }
+    }
+
     return { success: true };
+  },
+});
+
+/**
+ * Recalculate attribution for a specific deal.
+ * Useful when touchpoints are added/changed after initial calculation.
+ */
+export const recalculateAttribution = mutation({
+  args: {
+    dealId: v.id("deals"),
+  },
+  handler: async (ctx, args) => {
+    const org = await defaultOrg(ctx);
+    if (!org) throw new Error("No organization found.");
+
+    const deal = await ctx.db.get(args.dealId);
+    if (!deal) throw new Error("Deal not found.");
+    if (deal.status !== "won") throw new Error("Can only calculate attribution for won deals.");
+
+    const result = await calculateDealAttribution(ctx, args.dealId, org._id, {
+      replaceExisting: true,
+    });
+
+    await ctx.db.insert("audit_log", {
+      organizationId: org._id,
+      action: "attribution.recalculated",
+      entityType: "deal",
+      entityId: args.dealId,
+      changes: JSON.stringify({
+        models: result.modelsCalculated,
+        attributionsCreated: result.totalAttributionsCreated,
+      }),
+      createdAt: Date.now(),
+    });
+
+    return {
+      success: true,
+      modelsCalculated: result.modelsCalculated.length,
+      attributionsCreated: result.totalAttributionsCreated,
+      calculationTimeMs: result.calculationTimeMs,
+    };
+  },
+});
+
+/**
+ * Calculate attribution for all won deals missing attribution data.
+ * Backfill tool for orgs with existing data.
+ */
+export const calculateAllMissing = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) throw new Error("No organization found.");
+
+    const result = await calculateMissingAttributions(ctx, org._id);
+
+    if (result.dealsProcessed > 0) {
+      await ctx.db.insert("audit_log", {
+        organizationId: org._id,
+        action: "attribution.backfill",
+        entityType: "organization",
+        entityId: org._id,
+        changes: JSON.stringify(result),
+        createdAt: Date.now(),
+      });
+    }
+
+    return result;
   },
 });
 
