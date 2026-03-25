@@ -20,7 +20,11 @@ export const create = mutation({
       v.literal("content_share"),
       v.literal("introduction"),
       v.literal("proposal"),
-      v.literal("negotiation")
+      v.literal("negotiation"),
+      v.literal("deal_registration"),
+      v.literal("co_sell"),
+      v.literal("technical_enablement"),
+      v.literal("crm_sync")
     ),
     weight: v.optional(v.number()),
     notes: v.optional(v.string()),
@@ -75,7 +79,11 @@ export const update = mutation({
       v.literal("content_share"),
       v.literal("introduction"),
       v.literal("proposal"),
-      v.literal("negotiation")
+      v.literal("negotiation"),
+      v.literal("deal_registration"),
+      v.literal("co_sell"),
+      v.literal("technical_enablement"),
+      v.literal("crm_sync")
     )),
     weight: v.optional(v.number()),
     notes: v.optional(v.string()),

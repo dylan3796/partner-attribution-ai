@@ -2,9 +2,51 @@ import { NextResponse } from 'next/server';
 import { ConvexHttpClient } from 'convex/browser';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
-import { getClosedWonDeals, getContact, refreshAccessToken } from '@/lib/hubspot';
+import { getClosedWonDeals, getContact, refreshAccessToken, HubSpotDeal } from '@/lib/hubspot';
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
+
+type Partner = {
+  _id: Id<"partners">;
+  name: string;
+  email: string;
+  organizationId: Id<"organizations">;
+};
+
+/**
+ * Try to match a deal to a partner by name or email domain
+ */
+function matchPartner(
+  deal: HubSpotDeal,
+  contactEmail: string | undefined,
+  partners: Partner[]
+): { partner: Partner | null; method: 'name' | 'domain' | null } {
+  // First try: match by partner_name property (custom HubSpot field)
+  const partnerNameField = (deal.properties as Record<string, string | null>).partner_name;
+  if (partnerNameField) {
+    const nameMatch = partners.find(
+      (p) => p.name.toLowerCase() === partnerNameField.toLowerCase()
+    );
+    if (nameMatch) {
+      return { partner: nameMatch, method: 'name' };
+    }
+  }
+
+  // Second try: match by contact email domain
+  if (contactEmail && contactEmail.includes('@')) {
+    const domain = contactEmail.split('@')[1].toLowerCase();
+    const domainMatch = partners.find((p) => {
+      if (!p.email || !p.email.includes('@')) return false;
+      const partnerDomain = p.email.split('@')[1].toLowerCase();
+      return partnerDomain === domain;
+    });
+    if (domainMatch) {
+      return { partner: domainMatch, method: 'domain' };
+    }
+  }
+
+  return { partner: null, method: null };
+}
 
 export async function POST(request: Request) {
   const { organizationId } = await request.json();
@@ -22,7 +64,7 @@ export async function POST(request: Request) {
   let { accessToken } = connection;
 
   // Fetch deals (retry once with refreshed token on 401)
-  let deals;
+  let deals: HubSpotDeal[];
   try {
     deals = await getClosedWonDeals(accessToken, connection.lastSyncedAt ?? undefined);
   } catch (err) {
@@ -40,9 +82,15 @@ export async function POST(request: Request) {
     }
   }
 
+  // Fetch partners for matching
+  const partners = await convex.query(api.integrations.listPartnersForOrg, {
+    organizationId: organizationId as Id<"organizations">,
+  }) as Partner[];
+
   let created = 0;
   let updated = 0;
   const errors: string[] = [];
+  const matched = { count: 0, byName: 0, byDomain: 0 };
 
   for (const deal of deals) {
     try {
@@ -51,17 +99,22 @@ export async function POST(request: Request) {
       const amount = parseFloat(props.amount ?? '0') || 0;
       const closedAt = props.closedate ? new Date(props.closedate).getTime() : Date.now();
 
-      // Optionally resolve first associated contact name
+      // Optionally resolve first associated contact
       let contactName: string | undefined;
+      let contactEmail: string | undefined;
       const contactId = deal.associations?.contacts?.results?.[0]?.id;
       if (contactId) {
         const contact = await getContact(accessToken, contactId);
         if (contact) {
           const fn = contact.properties.firstname ?? '';
           const ln = contact.properties.lastname ?? '';
-          contactName = `${fn} ${ln}`.trim() || (contact.properties.email ?? undefined);
+          contactEmail = contact.properties.email ?? undefined;
+          contactName = `${fn} ${ln}`.trim() || contactEmail;
         }
       }
+
+      // Try to match a partner
+      const { partner, method } = matchPartner(deal, contactEmail, partners);
 
       const result = await convex.mutation(api.integrations.upsertDealFromHubSpot, {
         organizationId: organizationId as Id<'organizations'>,
@@ -70,9 +123,24 @@ export async function POST(request: Request) {
         amount,
         closedAt,
         contactName,
+        registeredBy: partner?._id,
       });
 
       result.created ? created++ : updated++;
+
+      // Create touchpoint if partner matched
+      if (partner) {
+        matched.count++;
+        if (method === 'name') matched.byName++;
+        if (method === 'domain') matched.byDomain++;
+
+        await convex.mutation(api.integrations.createCrmSyncTouchpoint, {
+          organizationId: organizationId as Id<'organizations'>,
+          dealId: result.dealId,
+          partnerId: partner._id,
+          notes: `Matched by ${method} during HubSpot sync`,
+        });
+      }
     } catch (e) {
       errors.push(`Deal ${deal.id}: ${e instanceof Error ? e.message : String(e)}`);
     }
@@ -86,6 +154,16 @@ export async function POST(request: Request) {
   return NextResponse.json({
     success: true,
     synced: { total: deals.length, created, updated },
+    matched: {
+      count: matched.count,
+      method: matched.byName > 0 && matched.byDomain > 0
+        ? 'name+domain'
+        : matched.byName > 0
+        ? 'name'
+        : matched.byDomain > 0
+        ? 'domain'
+        : 'none',
+    },
     ...(errors.length ? { errors } : {}),
   });
 }

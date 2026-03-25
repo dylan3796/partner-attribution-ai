@@ -123,7 +123,8 @@ export const importTouchpoints = mutation({
           v.literal("negotiation"),
           v.literal("deal_registration"),
           v.literal("co_sell"),
-          v.literal("technical_enablement")
+          v.literal("technical_enablement"),
+          v.literal("crm_sync")
         ),
         weight: v.optional(v.number()),
         notes: v.optional(v.string()),

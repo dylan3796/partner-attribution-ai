@@ -67,7 +67,8 @@ export type TouchpointType =
   | "negotiation"
   | "deal_registration"
   | "co_sell"
-  | "technical_enablement";
+  | "technical_enablement"
+  | "crm_sync";
 
 export type Touchpoint = {
   _id: string;
@@ -199,6 +200,7 @@ export const TOUCHPOINT_LABELS: Record<TouchpointType, string> = {
   deal_registration: "Deal Registration",
   co_sell: "Co-Sell",
   technical_enablement: "Technical Enablement",
+  crm_sync: "CRM Sync",
 };
 
 export const PARTNER_TYPE_LABELS: Record<Partner["type"], string> = {

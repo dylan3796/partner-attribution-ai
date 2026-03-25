@@ -136,6 +136,7 @@ export const upsertDealFromSalesforce = mutation({
     closedAt: v.number(),
     contactName: v.optional(v.string()),
     ownerName: v.optional(v.string()),
+    registeredBy: v.optional(v.id("partners")),
   },
   handler: async (ctx, args) => {
     // Check if deal already exists with this Salesforce ID
@@ -143,19 +144,24 @@ export const upsertDealFromSalesforce = mutation({
       .query("deals")
       .withIndex("by_salesforce_id", (q) => q.eq("salesforceId", args.salesforceId))
       .first();
-    
+
     if (existing) {
       // Update existing deal
-      await ctx.db.patch(existing._id, {
+      const updates: Record<string, unknown> = {
         name: args.name,
         amount: args.amount,
         closedAt: args.closedAt,
         contactName: args.contactName,
         notes: args.ownerName ? `SF Owner: ${args.ownerName}` : existing.notes,
-      });
+      };
+      // Only update registeredBy if provided and not already set
+      if (args.registeredBy && !existing.registeredBy) {
+        updates.registeredBy = args.registeredBy;
+      }
+      await ctx.db.patch(existing._id, updates);
       return { dealId: existing._id, created: false };
     }
-    
+
     // Create new deal
     const dealId = await ctx.db.insert("deals", {
       organizationId: args.organizationId,
@@ -167,9 +173,10 @@ export const upsertDealFromSalesforce = mutation({
       contactName: args.contactName,
       notes: args.ownerName ? `SF Owner: ${args.ownerName}` : undefined,
       source: "salesforce",
+      registeredBy: args.registeredBy,
       createdAt: Date.now(),
     });
-    
+
     return { dealId, created: true };
   },
 });
@@ -368,6 +375,7 @@ export const upsertDealFromHubSpot = mutation({
     closedAt: v.number(),
     contactName: v.optional(v.string()),
     ownerName: v.optional(v.string()),
+    registeredBy: v.optional(v.id("partners")),
   },
   handler: async (ctx, args) => {
     const existing = await ctx.db
@@ -376,13 +384,18 @@ export const upsertDealFromHubSpot = mutation({
       .first();
 
     if (existing) {
-      await ctx.db.patch(existing._id, {
+      const updates: Record<string, unknown> = {
         name: args.name,
         amount: args.amount,
         closedAt: args.closedAt,
         contactName: args.contactName,
         notes: args.ownerName ? `HS Owner: ${args.ownerName}` : existing.notes,
-      });
+      };
+      // Only update registeredBy if provided and not already set
+      if (args.registeredBy && !existing.registeredBy) {
+        updates.registeredBy = args.registeredBy;
+      }
+      await ctx.db.patch(existing._id, updates);
       return { dealId: existing._id, created: false };
     }
 
@@ -396,6 +409,7 @@ export const upsertDealFromHubSpot = mutation({
       contactName: args.contactName,
       notes: args.ownerName ? `HS Owner: ${args.ownerName}` : undefined,
       source: "hubspot",
+      registeredBy: args.registeredBy,
       createdAt: Date.now(),
     });
 
@@ -438,5 +452,60 @@ export const getCrmStatuses = query({
         ? { connected: true as const, portalName: hsConn.hubspotPortalName, lastSyncedAt: hsConn.lastSyncedAt, syncedDeals: allDeals.filter(d => d.source === 'hubspot').length }
         : { connected: false as const },
     };
+  },
+});
+
+// ============================================================================
+// Partner Matching for CRM Sync
+// ============================================================================
+
+/**
+ * List partners for an organization (used for CRM sync partner matching)
+ */
+export const listPartnersForOrg = query({
+  args: {
+    organizationId: v.id("organizations"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("partners")
+      .withIndex("by_organization", (q) => q.eq("organizationId", args.organizationId))
+      .collect();
+  },
+});
+
+/**
+ * Create a touchpoint from CRM sync (bypasses deal status check since synced deals are won)
+ */
+export const createCrmSyncTouchpoint = mutation({
+  args: {
+    organizationId: v.id("organizations"),
+    dealId: v.id("deals"),
+    partnerId: v.id("partners"),
+    notes: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    // Check if touchpoint already exists for this deal/partner combo
+    const existing = await ctx.db
+      .query("touchpoints")
+      .withIndex("by_deal", (q) => q.eq("dealId", args.dealId))
+      .filter((q) => q.eq(q.field("partnerId"), args.partnerId))
+      .first();
+
+    if (existing) {
+      // Already has a touchpoint for this partner
+      return { touchpointId: existing._id, created: false };
+    }
+
+    const touchpointId = await ctx.db.insert("touchpoints", {
+      organizationId: args.organizationId,
+      dealId: args.dealId,
+      partnerId: args.partnerId,
+      type: "crm_sync",
+      notes: args.notes ?? "Auto-matched during CRM sync",
+      createdAt: Date.now(),
+    });
+
+    return { touchpointId, created: true };
   },
 });

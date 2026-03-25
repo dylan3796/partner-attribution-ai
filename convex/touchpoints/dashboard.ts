@@ -14,7 +14,8 @@ const TOUCHPOINT_TYPES = v.union(
   v.literal("negotiation"),
   v.literal("deal_registration"),
   v.literal("co_sell"),
-  v.literal("technical_enablement")
+  v.literal("technical_enablement"),
+  v.literal("crm_sync")
 );
 
 /**
