@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
-import { Plus, Pencil, Trash2, X, Shield, Loader2 } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Shield, Loader2, Sparkles, Save } from "lucide-react";
 
 type RuleForm = {
   name: string;
@@ -14,6 +14,15 @@ type RuleForm = {
   productLine: string;
   rate: number;
   minDealSize: string;
+  priority: number;
+};
+
+type ParsedRule = {
+  name: string;
+  field: string;
+  operator: string;
+  value: string;
+  actionValue: string;
   priority: number;
 };
 
@@ -50,6 +59,12 @@ export default function CommissionRulesPage() {
   const updateRule = useMutation(api.commissionRules.update);
   const removeRule = useMutation(api.commissionRules.remove);
   const { toast } = useToast();
+
+  // NL parsing state
+  const [nlText, setNlText] = useState("");
+  const [parsedRules, setParsedRules] = useState<ParsedRule[]>([]);
+  const [parsing, setParsing] = useState(false);
+  const [savingNl, setSavingNl] = useState(false);
 
   // Build product options from catalog — group by category for readability
   const productOptions = useMemo(() => {
@@ -139,6 +154,56 @@ export default function CommissionRulesPage() {
     toast("Rule deleted");
   }
 
+  // NL parsing functions
+  async function handleParseNL() {
+    if (!nlText.trim()) return;
+    setParsing(true);
+    setParsedRules([]);
+    try {
+      const res = await fetch("/api/parse-rules", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: nlText }),
+      });
+      const data = await res.json();
+      if (data.rules && data.rules.length > 0) {
+        setParsedRules(data.rules);
+        toast(`Parsed ${data.rules.length} rule(s)`);
+      } else {
+        toast("No rules could be parsed from this text");
+      }
+    } catch (err) {
+      toast("Failed to parse rules");
+    }
+    setParsing(false);
+  }
+
+  async function handleSaveNLRules() {
+    if (parsedRules.length === 0) return;
+    setSavingNl(true);
+    try {
+      const res = await fetch("/api/parse-rules", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          text: nlText,
+          save: true,
+        }),
+      });
+      const data = await res.json();
+      if (data.saved && data.savedRuleIds?.length > 0) {
+        toast(`Saved ${data.savedRuleIds.length} rule(s) to your commission rules`);
+        setParsedRules([]);
+        setNlText("");
+      } else {
+        toast("Failed to save rules");
+      }
+    } catch (err) {
+      toast("Failed to save rules");
+    }
+    setSavingNl(false);
+  }
+
   const thStyle: React.CSSProperties = {
     textAlign: "left",
     padding: "0.75rem 1rem",
@@ -186,6 +251,71 @@ export default function CommissionRulesPage() {
           When a deal is attributed, the system matches rules top-to-bottom by priority. The first rule that matches the partner&apos;s type, tier, product, and deal size is applied. If no rule matches, the partner&apos;s default rate is used.
           {productOptions.length > 0 && " Product-specific rules pull from your product catalog."}
         </p>
+      </div>
+
+      {/* Natural Language Rule Parser */}
+      <div className="card" style={{ padding: "1.25rem", marginBottom: "1.5rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.75rem" }}>
+          <Sparkles size={16} style={{ color: "#8b5cf6" }} />
+          <h3 style={{ fontSize: "0.95rem", fontWeight: 600 }}>Create Rules from Natural Language</h3>
+        </div>
+        <p style={{ fontSize: "0.85rem", color: "var(--muted)", marginBottom: "0.75rem" }}>
+          Describe your commission structure in plain English. Example: &quot;Gold partners get 25%, Silver 20%, Bronze 15%&quot;
+        </p>
+        <textarea
+          style={{
+            ...inputStyle,
+            minHeight: 80,
+            resize: "vertical",
+            marginBottom: "0.75rem",
+          }}
+          placeholder="e.g., Platinum tier partners earn 30% commission. Gold tier gets 25%. Deals over $100,000 add a 5% bonus."
+          value={nlText}
+          onChange={(e) => setNlText(e.target.value)}
+        />
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+          <button
+            className="btn"
+            onClick={handleParseNL}
+            disabled={parsing || !nlText.trim()}
+            style={{ background: "#8b5cf6" }}
+          >
+            {parsing ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Sparkles size={14} />}
+            {parsing ? "Parsing..." : "Parse Rules"}
+          </button>
+          {parsedRules.length > 0 && (
+            <button
+              className="btn"
+              onClick={handleSaveNLRules}
+              disabled={savingNl}
+              style={{ background: "#22c55e" }}
+            >
+              {savingNl ? <Loader2 size={14} style={{ animation: "spin 1s linear infinite" }} /> : <Save size={14} />}
+              {savingNl ? "Saving..." : `Save ${parsedRules.length} Rule(s)`}
+            </button>
+          )}
+        </div>
+
+        {/* Parsed rules preview */}
+        {parsedRules.length > 0 && (
+          <div style={{ marginTop: "1rem", padding: "1rem", background: "var(--subtle)", borderRadius: 8 }}>
+            <p style={{ fontSize: "0.8rem", fontWeight: 600, marginBottom: "0.5rem", textTransform: "uppercase", letterSpacing: "0.04em", color: "var(--muted)" }}>
+              Preview ({parsedRules.length} rules parsed)
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+              {parsedRules.map((rule, idx) => (
+                <div key={idx} style={{ display: "flex", alignItems: "center", gap: "0.75rem", fontSize: "0.85rem" }}>
+                  <span style={{ width: 24, height: 24, borderRadius: 6, background: "var(--bg)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 600, fontSize: "0.75rem" }}>
+                    {rule.priority}
+                  </span>
+                  <span style={{ fontWeight: 600 }}>{rule.name}</span>
+                  <span className="badge">{rule.field} {rule.operator} {rule.value}</span>
+                  <span style={{ color: "#22c55e", fontWeight: 700 }}>{rule.actionValue}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Rules table */}
