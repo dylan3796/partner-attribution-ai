@@ -63,44 +63,115 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── PLATFORM PILLARS ─────────────────────────────── */}
-      <section style={{ padding: "4rem 0", background: "#f9fafb", borderTop: "1px solid #f3f4f6", borderBottom: "1px solid #f3f4f6" }}>
+      {/* ── ENGINES ──────────────────────────────────────── */}
+      <section style={{ padding: "6rem 0", background: "#0a0a0a" }}>
         <div className="wrap">
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: "1rem" }}>
+          <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+            <p style={{ fontSize: ".78rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(129,140,248,.7)", marginBottom: ".75rem" }}>
+              AI Engines
+            </p>
+            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", color: "#ffffff", marginBottom: "1rem" }}>
+              Four engines. Running your program 24/7.
+            </h2>
+            <p style={{ fontSize: "1rem", color: "rgba(255,255,255,.5)", maxWidth: 540, margin: "0 auto", lineHeight: 1.65 }}>
+              Not dashboards. Not reports. Active systems that discover relationships, automate attribution, facilitate your program, and tell you exactly what to do next.
+            </p>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", background: "rgba(255,255,255,.08)", borderRadius: 16, overflow: "hidden", border: "1px solid rgba(255,255,255,.08)" }}>
             {[
               {
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>,
-                title: "Attribution", desc: "Who drove the deal."
+                accent: "#818cf8",
+                label: "Attribution Engine",
+                headline: "Discovers who drove every deal.",
+                body: "Scans touchpoints, deal history, and registration data to surface partner relationships you know about — and the ones you didn't. Multi-touch models, full audit trail, zero disputes.",
+                tags: ["Relationship discovery", "Multi-touch models", "Deal reg protection"],
               },
               {
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
-                title: "Incentives", desc: "Tiers, SPIFFs, MDF."
+                accent: "#34d399",
+                label: "Incentives Engine",
+                headline: "Turns program rules into automatic payouts.",
+                body: "Define tiers, SPIFFs, MDF, and accelerators once. Every qualifying event runs through your ruleset and queues for payout. The gap between 'someone did something' and 'someone gets paid' closes permanently.",
+                tags: ["Tier automation", "SPIFFs & MDF", "Bulk payout approval"],
               },
               {
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v2m0 8v2M9.5 9a2.5 2.5 0 0 1 5 0c0 1.5-1 2-2.5 3s-2.5 1.5-2.5 3a2.5 2.5 0 0 0 5 0"/></svg>,
-                title: "Commissions", desc: "Calculated automatically."
+                accent: "#fb923c",
+                label: "Intelligence Engine",
+                headline: "Tells you which partner to call next.",
+                body: "Health scores, pipeline trends, at-risk alerts, and QBR reports that write themselves. Spots which partners are about to go dark and which ones are primed to close — before you have to ask.",
+                tags: ["Health scoring", "Churn prediction", "QBR automation"],
               },
               {
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
-                title: "Partner Portal", desc: "Self-service for partners."
+                accent: "#38bdf8",
+                label: "CRM Engine",
+                headline: "Keeps partner data in sync, everywhere.",
+                body: "Bi-directional Salesforce and HubSpot sync. Deal data flows in, partner attribution flows out. No manual re-entry, no gaps between your CRM and your partner program.",
+                tags: ["Salesforce sync", "HubSpot sync", "Bi-directional"],
               },
-              {
-                icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>,
-                title: "Revenue Intel", desc: "Pipeline by partner."
-              },
-            ].map((p) => (
-              <div key={p.title} style={{
-                background: "#ffffff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "12px",
-                padding: "1.25rem",
-                textAlign: "center",
-              }}>
-                <div style={{ display: "flex", justifyContent: "center", marginBottom: ".6rem", color: "#374151" }}>{p.icon}</div>
-                <p style={{ fontWeight: 700, fontSize: ".88rem", color: "#0a0a0a", marginBottom: ".3rem" }}>{p.title}</p>
-                <p className="l-muted" style={{ fontSize: ".78rem", lineHeight: 1.4 }}>{p.desc}</p>
+            ].map((e) => (
+              <div
+                key={e.label}
+                style={{
+                  background: "#111111",
+                  padding: "2rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                }}
+              >
+                <div>
+                  <span style={{
+                    display: "inline-flex", alignItems: "center", gap: 6,
+                    fontSize: ".72rem", fontWeight: 700, letterSpacing: ".06em",
+                    textTransform: "uppercase", color: e.accent, marginBottom: ".75rem",
+                  }}>
+                    <span style={{ width: 6, height: 6, borderRadius: "50%", background: e.accent, display: "inline-block", boxShadow: `0 0 6px ${e.accent}` }} />
+                    {e.label}
+                  </span>
+                  <h3 style={{ fontSize: "1.15rem", fontWeight: 800, color: "#ffffff", lineHeight: 1.25, letterSpacing: "-.01em", marginBottom: ".65rem" }}>
+                    {e.headline}
+                  </h3>
+                  <p style={{ fontSize: ".85rem", color: "rgba(255,255,255,.5)", lineHeight: 1.65 }}>
+                    {e.body}
+                  </p>
+                </div>
+                <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "auto" }}>
+                  {e.tags.map((t) => (
+                    <span key={t} style={{
+                      fontSize: ".7rem", fontWeight: 600, padding: "3px 9px",
+                      borderRadius: 20, border: `1px solid ${e.accent}30`,
+                      color: e.accent, background: `${e.accent}10`,
+                    }}>{t}</span>
+                  ))}
+                </div>
               </div>
             ))}
+          </div>
+
+          {/* Portal strip */}
+          <div style={{
+            marginTop: "1px",
+            background: "#111111",
+            border: "1px solid rgba(255,255,255,.08)",
+            borderRadius: "0 0 16px 16px",
+            padding: "1.25rem 2rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+            gap: 16,
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span style={{ fontSize: ".72rem", fontWeight: 700, color: "#10b981", letterSpacing: ".06em", textTransform: "uppercase", background: "rgba(16,185,129,.12)", border: "1px solid rgba(16,185,129,.25)", padding: "3px 10px", borderRadius: 20 }}>
+                Always Free
+              </span>
+              <span style={{ color: "rgba(255,255,255,.7)", fontSize: ".9rem", fontWeight: 600 }}>Partner Portal</span>
+              <span style={{ color: "rgba(255,255,255,.35)", fontSize: ".85rem" }}>—</span>
+              <span style={{ color: "rgba(255,255,255,.45)", fontSize: ".85rem" }}>AI-powered workspace. Bi-directional syncs. Fully customizable. Included with every plan.</span>
+            </div>
+            <Link href="/pricing" style={{ fontSize: ".82rem", fontWeight: 600, color: "#818cf8", textDecoration: "none", flexShrink: 0 }}>
+              See pricing →
+            </Link>
           </div>
         </div>
       </section>

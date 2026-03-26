@@ -89,19 +89,19 @@ function TourSection({
 /* ── Data ─────────────────────────────────────────────────── */
 
 const PROBLEMS = [
-  { before: "Who closed this deal?", after: "Attribution engine answers it automatically — every deal, every time." },
-  { before: "When do partners get paid?", after: "Commission rules run on close. Payouts are scheduled, not chased." },
-  { before: "Why did that partner go quiet?", after: "Health scoring flags at-risk partners before they churn." },
-  { before: "Where do I track deal registrations?", after: "Partners register in the portal. Conflicts auto-detected. No spreadsheets." },
+  { before: "Who actually drove this deal?", after: "Attribution Engine discovers it automatically — touchpoints, registrations, and hidden relationships, every deal, every time." },
+  { before: "When do partners get paid, and how much?", after: "Incentives Engine runs your rules on close. Commission calculated, payout queued. No chasing, no spreadsheets." },
+  { before: "Why did that partner go quiet?", after: "Intelligence Engine flags at-risk partners before they churn — health scores, trend alerts, QBR data ready to go." },
+  { before: "Which partner should I focus on this quarter?", after: "Intelligence Engine surfaces who's primed to close next, who needs attention, and who's ready to tier up." },
 ];
 
 const PILLARS = [
-  { number: "01", title: "Attribution", description: "Every deal gets a source. Multi-partner splits, deal registration protection, and a full audit trail — so nobody disputes who drove what." },
-  { number: "02", title: "Commission Engine", description: "Tiered rates, product-specific rules, accelerators, SPIFs. Set the rules once. Covant calculates and queues payouts automatically." },
-  { number: "03", title: "Partner Portal", description: "A fully branded, AI-powered workspace — free for every partner, forever. Bi-directional syncs, customizable per-partner flows, deal registration, commission visibility, and an AI layer that answers their questions instantly. Everything partner teams have asked PRMs for, built from scratch." },
-  { number: "04", title: "Deal Registration", description: "Partners register deals in minutes. Conflict detection runs instantly. Approval workflows run on your rules, not your inbox." },
-  { number: "05", title: "Revenue Intelligence", description: "Win/loss by partner. Health scores. Pipeline trends. QBR reports that write themselves. Stop flying blind on which partners are performing." },
-  { number: "06", title: "Program Management", description: "Tier management, onboarding tracking, certifications, announcements. Everything a channel team needs to run a program — not just track it." },
+  { number: "01", title: "Attribution Engine", description: "Discovers who drove every deal — including the partners you didn't know were involved. Multi-touch models, deal registration protection, explainable calculations, full audit trail. Attribution disputes stop happening." },
+  { number: "02", title: "Incentives Engine", description: "Turns your program rules into automatic payouts. Tiered rates, product-specific splits, accelerators, SPIFFs, MDF — define the logic once. Every qualifying event runs through it automatically and queues for approval." },
+  { number: "03", title: "Intelligence Engine", description: "Tells you which partners to invest in next. Health scores surface at-risk partners before they go quiet. Pipeline trends show who's primed to close. QBR reports write themselves from live data." },
+  { number: "04", title: "CRM Engine", description: "Bi-directional Salesforce and HubSpot sync — partner attribution flows out, deal data flows in. No manual re-entry, no divergence between your CRM and your partner program." },
+  { number: "05", title: "Partner Portal", description: "A fully branded, AI-powered workspace — free for every partner, forever. Bi-directional syncs, customizable per-partner flows, deal registration, commission visibility, and an AI layer that answers their questions instantly." },
+  { number: "06", title: "Deal Registration & Ops", description: "Partners register deals in minutes. Conflict detection runs instantly. Approval workflows follow your rules. Every deal links back to the attribution, the commission rule, and the partner who sourced it." },
 ];
 
 const WHO = [
