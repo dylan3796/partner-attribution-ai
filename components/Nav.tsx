@@ -8,7 +8,6 @@ import type { FeatureFlags } from "@/lib/types";
 
 const marketingLinks = [
   { name: "Platform", href: "/platform" },
-  { name: "Product", href: "/product" },
   { name: "Pricing", href: "/pricing" },
   { name: "Resources", href: "/resources" },
 ];
