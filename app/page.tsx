@@ -176,16 +176,16 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── DEEP-DIVE: ATTRIBUTION ───────────────────────── */}
+      {/* ── DEEP-DIVE: ATTRIBUTION ENGINE ───────────────── */}
       <section style={{ padding: "7rem 0", background: "#ffffff" }}>
         <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "5rem", alignItems: "center" }}>
           <div>
-            <span className="l-label">Attribution</span>
+            <span className="l-label">Attribution Engine</span>
             <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 800, lineHeight: 1.15, letterSpacing: "-.02em", marginBottom: "1.2rem", color: "#0a0a0a" }}>
-              Attribution that partners actually trust
+              Discovers who drove every deal — including the ones you didn&apos;t know about.
             </h2>
             <p className="l-muted" style={{ fontSize: "1.05rem", lineHeight: 1.65 }}>
-              First-touch, last-touch, or multi-touch — configure once, apply automatically. Every calculation is explainable. Attribution disputes disappear.
+              First-touch, last-touch, multi-touch, or custom weights — configure once, runs automatically on every deal. Every calculation is explainable. Attribution disputes stop happening because the answer is already there.
             </p>
           </div>
           <div className="l-card">
@@ -205,7 +205,85 @@ export default function LandingPage() {
               <div className="l-bar-track"><div className="l-bar-fill" style={{ width: "15%" }}></div></div>
               <span style={{ fontWeight: 600 }}>15%</span>
             </div>
-            <p className="l-muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>Model: Role-Based · custom weights</p>
+            <p className="l-muted" style={{ marginTop: "1rem", fontSize: ".85rem" }}>Model: Role-Based · custom weights · auto-triggered on close</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ── DEEP-DIVE: INCENTIVES ENGINE ─────────────────── */}
+      <section style={{ padding: "7rem 0", background: "#f9fafb" }}>
+        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "5rem", alignItems: "center" }}>
+          <div style={{ order: 2 }}>
+            <span className="l-label">Incentives Engine</span>
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 800, lineHeight: 1.15, letterSpacing: "-.02em", marginBottom: "1.2rem", color: "#0a0a0a" }}>
+              Turns program rules into automatic payouts.
+            </h2>
+            <p className="l-muted" style={{ fontSize: "1.05rem", lineHeight: 1.65 }}>
+              Tiers, SPIFFs, MDF, accelerators, product-specific splits — define the logic once. Every qualifying event runs through your ruleset and queues for approval automatically. The gap between &ldquo;someone closed a deal&rdquo; and &ldquo;someone gets paid&rdquo; closes permanently.
+            </p>
+          </div>
+          <div className="l-card" style={{ order: 1 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+              <h4 style={{ fontWeight: 600, color: "#0a0a0a", margin: 0 }}>Commission Calculated</h4>
+              <span style={{ fontSize: ".72rem", fontWeight: 700, color: "#10b981", background: "#d1fae5", padding: "2px 8px", borderRadius: 6 }}>Auto-triggered</span>
+            </div>
+            {[
+              { rule: "Gold Reseller · Deal >$25K", partner: "TechStar", deal: "Acme Corp", rate: "18%", payout: "$9,000" },
+              { rule: "Referral Standard", partner: "CloudBridge", deal: "Acme Corp", rate: "10%", payout: "$5,000" },
+              { rule: "New Partner Bonus (first 3)", partner: "DataPipe", deal: "NexaCorp", rate: "20%", payout: "$3,200" },
+            ].map((r, i) => (
+              <div key={i} style={{ padding: "10px 0", borderBottom: i < 2 ? "1px solid #f3f4f6" : "none" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 2 }}>
+                  <div>
+                    <span style={{ fontSize: ".82rem", fontWeight: 600, color: "#374151" }}>{r.partner}</span>
+                    <span style={{ fontSize: ".75rem", color: "#9ca3af" }}> · {r.deal}</span>
+                  </div>
+                  <span style={{ fontSize: ".95rem", fontWeight: 700, color: "#22c55e" }}>{r.payout}</span>
+                </div>
+                <div style={{ fontSize: ".72rem", color: "#9ca3af" }}>Rule: {r.rule} · {r.rate}</div>
+              </div>
+            ))}
+            <div style={{ marginTop: "1rem", padding: "10px 12px", background: "#f9fafb", borderRadius: 8, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: ".82rem", color: "#6b7280" }}>3 payouts queued for approval</span>
+              <span style={{ fontSize: ".82rem", fontWeight: 600, color: "#374151" }}>$17,200 total</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── DEEP-DIVE: INTELLIGENCE ENGINE ───────────────── */}
+      <section style={{ padding: "7rem 0", background: "#ffffff" }}>
+        <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "5rem", alignItems: "center" }}>
+          <div>
+            <span className="l-label">Intelligence Engine</span>
+            <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 800, lineHeight: 1.15, letterSpacing: "-.02em", marginBottom: "1.2rem", color: "#0a0a0a" }}>
+              Tells you which partner to call next.
+            </h2>
+            <p className="l-muted" style={{ fontSize: "1.05rem", lineHeight: 1.65 }}>
+              Health scores, pipeline trends, churn signals, QBR data — surfaced automatically, not when you think to look. Spots which partners are going quiet before they go dark, and which ones are primed to close their next deal this quarter.
+            </p>
+          </div>
+          <div className="l-card">
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.1rem" }}>
+              <h4 style={{ fontWeight: 600, color: "#0a0a0a", margin: 0 }}>Partner Health · This Week</h4>
+              <span style={{ fontSize: ".72rem", color: "#818cf8", fontWeight: 600 }}>Live scores</span>
+            </div>
+            {[
+              { name: "TechStar", score: 94, trend: "↑", label: "Primed to close", color: "#22c55e", action: "Expand — pitch Enterprise tier" },
+              { name: "CloudBridge", score: 61, trend: "↓", label: "Slowing down", color: "#f59e0b", action: "Check in — 3 weeks no activity" },
+              { name: "DataPipe", score: 38, trend: "↓↓", label: "At risk", color: "#ef4444", action: "Urgent — last deal 47 days ago" },
+            ].map((p, i) => (
+              <div key={i} style={{ padding: "10px 0", borderBottom: i < 2 ? "1px solid #f3f4f6" : "none" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 3 }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: ".82rem", fontWeight: 600, color: "#374151" }}>{p.name}</span>
+                    <span style={{ fontSize: ".72rem", fontWeight: 700, color: p.color, background: `${p.color}18`, padding: "1px 7px", borderRadius: 10 }}>{p.label}</span>
+                  </div>
+                  <span style={{ fontSize: ".95rem", fontWeight: 700, color: p.color }}>{p.score} <span style={{ fontSize: ".75rem" }}>{p.trend}</span></span>
+                </div>
+                <div style={{ fontSize: ".72rem", color: "#9ca3af" }}>→ {p.action}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
