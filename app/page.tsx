@@ -143,13 +143,26 @@ export default function LandingPage() {
       <section style={{ padding: "7rem 0", background: "#f9fafb" }}>
         <div className="wrap-wide" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: "5rem", alignItems: "center" }}>
           <div>
-            <span className="l-label">Partner Portal</span>
+            <span className="l-label">Partner Portal · Always Free</span>
             <h2 style={{ fontSize: "clamp(1.8rem, 3vw, 2.4rem)", fontWeight: 800, lineHeight: 1.15, letterSpacing: "-.02em", marginBottom: "1.2rem", color: "#0a0a0a" }}>
-              Give partners a home — not a spreadsheet
+              The portal partners have always wanted
             </h2>
-            <p className="l-muted" style={{ fontSize: "1.05rem", lineHeight: 1.65 }}>
-              Every partner gets their own portal. Register deals, track pipeline, see commissions, download resources — no email chains, no manual updates.
+            <p className="l-muted" style={{ fontSize: "1.05rem", lineHeight: 1.65, marginBottom: "1.2rem" }}>
+              A fully branded workspace for every partner — deals, commissions, performance, and an AI layer that answers their questions instantly. Bi-directional syncs, customizable per-partner flows, white-labeled to your brand. Free, forever.
             </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: ".6rem" }}>
+              {[
+                `Ask AI: "What's my Q2 commission if I close these 3 deals?"`,
+                "Bi-directional deal sync — no manual re-entry",
+                "Customize portal views per partner tier or type",
+                "White-labeled with your brand in under 10 minutes",
+              ].map((f, i) => (
+                <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: ".6rem", fontSize: ".88rem", color: "#374151" }}>
+                  <span style={{ color: "#818cf8", fontWeight: 700, flexShrink: 0, marginTop: 1 }}>✦</span>
+                  <span>{f}</span>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="l-card" style={{ padding: "1.5rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1.25rem" }}>

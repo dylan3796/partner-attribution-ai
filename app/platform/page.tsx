@@ -98,7 +98,7 @@ const PROBLEMS = [
 const PILLARS = [
   { number: "01", title: "Attribution", description: "Every deal gets a source. Multi-partner splits, deal registration protection, and a full audit trail — so nobody disputes who drove what." },
   { number: "02", title: "Commission Engine", description: "Tiered rates, product-specific rules, accelerators, SPIFs. Set the rules once. Covant calculates and queues payouts automatically." },
-  { number: "03", title: "Partner Portal", description: "A branded self-service view for your partners: their deals, their commissions, their performance. No more 'where do I check my status?' emails." },
+  { number: "03", title: "Partner Portal", description: "A fully branded, AI-powered workspace — free for every partner, forever. Bi-directional syncs, customizable per-partner flows, deal registration, commission visibility, and an AI layer that answers their questions instantly. Everything partner teams have asked PRMs for, built from scratch." },
   { number: "04", title: "Deal Registration", description: "Partners register deals in minutes. Conflict detection runs instantly. Approval workflows run on your rules, not your inbox." },
   { number: "05", title: "Revenue Intelligence", description: "Win/loss by partner. Health scores. Pipeline trends. QBR reports that write themselves. Stop flying blind on which partners are performing." },
   { number: "06", title: "Program Management", description: "Tier management, onboarding tracking, certifications, announcements. Everything a channel team needs to run a program — not just track it." },
@@ -364,12 +364,13 @@ export default function PlatformPage() {
       </TourSection>
 
       {/* Step 4 — Partner Portal */}
+      {/* Step 4 — Partner Portal */}
       <TourSection
         id="portal"
         step="Step 4 — Partner Portal"
-        title="Partners get their own portal."
-        subtitle="No more emailing spreadsheets."
-        description="Every partner gets a branded portal where they can register deals, track commissions, view their performance metrics, and see their tier status. White-labeled with your branding. Invite link to active in under 10 minutes."
+        title="The portal partners will actually use."
+        subtitle="Always free. Infused with AI."
+        description="Every partner gets their own branded workspace — register deals, track commissions, see performance, and ask AI questions about their pipeline. Set up bi-directional syncs, customize flows per partner, white-label everything. It's everything partner teams have been asking PRMs for, built from scratch and free forever."
         reverse
       >
         <MockWindow title="partners.covant.ai/portal">
@@ -384,6 +385,20 @@ export default function PlatformPage() {
             <div style={{ display: "flex", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
               <StatCard label="Your Revenue" value="$840K" trend="↑ 24% YoY" />
               <StatCard label="Commissions" value="$126K" trend="3 pending" />
+            </div>
+            {/* AI Chat UI */}
+            <div style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 8, padding: "10px 12px", marginBottom: 12 }}>
+              <div style={{ fontSize: ".7rem", fontWeight: 700, color: "#818cf8", marginBottom: 6, display: "flex", alignItems: "center", gap: 4 }}>
+                <span>✦</span> Ask your portal AI
+              </div>
+              <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 6, padding: "7px 10px", marginBottom: 6 }}>
+                <span style={{ color: "#6b7280", fontSize: ".78rem" }}>"What's my projected commission if I close GlobalTech?"</span>
+              </div>
+              <div style={{ background: "rgba(99,102,241,.08)", border: "1px solid rgba(99,102,241,.2)", borderRadius: 6, padding: "7px 10px" }}>
+                <span style={{ color: "#374151", fontSize: ".78rem" }}>
+                  Based on your Gold tier rate (18%) and GlobalTech's registered value of $95K — your commission would be <strong style={{ color: "#22c55e" }}>$17,100</strong>. That would bring your Q2 total to <strong style={{ color: "#22c55e" }}>$41,420</strong>.
+                </span>
+              </div>
             </div>
             <div style={{ color: "#6b7280", fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 8 }}>Recent Activity</div>
             {[

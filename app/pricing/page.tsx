@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   Check, Zap, Building2, Rocket, ArrowRight, Loader2,
-  ChevronDown, ChevronUp, Cpu, DollarSign, Brain, Database, Layers,
+  ChevronDown, ChevronUp, Cpu, DollarSign, Brain, Database, Layers, Users,
 } from "lucide-react";
 
 /* ── Types ── */
@@ -217,36 +217,93 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ── Free Tier Banner ── */}
+      {/* ── Partner Portal — Always Free ── */}
+      <section style={{ maxWidth: 900, margin: "0 auto 3rem", padding: "0 1.5rem" }}>
+        <div style={{
+          background: "linear-gradient(135deg, rgba(99,102,241,.06) 0%, rgba(16,185,129,.04) 100%)",
+          border: "1px solid rgba(99,102,241,.2)",
+          borderRadius: 16,
+          padding: "2rem",
+          position: "relative",
+          overflow: "hidden",
+        }}>
+          <div style={{
+            position: "absolute", top: 14, right: 16,
+            background: "#10b981", color: "#ffffff", fontSize: ".72rem", fontWeight: 700,
+            padding: "4px 12px", borderRadius: 20,
+          }}>
+            Always Free
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: "1.25rem" }}>
+            <div style={{
+              width: 48, height: 48, borderRadius: 12,
+              background: "rgba(99,102,241,.12)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <Users size={24} color="#818cf8" />
+            </div>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: "1.15rem", color: "#0a0a0a" }}>Partner Portal</div>
+              <div style={{ fontSize: ".85rem", color: "#6b7280" }}>
+                A branded workspace every partner will actually use — free, forever, for every plan.
+              </div>
+            </div>
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: ".65rem", marginBottom: "1.5rem" }}>
+            {[
+              { icon: "✦", text: "AI-powered Q&A on their pipeline and commissions" },
+              { icon: "⇄", text: "Bi-directional deal sync — no manual re-entry" },
+              { icon: "🎨", text: "Fully customizable and white-labeled per partner" },
+              { icon: "📊", text: "Deal registration, commission tracking, tier status" },
+              { icon: "🔒", text: "Permission-scoped data — partners see only their own" },
+              { icon: "⚡", text: "Invite link to live in under 10 minutes" },
+            ].map((f, i) => (
+              <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: ".83rem", color: "#374151" }}>
+                <span style={{ flexShrink: 0, fontSize: ".9rem", marginTop: 1 }}>{f.icon}</span>
+                <span style={{ lineHeight: 1.5 }}>{f.text}</span>
+              </div>
+            ))}
+          </div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
+            <p style={{ fontSize: ".82rem", color: "#6b7280", margin: 0 }}>
+              No engine subscription required. Portal is included with every plan, including the free tier.
+            </p>
+            <Link
+              href="/sign-up"
+              style={{
+                padding: "10px 22px", borderRadius: 8,
+                background: "#0a0a0a", color: "#ffffff", fontWeight: 600,
+                fontSize: ".85rem", textDecoration: "none", flexShrink: 0,
+              }}
+            >
+              Start Free →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Free Tier Note ── */}
       <section style={{ maxWidth: 900, margin: "0 auto 2rem", padding: "0 1.5rem" }}>
         <div style={{
           background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 12,
-          padding: "1.25rem 1.5rem", display: "flex", alignItems: "center",
+          padding: "1rem 1.5rem", display: "flex", alignItems: "center",
           justifyContent: "space-between", flexWrap: "wrap", gap: 16,
         }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <div style={{
-              width: 40, height: 40, borderRadius: 10, background: "rgba(16,185,129,.1)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <Rocket size={20} color="#10b981" />
-            </div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: ".95rem" }}>Free Tier</div>
-              <div style={{ fontSize: ".82rem", color: "#6b7280" }}>
-                Portal + basic tracking · Up to 5 partners · No engines
-              </div>
-            </div>
+            <Rocket size={18} color="#10b981" />
+            <span style={{ fontSize: ".85rem", color: "#6b7280" }}>
+              <strong style={{ color: "#374151" }}>Free tier:</strong> Portal + basic tracking · Up to 5 partners · No engines required
+            </span>
           </div>
           <Link
             href="/sign-up"
             style={{
-              padding: "10px 20px", borderRadius: 8, border: "1px solid #d1d5db",
+              padding: "8px 18px", borderRadius: 8, border: "1px solid #d1d5db",
               background: "transparent", color: "#374151", fontWeight: 600,
-              fontSize: ".85rem", textDecoration: "none",
+              fontSize: ".82rem", textDecoration: "none",
             }}
           >
-            Start Free
+            Get Started
           </Link>
         </div>
       </section>
