@@ -89,19 +89,19 @@ function TourSection({
 /* ── Data ─────────────────────────────────────────────────── */
 
 const PROBLEMS = [
-  { before: "Who actually drove this deal?", after: "Attribution Engine discovers it automatically — touchpoints, registrations, and hidden relationships, every deal, every time." },
-  { before: "When do partners get paid, and how much?", after: "Incentives Engine runs your rules on close. Commission calculated, payout queued. No chasing, no spreadsheets." },
-  { before: "Why did that partner go quiet?", after: "Intelligence Engine flags at-risk partners before they churn — health scores, trend alerts, QBR data ready to go." },
-  { before: "Which partner should I focus on this quarter?", after: "Intelligence Engine surfaces who's primed to close next, who needs attention, and who's ready to tier up." },
+  { before: "Who actually drove this deal?", after: "Attribution Engine discovers it automatically — every touchpoint, hidden relationship, and unregistered influence, resolved on every deal." },
+  { before: "Which partner should I put on this account?", after: "Recommendation Engine reads your attribution history and tells you — with the evidence and reasoning attached." },
+  { before: "Where do my partners have existing relationships?", after: "Account mapping surfaces overlaps instantly. Share lists, find the foot-in-the-door, co-sell from strength." },
+  { before: "How do I run a SPIFF without a spreadsheet?", after: "Workflow Builder. Define the trigger, the conditions, the actions. It runs. No manual tracking." },
 ];
 
 const PILLARS = [
-  { number: "01", title: "Attribution Engine", description: "Discovers who drove every deal — including the partners you didn't know were involved. Multi-touch models, deal registration protection, explainable calculations, full audit trail. Attribution disputes stop happening." },
-  { number: "02", title: "Incentives Engine", description: "Turns your program rules into automatic payouts. Tiered rates, product-specific splits, accelerators, SPIFFs, MDF — define the logic once. Every qualifying event runs through it automatically and queues for approval." },
-  { number: "03", title: "Intelligence Engine", description: "Tells you which partners to invest in next. Health scores surface at-risk partners before they go quiet. Pipeline trends show who's primed to close. QBR reports write themselves from live data." },
-  { number: "04", title: "CRM Engine", description: "Bi-directional Salesforce and HubSpot sync — partner attribution flows out, deal data flows in. No manual re-entry, no divergence between your CRM and your partner program." },
-  { number: "05", title: "Partner Portal", description: "A fully branded, AI-powered workspace — free for every partner, forever. Bi-directional syncs, customizable per-partner flows, deal registration, commission visibility, and an AI layer that answers their questions instantly." },
-  { number: "06", title: "Deal Registration & Ops", description: "Partners register deals in minutes. Conflict detection runs instantly. Approval workflows follow your rules. Every deal links back to the attribution, the commission rule, and the partner who sourced it." },
+  { number: "01", title: "Attribution Engine", description: "The focal engine. Discovers every partner relationship across your entire pipeline — touchpoints, deal history, and influence that was never officially registered. Full history of any partner, customer, or partner+customer combo across every metric you feed in. Everything else in Covant runs on what this engine knows." },
+  { number: "02", title: "Recommendation Engine", description: "Reads from Attribution data to recommend the right partner for every open account. Configurable signals or Covant defaults — with full explanation of why each rec was made. Learns from accepted and rejected recommendations. Manual prompting for edge cases." },
+  { number: "03", title: "Account Mapping & List Sharing", description: "Share prospect lists with partners securely. Map against each other to find overlaps — accounts you're both pursuing, or where a partner already has an existing relationship. Overlaps feed directly into the Recommendation Engine." },
+  { number: "04", title: "Workflow Builder", description: "Custom automations for the program logic your CRM was never built to capture. MDF eligibility, SPIFF triggers, tier progression, co-sell motions — define trigger → conditions → actions using partner-program primitives. Set it once, runs automatically." },
+  { number: "05", title: "QBR Automation", description: "Define your metrics and slide format once. Reports generate on your schedule, pulling live data from the Attribution Engine. Show up to every QBR with numbers your partners and CFO both trust." },
+  { number: "06", title: "Partner Portal", description: "A fully branded, AI-powered workspace — free for every partner, forever. Bi-directional syncs, customizable per-partner flows, deal registration, commission visibility, and an AI layer that answers partner questions instantly." },
 ];
 
 const WHO = [
