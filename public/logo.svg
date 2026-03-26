@@ -1,0 +1,9 @@
+<svg viewBox="0 0 120 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Partner connection icon: two circles connected by a line -->
+  <circle cx="6" cy="14" r="5" fill="#0a0a0a"/>
+  <circle cx="22" cy="14" r="5" fill="#0a0a0a"/>
+  <line x1="11" y1="14" x2="17" y2="14" stroke="#0a0a0a" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Covant wordmark -->
+  <text x="32" y="20" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="600" fill="#0a0a0a">Covant</text>
+</svg>

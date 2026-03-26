@@ -64,24 +64,24 @@ export default function LandingPage() {
       </section>
 
       {/* ── ENGINES + PLATFORM ───────────────────────────── */}
-      <section style={{ padding: "6rem 0", background: "#0a0a0a" }}>
+      <section style={{ padding: "6rem 0", background: "#ffffff", borderTop: "1px solid #f3f4f6", borderBottom: "1px solid #f3f4f6" }}>
         <div className="wrap">
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <p style={{ fontSize: ".78rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "rgba(129,140,248,.7)", marginBottom: ".75rem" }}>
+            <p style={{ fontSize: ".78rem", fontWeight: 700, letterSpacing: ".1em", textTransform: "uppercase", color: "#818cf8", marginBottom: ".75rem" }}>
               Two engines. One platform.
             </p>
-            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", color: "#ffffff", marginBottom: "1rem" }}>
+            <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", color: "#0a0a0a", marginBottom: "1rem" }}>
               Attribution at the core.<br />Intelligence at every layer.
             </h2>
-            <p style={{ fontSize: "1rem", color: "rgba(255,255,255,.5)", maxWidth: 520, margin: "0 auto", lineHeight: 1.65 }}>
+            <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 520, margin: "0 auto", lineHeight: 1.65 }}>
               Everything runs on what the Attribution Engine knows. The Recommendation Engine reads from it. Account mapping enriches it. QBR reports pull from it. The portal surfaces it to partners.
             </p>
           </div>
 
           {/* Attribution Engine — hero card */}
           <div style={{
-            background: "linear-gradient(135deg, rgba(129,140,248,.12) 0%, rgba(129,140,248,.04) 100%)",
-            border: "1px solid rgba(129,140,248,.25)",
+            background: "rgba(99,102,241,.04)",
+            border: "1px solid rgba(99,102,241,.15)",
             borderRadius: 16,
             padding: "2.5rem",
             marginBottom: "1px",
@@ -97,10 +97,10 @@ export default function LandingPage() {
                   <span style={{ width: 7, height: 7, borderRadius: "50%", background: "#818cf8", display: "inline-block", boxShadow: "0 0 8px #818cf8" }} />
                   Attribution Engine
                 </span>
-                <h3 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.6rem)", fontWeight: 800, color: "#ffffff", lineHeight: 1.2, letterSpacing: "-.02em", marginBottom: ".75rem" }}>
+                <h3 style={{ fontSize: "clamp(1.3rem, 2.5vw, 1.6rem)", fontWeight: 800, color: "#0a0a0a", lineHeight: 1.2, letterSpacing: "-.02em", marginBottom: ".75rem" }}>
                   Discovers every partner relationship across your entire pipeline — automatically.
                 </h3>
-                <p style={{ fontSize: ".9rem", color: "rgba(255,255,255,.55)", lineHeight: 1.7 }}>
+                <p style={{ fontSize: ".9rem", color: "#6b7280", lineHeight: 1.7 }}>
                   The source of truth your entire program runs on. Tracks full history of a partner, a customer, or a partner+customer combination across every metric you feed in. Multi-touch attribution models, explainable calculations, zero disputes.
                 </p>
               </div>
@@ -111,11 +111,11 @@ export default function LandingPage() {
                   { label: "Hidden relationship discovery", desc: "Surfaces partner influence that was never officially registered" },
                   { label: "Customer + partner combo view", desc: "See the full relationship between any customer and any partner across all time" },
                 ].map((f, i) => (
-                  <div key={i} style={{ display: "flex", gap: 10, padding: "10px 14px", background: "rgba(255,255,255,.04)", borderRadius: 8, border: "1px solid rgba(129,140,248,.12)" }}>
+                  <div key={i} style={{ display: "flex", gap: 10, padding: "10px 14px", background: "#f9fafb", borderRadius: 8, border: "1px solid #e5e7eb" }}>
                     <span style={{ color: "#818cf8", fontSize: ".8rem", marginTop: 2, flexShrink: 0 }}>✦</span>
                     <div>
-                      <div style={{ fontSize: ".82rem", fontWeight: 600, color: "rgba(255,255,255,.8)", marginBottom: 2 }}>{f.label}</div>
-                      <div style={{ fontSize: ".75rem", color: "rgba(255,255,255,.4)", lineHeight: 1.5 }}>{f.desc}</div>
+                      <div style={{ fontSize: ".82rem", fontWeight: 600, color: "#0a0a0a", marginBottom: 2 }}>{f.label}</div>
+                      <div style={{ fontSize: ".75rem", color: "#6b7280", lineHeight: 1.5 }}>{f.desc}</div>
                     </div>
                   </div>
                 ))}
@@ -125,29 +125,29 @@ export default function LandingPage() {
 
           {/* Recommendation Engine */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", marginBottom: "2rem" }}>
-            <div style={{ background: "#111111", padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", borderRadius: "0 0 0 16px" }}>
+            <div style={{ background: "#f9fafb", border: "1px solid #e5e7eb", padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem", borderRadius: "0 0 0 16px" }}>
               <div>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: ".72rem", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#34d399", marginBottom: ".75rem" }}>
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#34d399", display: "inline-block", boxShadow: "0 0 6px #34d399" }} />
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: ".72rem", fontWeight: 700, letterSpacing: ".06em", textTransform: "uppercase", color: "#22c55e", marginBottom: ".75rem" }}>
+                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#22c55e", display: "inline-block", boxShadow: "0 0 6px #22c55e" }} />
                   Recommendation Engine
                 </span>
-                <h3 style={{ fontSize: "1.15rem", fontWeight: 800, color: "#ffffff", lineHeight: 1.25, letterSpacing: "-.01em", marginBottom: ".65rem" }}>
+                <h3 style={{ fontSize: "1.15rem", fontWeight: 800, color: "#0a0a0a", lineHeight: 1.25, letterSpacing: "-.01em", marginBottom: ".65rem" }}>
                   Tells you which partner belongs on every open deal.
                 </h3>
-                <p style={{ fontSize: ".85rem", color: "rgba(255,255,255,.5)", lineHeight: 1.65 }}>
+                <p style={{ fontSize: ".85rem", color: "#6b7280", lineHeight: 1.65 }}>
                   Reads from Attribution Engine data. Recommends the right partner for every account based on history, relationships, territory, and vertical — and explains exactly why. Learns from accepted and rejected recs. Manual override and prompting for edge cases.
                 </p>
               </div>
               <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "auto" }}>
                 {["Explainable recs", "Learns from feedback", "Manual prompting"].map((t) => (
-                  <span key={t} style={{ fontSize: ".7rem", fontWeight: 600, padding: "3px 9px", borderRadius: 20, border: "1px solid rgba(52,211,153,.3)", color: "#34d399", background: "rgba(52,211,153,.1)" }}>{t}</span>
+                  <span key={t} style={{ fontSize: ".7rem", fontWeight: 600, padding: "3px 9px", borderRadius: 20, border: "1px solid rgba(34,197,94,.3)", color: "#22c55e", background: "rgba(34,197,94,.1)" }}>{t}</span>
                 ))}
               </div>
             </div>
 
             {/* Platform capabilities */}
-            <div style={{ background: "#111111", padding: "2rem", display: "flex", flexDirection: "column", gap: "1.25rem", borderRadius: "0 0 16px 0" }}>
-              <p style={{ fontSize: ".72rem", fontWeight: 700, color: "rgba(255,255,255,.3)", textTransform: "uppercase", letterSpacing: ".08em", margin: 0 }}>Platform Capabilities</p>
+            <div style={{ background: "#f9fafb", border: "1px solid #e5e7eb", padding: "2rem", display: "flex", flexDirection: "column", gap: "1.25rem", borderRadius: "0 0 16px 0" }}>
+              <p style={{ fontSize: ".72rem", fontWeight: 700, color: "#6b7280", textTransform: "uppercase", letterSpacing: ".08em", margin: 0 }}>Platform Capabilities</p>
               {[
                 {
                   accent: "#f59e0b",
@@ -168,8 +168,8 @@ export default function LandingPage() {
                 <div key={c.name} style={{ display: "flex", gap: 10 }}>
                   <span style={{ width: 6, height: 6, borderRadius: "50%", background: c.accent, flexShrink: 0, marginTop: 6 }} />
                   <div>
-                    <div style={{ fontSize: ".82rem", fontWeight: 700, color: "rgba(255,255,255,.75)", marginBottom: 3 }}>{c.name}</div>
-                    <div style={{ fontSize: ".78rem", color: "rgba(255,255,255,.4)", lineHeight: 1.55 }}>{c.desc}</div>
+                    <div style={{ fontSize: ".82rem", fontWeight: 700, color: "#0a0a0a", marginBottom: 3 }}>{c.name}</div>
+                    <div style={{ fontSize: ".78rem", color: "#6b7280", lineHeight: 1.55 }}>{c.desc}</div>
                   </div>
                 </div>
               ))}
@@ -177,14 +177,14 @@ export default function LandingPage() {
           </div>
 
           {/* Portal strip */}
-          <div style={{ background: "#111111", border: "1px solid rgba(255,255,255,.08)", borderRadius: 12, padding: "1.25rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
+          <div style={{ background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 12, padding: "1.25rem 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 16 }}>
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
               <span style={{ fontSize: ".72rem", fontWeight: 700, color: "#10b981", letterSpacing: ".06em", textTransform: "uppercase", background: "rgba(16,185,129,.12)", border: "1px solid rgba(16,185,129,.25)", padding: "3px 10px", borderRadius: 20 }}>
                 Always Free
               </span>
-              <span style={{ color: "rgba(255,255,255,.7)", fontSize: ".9rem", fontWeight: 600 }}>Partner Portal</span>
-              <span style={{ color: "rgba(255,255,255,.35)", fontSize: ".85rem" }}>—</span>
-              <span style={{ color: "rgba(255,255,255,.45)", fontSize: ".85rem" }}>AI-powered workspace. Bi-directional syncs. Fully customizable. Included with every plan.</span>
+              <span style={{ color: "#0a0a0a", fontSize: ".9rem", fontWeight: 600 }}>Partner Portal</span>
+              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>—</span>
+              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>AI-powered workspace. Bi-directional syncs. Fully customizable. Included with every plan.</span>
             </div>
             <Link href="/pricing" style={{ fontSize: ".82rem", fontWeight: 600, color: "#818cf8", textDecoration: "none", flexShrink: 0 }}>
               See pricing →

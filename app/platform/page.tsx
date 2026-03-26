@@ -27,14 +27,14 @@ export const metadata: Metadata = {
 
 function MockWindow({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ background: "#f9fafb", border: "1px solid #1a1a1a", borderRadius: 12, overflow: "hidden" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 16px", borderBottom: "1px solid #1a1a1a", background: "#050505" }}>
+    <div style={{ background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 16px", borderBottom: "1px solid #e5e7eb", background: "#f9fafb" }}>
         <div style={{ display: "flex", gap: 6 }}>
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#333" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#333" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#333" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#d1d5db" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#d1d5db" }} />
+          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#d1d5db" }} />
         </div>
-        <span style={{ color: "#374151", fontSize: ".75rem", marginLeft: 8 }}>{title}</span>
+        <span style={{ color: "#6b7280", fontSize: ".75rem", marginLeft: 8 }}>{title}</span>
       </div>
       <div style={{ padding: "20px 24px" }}>{children}</div>
     </div>
@@ -138,28 +138,28 @@ export default function PlatformPage() {
       </section>
 
       {/* ── THE PROBLEM ───────────────────────────────────────── */}
-      <section style={{ padding: "6rem 0", background: "#0a0a0a", color: "#fff" }}>
+      <section style={{ padding: "6rem 0", background: "#f9fafb" }}>
         <div className="wrap" style={{ maxWidth: 860 }}>
           <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "#6b7280", marginBottom: "1rem", textAlign: "center" }}>
             The problem
           </p>
-          <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.75rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", textAlign: "center", marginBottom: "1rem" }}>
+          <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.75rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", textAlign: "center", marginBottom: "1rem", color: "#0a0a0a" }}>
             Partner ops is the last function<br />still running on spreadsheets.
           </h2>
-          <p style={{ color: "#9ca3af", fontSize: "1.1rem", textAlign: "center", maxWidth: 560, margin: "0 auto 3.5rem", lineHeight: 1.65 }}>
+          <p style={{ color: "#6b7280", fontSize: "1.1rem", textAlign: "center", maxWidth: 560, margin: "0 auto 3.5rem", lineHeight: 1.65 }}>
             Sales has Salesforce. Marketing has HubSpot. Finance has NetSuite.
             Partners have a shared Google Sheet and a prayer.
           </p>
-          <div style={{ display: "grid", gap: "1px", background: "#1a1a1a", border: "1px solid #1a1a1a", borderRadius: 12, overflow: "hidden" }}>
+          <div style={{ display: "grid", gap: "1px", background: "#e5e7eb", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
             {PROBLEMS.map((p, i) => (
-              <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", background: "#0a0a0a" }}>
-                <div style={{ padding: "1.5rem 2rem", borderRight: "1px solid #1a1a1a", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  <span style={{ color: "#374151", fontSize: "1rem" }}>✗</span>
+              <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", background: "#ffffff" }}>
+                <div style={{ padding: "1.5rem 2rem", borderRight: "1px solid #e5e7eb", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+                  <span style={{ color: "#9ca3af", fontSize: "1rem" }}>✗</span>
                   <span style={{ color: "#6b7280", fontSize: ".95rem", lineHeight: 1.5 }}>{p.before}</span>
                 </div>
                 <div style={{ padding: "1.5rem 2rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
                   <span style={{ color: "#22c55e", fontSize: "1rem" }}>✓</span>
-                  <span style={{ color: "#d1d5db", fontSize: ".95rem", lineHeight: 1.5 }}>{p.after}</span>
+                  <span style={{ color: "#374151", fontSize: ".95rem", lineHeight: 1.5 }}>{p.after}</span>
                 </div>
               </div>
             ))}
@@ -188,17 +188,17 @@ export default function PlatformPage() {
                 The rules are yours. The execution is Covant.
               </p>
             </div>
-            <div style={{ background: "#0a0a0a", borderRadius: 16, padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <div style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 16, padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
               {[
                 { label: "Partner-sourced revenue", value: "$1.2M", trend: "+24% QoQ", color: "#22c55e" },
                 { label: "Active partners", value: "47", trend: "12 pending onboard", color: "#3b82f6" },
                 { label: "Commissions owed", value: "$38,400", trend: "Payout scheduled Apr 1", color: "#a78bfa" },
                 { label: "Open deal registrations", value: "9", trend: "3 need review", color: "#f59e0b" },
               ].map((stat, i) => (
-                <div key={i} style={{ background: "#111", borderRadius: 10, padding: "1rem 1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid #1a1a1a" }}>
+                <div key={i} style={{ background: "#ffffff", borderRadius: 10, padding: "1rem 1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid #e5e7eb" }}>
                   <div>
                     <div style={{ color: "#6b7280", fontSize: ".75rem", marginBottom: "0.25rem" }}>{stat.label}</div>
-                    <div style={{ color: "#fff", fontSize: "1.3rem", fontWeight: 700 }}>{stat.value}</div>
+                    <div style={{ color: "#0a0a0a", fontSize: "1.3rem", fontWeight: 700 }}>{stat.value}</div>
                   </div>
                   <div style={{ color: stat.color, fontSize: ".75rem", textAlign: "right" }}>{stat.trend}</div>
                 </div>
@@ -273,7 +273,7 @@ export default function PlatformPage() {
                 <div style={{ color: "#374151", fontSize: ".82rem", lineHeight: 1.6 }}>Tell me about your partner program — how many partners, what types, how do you attribute deals today?</div>
               </div>
             </div>
-            <div style={{ background: "#0d1a0d", border: "1px solid #1a331a", borderRadius: 8, padding: 14, display: "flex", gap: 10, alignItems: "flex-start" }}>
+            <div style={{ background: "rgba(34,197,94,.08)", border: "1px solid rgba(34,197,94,.2)", borderRadius: 8, padding: 14, display: "flex", gap: 10, alignItems: "flex-start" }}>
               <Users size={16} style={{ color: "#22c55e", marginTop: 2, flexShrink: 0 }} />
               <div>
                 <div style={{ color: "#22c55e", fontSize: ".7rem", marginBottom: 4 }}>You</div>
@@ -342,7 +342,7 @@ export default function PlatformPage() {
               { partner: "TechBridge Solutions", action: "Sourced intro meeting", date: "Jan 8", credit: "—" },
               { partner: "Apex Growth", action: "Technical demo assist", date: "Jan 22", credit: "0%" },
             ].map((row, i) => (
-              <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", background: i === 0 ? "#0d1a0d" : "transparent", border: i === 0 ? "1px solid #1a331a" : "none", borderRadius: 6, marginBottom: 4 }}>
+              <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "8px 10px", background: i === 0 ? "rgba(34,197,94,.08)" : "transparent", border: i === 0 ? "1px solid rgba(34,197,94,.2)" : "none", borderRadius: 6, marginBottom: 4 }}>
                 <div>
                   <span style={{ color: i === 0 ? "#22c55e" : "#6b7280", fontSize: ".8rem", fontWeight: 600 }}>{row.partner}</span>
                   <span style={{ color: "#374151", fontSize: ".75rem", marginLeft: 8 }}>{row.action}</span>
@@ -499,8 +499,8 @@ export default function PlatformPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.5rem" }}>
             {WHO.map((w) => (
               <div key={w.role} style={{ border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
-                <div style={{ background: "#0a0a0a", padding: "1.25rem 1.75rem" }}>
-                  <div style={{ color: "#fff", fontWeight: 700, fontSize: "1rem" }}>{w.role}</div>
+                <div style={{ background: "#f9fafb", borderBottom: "1px solid #e5e7eb", padding: "1.25rem 1.75rem" }}>
+                  <div style={{ color: "#0a0a0a", fontWeight: 700, fontSize: "1rem" }}>{w.role}</div>
                 </div>
                 <div style={{ padding: "1.5rem 1.75rem", display: "flex", flexDirection: "column", gap: "1rem", background: "#fff" }}>
                   <div>

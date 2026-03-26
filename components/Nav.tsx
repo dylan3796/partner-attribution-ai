@@ -61,7 +61,7 @@ export default function Nav() {
     <>
       <nav className="site-nav">
         <div className="nav-inner">
-          <Link href="/" className="logo">Covant.ai</Link>
+          <Link href="/"><img src="/logo.svg" alt="Covant" height={22} style={{display:'block'}} /></Link>
 
           {isDashboard ? (
             // Sidebar handles all dashboard navigation
