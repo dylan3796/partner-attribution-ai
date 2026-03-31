@@ -64,8 +64,8 @@ export default function Nav() {
           <Link href="/"><img src="/logo.svg" alt="Covant" height={22} style={{display:'block'}} /></Link>
 
           {isDashboard ? (
-            // Sidebar handles all dashboard navigation
-            <div style={{ flex: 1 }} />
+            // Sidebar handles all dashboard navigation — empty center cell
+            <div />
           ) : (
             <div className="nav-links">
               {marketingLinks.map((link) => (
