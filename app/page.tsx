@@ -43,7 +43,7 @@ export default function LandingPage() {
             marginBottom: "1.5rem",
             color: "#0a0a0a",
           }}>
-            Attribution at the core.<br />Intelligence at every layer.
+The intelligence layer<br />for your partner business.
           </h1>
           <p className="l-muted" style={{
             fontSize: "clamp(1.05rem, 2vw, 1.2rem)",
