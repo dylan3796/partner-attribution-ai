@@ -1,121 +1,143 @@
-# Partner Attribution AI
+# Covant
 
-**The Partner Intelligence Layer for Your CRM — AI-powered attribution, incentives, and program management on top of the tools you already use.**
+**The intelligence layer for your partner business.**
 
-> Measure partner impact, automate attribution, and run world-class partner programs. Works with Salesforce, HubSpot, Pipedrive, and any CRM via REST API.
+> Track which partners drive which deals. Automate attribution and commissions. Give every partner a self-service portal. All in one platform.
+
+**Live:** [covant.ai](https://covant.ai)
 
 ---
 
-## 🎯 What This Is
+## What It Is
 
-A Partner Intelligence Layer that sits on top of your CRM to measure partner contribution, calculate attribution, manage incentives, and run partner program operations for:
+Covant is a Partner Intelligence Platform for B2B SaaS companies running reseller, referral, or channel programs. It sits at the intersection of your CRM and your partner ops — tracking every partner relationship, calculating attribution, automating commission rules, and surfacing the data your team actually needs.
 
-- **Channel partnerships** — resellers, VARs, system integrators, distributors
-- **Technology alliances** — co-selling, co-marketing, integrations
-- **Referral programs** — agency partners, consultants, influencers
-- **Marketplace ecosystems** — app stores, plugin marketplaces
+**Target customer:** Growing SaaS companies with 5–50 active partners, outgrowing spreadsheets and manual tracking.
 
-## ✨ Core Features
+---
 
-### Attribution Engine (5 Models)
-- **Equal Split** — fair distribution across all partners
-- **First Touch** — credit lead generation
-- **Last Touch** — credit deal closers
-- **Time Decay** — recency-weighted attribution
-- **Role-Based** — custom weights per touchpoint type (referral, demo, proposal, etc.)
+## Core Product
 
-### Partner Management
-- Partner onboarding & profiles
-- Performance analytics & leaderboards
-- Commission rate management
-- Partner portal (self-service)
+### Attribution Engine
+The foundation everything else runs on. Tracks every partner touchpoint across your pipeline — including unregistered partner influence. Multi-touch attribution models (first-touch, last-touch, time decay, equal split, custom weights). Full audit trail, explainable calculations, zero disputes.
 
-### Deal Tracking
-- Pipeline management (Open → Won → Lost)
-- Touchpoint timeline per deal
-- Automatic attribution on deal close
-- Revenue tracking & forecasting
+### Commission Rules Engine
+Priority-based rule matching. Configure tiered rates by partner type, deal size, territory, or any combination. Rules evaluate automatically on every closed deal. Full history of what was paid, why, and when.
 
-### Incentive Management ✅
-- Commission calculations & payouts
-- Payout approval workflow (pending → approved → paid)
-- Bulk payout operations
-- Partner earnings summaries
-- Export & reporting
-- *(Coming: SPIFs, tiered programs, multi-currency)*
+### Deal Registration
+Partners self-register deals via the portal. Dashboard shows pending registrations with approve/reject workflow. Approval triggers attribution calculation and audit log entry.
 
-### Program Management *(planned)*
-- Partner tiers & leveling
-- Training & certification tracking
-- Co-marketing fund management
-- QBR/reporting automation
+### Payouts Management
+Approval workflow (pending → approved → paid), bulk operations, CSV export, per-partner earnings summaries.
 
-## 🛠️ Tech Stack
+### Reconciliation Reports
+Quarter/year filter, partner filter, summary cards (owed / paid / outstanding), sortable table, CSV export.
 
-- **Frontend:** Next.js 16 (App Router), React 19, TailwindCSS
-- **Backend:** Convex (serverless database + real-time functions)
-- **Auth:** Convex Auth
-- **Charts:** Recharts
-- **Type Safety:** TypeScript (strict mode)
+### Partner Portal
+A branded self-service workspace for every partner — commissions, deals, performance, and an AI layer that answers their questions. Bi-directional deal sync. Always free with every plan.
 
-## 📂 Project Structure
+### Partner Onboarding Tracking
+Progress tracking per partner (profile complete → first deal → first commission). Color-coded status on the partners dashboard.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| Frontend | Next.js (App Router), React, custom CSS (Inter font) |
+| Backend | Convex (serverless DB + real-time functions) |
+| Auth | Clerk |
+| Deployment | Vercel (auto-deploy on push to `main`) |
+| Email | Resend *(configured, pending API key)* |
+
+No Tailwind. No ORM. No separate API layer — Convex handles all backend logic.
+
+---
+
+## Project Structure
 
 ```
 partner-attribution-ai/
-├── app/                    # Next.js frontend
-├── convex/                 # Backend (schema, queries, mutations)
-│   ├── lib/               # Attribution engine & helpers
-│   ├── partners/          # Partner CRUD
-│   ├── deals/             # Deal management
-│   ├── touchpoints/       # Interaction tracking
-│   ├── attributions/      # Attribution results
-│   └── organizations/     # Org management
-├── marketing/              # Landing page prototype (DAY.ai aesthetic)
-│   ├── index.html         # Main landing page
-│   ├── pages/             # About, pricing, use-cases
-│   ├── css/               # Styles
-│   └── js/                # Animations
-├── public/                 # Static assets
-└── docs/                   # Architecture & planning docs
+├── app/                    # Next.js pages + layouts
+│   ├── page.tsx            # Landing page
+│   ├── dashboard/          # Dashboard (partners, deals, payouts, reports, settings)
+│   ├── portal/             # Partner portal
+│   ├── onboard/            # Onboarding wizard
+│   └── [marketing pages]   # pricing, platform, resources, etc.
+├── components/             # Shared UI components (Nav, Footer, etc.)
+├── convex/                 # Backend schema, queries, mutations
+│   ├── schema.ts           # Database schema
+│   ├── partners.ts         # Partner CRUD
+│   ├── deals.ts            # Deal management
+│   ├── attributions.ts     # Attribution engine
+│   ├── commissionRules.ts  # Commission rules engine
+│   ├── payouts.ts          # Payout management
+│   └── leads.ts            # Waitlist/lead capture
+├── lib/                    # Client utilities, types, store
+└── public/                 # Static assets (logo, etc.)
 ```
 
-## 🚀 Quick Start
+---
+
+## Local Development
 
 ```bash
 npm install
-npx convex dev          # Start backend
-npm run dev             # Start frontend
+npx convex dev          # Start Convex backend (dev deployment)
+npm run dev             # Start Next.js frontend
 ```
 
-Open http://localhost:3000
+Open [http://localhost:3000](http://localhost:3000)
 
-## 📊 Target Market
+**Note:** Production uses a separate Convex deployment (`strong-malamute-794`). Do not run `npx convex deploy` without intent to update production.
 
-| Segment | Examples | Key Pain |
-|---------|----------|----------|
-| SaaS with channel programs | Salesforce, HubSpot, AWS | Manual attribution in spreadsheets |
-| Marketplace operators | Shopify, Atlassian | Can't measure partner ROI |
-| Professional services | Consulting firms, agencies | No visibility into referral value |
-| Hardware/distribution | Dell, Cisco | Complex multi-tier attribution |
+---
 
-## 📋 Roadmap
+## Environment Variables
 
-- [x] Database schema & indexes
-- [x] Attribution engine (5 models)
-- [x] Partner CRUD
-- [x] Deal management
-- [x] Touchpoint tracking
-- [x] Landing page prototype
-- [x] Frontend dashboard (partners, deals, reports, activity)
-- [x] Partner portal (overview, commissions, deals)
-- [x] **Payout management** (approve, reject, mark paid, bulk ops)
-- [x] Audit trail (complete activity log)
-- [ ] Dispute resolution (schema exists, UI pending)
-- [ ] CRM integrations (Salesforce, HubSpot)
-- [ ] Revenue intelligence & forecasting
-- [ ] API & webhooks
-- [ ] Multi-currency support
+```env
+NEXT_PUBLIC_CONVEX_URL=        # Convex deployment URL
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+RESEND_API_KEY=                # Email (pending)
+ADMIN_SECRET=                  # Admin dashboard basic auth
+```
 
-## 📄 License
+---
 
-Private/Proprietary
+## Deployment
+
+Push to `main` → Vercel auto-deploys. No manual steps required.
+
+Convex production deployment is separate — run `npx convex deploy --yes` only when intentionally updating backend schema or functions.
+
+---
+
+## Roadmap
+
+### Done
+- [x] Attribution engine (multi-touch, full audit trail)
+- [x] Commission rules engine (priority-based, CRUD UI)
+- [x] Deal registration workflow (partner self-serve + approval)
+- [x] Payouts management (approval workflow, bulk ops, CSV export)
+- [x] Reconciliation reports
+- [x] Partner portal (commissions, deals, performance, AI Q&A)
+- [x] Partner onboarding tracking
+- [x] Clerk auth + onboarding wizard
+- [x] Landing page (covant.ai)
+
+### In Progress
+- [ ] CRM connector — Salesforce/HubSpot OAuth (code ready, needs Connected App credentials)
+- [ ] Email notifications via Resend (code ready, needs API key)
+
+### Next
+- [ ] Relationship discovery (scan CRM history for untracked partner involvement)
+- [ ] Recommendation engine (which partner belongs on this deal)
+- [ ] QBR report automation
+
+---
+
+## License
+
+Private / Proprietary — © 2026 Covant, Inc.
