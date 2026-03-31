@@ -43,7 +43,7 @@ export default function LandingPage() {
             marginBottom: "1.5rem",
             color: "#0a0a0a",
           }}>
-            Know who drives your deals.<br />Build everything from there.
+            Attribution at the core.<br />Intelligence at every layer.
           </h1>
           <p className="l-muted" style={{
             fontSize: "clamp(1.05rem, 2vw, 1.2rem)",
@@ -71,7 +71,7 @@ export default function LandingPage() {
               Two engines. One platform.
             </p>
             <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.6rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", color: "#0a0a0a", marginBottom: "1rem" }}>
-              Attribution at the core.<br />Intelligence at every layer.
+              Two engines. One platform.
             </h2>
             <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 520, margin: "0 auto", lineHeight: 1.65 }}>
               Everything runs on what the Attribution Engine knows. The Recommendation Engine reads from it. Account mapping enriches it. QBR reports pull from it. The portal surfaces it to partners.
