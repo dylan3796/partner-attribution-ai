@@ -285,7 +285,7 @@ The intelligence layer<br />for your partner business.
           <div className="l-card">
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
               <h4 style={{ fontWeight: 600, color: "#0a0a0a", margin: 0 }}>List Overlap · TechBridge</h4>
-              <span className="l-overlap-badge">14 overlaps found</span>
+              <span className="l-overlap-badge" style={{ color: "#818cf8", background: "rgba(129,140,248,.1)", borderRadius: 6 }}>14 overlaps found</span>
             </div>
             {[
               { account: "GlobalTech Inc", status: "TechBridge has existing contact", action: "High priority", color: "#22c55e" },
