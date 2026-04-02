@@ -11,6 +11,10 @@
         {
           "key": "Strict-Transport-Security",
           "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.clerk.accounts.dev https://js.stripe.com https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://*.clerk.com https://*.gravatar.com; font-src 'self' data:; connect-src 'self' https://*.convex.cloud https://*.clerk.accounts.dev https://api.stripe.com https://api.groq.com https://api.anthropic.com https://va.vercel-scripts.com; frame-src https://js.stripe.com https://*.clerk.accounts.dev; object-src 'none'; base-uri 'self'"
         }
       ]
     }

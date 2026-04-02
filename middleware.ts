@@ -1,8 +1,26 @@
-import { clerkMiddleware } from '@clerk/nextjs/server';
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
 
-// Auth is intentionally open while in beta (no customers yet).
-// Re-enable route protection when Clerk is fully configured.
-export default clerkMiddleware();
+// Routes that require authentication
+const isProtectedRoute = createRouteMatcher([
+  '/dashboard(.*)',
+  '/portal(.*)',
+  '/onboard(.*)',
+  '/admin(.*)',
+]);
+
+// API routes that are public (webhooks, health checks)
+const isPublicApiRoute = createRouteMatcher([
+  '/api/webhooks(.*)',
+  '/api/stripe/webhook(.*)',
+  '/api/stripe/billing-webhook(.*)',
+]);
+
+export default clerkMiddleware(async (auth, req) => {
+  // Protect dashboard, portal, and admin routes
+  if (isProtectedRoute(req) && !isPublicApiRoute(req)) {
+    await auth.protect();
+  }
+});
 
 export const config = {
   matcher: [

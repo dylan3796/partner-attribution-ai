@@ -16,8 +16,25 @@ type ParsedRule = {
 };
 
 export async function POST(req: Request) {
-  const { text, availableFields, organizationId, save } = await req.json();
+  let body: Record<string, unknown>;
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+  }
+
+  const { text, availableFields, organizationId, save } = body as {
+    text?: string;
+    availableFields?: string[];
+    organizationId?: string;
+    save?: boolean;
+  };
+
   if (!text?.trim()) return NextResponse.json({ rules: [] });
+
+  if (text.length > 5000) {
+    return NextResponse.json({ error: "Text too long (max 5000 chars)" }, { status: 400 });
+  }
 
   const client = new Anthropic();
 

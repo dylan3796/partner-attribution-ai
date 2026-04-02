@@ -142,10 +142,21 @@ function buildContext(): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const { question, context: clientContext } = await req.json();
+    let body: Record<string, unknown>;
+    try {
+      body = await req.json();
+    } catch {
+      return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
+    }
+
+    const { question, context: clientContext } = body as { question?: unknown; context?: unknown };
 
     if (!question || typeof question !== "string") {
       return NextResponse.json({ error: "Missing question" }, { status: 400 });
+    }
+
+    if (question.length > 2000) {
+      return NextResponse.json({ error: "Question too long (max 2000 chars)" }, { status: 400 });
     }
 
     // Use client-provided context (real Convex data) if available, otherwise fall back to demo data
