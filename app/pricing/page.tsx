@@ -222,8 +222,8 @@ export default function PricingPage() {
               <Users size={24} color="#818cf8" />
             </div>
             <div>
-              <div style={{ fontWeight: 800, fontSize: "1.15rem", color: "#0a0a0a" }}>Partner Portal</div>
-              <div style={{ fontSize: ".85rem", color: "#6b7280" }}>
+              <div className="p-portal-title">Partner Portal</div>
+              <div className="p-portal-subtitle">
                 A branded workspace every partner will actually use — free, forever, for every plan.
               </div>
             </div>
@@ -244,10 +244,10 @@ export default function PricingPage() {
             ))}
           </div>
           <div className="p-portal-footer">
-            <p className="p-free-note-text" style={{ margin: 0 }}>
+            <p className="p-free-note-text p-portal-footer-text">
               No engine subscription required. Portal is included with every plan, including the free tier.
             </p>
-            <Link href="/sign-up" className="p-nav-cta" style={{ flexShrink: 0 }}>
+            <Link href="/sign-up" className="p-nav-cta p-portal-footer-cta">
               Start Free →
             </Link>
           </div>
@@ -257,10 +257,10 @@ export default function PricingPage() {
       {/* ── Free Tier Note ── */}
       <section className="p-section p-section-mb-sm">
         <div className="p-free-note">
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div className="p-free-note-row">
             <Rocket size={18} color="#10b981" />
-            <span style={{ fontSize: ".85rem", color: "#6b7280" }}>
-              <strong style={{ color: "#374151" }}>Free tier:</strong> Portal + basic tracking · Up to 5 partners · No engines required
+            <span className="p-free-note-detail">
+              <strong>Free tier:</strong> Portal + basic tracking · Up to 5 partners · No engines required
             </span>
           </div>
           <Link href="/sign-up" className="p-free-note-cta">
@@ -302,13 +302,13 @@ export default function PricingPage() {
                   >
                     {engine.icon}
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: ".95rem", color: "#0a0a0a" }}>{engine.name}</div>
+                  <div className="p-engine-name">{engine.name}</div>
                 </div>
                 <p className="p-engine-desc">
                   {engine.description}
                 </p>
-                <div style={{ fontWeight: 700, fontSize: "1.25rem", color: isSelected ? "#818cf8" : "#0a0a0a" }}>
-                  ${engine.prices[tier]}<span style={{ fontSize: ".8rem", fontWeight: 400, color: "#6b7280" }}>/mo</span>
+                <div className="p-engine-price" style={{ color: isSelected ? "#818cf8" : "#0a0a0a" }}>
+                  ${engine.prices[tier]}<span className="p-engine-price-mo">/mo</span>
                 </div>
               </button>
             );
@@ -340,16 +340,16 @@ export default function PricingPage() {
               <Layers size={24} />
             </div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: "1.1rem", color: "#0a0a0a" }}>All Engines Bundle</div>
-              <div style={{ fontSize: ".82rem", color: "#6b7280" }}>Attribution + Incentives + Intelligence + CRM</div>
+              <div className="p-bundle-title">All Engines Bundle</div>
+              <div className="p-bundle-subtitle">Attribution + Incentives + Intelligence + CRM</div>
             </div>
           </div>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-            <span style={{ fontWeight: 800, fontSize: "2rem", color: selectedEngines.has("bundle") ? "#818cf8" : "#0a0a0a" }}>
+          <div className="p-bundle-price-row">
+            <span className="p-bundle-price" style={{ color: selectedEngines.has("bundle") ? "#818cf8" : "#0a0a0a" }}>
               ${ENGINES.bundle.prices[tier]}
             </span>
-            <span style={{ fontSize: ".9rem", color: "#6b7280" }}>/mo</span>
-            <span style={{ fontSize: ".85rem", color: "#9ca3af", marginLeft: 8, textDecoration: "line-through" }}>
+            <span className="p-bundle-price-mo">/mo</span>
+            <span className="p-bundle-price-strike">
               ${ENGINES.attribution.prices[tier] + ENGINES.incentives.prices[tier] + ENGINES.intelligence.prices[tier] + ENGINES.crm.prices[tier]}
             </span>
           </div>
@@ -360,15 +360,15 @@ export default function PricingPage() {
       {selectedEngines.size > 0 && (
         <section className="p-sticky-bar">
           <div>
-            <div style={{ fontSize: ".85rem", color: "#6b7280" }}>
+            <div className="p-sticky-label">
               {selectedEngines.has("bundle")
                 ? "All Engines Bundle"
                 : `${selectedEngines.size} engine${selectedEngines.size > 1 ? "s" : ""} selected`}
               {" · "}
               {TIER_LABELS[tier].name} tier
             </div>
-            <div style={{ fontWeight: 800, fontSize: "1.5rem" }}>
-              ${totalPrice}<span style={{ fontSize: ".9rem", fontWeight: 400, color: "#6b7280" }}>/mo</span>
+            <div className="p-sticky-total">
+              ${totalPrice}<span className="p-sticky-total-mo">/mo</span>
             </div>
           </div>
           <button
@@ -380,7 +380,7 @@ export default function PricingPage() {
               opacity: loading ? 0.7 : 1,
             }}
           >
-            {loading && <Loader2 size={16} style={{ animation: "spin 1s linear infinite" }} />}
+            {loading && <Loader2 size={16} className="p-spinner" />}
             {loading ? "Redirecting…" : "Continue to Checkout"}
             {!loading && <ArrowRight size={16} />}
           </button>
@@ -389,8 +389,8 @@ export default function PricingPage() {
 
       {/* ── Portal Always Free ── */}
       <section className="p-portal-free-section">
-        <h2 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: 12 }}>Partner Portal — Always Free</h2>
-        <p style={{ fontSize: ".9rem", color: "#888", lineHeight: 1.7, marginBottom: 20 }}>
+        <h2 className="p-free-section-title">Partner Portal — Always Free</h2>
+        <p className="p-free-section-desc">
           Every plan includes a white-labeled portal where partners register deals, view commissions, and track performance.
           No limits on portal access. No extra charge.
         </p>
@@ -405,21 +405,20 @@ export default function PricingPage() {
       </section>
 
       {/* ── Engine Comparison Table ── */}
-      <section style={{ maxWidth: 900, margin: "0 auto 5rem", padding: "0 1.5rem" }}>
-        <h2 style={{ textAlign: "center", fontSize: "1.5rem", fontWeight: 700, marginBottom: "2rem" }}>Engine Pricing by Tier</h2>
+      <section className="p-table-section">
+        <h2 className="p-table-title">Engine Pricing by Tier</h2>
         <div className="p-table-wrap">
           <table className="p-table">
             <thead>
-              <tr style={{ borderBottom: "1px solid #e5e7eb" }}>
-                <th style={{ textAlign: "left", padding: "12px", color: "#6b7280", fontWeight: 500 }}>Engine</th>
+              <tr>
+                <th className="p-th-left">Engine</th>
                 {(["starter", "growth", "scale"] as Tier[]).map((t) => (
                   <th key={t} style={{
-                    textAlign: "center", padding: "12px",
                     color: tier === t ? "#818cf8" : "#6b7280",
                     fontWeight: tier === t ? 700 : 500,
                   }}>
                     {TIER_LABELS[t].name}
-                    <div style={{ fontSize: ".7rem", fontWeight: 400, color: "#9ca3af" }}>{TIER_LABELS[t].partners}</div>
+                    <div className="p-table-tier-sub">{TIER_LABELS[t].partners}</div>
                   </th>
                 ))}
               </tr>
@@ -429,22 +428,22 @@ export default function PricingPage() {
                 const engine = ENGINES[key];
                 const isBundle = key === "bundle";
                 return (
-                  <tr key={key} style={{
-                    borderBottom: "1px solid #f3f4f6",
-                    background: isBundle ? "rgba(99,102,241,.04)" : i % 2 === 0 ? "transparent" : "#fafafa",
-                  }}>
-                    <td style={{ padding: "14px 12px", color: "#1f2937", fontWeight: isBundle ? 700 : 400 }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <tr
+                    key={key}
+                    className={`p-table-row ${isBundle ? "p-table-row-bundle" : i % 2 !== 0 ? "p-table-row-alt" : ""}`}
+                  >
+                    <td className={`p-table-cell-name ${isBundle ? "p-table-cell-name-bold" : ""}`}>
+                      <div className="p-table-cell-name-inner">
                         {engine.icon}
                         {engine.name}
                       </div>
                     </td>
                     {(["starter", "growth", "scale"] as Tier[]).map((t) => (
-                      <td key={t} style={{ textAlign: "center", padding: "14px 12px" }}>
-                        <span style={{ fontWeight: 700, color: tier === t ? "#0a0a0a" : "#6b7280" }}>
+                      <td key={t}>
+                        <span className="p-table-cell-price" style={{ color: tier === t ? "#0a0a0a" : "#6b7280" }}>
                           ${engine.prices[t]}
                         </span>
-                        <span style={{ color: "#9ca3af", fontSize: ".75rem" }}>/mo</span>
+                        <span className="p-table-cell-price-mo">/mo</span>
                       </td>
                     ))}
                   </tr>
@@ -456,11 +455,11 @@ export default function PricingPage() {
       </section>
 
       {/* ── FAQ ── */}
-      <section style={{ maxWidth: 680, margin: "0 auto 6rem", padding: "0 1.5rem" }}>
-        <h2 style={{ textAlign: "center", fontSize: "1.5rem", fontWeight: 700, marginBottom: "2rem" }}>Common questions</h2>
-        <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+      <section className="p-faq-section">
+        <h2 className="p-faq-title">Common questions</h2>
+        <div className="p-faq-list">
           {FAQS.map((faq, i) => (
-            <div key={i} style={{ borderBottom: "1px solid #e5e7eb" }}>
+            <div key={i} className="p-faq-item">
               <button
                 onClick={() => setOpenFaq(openFaq === i ? null : i)}
                 className="p-faq-btn"
@@ -478,17 +477,15 @@ export default function PricingPage() {
 
       {/* ── Bottom CTA ── */}
       <section className="p-bottom-cta">
-        <h2 style={{ fontSize: "1.75rem", fontWeight: 700, marginBottom: 12 }}>Start free. Add engines as you grow.</h2>
-        <p style={{ color: "#6b7280", marginBottom: 28 }}>Portal included free. Up to 5 partners, no credit card.</p>
+        <h2 className="p-cta-title">Start free. Add engines as you grow.</h2>
+        <p className="p-cta-desc">Portal included free. Up to 5 partners, no credit card.</p>
         <Link href="/sign-up" className="p-bottom-cta-btn">
           Get Started Free <ArrowRight size={16} />
         </Link>
         <p className="p-enterprise-note">
-          Enterprise? <a href="mailto:sales@covant.ai" style={{ color: "#6366f1" }}>Talk to sales →</a>
+          Enterprise? <a href="mailto:sales@covant.ai">Talk to sales →</a>
         </p>
       </section>
-
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

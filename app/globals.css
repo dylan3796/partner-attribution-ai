@@ -1886,6 +1886,50 @@ a:focus-visible {
 }
 .p-enterprise-note a { color: #6366f1; }
 
+/* Pricing page — additional refactor classes */
+.p-portal-title { font-weight: 800; font-size: 1.15rem; color: #0a0a0a; }
+.p-portal-subtitle { font-size: .85rem; color: #6b7280; }
+.p-portal-footer-text { margin: 0; }
+.p-portal-footer-cta { flex-shrink: 0; }
+.p-free-note-row { display: flex; align-items: center; gap: 12px; }
+.p-free-note-detail { font-size: .85rem; color: #6b7280; }
+.p-free-note-detail strong { color: #374151; }
+.p-engine-name { font-weight: 700; font-size: .95rem; color: #0a0a0a; }
+.p-engine-price { font-weight: 700; font-size: 1.25rem; }
+.p-engine-price-mo { font-size: .8rem; font-weight: 400; color: #6b7280; }
+.p-bundle-title { font-weight: 700; font-size: 1.1rem; color: #0a0a0a; }
+.p-bundle-subtitle { font-size: .82rem; color: #6b7280; }
+.p-bundle-price-row { display: flex; align-items: baseline; gap: 8px; }
+.p-bundle-price { font-weight: 800; font-size: 2rem; }
+.p-bundle-price-mo { font-size: .9rem; color: #6b7280; }
+.p-bundle-price-strike { font-size: .85rem; color: #9ca3af; margin-left: 8px; text-decoration: line-through; }
+.p-sticky-label { font-size: .85rem; color: #6b7280; }
+.p-sticky-total { font-weight: 800; font-size: 1.5rem; }
+.p-sticky-total-mo { font-size: .9rem; font-weight: 400; color: #6b7280; }
+.p-free-section-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; }
+.p-free-section-desc { font-size: .9rem; color: #888; line-height: 1.7; margin-bottom: 20px; }
+.p-table-section { max-width: 900px; margin: 0 auto 5rem; padding: 0 1.5rem; }
+.p-table-title { text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; }
+.p-table thead tr { border-bottom: 1px solid #e5e7eb; }
+.p-table th.p-th-left { text-align: left; }
+.p-table-tier-sub { font-size: .7rem; font-weight: 400; color: #9ca3af; }
+.p-table-row { border-bottom: 1px solid #f3f4f6; }
+.p-table-row-bundle { background: rgba(99,102,241,.04); }
+.p-table-row-alt { background: #fafafa; }
+.p-table-cell-name { padding: 14px 12px; color: #1f2937; }
+.p-table-cell-name-bold { font-weight: 700; }
+.p-table-cell-name-inner { display: flex; align-items: center; gap: 8px; }
+.p-table-cell-price { font-weight: 700; }
+.p-table-cell-price-mo { color: #9ca3af; font-size: .75rem; }
+.p-faq-section { max-width: 680px; margin: 0 auto 6rem; padding: 0 1.5rem; }
+.p-faq-title { text-align: center; font-size: 1.5rem; font-weight: 700; margin-bottom: 2rem; }
+.p-faq-list { display: flex; flex-direction: column; gap: 2px; }
+.p-faq-item { border-bottom: 1px solid #e5e7eb; }
+.p-cta-title { font-size: 1.75rem; font-weight: 700; margin-bottom: 12px; }
+.p-cta-desc { color: #6b7280; margin-bottom: 28px; }
+@keyframes p-spin { to { transform: rotate(360deg); } }
+.p-spinner { animation: p-spin 1s linear infinite; }
+
 /* ── Resources Page ───────────────────────────────────── */
 .r-page {
   max-width: 900px;
