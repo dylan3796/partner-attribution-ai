@@ -167,12 +167,6 @@ export default function PricingPage() {
   return (
     <div className="p-page">
 
-      {/* ── Nav ── */}
-      <nav className="p-nav">
-        <Link href="/" className="p-nav-logo">Covant</Link>
-        <Link href="/sign-up" className="p-nav-cta">Get Started Free</Link>
-      </nav>
-
       {/* ── Hero ── */}
       <section className="p-hero">
         <div className="p-hero-badge">

@@ -2013,10 +2013,88 @@ a:focus-visible {
   margin-bottom: 1.5rem;
 }
 
+/* ── Footer ───────────────────────────────────────────── */
+.site-footer { border-top: 1px solid #e5e7eb; background: #fff; padding: 2rem; }
+.site-footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.site-footer-brand { display: flex; align-items: center; gap: 1.5rem; }
+.site-footer-brand-logo { font-weight: 800; font-size: 1rem; color: #0a0a0a; text-decoration: none; letter-spacing: -0.02em; }
+.site-footer-brand-sep { color: #d1d5db; }
+.site-footer-brand-copy { font-size: .8rem; color: #9ca3af; }
+.site-footer-links { display: flex; gap: 1.5rem; align-items: center; }
+.site-footer-links a { font-size: .82rem; color: #6b7280; text-decoration: none; }
+
+/* ── Pricing page responsive ─────────────────────────── */
+@media (max-width: 768px) {
+  .p-hero { padding: 3rem 1rem 1.5rem; }
+  .p-hero-title { font-size: clamp(1.75rem, 5vw, 3rem); }
+  .p-tier-toggle { max-width: 100%; padding: 0 1rem; }
+  .p-tier-bar { flex-direction: column; gap: 4px; }
+  .p-tier-btn { min-height: 44px; }
+  .p-section { padding: 0 1rem; }
+  .p-engine-grid { grid-template-columns: 1fr !important; }
+  .p-engine-btn { padding: 1rem; }
+  .p-portal-card { padding: 1.25rem; }
+  .p-portal-features { grid-template-columns: 1fr !important; }
+  .p-portal-footer { flex-direction: column; text-align: center; gap: 1rem; }
+  .p-bundle-btn { padding: 1rem; }
+  .p-bundle-price { font-size: 1.5rem; }
+  .p-sticky-bar { flex-direction: column; text-align: center; padding: 1rem; padding-bottom: 80px; gap: 12px; }
+  .p-checkout-btn { width: 100%; justify-content: center; }
+  .p-table { font-size: .78rem; }
+  .p-table th, .p-table td { padding: 10px 8px; }
+  .p-free-note { flex-direction: column; text-align: center; gap: 12px; }
+  .p-free-note-cta { align-self: center; }
+  .p-faq-btn { min-height: 44px; }
+  .p-portal-free-section { padding: 0 1rem; }
+  .p-portal-free-features { flex-direction: column; align-items: center; }
+  .p-portal-free-chip { min-height: 44px; padding: 10px 16px; }
+  .p-bottom-cta { padding: 3rem 1rem 4rem; }
+  .p-table-section { padding: 0 1rem; }
+  .p-faq-section { padding: 0 1rem; }
+}
+
+@media (max-width: 480px) {
+  .p-hero-title { font-size: 1.75rem; }
+  .p-sticky-total { font-size: 1.25rem; }
+}
+
+/* ── Resources page responsive ───────────────────────── */
+@media (max-width: 768px) {
+  .r-page { padding: 4rem 1rem 3rem; }
+  .r-grid { grid-template-columns: 1fr !important; }
+  .r-card { padding: 1.25rem; }
+  .r-cta { padding: 2rem 1rem; }
+}
+
+/* ── Footer responsive ───────────────────────────────── */
+@media (max-width: 768px) {
+  .site-footer { padding: 1.5rem 1rem; }
+  .site-footer-inner { flex-direction: column; text-align: center; }
+  .site-footer-brand { flex-direction: column; gap: .5rem; }
+  .site-footer-links { flex-wrap: wrap; justify-content: center; gap: 1rem; }
+  .site-footer-links a { min-height: 44px; display: flex; align-items: center; }
+}
+
+/* ── Demo banner responsive ──────────────────────────── */
+@media (max-width: 768px) {
+  .demo-banner { flex-wrap: wrap; justify-content: center; gap: 8px; text-align: center; padding: 10px 12px; }
+  .demo-banner-right { gap: 10px; }
+  .demo-badge-bar { flex-wrap: wrap; justify-content: center; gap: 6px; padding: 6px 12px; }
+  .demo-badge-pill { min-height: 36px; display: inline-flex; align-items: center; }
+}
+
+/* ── ROI page responsive ─────────────────────────────── */
+@media (max-width: 480px) {
+  .roi-page { padding: 4rem 1rem 3rem; }
+  .roi-page-title { font-size: 1.75rem; }
+  .roi-page-cta { padding: 2rem 1rem; }
+}
+
 /* ── Platform page responsive ─────────────────────────── */
 @media (max-width: 768px) {
   .l-tour-grid {
     grid-template-columns: 1fr !important;
+    gap: 2rem !important;
   }
   .l-tour-grid > div {
     order: unset !important;
@@ -2027,5 +2105,12 @@ a:focus-visible {
   .l-problem-before {
     border-right: none;
     border-bottom: 1px solid #e5e7eb;
+  }
+}
+
+/* ── Landing page responsive (extended) ──────────────── */
+@media (max-width: 768px) {
+  .landing [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
   }
 }
