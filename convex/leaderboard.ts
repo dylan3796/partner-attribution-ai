@@ -37,29 +37,53 @@ export const getRankings = query({
     const MS_30D = 30 * 24 * 60 * 60 * 1000;
     const MS_90D = 90 * 24 * 60 * 60 * 1000;
 
+    // Pre-build partner-indexed Maps to avoid O(n²) filtering
+    const dealsByPartner = new Map<string, typeof deals>();
+    for (const d of deals) {
+      if (d.registeredBy) {
+        const arr = dealsByPartner.get(d.registeredBy) ?? [];
+        arr.push(d);
+        dealsByPartner.set(d.registeredBy, arr);
+      }
+    }
+
+    const touchpointsByPartner = new Map<string, typeof touchpoints>();
+    for (const t of touchpoints) {
+      const arr = touchpointsByPartner.get(t.partnerId) ?? [];
+      arr.push(t);
+      touchpointsByPartner.set(t.partnerId, arr);
+    }
+
+    const payoutsByPartner = new Map<string, typeof payouts>();
+    for (const p of payouts) {
+      const arr = payoutsByPartner.get(p.partnerId) ?? [];
+      arr.push(p);
+      payoutsByPartner.set(p.partnerId, arr);
+    }
+
     function computeForPeriod(sinceTs: number) {
       const activePartners = partners.filter((p) => p.status === "active" || p.status === "pending");
 
       const ranked = activePartners.map((partner) => {
         const pid = partner._id;
 
-        // Deals in period
-        const partnerDeals = deals.filter(
-          (d) => d.registeredBy === pid && d.createdAt > sinceTs
+        // Deals in period (from pre-built Map)
+        const partnerDeals = (dealsByPartner.get(pid) ?? []).filter(
+          (d) => d.createdAt > sinceTs
         );
         const wonDeals = partnerDeals.filter((d) => d.status === "won");
         const revenue = wonDeals.reduce((s, d) => s + d.amount, 0);
         const totalDeals = partnerDeals.length;
         const winRate = totalDeals > 0 ? wonDeals.length / totalDeals : 0;
 
-        // Touchpoints in period
-        const tpCount = touchpoints.filter(
-          (t) => t.partnerId === pid && t.createdAt > sinceTs
+        // Touchpoints in period (from pre-built Map)
+        const tpCount = (touchpointsByPartner.get(pid) ?? []).filter(
+          (t) => t.createdAt > sinceTs
         ).length;
 
-        // Commissions earned in period
-        const partnerPayouts = payouts.filter(
-          (p) => p.partnerId === pid && p.createdAt > sinceTs
+        // Commissions earned in period (from pre-built Map)
+        const partnerPayouts = (payoutsByPartner.get(pid) ?? []).filter(
+          (p) => p.createdAt > sinceTs
         );
         const commissionsEarned = partnerPayouts
           .filter((p) => p.status === "paid")

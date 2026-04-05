@@ -1,14 +1,28 @@
 import { query } from "./_generated/server";
+import { getOrgId } from "./lib/getOrg";
 
 export const getForecastData = query({
   args: {},
   handler: async (ctx) => {
-    const deals = await ctx.db.query("deals").collect();
-    const partners = await ctx.db.query("partners").collect();
-    const attributions = await ctx.db.query("attributions").collect();
+    const orgId = await getOrgId(ctx);
+    if (!orgId) return { pipeline: [], monthlyRevenue: {}, partnerGrowth: {}, avgMonthlyRevenue: 0, totalPartners: 0, totalOpenPipeline: 0 };
+
+    const [deals, partners, attributions] = await Promise.all([
+      ctx.db.query("deals").withIndex("by_organization", (q) => q.eq("organizationId", orgId)).collect(),
+      ctx.db.query("partners").withIndex("by_organization", (q) => q.eq("organizationId", orgId)).collect(),
+      ctx.db.query("attributions").withIndex("by_organization", (q) => q.eq("organizationId", orgId)).collect(),
+    ]);
 
     // Build partner lookup
     const partnerMap = new Map(partners.map((p) => [p._id, p]));
+
+    // Build attribution-by-deal lookup for O(1) access
+    const attrByDeal = new Map<string, typeof attributions[number]>();
+    for (const a of attributions) {
+      if (!attrByDeal.has(a.dealId)) {
+        attrByDeal.set(a.dealId, a);
+      }
+    }
 
     // Pipeline deals (open deals)
     const pipeline = deals
@@ -16,7 +30,7 @@ export const getForecastData = query({
       .map((d) => {
         const partner = d.registeredBy ? partnerMap.get(d.registeredBy) : null;
         // Find attribution partner if no registeredBy
-        const attr = attributions.find((a) => a.dealId === d._id);
+        const attr = attrByDeal.get(d._id);
         const attrPartner = attr ? partnerMap.get(attr.partnerId) : null;
         const p = partner || attrPartner;
         return {

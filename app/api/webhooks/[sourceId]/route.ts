@@ -229,7 +229,9 @@ export async function POST(
     // Partner matching logic
     if (mappedFields.email || mappedFields.referralCode || mappedFields.partnerId) {
       try {
-        const partners = await convex.query(api.partners.list, {});
+        const partners = await convex.query(api.integrations.listPartnersForOrg, {
+          organizationId: source.organizationId,
+        });
 
         // Try to match by email
         if (mappedFields.email) {

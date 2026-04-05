@@ -348,11 +348,25 @@ export const getPipelineDeals = query({
     ]);
     
     const partnerMap = new Map(partners.map((p: any) => [p._id, p]));
-    
+
+    // Pre-build deal-indexed Maps for O(1) lookups
+    const touchpointsByDeal = new Map<string, any[]>();
+    for (const t of touchpoints) {
+      const arr = touchpointsByDeal.get(t.dealId) ?? [];
+      arr.push(t);
+      touchpointsByDeal.set(t.dealId, arr);
+    }
+    const attributionsByDeal = new Map<string, any[]>();
+    for (const a of attributions) {
+      const arr = attributionsByDeal.get(a.dealId) ?? [];
+      arr.push(a);
+      attributionsByDeal.set(a.dealId, arr);
+    }
+
     // Enrich deals with partner info and touchpoints
     const enriched = deals.map((d: any) => {
-      const dealTouchpoints = touchpoints.filter((t: any) => t.dealId === d._id);
-      const dealAttributions = attributions.filter((a: any) => a.dealId === d._id);
+      const dealTouchpoints = touchpointsByDeal.get(d._id) ?? [];
+      const dealAttributions = attributionsByDeal.get(d._id) ?? [];
       const registeredPartner = d.registeredBy ? partnerMap.get(d.registeredBy) : null;
       
       // Get all partners who touched this deal
@@ -428,15 +442,38 @@ export const getPartnerPerformance = query({
         .collect(),
     ]);
     
+    // Pre-build partner-indexed Maps for O(1) lookups
+    const tpByPartner = new Map<string, any[]>();
+    for (const t of touchpoints) {
+      const arr = tpByPartner.get(t.partnerId) ?? [];
+      arr.push(t);
+      tpByPartner.set(t.partnerId, arr);
+    }
+    const attrByPartner = new Map<string, any[]>();
+    for (const a of attributions) {
+      const arr = attrByPartner.get(a.partnerId) ?? [];
+      arr.push(a);
+      attrByPartner.set(a.partnerId, arr);
+    }
+    const dealMap = new Map(deals.map((d: any) => [d._id, d]));
+    const dealsByRegisteredPartner = new Map<string, any[]>();
+    for (const d of deals) {
+      if (d.registeredBy) {
+        const arr = dealsByRegisteredPartner.get(d.registeredBy) ?? [];
+        arr.push(d);
+        dealsByRegisteredPartner.set(d.registeredBy, arr);
+      }
+    }
+
     return partners.map((partner: any) => {
-      const partnerTouchpoints = touchpoints.filter((t: any) => t.partnerId === partner._id);
+      const partnerTouchpoints = tpByPartner.get(partner._id) ?? [];
       const dealIds = [...new Set(partnerTouchpoints.map((t: any) => t.dealId))];
-      const partnerDeals = dealIds.map((id: any) => deals.find((d: any) => d._id === id)).filter(Boolean);
-      const partnerAttributions = attributions.filter((a: any) => a.partnerId === partner._id);
-      
+      const partnerDeals = dealIds.map((id: any) => dealMap.get(id)).filter(Boolean);
+      const partnerAttributions = attrByPartner.get(partner._id) ?? [];
+
       const wonDeals = partnerDeals.filter((d: any) => d.status === "won");
       const openDeals = partnerDeals.filter((d: any) => d.status === "open");
-      const registeredDeals = deals.filter((d: any) => d.registeredBy === partner._id);
+      const registeredDeals = dealsByRegisteredPartner.get(partner._id) ?? [];
       
       const totalRevenue = partnerAttributions.reduce((s: number, a: any) => s + a.amount, 0);
       const totalCommission = partnerAttributions.reduce((s: number, a: any) => s + a.commissionAmount, 0);
@@ -495,26 +532,34 @@ export const getChannelConflicts = query({
       .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
       .collect();
     
-    const partnerMap = new Map(partners.map((p: any) => [p._id.toString(), p]));
-    
+    const partnerMap = new Map(partners.map((p: any) => [p._id, p]));
+
+    // Pre-build deal-indexed touchpoint Map for O(1) lookups
+    const touchpointsByDeal = new Map<string, any[]>();
+    for (const t of touchpoints) {
+      const arr = touchpointsByDeal.get(t.dealId) ?? [];
+      arr.push(t);
+      touchpointsByDeal.set(t.dealId, arr);
+    }
+
     // Find deals with multiple partner touchpoints
     const conflicts: any[] = [];
-    
+
     for (const deal of deals) {
-      const dealTouchpoints = touchpoints.filter((t: any) => t.dealId.toString() === deal._id.toString());
-      const partnerIds = [...new Set(dealTouchpoints.map((t: any) => t.partnerId.toString()))];
-      
+      const dealTouchpoints = touchpointsByDeal.get(deal._id) ?? [];
+      const partnerIds = [...new Set(dealTouchpoints.map((t: any) => t.partnerId))];
+
       if (partnerIds.length > 1) {
         const involvedPartners = partnerIds.map((id: string) => {
           const partner = partnerMap.get(id);
           return partner ? { id, name: partner.name } : { id, name: "Unknown" };
         });
-        
+
         conflicts.push({
           _id: deal._id,
           dealName: deal.name,
           dealAmount: deal.amount,
-          status: "open", // These are detected conflicts, not yet resolved
+          status: "open",
           involvedPartners,
           touchpointCount: dealTouchpoints.length,
         });
@@ -743,10 +788,12 @@ export const getProgramHealth = query({
     // % of active partners with a touchpoint in last 90 days
     const activePartners = partners.filter((p: any) => p.status === "active");
     const totalActive = activePartners.length;
+    // Build Set of partner IDs with recent touchpoints for O(1) lookup
+    const recentlyEngagedPartnerIds = new Set(
+      touchpoints.filter((t: any) => t.createdAt >= ninetyDaysAgo).map((t: any) => t.partnerId)
+    );
     const engagedPartners = totalActive > 0
-      ? activePartners.filter((p: any) => {
-          return touchpoints.some((t: any) => t.partnerId === p._id && t.createdAt >= ninetyDaysAgo);
-        }).length
+      ? activePartners.filter((p: any) => recentlyEngagedPartnerIds.has(p._id)).length
       : 0;
     const engagementRate = totalActive > 0 ? engagedPartners / totalActive : 0;
     const engagementScore = Math.round(Math.min(engagementRate * 1.25, 1) * 25); // 80%+ engagement = full marks
@@ -946,8 +993,12 @@ export const getDashboardData = query({
     const ninetyDaysAgo = now - 90 * 24 * 60 * 60 * 1000;
 
     const totalActive = activePartnersList.length;
+    // Build Set of partner IDs with recent touchpoints for O(1) lookup
+    const recentlyEngagedIds = new Set(
+      touchpoints.filter((t: any) => t.createdAt >= ninetyDaysAgo).map((t: any) => t.partnerId)
+    );
     const engagedPartners = totalActive > 0
-      ? activePartnersList.filter((p: any) => touchpoints.some((t: any) => t.partnerId === p._id && t.createdAt >= ninetyDaysAgo)).length
+      ? activePartnersList.filter((p: any) => recentlyEngagedIds.has(p._id)).length
       : 0;
     const engagementRate = totalActive > 0 ? engagedPartners / totalActive : 0;
     const engagementScore = Math.round(Math.min(engagementRate * 1.25, 1) * 25);

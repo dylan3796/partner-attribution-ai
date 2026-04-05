@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { ConvexHttpClient } from 'convex/browser';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
-import { getClosedWonDeals, getContact, refreshAccessToken, HubSpotDeal } from '@/lib/hubspot';
+import { getClosedWonDeals, getContactsBatch, refreshAccessToken, HubSpotDeal } from '@/lib/hubspot';
 
 const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
 
@@ -92,6 +92,13 @@ export async function POST(request: Request) {
   const errors: string[] = [];
   const matched = { count: 0, byName: 0, byDomain: 0 };
 
+  // Batch-fetch all associated contacts upfront (instead of N+1 per deal)
+  const allContactIds = deals
+    .map((d) => d.associations?.contacts?.results?.[0]?.id)
+    .filter((id): id is string => !!id);
+  const uniqueContactIds = [...new Set(allContactIds)];
+  const contactMap = await getContactsBatch(accessToken, uniqueContactIds);
+
   for (const deal of deals) {
     try {
       const props = deal.properties;
@@ -99,12 +106,12 @@ export async function POST(request: Request) {
       const amount = parseFloat(props.amount ?? '0') || 0;
       const closedAt = props.closedate ? new Date(props.closedate).getTime() : Date.now();
 
-      // Optionally resolve first associated contact
+      // Resolve contact from pre-fetched batch
       let contactName: string | undefined;
       let contactEmail: string | undefined;
       const contactId = deal.associations?.contacts?.results?.[0]?.id;
       if (contactId) {
-        const contact = await getContact(accessToken, contactId);
+        const contact = contactMap.get(contactId);
         if (contact) {
           const fn = contact.properties.firstname ?? '';
           const ln = contact.properties.lastname ?? '';

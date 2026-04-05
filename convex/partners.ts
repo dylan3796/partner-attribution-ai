@@ -70,21 +70,25 @@ export const getById = query({
       .withIndex("by_partner", (q) => q.eq("partnerId", args.id))
       .collect();
 
+    // Batch-fetch all unique deals referenced by touchpoints and attributions
+    const uniqueDealIds = [...new Set([
+      ...touchpoints.map((tp) => tp.dealId),
+      ...attributions.map((attr) => attr.dealId),
+    ])];
+    const dealResults = await Promise.all(uniqueDealIds.map((id) => ctx.db.get(id)));
+    const dealMap = new Map(dealResults.filter(Boolean).map((d) => [d!._id, d]));
+
     // Enrich touchpoints with deal info
-    const enrichedTouchpoints = await Promise.all(
-      touchpoints.map(async (tp) => {
-        const deal = await ctx.db.get(tp.dealId);
-        return { ...tp, deal };
-      })
-    );
+    const enrichedTouchpoints = touchpoints.map((tp) => ({
+      ...tp,
+      deal: dealMap.get(tp.dealId) ?? null,
+    }));
 
     // Enrich attributions with deal info
-    const enrichedAttributions = await Promise.all(
-      attributions.map(async (attr) => {
-        const deal = await ctx.db.get(attr.dealId);
-        return { ...attr, deal };
-      })
-    );
+    const enrichedAttributions = attributions.map((attr) => ({
+      ...attr,
+      deal: dealMap.get(attr.dealId) ?? null,
+    }));
 
     return {
       ...partner,
@@ -309,35 +313,52 @@ export const listWithStats = query({
       .withIndex("by_organization", (q) => q.eq("organizationId", org._id))
       .collect();
 
-    // For each partner, get their deal count and revenue
-    const result = await Promise.all(
-      partners.map(async (partner) => {
-        const deals = await ctx.db
-          .query("deals")
-          .withIndex("by_registered_partner", (q) => q.eq("registeredBy", partner._id))
-          .collect();
+    // Fetch all deals and payouts for the org upfront (avoid N+1 per partner)
+    const [allDeals, allPayouts] = await Promise.all([
+      ctx.db
+        .query("deals")
+        .withIndex("by_organization", (q) => q.eq("organizationId", org._id))
+        .collect(),
+      ctx.db
+        .query("payouts")
+        .withIndex("by_organization", (q) => q.eq("organizationId", org._id))
+        .collect(),
+    ]);
 
-        const wonDeals = deals.filter((d) => d.status === "won");
-        const revenue = wonDeals.reduce((s, d) => s + d.amount, 0);
+    // Group deals by registeredBy partner
+    const dealsByPartner = new Map<string, typeof allDeals>();
+    for (const d of allDeals) {
+      if (d.registeredBy) {
+        const arr = dealsByPartner.get(d.registeredBy) ?? [];
+        arr.push(d);
+        dealsByPartner.set(d.registeredBy, arr);
+      }
+    }
 
-        const payouts = await ctx.db
-          .query("payouts")
-          .withIndex("by_partner", (q) => q.eq("partnerId", partner._id))
-          .collect();
+    // Group payouts by partner
+    const payoutsByPartner = new Map<string, typeof allPayouts>();
+    for (const p of allPayouts) {
+      const arr = payoutsByPartner.get(p.partnerId) ?? [];
+      arr.push(p);
+      payoutsByPartner.set(p.partnerId, arr);
+    }
 
-        return {
-          ...partner,
-          dealCount: deals.length,
-          wonDealCount: wonDeals.length,
-          revenue,
-          pendingPayouts: payouts.filter((p) => p.status === "pending_approval").length,
-          totalPaid: payouts
-            .filter((p) => p.status === "paid")
-            .reduce((s, p) => s + p.amount, 0),
-        };
-      })
-    );
+    return partners.map((partner) => {
+      const deals = dealsByPartner.get(partner._id) ?? [];
+      const wonDeals = deals.filter((d) => d.status === "won");
+      const revenue = wonDeals.reduce((s, d) => s + d.amount, 0);
+      const payouts = payoutsByPartner.get(partner._id) ?? [];
 
-    return result;
+      return {
+        ...partner,
+        dealCount: deals.length,
+        wonDealCount: wonDeals.length,
+        revenue,
+        pendingPayouts: payouts.filter((p) => p.status === "pending_approval").length,
+        totalPaid: payouts
+          .filter((p) => p.status === "paid")
+          .reduce((s, p) => s + p.amount, 0),
+      };
+    });
   },
 });

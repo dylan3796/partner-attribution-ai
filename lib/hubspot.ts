@@ -183,3 +183,45 @@ export async function getContact(
   if (!res.ok) return null;
   return await res.json();
 }
+
+// ── Batch Contact Lookup ──────────────────────────────────────────────────
+
+/**
+ * Fetch multiple contacts in a single batch request (max 100 per call).
+ * Returns a Map of contactId → HubSpotContact for all found contacts.
+ */
+export async function getContactsBatch(
+  accessToken: string,
+  contactIds: string[]
+): Promise<Map<string, HubSpotContact>> {
+  const result = new Map<string, HubSpotContact>();
+  if (contactIds.length === 0) return result;
+
+  // HubSpot batch read supports up to 100 IDs per request
+  const chunks: string[][] = [];
+  for (let i = 0; i < contactIds.length; i += 100) {
+    chunks.push(contactIds.slice(i, i + 100));
+  }
+
+  for (const chunk of chunks) {
+    const res = await fetch('https://api.hubapi.com/crm/v3/objects/contacts/batch/read', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        properties: ['firstname', 'lastname', 'email'],
+        inputs: chunk.map((id) => ({ id })),
+      }),
+    });
+
+    if (!res.ok) continue; // Skip failed batches gracefully
+    const data = await res.json();
+    for (const contact of data.results ?? []) {
+      result.set(contact.id, contact);
+    }
+  }
+
+  return result;
+}

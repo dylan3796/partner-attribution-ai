@@ -66,17 +66,18 @@ export const getOverview = query({
     const recentRevenue = recentWonDeals.reduce((sum, d) => sum + d.amount, 0);
 
     // Top partners by attributed revenue (using equal_split model as default)
+    const partnerMap = new Map(partners.map((p) => [p._id, p]));
     const partnerRevenueMap = new Map<string, { name: string; revenue: number; deals: number }>();
-    
+
     for (const attr of attributions) {
       if (attr.model === "equal_split") {
         const existing = partnerRevenueMap.get(attr.partnerId);
-        const partner = partners.find((p) => p._id === attr.partnerId);
-        
+
         if (existing) {
           existing.revenue += attr.amount;
           existing.deals += 1;
         } else {
+          const partner = partnerMap.get(attr.partnerId);
           partnerRevenueMap.set(attr.partnerId, {
             name: partner?.name || "Unknown Partner",
             revenue: attr.amount,
