@@ -41,24 +41,7 @@ interface EarningBreakdown {
   type: "commission" | "bonus" | "spiff" | "rebate";
 }
 
-/* ── Demo Data ── */
-const PAYOUTS: Payout[] = [
-  { id: "p1", period: "2026-02", periodLabel: "February 2026", amount: 8420, status: "pending", paidDate: null, scheduledDate: "2026-03-15", method: "ACH Transfer", deals: 6, commissionRate: "12%", invoiceId: "INV-2026-0218" },
-  { id: "p2", period: "2026-01", periodLabel: "January 2026", amount: 12350, status: "paid", paidDate: "2026-02-15", scheduledDate: "2026-02-15", method: "ACH Transfer", deals: 9, commissionRate: "12%", invoiceId: "INV-2026-0115" },
-  { id: "p3", period: "2025-12", periodLabel: "December 2025", amount: 15680, status: "paid", paidDate: "2026-01-15", scheduledDate: "2026-01-15", method: "ACH Transfer", deals: 11, commissionRate: "12%", invoiceId: "INV-2025-1215" },
-  { id: "p4", period: "2025-11", periodLabel: "November 2025", amount: 9240, status: "paid", paidDate: "2025-12-15", scheduledDate: "2025-12-15", method: "ACH Transfer", deals: 7, commissionRate: "12%", invoiceId: "INV-2025-1115" },
-  { id: "p5", period: "2025-10", periodLabel: "October 2025", amount: 7890, status: "paid", paidDate: "2025-11-15", scheduledDate: "2025-11-15", method: "ACH Transfer", deals: 5, commissionRate: "10%", invoiceId: "INV-2025-1015" },
-  { id: "p6", period: "2025-09", periodLabel: "September 2025", amount: 6450, status: "paid", paidDate: "2025-10-15", scheduledDate: "2025-10-15", method: "Wire Transfer", deals: 4, commissionRate: "10%", invoiceId: "INV-2025-0915" },
-  { id: "p7", period: "2025-08", periodLabel: "August 2025", amount: 4200, status: "paid", paidDate: "2025-09-15", scheduledDate: "2025-09-15", method: "Wire Transfer", deals: 3, commissionRate: "10%", invoiceId: "INV-2025-0815" },
-];
-
-const CURRENT_EARNINGS: EarningBreakdown[] = [
-  { source: "Enterprise SSO Migration", deals: 1, amount: 3240, type: "commission" },
-  { source: "API Gateway Upsell", deals: 1, amount: 1890, type: "commission" },
-  { source: "Analytics Platform Renewal", deals: 1, amount: 1440, type: "commission" },
-  { source: "Q1 Accelerator Bonus", deals: 0, amount: 1500, type: "bonus" },
-  { source: "Cloud Migration SPIFF", deals: 1, amount: 350, type: "spiff" },
-];
+/* ── No more hardcoded demo data — payouts come from real portal context ── */
 
 /* ── Helpers ── */
 function fmt(n: number): string {
@@ -97,7 +80,7 @@ export default function PayoutsPage() {
 
   // Build payouts from partner-scoped portal data
   const payouts = useMemo<Payout[]>(() => {
-    if (!portalPayouts || portalPayouts.length === 0) return PAYOUTS; // fallback for demo
+    if (!portalPayouts || portalPayouts.length === 0) return [];
     return portalPayouts.map((p, i) => {
       const d = new Date(p.date);
       const period = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`;
@@ -120,7 +103,7 @@ export default function PayoutsPage() {
 
   // Build current earnings from partner-scoped attributions
   const currentEarningsList = useMemo<EarningBreakdown[]>(() => {
-    if (!myAttributions || myAttributions.length === 0) return CURRENT_EARNINGS; // fallback
+    if (!myAttributions || myAttributions.length === 0) return [];
     return myAttributions.slice(0, 5).map((a) => ({
       source: a.deal?.name || "Deal Commission",
       deals: 1,
@@ -132,7 +115,8 @@ export default function PayoutsPage() {
   const totalEarned = payouts.filter((p) => p.status === "paid").reduce((s, p) => s + p.amount, 0);
   const pendingAmount = payouts.filter((p) => p.status === "pending" || p.status === "processing").reduce((s, p) => s + p.amount, 0);
   const currentEarnings = currentEarningsList.reduce((s, e) => s + e.amount, 0);
-  const ytdEarnings = payouts.filter((p) => p.period.startsWith("2026")).reduce((s, p) => s + p.amount, 0);
+  const currentYear = String(new Date().getFullYear());
+  const ytdEarnings = payouts.filter((p) => p.period.startsWith(currentYear)).reduce((s, p) => s + p.amount, 0);
 
   // Monthly trend
   const paidPayouts = payouts.filter((p) => p.status === "paid").reverse();
@@ -144,7 +128,11 @@ export default function PayoutsPage() {
     return true;
   });
 
-  const nextPayDate = "March 15, 2026";
+  // Calculate next pay date dynamically (15th of next month)
+  const nextMonth = new Date();
+  nextMonth.setMonth(nextMonth.getMonth() + 1);
+  nextMonth.setDate(15);
+  const nextPayDate = nextMonth.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
 
   return (
     <div>
@@ -172,8 +160,8 @@ export default function PayoutsPage() {
         {[
           { label: "Total Earned", value: fmtExact(totalEarned), icon: <DollarSign size={18} />, color: "#22c55e", sub: "All time" },
           { label: "Pending Payout", value: fmtExact(pendingAmount), icon: <Clock size={18} />, color: "#f59e0b", sub: `Next: ${nextPayDate}` },
-          { label: "Current Period", value: fmtExact(currentEarnings), icon: <TrendingUp size={18} />, color: "#6366f1", sub: "Feb 2026 (in progress)" },
-          { label: "YTD Earnings", value: fmtExact(ytdEarnings), icon: <Calendar size={18} />, color: "#3b82f6", sub: "2026 year-to-date" },
+          { label: "Current Period", value: fmtExact(currentEarnings), icon: <TrendingUp size={18} />, color: "#6366f1", sub: `${new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" })} (in progress)` },
+          { label: "YTD Earnings", value: fmtExact(ytdEarnings), icon: <Calendar size={18} />, color: "#3b82f6", sub: `${new Date().getFullYear()} year-to-date` },
         ].map((card, i) => (
           <div key={i} className="card" style={{ padding: "1.25rem" }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
@@ -210,7 +198,7 @@ export default function PayoutsPage() {
         {/* Current period breakdown */}
         <div className="card">
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
-            <h3 style={{ fontSize: ".85rem", fontWeight: 700, margin: 0 }}>February Earnings Breakdown</h3>
+            <h3 style={{ fontSize: ".85rem", fontWeight: 700, margin: 0 }}>Current Period Breakdown</h3>
             <span style={{ fontSize: ".85rem", fontWeight: 800, color: "#6366f1" }}>{fmtExact(currentEarnings)}</span>
           </div>
           {currentEarningsList.map((e, i) => {
@@ -234,12 +222,11 @@ export default function PayoutsPage() {
       <div style={{ padding: 14, borderRadius: 10, background: "#3b82f610", border: "1px solid #3b82f630", marginBottom: 20, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
         <CreditCard size={18} color="#3b82f6" />
         <span style={{ fontSize: ".82rem" }}>
-          <strong>Payment method:</strong> ACH Transfer ending in •••4821 &nbsp;·&nbsp;
           <strong>Schedule:</strong> 15th of each month &nbsp;·&nbsp;
           <strong>Net terms:</strong> Net-30
         </span>
         <a href="/portal/profile" style={{ marginLeft: "auto", fontSize: ".78rem", color: "#6366f1", fontWeight: 600 }}>
-          Update Payment Info →
+          Manage Payment Info →
         </a>
       </div>
 
@@ -263,6 +250,15 @@ export default function PayoutsPage() {
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+        {filteredPayouts.length === 0 && (
+          <div className="card" style={{ padding: "3rem 2rem", textAlign: "center" }}>
+            <Wallet size={36} style={{ color: "var(--muted)", marginBottom: 8 }} />
+            <h4 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: 4 }}>No payouts yet</h4>
+            <p className="muted" style={{ fontSize: ".85rem", maxWidth: 400, margin: "0 auto" }}>
+              When deals you influence close and commissions are approved, your payouts will appear here.
+            </p>
+          </div>
+        )}
         {filteredPayouts.map((p) => {
           const st = statusStyle(p.status);
           const isExpanded = expandedId === p.id;
@@ -336,7 +332,7 @@ export default function PayoutsPage() {
       <div style={{ marginTop: 24, padding: 14, borderRadius: 10, background: "var(--subtle)", border: "1px solid var(--border)", display: "flex", alignItems: "flex-start", gap: 10 }}>
         <AlertCircle size={16} color="var(--muted)" style={{ marginTop: 2, flexShrink: 0 }} />
         <div style={{ fontSize: ".78rem", color: "var(--muted)", lineHeight: 1.6 }}>
-          <strong>Tax Documents:</strong> 1099 forms for 2025 earnings are available in your{" "}
+          <strong>Tax Documents:</strong> 1099 forms for prior year earnings are available in your{" "}
           <a href="/portal/profile" style={{ color: "#6366f1", fontWeight: 600 }}>Profile settings</a>.
           Ensure your W-9 is up to date to avoid payment holds. Contact{" "}
           <a href="/portal/support" style={{ color: "#6366f1", fontWeight: 600 }}>support</a> for payment disputes.

@@ -24,9 +24,10 @@ export default function ReferralLinksPage() {
     );
   }
 
-  // Generate unique referral link
+  // Generate unique referral link using the current origin
   const slug = partner.companyName?.toLowerCase().replace(/\s+/g, "-").slice(0, 20) || partner.id?.slice(-8) || "partner";
-  const referralUrl = `https://horizonsoftware.com/?ref=${slug}`;
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://app.covant.ai";
+  const referralUrl = `${origin}/?ref=${slug}`;
 
   // Referral touchpoints (type = "referral" or "introduction")
   const referralTouchpoints = myTouchpoints.filter(

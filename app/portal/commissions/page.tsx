@@ -77,19 +77,24 @@ export default function PortalCommissionsPage() {
   const totalEarned = myAttributions.reduce((s, a) => s + a.commissionAmount, 0);
   const commissionRate = partner.tier === "platinum" ? 15 : partner.tier === "gold" ? 12 : partner.tier === "silver" ? 10 : 8;
 
-  // Monthly breakdown (last 6 months)
+  // Monthly breakdown (last 6 months) — derived from real attribution data
   const monthlyData = useMemo(() => {
     const months: { label: string; value: number; color: string }[] = [];
     for (let i = 5; i >= 0; i--) {
       const d = new Date(now - i * 30 * DAY);
+      const monthStart = new Date(d.getFullYear(), d.getMonth(), 1).getTime();
+      const monthEnd = new Date(d.getFullYear(), d.getMonth() + 1, 1).getTime();
       const label = d.toLocaleDateString("en", { month: "short" });
-      // Simulate monthly earnings based on total
-      const base = totalEarned / 8;
-      const variance = 0.5 + Math.random();
-      months.push({ label, value: Math.round(base * variance), color: i === 0 ? "#6366f1" : "#6366f140" });
+      const monthTotal = myAttributions
+        .filter((a) => {
+          const ts = a.deal?.closedAt || a.deal?.createdAt || 0;
+          return ts >= monthStart && ts < monthEnd;
+        })
+        .reduce((s, a) => s + a.commissionAmount, 0);
+      months.push({ label, value: Math.round(monthTotal), color: i === 0 ? "#6366f1" : "#6366f140" });
     }
     return months;
-  }, [totalEarned]);
+  }, [myAttributions]);
 
   // Commission by model/type breakdown
   const typeBreakdown = useMemo(() => {
@@ -102,8 +107,10 @@ export default function PortalCommissionsPage() {
     return [...map.entries()].map(([label, value], i) => ({ label, value, color: colors[i % colors.length] }));
   }, [myAttributions]);
 
-  // Projected next quarter
-  const projectedQuarterly = Math.round(totalEarned * 1.15); // 15% growth projection
+  // Projected next quarter — based on last 3 months of actual data
+  const last3MonthsTotal = monthlyData.slice(-3).reduce((s, m) => s + m.value, 0);
+  const projectedQuarterly = last3MonthsTotal > 0 ? last3MonthsTotal : totalEarned;
+  const hasMonthlyTrend = monthlyData.filter((m) => m.value > 0).length >= 2;
 
   // Filter attributions
   const filteredAttributions = useMemo(() => {
@@ -166,10 +173,7 @@ export default function PortalCommissionsPage() {
             <h3 style={{ fontWeight: 700, fontSize: ".95rem", display: "flex", alignItems: "center", gap: 6 }}>
               <BarChart3 size={16} style={{ color: "#6366f1" }} /> Monthly Earnings
             </h3>
-            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-              <ArrowUpCircle size={14} style={{ color: "#22c55e" }} />
-              <span style={{ fontSize: ".75rem", fontWeight: 600, color: "#22c55e" }}>+15% projected</span>
-            </div>
+            <span className="muted" style={{ fontSize: ".75rem", fontWeight: 500 }}>Last 6 months</span>
           </div>
           <MiniBarChart data={monthlyData} height={110} />
         </div>
@@ -204,8 +208,8 @@ export default function PortalCommissionsPage() {
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <Wallet size={20} style={{ color: "#6366f1" }} />
             <div>
-              <div style={{ fontSize: ".85rem", fontWeight: 700 }}>Projected Next Quarter</div>
-              <div className="muted" style={{ fontSize: ".75rem" }}>Based on current pipeline and close rates</div>
+              <div style={{ fontSize: ".85rem", fontWeight: 700 }}>Next Quarter Estimate</div>
+              <div className="muted" style={{ fontSize: ".75rem" }}>{hasMonthlyTrend ? "Based on your last 3 months of earnings" : "Based on total earnings to date"}</div>
             </div>
           </div>
           <span style={{ fontSize: "1.3rem", fontWeight: 800, color: "#6366f1" }}>{fmt(projectedQuarterly)}</span>

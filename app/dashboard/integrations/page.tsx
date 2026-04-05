@@ -26,11 +26,13 @@ type Integration = {
 const DAY = 86400000;
 const now = Date.now();
 
-const demoIntegrations: Integration[] = [
+/* Integrations catalog — status defaults to "disconnected".
+   Salesforce & HubSpot status is overridden from real CRM data below. */
+const integrationsCatalog: Integration[] = [
   {
     id: "salesforce", name: "Salesforce", logo: "☁️", category: "crm",
     description: "Sync deals, contacts, and opportunities bi-directionally",
-    status: "connected", lastSync: now - 15 * 60000, syncedRecords: 1247,
+    status: "disconnected",
     features: ["Deal sync", "Contact import", "Opportunity mapping", "Custom field mapping", "Real-time webhooks"],
     popular: true,
   },
@@ -44,64 +46,22 @@ const demoIntegrations: Integration[] = [
   {
     id: "stripe", name: "Stripe", logo: "💳", category: "payments",
     description: "Automate partner commission payouts via Stripe Connect",
-    status: "connected", lastSync: now - 2 * 3600000, syncedRecords: 89,
+    status: "disconnected",
     features: ["Automated payouts", "Commission splitting", "Tax form generation", "Multi-currency"],
     popular: true,
   },
   {
     id: "slack", name: "Slack", logo: "💬", category: "communication",
     description: "Deal alerts, payout notifications, and partner activity in Slack channels",
-    status: "connected", lastSync: now - 5 * 60000,
+    status: "disconnected",
     features: ["Deal won alerts", "Payout notifications", "Weekly digest", "Partner activity feed"],
-  },
-  {
-    id: "pipedrive", name: "Pipedrive", logo: "🟢", category: "crm",
-    description: "Sync your Pipedrive pipeline with partner attribution",
-    status: "disconnected",
-    features: ["Deal sync", "Pipeline mapping", "Activity tracking"],
-  },
-  {
-    id: "quickbooks", name: "QuickBooks", logo: "📗", category: "payments",
-    description: "Sync payouts and commissions to QuickBooks for accounting",
-    status: "disconnected",
-    features: ["Invoice generation", "Payout reconciliation", "Tax reporting", "Expense tracking"],
   },
   {
     id: "zapier", name: "Zapier", logo: "⚡", category: "automation",
     description: "Connect Covant to 5,000+ apps with no-code automations",
-    status: "connected", lastSync: now - 30 * 60000, syncedRecords: 342,
+    status: "disconnected",
     features: ["Trigger on events", "Multi-step zaps", "Custom webhooks", "Scheduled automations"],
     popular: true,
-  },
-  {
-    id: "google_analytics", name: "Google Analytics", logo: "📊", category: "analytics",
-    description: "Track partner-referred traffic and conversion attribution",
-    status: "disconnected",
-    features: ["UTM tracking", "Conversion goals", "Partner traffic reports", "Multi-touch attribution"],
-  },
-  {
-    id: "microsoft_teams", name: "Microsoft Teams", logo: "🟦", category: "communication",
-    description: "Partner notifications and deal alerts in Teams channels",
-    status: "disconnected",
-    features: ["Channel notifications", "Deal alerts", "Adaptive cards", "Bot commands"],
-  },
-  {
-    id: "segment", name: "Segment", logo: "🟩", category: "analytics",
-    description: "Unified event tracking across your partner program",
-    status: "disconnected",
-    features: ["Event forwarding", "Identity resolution", "Data warehouse sync"],
-  },
-  {
-    id: "xero", name: "Xero", logo: "🔵", category: "payments",
-    description: "Accounting integration for partner payouts and invoicing",
-    status: "disconnected",
-    features: ["Invoice sync", "Payout tracking", "Tax compliance"],
-  },
-  {
-    id: "make", name: "Make (Integromat)", logo: "🟣", category: "automation",
-    description: "Advanced workflow automation for partner operations",
-    status: "disconnected",
-    features: ["Visual workflows", "Conditional logic", "Data transformation", "Scheduled runs"],
   },
 ];
 
@@ -137,7 +97,7 @@ export default function IntegrationsPage() {
   const [syncing, setSyncing] = useState<string | null>(null);
 
   // Merge real CRM status into the demo list
-  const integrations: Integration[] = demoIntegrations.map((intg) => {
+  const integrations: Integration[] = integrationsCatalog.map((intg) => {
     if (intg.id === "salesforce" && crmStatuses) {
       const sf = crmStatuses.salesforce;
       return {

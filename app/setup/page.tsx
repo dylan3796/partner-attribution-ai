@@ -60,7 +60,7 @@ const FLOWS: Flow[] = [
     id: "intelligence",
     icon: BarChart3,
     title: "Revenue Intelligence",
-    description: "Win/loss by partner, health scores, QBR reports, pipeline analytics.",
+    description: "Partner health scores, leaderboards, benchmarks, and program analytics.",
     color: "#a78bfa",
   },
   {

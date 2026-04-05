@@ -130,11 +130,21 @@ export default function HealthPage() {
         status: totalPending > totalPaid * 0.3 ? "warning" : "healthy",
         icon: Clock, color: "#8b5cf6", href: "/dashboard/payouts",
       },
-      {
-        key: "engagement", label: "Engagement Score", value: 72, target: 80, unit: "/100",
-        trend: "up", trendValue: "+8pts", status: getStatus(72 / 80 * 100),
-        icon: Zap, color: "#ec4899", href: "/dashboard/scoring",
-      },
+      (() => {
+        // Engagement score: % of partners with at least 1 touchpoint or deal in last 90 days
+        const cutoff = Date.now() - 90 * 86400000;
+        const activePartnerIds = new Set<string>();
+        dealList.forEach((d) => {
+          if (d.createdAt > cutoff && d.partnerId) activePartnerIds.add(d.partnerId);
+        });
+        const engagementPct = totalPartners > 0 ? Math.round((activePartnerIds.size / totalPartners) * 100) : 0;
+        return {
+          key: "engagement" as const, label: "Engagement (90d)", value: engagementPct, target: 80, unit: "%",
+          trend: "up" as const, trendValue: `${activePartnerIds.size} of ${totalPartners} active`,
+          status: getStatus(engagementPct),
+          icon: Zap, color: "#ec4899", href: "/dashboard/scoring",
+        };
+      })(),
     ];
   }, [partnerList, dealList, payoutList]);
 

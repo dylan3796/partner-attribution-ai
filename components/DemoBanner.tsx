@@ -34,7 +34,7 @@ function DemoBannerInner() {
   const isDashboard = pathname?.startsWith("/dashboard");
   const shouldShow = isDemoMode || (isLoaded && !isSignedIn && isDashboard);
 
-  if (!shouldShow || dismissed) {
+  if (!shouldShow) {
     return null;
   }
 
@@ -43,48 +43,31 @@ function DemoBannerInner() {
     setDismissed(true);
   }
 
+  // After dismissal, show a compact persistent indicator instead of hiding completely
+  if (dismissed) {
+    return (
+      <div className="demo-badge-bar">
+        <span className="demo-badge-pill">Demo mode</span>
+        <Link href="/sign-up" className="demo-badge-link">
+          Create account <span>→</span>
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <div style={{
-      background: "#0a0a0a",
-      color: "#ffffff",
-      padding: "10px 20px",
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      fontSize: "0.85rem",
-      position: "relative",
-      zIndex: 100,
-    }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-        <span>🚀</span>
+    <div className="demo-banner">
+      <div className="demo-banner-left">
+        <span className="demo-banner-icon">&#x1F680;</span>
         <span>You&apos;re exploring Covant with sample data.</span>
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-        <Link
-          href="/sign-up"
-          style={{
-            color: "#ffffff",
-            fontWeight: 600,
-            textDecoration: "none",
-            display: "flex",
-            alignItems: "center",
-            gap: "4px",
-          }}
-        >
+      <div className="demo-banner-right">
+        <Link href="/sign-up" className="demo-banner-cta">
           Create your free account <span>→</span>
         </Link>
         <button
           onClick={handleDismiss}
-          style={{
-            background: "none",
-            border: "none",
-            color: "rgba(255,255,255,0.6)",
-            cursor: "pointer",
-            padding: "4px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          className="demo-banner-close"
           aria-label="Dismiss banner"
         >
           <X size={16} />

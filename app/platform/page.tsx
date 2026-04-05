@@ -15,11 +15,11 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "The Partner Platform — Covant",
   description:
-    "Partner programs run on spreadsheets, gut calls, and email threads. Covant is the intelligence layer that replaces all of it — attribution, commissions, deal flow, and partner experience in one system.",
+    "Covant is the intelligence layer for your partner program. Track attribution, automate commissions, integrate your CRM, and give partners a portal — one system of record for the entire partner motion.",
   openGraph: {
     title: "The Partner Platform — Covant",
     description:
-      "Know which partners drive revenue. Automate commissions. Give partners a portal they'll actually use.",
+      "Track which partners drive revenue. Automate commissions. Give partners a portal they'll actually use.",
   },
 };
 
@@ -27,33 +27,33 @@ export const metadata: Metadata = {
 
 function MockWindow({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div style={{ background: "#ffffff", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 16px", borderBottom: "1px solid #e5e7eb", background: "#f9fafb" }}>
-        <div style={{ display: "flex", gap: 6 }}>
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#d1d5db" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#d1d5db" }} />
-          <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#d1d5db" }} />
+    <div className="l-mock-window">
+      <div className="l-mock-titlebar">
+        <div className="l-mock-dots">
+          <div className="l-mock-dot" />
+          <div className="l-mock-dot" />
+          <div className="l-mock-dot" />
         </div>
-        <span style={{ color: "#6b7280", fontSize: ".75rem", marginLeft: 8 }}>{title}</span>
+        <span className="l-mock-title">{title}</span>
       </div>
-      <div style={{ padding: "20px 24px" }}>{children}</div>
+      <div className="l-mock-body">{children}</div>
     </div>
   );
 }
 
 function StatCard({ label, value, trend }: { label: string; value: string; trend: string }) {
   return (
-    <div style={{ background: "#f9fafb", borderRadius: 8, padding: "14px 16px", flex: 1, minWidth: 120 }}>
-      <div style={{ color: "#6b7280", fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 4 }}>{label}</div>
-      <div style={{ color: "#0a0a0a", fontSize: "1.3rem", fontWeight: 700 }}>{value}</div>
-      <div style={{ color: "#22c55e", fontSize: ".7rem", marginTop: 2 }}>{trend}</div>
+    <div className="l-stat-card">
+      <div className="l-stat-card-label">{label}</div>
+      <div className="l-stat-card-value">{value}</div>
+      <div className="l-stat-card-trend">{trend}</div>
     </div>
   );
 }
 
 function Badge({ text, color }: { text: string; color: string }) {
   return (
-    <span style={{ display: "inline-block", padding: "2px 8px", borderRadius: 4, fontSize: ".7rem", fontWeight: 600, background: `${color}20`, color }}>
+    <span className="l-badge-inline" style={{ background: `${color}20`, color }}>
       {text}
     </span>
   );
@@ -65,20 +65,13 @@ function TourSection({
   id: string; step: string; title: string; subtitle: string; description: string; children: React.ReactNode; reverse?: boolean;
 }) {
   return (
-    <section id={id} style={{ padding: "5rem 0", borderBottom: "1px solid #e5e7eb" }}>
-      <div
-        style={{ maxWidth: 1100, margin: "0 auto", padding: "0 1.5rem", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "center" }}
-        className="tour-grid"
-      >
+    <section id={id} className="l-tour-section">
+      <div className="l-tour-grid">
         <div style={{ order: reverse ? 2 : 1 }}>
-          <div style={{ display: "inline-block", padding: "3px 10px", borderRadius: 20, border: "1px solid #e5e7eb", color: "#6b7280", fontSize: ".7rem", textTransform: "uppercase", letterSpacing: ".1em", marginBottom: 16 }}>
-            {step}
-          </div>
-          <h2 style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)", fontWeight: 800, color: "#0a0a0a", lineHeight: 1.15, letterSpacing: "-.02em", marginBottom: 8 }}>
-            {title}
-          </h2>
-          <p style={{ color: "#6b7280", fontSize: ".95rem", marginBottom: 12 }}>{subtitle}</p>
-          <p style={{ color: "#6b7280", fontSize: ".85rem", lineHeight: 1.7 }}>{description}</p>
+          <div className="l-tour-step">{step}</div>
+          <h2 className="l-tour-title">{title}</h2>
+          <p className="l-tour-subtitle">{subtitle}</p>
+          <p className="l-tour-desc">{description}</p>
         </div>
         <div style={{ order: reverse ? 1 : 2 }}>{children}</div>
       </div>
@@ -89,19 +82,19 @@ function TourSection({
 /* ── Data ─────────────────────────────────────────────────── */
 
 const PROBLEMS = [
-  { before: "Who actually drove this deal?", after: "Attribution Engine discovers it automatically — every touchpoint, hidden relationship, and unregistered influence, resolved on every deal." },
-  { before: "Which partner should I put on this account?", after: "Recommendation Engine reads your attribution history and tells you — with the evidence and reasoning attached." },
-  { before: "Where do my partners have existing relationships?", after: "Account mapping surfaces overlaps instantly. Share lists, find the foot-in-the-door, co-sell from strength." },
-  { before: "How do I run a SPIFF without a spreadsheet?", after: "Workflow Builder. Define the trigger, the conditions, the actions. It runs. No manual tracking." },
+  { before: "Who actually drove this deal?", after: "Attribution Engine tracks every touchpoint — referrals, deal registrations, co-sells, introductions — and applies your attribution model automatically. Full audit trail on every deal." },
+  { before: "How do I calculate commissions without a spreadsheet?", after: "Commission Engine reads attribution data, applies your rules by tier, deal size, and product line, and queues payouts for approval. Partners get paid via Stripe." },
+  { before: "Partners keep asking where their payout is.", after: "Partner Portal gives every partner real-time visibility into their deals, commissions, tier status, and performance — no emails required." },
+  { before: "Our CRM has the deals but no partner context.", after: "Covant syncs with Salesforce and HubSpot, matches deals to partners automatically, and feeds everything into the intelligence layer." },
 ];
 
 const PILLARS = [
-  { number: "01", title: "Attribution Engine", description: "The focal engine. Discovers every partner relationship across your entire pipeline — touchpoints, deal history, and influence that was never officially registered. Full history of any partner, customer, or partner+customer combo across every metric you feed in. Everything else in Covant runs on what this engine knows." },
-  { number: "02", title: "Recommendation Engine", description: "Reads from Attribution data to recommend the right partner for every open account. Configurable signals or Covant defaults — with full explanation of why each rec was made. Learns from accepted and rejected recommendations. Manual prompting for edge cases." },
-  { number: "03", title: "Account Mapping & List Sharing", description: "Share prospect lists with partners securely. Map against each other to find overlaps — accounts you're both pursuing, or where a partner already has an existing relationship. Overlaps feed directly into the Recommendation Engine." },
-  { number: "04", title: "Workflow Builder", description: "Custom automations for the program logic your CRM was never built to capture. MDF eligibility, SPIFF triggers, tier progression, co-sell motions — define trigger → conditions → actions using partner-program primitives. Set it once, runs automatically." },
-  { number: "05", title: "QBR Automation", description: "Define your metrics and slide format once. Reports generate on your schedule, pulling live data from the Attribution Engine. Show up to every QBR with numbers your partners and CFO both trust." },
-  { number: "06", title: "Partner Portal", description: "A fully branded, AI-powered workspace — free for every partner, forever. Bi-directional syncs, customizable per-partner flows, deal registration, commission visibility, and an AI layer that answers partner questions instantly." },
+  { number: "01", title: "Attribution Engine", description: "The core engine. Ingests partner activity from CRM syncs and deal registrations, applies multi-touch attribution models — first-touch, last-touch, time-decay, role-based, equal-split — and builds a complete, auditable record of who influenced every deal." },
+  { number: "02", title: "Commission Engine", description: "Reads from attribution data. Applies your commission rules by partner tier, deal size, product line, or geography. Stacks rules with priority ordering. Queues payouts for bulk approval. Every dollar traces back to the deal, the attribution, and the rule." },
+  { number: "03", title: "CRM Integration", description: "Connects to Salesforce and HubSpot via OAuth. Syncs closed-won deals automatically. Matches deals to partners by email, domain, or custom field. Webhook support for custom systems. Bi-directional data flow." },
+  { number: "04", title: "Partner Portal", description: "A branded, self-service workspace — free for every partner, forever. Deal registration, commission tracking, performance dashboards, tier status. White-labeled to your brand. No partner caps on portal access." },
+  { number: "05", title: "Incentive Programs", description: "SPIFs, MDF budgets, bonuses, and accelerators — configured per tier, tracked per partner, approved through workflows. Deal registration bonuses. Volume rebates for high-performers." },
+  { number: "06", title: "Partner Intelligence", description: "Health scores based on revenue, activity, win rate, and deal velocity. Automatic tier progression from Bronze to Platinum. Leaderboards, pipeline analytics, and program health reporting." },
 ];
 
 const WHO = [
@@ -114,23 +107,23 @@ const WHO = [
 
 export default function PlatformPage() {
   return (
-    <div style={{ background: "#fff", color: "#0a0a0a", fontFamily: "var(--font-inter, Inter, sans-serif)" }}>
+    <div style={{ background: "#fff", color: "#0a0a0a" }}>
 
       {/* ── HERO ──────────────────────────────────────────────── */}
-      <section style={{ padding: "8rem 0 6rem", textAlign: "center", borderBottom: "1px solid #f3f4f6" }}>
+      <section className="l-center l-section-border-b" style={{ padding: "8rem 0 6rem" }}>
         <div className="wrap" style={{ maxWidth: 720 }}>
-          <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "#6b7280", marginBottom: "1.5rem" }}>
+          <p className="l-section-tag" style={{ marginBottom: "1.5rem" }}>
             Partner Intelligence Platform
           </p>
-          <h1 style={{ fontSize: "clamp(2.4rem, 5.5vw, 3.75rem)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-.03em", marginBottom: "1.75rem" }}>
+          <h1 className="l-heading-xl" style={{ fontSize: "clamp(2.4rem, 5.5vw, 3.75rem)", marginBottom: "1.75rem" }}>
             Your partner program<br />deserves a real platform.
           </h1>
-          <p style={{ fontSize: "clamp(1rem, 2vw, 1.2rem)", color: "#4b5563", maxWidth: 560, margin: "0 auto 2.5rem", lineHeight: 1.65 }}>
+          <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 560 }}>
             Most partner programs run on spreadsheets, email threads, and gut instinct.
-            Covant is the intelligence layer that replaces all of it — so you know what's
-            working, automate what's manual, and give partners an experience worth showing up for.
+            Covant is the intelligence layer that replaces all of it — attribution, commissions,
+            CRM sync, and a partner portal — so you have one system of record for the entire motion.
           </p>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <div className="l-flex-center">
             <Link href="/dashboard?demo=true" className="l-btn">Try it live →</Link>
             <Link href="/sign-up" className="l-btn-outline">Get started free →</Link>
           </div>
@@ -138,28 +131,28 @@ export default function PlatformPage() {
       </section>
 
       {/* ── THE PROBLEM ───────────────────────────────────────── */}
-      <section style={{ padding: "6rem 0", background: "#f9fafb" }}>
+      <section className="l-section-alt">
         <div className="wrap" style={{ maxWidth: 860 }}>
-          <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "#6b7280", marginBottom: "1rem", textAlign: "center" }}>
+          <p className="l-section-tag l-center">
             The problem
           </p>
-          <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.75rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", textAlign: "center", marginBottom: "1rem", color: "#0a0a0a" }}>
+          <h2 className="l-heading-lg l-center">
             Partner ops is the last function<br />still running on spreadsheets.
           </h2>
-          <p style={{ color: "#6b7280", fontSize: "1.1rem", textAlign: "center", maxWidth: 560, margin: "0 auto 3.5rem", lineHeight: 1.65 }}>
+          <p className="l-center" style={{ color: "#6b7280", fontSize: "1.1rem", maxWidth: 560, margin: "0 auto 3.5rem", lineHeight: 1.65 }}>
             Sales has Salesforce. Marketing has HubSpot. Finance has NetSuite.
-            Partners have a shared Google Sheet and a prayer.
+            Partner teams have a shared Google Sheet and a quarterly argument about who drove what.
           </p>
-          <div style={{ display: "grid", gap: "1px", background: "#e5e7eb", border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
+          <div className="l-problem-grid">
             {PROBLEMS.map((p, i) => (
-              <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr", background: "#ffffff" }}>
-                <div style={{ padding: "1.5rem 2rem", borderRight: "1px solid #e5e7eb", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  <span style={{ color: "#9ca3af", fontSize: "1rem" }}>✗</span>
-                  <span style={{ color: "#6b7280", fontSize: ".95rem", lineHeight: 1.5 }}>{p.before}</span>
+              <div key={i} className="l-problem-row">
+                <div className="l-problem-before">
+                  <span className="l-problem-icon-bad">✗</span>
+                  <span className="l-problem-text" style={{ color: "#6b7280" }}>{p.before}</span>
                 </div>
-                <div style={{ padding: "1.5rem 2rem", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-                  <span style={{ color: "#22c55e", fontSize: "1rem" }}>✓</span>
-                  <span style={{ color: "#374151", fontSize: ".95rem", lineHeight: 1.5 }}>{p.after}</span>
+                <div className="l-problem-after">
+                  <span className="l-problem-icon-good">✓</span>
+                  <span className="l-problem-text" style={{ color: "#374151" }}>{p.after}</span>
                 </div>
               </div>
             ))}
@@ -168,27 +161,25 @@ export default function PlatformPage() {
       </section>
 
       {/* ── WHAT COVANT IS ────────────────────────────────────── */}
-      <section style={{ padding: "6rem 0", background: "#fff", borderBottom: "1px solid #f3f4f6" }}>
+      <section className="l-section l-section-border-b">
         <div className="wrap" style={{ maxWidth: 860 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }} className="l-tour-grid">
             <div>
-              <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "#6b7280", marginBottom: "1rem" }}>
-                What Covant is
-              </p>
-              <h2 style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", marginBottom: "1.25rem" }}>
-                The rules engine between<br />"someone did something"<br />and "someone gets paid."
+              <p className="l-section-tag">What Covant is</p>
+              <h2 className="l-heading-lg" style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", marginBottom: "1.25rem" }}>
+                The rules engine between<br />&ldquo;someone did something&rdquo;<br />and &ldquo;someone gets paid.&rdquo;
               </h2>
-              <p style={{ color: "#6b7280", lineHeight: 1.7, fontSize: "1rem", marginBottom: "1.25rem" }}>
-                Covant sits in the middle of your partner motion. It watches deal activity,
-                applies your attribution rules, calculates commissions, and makes sure the
-                right partner gets credit — automatically.
+              <p className="l-body" style={{ fontSize: "1rem", marginBottom: "1.25rem" }}>
+                Covant connects to your CRM, ingests deal activity, applies your attribution
+                rules, calculates commissions, and surfaces everything to partners through
+                a branded portal. One pipeline. One audit trail. One payout workflow.
               </p>
-              <p style={{ color: "#6b7280", lineHeight: 1.7, fontSize: "1rem" }}>
-                Think of it as the infrastructure layer for partner economics.
+              <p className="l-body" style={{ fontSize: "1rem" }}>
+                Think of it as the intelligence layer for partner economics.
                 The rules are yours. The execution is Covant.
               </p>
             </div>
-            <div style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 16, padding: "2rem", display: "flex", flexDirection: "column", gap: "1rem" }}>
+            <div className="l-flex-col" style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 16, padding: "2rem", gap: "1rem" }}>
               {[
                 { label: "Partner-sourced revenue", value: "$1.2M", trend: "+24% QoQ", color: "#22c55e" },
                 { label: "Active partners", value: "47", trend: "12 pending onboard", color: "#3b82f6" },
@@ -197,8 +188,8 @@ export default function PlatformPage() {
               ].map((stat, i) => (
                 <div key={i} style={{ background: "#ffffff", borderRadius: 10, padding: "1rem 1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid #e5e7eb" }}>
                   <div>
-                    <div style={{ color: "#6b7280", fontSize: ".75rem", marginBottom: "0.25rem" }}>{stat.label}</div>
-                    <div style={{ color: "#0a0a0a", fontSize: "1.3rem", fontWeight: 700 }}>{stat.value}</div>
+                    <div className="l-stat-card-label">{stat.label}</div>
+                    <div className="l-stat-card-value">{stat.value}</div>
                   </div>
                   <div style={{ color: stat.color, fontSize: ".75rem", textAlign: "right" }}>{stat.trend}</div>
                 </div>
@@ -209,20 +200,18 @@ export default function PlatformPage() {
       </section>
 
       {/* ── THE SIX PILLARS ───────────────────────────────────── */}
-      <section style={{ padding: "6rem 0", background: "#f9fafb", borderBottom: "1px solid #f3f4f6" }}>
+      <section className="l-section-alt l-section-border-b">
         <div className="wrap" style={{ maxWidth: 960 }}>
-          <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "#6b7280", textAlign: "center", marginBottom: "1rem" }}>
-            What&apos;s inside
-          </p>
-          <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", textAlign: "center", marginBottom: "3.5rem" }}>
-            Six pillars. One platform.
+          <p className="l-section-tag l-center">What&apos;s inside</p>
+          <h2 className="l-heading-lg l-center" style={{ marginBottom: "3.5rem" }}>
+            The full intelligence layer.
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.5rem" }}>
+          <div className="l-grid-3">
             {PILLARS.map((p) => (
-              <div key={p.number} style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, padding: "1.75rem" }}>
-                <div style={{ fontSize: ".75rem", fontWeight: 700, color: "#d1d5db", letterSpacing: ".08em", marginBottom: "0.75rem" }}>{p.number}</div>
+              <div key={p.number} className="l-pillar-card">
+                <div className="l-pillar-num">{p.number}</div>
                 <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.6rem" }}>{p.title}</h3>
-                <p style={{ color: "#6b7280", fontSize: ".9rem", lineHeight: 1.65 }}>{p.description}</p>
+                <p className="l-body" style={{ lineHeight: 1.65 }}>{p.description}</p>
               </div>
             ))}
           </div>
@@ -230,12 +219,10 @@ export default function PlatformPage() {
       </section>
 
       {/* ── PRODUCT TOUR ──────────────────────────────────────── */}
-      <section style={{ padding: "5rem 0 2rem", background: "#fff", borderBottom: "1px solid #e5e7eb" }}>
-        <div className="wrap" style={{ maxWidth: 960, textAlign: "center" }}>
-          <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "#6b7280", marginBottom: "1rem" }}>
-            How it works
-          </p>
-          <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", marginBottom: "2rem" }}>
+      <section className="l-section-border-b" style={{ padding: "5rem 0 2rem", background: "#fff" }}>
+        <div className="wrap l-center" style={{ maxWidth: 960 }}>
+          <p className="l-section-tag">How it works</p>
+          <h2 className="l-heading-lg" style={{ marginBottom: "2rem" }}>
             See Covant in action.
           </h2>
           {/* Jump links */}
@@ -248,7 +235,7 @@ export default function PlatformPage() {
               { label: "Commissions", href: "#commissions" },
               { label: "Deal Registration", href: "#deals" },
             ].map((l) => (
-              <a key={l.href} href={l.href} style={{ padding: "6px 14px", borderRadius: 20, border: "1px solid #e5e7eb", color: "#6b7280", fontSize: ".8rem", textDecoration: "none" }}>
+              <a key={l.href} href={l.href} className="l-tour-step" style={{ marginBottom: 0 }}>
                 {l.label}
               </a>
             ))}
@@ -265,7 +252,7 @@ export default function PlatformPage() {
         description="No forms. No 40-field wizards. Just describe your partner program in plain English — Covant's AI extracts your attribution model, commission rules, interaction types, and module preferences. A live preview panel updates in real time as you talk."
       >
         <MockWindow title="covant.ai/onboard">
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          <div className="l-flex-col" style={{ gap: 12 }}>
             <div style={{ background: "#f9fafb", borderRadius: 8, padding: 14, display: "flex", gap: 10, alignItems: "flex-start" }}>
               <Brain size={16} style={{ color: "#888", marginTop: 2, flexShrink: 0 }} />
               <div>
@@ -305,7 +292,7 @@ export default function PlatformPage() {
             <StatCard label="Active Partners" value="28" trend="↑ 3 this month" />
             <StatCard label="Win Rate" value="34%" trend="↑ 6pts vs direct" />
           </div>
-          <div style={{ color: "#6b7280", fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 8 }}>Action Items</div>
+          <div className="l-section-label">Action Items</div>
           {[
             { icon: ClipboardList, text: "3 deal registrations pending review", color: "#3b82f6" },
             { icon: Coins, text: "$12,400 in commissions ready to pay", color: "#eab308" },
@@ -336,7 +323,7 @@ export default function PlatformPage() {
               </div>
               <Badge text="Closed Won" color="#22c55e" />
             </div>
-            <div style={{ color: "#6b7280", fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 8 }}>Attribution Audit Trail</div>
+            <div className="l-section-label">Attribution Audit Trail</div>
             {[
               { partner: "TechBridge Solutions", action: "Registered deal", date: "Jan 12", credit: "100%" },
               { partner: "TechBridge Solutions", action: "Sourced intro meeting", date: "Jan 8", credit: "—" },
@@ -400,7 +387,7 @@ export default function PlatformPage() {
                 </span>
               </div>
             </div>
-            <div style={{ color: "#6b7280", fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 8 }}>Recent Activity</div>
+            <div className="l-section-label">Recent Activity</div>
             {[
               { icon: CheckCircle2, text: "Deal approved: Acme Corp ($180K)", color: "#22c55e", time: "2h ago" },
               { icon: Coins, text: "Commission paid: $14,200", color: "#eab308", time: "1d ago" },
@@ -427,7 +414,7 @@ export default function PlatformPage() {
         description="Configure commission rules by product line, partner tier, deal size, or geography. Stack rules with priority ordering. Bulk approve payouts at end of quarter. Every payout links back to the deal, the attribution, and the rule that triggered it."
       >
         <MockWindow title="covant.ai/dashboard/settings/commission-rules">
-          <div style={{ color: "#6b7280", fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 12 }}>Commission Rules</div>
+          <div className="l-section-label" style={{ marginBottom: 12 }}>Commission Rules</div>
           {[
             { name: "Enterprise Reseller", condition: "Deal > $100K + Gold tier", rate: "18%", active: true },
             { name: "Standard Referral", condition: "All referral partners", rate: "12%", active: true },
@@ -460,7 +447,7 @@ export default function PlatformPage() {
         reverse
       >
         <MockWindow title="covant.ai/dashboard/deals">
-          <div style={{ color: "#6b7280", fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: ".08em", marginBottom: 12 }}>Pending Deal Registrations</div>
+          <div className="l-section-label" style={{ marginBottom: 12 }}>Pending Deal Registrations</div>
           {[
             { company: "GlobalTech Inc", partner: "TechBridge Solutions", value: "$95,000", status: "pending", date: "Mar 1" },
             { company: "DataFlow Systems", partner: "Apex Growth", value: "$220,000", status: "pending", date: "Feb 28" },
@@ -488,27 +475,25 @@ export default function PlatformPage() {
       </TourSection>
 
       {/* ── WHO IT'S FOR ──────────────────────────────────────── */}
-      <section style={{ padding: "6rem 0", background: "#f9fafb", borderBottom: "1px solid #f3f4f6" }}>
+      <section className="l-section-alt l-section-border-b">
         <div className="wrap" style={{ maxWidth: 900 }}>
-          <p style={{ fontSize: ".8rem", fontWeight: 600, letterSpacing: ".12em", textTransform: "uppercase", color: "#6b7280", textAlign: "center", marginBottom: "1rem" }}>
-            Who it&apos;s for
-          </p>
-          <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.5rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", textAlign: "center", marginBottom: "3.5rem" }}>
+          <p className="l-section-tag l-center">Who it&apos;s for</p>
+          <h2 className="l-heading-lg l-center" style={{ marginBottom: "3.5rem" }}>
             Built for the people who run partner programs.
           </h2>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1.5rem" }}>
+          <div className="l-grid-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
             {WHO.map((w) => (
-              <div key={w.role} style={{ border: "1px solid #e5e7eb", borderRadius: 12, overflow: "hidden" }}>
-                <div style={{ background: "#f9fafb", borderBottom: "1px solid #e5e7eb", padding: "1.25rem 1.75rem" }}>
-                  <div style={{ color: "#0a0a0a", fontWeight: 700, fontSize: "1rem" }}>{w.role}</div>
+              <div key={w.role} className="l-who-card">
+                <div className="l-who-header">
+                  <div className="l-font-700" style={{ fontSize: "1rem" }}>{w.role}</div>
                 </div>
-                <div style={{ padding: "1.5rem 1.75rem", display: "flex", flexDirection: "column", gap: "1rem", background: "#fff" }}>
+                <div className="l-who-body">
                   <div>
-                    <div style={{ fontSize: ".7rem", fontWeight: 600, color: "#9ca3af", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "0.4rem" }}>Before Covant</div>
-                    <p style={{ color: "#6b7280", fontSize: ".9rem", lineHeight: 1.6 }}>{w.pain}</p>
+                    <div className="l-who-label-before">Before Covant</div>
+                    <p className="l-body" style={{ lineHeight: 1.6 }}>{w.pain}</p>
                   </div>
                   <div>
-                    <div style={{ fontSize: ".7rem", fontWeight: 600, color: "#22c55e", textTransform: "uppercase", letterSpacing: ".08em", marginBottom: "0.4rem" }}>After Covant</div>
+                    <div className="l-who-label-after">After Covant</div>
                     <p style={{ color: "#374151", fontSize: ".9rem", lineHeight: 1.6 }}>{w.after}</p>
                   </div>
                 </div>
@@ -519,15 +504,15 @@ export default function PlatformPage() {
       </section>
 
       {/* ── CTA ───────────────────────────────────────────────── */}
-      <section style={{ padding: "6rem 0", background: "#0a0a0a", textAlign: "center" }}>
+      <section className="l-section-dark l-center">
         <div className="wrap" style={{ maxWidth: 600 }}>
-          <h2 style={{ fontSize: "clamp(1.8rem, 4vw, 2.75rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.025em", color: "#fff", marginBottom: "1.25rem" }}>
+          <h2 className="l-heading-lg" style={{ color: "#fff", marginBottom: "1.25rem" }}>
             Ready to run your partner program<br />on something real?
           </h2>
           <p style={{ color: "#9ca3af", fontSize: "1.05rem", marginBottom: "2rem", lineHeight: 1.65 }}>
             Free for up to 5 partners. No credit card required.
           </p>
-          <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <div className="l-flex-center">
             <Link href="/sign-up" style={{ background: "#fff", color: "#0a0a0a", padding: ".85rem 2rem", borderRadius: 8, fontWeight: 700, textDecoration: "none", fontSize: ".95rem", display: "inline-flex", alignItems: "center", gap: 8 }}>
               Get started free <ArrowRight size={16} />
             </Link>
@@ -539,17 +524,6 @@ export default function PlatformPage() {
       </section>
 
       <Footer />
-
-      <style>{`
-        @media (max-width: 768px) {
-          .tour-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .tour-grid > div {
-            order: unset !important;
-          }
-        }
-      `}</style>
     </div>
   );
 }

@@ -38,77 +38,7 @@ type Notification = {
 const DAY = 86400000;
 const now = Date.now();
 
-function generateDemoNotifications(): Notification[] {
-  return [
-    {
-      id: "n1", type: "payout", title: "Payout Approved — $4,200",
-      body: "Your Q4 commission payout of $4,200 has been approved and is being processed. Expect funds within 5 business days.",
-      timestamp: now - 2 * 3600000, read: false,
-      actionUrl: "/portal/commissions", actionLabel: "View Commissions",
-    },
-    {
-      id: "n2", type: "deal_update", title: "Deal Won: CloudSync Cloud Migration",
-      body: "The CloudSync Cloud Migration deal ($85,000) has been marked as won. Your attributed commission of $8,500 (10%) has been calculated.",
-      timestamp: now - 8 * 3600000, read: false,
-      actionUrl: "/portal/deals", actionLabel: "View Deals",
-      meta: { amount: "$85,000", commission: "$8,500" },
-    },
-    {
-      id: "n3", type: "incentive", title: "New SPIF: Q1 Cloud Migration Bonus",
-      body: "You're eligible for the Q1 Cloud Migration SPIF — earn an extra $500 per closed cloud deal through March 2026. Enroll now to start earning.",
-      timestamp: now - 1 * DAY, read: false,
-      actionLabel: "View Program",
-    },
-    {
-      id: "n4", type: "tier_change", title: "Tier Upgrade: Silver → Gold 🎉",
-      body: "Congratulations! Based on your recent performance (score: 78/100), you've been upgraded to Gold tier. This unlocks higher commission rates and priority deal registration.",
-      timestamp: now - 2 * DAY, read: true,
-      actionUrl: "/portal/profile", actionLabel: "View Profile",
-    },
-    {
-      id: "n5", type: "deal_update", title: "Deal Registration Approved",
-      body: "Your deal registration for 'Globex Industries Data Platform' ($120,000) has been approved. You have exclusive registration for 90 days.",
-      timestamp: now - 3 * DAY, read: true,
-      actionUrl: "/portal/deals", actionLabel: "View Deal",
-      meta: { amount: "$120,000", exclusivity: "90 days" },
-    },
-    {
-      id: "n6", type: "enablement", title: "New Certification Available: Advanced API Integration",
-      body: "A new certification course is available. Completing it will boost your partner score by up to 15 points and unlock the Certification Accelerator rebate multiplier.",
-      timestamp: now - 4 * DAY, read: true,
-      actionUrl: "/portal/enablement", actionLabel: "Start Course",
-    },
-    {
-      id: "n7", type: "payout", title: "Payout Sent — $6,750",
-      body: "Your November commission payout of $6,750 has been sent via ACH transfer. Reference: PAY-2026-1847.",
-      timestamp: now - 7 * DAY, read: true,
-      meta: { reference: "PAY-2026-1847" },
-    },
-    {
-      id: "n8", type: "deal_update", title: "Deal Lost: Initech Server Upgrade",
-      body: "The Initech Server Upgrade deal ($45,000) was marked as lost. Reason: Budget frozen. No commission will be attributed for this deal.",
-      timestamp: now - 8 * DAY, read: true,
-      meta: { reason: "Budget frozen" },
-    },
-    {
-      id: "n9", type: "system", title: "Partner Portal Maintenance — Feb 22",
-      body: "Scheduled maintenance on February 22, 2026 from 2:00 AM - 4:00 AM PST. The portal may be briefly unavailable.",
-      timestamp: now - 10 * DAY, read: true,
-    },
-    {
-      id: "n10", type: "incentive", title: "SPIF Achievement: 5-Deal Bonus Unlocked!",
-      body: "You've closed 5 cloud migration deals and unlocked the $1,000 accelerator bonus on top of per-deal SPIFs. Total SPIF earnings: $3,500.",
-      timestamp: now - 12 * DAY, read: true,
-      meta: { totalEarned: "$3,500" },
-    },
-    {
-      id: "n11", type: "enablement", title: "Training Reminder: Sales Methodology Refresh",
-      body: "Your Sales Methodology certification expires in 30 days. Complete the refresh course to maintain your certification status and partner score.",
-      timestamp: now - 14 * DAY, read: true,
-      actionUrl: "/portal/enablement", actionLabel: "Renew Cert",
-    },
-  ];
-}
+/* Demo notification generator removed — notifications now come from real Convex data only */
 
 const TYPE_CONFIG: Record<NotificationType, { icon: typeof Bell; color: string; label: string }> = {
   deal_update: { icon: Briefcase, color: "#3b82f6", label: "Deal" },
@@ -150,19 +80,17 @@ export default function NotificationsPage() {
   };
 
   const notifications: Notification[] = useMemo(() => {
-    if (convexNotifs && convexNotifs.length > 0) {
-      return convexNotifs.map((n: any) => ({
-        id: n._id,
-        type: TYPE_MAP[n.type] || "system",
-        title: n.title,
-        body: n.body,
-        timestamp: n.createdAt,
-        read: n.read,
-        actionUrl: n.link,
-        actionLabel: n.link ? "View" : undefined,
-      }));
-    }
-    return generateDemoNotifications();
+    if (!convexNotifs) return [];
+    return convexNotifs.map((n: any) => ({
+      id: n._id,
+      type: TYPE_MAP[n.type] || "system",
+      title: n.title,
+      body: n.body,
+      timestamp: n.createdAt,
+      read: n.read,
+      actionUrl: n.link,
+      actionLabel: n.link ? "View" : undefined,
+    }));
   }, [convexNotifs]);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
@@ -315,8 +243,10 @@ export default function NotificationsPage() {
         {filtered.length === 0 && (
           <div className="card" style={{ padding: "3rem", textAlign: "center" }}>
             <Bell size={32} style={{ color: "var(--muted)", margin: "0 auto 12px" }} />
-            <p style={{ fontWeight: 600 }}>No notifications</p>
-            <p className="muted" style={{ fontSize: ".875rem" }}>You're all caught up!</p>
+            <p style={{ fontWeight: 600 }}>No notifications yet</p>
+            <p className="muted" style={{ fontSize: ".875rem" }}>
+              {filterType !== "all" ? "No notifications match this filter." : "Notifications will appear here when deals are approved, commissions are calculated, or your tier changes."}
+            </p>
           </div>
         )}
       </div>
