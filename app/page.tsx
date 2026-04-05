@@ -39,9 +39,10 @@ export default function LandingPage() {
 The intelligence layer<br />for your partner business.
           </h1>
           <p className="l-muted l-subtitle">
-            Know which partner drove which deal. Calculate commissions automatically.
-            Give every partner a portal they&apos;ll actually use. Covant is the system of
-            record your partner program has been missing.
+            Discover which partners are driving revenue across your pipeline —
+            then run your entire partner program on top of that foundation.
+            Attribution, commissions, deal registration, a partner portal,
+            incentives — one platform for the whole motion.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
             <Link href="/sign-up" className="l-btn">Get Early Access <span>→</span></Link>
@@ -58,15 +59,17 @@ The intelligence layer<br />for your partner business.
         <div className="wrap">
           <div className="l-center" style={{ marginBottom: "3rem" }}>
             <p className="l-tag" style={{ marginBottom: ".75rem" }}>
-              How the intelligence layer works
+              What Covant does
             </p>
             <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
-              Data in. Attribution calculated.<br />Commissions paid. Partners informed.
+              Discover partner relationships.<br />Then run the whole program.
             </h2>
             <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 560, margin: "0 auto", lineHeight: 1.65 }}>
-              Covant connects to your CRM, tracks every partner touchpoint on every deal,
-              applies your attribution rules, calculates commissions, and surfaces it all
-              to partners through a branded portal. One system. Full audit trail.
+              Covant finds partner influence across your pipeline — touchpoints, introductions,
+              deal registrations, co-sells — and builds a living record of who&apos;s driving what.
+              From there, everything else runs on top: commission calculations, payout workflows,
+              deal registration, revenue tracking, incentive programs, and a branded portal where
+              partners see it all.
             </p>
           </div>
 
@@ -82,7 +85,7 @@ The intelligence layer<br />for your partner business.
                   Attribution Engine
                 </span>
                 <h3 className="l-heading-md">
-                  Tracks every partner touchpoint across your entire pipeline.
+                  Discovers partner influence across your entire pipeline.
                 </h3>
                 <p className="l-body">
                   The foundation your program runs on. Connects to Salesforce or HubSpot, ingests every partner interaction — referrals, deal registrations, co-sells, introductions — and applies multi-touch attribution models to determine who gets credit. Full audit trail on every deal.
