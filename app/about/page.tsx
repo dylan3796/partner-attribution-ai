@@ -62,7 +62,7 @@ export default function AboutPage() {
         {/* The problem */}
         <section style={{ marginBottom: 56 }}>
           <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 16 }}>THE PROBLEM</p>
-          <div style={{ background: '#080808', border: '1px solid #1a1a1a', borderRadius: 12, padding: '28px 32px' }}>
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '28px 32px' }}>
             <p style={{ color:'#6b7280', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
               B2B companies spend 20-30% of revenue through partner channels, but the tooling
               hasn&apos;t kept up. CRMs track deals, not partner influence. Finance tools handle
@@ -106,11 +106,12 @@ export default function AboutPage() {
         {/* Status */}
         <section style={{ marginBottom: 56 }}>
           <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 16 }}>WHERE WE ARE</p>
-          <div style={{ background: '#080808', border: '1px solid #1a1a1a', borderRadius: 12, padding: '28px 32px' }}>
+          <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '28px 32px' }}>
             <p style={{ color:'#6b7280', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
-              Covant is in private beta. The product is live — real attribution engine, real
-              commission rules, real partner portal. We&apos;re onboarding the first 20 teams
-              hands-on to make sure it works before we scale.
+              Covant is in early access. The intelligence layer is live — attribution engine,
+              commission automation, CRM integration, and partner portal are all shipping
+              and handling real data. We&apos;re onboarding teams hands-on to make sure it
+              works before we scale.
             </p>
             <p style={{ color:'#6b7280', fontSize: '0.95rem', lineHeight: 1.7, margin: '16px 0 0' }}>
               If you run a partner program and you&apos;re tired of spreadsheets, we&apos;d

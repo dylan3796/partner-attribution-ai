@@ -15,11 +15,11 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "The Partner Platform — Covant",
   description:
-    "Partner programs run on spreadsheets, gut calls, and email threads. Covant is the intelligence layer that replaces all of it — attribution, commissions, deal flow, and partner experience in one system.",
+    "Covant is the intelligence layer for your partner program. Track attribution, automate commissions, integrate your CRM, and give partners a portal — one system of record for the entire partner motion.",
   openGraph: {
     title: "The Partner Platform — Covant",
     description:
-      "Know which partners drive revenue. Automate commissions. Give partners a portal they'll actually use.",
+      "Track which partners drive revenue. Automate commissions. Give partners a portal they'll actually use.",
   },
 };
 
@@ -82,19 +82,19 @@ function TourSection({
 /* ── Data ─────────────────────────────────────────────────── */
 
 const PROBLEMS = [
-  { before: "Who actually drove this deal?", after: "Attribution Engine discovers it automatically — every touchpoint, hidden relationship, and unregistered influence, resolved on every deal." },
-  { before: "Which partner should I put on this account?", after: "Recommendation Engine reads your attribution history and tells you — with the evidence and reasoning attached." },
-  { before: "Where do my partners have existing relationships?", after: "Account mapping surfaces overlaps instantly. Share lists, find the foot-in-the-door, co-sell from strength." },
-  { before: "How do I run a SPIFF without a spreadsheet?", after: "Workflow Builder. Define the trigger, the conditions, the actions. It runs. No manual tracking." },
+  { before: "Who actually drove this deal?", after: "Attribution Engine tracks every touchpoint — referrals, deal registrations, co-sells, introductions — and applies your attribution model automatically. Full audit trail on every deal." },
+  { before: "How do I calculate commissions without a spreadsheet?", after: "Commission Engine reads attribution data, applies your rules by tier, deal size, and product line, and queues payouts for approval. Partners get paid via Stripe." },
+  { before: "Partners keep asking where their payout is.", after: "Partner Portal gives every partner real-time visibility into their deals, commissions, tier status, and performance — no emails required." },
+  { before: "Our CRM has the deals but no partner context.", after: "Covant syncs with Salesforce and HubSpot, matches deals to partners automatically, and feeds everything into the intelligence layer." },
 ];
 
 const PILLARS = [
-  { number: "01", title: "Attribution Engine", description: "The focal engine. Discovers every partner relationship across your entire pipeline — touchpoints, deal history, and influence that was never officially registered. Full history of any partner, customer, or partner+customer combo across every metric you feed in. Everything else in Covant runs on what this engine knows." },
-  { number: "02", title: "Recommendation Engine", description: "Reads from Attribution data to recommend the right partner for every open account. Configurable signals or Covant defaults — with full explanation of why each rec was made. Learns from accepted and rejected recommendations. Manual prompting for edge cases." },
-  { number: "03", title: "Account Mapping & List Sharing", description: "Share prospect lists with partners securely. Map against each other to find overlaps — accounts you're both pursuing, or where a partner already has an existing relationship. Overlaps feed directly into the Recommendation Engine." },
-  { number: "04", title: "Workflow Builder", description: "Custom automations for the program logic your CRM was never built to capture. MDF eligibility, SPIFF triggers, tier progression, co-sell motions — define trigger → conditions → actions using partner-program primitives. Set it once, runs automatically." },
-  { number: "05", title: "QBR Automation", description: "Define your metrics and slide format once. Reports generate on your schedule, pulling live data from the Attribution Engine. Show up to every QBR with numbers your partners and CFO both trust." },
-  { number: "06", title: "Partner Portal", description: "A fully branded, AI-powered workspace — free for every partner, forever. Bi-directional syncs, customizable per-partner flows, deal registration, commission visibility, and an AI layer that answers partner questions instantly." },
+  { number: "01", title: "Attribution Engine", description: "The core engine. Ingests partner activity from CRM syncs and deal registrations, applies multi-touch attribution models — first-touch, last-touch, time-decay, role-based, equal-split — and builds a complete, auditable record of who influenced every deal." },
+  { number: "02", title: "Commission Engine", description: "Reads from attribution data. Applies your commission rules by partner tier, deal size, product line, or geography. Stacks rules with priority ordering. Queues payouts for bulk approval. Every dollar traces back to the deal, the attribution, and the rule." },
+  { number: "03", title: "CRM Integration", description: "Connects to Salesforce and HubSpot via OAuth. Syncs closed-won deals automatically. Matches deals to partners by email, domain, or custom field. Webhook support for custom systems. Bi-directional data flow." },
+  { number: "04", title: "Partner Portal", description: "A branded, self-service workspace — free for every partner, forever. Deal registration, commission tracking, performance dashboards, tier status. White-labeled to your brand. No partner caps on portal access." },
+  { number: "05", title: "Incentive Programs", description: "SPIFs, MDF budgets, bonuses, and accelerators — configured per tier, tracked per partner, approved through workflows. Deal registration bonuses. Volume rebates for high-performers." },
+  { number: "06", title: "Partner Intelligence", description: "Health scores based on revenue, activity, win rate, and deal velocity. Automatic tier progression from Bronze to Platinum. Leaderboards, pipeline analytics, and program health reporting." },
 ];
 
 const WHO = [
@@ -120,8 +120,8 @@ export default function PlatformPage() {
           </h1>
           <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 560 }}>
             Most partner programs run on spreadsheets, email threads, and gut instinct.
-            Covant is the intelligence layer that replaces all of it — so you know what's
-            working, automate what's manual, and give partners an experience worth showing up for.
+            Covant is the intelligence layer that replaces all of it — attribution, commissions,
+            CRM sync, and a partner portal — so you have one system of record for the entire motion.
           </p>
           <div className="l-flex-center">
             <Link href="/dashboard?demo=true" className="l-btn">Try it live →</Link>
@@ -141,7 +141,7 @@ export default function PlatformPage() {
           </h2>
           <p className="l-center" style={{ color: "#6b7280", fontSize: "1.1rem", maxWidth: 560, margin: "0 auto 3.5rem", lineHeight: 1.65 }}>
             Sales has Salesforce. Marketing has HubSpot. Finance has NetSuite.
-            Partners have a shared Google Sheet and a prayer.
+            Partner teams have a shared Google Sheet and a quarterly argument about who drove what.
           </p>
           <div className="l-problem-grid">
             {PROBLEMS.map((p, i) => (
@@ -170,12 +170,12 @@ export default function PlatformPage() {
                 The rules engine between<br />&ldquo;someone did something&rdquo;<br />and &ldquo;someone gets paid.&rdquo;
               </h2>
               <p className="l-body" style={{ fontSize: "1rem", marginBottom: "1.25rem" }}>
-                Covant sits in the middle of your partner motion. It watches deal activity,
-                applies your attribution rules, calculates commissions, and makes sure the
-                right partner gets credit — automatically.
+                Covant connects to your CRM, ingests deal activity, applies your attribution
+                rules, calculates commissions, and surfaces everything to partners through
+                a branded portal. One pipeline. One audit trail. One payout workflow.
               </p>
               <p className="l-body" style={{ fontSize: "1rem" }}>
-                Think of it as the infrastructure layer for partner economics.
+                Think of it as the intelligence layer for partner economics.
                 The rules are yours. The execution is Covant.
               </p>
             </div>
@@ -204,7 +204,7 @@ export default function PlatformPage() {
         <div className="wrap" style={{ maxWidth: 960 }}>
           <p className="l-section-tag l-center">What&apos;s inside</p>
           <h2 className="l-heading-lg l-center" style={{ marginBottom: "3.5rem" }}>
-            Six pillars. One platform.
+            The full intelligence layer.
           </h2>
           <div className="l-grid-3">
             {PILLARS.map((p) => (
