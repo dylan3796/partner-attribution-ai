@@ -15,7 +15,8 @@ function SettingsPageInner() {
   const { org: storeOrg, updateOrg } = useStore();
   const { toast } = useToast();
   const searchParams = useSearchParams();
-  const mode = "demo";
+  const searchDemo = searchParams?.get("demo");
+  const mode = searchDemo === "true" ? "demo" : "live";
   const { config, updateFeatureFlag, setComplexityLevel, setUIDensity, resetToDefaults } = usePlatformConfig();
   
   // Get real organization from Convex
