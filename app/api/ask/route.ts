@@ -1,158 +1,69 @@
 /**
  * Ask Covant — AI-powered API Route
  *
- * Accepts POST { question: string, context?: object }
- * Uses Groq (Llama 3.3 70B) — free, fast.
- * Returns { answer, model: "groq", aiPowered: true }
+ * Accepts POST { question, context?, history? }
+ * 1. Groq (Llama 3.3 70B) — fast, free
+ * 2. Claude (Haiku) — reliable fallback
+ * 3. Returns 503 if neither is configured
+ *
+ * Context: real org data passed from the client (Convex queries).
+ * History: prior messages for multi-turn conversation.
  */
 
 import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
-import {
-  demoPartners,
-  demoDeals,
-  demoTouchpoints,
-  demoAttributions,
-  demoPayouts,
-} from "@/lib/demo-data";
+import Anthropic from "@anthropic-ai/sdk";
 
-const SYSTEM_PROMPT = `You are the Covant AI assistant — a partner intelligence analyst.
-You have access to the company's partner program data including partners, deals, attribution, commissions, and activity.
+const SYSTEM_PROMPT = `You are the Covant AI assistant — a partner intelligence analyst embedded in a partner management platform.
 
-Answer questions about partner performance, attribution, revenue, commissions, deal pipeline, and program health.
-Be specific — use actual numbers from the data. When making recommendations, explain your reasoning.
+You have access to the company's REAL partner program data provided in each message. This data includes partners, deals, attribution, commissions, payouts, and activity.
 
-Keep responses concise and actionable. Use markdown formatting for readability.
-When showing tables, use proper markdown table syntax. Use emoji sparingly for readability.
-Do not make up data — only reference information provided in the context.`;
+Instructions:
+- Answer questions about partner performance, attribution, revenue, commissions, deal pipeline, and program health.
+- Be specific — use actual names, numbers, and dates from the data provided.
+- When making recommendations, explain your reasoning based on the data.
+- Keep responses concise and actionable (2-4 paragraphs or a table, not walls of text).
+- Use markdown formatting: tables for comparisons, bold for key numbers, bullet points for lists.
+- Do NOT make up data — only reference information provided in the context.
+- If the data doesn't contain enough information to answer, say so clearly.
+- When asked about trends, compare recent periods to historical data if available.`;
 
-function buildContext(): string {
-  // ── Partners summary ──
-  const partnerSummary = demoPartners.map((p) => ({
-    id: p._id,
-    name: p.name,
-    type: p.type,
-    tier: p.tier,
-    commissionRate: `${p.commissionRate}%`,
-    status: p.status,
-    territory: p.territory || "—",
-    contact: p.contactName || "—",
-    notes: p.notes || "",
-  }));
-
-  // ── Deals summary ──
-  const dealSummary = demoDeals.map((d) => ({
-    id: d._id,
-    name: d.name,
-    amount: d.amount,
-    status: d.status,
-    closedAt: d.closedAt ? new Date(d.closedAt).toISOString().split("T")[0] : null,
-    expectedClose: d.expectedCloseDate
-      ? new Date(d.expectedCloseDate).toISOString().split("T")[0]
-      : null,
-    registeredBy: d.registeredBy || null,
-    registrationStatus: d.registrationStatus || null,
-  }));
-
-  // ── Attribution by partner (role_based model only — the default) ──
-  const roleBasedAttrs = demoAttributions.filter((a) => a.model === "role_based");
-  const attrByPartner: Record<string, { revenue: number; commissions: number; deals: string[] }> = {};
-  for (const attr of roleBasedAttrs) {
-    if (!attrByPartner[attr.partnerId]) {
-      attrByPartner[attr.partnerId] = { revenue: 0, commissions: 0, deals: [] };
-    }
-    attrByPartner[attr.partnerId].revenue += attr.amount;
-    attrByPartner[attr.partnerId].commissions += attr.commissionAmount;
-    if (!attrByPartner[attr.partnerId].deals.includes(attr.dealId)) {
-      attrByPartner[attr.partnerId].deals.push(attr.dealId);
-    }
-  }
-
-  const attributionSummary = Object.entries(attrByPartner).map(([pid, data]) => {
-    const partner = demoPartners.find((p) => p._id === pid);
-    return {
-      partner: partner?.name || pid,
-      attributedRevenue: Math.round(data.revenue),
-      commissionsEarned: Math.round(data.commissions),
-      dealCount: data.deals.length,
-    };
-  }).sort((a, b) => b.attributedRevenue - a.attributedRevenue);
-
-  // ── Payout summary ──
-  const payoutSummary = demoPayouts.map((p) => {
-    const partner = demoPartners.find((pr) => pr._id === p.partnerId);
-    return {
-      partner: partner?.name || p.partnerId,
-      amount: p.amount,
-      status: p.status,
-      period: p.period || "—",
-    };
-  });
-
-  // ── Stats ──
-  const wonDeals = demoDeals.filter((d) => d.status === "won");
-  const openDeals = demoDeals.filter((d) => d.status === "open");
-  const lostDeals = demoDeals.filter((d) => d.status === "lost");
-  const totalRevenue = wonDeals.reduce((s, d) => s + d.amount, 0);
-  const pipelineValue = openDeals.reduce((s, d) => s + d.amount, 0);
-  const winRate = demoDeals.length > 0
-    ? Math.round((wonDeals.length / (wonDeals.length + lostDeals.length)) * 100)
-    : 0;
-  const totalCommissions = roleBasedAttrs.reduce((s, a) => s + a.commissionAmount, 0);
-  const pendingPayouts = demoPayouts
-    .filter((p) => p.status === "pending_approval")
-    .reduce((s, p) => s + p.amount, 0);
-
-  const stats = {
-    totalRevenue,
-    pipelineValue,
-    totalDeals: demoDeals.length,
-    wonDeals: wonDeals.length,
-    openDeals: openDeals.length,
-    lostDeals: lostDeals.length,
-    winRate: `${winRate}%`,
-    avgDealSize: wonDeals.length > 0 ? Math.round(totalRevenue / wonDeals.length) : 0,
-    totalCommissions: Math.round(totalCommissions),
-    pendingPayouts,
-    activePartners: demoPartners.filter((p) => p.status === "active").length,
-    totalPartners: demoPartners.length,
-  };
-
-  // ── Touchpoints summary (last 10 by deal) ──
-  const touchpointSummary = demoTouchpoints.map((tp) => {
-    const partner = demoPartners.find((p) => p._id === tp.partnerId);
-    const deal = demoDeals.find((d) => d._id === tp.dealId);
-    return {
-      partner: partner?.name || tp.partnerId,
-      deal: deal?.name || tp.dealId,
-      type: tp.type,
-      date: new Date(tp.createdAt).toISOString().split("T")[0],
-    };
-  });
-
-  return JSON.stringify({
-    stats,
-    partners: partnerSummary,
-    deals: dealSummary,
-    attributionByPartner: attributionSummary,
-    payouts: payoutSummary,
-    recentTouchpoints: touchpointSummary,
-  }, null, 2);
-}
+type ChatMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
 
 export async function POST(req: NextRequest) {
   try {
-    const { question, context: clientContext } = await req.json();
+    const { question, context, history } = await req.json();
 
     if (!question || typeof question !== "string") {
       return NextResponse.json({ error: "Missing question" }, { status: 400 });
     }
 
-    // Use client-provided context (real Convex data) if available, otherwise fall back to demo data
-    const context = (typeof clientContext === "string" && clientContext.length > 10) ? clientContext : buildContext();
-    const userContent = `Here is the current partner program data:\n\n<data>\n${context}\n</data>\n\nQuestion: ${question}`;
+    // Build the user message with context
+    const contextBlock = typeof context === "string" && context.length > 10
+      ? context
+      : null;
 
-    // ── 1. Groq (Llama 3.3 70B — free, fast) ────────────────────────────────
+    if (!contextBlock) {
+      return NextResponse.json({
+        error: "No data context provided. Please ensure your data has loaded.",
+        fallback: true,
+      }, { status: 400 });
+    }
+
+    const userContent = `Here is the current partner program data:\n\n<data>\n${contextBlock}\n</data>\n\nQuestion: ${question}`;
+
+    // Build conversation history for multi-turn support
+    const priorMessages: ChatMessage[] = Array.isArray(history)
+      ? history
+        .filter((m: any) => m.role && m.content)
+        .slice(-10) // Keep last 10 messages to stay within token limits
+        .map((m: any) => ({ role: m.role, content: m.content }))
+      : [];
+
+    // ── 1. Groq (Llama 3.3 70B — fast, free) ──────────────────────────────
     const groqKey = process.env.GROQ_API_KEY;
     if (groqKey) {
       try {
@@ -160,36 +71,66 @@ export async function POST(req: NextRequest) {
           apiKey: groqKey,
           baseURL: "https://api.groq.com/openai/v1",
         });
+
+        const groqMessages: { role: "system" | "user" | "assistant"; content: string }[] = [
+          { role: "system", content: SYSTEM_PROMPT },
+          ...priorMessages,
+          { role: "user", content: userContent },
+        ];
+
         const response = await groq.chat.completions.create({
           model: "llama-3.3-70b-versatile",
-          messages: [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "user", content: userContent },
-          ],
-          max_tokens: 1024,
-          temperature: 0.7,
+          messages: groqMessages,
+          max_tokens: 1500,
+          temperature: 0.3, // Low temperature for data accuracy
         });
+
         const answer = response.choices[0]?.message?.content;
         if (answer) {
           return NextResponse.json({ answer, model: "groq", aiPowered: true });
         }
       } catch (groqErr) {
-        console.warn("[ask/route] Groq failed, falling back to Claude:", groqErr);
+        console.warn("[ask/route] Groq failed, trying Claude:", groqErr);
       }
     }
 
-    return NextResponse.json({ error: "GROQ_API_KEY not configured", fallback: true }, { status: 503 });
+    // ── 2. Claude (Haiku — reliable fallback) ──────────────────────────────
+    const anthropicKey = process.env.ANTHROPIC_API_KEY;
+    if (anthropicKey) {
+      try {
+        const claude = new Anthropic({ apiKey: anthropicKey });
+
+        const claudeMessages: { role: "user" | "assistant"; content: string }[] = [
+          ...priorMessages,
+          { role: "user", content: userContent },
+        ];
+
+        const response = await claude.messages.create({
+          model: "claude-haiku-4-5-20251001",
+          max_tokens: 1500,
+          system: SYSTEM_PROMPT,
+          messages: claudeMessages,
+        });
+
+        const content = response.content[0];
+        if (content.type === "text" && content.text) {
+          return NextResponse.json({ answer: content.text, model: "claude", aiPowered: true });
+        }
+      } catch (claudeErr) {
+        console.warn("[ask/route] Claude failed:", claudeErr);
+      }
+    }
+
+    // ── 3. No AI provider configured ───────────────────────────────────────
+    return NextResponse.json(
+      { error: "No AI provider configured (set GROQ_API_KEY or ANTHROPIC_API_KEY)", fallback: true },
+      { status: 503 }
+    );
   } catch (err: unknown) {
     console.error("[ask/route] Error:", err);
-
-    const status =
-      500;
-    const errMessage =
-      err instanceof Error ? err.message : "Internal server error";
-
     return NextResponse.json(
-      { error: errMessage, fallback: true },
-      { status }
+      { error: err instanceof Error ? err.message : "Internal server error", fallback: true },
+      { status: 500 }
     );
   }
 }

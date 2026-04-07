@@ -63,11 +63,35 @@ Rules:
     const rules: ParsedRule[] = JSON.parse(jsonMatch[0]);
     if (!Array.isArray(rules)) return NextResponse.json({ rules: [] });
 
+    // Validate parsed rules before saving
+    const validationErrors: string[] = [];
+    const validatedRules = rules.filter((rule) => {
+      if (!rule.name || typeof rule.name !== "string") {
+        validationErrors.push(`Rule missing name`);
+        return false;
+      }
+      const percentMatch = rule.actionValue?.match(/(\d+(?:\.\d+)?)/);
+      const ratePercent = percentMatch ? parseFloat(percentMatch[1]) : NaN;
+      if (isNaN(ratePercent) || ratePercent <= 0 || ratePercent > 100) {
+        validationErrors.push(`Rule "${rule.name}": commission rate must be between 0-100% (got "${rule.actionValue}")`);
+        return false;
+      }
+      if (!rule.field || !rule.operator || !rule.value) {
+        validationErrors.push(`Rule "${rule.name}": missing field, operator, or value`);
+        return false;
+      }
+      return true;
+    });
+
     // If save=true and organizationId provided, persist rules to Convex
     if (save && organizationId) {
+      if (validationErrors.length > 0) {
+        return NextResponse.json({ rules, validationErrors, saved: false });
+      }
+
       const savedRuleIds: string[] = [];
 
-      for (const rule of rules) {
+      for (const rule of validatedRules) {
         // Parse actionValue percentage (e.g. "20%") to rate (0.20)
         const percentMatch = rule.actionValue?.match(/(\d+(?:\.\d+)?)/);
         const rate = percentMatch ? parseFloat(percentMatch[1]) / 100 : 0.15;

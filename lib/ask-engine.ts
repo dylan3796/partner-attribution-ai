@@ -93,17 +93,31 @@ function partnerCommissions(pid: string, attributions: Attribution[]): number {
 
 // ── AI Entry Point ───────────────────────────────────
 
+type ChatHistoryMessage = {
+  role: "user" | "assistant";
+  content: string;
+};
+
 /**
- * Ask Covant a question using Claude AI.
+ * Ask Covant a question using AI.
  * Falls back to the regex engine if the API call fails or key is missing.
  */
-export async function askCovant(question: string, ctx?: QueryContext, contextOverride?: string): Promise<AskResult> {
+export async function askCovant(
+  question: string,
+  ctx?: QueryContext,
+  contextOverride?: string,
+  history?: ChatHistoryMessage[]
+): Promise<AskResult> {
   if (USE_AI) {
     try {
       const res = await fetch("/api/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question, ...(contextOverride ? { context: contextOverride } : {}) }),
+        body: JSON.stringify({
+          question,
+          ...(contextOverride ? { context: contextOverride } : {}),
+          ...(history && history.length > 0 ? { history } : {}),
+        }),
       });
 
       const data = await res.json();

@@ -80,7 +80,6 @@ export default function AskCovant() {
 
     const partnerSummary = convexPartners
       .sort((a: any, b: any) => (b.revenue || 0) - (a.revenue || 0))
-      .slice(0, 15)
       .map((p: any) => ({
         name: p.name,
         type: p.type,
@@ -91,10 +90,11 @@ export default function AskCovant() {
         dealCount: p.dealCount || 0,
         wonDealCount: p.wonDealCount || 0,
         totalPaid: p.totalPaid || 0,
+        pendingPayouts: p.pendingPayouts || 0,
         territory: p.territory || undefined,
       }));
 
-    const dealSummary = convexDeals.slice(0, 20).map((d: any) => ({
+    const dealSummary = convexDeals.map((d: any) => ({
       name: d.name,
       amount: d.amount,
       status: d.status,
@@ -103,7 +103,8 @@ export default function AskCovant() {
       registrationStatus: d.registrationStatus || null,
     }));
 
-    const payoutSummary = convexPayouts.slice(0, 15).map((p: any) => ({
+    const payoutSummary = convexPayouts.map((p: any) => ({
+      partnerId: p.partnerId,
       amount: p.amount,
       status: p.status,
       period: p.period || undefined,
@@ -173,7 +174,12 @@ export default function AskCovant() {
     try {
       const ctx = buildContext();
       const convexCtx = buildConvexContext();
-      const result = await askCovant(q, ctx, convexCtx);
+      // Build conversation history for multi-turn support
+      const chatHistory = messages.map((m) => ({
+        role: m.role as "user" | "assistant",
+        content: m.content,
+      }));
+      const result = await askCovant(q, ctx, convexCtx, chatHistory);
 
       const assistantMsg: Message = {
         id: `a_${Date.now()}`,
@@ -218,7 +224,11 @@ export default function AskCovant() {
     try {
       const ctx = buildContext();
       const convexCtx = buildConvexContext();
-      const result = await askCovant(query, ctx, convexCtx);
+      const chatHistory = messages.map((m) => ({
+        role: m.role as "user" | "assistant",
+        content: m.content,
+      }));
+      const result = await askCovant(query, ctx, convexCtx, chatHistory);
 
       const assistantMsg: Message = {
         id: `a_${Date.now()}`,
