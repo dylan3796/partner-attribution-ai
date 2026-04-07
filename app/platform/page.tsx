@@ -119,9 +119,10 @@ export default function PlatformPage() {
             Your partner program<br />deserves a real platform.
           </h1>
           <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 560 }}>
-            Most partner programs run on spreadsheets, email threads, and gut instinct.
-            Covant is the intelligence layer that replaces all of it — attribution, commissions,
-            CRM sync, and a partner portal — so you have one system of record for the entire motion.
+            Covant discovers partner relationships across your pipeline and gives you
+            a single platform to run everything else — attribution, commissions,
+            deal registration, incentives, revenue tracking, and a portal your
+            partners will actually log into.
           </p>
           <div className="l-flex-center">
             <Link href="/dashboard?demo=true" className="l-btn">Try it live →</Link>
