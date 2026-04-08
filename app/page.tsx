@@ -39,10 +39,7 @@ export default function LandingPage() {
 The intelligence layer<br />for your partner business.
           </h1>
           <p className="l-muted l-subtitle">
-            Discover which partners are driving revenue across your pipeline —
-            then run your entire partner program on top of that foundation.
-            Attribution, commissions, deal registration, a partner portal,
-            incentives — one platform for the whole motion.
+            Know which partners are driving revenue — and which ones aren&apos;t.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
             <Link href="/sign-up" className="l-btn">Get Early Access <span>→</span></Link>
