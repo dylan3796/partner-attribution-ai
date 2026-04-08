@@ -135,7 +135,7 @@ export default function HealthPage() {
         const cutoff = Date.now() - 90 * 86400000;
         const activePartnerIds = new Set<string>();
         dealList.forEach((d) => {
-          if (d.createdAt > cutoff && d.partnerId) activePartnerIds.add(d.partnerId);
+          if (d.createdAt > cutoff && d.registeredBy) activePartnerIds.add(d.registeredBy);
         });
         const engagementPct = totalPartners > 0 ? Math.round((activePartnerIds.size / totalPartners) * 100) : 0;
         return {
