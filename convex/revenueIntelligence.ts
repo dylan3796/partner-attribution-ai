@@ -165,6 +165,100 @@ export const getRevenueIntelligence = query({
       .reduce((s: number, d: any) => s + d.amount, 0);
     const partnerSourcedPct = totalRevenue > 0 ? Math.round((partnerSourcedRevenue / totalRevenue) * 100) : 0;
 
+    // --- Partner Profitability Analysis ---
+    // Build payout totals by partner
+    const payoutsByPartner = new Map<string, number>();
+    for (const p of payouts) {
+      if (p.status === "paid" || p.status === "pending_approval" || p.status === "approved") {
+        const current = payoutsByPartner.get(p.partnerId) ?? 0;
+        payoutsByPartner.set(p.partnerId, current + p.amount);
+      }
+    }
+
+    // Build attribution commission totals by partner (for partners without payouts yet)
+    const attrCommissionByPartner = new Map<string, number>();
+    for (const a of attributions) {
+      if (a.model === "role_based") {
+        const current = attrCommissionByPartner.get(a.partnerId) ?? 0;
+        attrCommissionByPartner.set(a.partnerId, current + a.commissionAmount);
+      }
+    }
+
+    // Compute per-partner profitability
+    const partnerProfitability = Object.entries(partnerRevenue).map(([pid, data]) => {
+      const partner = partnerMap.get(pid);
+      const commissionsPaid = payoutsByPartner.get(pid) ?? 0;
+      const commissionsAccrued = attrCommissionByPartner.get(pid) ?? 0;
+      // Use actual payouts if available, otherwise use attribution-based commissions
+      const totalCost = commissionsPaid > 0 ? commissionsPaid : commissionsAccrued;
+      const netRevenue = data.revenue - totalCost;
+      const margin = data.revenue > 0 ? (netRevenue / data.revenue) * 100 : 0;
+      const partnerDeals = wonDeals.filter((d: any) => d.registeredBy === pid);
+      const avgDealSize = partnerDeals.length > 0 ? data.revenue / partnerDeals.length : 0;
+
+      // ROI: revenue generated per dollar of commission paid
+      const roi = totalCost > 0 ? data.revenue / totalCost : 0;
+
+      return {
+        partnerId: pid,
+        name: data.name,
+        type: data.type,
+        tier: data.tier,
+        grossRevenue: Math.round(data.revenue),
+        commissionCost: Math.round(totalCost),
+        netRevenue: Math.round(netRevenue),
+        margin: Math.round(margin * 100) / 100,
+        roi: Math.round(roi * 100) / 100,
+        dealCount: partnerDeals.length,
+        avgDealSize: Math.round(avgDealSize),
+        commissionRate: partner?.commissionRate ?? 0,
+      };
+    }).sort((a, b) => b.netRevenue - a.netRevenue);
+
+    // Profitability by type
+    const profitByType = byType.map((t) => {
+      const typePartners = partnerProfitability.filter((p) => p.type === t.type);
+      const grossRevenue = typePartners.reduce((s, p) => s + p.grossRevenue, 0);
+      const commissionCost = typePartners.reduce((s, p) => s + p.commissionCost, 0);
+      const netRevenue = grossRevenue - commissionCost;
+      return {
+        type: t.type,
+        grossRevenue,
+        commissionCost,
+        netRevenue,
+        margin: grossRevenue > 0 ? Math.round(((netRevenue / grossRevenue) * 100) * 100) / 100 : 0,
+        partnerCount: typePartners.length,
+        avgRoi: typePartners.length > 0
+          ? Math.round((typePartners.reduce((s, p) => s + p.roi, 0) / typePartners.length) * 100) / 100
+          : 0,
+      };
+    });
+
+    // Profitability by tier
+    const profitByTier = byTier.map((t) => {
+      const tierPartners = partnerProfitability.filter((p) => p.tier === t.tier);
+      const grossRevenue = tierPartners.reduce((s, p) => s + p.grossRevenue, 0);
+      const commissionCost = tierPartners.reduce((s, p) => s + p.commissionCost, 0);
+      const netRevenue = grossRevenue - commissionCost;
+      return {
+        tier: t.tier,
+        grossRevenue,
+        commissionCost,
+        netRevenue,
+        margin: grossRevenue > 0 ? Math.round(((netRevenue / grossRevenue) * 100) * 100) / 100 : 0,
+        partnerCount: tierPartners.length,
+        avgRoi: tierPartners.length > 0
+          ? Math.round((tierPartners.reduce((s, p) => s + p.roi, 0) / tierPartners.length) * 100) / 100
+          : 0,
+      };
+    });
+
+    // Overall program profitability
+    const totalGrossPartnerRevenue = partnerProfitability.reduce((s, p) => s + p.grossRevenue, 0);
+    const totalCommissionCost = partnerProfitability.reduce((s, p) => s + p.commissionCost, 0);
+    const totalNetRevenue = totalGrossPartnerRevenue - totalCommissionCost;
+    const unprofitablePartners = partnerProfitability.filter((p) => p.netRevenue < 0);
+
     return {
       summary: {
         totalRevenue,
@@ -183,6 +277,24 @@ export const getRevenueIntelligence = query({
       concentration,
       avgDealByType,
       topPartners: sortedPartners.slice(0, 10),
+      profitability: {
+        programOverview: {
+          grossPartnerRevenue: totalGrossPartnerRevenue,
+          totalCommissionCost,
+          netPartnerRevenue: totalNetRevenue,
+          programMargin: totalGrossPartnerRevenue > 0
+            ? Math.round(((totalNetRevenue / totalGrossPartnerRevenue) * 100) * 100) / 100
+            : 0,
+          programRoi: totalCommissionCost > 0
+            ? Math.round((totalGrossPartnerRevenue / totalCommissionCost) * 100) / 100
+            : 0,
+          unprofitablePartnerCount: unprofitablePartners.length,
+          unprofitableRevenueLoss: unprofitablePartners.reduce((s, p) => s + p.netRevenue, 0),
+        },
+        byPartner: partnerProfitability.slice(0, 20),
+        byType: profitByType,
+        byTier: profitByTier,
+      },
     };
   },
 });

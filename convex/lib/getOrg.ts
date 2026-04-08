@@ -3,10 +3,10 @@ import { Id } from "../_generated/dataModel";
 
 /**
  * Get the organization for the current authenticated user.
- * Falls back to the first org in DB for demo/unauthenticated access.
+ * Returns null if the user is not authenticated or has no org.
  */
 export async function getOrg(ctx: QueryCtx | MutationCtx) {
-  // Try Clerk identity first
+  // Require Clerk identity
   const identity = await ctx.auth.getUserIdentity();
 
   if (identity) {
@@ -22,8 +22,9 @@ export async function getOrg(ctx: QueryCtx | MutationCtx) {
     }
   }
 
-  // Fallback: return first org (demo mode / unauthenticated)
-  return await ctx.db.query("organizations").first();
+  // No authenticated user or no org found — return null
+  // Callers handle this by returning empty data ([], null, EMPTY_STATS, etc.)
+  return null;
 }
 
 /**
