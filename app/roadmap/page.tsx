@@ -358,6 +358,38 @@ const ROADMAP: RoadmapItem[] = [
     tag: "Intelligence",
     quarter: "Q3 2026",
   },
+  {
+    title: "Partner Signal",
+    description: "Ambient touchpoint capture from CRM, email, and Slack. Covant proposes partner touchpoints from the signal already flowing through your business — you bulk-accept in seconds. Surfaces the influenced revenue that never got logged.",
+    icon: Sparkles,
+    status: "planned",
+    tag: "Intelligence",
+    quarter: "Q2 2026",
+  },
+  {
+    title: "Partner Program AI",
+    description: "AI for partner program design and ongoing management. Change a commission rate, add a SPIF, adjust a tier — Covant simulates against historical data, flags what needs to move, and runs the change end-to-end. Tier design, MDF allocation, and incentive modeling in one place.",
+    icon: Bot,
+    status: "planned",
+    tag: "Intelligence",
+    quarter: "Q3 2026",
+  },
+  {
+    title: "Partner Journey AI",
+    description: "Define a journey — onboarding, first deal, tier progression, renewal — and the AI orchestrates every step: nudges the partner, drafts the comms, updates the records, flags what's stalling before it goes dark.",
+    icon: Workflow,
+    status: "planned",
+    tag: "Intelligence",
+    quarter: "Q3 2026",
+  },
+  {
+    title: "Bi-lateral Partner Health",
+    description: "Extends Partner Health Scores with partner-side input on the deals and engagements they worked, so the score reflects the relationship both sides see — not just vendor-side activity.",
+    icon: HeartPulse,
+    status: "planned",
+    tag: "Intelligence",
+    quarter: "Q2 2026",
+  },
 ];
 
 export default function RoadmapPage() {
