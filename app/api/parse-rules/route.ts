@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
-import { ConvexHttpClient } from "convex/browser";
+import { getConvexClient } from "@/lib/convex-server";
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || "");
 
 type ParsedRule = {
   name: string;
@@ -89,6 +86,7 @@ Rules:
         return NextResponse.json({ rules, validationErrors, saved: false });
       }
 
+      const convex = getConvexClient();
       const savedRuleIds: string[] = [];
 
       for (const rule of validatedRules) {

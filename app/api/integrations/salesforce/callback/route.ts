@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import { ConvexHttpClient } from 'convex/browser';
+import { getConvexClient } from '@/lib/convex-server';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { exchangeCodeForTokens, getSalesforceIdentity, extractOrgIdFromIdentityUrl } from '@/lib/salesforce';
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
 
 /**
  * GET /api/integrations/salesforce/callback
@@ -12,6 +10,7 @@ const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
  */
 export async function GET(request: Request) {
   try {
+    const convex = getConvexClient();
     const { searchParams } = new URL(request.url);
     const code = searchParams.get('code');
     const state = searchParams.get('state');

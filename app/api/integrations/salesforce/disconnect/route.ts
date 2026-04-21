@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
-import { ConvexHttpClient } from 'convex/browser';
+import { getConvexClient } from '@/lib/convex-server';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
 
 /**
  * POST /api/integrations/salesforce/disconnect
@@ -11,6 +9,7 @@ const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
  */
 export async function POST(request: Request) {
   try {
+    const convex = getConvexClient();
     const body = await request.json();
     const { organizationId } = body;
     

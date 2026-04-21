@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import { ConvexHttpClient } from 'convex/browser';
+import { getConvexClient } from '@/lib/convex-server';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { getClosedWonDeals, getContactsBatch, refreshAccessToken, HubSpotDeal } from '@/lib/hubspot';
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
 
 type Partner = {
   _id: Id<"partners">;
@@ -54,6 +52,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Organization ID is required' }, { status: 400 });
   }
 
+  const convex = getConvexClient();
   const connection = await convex.query(api.integrations.getHubSpotConnection, {
     organizationId: organizationId as Id<'organizations'>,
   });

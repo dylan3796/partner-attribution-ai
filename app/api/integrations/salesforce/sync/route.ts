@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import { ConvexHttpClient } from 'convex/browser';
+import { getConvexClient } from '@/lib/convex-server';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { getOpportunities, refreshAccessToken } from '@/lib/salesforce';
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
 
 type Partner = {
   _id: Id<"partners">;
@@ -54,6 +52,7 @@ function matchPartner(
  */
 export async function POST(request: Request) {
   try {
+    const convex = getConvexClient();
     const body = await request.json();
     const { organizationId } = body;
 

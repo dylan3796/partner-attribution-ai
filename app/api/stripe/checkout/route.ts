@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import Stripe from "stripe";
-import { ConvexHttpClient } from "convex/browser";
+import { getConvexClient } from "@/lib/convex-server";
 import { api } from "@/convex/_generated/api";
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 /** Map plan + interval to Stripe price ID from env vars */
 function getPriceId(plan: string, interval: string): string | null {
@@ -66,6 +64,7 @@ export async function POST(req: NextRequest) {
   }
 
   // Look up existing Stripe customer for this user
+  const convex = getConvexClient();
   const existingSubscription = await convex.query(api.subscriptions.getSubscriptionByUserId, {
     userId,
   });

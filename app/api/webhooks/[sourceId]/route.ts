@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import { ConvexHttpClient } from 'convex/browser';
+import { getConvexClient } from '@/lib/convex-server';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import crypto from 'crypto';
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
 
 type EventMappingConfig = {
   partnerId?: string; // JSON path to partner identifier
@@ -125,6 +123,7 @@ export async function POST(
   const { sourceId } = await params;
 
   try {
+    const convex = getConvexClient();
     // Get raw body for signature verification
     const rawBody = await request.text();
     let payload: Record<string, unknown>;

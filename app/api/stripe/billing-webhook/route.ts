@@ -15,7 +15,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { ConvexHttpClient } from "convex/browser";
+import { getConvexClient } from "@/lib/convex-server";
 import { api } from "@/convex/_generated/api";
 
 function getStripe() {
@@ -24,8 +24,6 @@ function getStripe() {
     typescript: true,
   });
 }
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 /** Map a Stripe price ID to our plan + interval */
 function resolvePlan(priceId: string): {
@@ -64,6 +62,7 @@ function toStatus(
 }
 
 async function handleSubscription(subscription: Stripe.Subscription) {
+  const convex = getConvexClient();
   const userId =
     (subscription.metadata?.clerkUserId as string | undefined) ?? "";
   const firstItem = subscription.items.data[0];
@@ -90,6 +89,7 @@ async function handleSubscription(subscription: Stripe.Subscription) {
 
 export async function POST(req: NextRequest) {
   const stripe = getStripe();
+  const convex = getConvexClient();
   const body = await req.text();
   const signature = req.headers.get("stripe-signature");
 

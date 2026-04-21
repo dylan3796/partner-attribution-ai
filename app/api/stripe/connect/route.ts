@@ -10,11 +10,9 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createConnectedAccount, createAccountLink, isStripeConfigured } from "@/lib/stripe";
-import { ConvexHttpClient } from "convex/browser";
+import { getConvexClient } from "@/lib/convex-server";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 export async function POST(req: NextRequest) {
   try {
@@ -26,6 +24,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const convex = getConvexClient();
     const body = await req.json();
     const { partnerId, returnUrl } = body;
 

@@ -1,13 +1,11 @@
 import { NextResponse } from 'next/server';
-import { ConvexHttpClient } from 'convex/browser';
+import { getConvexClient } from '@/lib/convex-server';
 import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { exchangeCodeForTokens, getPortalInfo } from '@/lib/hubspot';
 
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL || '');
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL || '';
-
 export async function GET(request: Request) {
+  const APP_URL = process.env.NEXT_PUBLIC_APP_URL || '';
   const { searchParams } = new URL(request.url);
   const code = searchParams.get('code');
   const state = searchParams.get('state');
@@ -33,6 +31,7 @@ export async function GET(request: Request) {
   }
 
   try {
+    const convex = getConvexClient();
     const tokens = await exchangeCodeForTokens(code);
     const portalInfo = await getPortalInfo(tokens.accessToken);
 

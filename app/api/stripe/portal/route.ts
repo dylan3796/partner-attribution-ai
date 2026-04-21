@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 import Stripe from "stripe";
-import { ConvexHttpClient } from "convex/browser";
+import { getConvexClient } from "@/lib/convex-server";
 import { api } from "@/convex/_generated/api";
-
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();
@@ -22,6 +20,7 @@ export async function POST(req: NextRequest) {
     typescript: true,
   });
 
+  const convex = getConvexClient();
   const subscription = await convex.query(api.subscriptions.getSubscriptionByUserId, {
     userId,
   });

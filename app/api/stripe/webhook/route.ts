@@ -13,13 +13,11 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { constructWebhookEvent, getAccountStatus, type Stripe } from "@/lib/stripe";
-import { ConvexHttpClient } from "convex/browser";
+import { getConvexClient } from "@/lib/convex-server";
 import { api } from "@/convex/_generated/api";
 
-// Initialize Convex client for mutations
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
-
 export async function POST(req: NextRequest) {
+  const convex = getConvexClient();
   const body = await req.text();
   const signature = req.headers.get("stripe-signature");
 
@@ -138,10 +136,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-
-// Disable body parsing - we need the raw body for signature verification
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
