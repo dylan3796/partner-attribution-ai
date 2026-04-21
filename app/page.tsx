@@ -34,12 +34,12 @@ export default function LandingPage() {
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="l-section-hero">
         <div className="wrap">
-          <p className="l-label" style={{ marginBottom: "1.25rem" }}>Partner Intelligence Platform</p>
+          <p className="l-label" style={{ marginBottom: "1.25rem" }}>AI-Native Partner OS</p>
           <h1 className="l-heading-xl l-color-primary">
-The intelligence layer<br />for your partner business.
+Run your entire partner program<br />from one AI copilot.
           </h1>
           <p className="l-muted l-subtitle">
-            Attribution, commissions, deal registration, incentives, a partner portal, and reporting — one platform, one source of truth, built on knowing exactly who drove what.
+            Covant is the AI-native operating system for partnerships. One platform for the vendor. One portal for every partner. Ask it anything — who to bring into a deal, why a partner got paid what they got paid, what&apos;s at risk this quarter — and it answers from your own data.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
             <Link href="/sign-up" className="l-btn">Get Early Access <span>→</span></Link>
@@ -56,12 +56,10 @@ The intelligence layer<br />for your partner business.
         <div className="wrap" style={{ maxWidth: 680, textAlign: "center" }}>
           <p className="l-tag" style={{ marginBottom: "1.5rem", color: "#9ca3af" }}>The problem we solve</p>
           <p className="l-quote">
-            Sales has Salesforce. Marketing has HubSpot. Finance has NetSuite.
-            Partner teams have a shared Google Sheet and a quarterly argument about who drove what.
+            Impartner. Salesforce PRM. Six spreadsheets nobody trusts. Partner teams are running a $50B revenue channel on software built before AI existed — and paying $80K a year for the privilege.
           </p>
           <p className="l-quote-attr">
-            Covant replaces the spreadsheet with a system of record — so every attribution decision,
-            every commission, and every payout has a paper trail.
+            Covant is the replacement: AI-native, multi-vendor by default, priced for teams that want to start running their program in an afternoon instead of a quarter.
           </p>
         </div>
       </section>
@@ -74,18 +72,17 @@ The intelligence layer<br />for your partner business.
               What Covant does
             </p>
             <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
-              Discover partner relationships.<br />Then run the whole program.
+              Ask Covant anything.<br />It knows your whole program.
             </h2>
             <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 560, margin: "0 auto", lineHeight: 1.65 }}>
-              Covant finds partner influence across your pipeline — touchpoints, introductions,
-              deal registrations, co-sells — and builds a living record of who&apos;s driving what.
-              From there, everything else runs on top: commission calculations, payout workflows,
-              deal registration, revenue tracking, incentive programs, and a branded portal where
-              partners see it all.
+              Covant&apos;s AI reads your CRM, email, and partner activity to maintain a living record of
+              who&apos;s driving what. Ask it who to bring into a deal, who&apos;s at risk, or why a partner got
+              paid what they got paid. It answers from your data — and can draft the QBR, route the
+              commission, and notify the partner when you&apos;re done.
             </p>
           </div>
 
-          {/* Attribution Engine — hero card */}
+          {/* AI Copilot — hero card */}
           <div className="l-engine-card">
             <div className="l-engine-badge">
               Core Engine
@@ -94,21 +91,21 @@ The intelligence layer<br />for your partner business.
               <div>
                 <span className="l-engine-label">
                   <span className="l-dot" />
-                  Attribution Engine
+                  AI Copilot
                 </span>
                 <h3 className="l-heading-md">
-                  Discovers partner influence across your entire pipeline.
+                  One conversational interface across your entire partner program.
                 </h3>
                 <p className="l-body">
-                  The foundation your program runs on. Connects to Salesforce or HubSpot, ingests every partner interaction — referrals, deal registrations, co-sells, introductions — and applies multi-touch attribution models to determine who gets credit. Full audit trail on every deal.
+                  Stop navigating seventeen dashboards. Covant&apos;s AI copilot is the primary interface for your program — connected to Salesforce, HubSpot, Gmail, and Slack, grounded in your real data, and able to read, reason, and act. Every answer is cited. Every recommendation is one click from done.
                 </p>
               </div>
               <div className="l-flex-col" style={{ gap: ".5rem" }}>
                 {[
-                  { label: "Full partner history", desc: "Every touchpoint, deal, and interaction — searchable, timestamped, auditable" },
-                  { label: "Multi-touch attribution", desc: "First-touch, last-touch, time-decay, role-based, equal-split — runs on every deal automatically" },
-                  { label: "CRM integration", desc: "Syncs closed-won deals from Salesforce and HubSpot with automatic partner matching" },
-                  { label: "Customer + partner view", desc: "See the full relationship between any customer and any partner across all time" },
+                  { label: "Ask anything", desc: "Natural-language questions across your whole program. Every answer cites the data. Every claim is traceable back to the source." },
+                  { label: "AI Influence Inbox", desc: "Ambient touchpoint capture from CRM, email, and Slack. Covant proposes partner touchpoints — you bulk-accept in seconds." },
+                  { label: "AI-weighted attribution", desc: "Six models including one that LLM-scores each touchpoint by signal strength. CFO-ready methodology page included." },
+                  { label: "AI Partner-Deal Matcher", desc: "Every open opportunity gets a partner recommendation. Parameters you set. Rules you tune. Decisions you make." },
                 ].map((f, i) => (
                   <div key={i} className="l-feature-chip">
                     <span className="l-feature-chip-icon">✦</span>
@@ -128,20 +125,20 @@ The intelligence layer<br />for your partner business.
               <div>
                 <span className="l-engine-label" style={{ color: "#22c55e", marginBottom: ".75rem" }}>
                   <span className="l-dot-sm" style={{ background: "#22c55e", boxShadow: "0 0 6px #22c55e" }} />
-                  Commission Engine
+                  AI Rule Builder
                 </span>
                 <h3 className="l-heading-sm">
-                  Rules that match reality. Payouts that happen automatically.
+                  Describe your commission program in plain English. Covant builds the rules.
                 </h3>
                 <p style={{ fontSize: ".85rem", color: "#6b7280", lineHeight: 1.65 }}>
-                  Configure commission rules by partner tier, deal size, product line, or geography.
-                  Stack rules with priority ordering. The engine reads attribution data, calculates
-                  what&apos;s owed, and queues payouts for approval. Every commission links back to the
-                  deal, the attribution, and the rule that triggered it.
+                  Covant turns natural language into executable commission rules, then simulates them
+                  against your historical deals before you activate. Handle tiers, territories,
+                  product-line exceptions, clawbacks, and stacking without a spreadsheet in sight.
+                  Every change is versioned. Every payout is explainable to the partner in one click.
                 </p>
               </div>
               <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "auto" }}>
-                {["Tiered rates", "Bulk payout approval", "Stripe integration"].map((t) => (
+                {["Natural-language rules", "Historical simulation", "Versioned & explainable"].map((t) => (
                   <span key={t} className="l-pill" style={{ border: "1px solid rgba(34,197,94,.3)", color: "#22c55e", background: "rgba(34,197,94,.1)" }}>{t}</span>
                 ))}
               </div>
@@ -153,18 +150,18 @@ The intelligence layer<br />for your partner business.
               {[
                 {
                   accent: "#818cf8",
-                  name: "Deal Registration",
-                  desc: "Partners register deals through their portal. You approve from the dashboard. Attribution and commission rules trigger automatically.",
+                  name: "AI Deal Conflict Detection",
+                  desc: "Partners register through the portal. Covant flags overlapping touchpoints from other partners in real time, with AI-recommended resolution — before the dispute happens.",
                 },
                 {
                   accent: "#f59e0b",
-                  name: "Partner Scoring & Tiers",
-                  desc: "Health scores based on revenue, activity, win rate, and deal velocity. Automatic tier progression from Bronze to Platinum.",
+                  name: "AI Partner Health Scores",
+                  desc: "Composite signal from pipeline velocity, touchpoint cadence, dispute rate, and response time. Surfaces at-risk partners before they go dark — with a weekly brief per partner.",
                 },
                 {
                   accent: "#38bdf8",
-                  name: "Incentive Programs",
-                  desc: "SPIFs, MDF budgets, bonuses, and accelerators — configured per tier, tracked per partner, approved through workflows.",
+                  name: "AI Program Simulator",
+                  desc: "Change a commission rate, add a SPIF, adjust a tier — Covant simulates what happens against your historical data before you ship the change to production.",
                 },
               ].map((c) => (
                 <div key={c.name} className="l-cap-item">
@@ -182,11 +179,11 @@ The intelligence layer<br />for your partner business.
           <div className="l-portal-strip">
             <div className="l-portal-strip-inner">
               <span className="l-free-badge">
-                Always Free
+                Multi-Vendor
               </span>
               <span style={{ color: "#0a0a0a", fontSize: ".9rem", fontWeight: 600 }}>Partner Portal</span>
               <span style={{ color: "#6b7280", fontSize: ".85rem" }}>—</span>
-              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>Branded self-service workspace. Deal tracking, commission visibility, performance dashboards. Included with every plan.</span>
+              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>One login across every vendor a partner works with. AI co-sell assistant. Real-time commissions. The one portal partners actually want to log into — free for every partner, always.</span>
             </div>
             <Link href="/pricing" className="l-link-arrow">
               See pricing →
@@ -206,10 +203,10 @@ The intelligence layer<br />for your partner business.
       <section className="l-section-light" style={{ padding: "7rem 0" }}>
         <div className="wrap l-center">
           <h2 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem", color: "#0a0a0a" }}>
-            Your partners are driving revenue.<br />Start proving it.
+            Your partner program deserves<br />better than a 2015 portal.
           </h2>
           <p className="l-muted l-subtitle" style={{ maxWidth: 520, margin: "0 auto 2.5rem", lineHeight: 1.5 }}>
-            Free for up to 5 partners. No credit card required.
+            Connect Salesforce or HubSpot in ten minutes. Covant reconstructs your partner history, cleans it, and runs your program from there. Free for up to 5 partners. No credit card required.
           </p>
           <form onSubmit={handleWaitlist} className="l-cta-form">
             <div className="l-cta-form-input">
