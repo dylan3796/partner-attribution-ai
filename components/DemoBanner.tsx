@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, Suspense } from "react";
-import { useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { X } from "lucide-react";
@@ -9,7 +8,9 @@ import { X } from "lucide-react";
 function DemoBannerInner() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { isSignedIn, isLoaded } = useAuth();
+  // Auth removed — treat every session as "not signed in" for banner gating
+  const isSignedIn = false;
+  const isLoaded = true;
   const [dismissed, setDismissed] = useState(true); // Start hidden to avoid flash
 
   useEffect(() => {

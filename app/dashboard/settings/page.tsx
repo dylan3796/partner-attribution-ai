@@ -253,7 +253,6 @@ function SettingsPageInner() {
           { label: "Webhooks", href: "/dashboard/settings/webhooks", icon: "🔗" },
           { label: "API Keys", href: "/dashboard/settings/api-keys", icon: "🔑" },
           { label: "Team", href: "/dashboard/settings/team", icon: "👥" },
-          { label: "Billing", href: "/dashboard/settings/billing", icon: "💳" },
           { label: "Notifications", href: "/dashboard/settings/notifications", icon: "🔔" },
         ].map((link) => (
           <a

@@ -117,7 +117,6 @@ const COMMANDS: CommandItem[] = [
   { id: "settings-api", label: "API Keys", icon: Key, href: "/dashboard/settings/api-keys", category: "settings", keywords: ["api", "key", "token", "developer", "integration"] },
   { id: "settings-webhooks", label: "Webhooks", icon: Webhook, href: "/dashboard/settings/webhooks", category: "settings", keywords: ["webhook", "endpoint", "event", "callback", "integration"] },
   { id: "settings-notifications", label: "Notification Preferences", icon: Bell, href: "/dashboard/settings/notifications", category: "settings", keywords: ["notification", "preference", "digest", "quiet", "email"] },
-  { id: "settings-billing", label: "Billing & Subscription", icon: CreditCard, href: "/dashboard/settings/billing", category: "settings", keywords: ["billing", "subscription", "plan", "stripe", "payment", "upgrade"] },
   { id: "integrations", label: "Integrations", icon: Zap, href: "/dashboard/integrations", category: "settings", keywords: ["integration", "salesforce", "hubspot", "crm", "connect"] },
 
   // ── Portal ──

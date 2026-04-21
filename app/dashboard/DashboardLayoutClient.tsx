@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { UserButton } from "@clerk/nextjs";
 import DashboardSidebar from "@/components/DashboardSidebar";
 import { NotificationBell } from "@/components/NotificationBell";
 import { WhatsNewButton } from "@/components/WhatsNew";
@@ -45,7 +44,6 @@ export function DashboardLayoutClient({ children }: { children: React.ReactNode 
               <WhatsNewButton />
               <DarkModeToggle />
               <NotificationBell />
-              <UserButton afterSignOutUrl="/" />
             </div>
           </div>
           <div className="dash-main-inner">
