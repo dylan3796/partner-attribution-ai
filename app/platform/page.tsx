@@ -94,7 +94,30 @@ const PILLARS = [
   { number: "03", title: "CRM Integration", description: "Connects to Salesforce and HubSpot via OAuth. Syncs closed-won deals automatically. Matches deals to partners by email, domain, or custom field. Webhook support for custom systems. Bi-directional data flow." },
   { number: "04", title: "Partner Portal", description: "A branded, self-service workspace — free for every partner, forever. Deal registration, commission tracking, performance dashboards, tier status. White-labeled to your brand. No partner caps on portal access." },
   { number: "05", title: "Incentive Programs", description: "SPIFs, MDF budgets, bonuses, and accelerators — configured per tier, tracked per partner, approved through workflows. Deal registration bonuses. Volume rebates for high-performers." },
-  { number: "06", title: "Partner Intelligence", description: "Health scores based on revenue, activity, win rate, and deal velocity. Automatic tier progression from Bronze to Platinum. Leaderboards, pipeline analytics, and program health reporting." },
+  { number: "06", title: "Partner Intelligence", description: "Health scores from revenue, activity, win rate, deal velocity, and response time. Automatic tier progression, leaderboards, pipeline analytics, and program health reporting. Bi-lateral input from partners — on deals they worked and engagements they ran — is on the roadmap so the score reflects the relationship, not just vendor-side activity." },
+];
+
+type JobStatus = "shipped" | "partial" | "roadmap";
+
+const STATUS_LABEL: Record<JobStatus, { label: string; color: string; bg: string }> = {
+  shipped: { label: "Shipped", color: "#22c55e", bg: "rgba(34,197,94,.12)" },
+  partial: { label: "Partial", color: "#f59e0b", bg: "rgba(245,158,11,.12)" },
+  roadmap: { label: "Roadmap", color: "#8b5cf6", bg: "rgba(139,92,246,.12)" },
+};
+
+const TWELVE_JOBS: { num: number; job: string; covant: string; status: JobStatus; href?: string }[] = [
+  { num: 1, job: "Build partner scorecards + QBR decks", covant: "Ask Covant drafts QBRs from live data; one-page Partner Scorecard + Weekly Digest ship today.", status: "shipped", href: "/dashboard?demo=true" },
+  { num: 2, job: "Track partner-sourced vs. partner-influenced revenue", covant: "Attribution Engine covers sourced revenue today. Partner Signal (roadmap) extends to ambient-captured influenced revenue from CRM, email, Slack.", status: "partial" },
+  { num: 3, job: "Operationalize deal registration + conflict resolution", covant: "Deal Registration workflow + Dispute Resolution lifecycle shipped.", status: "shipped", href: "/dashboard/deals" },
+  { num: 4, job: "Manage MDF budget allocation + ROI tracking", covant: "MDF module tracks allocation and spend today. Partner Program AI (roadmap) adds ROI modeling and lift attribution.", status: "partial" },
+  { num: 5, job: "Define + execute tier qualification and benefits", covant: "Tier rules, auto-progression, and Partner Certifications shipped.", status: "shipped" },
+  { num: 6, job: "Analyze partner pipeline velocity + forecast", covant: "Forecasting, benchmarks, and Revenue Intelligence shipped.", status: "shipped", href: "/dashboard?demo=true" },
+  { num: 7, job: "Design incentives (SPIFs, bonuses, accelerators) + measure lift", covant: "Incentives Engine ships rule-based incentives today. Program AI (roadmap) simulates lift against historical data before you ship a change.", status: "partial" },
+  { num: 8, job: "Align commission payouts to deal attribution", covant: "Commission Engine + AI Rule Builder turn plain-English rules into executable payouts with full audit trail.", status: "shipped" },
+  { num: 9, job: "Monitor partner health + identify at-risk partners", covant: "Partner Health Scores (rule-based) live today. Bi-lateral Partner Health (roadmap) adds partner-side input.", status: "partial" },
+  { num: 10, job: "Manage CRM syncs + data integrity", covant: "Salesforce + HubSpot OAuth, bi-directional sync, field mapping, and API keys/webhooks shipped.", status: "shipped" },
+  { num: 11, job: "Partner-sourced vs. direct win-rate analysis", covant: "Win/Loss Analysis with per-partner win rates, velocity comparison, and auto-generated insights shipped.", status: "shipped" },
+  { num: 12, job: "Build partner-to-opportunity recommendation engines", covant: "AI Partner-Deal Matcher surfaces per-opportunity suggestions today. Partner Journey AI (roadmap) orchestrates the full partner lifecycle.", status: "partial" },
 ];
 
 const WHO = [
@@ -113,16 +136,17 @@ export default function PlatformPage() {
       <section className="l-center l-section-border-b" style={{ padding: "8rem 0 6rem" }}>
         <div className="wrap" style={{ maxWidth: 720 }}>
           <p className="l-section-tag" style={{ marginBottom: "1.5rem" }}>
-            Partner Intelligence Platform
+            AI-Native Partner OS
           </p>
           <h1 className="l-heading-xl" style={{ fontSize: "clamp(2.4rem, 5.5vw, 3.75rem)", marginBottom: "1.75rem" }}>
-            Your partner program<br />deserves a real platform.
+            The depth page.<br />Every claim, wired to a surface.
           </h1>
-          <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 560 }}>
-            Covant discovers partner relationships across your pipeline and gives you
-            a single platform to run everything else — attribution, commissions,
-            deal registration, incentives, revenue tracking, and a portal your
-            partners will actually log into.
+          <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 640 }}>
+            Six engines run the mechanics — attribution, commissions, CRM sync, portal,
+            incentives, intelligence. An AI copilot sits across them and does the work
+            partner ops teams used to do by spreadsheet. Every feature below maps to a
+            specific job from the partner ops job description. Some are shipped.
+            Some are on the roadmap. All of them are traceable to a real surface.
           </p>
           <div className="l-flex-center">
             <Link href="/dashboard?demo=true" className="l-btn">Try it live →</Link>
@@ -216,6 +240,90 @@ export default function PlatformPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── TWELVE JOBS ───────────────────────────────────────── */}
+      <section className="l-section l-section-border-b" style={{ background: "#fff" }}>
+        <div className="wrap" style={{ maxWidth: 1040 }}>
+          <p className="l-section-tag l-center">What partner ops actually does</p>
+          <h2 className="l-heading-lg l-center" style={{ marginBottom: "1rem" }}>
+            Twelve jobs. One system.
+          </h2>
+          <p className="l-center" style={{ color: "#6b7280", fontSize: "1rem", maxWidth: 620, margin: "0 auto 3rem", lineHeight: 1.65 }}>
+            Read a partner ops job description at Databricks, Stripe, MongoDB, Elastic, Datadog, or Cloudflare
+            and the same twelve responsibilities show up. Here&apos;s which ones Covant solves today,
+            which are partial, and which are on the roadmap — with a link to the relevant surface
+            where it&apos;s shipped.
+          </p>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: ".75rem" }}>
+            {TWELVE_JOBS.map((j) => {
+              const s = STATUS_LABEL[j.status];
+              const cardStyle = {
+                display: "grid",
+                gridTemplateColumns: "36px 1fr auto",
+                alignItems: "center",
+                gap: "1rem",
+                padding: "1rem 1.25rem",
+                border: "1px solid #e5e7eb",
+                borderRadius: 10,
+                background: "#fff",
+                textDecoration: "none",
+                color: "inherit",
+                transition: "border-color .15s, background .15s",
+              } as const;
+              const cardBody = (
+                <>
+                  <div style={{ fontSize: ".8rem", fontWeight: 700, color: "#9ca3af", letterSpacing: ".04em" }}>
+                    {String(j.num).padStart(2, "0")}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: ".95rem", fontWeight: 700, color: "#0a0a0a", letterSpacing: "-.01em", marginBottom: 4 }}>
+                      {j.job}
+                    </div>
+                    <div style={{ fontSize: ".85rem", color: "#6b7280", lineHeight: 1.55 }}>
+                      {j.covant}
+                    </div>
+                  </div>
+                  <span
+                    style={{
+                      fontSize: ".7rem",
+                      fontWeight: 700,
+                      letterSpacing: ".04em",
+                      textTransform: "uppercase",
+                      color: s.color,
+                      background: s.bg,
+                      padding: "4px 10px",
+                      borderRadius: 6,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {s.label}
+                  </span>
+                </>
+              );
+              return j.href ? (
+                <Link key={j.num} href={j.href} style={cardStyle}>
+                  {cardBody}
+                </Link>
+              ) : (
+                <div key={j.num} style={cardStyle}>
+                  {cardBody}
+                </div>
+              );
+            })}
+          </div>
+          <p className="l-center" style={{ marginTop: "2rem", fontSize: ".85rem", color: "#9ca3af" }}>
+            Full roadmap at{" "}
+            <Link href="/roadmap" style={{ color: "#6366f1", fontWeight: 600, textDecoration: "none" }}>
+              /roadmap
+            </Link>
+            . The source essay — 12 jobs, one by one — lives in{" "}
+            <Link href="/blog" style={{ color: "#6366f1", fontWeight: 600, textDecoration: "none" }}>
+              /blog
+            </Link>
+            .
+          </p>
         </div>
       </section>
 
