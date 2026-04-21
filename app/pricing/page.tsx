@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import {
-  Check, Zap, Building2, Rocket, ArrowRight, Loader2,
+  Check, Rocket, ArrowRight,
   ChevronDown, ChevronUp, Cpu, DollarSign, Brain, Database, Layers, Users,
 } from "lucide-react";
 
@@ -111,8 +110,6 @@ export default function PricingPage() {
   const [tier, setTier] = useState<Tier>("growth");
   const [selectedEngines, setSelectedEngines] = useState<Set<EngineKey>>(new Set());
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const toggleEngine = (key: EngineKey) => {
     const next = new Set(selectedEngines);
@@ -141,15 +138,6 @@ export default function PricingPage() {
     0
   );
 
-  async function handleCheckout() {
-    if (selectedEngines.size === 0) return;
-    setLoading(true);
-    try {
-      router.push("/beta");
-    } finally {
-      setLoading(false);
-    }
-  }
 
   return (
     <div className="p-page">
@@ -164,6 +152,12 @@ export default function PricingPage() {
         </h1>
         <p className="p-hero-desc">
           Partner Portal is always free. Add AI engines to automate attribution, commissions, insights, and CRM sync — individually or bundled.
+        </p>
+        <p style={{ marginTop: "1rem", fontSize: ".85rem", color: "#6b7280" }}>
+          Monthly pricing shown. <strong style={{ color: "#0a0a0a" }}>Annual billing saves ~20%</strong> —{" "}
+          <a href="mailto:billing@covant.ai" style={{ color: "#6366f1", fontWeight: 600, textDecoration: "none" }}>
+            billing@covant.ai
+          </a>
         </p>
       </section>
 
@@ -250,10 +244,56 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ── Engine Cards ── */}
+      {/* ── Recommended: Bundle (shown first) ── */}
+      <section className="p-section p-section-mb-sm">
+        <h2 className="p-engine-heading" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <span style={{ fontSize: ".7rem", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase", color: "#6366f1", background: "rgba(99,102,241,.1)", padding: "3px 10px", borderRadius: 4 }}>
+            Recommended
+          </span>
+          All Engines Bundle
+        </h2>
+        <button
+          onClick={() => toggleEngine("bundle")}
+          className="p-bundle-btn"
+          style={{
+            background: selectedEngines.has("bundle") ? "rgba(99,102,241,.1)" : "#f9fafb",
+            borderColor: selectedEngines.has("bundle") ? "#6366f1" : "#e5e7eb",
+          }}
+        >
+          <div className="p-bundle-save">
+            Save ${getBundleSavings(tier)}/mo vs. buying separately
+          </div>
+          <div className="p-bundle-header">
+            <div
+              className="p-bundle-icon"
+              style={{
+                background: selectedEngines.has("bundle") ? "rgba(99,102,241,.2)" : "#ffffff",
+                color: selectedEngines.has("bundle") ? "#818cf8" : "#6b7280",
+              }}
+            >
+              <Layers size={24} />
+            </div>
+            <div>
+              <div className="p-bundle-title">All Engines Bundle</div>
+              <div className="p-bundle-subtitle">Attribution + Incentives + Intelligence + CRM — the full platform</div>
+            </div>
+          </div>
+          <div className="p-bundle-price-row">
+            <span className="p-bundle-price" style={{ color: selectedEngines.has("bundle") ? "#818cf8" : "#0a0a0a" }}>
+              ${ENGINES.bundle.prices[tier]}
+            </span>
+            <span className="p-bundle-price-mo">/mo</span>
+            <span className="p-bundle-price-strike">
+              ${ENGINES.attribution.prices[tier] + ENGINES.incentives.prices[tier] + ENGINES.intelligence.prices[tier] + ENGINES.crm.prices[tier]}
+            </span>
+          </div>
+        </button>
+      </section>
+
+      {/* ── Individual Engine Cards ── */}
       <section className="p-section p-section-mb-sm">
         <h2 className="p-engine-heading">
-          Select Engines
+          Or pick individual engines
         </h2>
         <div className="p-engine-grid">
           {(["attribution", "incentives", "intelligence", "crm"] as EngineKey[]).map((key) => {
@@ -297,74 +337,25 @@ export default function PricingPage() {
         </div>
       </section>
 
-      {/* ── Bundle Card ── */}
-      <section className="p-section p-section-mb">
-        <button
-          onClick={() => toggleEngine("bundle")}
-          className="p-bundle-btn"
-          style={{
-            background: selectedEngines.has("bundle") ? "rgba(99,102,241,.1)" : "#f9fafb",
-            borderColor: selectedEngines.has("bundle") ? "#6366f1" : "#e5e7eb",
-          }}
-        >
-          <div className="p-bundle-save">
-            Save ${getBundleSavings(tier)}/mo
-          </div>
-          <div className="p-bundle-header">
-            <div
-              className="p-bundle-icon"
-              style={{
-                background: selectedEngines.has("bundle") ? "rgba(99,102,241,.2)" : "#ffffff",
-                color: selectedEngines.has("bundle") ? "#818cf8" : "#6b7280",
-              }}
-            >
-              <Layers size={24} />
-            </div>
-            <div>
-              <div className="p-bundle-title">All Engines Bundle</div>
-              <div className="p-bundle-subtitle">Attribution + Incentives + Intelligence + CRM</div>
-            </div>
-          </div>
-          <div className="p-bundle-price-row">
-            <span className="p-bundle-price" style={{ color: selectedEngines.has("bundle") ? "#818cf8" : "#0a0a0a" }}>
-              ${ENGINES.bundle.prices[tier]}
-            </span>
-            <span className="p-bundle-price-mo">/mo</span>
-            <span className="p-bundle-price-strike">
-              ${ENGINES.attribution.prices[tier] + ENGINES.incentives.prices[tier] + ENGINES.intelligence.prices[tier] + ENGINES.crm.prices[tier]}
-            </span>
-          </div>
-        </button>
-      </section>
-
-      {/* ── Summary & Checkout ── */}
+      {/* ── Static "Try the demo" bar (replaces sticky checkout) ── */}
       {selectedEngines.size > 0 && (
-        <section className="p-sticky-bar">
-          <div>
-            <div className="p-sticky-label">
-              {selectedEngines.has("bundle")
-                ? "All Engines Bundle"
-                : `${selectedEngines.size} engine${selectedEngines.size > 1 ? "s" : ""} selected`}
-              {" · "}
-              {TIER_LABELS[tier].name} tier
+        <section className="p-section p-section-mb" style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ background: "#0a0a0a", color: "#fff", padding: "1rem 1.5rem", borderRadius: 12, display: "flex", alignItems: "center", gap: "1.25rem", flexWrap: "wrap", maxWidth: 720 }}>
+            <div>
+              <div style={{ fontSize: ".8rem", color: "#9ca3af" }}>
+                {selectedEngines.has("bundle") ? "All Engines Bundle" : `${selectedEngines.size} engine${selectedEngines.size > 1 ? "s" : ""} selected`} · {TIER_LABELS[tier].name} tier
+              </div>
+              <div style={{ fontSize: "1.4rem", fontWeight: 800, letterSpacing: "-.02em" }}>
+                ${totalPrice}<span style={{ fontSize: ".9rem", color: "#9ca3af", fontWeight: 500 }}>/mo</span>
+              </div>
             </div>
-            <div className="p-sticky-total">
-              ${totalPrice}<span className="p-sticky-total-mo">/mo</span>
-            </div>
+            <Link href="/dashboard?demo=true" style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#fff", color: "#0a0a0a", padding: "10px 18px", borderRadius: 8, fontWeight: 700, fontSize: ".9rem", textDecoration: "none" }}>
+              Try the demo <ArrowRight size={14} />
+            </Link>
+            <Link href="/beta" style={{ color: "#fff", fontWeight: 600, fontSize: ".85rem", textDecoration: "none", borderBottom: "1px solid #333", paddingBottom: 2 }}>
+              Join beta →
+            </Link>
           </div>
-          <button
-            onClick={handleCheckout}
-            disabled={loading}
-            className="p-checkout-btn"
-            style={{
-              cursor: loading ? "wait" : "pointer",
-              opacity: loading ? 0.7 : 1,
-            }}
-          >
-            {loading && <Loader2 size={16} className="p-spinner" />}
-            {loading ? "Redirecting…" : "Continue to Checkout"}
-            {!loading && <ArrowRight size={16} />}
-          </button>
         </section>
       )}
 
