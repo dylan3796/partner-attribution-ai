@@ -8,7 +8,7 @@ import { useStore } from "@/lib/store";
 import { useToast } from "@/components/ui/toast";
 import { MODEL_LABELS, MODEL_DESCRIPTIONS, type AttributionModel, FEATURE_FLAG_LABELS, type FeatureFlags, type ComplexityLevel, type UIDensity } from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
-import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles, FileUp, Mail, CheckCircle, XCircle, Check, Loader2, Unplug, CreditCard, Zap, ExternalLink, AlertCircle, Settings2, Plus, Trash2, Save } from "lucide-react";
+import { ToggleLeft, ToggleRight, Sliders, Layout, RefreshCw, Server, Lightbulb, Sparkles, FileUp, Mail, CheckCircle, XCircle, Check, Loader2, CreditCard, Settings2, Plus, Trash2, Save } from "lucide-react";
 import CSVImport from "@/components/CSVImport";
 
 function SettingsPageInner() {
@@ -81,72 +81,7 @@ function SettingsPageInner() {
   const [defaultModel, setDefaultModel] = useState<AttributionModel>(org?.defaultAttributionModel || "equal_split");
   const [defaultRate, setDefaultRate] = useState("10");
   const [showApiKey, setShowApiKey] = useState(false);
-  const [sfSyncing, setSfSyncing] = useState(false);
-  const [sfDisconnecting, setSfDisconnecting] = useState(false);
-  
-  // Salesforce status — skip for now (store org ID is not a valid Convex ID)
-  const demoOrgId: string | undefined = undefined; // Will come from real auth context
-  const sfStatus = useQuery(api.integrations.getSalesforceStatus, "skip");
-  
-  // Show toast on OAuth callback
-  useEffect(() => {
-    const connected = searchParams.get('connected');
-    const error = searchParams.get('error');
-    
-    if (connected === 'salesforce') {
-      toast("Salesforce connected successfully! You can now sync deals.", "success");
-    } else if (error) {
-      toast(`Connection error: ${error.replace(/_/g, ' ')}`, "error");
-    }
-  }, [searchParams, toast]);
-  
-  // Salesforce sync handler
-  async function handleSalesforceSync() {
-    if (!demoOrgId) return;
-    setSfSyncing(true);
-    try {
-      const res = await fetch('/api/integrations/salesforce/sync', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ organizationId: demoOrgId }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        toast(`Synced ${data.synced.total} opportunities (${data.synced.created} new, ${data.synced.updated} updated)`, "success");
-      } else {
-        toast(data.error || 'Sync failed', "error");
-      }
-    } catch {
-      toast('Failed to sync with Salesforce', "error");
-    } finally {
-      setSfSyncing(false);
-    }
-  }
-  
-  // Salesforce disconnect handler
-  async function handleSalesforceDisconnect() {
-    if (!demoOrgId) return;
-    if (!confirm('Are you sure you want to disconnect Salesforce? Synced deals will remain.')) return;
-    setSfDisconnecting(true);
-    try {
-      const res = await fetch('/api/integrations/salesforce/disconnect', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ organizationId: demoOrgId }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        toast('Salesforce disconnected', "info");
-      } else {
-        toast(data.error || 'Disconnect failed', "error");
-      }
-    } catch {
-      toast('Failed to disconnect Salesforce', "error");
-    } finally {
-      setSfDisconnecting(false);
-    }
-  }
-  
+
   // Email notification settings
   const [emailSettings, setEmailSettings] = useState({
     notifyDealApproval: true,
@@ -155,11 +90,8 @@ function SettingsPageInner() {
   });
   const [emailConfigured, setEmailConfigured] = useState<boolean | null>(null);
   const [emailSaving, setEmailSaving] = useState(false);
-  
-  // Stripe payout settings
-  const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(null);
 
-  // Check if email and Stripe are configured on mount
+  // Check if email is configured on mount
   useEffect(() => {
     async function checkEmailConfig() {
       try {
@@ -170,17 +102,7 @@ function SettingsPageInner() {
         setEmailConfigured(false);
       }
     }
-    async function checkStripeConfig() {
-      try {
-        const res = await fetch('/api/stripe/status');
-        const data = await res.json();
-        setStripeConfigured(data.configured ?? false);
-      } catch {
-        setStripeConfigured(false);
-      }
-    }
     checkEmailConfig();
-    checkStripeConfig();
   }, []);
 
   function handleEmailSettingsSave() {
@@ -615,78 +537,21 @@ function SettingsPageInner() {
 
         <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
           {/* Salesforce */}
-          {sfStatus?.connected ? (
-            <div style={{ padding: "1rem", border: "2px solid #22c55e", borderRadius: 10, background: "#f0fdf4" }}>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: ".75rem" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 10, background: "#dcfce7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>☁️</div>
-                  <div>
-                    <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
-                      <p style={{ fontWeight: 600, fontSize: ".9rem" }}>Salesforce</p>
-                      <span style={{ background: "#22c55e", color: "white", fontSize: ".65rem", padding: "2px 6px", borderRadius: 4, fontWeight: 600 }}>CONNECTED</span>
-                    </div>
-                    <p className="muted" style={{ fontSize: ".8rem" }}>
-                      {sfStatus.salesforceOrgName || sfStatus.salesforceOrgId} · {sfStatus.syncedDeals} deals synced
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", paddingTop: ".75rem", borderTop: "1px solid #bbf7d0" }}>
-                <p style={{ fontSize: ".75rem", color: "#166534" }}>
-                  {sfStatus.lastSyncedAt 
-                    ? `Last synced ${new Date(sfStatus.lastSyncedAt).toLocaleString()}`
-                    : 'Never synced'}
-                </p>
-                <div style={{ display: "flex", gap: ".5rem" }}>
-                  <button 
-                    className="btn" 
-                    style={{ fontSize: ".8rem", padding: ".4rem .75rem", background: "#22c55e", display: "flex", alignItems: "center", gap: ".3rem" }} 
-                    onClick={handleSalesforceSync}
-                    disabled={sfSyncing}
-                  >
-                    {sfSyncing ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
-                    {sfSyncing ? 'Syncing...' : 'Sync Now'}
-                  </button>
-                  <button 
-                    className="btn-outline" 
-                    style={{ fontSize: ".8rem", padding: ".4rem .75rem", color: "#dc2626", borderColor: "#fca5a5", display: "flex", alignItems: "center", gap: ".3rem" }} 
-                    onClick={handleSalesforceDisconnect}
-                    disabled={sfDisconnecting}
-                  >
-                    {sfDisconnecting ? <Loader2 size={14} className="animate-spin" /> : <Unplug size={14} />}
-                    Disconnect
-                  </button>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>☁️</div>
-                <div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)", opacity: 0.7 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div style={{ width: 40, height: 40, borderRadius: 10, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.2rem" }}>☁️</div>
+              <div>
+                <div style={{ display: "flex", alignItems: "center", gap: ".5rem" }}>
                   <p style={{ fontWeight: 600, fontSize: ".9rem" }}>Salesforce</p>
-                  <p className="muted" style={{ fontSize: ".8rem" }}>Sync deals, accounts, and opportunities</p>
+                  <span style={{ background: "#fbbf24", color: "#78350f", fontSize: ".6rem", padding: "2px 6px", borderRadius: 4, fontWeight: 600 }}>COMING SOON</span>
                 </div>
+                <p className="muted" style={{ fontSize: ".8rem" }}>Sync deals, accounts, and opportunities</p>
               </div>
-              <button 
-                className="btn" 
-                style={{ fontSize: ".8rem", background: "#0176d3" }} 
-                onClick={() => {
-                  if (!demoOrgId) {
-                    toast("Organization ID not available. Please set up your organization first.", "error");
-                    return;
-                  }
-                  if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
-                    toast("Salesforce OAuth requires configuration. Contact support to enable.", "info");
-                    return;
-                  }
-                  window.location.href = `/api/integrations/salesforce/connect?orgId=${demoOrgId}`;
-                }}
-              >
-                Connect Salesforce
-              </button>
             </div>
-          )}
+            <button className="btn-outline" style={{ fontSize: ".8rem" }} disabled>
+              Connect
+            </button>
+          </div>
 
           {/* HubSpot */}
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "1rem", border: "1px solid var(--border)", borderRadius: 10, background: "var(--subtle)", opacity: 0.7 }}>
@@ -916,86 +781,14 @@ function SettingsPageInner() {
         )}
       </div>
 
-      {/* Payouts & Stripe */}
+      {/* Payouts */}
       <div className="card" id="payouts">
         <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: 6 }}>
           <CreditCard size={18} /> Payouts
         </h2>
         <p className="muted" style={{ fontSize: ".85rem", marginBottom: "1.25rem", lineHeight: 1.5 }}>
-          Configure how partner commissions are paid out. Connect Stripe to enable automatic bank transfers.
+          Track partner commissions through approval workflows and mark payouts as paid manually. Automated bank transfers via Stripe Connect are on the roadmap.
         </p>
-
-        {/* Stripe Connection Status */}
-        <div style={{ 
-          display: "flex", 
-          alignItems: "center", 
-          gap: "0.75rem", 
-          padding: "0.75rem 1rem", 
-          borderRadius: 8, 
-          marginBottom: "1.25rem",
-          background: stripeConfigured === null ? "var(--subtle)" : stripeConfigured ? "#eef2ff" : "#fef2f2",
-          border: `1px solid ${stripeConfigured === null ? "var(--border)" : stripeConfigured ? "#c7d2fe" : "#fecaca"}`
-        }}>
-          {stripeConfigured === null ? (
-            <>
-              <div style={{ width: 20, height: 20, borderRadius: "50%", border: "2px solid var(--muted)", borderTopColor: "transparent", animation: "spin 1s linear infinite" }} />
-              <span style={{ fontSize: ".85rem", color: "var(--muted)" }}>Checking Stripe configuration...</span>
-            </>
-          ) : stripeConfigured ? (
-            <>
-              <Zap size={18} color="#6366f1" />
-              <span style={{ fontSize: ".85rem", color: "#4338ca", fontWeight: 500 }}>Stripe Connect enabled ✓</span>
-              <a 
-                href="https://dashboard.stripe.com/connect/accounts/overview" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{ fontSize: ".8rem", color: "#6366f1", marginLeft: "auto", display: "flex", alignItems: "center", gap: ".25rem" }}
-              >
-                View Dashboard <ExternalLink size={12} />
-              </a>
-            </>
-          ) : (
-            <>
-              <AlertCircle size={18} color="#ef4444" />
-              <span style={{ fontSize: ".85rem", color: "#991b1b", fontWeight: 500 }}>Not configured</span>
-              <span style={{ fontSize: ".8rem", color: "#b91c1c", marginLeft: "auto" }}>Add STRIPE_SECRET_KEY to enable</span>
-            </>
-          )}
-        </div>
-
-        {/* Payout Settings */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", marginBottom: "1.25rem" }}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              padding: "0.75rem 1rem",
-              borderRadius: 8,
-              border: "1px solid var(--border)",
-              background: stripeConfigured ? "var(--bg)" : "var(--subtle)",
-              opacity: stripeConfigured ? 1 : 0.6,
-            }}
-          >
-            <div>
-              <p style={{ fontSize: ".9rem", fontWeight: 600 }}>Require Stripe Connect for payouts</p>
-              <p className="muted" style={{ fontSize: ".75rem" }}>When enabled, only partners with connected Stripe accounts can receive payouts</p>
-            </div>
-            <button
-              disabled={!stripeConfigured}
-              style={{ background: "none", border: "none", cursor: stripeConfigured ? "pointer" : "not-allowed", padding: 4 }}
-            >
-              <ToggleLeft size={28} color="#9ca3af" />
-            </button>
-          </div>
-        </div>
-
-        {/* Help text */}
-        {!stripeConfigured && (
-          <div style={{ padding: "0.75rem 1rem", background: "var(--subtle)", borderRadius: 8, fontSize: ".8rem", color: "var(--muted)" }}>
-            💡 To enable Stripe payouts, add <code style={{ background: "var(--border)", padding: "0.1rem 0.3rem", borderRadius: 4 }}>STRIPE_SECRET_KEY</code> to your environment variables. Get your API key from <a href="https://dashboard.stripe.com/apikeys" target="_blank" rel="noopener noreferrer" style={{ color: "#6366f1" }}>stripe.com</a>. For webhooks, also add <code style={{ background: "var(--border)", padding: "0.1rem 0.3rem", borderRadius: 4 }}>STRIPE_WEBHOOK_SECRET</code>.
-          </div>
-        )}
       </div>
 
       {/* Team Members */}

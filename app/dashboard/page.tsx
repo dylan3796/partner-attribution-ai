@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2, Sparkles, CheckCircle, X, Activity } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, CloudOff, Sparkles, CheckCircle, X, Activity } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import GettingStartedChecklist from "@/components/GettingStartedChecklist";
 import ActivityFeed from "@/components/ActivityFeed";
@@ -22,18 +22,6 @@ function useDeferredQuery<T>(enabled: boolean) {
     }
   }, [enabled]);
   return shouldFetch;
-}
-
-/** Format relative time for sync indicator */
-function formatRelativeTime(timestamp: number): string {
-  const seconds = Math.floor((Date.now() - timestamp) / 1000);
-  if (seconds < 60) return 'just now';
-  const minutes = Math.floor(seconds / 60);
-  if (minutes < 60) return `${minutes}m ago`;
-  const hours = Math.floor(minutes / 60);
-  if (hours < 24) return `${hours}h ago`;
-  const days = Math.floor(hours / 24);
-  return `${days}d ago`;
 }
 
 /** Mini sparkline SVG component */
@@ -296,8 +284,6 @@ export default function DashboardPage() {
     api.mdf.list,
     deferredEnabled ? {} : "skip"
   );
-  // Salesforce connection status — always skip for now (org ID issue)
-  const sfStatus = useQuery(api.integrations.getSalesforceStatus, "skip");
 
   // Extract data from consolidated query or fall back to store
   const stats = dashboardData?.stats ?? storeStats ?? { totalPartners: 0, totalDeals: 0, activePartners: 0, totalRevenue: 0, pipelineValue: 0, wonDeals: 0, openDeals: 0, winRate: 0, avgDealSize: 0 };
@@ -386,49 +372,12 @@ export default function DashboardPage() {
       <GettingStartedChecklist
         totalPartners={stats?.totalPartners ?? 0}
         totalDeals={stats?.totalDeals ?? 0}
-        hasCrmConnected={sfStatus?.connected === true}
+        hasCrmConnected={false}
       />
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "2rem", flexWrap: "wrap", gap: "1rem" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
             <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Dashboard</h1>
-            {/* Salesforce Connection Indicator */}
-            {sfStatus?.connected ? (
-              <Link 
-                href="/dashboard/settings#crm-connection" 
-                style={{ 
-                  display: "flex", alignItems: "center", gap: ".35rem",
-                  background: "#dcfce7", border: "1px solid #22c55e", 
-                  padding: "4px 10px", borderRadius: 6, 
-                  fontSize: ".7rem", fontWeight: 600, color: "#166534",
-                  textDecoration: "none",
-                }}
-                title={`Salesforce connected · ${sfStatus.syncedDeals} deals synced`}
-              >
-                <Cloud size={13} />
-                SF
-                {sfStatus.lastSyncedAt && (
-                  <span style={{ color: "#22c55e", marginLeft: ".2rem" }}>
-                    · {formatRelativeTime(sfStatus.lastSyncedAt)}
-                  </span>
-                )}
-              </Link>
-            ) : sfStatus === undefined ? null : (
-              <Link 
-                href="/dashboard/settings#crm-connection" 
-                style={{ 
-                  display: "flex", alignItems: "center", gap: ".35rem",
-                  background: "var(--subtle)", border: "1px solid var(--border)", 
-                  padding: "4px 10px", borderRadius: 6, 
-                  fontSize: ".7rem", fontWeight: 500, color: "var(--muted)",
-                  textDecoration: "none",
-                }}
-                title="Connect your CRM to sync deals automatically"
-              >
-                <Link2 size={12} />
-                Connect CRM
-              </Link>
-            )}
           </div>
           <p className="muted">Partner-influenced revenue &amp; program overview</p>
         </div>

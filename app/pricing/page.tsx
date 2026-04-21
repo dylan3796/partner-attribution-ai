@@ -145,20 +145,7 @@ export default function PricingPage() {
     if (selectedEngines.size === 0) return;
     setLoading(true);
     try {
-      const res = await fetch("/api/stripe/checkout", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          engines: Array.from(selectedEngines),
-          tier,
-          interval: "month",
-        }),
-      });
-      const data = await res.json() as { url?: string; error?: string };
-      if (data.url) router.push(data.url);
-      else console.error("Checkout error:", data.error);
-    } catch (err) {
-      console.error("Checkout failed:", err);
+      router.push("/sign-up");
     } finally {
       setLoading(false);
     }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -19,9 +19,6 @@ import {
   AlertTriangle,
   ArrowUpRight,
   Loader2,
-  Zap,
-  LinkIcon,
-  ExternalLink,
 } from "lucide-react";
 import { exportPayoutsCSV } from "@/lib/csv";
 import { formatCurrency, formatCurrencyCompact, formatDate } from "@/lib/utils";
@@ -69,22 +66,12 @@ export default function PayoutsPage() {
   const [showCreate, setShowCreate] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState<string | null>(null);
   const [rejectNotes, setRejectNotes] = useState("");
-  const [confirmAction, setConfirmAction] = useState<{ id: string; action: "approve" | "pay" | "stripe_pay" } | null>(null);
+  const [confirmAction, setConfirmAction] = useState<{ id: string; action: "approve" | "pay" } | null>(null);
   const [saving, setSaving] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [bulkApproving, setBulkApproving] = useState(false);
-  const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(null);
-  const [stripeProcessing, setStripeProcessing] = useState<string | null>(null);
 
   const [form, setForm] = useState({ partnerId: "", amount: "", period: "", notes: "" });
-
-  // Check Stripe configuration on mount
-  useEffect(() => {
-    fetch("/api/stripe/status")
-      .then((res) => res.json())
-      .then((data) => setStripeConfigured(data.configured))
-      .catch(() => setStripeConfigured(false));
-  }, []);
 
   // Filter and sort
   const filtered = useMemo(() => {
@@ -146,28 +133,13 @@ export default function PayoutsPage() {
     try {
       if (confirmAction.action === "approve") {
         await approveMutation({ id: confirmAction.id as Id<"payouts"> });
-      } else if (confirmAction.action === "stripe_pay") {
-        // Initiate Stripe payout
-        setStripeProcessing(confirmAction.id);
-        const res = await fetch("/api/stripe/payout", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ payoutId: confirmAction.id }),
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          throw new Error(data.error || "Stripe payout failed");
-        }
-        // Success - data will be updated via Convex
       } else {
         await markPaidMutation({ id: confirmAction.id as Id<"payouts"> });
       }
     } catch (err) {
       console.error("Action failed:", err);
-      // Could add toast notification here
     } finally {
       setSaving(false);
-      setStripeProcessing(null);
       setConfirmAction(null);
     }
   }
@@ -378,7 +350,6 @@ export default function PayoutsPage() {
               <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Partner</th>
               <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Period</th>
               <th style={{ padding: ".8rem", textAlign: "right", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Amount</th>
-              <th style={{ padding: ".8rem", textAlign: "center", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Method</th>
               <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Status</th>
               <th style={{ padding: ".8rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Date</th>
               <th style={{ padding: ".8rem 1.2rem", textAlign: "right", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>Actions</th>
@@ -427,23 +398,6 @@ export default function PayoutsPage() {
                   <td style={{ padding: ".8rem", textAlign: "right" }}>
                     <span style={{ fontWeight: 700, fontSize: ".95rem" }}>{fmtFull(payout.amount)}</span>
                   </td>
-                  <td style={{ padding: ".8rem", textAlign: "center" }}>
-                    {payout.paidVia === "stripe" ? (
-                      <span className="badge badge-success" style={{ fontSize: ".7rem", display: "inline-flex", alignItems: "center", gap: ".25rem" }}>
-                        <Zap size={10} /> Stripe
-                      </span>
-                    ) : payout.paidVia === "manual" ? (
-                      <span className="badge badge-neutral" style={{ fontSize: ".7rem" }}>Manual</span>
-                    ) : payout.partner?.stripeOnboarded ? (
-                      <span className="badge badge-info" style={{ fontSize: ".7rem", display: "inline-flex", alignItems: "center", gap: ".25rem" }}>
-                        <LinkIcon size={10} /> Connected
-                      </span>
-                    ) : payout.partner?.stripeAccountId ? (
-                      <span className="badge badge-neutral" style={{ fontSize: ".7rem" }}>Pending</span>
-                    ) : (
-                      <span className="muted" style={{ fontSize: ".75rem" }}>—</span>
-                    )}
-                  </td>
                   <td style={{ padding: ".8rem" }}>
                     <span className={`badge ${meta.badge}`} style={{ display: "inline-flex", alignItems: "center", gap: ".3rem", fontSize: ".75rem" }}>
                       <StatusIcon size={12} />
@@ -480,54 +434,17 @@ export default function PayoutsPage() {
                         </>
                       )}
                       {payout.status === "approved" && (
-                        <>
-                          {stripeConfigured && payout.partner?.stripeOnboarded && (
-                            <button
-                              className="btn"
-                              style={{ fontSize: ".75rem", padding: ".35rem .7rem", background: "#6366f1" }}
-                              onClick={() => setConfirmAction({ id: payout._id, action: "stripe_pay" })}
-                              disabled={stripeProcessing === payout._id}
-                            >
-                              {stripeProcessing === payout._id ? (
-                                <><Loader2 size={12} className="animate-spin" /> Processing...</>
-                              ) : (
-                                <><Zap size={12} /> Pay via Stripe</>
-                              )}
-                            </button>
-                          )}
-                          <button
-                            className="btn-outline"
-                            style={{ fontSize: ".75rem", padding: ".35rem .7rem" }}
-                            onClick={() => setConfirmAction({ id: payout._id, action: "pay" })}
-                          >
-                            <CreditCard size={12} /> Mark Paid
-                          </button>
-                        </>
-                      )}
-                      {payout.status === "processing" && (
-                        <span className="muted" style={{ fontSize: ".8rem", display: "flex", alignItems: "center", gap: ".3rem" }}>
-                          <Loader2 size={12} className="animate-spin" /> Processing...
-                        </span>
-                      )}
-                      {payout.status === "paid" && payout.stripeTransferId && (
-                        <a
-                          href={`https://dashboard.stripe.com/transfers/${payout.stripeTransferId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                        <button
                           className="btn-outline"
-                          style={{ fontSize: ".75rem", padding: ".35rem .7rem", display: "inline-flex", alignItems: "center", gap: ".3rem" }}
+                          style={{ fontSize: ".75rem", padding: ".35rem .7rem" }}
+                          onClick={() => setConfirmAction({ id: payout._id, action: "pay" })}
                         >
-                          <ExternalLink size={12} /> View in Stripe
-                        </a>
+                          <CreditCard size={12} /> Mark Paid
+                        </button>
                       )}
-                      {payout.status === "failed" && (
-                        <span className="badge badge-danger" style={{ fontSize: ".7rem" }} title={payout.stripeError}>
-                          Failed
-                        </span>
-                      )}
-                      {(payout.status === "paid" && !payout.stripeTransferId) || payout.status === "rejected" ? (
+                      {(payout.status === "paid" || payout.status === "rejected") && (
                         <span className="muted" style={{ fontSize: ".8rem" }}>—</span>
-                      ) : null}
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -606,17 +523,6 @@ export default function PayoutsPage() {
                   <strong>{payouts.find((p) => p._id === confirmAction.id)?.partner?.name}</strong>.
                 </p>
               </>
-            ) : confirmAction.action === "stripe_pay" ? (
-              <>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: "#eef2ff", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem" }}>
-                  <Zap size={24} color="#6366f1" />
-                </div>
-                <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: ".5rem" }}>Pay via Stripe?</h2>
-                <p className="muted" style={{ marginBottom: "1.5rem" }}>
-                  This will immediately transfer <strong>{fmtFull(payouts.find((p) => p._id === confirmAction.id)?.amount || 0)}</strong> to{" "}
-                  <strong>{payouts.find((p) => p._id === confirmAction.id)?.partner?.name}</strong>&apos;s connected Stripe account.
-                </p>
-              </>
             ) : (
               <>
                 <div style={{ width: 48, height: 48, borderRadius: 12, background: "#ecfdf5", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 1rem" }}>
@@ -633,24 +539,11 @@ export default function PayoutsPage() {
               <button className="btn-outline" style={{ flex: 1 }} onClick={() => setConfirmAction(null)}>Cancel</button>
               <button
                 className="btn"
-                style={{ 
-                  flex: 1, 
-                  background: confirmAction.action === "approve" 
-                    ? "#059669" 
-                    : confirmAction.action === "stripe_pay" 
-                    ? "#6366f1" 
-                    : "var(--fg)" 
-                }}
+                style={{ flex: 1, background: confirmAction.action === "approve" ? "#059669" : "var(--fg)" }}
                 onClick={handleConfirmAction}
                 disabled={saving}
               >
-                {saving 
-                  ? "Processing…" 
-                  : confirmAction.action === "approve" 
-                  ? "Approve" 
-                  : confirmAction.action === "stripe_pay"
-                  ? "Pay via Stripe"
-                  : "Confirm Paid"}
+                {saving ? "Processing…" : confirmAction.action === "approve" ? "Approve" : "Confirm Paid"}
               </button>
             </div>
           </div>
