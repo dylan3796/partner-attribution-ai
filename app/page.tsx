@@ -39,7 +39,7 @@ export default function LandingPage() {
 Channel sales,<br />without the tape.
           </h1>
           <p className="l-muted l-subtitle">
-            The platform your partner team runs on — sales, managers, ops, and programs leads. Register deals from the portal, configure attribution your way, automate commissions, pay through Stripe. Spin up a program in a weekend, not a quarter.
+            The platform your partner team runs on — sales, managers, ops, and programs leads. Unlock channel revenue without the tape: register deals, configure attribution your way, automate commissions and payouts through Stripe. Spin up a program in a weekend, not a quarter.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
             <Link href="/sign-up" className="l-btn">Get Early Access <span>→</span></Link>
