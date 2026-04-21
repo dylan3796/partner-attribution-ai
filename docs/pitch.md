@@ -6,7 +6,18 @@
 
 ## One-sentence thesis
 
-**Channel sales, without the tape.** Covant is an AI-native system of record for partner attribution, commissions, and deal registration that works from day one with just your CRM opportunities — and compounds in value as more data layers in.
+**Channel sales, without the tape.** Covant is the AI-native platform your partner team runs on — built to unlock channel revenue. Configure attribution your way, register deals from the portal, automate commissions and payouts. Works from day one with just your CRM.
+
+---
+
+## Buyer & users
+
+- **Buyer:** Head of Partner Programs (single budget owner).
+- **Users:** the whole partner team — partner sales managers, partner managers, partner ops, programs leads.
+
+Single budget, four champions in every account. Each role uses a different surface of Covant: sales managers register and split deals; partner managers run enablement, MDF, and tier progression; ops runs commission rules, payouts, and disputes; programs leads report out to the CRO.
+
+We don't sell an opinion on attribution — every team has one already. We sell the platform that makes whatever attribution they've agreed on actually run, end-to-end.
 
 ---
 
@@ -26,14 +37,15 @@ The category is real. It's also fragmented and slow — the incumbents were buil
 
 Setting up a partner program today takes a quarter: pick a PRM, build a commission model in spreadsheets, integrate the CRM, train partners, onboard payouts. Most teams never finish.
 
-Covant makes channel sales a horseman from day one. Connect your CRM, drop in a list of partners, and you have:
+**Covant is the platform the partner team runs on — built to unlock channel revenue.** Sales managers close partner deals through it. Partner managers run enablement and tier progression through it. Partner ops runs commissions and payouts through it. The Head of Partner Programs reports out of it.
+
+Connect your CRM, drop in a list of partners, and you have:
 
 - A branded partner portal — free, unlimited seats.
-- Deterministic multi-touch attribution running on every closed-won deal.
-- Commission rules + Stripe-ready payouts.
+- Deal registration, multi-touch attribution, commission rules, Stripe-ready payouts — **configured your way, not ours.**
 - An AI copilot that answers questions about your partner program in plain English.
 
-Time to value: a weekend, not a quarter.
+Time to value: a weekend, not a quarter. One budget owner, four user champions in every account.
 
 ### 3. Market
 
@@ -47,9 +59,9 @@ Time to value: a weekend, not a quarter.
 
 Three layers, compounding:
 
-- **Network data.** Benchmarks improve with every customer. Once you've seen 500 programs, you can tell any prospect *"partners in your vertical drive 22% of deals on average; yours drive 9% — here's why."* Impossible to replicate without scale.
-- **AI-native attribution.** Legacy PRMs (PartnerStack, Impartner) are rule-based and structurally wrong about multi-touch. LLMs can read emails, calendar invites, Slack threads, and call transcripts to infer partner influence from unstructured signals — a capability the 2015-era incumbents architecturally cannot retrofit without a rewrite.
-- **Two-sided graph.** Partners log in for free. That creates data the single-sided tools (PartnerStack is vendor-only; Crossbeam is account-mapping-only) never see.
+- **Network data.** Cross-org benchmarks improve with every customer. Once we've seen 500 programs, we can tell any prospect *"partners in your vertical drive 22% of deals on average; yours drive 9% — here's why."* Impossible to replicate without scale.
+- **Two-sided graph.** Partners log in for free. That creates data — deal registrations, win/loss commentary, partner-submitted leads — that single-sided tools (PartnerStack is vendor-only; Crossbeam is account-mapping-only) never see.
+- **AI-native platform.** We don't sell an attribution opinion (every team has their own). We sell the platform that runs whatever attribution the team agreed on — and AI is what makes that economically viable across thousands of partners and deals. The copilot answers questions over real program data. LLMs ingest unstructured signals (emails, calendar, Slack) to suggest touchpoints the team accepts or rejects — augmenting the team's attribution rules, not replacing them. PartnerStack (2015-era) and Impartner are rule-based PRMs; retrofitting AI-native execution is a rewrite.
 
 ### 5. Distribution advantage
 

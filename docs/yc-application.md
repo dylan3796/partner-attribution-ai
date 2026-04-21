@@ -7,12 +7,14 @@
 ## Company
 
 ### Describe what your company does in 50 characters or less.
-AI-native partner attribution, commissions, and portal.
+The AI platform your partner team runs on.
 
 ### What is your company going to make?
-Covant is the AI-native system of record for partner programs — attribution, commissions, deal registration, and a branded partner portal, in one platform. It's built for the B2B SaaS companies where 30-40% of revenue now comes through partners, but the software those teams run on is still a shared Google Sheet and a quarterly argument about who drove what.
+Covant is the AI-native platform the partner team runs on — built to unlock channel revenue. Sales managers close partner deals through it, partner managers run enablement and tier progression, partner ops runs commissions and payouts, and the head of partner programs reports out of it. Single budget owner, four user champions in every account.
 
-We work from day one with just CRM opportunities. Customers don't need to stand up a formal program, pick a PRM, or negotiate a commission spreadsheet before getting value — they connect Salesforce or HubSpot, drop in a partner list, and Covant runs multi-touch attribution, calculates commissions, and hands them a Stripe-ready payout file. Partners log into a branded portal to register deals, track commissions, and submit feedback. Everything compounds: the more data a customer feeds in (partner activity, CRM touchpoints, email, calendar), the sharper the attribution gets and the more the AI copilot can tell them.
+The wedge: setting up a partner program today takes a quarter — pick a PRM, build commission rules in spreadsheets, integrate the CRM, train partners, onboard payouts. Most teams never finish. Covant collapses all of that into a weekend. Connect Salesforce or HubSpot, drop in a partner list, and the team is running.
+
+We don't sell an opinion on attribution — every partner team has one already, and they're all different. We sell the platform that makes whatever attribution the team has agreed on actually run end-to-end: deal registration, multi-touch attribution configured to their rules, commissions, Stripe-ready payouts, and a branded partner portal partners log into for free. The portal is also our distribution mechanism — every partner onboarded sees Covant and surfaces it to their other 10+ vendors.
 
 ### Where do you live now, and where would the company be based after YC?
 [Location now] → [SF or wherever post-YC].
