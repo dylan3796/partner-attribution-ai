@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
+import { getOrgId } from "./lib/getOrg";
 
 // All supported outbound webhook events
 export const WEBHOOK_EVENTS = [
@@ -34,16 +35,11 @@ function generateSecret(): string {
 export const list = query({
   args: {},
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) return [];
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
-      .first();
-    if (!user) return [];
+    const orgId = await getOrgId(ctx);
+    if (!orgId) return [];
     return ctx.db
       .query("webhookEndpoints")
-      .withIndex("by_organization", (q) => q.eq("organizationId", user.organizationId))
+      .withIndex("by_organization", (q) => q.eq("organizationId", orgId))
       .collect();
   },
 });
@@ -69,20 +65,12 @@ export const create = mutation({
     events: v.array(v.string()),
   },
   handler: async (ctx, { url, description, events }) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
-      .first();
-    if (!user) throw new Error("User not found");
-    if (user.role !== "admin" && user.role !== "manager") {
-      throw new Error("Only admins and managers can create webhook endpoints");
-    }
+    const orgId = await getOrgId(ctx);
+    if (!orgId) throw new Error("No organization found");
 
     const now = Date.now();
     return ctx.db.insert("webhookEndpoints", {
-      organizationId: user.organizationId,
+      organizationId: orgId,
       url,
       description: description || undefined,
       secret: generateSecret(),
@@ -104,16 +92,11 @@ export const update = mutation({
     status: v.optional(v.union(v.literal("active"), v.literal("paused"))),
   },
   handler: async (ctx, { id, ...updates }) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
-      .first();
-    if (!user) throw new Error("User not found");
+    const orgId = await getOrgId(ctx);
+    if (!orgId) throw new Error("No organization found");
 
     const endpoint = await ctx.db.get(id);
-    if (!endpoint || endpoint.organizationId !== user.organizationId) {
+    if (!endpoint || endpoint.organizationId !== orgId) {
       throw new Error("Endpoint not found");
     }
 
@@ -130,16 +113,11 @@ export const update = mutation({
 export const remove = mutation({
   args: { id: v.id("webhookEndpoints") },
   handler: async (ctx, { id }) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
-      .first();
-    if (!user) throw new Error("User not found");
+    const orgId = await getOrgId(ctx);
+    if (!orgId) throw new Error("No organization found");
 
     const endpoint = await ctx.db.get(id);
-    if (!endpoint || endpoint.organizationId !== user.organizationId) {
+    if (!endpoint || endpoint.organizationId !== orgId) {
       throw new Error("Endpoint not found");
     }
 
@@ -159,16 +137,11 @@ export const remove = mutation({
 export const rotateSecret = mutation({
   args: { id: v.id("webhookEndpoints") },
   handler: async (ctx, { id }) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
-      .first();
-    if (!user) throw new Error("User not found");
+    const orgId = await getOrgId(ctx);
+    if (!orgId) throw new Error("No organization found");
 
     const endpoint = await ctx.db.get(id);
-    if (!endpoint || endpoint.organizationId !== user.organizationId) {
+    if (!endpoint || endpoint.organizationId !== orgId) {
       throw new Error("Endpoint not found");
     }
 
@@ -182,23 +155,18 @@ export const rotateSecret = mutation({
 export const sendTest = mutation({
   args: { id: v.id("webhookEndpoints") },
   handler: async (ctx, { id }) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
-      .first();
-    if (!user) throw new Error("User not found");
+    const orgId = await getOrgId(ctx);
+    if (!orgId) throw new Error("No organization found");
 
     const endpoint = await ctx.db.get(id);
-    if (!endpoint || endpoint.organizationId !== user.organizationId) {
+    if (!endpoint || endpoint.organizationId !== orgId) {
       throw new Error("Endpoint not found");
     }
 
     // Log a test delivery
     const now = Date.now();
     await ctx.db.insert("webhookDeliveries", {
-      organizationId: user.organizationId,
+      organizationId: orgId,
       endpointId: id,
       event: "test.ping",
       payload: JSON.stringify({

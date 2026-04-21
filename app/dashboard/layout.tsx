@@ -1,19 +1,10 @@
-import { UserButton } from "@clerk/nextjs";
 import { ToastProvider } from "@/components/ui/toast";
 import { KeyboardShortcuts } from "@/components/ui/keyboard-shortcuts";
-import DashboardSidebar from "@/components/DashboardSidebar";
-import { NotificationBell } from "@/components/NotificationBell";
-import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
-import { UserProvisioner } from "@/components/UserProvisioner";
-import { DemoBanner } from "@/components/DemoBanner";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { DashboardLayoutClient } from "./DashboardLayoutClient";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <ToastProvider>
-      <DemoBanner />
-      <UserProvisioner />
       <KeyboardShortcuts />
 
       <a href="#main-content" style={{

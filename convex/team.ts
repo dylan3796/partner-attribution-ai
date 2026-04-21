@@ -57,17 +57,7 @@ export const invite = mutation({
     const orgId = await getOrgId(ctx);
     if (!orgId) throw new Error("No organization found");
 
-    // Check caller is admin
-    const identity = await ctx.auth.getUserIdentity();
-    if (identity) {
-      const caller = await ctx.db
-        .query("users")
-        .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
-        .first();
-      if (caller && caller.role !== "admin") {
-        throw new Error("Only admins can invite team members");
-      }
-    }
+    // Auth disabled — admin check skipped
 
     // Check if email already exists in org
     const existing = await ctx.db
@@ -90,7 +80,7 @@ export const invite = mutation({
     // Audit log
     await ctx.db.insert("audit_log", {
       organizationId: orgId,
-      userId: identity?.subject,
+      userId: undefined,
       action: "team_member_invited",
       entityType: "user",
       entityId: userId,
@@ -114,17 +104,7 @@ export const updateRole = mutation({
     const orgId = await getOrgId(ctx);
     if (!orgId) throw new Error("No organization found");
 
-    // Verify caller is admin
-    const identity = await ctx.auth.getUserIdentity();
-    if (identity) {
-      const caller = await ctx.db
-        .query("users")
-        .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
-        .first();
-      if (caller && caller.role !== "admin") {
-        throw new Error("Only admins can change roles");
-      }
-    }
+    // Auth disabled — admin check skipped
 
     const user = await ctx.db.get(args.userId);
     if (!user || user.organizationId !== orgId) {
@@ -149,7 +129,7 @@ export const updateRole = mutation({
     // Audit log
     await ctx.db.insert("audit_log", {
       organizationId: orgId,
-      userId: identity?.subject,
+      userId: undefined,
       action: "team_role_changed",
       entityType: "user",
       entityId: args.userId,
@@ -170,21 +150,7 @@ export const remove = mutation({
     const orgId = await getOrgId(ctx);
     if (!orgId) throw new Error("No organization found");
 
-    // Verify caller is admin
-    const identity = await ctx.auth.getUserIdentity();
-    if (identity) {
-      const caller = await ctx.db
-        .query("users")
-        .withIndex("by_clerkId", (q) => q.eq("clerkId", identity.subject))
-        .first();
-      if (caller && caller.role !== "admin") {
-        throw new Error("Only admins can remove team members");
-      }
-      // Can't remove yourself
-      if (caller && caller._id === args.userId) {
-        throw new Error("You can't remove yourself from the team");
-      }
-    }
+    // Auth disabled — admin check skipped
 
     const user = await ctx.db.get(args.userId);
     if (!user || user.organizationId !== orgId) {
@@ -208,7 +174,7 @@ export const remove = mutation({
     // Audit log
     await ctx.db.insert("audit_log", {
       organizationId: orgId,
-      userId: identity?.subject,
+      userId: undefined,
       action: "team_member_removed",
       entityType: "user",
       entityId: args.userId,

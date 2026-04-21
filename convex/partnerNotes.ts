@@ -41,10 +41,9 @@ export const add = mutation({
     const org = await getOrg(ctx);
     if (!org) throw new Error("Not authenticated");
 
-    // Get current user info from Clerk identity
-    const identity = await ctx.auth.getUserIdentity();
-    const authorName = identity?.name || identity?.email || "Team Member";
-    const authorEmail = identity?.email || "";
+    // Auth disabled — attribution uses generic placeholder
+    const authorName = "Team Member";
+    const authorEmail = "";
 
     const noteId = await ctx.db.insert("partnerNotes", {
       organizationId: org._id,
@@ -59,7 +58,7 @@ export const add = mutation({
     // Audit log entry
     await ctx.db.insert("audit_log", {
       organizationId: org._id,
-      userId: identity?.subject || "system",
+      userId: "system",
       action: "partner_note.created",
       entityType: "partner",
       entityId: args.partnerId,

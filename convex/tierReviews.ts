@@ -64,9 +64,8 @@ export const save = mutation({
       )
       .collect();
 
-    // Get reviewer identity
-    const identity = await ctx.auth.getUserIdentity();
-    const reviewedBy = identity?.subject;
+    // Auth disabled — no reviewer attribution
+    const reviewedBy = undefined;
 
     // Delete previous reviews for this partner (keep only latest)
     for (const old of existing) {
@@ -122,8 +121,8 @@ export const bulkApprove = mutation({
     const org = await getOrg(ctx);
     if (!org) throw new Error("No organization found");
 
-    const identity = await ctx.auth.getUserIdentity();
-    const reviewedBy = identity?.subject;
+    // Auth disabled — no reviewer attribution
+    const reviewedBy = undefined;
 
     for (const review of reviews) {
       // Delete existing reviews

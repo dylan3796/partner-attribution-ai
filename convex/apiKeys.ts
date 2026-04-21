@@ -87,9 +87,8 @@ export const create = mutation({
     const orgId = await getOrgId(ctx);
     if (!orgId) throw new Error("Organization not found");
 
-    // Get current user for audit
-    const identity = await ctx.auth.getUserIdentity();
-    const createdBy = identity?.subject;
+    // Auth disabled — no user attribution
+    const createdBy = undefined;
 
     // Limit: max 10 active keys per org
     const existing = await ctx.db

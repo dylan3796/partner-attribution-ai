@@ -30,7 +30,6 @@ import {
 import { PortalProvider, usePortal } from "@/lib/portal-context";
 import PortalGate from "@/components/PortalGate";
 import { DarkModeToggle } from "@/components/ui/dark-mode-toggle";
-import { UserButton, SignedIn } from "@clerk/nextjs";
 
 type PortalNavItem = {
   name: string;
@@ -271,11 +270,8 @@ function PortalSidebar() {
               }}
             >
               <LogOut size={14} />
-              Sign Out
+              Switch Partner
             </button>
-            <SignedIn>
-              <UserButton afterSignOutUrl="/" />
-            </SignedIn>
           </div>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "0.75rem" }}>
             <p style={{ fontSize: "0.7rem", color: "var(--muted)", opacity: 0.6 }}>Partner Portal © {new Date().getFullYear()}</p>

@@ -28,12 +28,12 @@ const DEFAULT_EMAIL_EVENTS = {
 
 // ── Queries ──────────────────────────────────────────────────────────────
 
+const SINGLE_TENANT_USER_ID = "default";
+
 export const get = query({
   args: {},
   handler: async (ctx) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) return null;
-    const userId = identity.subject;
+    const userId = SINGLE_TENANT_USER_ID;
 
     const prefs = await ctx.db
       .query("notificationPreferences")
@@ -99,9 +99,7 @@ export const save = mutation({
     quietHoursEnd: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Not authenticated");
-    const userId = identity.subject;
+    const userId = SINGLE_TENANT_USER_ID;
 
     const existing = await ctx.db
       .query("notificationPreferences")
