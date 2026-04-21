@@ -61,7 +61,7 @@ export default function Nav() {
     <>
       <nav className="site-nav">
         <div className="nav-inner">
-          <Link href="/"><img src="/logo.svg" alt="Covant" height={12} style={{display:'block'}} /></Link>
+          <Link href="/"><img src="/logo.svg" alt="Covant" height={8} style={{display:'block'}} /></Link>
 
           {isDashboard ? (
             // Sidebar handles all dashboard navigation — empty center cell
@@ -80,7 +80,6 @@ export default function Nav() {
               null
             ) : (
               <>
-                <Link href="/sign-in" style={{ color: "#6b7280", fontSize: ".9rem", fontWeight: 500, textDecoration: "none", marginRight: ".5rem" }}>Sign in</Link>
                 <Link href="/dashboard?demo=true" className="btn nav-cta-btn">Try it live</Link>
               </>
             )}
@@ -128,9 +127,6 @@ export default function Nav() {
                   </a>
                 ))}
                 <div className="mobile-menu-divider" />
-                <Link href="/sign-in" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
-                  Sign in
-                </Link>
                 <Link href="/dashboard?demo=true" className="btn" style={{ margin: "0.5rem 1rem", textAlign: "center" }} onClick={() => setMobileOpen(false)}>
                   Try it live
                 </Link>

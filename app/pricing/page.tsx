@@ -145,7 +145,7 @@ export default function PricingPage() {
     if (selectedEngines.size === 0) return;
     setLoading(true);
     try {
-      router.push("/sign-up");
+      router.push("/beta");
     } finally {
       setLoading(false);
     }
@@ -228,7 +228,7 @@ export default function PricingPage() {
             <p className="p-free-note-text p-portal-footer-text">
               No engine subscription required. Portal is included with every plan, including the free tier.
             </p>
-            <Link href="/sign-up" className="p-nav-cta p-portal-footer-cta">
+            <Link href="/beta" className="p-nav-cta p-portal-footer-cta">
               Start Free →
             </Link>
           </div>
@@ -244,7 +244,7 @@ export default function PricingPage() {
               <strong>Free tier:</strong> Portal + basic tracking · Up to 5 partners · No engines required
             </span>
           </div>
-          <Link href="/sign-up" className="p-free-note-cta">
+          <Link href="/beta" className="p-free-note-cta">
             Get Started
           </Link>
         </div>
@@ -460,7 +460,7 @@ export default function PricingPage() {
       <section className="p-bottom-cta">
         <h2 className="p-cta-title">Start free. Add engines as you grow.</h2>
         <p className="p-cta-desc">Portal included free. Up to 5 partners, no credit card.</p>
-        <Link href="/sign-up" className="p-bottom-cta-btn">
+        <Link href="/beta" className="p-bottom-cta-btn">
           Get Started Free <ArrowRight size={16} />
         </Link>
         <p className="p-enterprise-note">

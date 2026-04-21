@@ -126,7 +126,7 @@ export default function PlatformPage() {
           </p>
           <div className="l-flex-center">
             <Link href="/dashboard?demo=true" className="l-btn">Try it live →</Link>
-            <Link href="/sign-up" className="l-btn-outline">Get started free →</Link>
+            <Link href="/beta" className="l-btn-outline">Get started free →</Link>
           </div>
         </div>
       </section>
@@ -514,7 +514,7 @@ export default function PlatformPage() {
             Free for up to 5 partners. No credit card required.
           </p>
           <div className="l-flex-center">
-            <Link href="/sign-up" style={{ background: "#fff", color: "#0a0a0a", padding: ".85rem 2rem", borderRadius: 8, fontWeight: 700, textDecoration: "none", fontSize: ".95rem", display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <Link href="/beta" style={{ background: "#fff", color: "#0a0a0a", padding: ".85rem 2rem", borderRadius: 8, fontWeight: 700, textDecoration: "none", fontSize: ".95rem", display: "inline-flex", alignItems: "center", gap: 8 }}>
               Get started free <ArrowRight size={16} />
             </Link>
             <Link href="/dashboard?demo=true" style={{ border: "1px solid #333", color: "#fff", padding: ".85rem 2rem", borderRadius: 8, fontWeight: 600, textDecoration: "none", fontSize: ".95rem" }}>

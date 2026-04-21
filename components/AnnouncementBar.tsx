@@ -55,7 +55,7 @@ export default function AnnouncementBar() {
         style={{
           maxWidth: 1200,
           margin: "0 auto",
-          padding: "10px 48px 10px 16px",
+          padding: "6px 32px 6px 12px",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",

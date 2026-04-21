@@ -42,7 +42,7 @@ Run your entire partner program<br />from one AI copilot.
             Covant is the AI-native operating system for partnerships. Uncover the revenue already moving through your program. Build stronger relationships with every partner. Unlock the opportunity that&apos;s still ahead — all from one AI copilot connected to your CRM, email, and partner activity.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
-            <Link href="/sign-up" className="l-btn">Get Early Access <span>→</span></Link>
+            <Link href="/beta" className="l-btn">Get Early Access <span>→</span></Link>
             <Link href="/demo" className="l-btn-outline">Try it live <span>→</span></Link>
           </div>
           <p className="l-muted" style={{ fontSize: ".9rem", fontWeight: 500 }}>
@@ -103,8 +103,7 @@ Run your entire partner program<br />from one AI copilot.
               <div className="l-flex-col" style={{ gap: ".5rem" }}>
                 {[
                   { label: "Ask anything", desc: "Natural-language questions across your whole program. Every answer cites the data. Every claim is traceable back to the source." },
-                  { label: "AI Influence Inbox", desc: "Ambient touchpoint capture from CRM, email, and Slack. Covant proposes partner touchpoints — you bulk-accept in seconds." },
-                  { label: "AI-weighted attribution", desc: "Six models including one that LLM-scores each touchpoint by signal strength. CFO-ready methodology page included." },
+                  { label: "Partner Signal (on the roadmap)", desc: "Ambient touchpoint capture from CRM, email, and Slack. Covant proposes partner touchpoints — you bulk-accept in seconds." },
                   { label: "AI Partner-Deal Matcher", desc: "Every open opportunity gets a partner recommendation. Parameters you set. Rules you tune. Decisions you make." },
                 ].map((f, i) => (
                   <div key={i} className="l-feature-chip">
@@ -146,22 +145,22 @@ Run your entire partner program<br />from one AI copilot.
 
             {/* Built-in capabilities */}
             <div className="l-rec-card-panel" style={{ borderRadius: "0 0 16px 0", gap: "1.25rem" }}>
-              <p className="l-tag-muted" style={{ margin: 0 }}>Also included</p>
+              <p className="l-tag-muted" style={{ margin: 0 }}>Also included — and on the roadmap</p>
               {[
                 {
-                  accent: "#818cf8",
-                  name: "AI Deal Conflict Detection",
-                  desc: "Partners register through the portal. Covant flags overlapping touchpoints from other partners in real time, with AI-recommended resolution — before the dispute happens.",
-                },
-                {
                   accent: "#f59e0b",
-                  name: "AI Partner Health Scores",
-                  desc: "Composite signal from pipeline velocity, touchpoint cadence, dispute rate, and response time. Surfaces at-risk partners before they go dark — with a weekly brief per partner.",
+                  name: "Bi-lateral Partner Health",
+                  desc: "Health scores both sides actually trust. Composite signal from pipeline velocity, touchpoint cadence, and response time — plus partner-side input on deals and engagements they worked, so the score reflects the relationship, not just vendor-side activity.",
                 },
                 {
                   accent: "#38bdf8",
-                  name: "AI Program Simulator",
-                  desc: "Change a commission rate, add a SPIF, adjust a tier — Covant simulates what happens against your historical data before you ship the change to production.",
+                  name: "Partner Program AI",
+                  desc: "AI for partner program design and ongoing management. Change a commission rate, add a SPIF, adjust a tier — Covant simulates against historical data and flags what needs to move, then runs the change end-to-end.",
+                },
+                {
+                  accent: "#a78bfa",
+                  name: "Partner Journey AI",
+                  desc: "Define a journey — onboarding, first deal, tier progression, renewal — and the AI orchestrates every step: nudges the partner, drafts the comms, updates the records, flags what's stalling.",
                 },
               ].map((c) => (
                 <div key={c.name} className="l-cap-item">
