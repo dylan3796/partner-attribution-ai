@@ -34,12 +34,12 @@ export default function LandingPage() {
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="l-section-hero">
         <div className="wrap">
-          <p className="l-label" style={{ marginBottom: "1.25rem" }}>Partner Intelligence Platform</p>
+          <p className="l-label" style={{ marginBottom: "1.25rem" }}>AI-native partner platform</p>
           <h1 className="l-heading-xl l-color-primary">
-The intelligence layer<br />for your partner business.
+Channel sales,<br />without the tape.
           </h1>
           <p className="l-muted l-subtitle">
-            Attribution, commissions, deal registration, incentives, a partner portal, and reporting — one platform, one source of truth, built on knowing exactly who drove what.
+            Spin up a partner program in a weekend, not a quarter. The AI-native system of record for partner attribution, commissions, and deal registration — works from day one with just your CRM opportunities.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
             <Link href="/sign-up" className="l-btn">Get Early Access <span>→</span></Link>
@@ -47,6 +47,9 @@ The intelligence layer<br />for your partner business.
           </div>
           <p className="l-muted" style={{ fontSize: ".9rem", fontWeight: 500 }}>
             {leadsCount > 0 ? `${leadsCount} ${leadsCount === 1 ? "team" : "teams"} on the waitlist` : "Free for up to 5 partners · No credit card required"}
+          </p>
+          <p className="l-muted" style={{ fontSize: ".85rem", fontWeight: 500, marginTop: ".35rem" }}>
+            Works from day one — just connect your CRM
           </p>
         </div>
       </section>
