@@ -39,7 +39,7 @@ export default function LandingPage() {
 Run your entire partner program<br />from one AI copilot.
           </h1>
           <p className="l-muted l-subtitle">
-            Covant is the AI-native operating system for partnerships. One platform for the vendor. One portal for every partner. Ask it anything — who to bring into a deal, why a partner got paid what they got paid, what&apos;s at risk this quarter — and it answers from your own data.
+            Covant is the AI-native operating system for partnerships. Uncover the revenue already moving through your program. Build stronger relationships with every partner. Unlock the opportunity that&apos;s still ahead — all from one AI copilot connected to your CRM, email, and partner activity.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
             <Link href="/sign-up" className="l-btn">Get Early Access <span>→</span></Link>
@@ -54,12 +54,12 @@ Run your entire partner program<br />from one AI copilot.
       {/* ── THE PROBLEM ─────────────────────────────────── */}
       <section className="l-quote-section">
         <div className="wrap" style={{ maxWidth: 680, textAlign: "center" }}>
-          <p className="l-tag" style={{ marginBottom: "1.5rem", color: "#9ca3af" }}>The problem we solve</p>
+          <p className="l-tag" style={{ marginBottom: "1.5rem", color: "#9ca3af" }}>The idea behind Covant</p>
           <p className="l-quote">
-            Impartner. Salesforce PRM. Six spreadsheets nobody trusts. Partner teams are running a $50B revenue channel on software built before AI existed — and paying $80K a year for the privilege.
+            Every partner program has more revenue in it than anyone can see. Touchpoints that never got logged. Relationships that never got mapped. Deals that were influenced and never credited. Until recently, surfacing that signal wasn&apos;t possible. Now it is.
           </p>
           <p className="l-quote-attr">
-            Covant is the replacement: AI-native, multi-vendor by default, priced for teams that want to start running their program in an afternoon instead of a quarter.
+            Covant is the AI layer that sits across your CRM, email, and partner activity — uncovering the revenue already moving through your program, strengthening the relationships that drive it, and pointing you at the opportunity that&apos;s still ahead.
           </p>
         </div>
       </section>
@@ -97,7 +97,7 @@ Run your entire partner program<br />from one AI copilot.
                   One conversational interface across your entire partner program.
                 </h3>
                 <p className="l-body">
-                  Stop navigating seventeen dashboards. Covant&apos;s AI copilot is the primary interface for your program — connected to Salesforce, HubSpot, Gmail, and Slack, grounded in your real data, and able to read, reason, and act. Every answer is cited. Every recommendation is one click from done.
+                  Covant&apos;s AI copilot is the primary interface for your program — connected to Salesforce, HubSpot, Gmail, and Slack, grounded in your real data, and able to read, reason, and act. Ask it in plain language. Every answer is cited. Every recommendation is one click from done.
                 </p>
               </div>
               <div className="l-flex-col" style={{ gap: ".5rem" }}>
@@ -183,7 +183,7 @@ Run your entire partner program<br />from one AI copilot.
               </span>
               <span style={{ color: "#0a0a0a", fontSize: ".9rem", fontWeight: 600 }}>Partner Portal</span>
               <span style={{ color: "#6b7280", fontSize: ".85rem" }}>—</span>
-              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>One login across every vendor a partner works with. AI co-sell assistant. Real-time commissions. The one portal partners actually want to log into — free for every partner, always.</span>
+              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>One login across every vendor a partner works with. AI co-sell assistant. Real-time commissions. Where partners see everything that matters to them — free for every partner, always.</span>
             </div>
             <Link href="/pricing" className="l-link-arrow">
               See pricing →
@@ -203,10 +203,10 @@ Run your entire partner program<br />from one AI copilot.
       <section className="l-section-light" style={{ padding: "7rem 0" }}>
         <div className="wrap l-center">
           <h2 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem", color: "#0a0a0a" }}>
-            Your partner program deserves<br />better than a 2015 portal.
+            See what&apos;s already in<br />your partner program.
           </h2>
           <p className="l-muted l-subtitle" style={{ maxWidth: 520, margin: "0 auto 2.5rem", lineHeight: 1.5 }}>
-            Connect Salesforce or HubSpot in ten minutes. Covant reconstructs your partner history, cleans it, and runs your program from there. Free for up to 5 partners. No credit card required.
+            Connect Salesforce or HubSpot in ten minutes. Covant surfaces the partner activity already in your data — touchpoints, relationships, influence — and gives you a way to act on it. Free for up to 5 partners. No credit card required.
           </p>
           <form onSubmit={handleWaitlist} className="l-cta-form">
             <div className="l-cta-form-input">
