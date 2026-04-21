@@ -10,7 +10,7 @@
 The AI platform your partner team runs on.
 
 ### What is your company going to make?
-Covant is the AI-native platform the partner team runs on — built to unlock channel revenue. Sales managers close partner deals through it, partner managers run enablement and tier progression, partner ops runs commissions and payouts, and the head of partner programs reports out of it. Single budget owner, four user champions in every account.
+Covant is the AI-native platform the partner team runs on — built to unlock channel revenue. Partner sales pulls partners into live deals through it, partner managers own the partner relationships, partner programs designs the incentives and tier structures, and partner ops measures and reconciles payouts. Single budget owner, four user champions in every account.
 
 The wedge: setting up a partner program today takes a quarter — pick a PRM, build commission rules in spreadsheets, integrate the CRM, train partners, onboard payouts. Most teams never finish. Covant collapses all of that into a weekend. Connect Salesforce or HubSpot, drop in a partner list, and the team is running.
 

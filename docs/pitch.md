@@ -15,7 +15,7 @@
 - **Buyer:** Head of Partner Programs (single budget owner).
 - **Users:** the whole partner team — partner sales managers, partner managers, partner ops, programs leads.
 
-Single budget, four champions in every account. Each role uses a different surface of Covant: sales managers register and split deals; partner managers run enablement, MDF, and tier progression; ops runs commission rules, payouts, and disputes; programs leads report out to the CRO.
+Single budget, four champions in every account. Each role uses a different surface of Covant: partner sales pulls partners into live deals and runs the co-sell motion; partner managers own the partner relationship (health, activity, communication); partner programs designs the structure (incentives, tiers, MDF, certifications, commission rules); partner ops measures, tracks, and reconciles payouts.
 
 We don't sell an opinion on attribution — every team has one already. We sell the platform that makes whatever attribution they've agreed on actually run, end-to-end.
 
@@ -37,7 +37,7 @@ The category is real. It's also fragmented and slow — the incumbents were buil
 
 Setting up a partner program today takes a quarter: pick a PRM, build a commission model in spreadsheets, integrate the CRM, train partners, onboard payouts. Most teams never finish.
 
-**Covant is the platform the partner team runs on — built to unlock channel revenue.** Sales managers close partner deals through it. Partner managers run enablement and tier progression through it. Partner ops runs commissions and payouts through it. The Head of Partner Programs reports out of it.
+**Covant is the platform the partner team runs on — built to unlock channel revenue.** Partner sales pulls partners into live deals through it. Partner managers run the partner relationships through it. Partner programs designs the incentives, tiers, and commission rules through it. Partner ops measures, reconciles, and reports out of it.
 
 Connect your CRM, drop in a list of partners, and you have:
 
