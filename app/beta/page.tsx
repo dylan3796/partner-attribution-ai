@@ -14,7 +14,7 @@ const PAIN_POINTS = [
 
 const WHAT_YOU_GET = [
   { title: 'Attribution built in', desc: 'Deal reg protection, source wins, role split — pick the model that matches how your program actually works.' },
-  { title: 'Four partner agents', desc: "PSM, PAM, Program, and Ops agents run on your CRM data — the team you haven't hired yet." },
+  { title: 'Partner agents on your CRM', desc: "The team you haven't hired yet — PSM, PAM, Program, and Ops to start, running on your CRM data." },
   { title: 'Partner portal', desc: 'Partners register deals, see their contribution, and track performance — without emailing you for every update.' },
   { title: 'Audit trail', desc: 'Every touchpoint and attribution decision has a paper trail. When an AE questions the number, you have the exact logic to show them.' },
 ];
@@ -76,7 +76,7 @@ export default function BetaPage() {
             Partner programs run on<br />spreadsheets. Yours doesn't have to.
           </h1>
           <p style={{ color:'#6b7280', fontSize: '1.2rem', maxWidth: 580, margin: '0 auto 48px', lineHeight: 1.6 }}>
-            Covant measures and attributes partner revenue, then runs four partner agents on top
+            Covant measures and attributes partner revenue, then runs partner agents on top
             so your program stops running on gut feel. Join the beta — we're onboarding hands-on with the first 20 teams.
           </p>
         </div>

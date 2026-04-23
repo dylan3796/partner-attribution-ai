@@ -58,7 +58,7 @@ export default function OgImage() {
           color: '#888', fontSize: 24, lineHeight: 1.5,
           maxWidth: 700, display: 'flex',
         }}>
-          Measure and attribute partner revenue. Run four partner agents on your CRM.
+          Measure and attribute partner revenue. Run partner agents on your CRM.
         </div>
 
         {/* Bottom row */}

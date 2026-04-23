@@ -20,7 +20,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Covant — The platform your partner team runs on",
   description:
-    "The platform your partner team runs on. Four agents that help you unlock, monitor, and measure channel revenue — record every touchpoint, capture every deal, action every partner. Free branded portal for partners.",
+    "The platform your partner team runs on. Partner agents that help you unlock, monitor, and measure channel revenue — record every touchpoint, capture every deal, action every partner. Free branded portal for partners.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Covant — The platform your partner team runs on",
-    description: "One ledger. Four agents (PSM, PAM, Program, Ops). Revenue intelligence. A branded portal your partners actually log into.",
+    description: "One ledger. Partner agents on your CRM. Revenue intelligence. A branded portal your partners actually log into.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Covant — The platform your partner team runs on",
-    description: "Four agents that help teams unlock, monitor, and measure channel revenue. Record every touchpoint, capture every deal, action every partner.",
+    description: "Partner agents that help teams unlock, monitor, and measure channel revenue. Record every touchpoint, capture every deal, action every partner.",
   },
   metadataBase: new URL("https://covant.ai"),
 };

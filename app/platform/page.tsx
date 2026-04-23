@@ -18,11 +18,11 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "Platform — Covant",
   description:
-    "Measure and attribute partner revenue, then run four partner agents — PSM, PAM, Program, and Ops — on your CRM data. The team you haven't hired yet.",
+    "Measure and attribute partner revenue, then run partner agents — PSM, PAM, Program, and Ops to start — on your CRM data. The team you haven't hired yet.",
   openGraph: {
     title: "Platform — Covant",
     description:
-      "Measure and attribute partner revenue. Run four partner agents on your CRM — PSM, PAM, Program, Ops.",
+      "Measure and attribute partner revenue. Run partner agents on your CRM.",
   },
 };
 
@@ -88,7 +88,7 @@ const PROBLEMS = [
   { before: "Who actually drove this deal?", after: "Covant tracks every partner touchpoint — referrals, deal registrations, co-sells, introductions — and applies your attribution model automatically. Full audit trail on every deal." },
   { before: "What % of our pipeline came from partners?", after: "Measure partner-sourced and partner-influenced pipeline alongside direct revenue. See the real mix, by quarter, tier, and territory — not a number you had to defend in a spreadsheet." },
   { before: "Partners keep asking where they stand.", after: "The Partner Portal gives every partner real-time visibility into their deals, tier progress, and performance — no emails required." },
-  { before: "Our CRM has the deals but no partner context.", after: "Covant syncs with Salesforce and HubSpot, matches deals to partners automatically, and feeds everything to the four agents running on top." },
+  { before: "Our CRM has the deals but no partner context.", after: "Covant syncs with Salesforce and HubSpot, matches deals to partners automatically, and feeds everything to the agents running on top." },
 ];
 
 const PILLARS = [
@@ -101,7 +101,7 @@ const PILLARS = [
 ];
 
 const WHO = [
-  { role: "VP of Partnerships", pain: "Runs a $10M+ indirect channel on spreadsheets and hope.", after: "Has a system of record that shows exactly what's working — and four agents that run on it." },
+  { role: "VP of Partnerships", pain: "Runs a $10M+ indirect channel on spreadsheets and hope.", after: "Has a system of record that shows exactly what's working — and agents that run on it." },
   { role: "Channel Sales Manager", pain: "Partner attribution gets disputed every quarter. No defensible answer to what % of pipeline partners drove.", after: "Attribution is an evidence-backed audit trail, not a debate. Partner pipeline is a number on the dashboard." },
   { role: "Head of Alliances", pain: "Can't prove partner ROI to the board, so budget stays flat.", after: "Has the attribution data to show partner-sourced revenue clearly — with agents surfacing the plays that move it." },
 ];
@@ -123,8 +123,8 @@ export default function PlatformPage() {
           </h1>
           <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 560 }}>
             Covant measures and attributes partner revenue — including what % of pipeline
-            partners actually drove — and runs four partner agents on your CRM data.
-            PSM, PAM, Program, and Ops. The team you haven&apos;t hired yet.
+            partners actually drove — and runs partner agents on your CRM data.
+            PSM, PAM, Program, and Ops to start. The team you haven&apos;t hired yet.
           </p>
           <div className="l-flex-center">
             <Link href="/dashboard?demo=true" className="l-btn">Try it live →</Link>
@@ -178,9 +178,9 @@ export default function PlatformPage() {
                 rest of the business. One record. One audit trail.
               </p>
               <p className="l-body" style={{ fontSize: "1rem" }}>
-                Then four agents run on it — PSM, PAM, Program, Ops — surfacing the plays
-                and fixes a partner team would do if you had four more people. The data is
-                yours. The agents do the work.
+                Then partner agents run on it — PSM, PAM, Program, and Ops to start —
+                surfacing the plays and fixes a partner team would do if you had more people.
+                The data is yours. The agents do the work.
               </p>
             </div>
             <div className="l-flex-col" style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 16, padding: "2rem", gap: "1rem" }}>
@@ -203,12 +203,12 @@ export default function PlatformPage() {
         </div>
       </section>
 
-      {/* ── THE SIX PILLARS ───────────────────────────────────── */}
+      {/* ── WHAT'S INSIDE ─────────────────────────────────────── */}
       <section className="l-section-alt l-section-border-b">
         <div className="wrap" style={{ maxWidth: 960 }}>
           <p className="l-section-tag l-center" id="agents">What&apos;s inside</p>
           <h2 className="l-heading-lg l-center" style={{ marginBottom: "3.5rem" }}>
-            Measurement, four agents, and the portal.
+            Measurement, agents, and the portal.
           </h2>
           <div className="l-grid-3">
             {PILLARS.map((p) => (
@@ -274,7 +274,7 @@ export default function PlatformPage() {
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 4 }}>
               <Badge text="Deal Reg Protection" color="#3b82f6" />
               <Badge text="35 Partners" color="#22c55e" />
-              <Badge text="4 Agents On" color="#a78bfa" />
+              <Badge text="Agents On" color="#a78bfa" />
             </div>
             <div style={{ color: "#9ca3af", fontSize: ".7rem", textAlign: "center", marginTop: 4 }}>Live config preview updates as you talk ↑</div>
           </div>
@@ -287,7 +287,7 @@ export default function PlatformPage() {
         step="Step 2 — Dashboard"
         title="Your partner program, at a glance."
         subtitle="Real-time metrics, agent findings, and trends."
-        description="No more logging into Salesforce, exporting to Excel, and building a pivot table to figure out how your partners are doing. Covant shows partner-sourced pipeline, % of total pipeline from partners, win rates, and the actions your four agents flagged today — all updating in real time from your CRM."
+        description="No more logging into Salesforce, exporting to Excel, and building a pivot table to figure out how your partners are doing. Covant shows partner-sourced pipeline, % of total pipeline from partners, win rates, and the actions your agents flagged today — all updating in real time from your CRM."
         reverse
       >
         <MockWindow title="covant.ai/dashboard">
@@ -412,9 +412,9 @@ export default function PlatformPage() {
       <TourSection
         id="agents-at-work"
         step="Step 5 — Agents at work"
-        title="Four agents. One prioritized feed."
+        title="Partner agents. One prioritized feed."
         subtitle="The team you haven't hired yet."
-        description="PSM, PAM, Program, and Ops agents read the same attributed record and surface the handful of things worth doing today — a tier-up nudge here, a coverage gap there, a dormant partner to reactivate. Every item cites the attribution it's based on. Nothing is black-box."
+        description="Your partner agents read the same attributed record and surface the handful of things worth doing today — a tier-up nudge here, a coverage gap there, a dormant partner to reactivate. PSM, PAM, Program, and Ops to start; more ship as we learn. Every item cites the attribution it's based on."
       >
         <MockWindow title="covant.ai/dashboard/agents">
           <div className="l-section-label" style={{ marginBottom: 12 }}>Today&apos;s feed</div>

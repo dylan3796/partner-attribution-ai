@@ -39,7 +39,7 @@ export default function LandingPage() {
 Unlock channel revenue.
           </h1>
           <p className="l-muted l-subtitle">
-            The platform your partner team runs on — with four agents that record every touchpoint, capture every deal, action every partner, and unlock the channel revenue you already have. Monitor it. Measure it. One ledger for your team. A branded portal for every partner.
+            The platform your partner team runs on — with partner agents that record every touchpoint, capture every deal, action every partner, and unlock the channel revenue you already have. Monitor it. Measure it. One ledger for your team. A branded portal for every partner.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
             <Link href="/beta" className="l-btn">Become a design partner <span>→</span></Link>
@@ -168,10 +168,10 @@ Unlock channel revenue.
             </h2>
             <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 560, margin: "0 auto", lineHeight: 1.65 }}>
               One ledger records every partner touchpoint. A branded portal captures
-              every deal the moment a partner registers it. Four in-product agents
-              (PSM, PAM, Program, Ops) take action on every partner — the team you
-              haven&apos;t hired yet. Channel revenue gets unlocked, monitored, and
-              measured end-to-end.
+              every deal the moment a partner registers it. In-product agents
+              take action on every partner — the team you haven&apos;t hired yet
+              (PSM, PAM, Program, and Ops, to start). Channel revenue gets
+              unlocked, monitored, and measured end-to-end.
             </p>
           </div>
 
