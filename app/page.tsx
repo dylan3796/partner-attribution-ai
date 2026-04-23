@@ -80,10 +80,11 @@ Unlock channel revenue.
               Record. Capture. Action. Unlock.<br />The four jobs of a partner program.
             </h2>
             <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 560, margin: "0 auto", lineHeight: 1.65 }}>
-              Record every partner touchpoint in one ledger. Capture every deal through a
-              branded portal. Action every partner with four in-product agents — the team
-              you haven&apos;t hired yet. Unlock commissions end-to-end through Stripe, with
-              an audit trail on every dollar.
+              One ledger records every partner touchpoint. A branded portal captures
+              every deal the moment a partner registers it. Four in-product agents
+              (PSM, PAM, Program, Ops) take action on every partner — the team you
+              haven&apos;t hired yet. Stripe Connect unlocks every commission
+              end-to-end, with an audit trail on every dollar.
             </p>
           </div>
 
