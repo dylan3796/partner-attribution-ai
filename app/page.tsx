@@ -46,25 +46,63 @@ Unlock channel revenue.
             <Link href="/platform" className="l-btn-outline">See the platform <span>→</span></Link>
           </div>
           <p className="l-muted" style={{ fontSize: ".9rem", fontWeight: 500 }}>
-            {leadsCount > 0 ? `${leadsCount} ${leadsCount === 1 ? "team" : "teams"} on the waitlist` : "Free for design partners · Locked-in pricing at GA"}
+            {leadsCount > 0 ? `${leadsCount} ${leadsCount === 1 ? "team" : "teams"} on the waitlist` : "Free for design partners · Works from day one"}
           </p>
-          <p className="l-muted" style={{ fontSize: ".85rem", fontWeight: 500, marginTop: ".35rem" }}>
-            Works from day one — opportunities only, CRM optional
-          </p>
+        </div>
+
+        {/* Hero product mockup — one anchor image */}
+        <div className="wrap l-hero-mock-wrap">
+          <div className="l-hero-mock">
+            <div className="l-hero-mock-bar">
+              <span className="l-hero-mock-dot" />
+              <span className="l-hero-mock-dot" />
+              <span className="l-hero-mock-dot" />
+              <span className="l-hero-mock-path">covant.ai / dashboard / agents</span>
+            </div>
+            <div className="l-hero-mock-body">
+              <div className="l-hero-mock-head">
+                <div>
+                  <div className="l-hero-mock-eyebrow">Today&apos;s feed</div>
+                  <div className="l-hero-mock-title">4 actions your agents found</div>
+                </div>
+                <div className="l-hero-mock-stat">
+                  <span className="l-hero-mock-stat-label">Partner pipeline</span>
+                  <span className="l-hero-mock-stat-value">$2.4M</span>
+                  <span className="l-hero-mock-stat-delta">↑ 18% QoQ</span>
+                </div>
+              </div>
+              <div className="l-hero-mock-list">
+                {[
+                  { agent: "PSM", title: "Coverage gap in APAC", detail: "4 enterprise deals in-flight, no active partner. TechBridge & Apex both qualify." },
+                  { agent: "PAM", title: "4 partners within 1 deal of tier-up", detail: "TechBridge, Stackline, NexaCloud, Ridgeway — Platinum unlocks co-sell benefits." },
+                  { agent: "Program", title: "NPI launch adoption below bar", detail: "Cloud Connect: 3 of 28 partners trained. Target is 70% by end of quarter." },
+                  { agent: "Ops", title: "12 CRM sync conflicts", detail: "Partner field mismatch between Salesforce and the registration form. Auto-merge ready." },
+                ].map((r) => (
+                  <div key={r.agent} className="l-hero-mock-row">
+                    <span className="l-hero-mock-tag">{r.agent}</span>
+                    <div className="l-hero-mock-row-body">
+                      <div className="l-hero-mock-row-title">{r.title}</div>
+                      <div className="l-hero-mock-row-detail">{r.detail}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ── WHAT WE'RE ADDRESSING ────────────────────────── */}
       <section className="l-section l-section-border-t">
-        <div className="wrap">
-          <div className="l-center" style={{ marginBottom: "2.5rem" }}>
+        <div className="wrap" style={{ maxWidth: 900 }}>
+          <div style={{ marginBottom: "3.5rem", maxWidth: 640 }}>
             <p className="l-tag" style={{ marginBottom: ".75rem" }}>What we&apos;re addressing</p>
             <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
               The tensions partner teams live with.
             </h2>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
+          <ol className="l-tensions-list">
             {[
               {
                 title: "Partner programs running on gut feel",
@@ -86,18 +124,18 @@ Unlock channel revenue.
                 title: "Partner touchpoints that vanish",
                 desc: "The work partners do between registered deals — intros, co-sells, technical assists — rarely gets recorded in a way anyone can act on later.",
               },
-            ].map((t) => (
-              <div key={t.title} className="l-feature-chip" style={{ alignItems: "flex-start" }}>
-                <span className="l-feature-chip-icon">✦</span>
-                <div>
-                  <div className="l-feature-chip-title">{t.title}</div>
-                  <div className="l-feature-chip-desc">{t.desc}</div>
+            ].map((t, i) => (
+              <li key={t.title} className="l-tension-row">
+                <span className="l-tension-num">{String(i + 1).padStart(2, "0")}</span>
+                <div className="l-tension-body">
+                  <div className="l-tension-title">{t.title}</div>
+                  <div className="l-tension-desc">{t.desc}</div>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ol>
 
-          <p className="l-muted" style={{ textAlign: "center", fontSize: ".95rem", fontWeight: 500 }}>
+          <p className="l-muted" style={{ marginTop: "2.5rem", fontSize: ".95rem", fontWeight: 500 }}>
             If any of these sound like your week, you&apos;re who Covant is built for.
           </p>
         </div>
@@ -178,8 +216,8 @@ Unlock channel revenue.
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", marginBottom: "2rem" }}>
             <div className="l-rec-card-panel" style={{ borderRadius: "0 0 0 16px" }}>
               <div>
-                <span className="l-engine-label" style={{ color: "#22c55e", marginBottom: ".75rem" }}>
-                  <span className="l-dot-sm" style={{ background: "#22c55e", boxShadow: "0 0 6px #22c55e" }} />
+                <span className="l-engine-label" style={{ marginBottom: ".75rem" }}>
+                  <span className="l-dot-sm" style={{ background: "#0a0a0a" }} />
                   Monitor &amp; Measure
                 </span>
                 <h3 className="l-heading-sm">
@@ -194,7 +232,7 @@ Unlock channel revenue.
               </div>
               <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "auto" }}>
                 {["Multi-touch attribution", "Partner health", "Revenue rollups"].map((t) => (
-                  <span key={t} className="l-pill" style={{ border: "1px solid rgba(34,197,94,.3)", color: "#22c55e", background: "rgba(34,197,94,.1)" }}>{t}</span>
+                  <span key={t} className="l-pill l-pill-mono">{t}</span>
                 ))}
               </div>
             </div>
@@ -204,28 +242,24 @@ Unlock channel revenue.
               <p className="l-tag-muted" style={{ margin: 0 }}>The team you haven&apos;t hired</p>
               {[
                 {
-                  accent: "#818cf8",
                   name: "PSM Agent",
                   desc: "Partner Sales Manager. Finds co-sell overlap across open deals and drafts the warm intro.",
                 },
                 {
-                  accent: "#f59e0b",
                   name: "PAM Agent",
                   desc: "Partner Account Manager. Watches partner health, flags churn risk, writes the weekly check-in.",
                 },
                 {
-                  accent: "#38bdf8",
                   name: "Program Agent",
                   desc: "Program lead. Spots tier and incentive drift early and proposes fixes with a 90-day dry-run before anything ships.",
                 },
                 {
-                  accent: "#22c55e",
                   name: "Ops Agent",
                   desc: "Partner Ops. Reconciles attribution across every deal, flags disputes early, and answers every 'where did this revenue come from?' question.",
                 },
               ].map((c) => (
                 <div key={c.name} className="l-cap-item">
-                  <span className="l-dot-sm" style={{ background: c.accent, marginTop: 6 }} />
+                  <span className="l-dot-sm" style={{ background: "#0a0a0a", marginTop: 6 }} />
                   <div>
                     <div className="l-cap-title">{c.name}</div>
                     <div className="l-cap-desc">{c.desc}</div>
@@ -235,25 +269,16 @@ Unlock channel revenue.
             </div>
           </div>
 
-          {/* Portal strip */}
-          <div className="l-portal-strip">
-            <div className="l-portal-strip-inner">
-              <span className="l-free-badge">
-                Always Free
-              </span>
-              <span style={{ color: "#0a0a0a", fontSize: ".9rem", fontWeight: 600 }}>Partner Portal</span>
-              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>—</span>
-              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>Branded self-service workspace. Deal registration, revenue visibility, MDF requests, certifications. Unlimited partner seats.</span>
+          {/* Portal — quiet inline note */}
+          <div className="l-portal-inline">
+            <div>
+              <div className="l-portal-inline-title">Partner Portal</div>
+              <div className="l-portal-inline-desc">
+                Branded self-service workspace — deal registration, revenue visibility, MDF requests, certifications. Unlimited partner seats, free with every plan.
+              </div>
             </div>
-            <Link href="/beta" className="l-link-arrow">
-              Become a design partner →
-            </Link>
-          </div>
-
-          {/* Platform link */}
-          <div className="l-center" style={{ marginTop: "2.5rem" }}>
-            <Link href="/platform" style={{ fontSize: ".95rem", fontWeight: 600, color: "#6366f1", textDecoration: "none" }}>
-              See everything Covant does →
+            <Link href="/platform" className="l-link-arrow">
+              See the platform →
             </Link>
           </div>
         </div>
@@ -303,7 +328,7 @@ Unlock channel revenue.
             Your partners are driving revenue.<br />Start unlocking it.
           </h2>
           <p className="l-muted l-subtitle" style={{ maxWidth: 520, margin: "0 auto 2.5rem", lineHeight: 1.5 }}>
-            Free for design partners. Locked-in pricing at GA.
+            Free for design partners. Hands-on onboarding with our team.
           </p>
           <form onSubmit={handleWaitlist} className="l-cta-form">
             <div className="l-cta-form-input">
