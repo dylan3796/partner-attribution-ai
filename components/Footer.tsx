@@ -32,8 +32,8 @@ export default function Footer() {
           </span>
         </div>
         <div className="site-footer-links">
-          <Link href="/pricing">Pricing</Link>
-          <Link href="/demo">Demo</Link>
+          <Link href="/platform">Platform</Link>
+          <Link href="/beta">Design Partners</Link>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
           <a href="mailto:hello@covant.ai">hello@covant.ai</a>

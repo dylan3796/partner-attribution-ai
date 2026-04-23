@@ -13,13 +13,13 @@ import {
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "The Partner Platform — Covant",
+  title: "The Platform — Covant",
   description:
-    "Covant is the intelligence layer for your partner program. Track attribution, automate commissions, integrate your CRM, and give partners a portal — one system of record for the entire partner motion.",
+    "The platform your partner team runs on. A ledger, a branded portal, Stripe payouts — plus four in-product agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.",
   openGraph: {
-    title: "The Partner Platform — Covant",
+    title: "The Platform — Covant",
     description:
-      "Track which partners drive revenue. Automate commissions. Give partners a portal they'll actually use.",
+      "Platform + four agents. Record every touchpoint, capture every deal, action every partner, unlock every dollar.",
   },
 };
 
@@ -82,25 +82,30 @@ function TourSection({
 /* ── Data ─────────────────────────────────────────────────── */
 
 const PROBLEMS = [
-  { before: "Who actually drove this deal?", after: "Attribution Engine tracks every touchpoint — referrals, deal registrations, co-sells, introductions — and applies your attribution model automatically. Full audit trail on every deal." },
-  { before: "How do I calculate commissions without a spreadsheet?", after: "Commission Engine reads attribution data, applies your rules by tier, deal size, and product line, and queues payouts for approval. Partners get paid via Stripe." },
-  { before: "Partners keep asking where their payout is.", after: "Partner Portal gives every partner real-time visibility into their deals, commissions, tier status, and performance — no emails required." },
-  { before: "Our CRM has the deals but no partner context.", after: "Covant syncs with Salesforce and HubSpot, matches deals to partners automatically, and feeds everything into the intelligence layer." },
+  { before: "Who actually drove this deal?", after: "The ledger records every touchpoint — portal submissions, deal registrations, co-sells, introductions — and runs whichever attribution model your team agreed on. Full audit trail on every deal." },
+  { before: "How do I calculate commissions without a spreadsheet?", after: "Configure commission rules by tier, deal size, product line, or geography. The Ops agent reconciles the payout file before it runs. Stripe Connect delivers the money." },
+  { before: "Partners keep asking where their payout is.", after: "A branded partner portal gives every partner real-time visibility into their deals, commissions, tier status, and performance — free and unlimited." },
+  { before: "I can't hire a 6-person partner team.", after: "Four in-product agents — PSM, PAM, Program, Ops — cover the roles you haven't filled. They propose, your team approves, the system executes and logs." },
 ];
 
-const PILLARS = [
-  { number: "01", title: "Attribution Engine", description: "The core engine. Ingests partner activity from CRM syncs and deal registrations, applies multi-touch attribution models — first-touch, last-touch, time-decay, role-based, equal-split — and builds a complete, auditable record of who influenced every deal." },
-  { number: "02", title: "Commission Engine", description: "Reads from attribution data. Applies your commission rules by partner tier, deal size, product line, or geography. Stacks rules with priority ordering. Queues payouts for bulk approval. Every dollar traces back to the deal, the attribution, and the rule." },
-  { number: "03", title: "CRM Integration", description: "Connects to Salesforce and HubSpot via OAuth. Syncs closed-won deals automatically. Matches deals to partners by email, domain, or custom field. Webhook support for custom systems. Bi-directional data flow." },
-  { number: "04", title: "Partner Portal", description: "A branded, self-service workspace — free for every partner, forever. Deal registration, commission tracking, performance dashboards, tier status. White-labeled to your brand. No partner caps on portal access." },
-  { number: "05", title: "Incentive Programs", description: "SPIFs, MDF budgets, bonuses, and accelerators — configured per tier, tracked per partner, approved through workflows. Deal registration bonuses. Volume rebates for high-performers." },
-  { number: "06", title: "Partner Intelligence", description: "Health scores based on revenue, activity, win rate, and deal velocity. Automatic tier progression from Bronze to Platinum. Leaderboards, pipeline analytics, and program health reporting." },
+const PLATFORM_LAYERS = [
+  { number: "01", title: "The Ledger", description: "The single system of record for channel activity — portal submissions, deal registrations, CRM-synced opps, manual touchpoints. Attribution models (first-touch, last-touch, time-decay, role-based, equal-split) run inside the ledger. Every number traces back to a source row." },
+  { number: "02", title: "Partner Portal", description: "A branded, self-service workspace — free, unlimited seats. Deal registration, commission visibility, MDF requests, certifications, leaderboards. White-labeled to your brand. Partners don't just tolerate it; they log in." },
+  { number: "03", title: "Deal Registration + CRM Sync", description: "Partners submit deals through the portal. You approve from the dashboard. Salesforce and HubSpot sync closed-won deals automatically and match them back to the registering partner. Webhooks for custom systems." },
+  { number: "04", title: "Payouts via Stripe Connect", description: "Configure commission rules by partner tier, deal size, product line, or geography. The Ops agent reconciles every payout run before execution. Stripe Connect delivers the money. Every dollar links back to deal + touchpoint + rule." },
+];
+
+const AGENTS = [
+  { number: "PSM", title: "Partner Sales Manager Agent", description: "Finds co-sell overlap across open deals and drafts the warm intro. Re-ignites stale partner-registered deals. Logs touchpoints after every meeting. Proposes; your team approves." },
+  { number: "PAM", title: "Partner Account Manager Agent", description: "Watches every partner's health weekly. Flags risk before it becomes churn. Writes the check-in email, the QBR deck, and the 'we miss you' re-engagement. Proposes; your team approves." },
+  { number: "PROG", title: "Program Agent", description: "Spots commission leakage before payout. Proposes tier-threshold and rule changes — with a 90-day dry-run preview of impact before anything activates. Drafts MDF approval rationale. Flags certification gaps." },
+  { number: "OPS", title: "Ops Agent", description: "Pre-payout reconciliation 72 hours before every run. Flags attribution mismatches that would trigger disputes. Produces the Stripe-ready payout file with deal, partner, rule, and model per line. Explainable by construction." },
 ];
 
 const WHO = [
-  { role: "VP of Partnerships", pain: "Runs a $10M+ indirect channel on spreadsheets and hope.", after: "Finally has a system of record that shows exactly what's working." },
-  { role: "Channel Sales Manager", pain: "Spends 40% of time resolving commission disputes and chasing deal status.", after: "Disputes drop. Partner satisfaction goes up. Time goes back to selling." },
-  { role: "Head of Alliances", pain: "Can't prove partner ROI to the board, so budget stays flat.", after: "Has the attribution data to show partner-sourced revenue clearly." },
+  { role: "Head of Partnerships", pain: "Hired with a mandate to prove partner ROI, underwater on day one.", after: "The ledger + four agents cover the team they haven't finished hiring. ROI reports write themselves." },
+  { role: "Partner Sales Manager", pain: "Spends 40% of the week chasing partners and hunting for co-sell overlap.", after: "The PSM agent drafts the intros and logs the touchpoints. Time goes back to selling." },
+  { role: "Partner Ops / RevOps", pain: "Every payout run is a week of spreadsheet reconciliation and dispute triage.", after: "The Ops agent reconciles before the run. Disputes drop. Stripe ships the payouts." },
 ];
 
 /* ── Page ─────────────────────────────────────────────────── */
@@ -113,20 +118,20 @@ export default function PlatformPage() {
       <section className="l-center l-section-border-b" style={{ padding: "8rem 0 6rem" }}>
         <div className="wrap" style={{ maxWidth: 720 }}>
           <p className="l-section-tag" style={{ marginBottom: "1.5rem" }}>
-            Partner Intelligence Platform
+            Platform + Agents
           </p>
           <h1 className="l-heading-xl" style={{ fontSize: "clamp(2.4rem, 5.5vw, 3.75rem)", marginBottom: "1.75rem" }}>
-            Your partner program<br />deserves a real platform.
+            The platform your partner<br />team runs on.
           </h1>
           <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 560 }}>
-            Covant discovers partner relationships across your pipeline and gives you
-            a single platform to run everything else — attribution, commissions,
-            deal registration, incentives, revenue tracking, and a portal your
-            partners will actually log into.
+            One ledger for every touchpoint. A branded portal partners log into.
+            Stripe Connect payouts with an audit trail on every dollar. Plus four
+            in-product agents — PSM, PAM, Program, Ops — that do the work of a
+            partner team you haven&apos;t finished hiring.
           </p>
           <div className="l-flex-center">
             <Link href="/dashboard?demo=true" className="l-btn">Try it live →</Link>
-            <Link href="/sign-up" className="l-btn-outline">Get started free →</Link>
+            <Link href="/beta" className="l-btn-outline">Become a design partner →</Link>
           </div>
         </div>
       </section>
@@ -168,16 +173,16 @@ export default function PlatformPage() {
             <div>
               <p className="l-section-tag">What Covant is</p>
               <h2 className="l-heading-lg" style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", marginBottom: "1.25rem" }}>
-                The rules engine between<br />&ldquo;someone did something&rdquo;<br />and &ldquo;someone gets paid.&rdquo;
+                A platform for your team.<br />Agents for the roles<br />you haven&apos;t hired.
               </h2>
               <p className="l-body" style={{ fontSize: "1rem", marginBottom: "1.25rem" }}>
-                Covant connects to your CRM, ingests deal activity, applies your attribution
-                rules, calculates commissions, and surfaces everything to partners through
-                a branded portal. One pipeline. One audit trail. One payout workflow.
+                The platform records every touchpoint in one ledger, captures every deal
+                through a branded partner portal, and unlocks commissions end-to-end through
+                Stripe Connect. Four in-product agents (PSM, PAM, Program, Ops) propose the
+                next move on every deal and every partner; your team approves.
               </p>
               <p className="l-body" style={{ fontSize: "1rem" }}>
-                Think of it as the intelligence layer for partner economics.
-                The rules are yours. The execution is Covant.
+                The rules are yours. The agents do the work. The ledger keeps the receipts.
               </p>
             </div>
             <div className="l-flex-col" style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 16, padding: "2rem", gap: "1rem" }}>
@@ -200,19 +205,46 @@ export default function PlatformPage() {
         </div>
       </section>
 
-      {/* ── THE SIX PILLARS ───────────────────────────────────── */}
-      <section className="l-section-alt l-section-border-b">
+      {/* ── THE PLATFORM ──────────────────────────────────────── */}
+      <section id="platform-layers" className="l-section-alt l-section-border-b">
         <div className="wrap" style={{ maxWidth: 960 }}>
-          <p className="l-section-tag l-center">What&apos;s inside</p>
-          <h2 className="l-heading-lg l-center" style={{ marginBottom: "3.5rem" }}>
-            The full intelligence layer.
+          <p className="l-section-tag l-center">Layer 1 — Platform</p>
+          <h2 className="l-heading-lg l-center" style={{ marginBottom: "1rem" }}>
+            What your team runs on.
           </h2>
+          <p className="l-center" style={{ color: "#6b7280", fontSize: "1rem", maxWidth: 560, margin: "0 auto 3rem", lineHeight: 1.65 }}>
+            A ledger, a partner portal, deal registration, and Stripe Connect payouts.
+            The infrastructure the four agents operate on top of.
+          </p>
           <div className="l-grid-3">
-            {PILLARS.map((p) => (
+            {PLATFORM_LAYERS.map((p) => (
               <div key={p.number} className="l-pillar-card">
                 <div className="l-pillar-num">{p.number}</div>
                 <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.6rem" }}>{p.title}</h3>
                 <p className="l-body" style={{ lineHeight: 1.65 }}>{p.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── THE AGENTS ────────────────────────────────────────── */}
+      <section id="agents" className="l-section l-section-border-b">
+        <div className="wrap" style={{ maxWidth: 960 }}>
+          <p className="l-section-tag l-center">Layer 2 — Agents</p>
+          <h2 className="l-heading-lg l-center" style={{ marginBottom: "1rem" }}>
+            The team you haven&apos;t hired yet.
+          </h2>
+          <p className="l-center" style={{ color: "#6b7280", fontSize: "1rem", maxWidth: 560, margin: "0 auto 3rem", lineHeight: 1.65 }}>
+            Four in-product agents, one per partner-team persona. Every action is a
+            proposal: your team approves, edits, or rejects. The system executes and logs.
+          </p>
+          <div className="l-grid-3">
+            {AGENTS.map((a) => (
+              <div key={a.number} className="l-pillar-card">
+                <div className="l-pillar-num">{a.number}</div>
+                <h3 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "0.6rem" }}>{a.title}</h3>
+                <p className="l-body" style={{ lineHeight: 1.65 }}>{a.description}</p>
               </div>
             ))}
           </div>
@@ -231,7 +263,7 @@ export default function PlatformPage() {
             {[
               { label: "Setup", href: "#setup" },
               { label: "Dashboard", href: "#dashboard" },
-              { label: "Attribution", href: "#attribution" },
+              { label: "The Ledger", href: "#attribution" },
               { label: "Partner Portal", href: "#portal" },
               { label: "Commissions", href: "#commissions" },
               { label: "Deal Registration", href: "#deals" },
@@ -307,13 +339,13 @@ export default function PlatformPage() {
         </MockWindow>
       </TourSection>
 
-      {/* Step 3 — Attribution */}
+      {/* Step 3 — The Ledger */}
       <TourSection
         id="attribution"
-        step="Step 3 — Attribution"
-        title="Attribution that partners actually trust."
-        subtitle="Every number has a paper trail."
-        description="When an AE questions a partner's credit, you don't open a spreadsheet — you open the audit trail. Every deal shows exactly which partner touched it, when, what model was applied, and how the commission was calculated. Step by step. No black boxes."
+        step="Step 3 — The Ledger"
+        title="Explainable by construction."
+        subtitle="Every number traces back to a source row."
+        description="When an AE questions a partner's credit, you don't open a spreadsheet — you open the ledger. Every deal shows exactly which partner touched it, when, what model was applied, and how the commission was calculated. Deal → touchpoint → rule → payment. No black boxes."
       >
         <MockWindow title="covant.ai/dashboard/deals/d-7291">
           <div style={{ marginBottom: 16 }}>
@@ -409,10 +441,10 @@ export default function PlatformPage() {
       {/* Step 5 — Commissions */}
       <TourSection
         id="commissions"
-        step="Step 5 — Commission Engine"
+        step="Step 5 — Commissions + Payouts"
         title="Commission rules that match reality."
-        subtitle="Not just flat percentages."
-        description="Configure commission rules by product line, partner tier, deal size, or geography. Stack rules with priority ordering. Bulk approve payouts at end of quarter. Every payout links back to the deal, the attribution, and the rule that triggered it."
+        subtitle="The Ops agent reconciles before every run."
+        description="Configure commission rules by product line, partner tier, deal size, or geography. Stack rules with priority ordering. Before every payout run, the Ops agent flags any deal where attribution shifts the partner list, any rule gap, and any Stripe Connect issue. You approve the clean lines; the system pays."
       >
         <MockWindow title="covant.ai/dashboard/settings/commission-rules">
           <div className="l-section-label" style={{ marginBottom: 12 }}>Commission Rules</div>
@@ -508,14 +540,14 @@ export default function PlatformPage() {
       <section className="l-section-dark l-center">
         <div className="wrap" style={{ maxWidth: 600 }}>
           <h2 className="l-heading-lg" style={{ color: "#fff", marginBottom: "1.25rem" }}>
-            Ready to run your partner program<br />on something real?
+            Ready to unlock<br />channel revenue?
           </h2>
           <p style={{ color: "#9ca3af", fontSize: "1.05rem", marginBottom: "2rem", lineHeight: 1.65 }}>
-            Free for up to 5 partners. No credit card required.
+            Free for design partners. Locked-in pricing at GA.
           </p>
           <div className="l-flex-center">
-            <Link href="/sign-up" style={{ background: "#fff", color: "#0a0a0a", padding: ".85rem 2rem", borderRadius: 8, fontWeight: 700, textDecoration: "none", fontSize: ".95rem", display: "inline-flex", alignItems: "center", gap: 8 }}>
-              Get started free <ArrowRight size={16} />
+            <Link href="/beta" style={{ background: "#fff", color: "#0a0a0a", padding: ".85rem 2rem", borderRadius: 8, fontWeight: 700, textDecoration: "none", fontSize: ".95rem", display: "inline-flex", alignItems: "center", gap: 8 }}>
+              Become a design partner <ArrowRight size={16} />
             </Link>
             <Link href="/dashboard?demo=true" style={{ border: "1px solid #333", color: "#fff", padding: ".85rem 2rem", borderRadius: 8, fontWeight: 600, textDecoration: "none", fontSize: ".95rem" }}>
               Try it live

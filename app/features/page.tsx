@@ -53,8 +53,8 @@ type Category = {
 
 const CATEGORIES: Category[] = [
   {
-    name: "Attribution & Tracking",
-    tagline: "Know exactly which partner drove which deal — with the paper trail to prove it.",
+    name: "Record — The Ledger",
+    tagline: "Every partner touchpoint in one system of record — with the paper trail to prove it.",
     color: "#6366f1",
     features: [
       {
@@ -64,8 +64,8 @@ const CATEGORIES: Category[] = [
         link: "/product",
       },
       {
-        title: "Attribution Audit Trail",
-        description: "Per-partner touchpoint timeline, contribution notes, and step-by-step calculation chain. Show AEs exactly why a partner gets credit.",
+        title: "Explainable by Construction",
+        description: "Per-partner touchpoint timeline, contribution notes, and step-by-step calculation chain. Every number traces back to deal + touchpoint + rule + payment.",
         icon: GitBranch,
       },
       {
@@ -82,7 +82,34 @@ const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Commissions & Payouts",
+    name: "Action — Four Agents",
+    tagline: "The team you haven't hired yet. Agents propose; your team approves; the system executes and logs.",
+    color: "#818cf8",
+    features: [
+      {
+        title: "PSM Agent",
+        description: "Partner Sales Manager. Finds co-sell overlap across open deals, drafts the warm intro, logs touchpoints after every meeting, re-ignites stale partner-registered deals.",
+        icon: Handshake,
+      },
+      {
+        title: "PAM Agent",
+        description: "Partner Account Manager. Watches partner health weekly, flags churn risk, writes check-ins by risk tier, preps QBR decks, handles new-partner onboarding.",
+        icon: HeartPulse,
+      },
+      {
+        title: "Program Agent",
+        description: "Program lead. Spots commission leakage before payout. Proposes tier-threshold and rule changes with a 90-day dry-run preview. Drafts MDF approval rationale.",
+        icon: Scale,
+      },
+      {
+        title: "Ops Agent",
+        description: "Partner Ops. Pre-payout reconciliation 72 hours before every run. Flags attribution mismatches that would trigger disputes. Produces the Stripe-ready payout file.",
+        icon: Shield,
+      },
+    ],
+  },
+  {
+    name: "Unlock — Commissions & Payouts",
     tagline: "Complex rules, automated calculations, zero spreadsheets.",
     color: "#22c55e",
     features: [
@@ -114,8 +141,8 @@ const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Partner Portal",
-    tagline: "A portal partners actually use — white-labeled, real data, under 2-minute visits.",
+    name: "Capture — Partner Portal & Deal Reg",
+    tagline: "A branded portal partners actually log into. Deal registration, commission visibility, real data.",
     color: "#f59e0b",
     features: [
       {
@@ -329,8 +356,9 @@ export default function FeaturesPage() {
           Every Feature, One Page
         </h1>
         <p style={{ marginTop: ".5rem", lineHeight: 1.6, color: "#888", fontSize: ".95rem", maxWidth: 640 }}>
-          {totalFeatures} features across {CATEGORIES.length} categories — built for VPs of Partnerships
-          who need attribution they can defend, commissions that run themselves, and analytics that replace manual decks.
+          {totalFeatures} features across {CATEGORIES.length} categories — the platform your
+          partner team runs on. Record every touchpoint, capture every deal, action every partner,
+          and unlock channel revenue end-to-end.
         </p>
 
         {/* Category jump links */}
@@ -475,8 +503,8 @@ export default function FeaturesPage() {
           See it in action
         </h3>
         <p style={{ fontSize: ".85rem", color: "#888", margin: "0 0 20px", maxWidth: 480, marginLeft: "auto", marginRight: "auto", lineHeight: 1.6 }}>
-          Try the interactive demo with sample data, or start free with your own program.
-          No credit card required.
+          Try the interactive demo with sample data, or apply to pilot Covant as a design partner.
+          Free during pilot, locked-in pricing at GA.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <Link
@@ -497,7 +525,7 @@ export default function FeaturesPage() {
             Try Interactive Demo <ArrowRight size={14} />
           </Link>
           <Link
-            href="/sign-up"
+            href="/beta"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -512,7 +540,7 @@ export default function FeaturesPage() {
               textDecoration: "none",
             }}
           >
-            Get Started Free
+            Become a design partner
           </Link>
         </div>
       </div>

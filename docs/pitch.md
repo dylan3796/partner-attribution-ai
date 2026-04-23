@@ -6,7 +6,7 @@
 
 ## One-sentence thesis
 
-**Channel sales, without the tape.** Covant is the AI-native platform your partner team runs on — built to unlock channel revenue. Configure attribution your way, register deals from the portal, automate commissions and payouts. Works from day one with just your CRM — and ships with four agents (Partner Sales, Partner Account, Program, Ops) that do the work of a partner team you haven't hired yet.
+**Unlock channel revenue.** Covant is the AI-native platform your partner team runs on. One ledger that records every touchpoint, a branded portal that captures every deal, four in-product agents (Partner Sales, Partner Account, Program, Ops) that action every partner, and Stripe Connect payouts that unlock every dollar — end-to-end. Works from day one with just opportunities; connecting a CRM sharpens the agents but isn't required to start.
 
 ---
 

@@ -36,20 +36,20 @@ export default function LandingPage() {
         <div className="wrap">
           <p className="l-label" style={{ marginBottom: "1.25rem" }}>AI-native partner platform</p>
           <h1 className="l-heading-xl l-color-primary">
-Channel sales,<br />without the tape.
+Unlock channel revenue.
           </h1>
           <p className="l-muted l-subtitle">
-            The platform your partner team runs on — sales, managers, ops, and programs leads. Unlock channel revenue without the tape: register deals, configure attribution your way, automate commissions and payouts through Stripe. Spin up a program in a weekend, not a quarter.
+            The platform your partner team runs on — with four agents that record every touchpoint, capture every deal, action every partner, and turn channel activity into paid revenue. One ledger for your team. A branded portal for every partner.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
-            <Link href="/sign-up" className="l-btn">Get Early Access <span>→</span></Link>
-            <Link href="/demo" className="l-btn-outline">Try it live <span>→</span></Link>
+            <Link href="/beta" className="l-btn">Become a design partner <span>→</span></Link>
+            <Link href="/platform" className="l-btn-outline">See the platform <span>→</span></Link>
           </div>
           <p className="l-muted" style={{ fontSize: ".9rem", fontWeight: 500 }}>
-            {leadsCount > 0 ? `${leadsCount} ${leadsCount === 1 ? "team" : "teams"} on the waitlist` : "Free for up to 5 partners · No credit card required"}
+            {leadsCount > 0 ? `${leadsCount} ${leadsCount === 1 ? "team" : "teams"} on the waitlist` : "Free for design partners · Locked-in pricing at GA"}
           </p>
           <p className="l-muted" style={{ fontSize: ".85rem", fontWeight: 500, marginTop: ".35rem" }}>
-            Works from day one — just connect your CRM
+            Works from day one — opportunities only, CRM optional
           </p>
         </div>
       </section>
@@ -77,41 +77,40 @@ Channel sales,<br />without the tape.
               What Covant does
             </p>
             <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
-              Discover partner relationships.<br />Then run the whole program.
+              Record. Capture. Action. Unlock.<br />The four jobs of a partner program.
             </h2>
             <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 560, margin: "0 auto", lineHeight: 1.65 }}>
-              Covant finds partner influence across your pipeline — touchpoints, introductions,
-              deal registrations, co-sells — and builds a living record of who&apos;s driving what.
-              From there, everything else runs on top: commission calculations, payout workflows,
-              deal registration, revenue tracking, incentive programs, and a branded portal where
-              partners see it all.
+              Record every partner touchpoint in one ledger. Capture every deal through a
+              branded portal. Action every partner with four in-product agents — the team
+              you haven&apos;t hired yet. Unlock commissions end-to-end through Stripe, with
+              an audit trail on every dollar.
             </p>
           </div>
 
-          {/* Attribution Engine — hero card */}
+          {/* The Ledger — hero card */}
           <div className="l-engine-card">
             <div className="l-engine-badge">
-              Core Engine
+              The Platform
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2.5rem", alignItems: "flex-start" }}>
               <div>
                 <span className="l-engine-label">
                   <span className="l-dot" />
-                  Attribution Engine
+                  The Ledger
                 </span>
                 <h3 className="l-heading-md">
-                  Discovers partner influence across your entire pipeline.
+                  Every partner touchpoint in one system of record.
                 </h3>
                 <p className="l-body">
-                  The foundation your program runs on. Connects to Salesforce or HubSpot, ingests every partner interaction — referrals, deal registrations, co-sells, introductions — and applies multi-touch attribution models to determine who gets credit. Full audit trail on every deal.
+                  The single source of truth for channel activity — portal submissions, deal registrations, CRM-synced opps, manual touchpoints. Configure the attribution model your team already agreed on; the ledger runs it end-to-end. Every dollar paid traces back to the deal, the touchpoint, the rule, and the payment.
                 </p>
               </div>
               <div className="l-flex-col" style={{ gap: ".5rem" }}>
                 {[
-                  { label: "Full partner history", desc: "Every touchpoint, deal, and interaction — searchable, timestamped, auditable" },
-                  { label: "Multi-touch attribution", desc: "First-touch, last-touch, time-decay, role-based, equal-split — runs on every deal automatically" },
-                  { label: "CRM integration", desc: "Syncs closed-won deals from Salesforce and HubSpot with automatic partner matching" },
-                  { label: "Customer + partner view", desc: "See the full relationship between any customer and any partner across all time" },
+                  { label: "One ledger", desc: "Every touchpoint, every partner, every deal — searchable, timestamped, auditable" },
+                  { label: "Attribution your way", desc: "First-touch, last-touch, time-decay, role-based, equal-split — whichever model your team agreed on" },
+                  { label: "Branded partner portal", desc: "Free, unlimited partner seats. Deal reg, commission visibility, MDF requests, certifications" },
+                  { label: "Explainable by construction", desc: "Every number on every report traces back to a deal + touchpoint + rule + payment" },
                 ].map((f, i) => (
                   <div key={i} className="l-feature-chip">
                     <span className="l-feature-chip-icon">✦</span>
@@ -125,49 +124,54 @@ Channel sales,<br />without the tape.
             </div>
           </div>
 
-          {/* Commission Engine + Built-in capabilities */}
+          {/* Payouts + Agents */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", marginBottom: "2rem" }}>
             <div className="l-rec-card-panel" style={{ borderRadius: "0 0 0 16px" }}>
               <div>
                 <span className="l-engine-label" style={{ color: "#22c55e", marginBottom: ".75rem" }}>
                   <span className="l-dot-sm" style={{ background: "#22c55e", boxShadow: "0 0 6px #22c55e" }} />
-                  Commission Engine
+                  Payouts
                 </span>
                 <h3 className="l-heading-sm">
                   Rules that match reality. Payouts that happen automatically.
                 </h3>
                 <p style={{ fontSize: ".85rem", color: "#6b7280", lineHeight: 1.65 }}>
                   Configure commission rules by partner tier, deal size, product line, or geography.
-                  Stack rules with priority ordering. The engine reads attribution data, calculates
-                  what&apos;s owed, and queues payouts for approval. Every commission links back to the
-                  deal, the attribution, and the rule that triggered it.
+                  Stack rules with priority ordering. The ledger calculates what&apos;s owed, and the
+                  Ops agent reconciles the payout file before it runs. Stripe Connect delivers the
+                  money.
                 </p>
               </div>
               <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "auto" }}>
-                {["Tiered rates", "Bulk payout approval", "Stripe integration"].map((t) => (
+                {["Tiered rates", "Dry-run reconciliation", "Stripe Connect"].map((t) => (
                   <span key={t} className="l-pill" style={{ border: "1px solid rgba(34,197,94,.3)", color: "#22c55e", background: "rgba(34,197,94,.1)" }}>{t}</span>
                 ))}
               </div>
             </div>
 
-            {/* Built-in capabilities */}
+            {/* Agents */}
             <div className="l-rec-card-panel" style={{ borderRadius: "0 0 16px 0", gap: "1.25rem" }}>
-              <p className="l-tag-muted" style={{ margin: 0 }}>Also included</p>
+              <p className="l-tag-muted" style={{ margin: 0 }}>The team you haven&apos;t hired</p>
               {[
                 {
                   accent: "#818cf8",
-                  name: "Deal Registration",
-                  desc: "Partners register deals through their portal. You approve from the dashboard. Attribution and commission rules trigger automatically.",
+                  name: "PSM Agent",
+                  desc: "Partner Sales Manager. Finds co-sell overlap across open deals and drafts the warm intro.",
                 },
                 {
                   accent: "#f59e0b",
-                  name: "Partner Scoring & Tiers",
-                  desc: "Health scores based on revenue, activity, win rate, and deal velocity. Automatic tier progression from Bronze to Platinum.",
+                  name: "PAM Agent",
+                  desc: "Partner Account Manager. Watches partner health, flags churn risk, writes the weekly check-in.",
                 },
                 {
                   accent: "#38bdf8",
-                  name: "Incentive Programs",
-                  desc: "SPIFs, MDF budgets, bonuses, and accelerators — configured per tier, tracked per partner, approved through workflows.",
+                  name: "Program Agent",
+                  desc: "Program lead. Spots commission leakage before payout and proposes the tier-rule fix.",
+                },
+                {
+                  accent: "#22c55e",
+                  name: "Ops Agent",
+                  desc: "Partner Ops. Reconciles attribution, flags disputes, produces the Stripe-ready payout file.",
                 },
               ].map((c) => (
                 <div key={c.name} className="l-cap-item">
@@ -189,10 +193,10 @@ Channel sales,<br />without the tape.
               </span>
               <span style={{ color: "#0a0a0a", fontSize: ".9rem", fontWeight: 600 }}>Partner Portal</span>
               <span style={{ color: "#6b7280", fontSize: ".85rem" }}>—</span>
-              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>Branded self-service workspace. Deal tracking, commission visibility, performance dashboards. Included with every plan.</span>
+              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>Branded self-service workspace. Deal registration, commission visibility, MDF requests, certifications. Unlimited partner seats.</span>
             </div>
-            <Link href="/pricing" className="l-link-arrow">
-              See pricing →
+            <Link href="/beta" className="l-link-arrow">
+              Become a design partner →
             </Link>
           </div>
 
@@ -209,10 +213,10 @@ Channel sales,<br />without the tape.
       <section className="l-section-light" style={{ padding: "7rem 0" }}>
         <div className="wrap l-center">
           <h2 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem", color: "#0a0a0a" }}>
-            Your partners are driving revenue.<br />Start proving it.
+            Your partners are driving revenue.<br />Start unlocking it.
           </h2>
           <p className="l-muted l-subtitle" style={{ maxWidth: 520, margin: "0 auto 2.5rem", lineHeight: 1.5 }}>
-            Free for up to 5 partners. No credit card required.
+            Free for design partners. Locked-in pricing at GA.
           </p>
           <form onSubmit={handleWaitlist} className="l-cta-form">
             <div className="l-cta-form-input">

@@ -4,9 +4,9 @@ import { ArrowLeft } from "lucide-react";
 import { FAQSchema } from "@/components/StructuredData";
 
 export const metadata: Metadata = {
-  title: "FAQ — Covant Partner Intelligence Platform",
+  title: "FAQ — Covant",
   description:
-    "Common questions about Covant: pricing, implementation, security, integrations, attribution models, and partner portal features.",
+    "Common questions about Covant: the platform, the four agents (PSM, PAM, Program, Ops), design-partner pilots, implementation, security, integrations, and the branded partner portal.",
 };
 
 type FAQItem = { q: string; a: string };
@@ -26,32 +26,53 @@ const FAQ_SECTIONS: FAQSection[] = [
       },
       {
         q: "Is there a free trial?",
-        a: "Better — there's a permanent free tier. Up to 5 active partners, 3 commission rules, full attribution engine, no credit card required. Most teams start free and upgrade to Pro when they add their 6th partner.",
+        a: "We're in design-partner phase. During pilot, you get full platform access — ledger, portal, deal reg, Stripe Connect payouts, and the four agents as they ship — free. Design partners lock in pricing at GA.",
       },
       {
         q: "Can I import existing partner data?",
         a: "Yes. Upload a CSV from the Partners page or connect your CRM (Salesforce, HubSpot) to sync automatically. Field mapping happens during setup so your data lands in the right place.",
       },
+      {
+        q: "Can I use Covant without connecting a CRM?",
+        a: "Yes. Covant works from day one with just opportunities and the partner portal — no CRM required. When you're ready, connect Salesforce or HubSpot and the ledger starts ingesting closed-won deals automatically. More data = sharper agents, but the floor is useful on day one.",
+      },
     ],
   },
   {
-    title: "Attribution & Commissions",
+    title: "The Four Agents",
+    items: [
+      {
+        q: "What are the four agents?",
+        a: "Four in-product agents, one per partner-team persona. PSM Agent finds co-sell overlap and drafts warm intros. PAM Agent watches partner health and writes the weekly check-in. Program Agent spots commission leakage and proposes tier-rule fixes. Ops Agent reconciles payouts and flags disputes before they land.",
+      },
+      {
+        q: "Do the agents act on their own?",
+        a: "No. Every agent action is a proposal. Your team reviews, approves, edits, or rejects. The system then executes and logs. You get leverage without losing control.",
+      },
+      {
+        q: "Are the agents optional?",
+        a: "Yes. The platform (ledger, portal, deal reg, Stripe Connect payouts) runs standalone. Turn agents on as you're ready — many teams start with Ops Agent for pre-payout reconciliation and add the others over 30 days.",
+      },
+    ],
+  },
+  {
+    title: "Ledger, Attribution & Commissions",
     items: [
       {
         q: "What attribution models does Covant support?",
-        a: "Three models built for how partner programs actually work: Deal Reg Protection (registering partner wins — standard for reseller programs), Source Wins (sourcing partner gets credit — for referral networks), and Role Split (predefined % by partner type — for co-sell programs). Each model produces a full audit trail.",
+        a: "The ledger runs whichever model your team agreed on: Deal Reg Protection (registering partner wins — standard for reseller programs), Source Wins (sourcing partner gets credit — for referral networks), Role Split (predefined % by partner type — for co-sell programs), first-touch, last-touch, time-decay, and equal-split. Each model produces a full audit trail.",
       },
       {
         q: "How do you handle attribution disputes?",
-        a: "Every attribution decision comes with a step-by-step paper trail: deal value → credit percentage → partner amount → commission. When an AE or partner questions a number, you show them the exact logic — not a spreadsheet formula.",
+        a: "Every attribution decision comes with a step-by-step paper trail: deal value → credit percentage → partner amount → commission. The Ops Agent flags dispute-risk patterns before payout (e.g., a partner who registered the deal but is receiving <50% of expected commission). When an AE or partner questions a number, you open the ledger, not a spreadsheet.",
       },
       {
         q: "Can I set different commission rates for different partners?",
-        a: "Yes. Commission rules support conditions like partner tier, deal size, product type, and territory. Gold reseller gets 20%, referral partner gets 10%, enterprise deals over $100K get a different rate — all configurable without code.",
+        a: "Yes. Commission rules support conditions like partner tier, deal size, product type, and territory. Gold reseller gets 20%, referral partner gets 10%, enterprise deals over $100K get a different rate — all configurable without code. The Program Agent dry-runs any rule change against the last 90 days before it activates.",
       },
       {
         q: "How are payouts processed?",
-        a: "Covant calculates commissions automatically when deals close or get approved. Payouts go through an approval workflow (individual or bulk), and you can export reconciliation reports for your finance team. Stripe integration handles the actual money movement.",
+        a: "The ledger calculates commissions automatically when deals close. The Ops Agent reconciles the payout file 72 hours before execution — flagging any deal where model choice shifts the partner list, any rule gap, or any Stripe Connect issue. You approve clean lines; Stripe Connect delivers the money.",
       },
     ],
   },
@@ -111,23 +132,19 @@ const FAQ_SECTIONS: FAQSection[] = [
     ],
   },
   {
-    title: "Pricing & Plans",
+    title: "Design Partners & Pricing",
     items: [
       {
         q: "How does pricing work?",
-        a: "Pricing is engine-based. Partner Portal is always free. Add AI engines (Attribution, Incentives, Intelligence, CRM) individually or as a bundle. Tiers: Starter (≤25 partners), Growth (≤100), Scale (unlimited). Enterprise custom pricing available for large programs.",
+        a: "We're onboarding a small cohort of design partners right now. Design partners get the full platform — ledger, portal, deal reg, Stripe Connect payouts, and the four agents as they ship — free during pilot, with locked-in pricing at GA. Public pricing lands with general availability.",
       },
       {
-        q: "What counts as an 'active partner'?",
-        a: "A partner is active if they have any deals, touchpoints, or portal activity in the current billing period. Inactive partners don't count toward your limit. You can have unlimited inactive/archived partners on any plan.",
+        q: "Who are design partners and what do you expect from them?",
+        a: "Partner-program teams at Seed–Series B B2B SaaS companies, willing to run Covant as their program of record for 60 days and give us 30 minutes of feedback per week. In exchange: free during pilot, locked-in pricing at GA, direct line to the founding team, and the option of a case-study conversation if the pilot works.",
       },
       {
-        q: "Can I switch plans anytime?",
-        a: "Yes. Upgrade or downgrade from the billing settings page. Upgrades take effect immediately with prorated billing. Downgrades apply at the end of the current billing cycle.",
-      },
-      {
-        q: "Is there a discount for annual billing?",
-        a: "Yes — annual plans save roughly 20% compared to monthly. Contact us for annual pricing on Growth and Scale tiers. Enterprise agreements are always custom-quoted.",
+        q: "Is the partner portal really free?",
+        a: "Yes. The branded partner portal has unlimited partner seats on every plan, including pilot. Your partners don't pay, don't see Covant branding, and get a real workspace for deal registration, commission visibility, MDF requests, and certifications.",
       },
     ],
   },
@@ -185,10 +202,10 @@ export default function FAQPage() {
         </Link>
         <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
           <Link
-            href="/pricing"
+            href="/platform"
             style={{ color: "#888", fontSize: "0.85rem", textDecoration: "none" }}
           >
-            Pricing
+            Platform
           </Link>
           <Link
             href="/beta"
@@ -202,7 +219,7 @@ export default function FAQPage() {
               fontWeight: 600,
             }}
           >
-            Join Beta
+            Become a design partner
           </Link>
         </div>
       </nav>
@@ -350,7 +367,7 @@ export default function FAQPage() {
               textDecoration: "none",
             }}
           >
-            Join the Beta →
+            Become a design partner →
           </Link>
         </div>
       </section>

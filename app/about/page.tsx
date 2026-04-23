@@ -3,30 +3,30 @@ import Link from 'next/link';
 import { ArrowLeft, Zap, Shield, Users, Target } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'About Covant — The Partner Intelligence Platform',
-  description: 'Covant automates partner attribution, commission rules, and payouts for B2B partner programs. Built by people who ran partner programs.',
+  title: 'About Covant — The platform your partner team runs on',
+  description: 'Covant is the platform your partner team runs on. A ledger, a branded portal, Stripe payouts — plus four agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.',
 };
 
 const VALUES = [
   {
     icon: Target,
-    title: 'Attribution is the moat',
-    description: 'Partner programs fail when nobody can agree on who drove the deal. We solve that with real attribution models — not spreadsheet guesswork.',
+    title: 'The ledger is the moat',
+    description: 'Partner programs fail when nobody can agree on who drove the deal. The ledger is the single source of truth — every touchpoint, every rule, every dollar traces back to a row.',
   },
   {
     icon: Zap,
-    title: 'Intelligence, not infrastructure',
-    description: 'Payouts are table stakes. Knowing which partners actually drive revenue — and why — is where the value is. That\'s what we build.',
+    title: 'Agents do the work',
+    description: "You hired a Head of Partnerships. Covant ships with four in-product agents — PSM, PAM, Program, Ops — that cover the roles the team hasn't finished hiring. They propose; your team approves.",
   },
   {
     icon: Shield,
-    title: 'Audit trail everything',
-    description: 'Every commission has a paper trail. Every attribution decision is explainable. When an AE questions a number, you have the receipts.',
+    title: 'Explainable by construction',
+    description: 'Every commission has a paper trail. Every agent action is a logged proposal. When an AE questions a number, you open the ledger, not a spreadsheet.',
   },
   {
     icon: Users,
     title: 'Partners are users, not rows',
-    description: 'Your partners deserve a real portal — not a monthly PDF. They register deals, track commissions, and see performance in real time.',
+    description: 'Your partners deserve a real portal — branded, unlimited seats, free. They register deals, track commissions, request MDF, and see performance in real time.',
   },
 ];
 
@@ -50,13 +50,13 @@ export default function AboutPage() {
 
         {/* Hero */}
         <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3rem)', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1, color:'#0a0a0a', margin: '0 0 20px' }}>
-          Partner programs deserve<br />real software.
+          The platform your partner<br />team runs on.
         </h1>
         <p style={{ color:'#6b7280', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: 48, maxWidth: 600 }}>
           Most partner programs still run on spreadsheets, email threads, and quarterly
-          true-ups that nobody trusts. Covant replaces that with automated attribution,
-          commission rules, and a partner portal — so VPs of Partnerships can focus on
-          relationships instead of reconciliation.
+          true-ups that nobody trusts. Covant replaces that with a ledger, a branded
+          portal, Stripe Connect payouts — and four in-product agents that cover the
+          roles the partner team hasn&apos;t finished hiring.
         </p>
 
         {/* The problem */}
@@ -108,14 +108,14 @@ export default function AboutPage() {
           <p style={{ color:'#374151', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.1em', marginBottom: 16 }}>WHERE WE ARE</p>
           <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '28px 32px' }}>
             <p style={{ color:'#6b7280', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
-              Covant is in early access. The intelligence layer is live — attribution engine,
-              commission automation, CRM integration, and partner portal are all shipping
-              and handling real data. We&apos;re onboarding teams hands-on to make sure it
-              works before we scale.
+              Covant is in design-partner phase. The platform is live — ledger, branded
+              partner portal, deal registration, and Stripe Connect payouts are all
+              shipping and handling real data. The four agents (PSM, PAM, Program, Ops)
+              are rolling out in sequence.
             </p>
             <p style={{ color:'#6b7280', fontSize: '0.95rem', lineHeight: 1.7, margin: '16px 0 0' }}>
-              If you run a partner program and you&apos;re tired of spreadsheets, we&apos;d
-              love to talk.
+              We&apos;re onboarding a small cohort of design partners hands-on. If you run
+              a partner program and you&apos;re tired of spreadsheets, we&apos;d love to talk.
             </p>
           </div>
         </section>

@@ -1,6 +1,6 @@
 # Covant — Series A Vision (Internal / Investor-Only)
 
-*Not linked from the public site. The public site stays wedge-focused ("Channel sales, without the tape"). This doc is the altitude layer for investor conversations after the Demo Day pitch.*
+*Not linked from the public site. The public site stays wedge-focused ("Unlock channel revenue" + four agents). This doc is the altitude layer for investor conversations after the Demo Day pitch.*
 
 ---
 
@@ -8,7 +8,7 @@
 
 > *"Covant is the system of record for multi-party revenue — we started with B2B SaaS partner programs because it's the bleeding neck today, but the primitive underneath is a contribution-weighted ledger, operated by four role-specific agents, that becomes infrastructure for every economy where more than two parties share a dollar."*
 
-Three bars cleared simultaneously: (1) sharp wedge, (2) real primitive, (3) architectural (not aspirational) expansion. Demo Day pitch still opens with *"Channel sales, without the tape."* — this one opens the Series A deck.
+Three bars cleared simultaneously: (1) sharp wedge, (2) real primitive, (3) architectural (not aspirational) expansion. Demo Day pitch still opens with *"Unlock channel revenue."* — this one opens the Series A deck.
 
 ---
 
@@ -139,7 +139,7 @@ The vision's job is to make the pitch compelling and the architecture extensible
 
 1. **Architectural truth test.** After the one-day ledger-generalization refactor, can you add a non-partner contributor type (e.g., `broker` or `marketplace_split`) without touching commission rules logic? If yes, the ledger primitive is real.
 2. **Agent truth test.** Can you add a fifth persona agent (e.g., "Cloud Alliance Agent" for Year 3) by writing a new `agents/*.md` spec + a new route handler that reuses the runtime — with no changes to `agent_tasks`, `agent_proposals`, or the approval UI? If yes, the agent primitive is real.
-3. **Pitch layering test.** Rehearse two pitches back-to-back: 60-second Demo Day wedge pitch ("Channel sales, without the tape") and 90-second Series A vision pitch ("Stripe for multi-party revenue splits, operated by agents"). If they feel like the same company told at different altitudes, the story works.
+3. **Pitch layering test.** Rehearse two pitches back-to-back: 60-second Demo Day wedge pitch ("Unlock channel revenue — the platform your partner team runs on, with four agents") and 90-second Series A vision pitch ("Stripe for multi-party revenue splits, operated by agents"). If they feel like the same company told at different altitudes, the story works.
 4. **Drift-trap test.** Monthly, decline all inbound interest from outside B2B SaaS partner programs in Year 1. If you find yourself wanting to say yes, re-read the traps.
 5. **TAM defense test.** Practice defending $25-40B under investor pressure with a credible number per layer.
 6. **Coexistence test.** At any moment, can you explain in one sentence why the wedge work you did today also serves the Year 5 vision? If yes, the strategy is coherent.

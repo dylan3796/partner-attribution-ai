@@ -18,25 +18,25 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Covant — Partner Intelligence Platform",
+  title: "Covant — The platform your partner team runs on",
   description:
-    "Covant is the rules engine that sits between 'someone did something' and 'someone gets paid.' Attribution, commission automation, and partner program management for any industry.",
+    "The platform your partner team runs on. Four agents that unlock channel revenue — record every touchpoint, capture every deal, action every partner, and pay commissions end-to-end. Free branded portal for partners.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "Covant — Partner Intelligence Platform",
-    description: "Attribution, commission automation, and partner program management. Covant turns partner activity into automated, accurate payouts.",
+    title: "Covant — The platform your partner team runs on",
+    description: "One ledger. Four agents (PSM, PAM, Program, Ops). Stripe Connect payouts. A branded portal your partners actually log into.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — Partner Intelligence Platform",
-    description: "Attribution, commission automation, and partner program management. The infrastructure layer for partner economics.",
+    title: "Covant — The platform your partner team runs on",
+    description: "Four agents that unlock channel revenue end-to-end. Record every touchpoint, capture every deal, action every partner, pay every commission.",
   },
   metadataBase: new URL("https://covant.ai"),
 };
