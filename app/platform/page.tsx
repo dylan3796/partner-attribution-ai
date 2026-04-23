@@ -2,24 +2,27 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   Brain,
-  Coins,
   ClipboardList,
   Users,
   CheckCircle2,
   Shield,
   Bell,
   ArrowRight,
+  Target,
+  Activity,
+  TrendingUp,
+  Zap,
 } from "lucide-react";
 import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "The Partner Platform — Covant",
+  title: "Platform — Covant",
   description:
-    "Covant is the intelligence layer for your partner program. Track attribution, automate commissions, integrate your CRM, and give partners a portal — one system of record for the entire partner motion.",
+    "Measure and attribute partner revenue, then run four partner agents — PSM, PAM, Program, and Ops — on your CRM data. The team you haven't hired yet.",
   openGraph: {
-    title: "The Partner Platform — Covant",
+    title: "Platform — Covant",
     description:
-      "Track which partners drive revenue. Automate commissions. Give partners a portal they'll actually use.",
+      "Measure and attribute partner revenue. Run four partner agents on your CRM — PSM, PAM, Program, Ops.",
   },
 };
 
@@ -82,25 +85,25 @@ function TourSection({
 /* ── Data ─────────────────────────────────────────────────── */
 
 const PROBLEMS = [
-  { before: "Who actually drove this deal?", after: "Attribution Engine tracks every touchpoint — referrals, deal registrations, co-sells, introductions — and applies your attribution model automatically. Full audit trail on every deal." },
-  { before: "How do I calculate commissions without a spreadsheet?", after: "Commission Engine reads attribution data, applies your rules by tier, deal size, and product line, and queues payouts for approval. Partners get paid via Stripe." },
-  { before: "Partners keep asking where their payout is.", after: "Partner Portal gives every partner real-time visibility into their deals, commissions, tier status, and performance — no emails required." },
-  { before: "Our CRM has the deals but no partner context.", after: "Covant syncs with Salesforce and HubSpot, matches deals to partners automatically, and feeds everything into the intelligence layer." },
+  { before: "Who actually drove this deal?", after: "Covant tracks every partner touchpoint — referrals, deal registrations, co-sells, introductions — and applies your attribution model automatically. Full audit trail on every deal." },
+  { before: "What % of our pipeline came from partners?", after: "Measure partner-sourced and partner-influenced pipeline alongside direct revenue. See the real mix, by quarter, tier, and territory — not a number you had to defend in a spreadsheet." },
+  { before: "Partners keep asking where they stand.", after: "The Partner Portal gives every partner real-time visibility into their deals, tier progress, and performance — no emails required." },
+  { before: "Our CRM has the deals but no partner context.", after: "Covant syncs with Salesforce and HubSpot, matches deals to partners automatically, and feeds everything to the four agents running on top." },
 ];
 
 const PILLARS = [
-  { number: "01", title: "Attribution Engine", description: "The core engine. Ingests partner activity from CRM syncs and deal registrations, applies multi-touch attribution models — first-touch, last-touch, time-decay, role-based, equal-split — and builds a complete, auditable record of who influenced every deal." },
-  { number: "02", title: "Commission Engine", description: "Reads from attribution data. Applies your commission rules by partner tier, deal size, product line, or geography. Stacks rules with priority ordering. Queues payouts for bulk approval. Every dollar traces back to the deal, the attribution, and the rule." },
-  { number: "03", title: "CRM Integration", description: "Connects to Salesforce and HubSpot via OAuth. Syncs closed-won deals automatically. Matches deals to partners by email, domain, or custom field. Webhook support for custom systems. Bi-directional data flow." },
-  { number: "04", title: "Partner Portal", description: "A branded, self-service workspace — free for every partner, forever. Deal registration, commission tracking, performance dashboards, tier status. White-labeled to your brand. No partner caps on portal access." },
-  { number: "05", title: "Incentive Programs", description: "SPIFs, MDF budgets, bonuses, and accelerators — configured per tier, tracked per partner, approved through workflows. Deal registration bonuses. Volume rebates for high-performers." },
-  { number: "06", title: "Partner Intelligence", description: "Health scores based on revenue, activity, win rate, and deal velocity. Automatic tier progression from Bronze to Platinum. Leaderboards, pipeline analytics, and program health reporting." },
+  { number: "01", title: "Attribution & Measurement", description: "The substrate. Ingests partner activity from CRM syncs and deal registrations, applies multi-touch attribution models — first-touch, last-touch, time-decay, role-based, equal-split — and builds a complete, auditable record of who influenced every deal and what % of pipeline came from partners." },
+  { number: "02", title: "PSM Agent", description: "The partner sales manager you haven't hired. Surfaces pipeline coverage gaps, warm co-sell paths, dormant high-performers, and the handful of partners worth a nudge this week. Cites the attribution record on every call-out." },
+  { number: "03", title: "PAM Agent", description: "The partner account manager for every partner at once. Spots tier-up candidates, stale registrations, certification drift, and partners drifting from engaged to inactive — before the QBR. Scales the 1:1 motion without the 1:1 headcount." },
+  { number: "04", title: "Program Agent", description: "The program manager that never sleeps. Watches program health metrics — NPI adoption, new-partner ramp time, tier distribution, deal-reg throughput — and flags where the program is bending before it breaks." },
+  { number: "05", title: "Ops Agent", description: "The partner ops analyst that does the cleanup. CRM sync gaps, duplicate partner records, open attribution conflicts, overdue reviews — triaged, prioritized, and handed back as named actions instead of another dashboard." },
+  { number: "06", title: "Partner Portal", description: "A branded, self-service workspace — free for every partner, forever. Deal registration, performance dashboards, tier status. White-labeled. No partner caps. The only partner view they'll actually open." },
 ];
 
 const WHO = [
-  { role: "VP of Partnerships", pain: "Runs a $10M+ indirect channel on spreadsheets and hope.", after: "Finally has a system of record that shows exactly what's working." },
-  { role: "Channel Sales Manager", pain: "Spends 40% of time resolving commission disputes and chasing deal status.", after: "Disputes drop. Partner satisfaction goes up. Time goes back to selling." },
-  { role: "Head of Alliances", pain: "Can't prove partner ROI to the board, so budget stays flat.", after: "Has the attribution data to show partner-sourced revenue clearly." },
+  { role: "VP of Partnerships", pain: "Runs a $10M+ indirect channel on spreadsheets and hope.", after: "Has a system of record that shows exactly what's working — and four agents that run on it." },
+  { role: "Channel Sales Manager", pain: "Partner attribution gets disputed every quarter. No defensible answer to what % of pipeline partners drove.", after: "Attribution is an evidence-backed audit trail, not a debate. Partner pipeline is a number on the dashboard." },
+  { role: "Head of Alliances", pain: "Can't prove partner ROI to the board, so budget stays flat.", after: "Has the attribution data to show partner-sourced revenue clearly — with agents surfacing the plays that move it." },
 ];
 
 /* ── Page ─────────────────────────────────────────────────── */
@@ -113,16 +116,15 @@ export default function PlatformPage() {
       <section className="l-center l-section-border-b" style={{ padding: "8rem 0 6rem" }}>
         <div className="wrap" style={{ maxWidth: 720 }}>
           <p className="l-section-tag" style={{ marginBottom: "1.5rem" }}>
-            Partner Intelligence Platform
+            The Partner Platform
           </p>
           <h1 className="l-heading-xl" style={{ fontSize: "clamp(2.4rem, 5.5vw, 3.75rem)", marginBottom: "1.75rem" }}>
-            Your partner program<br />deserves a real platform.
+            Measure your partners.<br />Run the team you haven&apos;t hired.
           </h1>
           <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 560 }}>
-            Covant discovers partner relationships across your pipeline and gives you
-            a single platform to run everything else — attribution, commissions,
-            deal registration, incentives, revenue tracking, and a portal your
-            partners will actually log into.
+            Covant measures and attributes partner revenue — including what % of pipeline
+            partners actually drove — and runs four partner agents on your CRM data.
+            PSM, PAM, Program, and Ops. The team you haven&apos;t hired yet.
           </p>
           <div className="l-flex-center">
             <Link href="/dashboard?demo=true" className="l-btn">Try it live →</Link>
@@ -141,8 +143,8 @@ export default function PlatformPage() {
             Partner ops is the last function<br />still running on spreadsheets.
           </h2>
           <p className="l-center" style={{ color: "#6b7280", fontSize: "1.1rem", maxWidth: 560, margin: "0 auto 3.5rem", lineHeight: 1.65 }}>
-            Sales has Salesforce. Marketing has HubSpot. Finance has NetSuite.
-            Partner teams have a shared Google Sheet and a quarterly argument about who drove what.
+            Sales has Salesforce. Marketing has HubSpot. RevOps has Clari.
+            Partner teams have a shared spreadsheet and a quarterly argument about who drove what.
           </p>
           <div className="l-problem-grid">
             {PROBLEMS.map((p, i) => (
@@ -168,23 +170,24 @@ export default function PlatformPage() {
             <div>
               <p className="l-section-tag">What Covant is</p>
               <h2 className="l-heading-lg" style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", marginBottom: "1.25rem" }}>
-                The rules engine between<br />&ldquo;someone did something&rdquo;<br />and &ldquo;someone gets paid.&rdquo;
+                The measurement layer<br />and the team<br />that runs on top of it.
               </h2>
               <p className="l-body" style={{ fontSize: "1rem", marginBottom: "1.25rem" }}>
-                Covant connects to your CRM, ingests deal activity, applies your attribution
-                rules, calculates commissions, and surfaces everything to partners through
-                a branded portal. One pipeline. One audit trail. One payout workflow.
+                Covant connects to your CRM, ingests deal activity, attributes every touchpoint,
+                and measures partner-sourced and partner-influenced pipeline against the
+                rest of the business. One record. One audit trail.
               </p>
               <p className="l-body" style={{ fontSize: "1rem" }}>
-                Think of it as the intelligence layer for partner economics.
-                The rules are yours. The execution is Covant.
+                Then four agents run on it — PSM, PAM, Program, Ops — surfacing the plays
+                and fixes a partner team would do if you had four more people. The data is
+                yours. The agents do the work.
               </p>
             </div>
             <div className="l-flex-col" style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 16, padding: "2rem", gap: "1rem" }}>
               {[
-                { label: "Partner-sourced revenue", value: "$1.2M", trend: "+24% QoQ", color: "#22c55e" },
+                { label: "Partner-sourced pipeline", value: "$1.2M", trend: "+24% QoQ", color: "#22c55e" },
                 { label: "Active partners", value: "47", trend: "12 pending onboard", color: "#3b82f6" },
-                { label: "Commissions owed", value: "$38,400", trend: "Payout scheduled Apr 1", color: "#a78bfa" },
+                { label: "% of pipeline from partners", value: "31%", trend: "+5 pts QoQ", color: "#a78bfa" },
                 { label: "Open deal registrations", value: "9", trend: "3 need review", color: "#f59e0b" },
               ].map((stat, i) => (
                 <div key={i} style={{ background: "#ffffff", borderRadius: 10, padding: "1rem 1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid #e5e7eb" }}>
@@ -203,9 +206,9 @@ export default function PlatformPage() {
       {/* ── THE SIX PILLARS ───────────────────────────────────── */}
       <section className="l-section-alt l-section-border-b">
         <div className="wrap" style={{ maxWidth: 960 }}>
-          <p className="l-section-tag l-center">What&apos;s inside</p>
+          <p className="l-section-tag l-center" id="agents">What&apos;s inside</p>
           <h2 className="l-heading-lg l-center" style={{ marginBottom: "3.5rem" }}>
-            The full intelligence layer.
+            Measurement, four agents, and the portal.
           </h2>
           <div className="l-grid-3">
             {PILLARS.map((p) => (
@@ -233,7 +236,7 @@ export default function PlatformPage() {
               { label: "Dashboard", href: "#dashboard" },
               { label: "Attribution", href: "#attribution" },
               { label: "Partner Portal", href: "#portal" },
-              { label: "Commissions", href: "#commissions" },
+              { label: "Agents at work", href: "#agents-at-work" },
               { label: "Deal Registration", href: "#deals" },
             ].map((l) => (
               <a key={l.href} href={l.href} className="l-tour-step" style={{ marginBottom: 0 }}>
@@ -250,7 +253,7 @@ export default function PlatformPage() {
         step="Step 1 — Setup"
         title="Tell us about your program. We'll configure everything."
         subtitle="AI-powered setup in under 5 minutes."
-        description="No forms. No 40-field wizards. Just describe your partner program in plain English — Covant's AI extracts your attribution model, commission rules, interaction types, and module preferences. A live preview panel updates in real time as you talk."
+        description="No forms. No 40-field wizards. Just describe your partner program in plain English — Covant extracts your attribution model, partner types, interaction types, and which agents to turn on first. A live preview updates in real time as you talk."
       >
         <MockWindow title="covant.ai/onboard">
           <div className="l-flex-col" style={{ gap: 12 }}>
@@ -265,13 +268,13 @@ export default function PlatformPage() {
               <Users size={16} style={{ color: "#22c55e", marginTop: 2, flexShrink: 0 }} />
               <div>
                 <div style={{ color: "#22c55e", fontSize: ".7rem", marginBottom: 4 }}>You</div>
-                <div style={{ color: "#374151", fontSize: ".82rem", lineHeight: 1.6 }}>We have 35 reseller partners. Deal registration is how we attribute — whoever registers first gets credit. 15% commission on closed-won.</div>
+                <div style={{ color: "#374151", fontSize: ".82rem", lineHeight: 1.6 }}>35 reseller partners. Deal registration is how we attribute — whoever registers first gets credit. We want to know what % of pipeline they drive.</div>
               </div>
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 4 }}>
               <Badge text="Deal Reg Protection" color="#3b82f6" />
               <Badge text="35 Partners" color="#22c55e" />
-              <Badge text="15% Commission" color="#eab308" />
+              <Badge text="4 Agents On" color="#a78bfa" />
             </div>
             <div style={{ color: "#9ca3af", fontSize: ".7rem", textAlign: "center", marginTop: 4 }}>Live config preview updates as you talk ↑</div>
           </div>
@@ -283,21 +286,21 @@ export default function PlatformPage() {
         id="dashboard"
         step="Step 2 — Dashboard"
         title="Your partner program, at a glance."
-        subtitle="Real-time metrics, action items, and trends."
-        description="No more logging into Salesforce, exporting to Excel, and building a pivot table to figure out how your partners are doing. Covant shows partner-sourced revenue, pipeline, win rates, and commission burn — all updating in real time from your CRM."
+        subtitle="Real-time metrics, agent findings, and trends."
+        description="No more logging into Salesforce, exporting to Excel, and building a pivot table to figure out how your partners are doing. Covant shows partner-sourced pipeline, % of total pipeline from partners, win rates, and the actions your four agents flagged today — all updating in real time from your CRM."
         reverse
       >
         <MockWindow title="covant.ai/dashboard">
           <div style={{ display: "flex", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
-            <StatCard label="Partner Revenue" value="$2.4M" trend="↑ 18% vs last quarter" />
-            <StatCard label="Active Partners" value="28" trend="↑ 3 this month" />
+            <StatCard label="Partner Pipeline" value="$2.4M" trend="↑ 18% vs last quarter" />
+            <StatCard label="% of Pipeline" value="31%" trend="↑ 5 pts QoQ" />
             <StatCard label="Win Rate" value="34%" trend="↑ 6pts vs direct" />
           </div>
-          <div className="l-section-label">Action Items</div>
+          <div className="l-section-label">Agent Findings</div>
           {[
-            { icon: ClipboardList, text: "3 deal registrations pending review", color: "#3b82f6" },
-            { icon: Coins, text: "$12,400 in commissions ready to pay", color: "#eab308" },
-            { icon: Users, text: "2 partners haven't completed onboarding", color: "#ef4444" },
+            { icon: ClipboardList, text: "PSM Agent: 3 deal registrations pending review", color: "#3b82f6" },
+            { icon: TrendingUp, text: "PAM Agent: 4 partners within 1 deal of tier-up", color: "#a78bfa" },
+            { icon: Users, text: "Ops Agent: 2 partners haven't completed onboarding", color: "#ef4444" },
           ].map((item, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: i < 2 ? "1px solid #f3f4f6" : "none" }}>
               <item.icon size={14} style={{ color: item.color, flexShrink: 0 }} />
@@ -313,7 +316,7 @@ export default function PlatformPage() {
         step="Step 3 — Attribution"
         title="Attribution that partners actually trust."
         subtitle="Every number has a paper trail."
-        description="When an AE questions a partner's credit, you don't open a spreadsheet — you open the audit trail. Every deal shows exactly which partner touched it, when, what model was applied, and how the commission was calculated. Step by step. No black boxes."
+        description="When an AE questions a partner's credit, you don't open a spreadsheet — you open the audit trail. Every deal shows exactly which partner touched it, when, and what model was applied. Step by step. No black boxes."
       >
         <MockWindow title="covant.ai/dashboard/deals/d-7291">
           <div style={{ marginBottom: 16 }}>
@@ -344,7 +347,7 @@ export default function PlatformPage() {
             <div style={{ marginTop: 12, padding: "10px 12px", background: "#f9fafb", borderRadius: 6, display: "flex", alignItems: "center", gap: 8 }}>
               <Shield size={14} style={{ color: "#3b82f6", flexShrink: 0 }} />
               <span style={{ color: "#6b7280", fontSize: ".75rem", lineHeight: 1.5 }}>
-                <strong style={{ color: "#374151" }}>Model: Deal Reg Protection</strong> — TechBridge registered first (Jan 12). Credit: 100% → $180,000 × 15% = <strong style={{ color: "#22c55e" }}>$27,000 commission</strong>
+                <strong style={{ color: "#374151" }}>Model: Deal Reg Protection</strong> — TechBridge registered first (Jan 12). Credit: 100% → <strong style={{ color: "#22c55e" }}>$180,000 partner-sourced</strong> attributed to TechBridge Solutions.
               </span>
             </div>
           </div>
@@ -352,13 +355,12 @@ export default function PlatformPage() {
       </TourSection>
 
       {/* Step 4 — Partner Portal */}
-      {/* Step 4 — Partner Portal */}
       <TourSection
         id="portal"
         step="Step 4 — Partner Portal"
-        title="The portal partners will actually use."
+        title="The only partner view they'll actually open."
         subtitle="Always free. Infused with AI."
-        description="Every partner gets their own branded workspace — register deals, track commissions, see performance, and ask AI questions about their pipeline. Set up bi-directional syncs, customize flows per partner, white-label everything. It's everything partner teams have been asking PRMs for, built from scratch and free forever."
+        description="Every partner gets their own branded workspace — register deals, see how they're contributing, track tier progress, and ask questions about their pipeline. Bi-directional syncs, per-partner flows, white-label everything. Governed so nothing leaves your four walls without your approval."
         reverse
       >
         <MockWindow title="partners.covant.ai/portal">
@@ -371,8 +373,8 @@ export default function PlatformPage() {
               <Badge text="Gold" color="#eab308" />
             </div>
             <div style={{ display: "flex", gap: 10, marginBottom: 16, flexWrap: "wrap" }}>
-              <StatCard label="Your Revenue" value="$840K" trend="↑ 24% YoY" />
-              <StatCard label="Commissions" value="$126K" trend="3 pending" />
+              <StatCard label="Sourced Pipeline" value="$840K" trend="↑ 24% YoY" />
+              <StatCard label="Tier Progress" value="82%" trend="2 deals to Platinum" />
             </div>
             {/* AI Chat UI */}
             <div style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 8, padding: "10px 12px", marginBottom: 12 }}>
@@ -380,18 +382,18 @@ export default function PlatformPage() {
                 <span>✦</span> Ask your portal AI
               </div>
               <div style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 6, padding: "7px 10px", marginBottom: 6 }}>
-                <span style={{ color: "#6b7280", fontSize: ".78rem" }}>"What's my projected commission if I close GlobalTech?"</span>
+                <span style={{ color: "#6b7280", fontSize: ".78rem" }}>&ldquo;What do I need to do to hit Platinum this quarter?&rdquo;</span>
               </div>
               <div style={{ background: "rgba(99,102,241,.08)", border: "1px solid rgba(99,102,241,.2)", borderRadius: 6, padding: "7px 10px" }}>
                 <span style={{ color: "#374151", fontSize: ".78rem" }}>
-                  Based on your Gold tier rate (18%) and GlobalTech's registered value of $95K — your commission would be <strong style={{ color: "#22c55e" }}>$17,100</strong>. That would bring your Q2 total to <strong style={{ color: "#22c55e" }}>$41,420</strong>.
+                  You&apos;re <strong style={{ color: "#22c55e" }}>82% of the way</strong>. Platinum requires 2 more closed-won registrations above $50K, or one above $150K. GlobalTech ($95K, registered) and Northwind ($180K, pending) would both get you there.
                 </span>
               </div>
             </div>
             <div className="l-section-label">Recent Activity</div>
             {[
               { icon: CheckCircle2, text: "Deal approved: Acme Corp ($180K)", color: "#22c55e", time: "2h ago" },
-              { icon: Coins, text: "Commission paid: $14,200", color: "#eab308", time: "1d ago" },
+              { icon: TrendingUp, text: "Tier progress updated: 78% → 82%", color: "#a78bfa", time: "1d ago" },
               { icon: Bell, text: "New deal registered: GlobalTech", color: "#3b82f6", time: "3d ago" },
             ].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "8px 0", borderBottom: i < 2 ? "1px solid #f3f4f6" : "none" }}>
@@ -406,32 +408,30 @@ export default function PlatformPage() {
         </MockWindow>
       </TourSection>
 
-      {/* Step 5 — Commissions */}
+      {/* Step 5 — Agents at work */}
       <TourSection
-        id="commissions"
-        step="Step 5 — Commission Engine"
-        title="Commission rules that match reality."
-        subtitle="Not just flat percentages."
-        description="Configure commission rules by product line, partner tier, deal size, or geography. Stack rules with priority ordering. Bulk approve payouts at end of quarter. Every payout links back to the deal, the attribution, and the rule that triggered it."
+        id="agents-at-work"
+        step="Step 5 — Agents at work"
+        title="Four agents. One prioritized feed."
+        subtitle="The team you haven't hired yet."
+        description="PSM, PAM, Program, and Ops agents read the same attributed record and surface the handful of things worth doing today — a tier-up nudge here, a coverage gap there, a dormant partner to reactivate. Every item cites the attribution it's based on. Nothing is black-box."
       >
-        <MockWindow title="covant.ai/dashboard/settings/commission-rules">
-          <div className="l-section-label" style={{ marginBottom: 12 }}>Commission Rules</div>
+        <MockWindow title="covant.ai/dashboard/agents">
+          <div className="l-section-label" style={{ marginBottom: 12 }}>Today&apos;s feed</div>
           {[
-            { name: "Enterprise Reseller", condition: "Deal > $100K + Gold tier", rate: "18%", active: true },
-            { name: "Standard Referral", condition: "All referral partners", rate: "12%", active: true },
-            { name: "New Partner Bonus", condition: "First 3 deals, any tier", rate: "20%", active: true },
-            { name: "APAC Override", condition: "Territory = APAC", rate: "+3%", active: false },
-          ].map((rule, i) => (
-            <div key={i} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 12px", background: "#f9fafb", borderRadius: 6, marginBottom: 6, opacity: rule.active ? 1 : 0.5 }}>
-              <div>
-                <div style={{ color: "#374151", fontSize: ".82rem", fontWeight: 600 }}>{rule.name}</div>
-                <div style={{ color: "#6b7280", fontSize: ".7rem" }}>{rule.condition}</div>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <span style={{ color: "#22c55e", fontSize: ".85rem", fontWeight: 700 }}>{rule.rate}</span>
-                <div style={{ width: 32, height: 18, borderRadius: 9, background: rule.active ? "#22c55e" : "#d1d5db", position: "relative" }}>
-                  <div style={{ width: 14, height: 14, borderRadius: "50%", background: "#fff", position: "absolute", top: 2, left: rule.active ? 16 : 2 }} />
+            { agent: "PSM", icon: Target, title: "Coverage gap in APAC", detail: "No active partner for 4 enterprise deals in-flight. TechBridge & Apex both qualify.", color: "#3b82f6" },
+            { agent: "PAM", icon: TrendingUp, title: "4 partners within 1 deal of tier-up", detail: "TechBridge, Stackline, NexaCloud, Ridgeway. Platinum unlocks co-sell benefits.", color: "#a78bfa" },
+            { agent: "Program", icon: Activity, title: "NPI launch adoption below bar", detail: "Cloud Connect: 3 of 28 partners trained. Target is 70% by end of quarter.", color: "#22c55e" },
+            { agent: "Ops", icon: Zap, title: "12 CRM sync conflicts", detail: "Partner field mismatch between Salesforce and the registration form. Auto-merge ready.", color: "#eab308" },
+          ].map((item, i) => (
+            <div key={i} style={{ display: "flex", gap: 12, padding: "10px 12px", background: "#f9fafb", borderRadius: 6, marginBottom: 6, alignItems: "flex-start" }}>
+              <item.icon size={16} style={{ color: item.color, marginTop: 2, flexShrink: 0 }} />
+              <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
+                  <span style={{ color: item.color, fontSize: ".65rem", fontWeight: 700, letterSpacing: "0.05em" }}>{item.agent} AGENT</span>
+                  <span style={{ color: "#374151", fontSize: ".82rem", fontWeight: 600 }}>{item.title}</span>
                 </div>
+                <div style={{ color: "#6b7280", fontSize: ".75rem", lineHeight: 1.5 }}>{item.detail}</div>
               </div>
             </div>
           ))}
@@ -444,7 +444,7 @@ export default function PlatformPage() {
         step="Step 6 — Deal Registration"
         title="Deal registration that actually works."
         subtitle="Partners register. You approve. Attribution happens."
-        description="Partners submit deals through their portal. You review, approve, or reject from your dashboard. Approved deals automatically trigger the right commission rule. No CSV imports, no email chains, no 'who registered this?' debates."
+        description="Partners submit deals through their portal. You review, approve, or reject from your dashboard. Approved deals are attributed automatically and appear on the dashboard and in the agent feed. No CSV imports, no email chains, no 'who registered this?' debates."
         reverse
       >
         <MockWindow title="covant.ai/dashboard/deals">
