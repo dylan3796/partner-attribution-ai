@@ -187,10 +187,9 @@ Unlock channel revenue.
                 </h3>
                 <p style={{ fontSize: ".85rem", color: "#6b7280", lineHeight: 1.65 }}>
                   Know exactly who drove what, how much, and why. Attribution runs on every deal;
-                  health scores run on every partner; revenue rolls up by program, tier, and partner.
-                  Your team gets defensible numbers. Your partners get transparent visibility. Take
-                  whichever commission export your finance team needs — Covant keeps the receipts,
-                  not the bank rails.
+                  health scores run on every partner; revenue rolls up by program, tier, partner,
+                  and as a share of total pipeline. Your team gets defensible numbers. Your
+                  partners get transparent visibility into their own contribution.
                 </p>
               </div>
               <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "auto" }}>
@@ -244,7 +243,7 @@ Unlock channel revenue.
               </span>
               <span style={{ color: "#0a0a0a", fontSize: ".9rem", fontWeight: 600 }}>Partner Portal</span>
               <span style={{ color: "#6b7280", fontSize: ".85rem" }}>—</span>
-              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>Branded self-service workspace. Deal registration, commission visibility, MDF requests, certifications. Unlimited partner seats.</span>
+              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>Branded self-service workspace. Deal registration, revenue visibility, MDF requests, certifications. Unlimited partner seats.</span>
             </div>
             <Link href="/beta" className="l-link-arrow">
               Become a design partner →
