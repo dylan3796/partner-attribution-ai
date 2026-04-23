@@ -54,13 +54,62 @@ Unlock channel revenue.
         </div>
       </section>
 
+      {/* ── WHAT WE'RE ADDRESSING ────────────────────────── */}
+      <section className="l-section l-section-border-t">
+        <div className="wrap">
+          <div className="l-center" style={{ marginBottom: "2.5rem" }}>
+            <p className="l-tag" style={{ marginBottom: ".75rem" }}>What we&apos;re addressing</p>
+            <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
+              The tensions partner teams live with.
+            </h2>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
+            {[
+              {
+                title: "Partner programs running on gut feel",
+                desc: "Revenue decisions about which partners to invest in get made without a defensible, evidence-backed view of who's actually driving pipeline.",
+              },
+              {
+                title: "Partners operating in the dark",
+                desc: "Partners can't see which specific moves would grow their business with you, so they wait for a QBR that never quite tells them.",
+              },
+              {
+                title: "New-product launches that never reach the right partners",
+                desc: "Every launch starts over from scratch, with no memory of which partners have the history or specialization to carry it.",
+              },
+              {
+                title: "Too many dashboards, too few actions",
+                desc: "The teams touching partners open six surfaces every morning and still miss the moments that mattered yesterday.",
+              },
+              {
+                title: "Partner touchpoints that vanish",
+                desc: "The work partners do between registered deals — intros, co-sells, technical assists — rarely gets recorded in a way anyone can act on later.",
+              },
+            ].map((t) => (
+              <div key={t.title} className="l-feature-chip" style={{ alignItems: "flex-start" }}>
+                <span className="l-feature-chip-icon">✦</span>
+                <div>
+                  <div className="l-feature-chip-title">{t.title}</div>
+                  <div className="l-feature-chip-desc">{t.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="l-muted" style={{ textAlign: "center", fontSize: ".95rem", fontWeight: 500 }}>
+            If any of these sound like your week, you&apos;re who Covant is built for.
+          </p>
+        </div>
+      </section>
+
       {/* ── THE PROBLEM ─────────────────────────────────── */}
       <section className="l-quote-section">
         <div className="wrap" style={{ maxWidth: 680, textAlign: "center" }}>
           <p className="l-tag" style={{ marginBottom: "1.5rem", color: "#9ca3af" }}>The problem we solve</p>
           <p className="l-quote">
             Sales has Salesforce. Marketing has HubSpot. Finance has NetSuite.
-            Partner teams have a shared Google Sheet and a quarterly argument about who drove what.
+            Partner teams have a spreadsheet and a quarterly argument about who drove what.
           </p>
           <p className="l-quote-attr">
             Covant replaces the spreadsheet with a system of record — so every touchpoint,
@@ -207,6 +256,43 @@ Unlock channel revenue.
             <Link href="/platform" style={{ fontSize: ".95rem", fontWeight: 600, color: "#6366f1", textDecoration: "none" }}>
               See everything Covant does →
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── TRUST BY CONSTRUCTION ───────────────────────── */}
+      <section className="l-section l-section-border-b">
+        <div className="wrap">
+          <div className="l-center" style={{ marginBottom: "2.5rem" }}>
+            <p className="l-tag" style={{ marginBottom: ".75rem" }}>Trust by construction</p>
+            <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
+              Antitrust-safe. Partner-visible by permission only.
+            </h2>
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
+            {[
+              {
+                title: "Per-signal sharing controls",
+                desc: "Everything an agent surfaces is internal-only by default. A signal can only be shown to partners after an explicit compliance review.",
+              },
+              {
+                title: "Inference, not tagging",
+                desc: "Partner specialization comes from deal history and certifications — never a field the partner self-selects and you can't defend.",
+              },
+              {
+                title: "Full audit trail",
+                desc: "Every partner-visible surface writes to the log, with the user and signal kind that authorized it.",
+              },
+            ].map((t) => (
+              <div key={t.title} className="l-feature-chip" style={{ alignItems: "flex-start" }}>
+                <span className="l-feature-chip-icon">✦</span>
+                <div>
+                  <div className="l-feature-chip-title">{t.title}</div>
+                  <div className="l-feature-chip-desc">{t.desc}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
