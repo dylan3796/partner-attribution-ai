@@ -260,53 +260,6 @@ const INTEGRATIONS: Record<string, IntegrationDetail> = {
       { q: 'Is there a Slack bot I can query?', a: 'The initial launch focuses on notifications. A conversational Slack bot (ask for partner stats, query pipeline, etc.) is planned for a future release.' },
     ],
   },
-  stripe: {
-    slug: 'stripe',
-    name: 'Stripe',
-    category: 'Payments',
-    tagline: 'Commissions approved → partners paid. Automatically.',
-    description: 'Automate partner payouts through Stripe Connect. When commissions are approved in Covant, payments are initiated automatically — no spreadsheets, no manual bank transfers, no month-end scramble.',
-    status: 'beta',
-    tier: 'Scale',
-    logo: '💳',
-    heroStats: [
-      { label: 'Payout speed', value: '2-3 days' },
-      { label: 'Currencies', value: '135+' },
-      { label: 'Partner onboarding', value: 'Self-serve' },
-      { label: 'Required plan', value: 'Scale+' },
-    ],
-    keyFeatures: [
-      { title: 'Stripe Connect Onboarding', description: 'Partners complete Stripe\'s identity verification and banking setup through a branded onboarding link. KYC, tax info, and bank details — handled by Stripe, not you.', icon: 'users' },
-      { title: 'Automated Payouts', description: 'When a commission is approved in Covant, a Stripe transfer is initiated automatically. Partners receive funds in 2-3 business days. No manual processing.', icon: 'zap' },
-      { title: 'Payout Status Tracking', description: 'Real-time payout status in the Covant dashboard: initiated, in_transit, paid, failed. Partners see their payout history in the portal.', icon: 'refresh' },
-      { title: 'Multi-Currency', description: 'Pay partners in their local currency. Stripe handles conversion for 135+ currencies. Covant tracks the USD equivalent for reporting.', icon: 'dollar' },
-      { title: 'Tax Form Generation', description: 'Stripe automatically generates 1099 forms for US-based partners and equivalent tax documentation internationally. Tax season is handled.', icon: 'shield' },
-      { title: 'Payout Scheduling', description: 'Set payout frequency: immediate on approval, weekly batch, or monthly batch. Align with your finance team\'s existing payout cadence.', icon: 'clock' },
-    ],
-    dataFlow: [
-      { from: 'Covant', arrow: '→', to: 'Stripe', label: 'Commission approved → initiate transfer' },
-      { from: 'Stripe', arrow: '→', to: 'Partner Bank', label: 'Funds transferred in 2-3 days' },
-      { from: 'Stripe', arrow: '→', to: 'Covant', label: 'Payout status updates (webhook)' },
-      { from: 'Partner', arrow: '→', to: 'Stripe Connect', label: 'Self-serve onboarding + KYC' },
-    ],
-    setupSteps: [
-      { step: 1, title: 'Connect Stripe', description: 'Link your Stripe account in Settings → Integrations. Covant uses Stripe Connect for partner payouts — no custom payment infrastructure.' },
-      { step: 2, title: 'Invite partners to onboard', description: 'Partners receive a Stripe onboarding link via the portal. They complete identity verification and add bank details through Stripe\'s hosted flow.' },
-      { step: 3, title: 'Set payout rules', description: 'Configure payout frequency (immediate, weekly, monthly), minimum payout threshold, and currency preferences.' },
-      { step: 4, title: 'Approve and pay', description: 'When you approve a commission in Covant, the payout is initiated automatically. Track status in real time from both the dashboard and portal.' },
-    ],
-    useCases: [
-      { persona: 'VP of Partnerships', scenario: 'Elena manages 140 partners across 3 tiers. Month-end used to mean a week of spreadsheet exports, manual bank transfers, and "where\'s my commission?" emails. Now commissions flow from approval to bank account automatically.' },
-      { persona: 'Finance', scenario: 'The CFO needs audit-ready payout records. Every Stripe transfer is linked to the original deal, attribution calculation, and commission rule. Tax forms are generated automatically.' },
-      { persona: 'Partner', scenario: 'Partners see their commission earned, pending, and paid in the portal. When a payout hits their bank, they see the exact deal it came from. No more opaque lump-sum payments.' },
-    ],
-    faq: [
-      { q: 'Do partners need a Stripe account?', a: 'Partners create a Stripe Connect account through a simple onboarding flow. If they already have Stripe, they can link their existing account.' },
-      { q: 'What are the fees?', a: 'Stripe charges their standard Connect transfer fees (0.25% + $0.25 per payout for US, varies internationally). Covant does not add additional payout fees.' },
-      { q: 'Can I pay partners outside of Stripe?', a: 'Yes. Stripe is optional. You can continue to process payouts manually and mark them as paid in Covant. Stripe just automates the process.' },
-      { q: 'What about international partners?', a: 'Stripe Connect supports payouts in 40+ countries with local currency. Partners outside Stripe\'s coverage can be paid manually through Covant\'s standard payout workflow.' },
-    ],
-  },
 };
 
 const ICON_MAP: Record<string, typeof Zap> = {

@@ -98,44 +98,44 @@ const CATEGORIES: Category[] = [
       },
       {
         title: "Program Agent",
-        description: "Program lead. Spots commission leakage before it compounds. Proposes tier-threshold and rule changes with a 90-day dry-run preview. Drafts MDF approval rationale.",
+        description: "Program lead. Spots tier, incentive, and certification drift before it compounds. Proposes program changes with a 90-day dry-run preview. Drafts MDF approval rationale.",
         icon: Scale,
       },
       {
         title: "Ops Agent",
-        description: "Partner Ops. Reconciles attribution across every deal 72 hours before any commission settles. Flags dispute-risk patterns early. Produces the variance report that answers every 'where did this dollar go?' question.",
+        description: "Partner Ops. Reconciles attribution across every deal continuously. Flags dispute-risk patterns early. Produces the variance report that answers every 'where did this revenue come from?' question.",
         icon: Shield,
       },
     ],
   },
   {
-    name: "Unlock — Commissions",
-    tagline: "Complex rules, automated calculations, math your CRO can defend.",
+    name: "Unlock — Revenue Intelligence",
+    tagline: "Measure partner contribution end-to-end. Numbers you can defend, exports finance can use on their own rails.",
     color: "#22c55e",
     features: [
       {
-        title: "Complex Commission Rules",
-        description: "Tiered rates by partner level, product line, deal size, and role. Create rules in plain English or configure manually.",
+        title: "Revenue Rollups",
+        description: "Channel revenue by program, tier, partner, and deal type. Drill from program health down to the individual touchpoint behind any number.",
         icon: Coins,
       },
       {
         title: "Auto-Commission on Approval",
-        description: "Approve a deal registration → commission calculates instantly based on matching rules. No manual spreadsheet step.",
+        description: "Approve a deal registration → commission math runs instantly against your configured rules. Export cleanly to whichever finance rail your team already uses.",
         icon: Zap,
       },
       {
-        title: "Bulk Commission Approval",
-        description: "Select multiple commissions, approve in one click. Stats cards show pending, approved, and total amounts.",
+        title: "Commission Rules",
+        description: "Tiered rates by partner level, product line, deal size, and role. Stack rules with priority ordering. Create rules in plain English or configure manually.",
         icon: CheckCircle2,
       },
       {
-        title: "End-of-Quarter Reconciliation",
-        description: "Quarter-by-quarter commission summaries with CSV export. Every dollar traces back to a deal, a touchpoint, and a rule.",
+        title: "Quarterly Variance Reports",
+        description: "Quarter-by-quarter revenue summaries with CSV export. Every dollar traces back to a deal, a touchpoint, and a rule.",
         icon: Scale,
       },
       {
         title: "Dispute Resolution",
-        description: "Partners open disputes on deals. Admins review, resolve, or reject with notes. Full audit trail. No more email threads.",
+        description: "Partners open disputes on deals or attribution. Admins review, resolve, or reject with notes. Full audit trail. No more email threads.",
         icon: Scale,
       },
     ],
@@ -274,10 +274,9 @@ const CATEGORIES: Category[] = [
         link: "/integrations/api",
       },
       {
-        title: "Stripe Billing",
+        title: "Billing & Subscriptions",
         description: "Self-serve checkout, subscription management, and usage-based billing tied to active partner count.",
         icon: Coins,
-        link: "/integrations/stripe",
       },
       {
         title: "Team Management",

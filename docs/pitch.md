@@ -6,7 +6,7 @@
 
 ## One-sentence thesis
 
-**Unlock channel revenue.** Covant is the AI-native platform your partner team runs on. One ledger that records every touchpoint, a branded portal that captures every deal, four in-product agents (Partner Sales, Partner Account, Program, Ops) that action every partner, and Stripe Connect payouts that unlock every dollar — end-to-end. Works from day one with just opportunities; connecting a CRM sharpens the agents but isn't required to start.
+**Unlock channel revenue.** Covant is the AI-native platform your partner team runs on. One ledger that records every touchpoint, a branded portal that captures every deal, four in-product agents (Partner Sales, Partner Account, Program, Ops) that action every partner, and defensible commission rules that unlock every dollar — end-to-end. Works from day one with just opportunities; connecting a CRM sharpens the agents but isn't required to start.
 
 ---
 
@@ -145,7 +145,7 @@ The category has been defined narrowly: PRM (PartnerStack), attribution (Kademi)
 Data sparsity at the low end of the market. Our answer is the ladder above: Tier-0 customers still get a portal, deterministic attribution, and payouts on opportunities alone. Tiers 1-4 deepen as they integrate CRM, email, and peer benchmarks. The floor is useful; the ceiling is the moat.
 
 ### Why you?
-Lived the quarterly-argument-about-who-drove-what problem for years before starting the company. Shipped five attribution models, Stripe Connect payouts, Salesforce + HubSpot OAuth, partner health scoring, auto-tier progression, and an AI copilot in [N] months with [team size]. Speed of execution is itself the thesis — this category has been slow-moving for a decade.
+Lived the quarterly-argument-about-who-drove-what problem for years before starting the company. Shipped five attribution models, a defensible commission-rule engine, Salesforce + HubSpot OAuth, partner health scoring, auto-tier progression, and an AI copilot in [N] months with [team size]. Speed of execution is itself the thesis — this category has been slow-moving for a decade.
 
 ### What if Salesforce builds this?
 Salesforce tried (Partner Communities). Failed because (a) partners won't log into a vendor-branded portal owned by their customer's CRM; (b) PRM is a wedge, not a CRM feature. Same reason Gong exists next to Salesforce.
@@ -154,20 +154,20 @@ Salesforce tried (Partner Communities). Failed because (a) partners won't log in
 Crossbeam has the graph but no commissions, no payouts, no attribution. PartnerStack is affiliate-commission-centric and architecturally rule-based — AI-native attribution means a rewrite. Both are 7+ years old with legacy customer commitments that make repositioning hard.
 
 ### Revenue model?
-Per-seat SaaS on the vendor side, tiered by partner count. Free for partners (viral loop). Stripe Connect take rate as secondary revenue. Benchmarking + AI copilot as enterprise upsells.
+Per-seat SaaS on the vendor side, tiered by partner count. Free for partners (viral loop). Benchmarking + AI copilot as enterprise upsells.
 
 ### Unit economics?
 Target LTV:CAC 4:1 at Series A scale. Projected NRR 130%+ driven by Tier 0 → Tier 3 ladder expansion. Partner portal creates inbound leads at near-zero CAC because partners onboarded at one customer see Covant and surface it to their other vendors.
 
 ### What happens if a customer only has opportunities?
-Tier 0 of the ladder. They get deterministic attribution (deal registration protection, source-wins models), tiered commission rules, a branded portal partners can log into, and a Stripe-ready payout file — all from a CSV of opportunities. That alone replaces a spreadsheet and a quarterly argument. Everything above Tier 0 is an expansion lane.
+Tier 0 of the ladder. They get deterministic attribution (deal registration protection, source-wins models), tiered commission rules, a branded portal partners can log into, and a reconciled commission export — all from a CSV of opportunities. That alone replaces a spreadsheet and a quarterly argument. Everything above Tier 0 is an expansion lane.
 
 ---
 
 ## What we've built (proof of execution)
 
 - Five attribution models (equal split, first touch, last touch, time decay, role-based) — all shipped.
-- Commission rule engine with tiered rates, priority ordering, Stripe Connect payouts.
+- Commission rule engine with tiered rates, priority ordering, and dry-run reconciliation.
 - Salesforce + HubSpot OAuth with automatic deal sync and partner matching.
 - Partner portal with deal registration, commission visibility, MDF requests, certifications, leaderboards.
 - Partner health scoring with automatic tier progression (Bronze → Platinum).

@@ -924,7 +924,7 @@ function SettingsPageInner() {
           Configure how partner commissions are paid out. Connect Stripe to enable automatic bank transfers.
         </p>
 
-        {/* Stripe Connection Status */}
+        {/* Stripe Link Status */}
         <div style={{ 
           display: "flex", 
           alignItems: "center", 
@@ -943,7 +943,7 @@ function SettingsPageInner() {
           ) : stripeConfigured ? (
             <>
               <Zap size={18} color="#6366f1" />
-              <span style={{ fontSize: ".85rem", color: "#4338ca", fontWeight: 500 }}>Stripe Connect enabled ✓</span>
+              <span style={{ fontSize: ".85rem", color: "#4338ca", fontWeight: 500 }}>Stripe enabled ✓</span>
               <a 
                 href="https://dashboard.stripe.com/connect/accounts/overview" 
                 target="_blank" 
@@ -977,8 +977,8 @@ function SettingsPageInner() {
             }}
           >
             <div>
-              <p style={{ fontSize: ".9rem", fontWeight: 600 }}>Require Stripe Connect for payouts</p>
-              <p className="muted" style={{ fontSize: ".75rem" }}>When enabled, only partners with connected Stripe accounts can receive payouts</p>
+              <p style={{ fontSize: ".9rem", fontWeight: 600 }}>Require connected Stripe account</p>
+              <p className="muted" style={{ fontSize: ".75rem" }}>When enabled, only partners with a linked Stripe account appear in commission exports</p>
             </div>
             <button
               disabled={!stripeConfigured}

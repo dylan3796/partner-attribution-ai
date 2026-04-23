@@ -20,7 +20,7 @@ const faqs: FAQ[] = [
   { q: "How do I access training and certifications?", a: "Go to the Enablement section in the portal sidebar. You'll find video courses, certification exams, and training materials. Completing certifications boosts your partner score and can unlock higher commission tiers.", category: "training" },
   { q: "Can I see my attribution data in real time?", a: "Yes! Your dashboard shows real-time attribution across all active and closed deals. Go to My Commissions to see the breakdown by deal, including your attribution percentage and calculated commission for each.", category: "commissions" },
   { q: "How do I get MDF (marketing development funds)?", a: "MDF is available to Gold and Platinum tier partners. Submit MDF requests through the portal with your campaign details, budget, and expected outcomes. Requests are reviewed within 5 business days.", category: "programs" },
-  { q: "What integrations are available?", a: "We integrate with Salesforce, HubSpot, Stripe, Slack, Zapier, and more. Deals sync automatically from connected CRMs, and payouts can be automated through Stripe Connect. Ask your channel manager about setting up integrations.", category: "technical" },
+  { q: "What integrations are available?", a: "We integrate with Salesforce, HubSpot, Slack, Zapier, and more. Deals sync automatically from connected CRMs. Ask your channel manager about setting up integrations.", category: "technical" },
 ];
 
 type Ticket = {

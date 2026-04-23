@@ -43,7 +43,7 @@ const FAQ_SECTIONS: FAQSection[] = [
     items: [
       {
         q: "What are the four agents?",
-        a: "Four in-product agents, one per partner-team persona. PSM Agent finds co-sell overlap and drafts warm intros. PAM Agent watches partner health and writes the weekly check-in. Program Agent spots commission leakage and proposes tier-rule fixes. Ops Agent reconciles attribution and flags disputes before they land.",
+        a: "Four in-product agents, one per partner-team persona. PSM Agent finds co-sell overlap and drafts warm intros. PAM Agent watches partner health and writes the weekly check-in. Program Agent spots tier and incentive drift and proposes fixes. Ops Agent reconciles attribution and flags disputes before they land.",
       },
       {
         q: "Do the agents act on their own?",
@@ -51,7 +51,7 @@ const FAQ_SECTIONS: FAQSection[] = [
       },
       {
         q: "Are the agents optional?",
-        a: "Yes. The platform (ledger, portal, deal reg, commission rules) runs standalone. Turn agents on as you're ready — many teams start with Ops Agent for attribution reconciliation and add the others over 30 days.",
+        a: "Yes. The platform (ledger, portal, deal reg, revenue intelligence) runs standalone. Turn agents on as you're ready — many teams start with Ops Agent for attribution reconciliation and add the others over 30 days.",
       },
     ],
   },
@@ -71,8 +71,12 @@ const FAQ_SECTIONS: FAQSection[] = [
         a: "Yes. Commission rules support conditions like partner tier, deal size, product type, and territory. Gold reseller gets 20%, referral partner gets 10%, enterprise deals over $100K get a different rate — all configurable without code. The Program Agent dry-runs any rule change against the last 90 days before it activates.",
       },
       {
-        q: "How are commissions calculated?",
-        a: "The ledger calculates commissions automatically when deals close — rule match, tier check, attribution model, dollar amount. The Ops Agent reconciles across every deal and flags any mismatch before the number leaves the system. Every commission traces back to a deal, a touchpoint, and a rule. Finance handles final delivery on their existing rails.",
+        q: "Does Covant pay partners?",
+        a: "No. Covant is a revenue intelligence platform — we record every touchpoint, capture every deal, measure partner contribution, and produce defensible commission math. Your finance team handles actual payment on whatever rails they already use (bank transfers, AP, or any payout tool). You keep the rails; we keep the receipts.",
+      },
+      {
+        q: "How is commission math calculated?",
+        a: "The ledger calculates commissions automatically when deals close — rule match, tier check, attribution model, dollar amount. The Ops Agent reconciles across every deal and flags any mismatch early. Every number traces back to a deal, a touchpoint, and a rule. Export the variance report to your finance team.",
       },
     ],
   },

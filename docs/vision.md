@@ -61,7 +61,7 @@ This is what makes the Series A vision architecturally true: both the ledger and
 | 2 | Services-led co-sell (SIs, MSPs, agencies) | Same buyer persona, wider deal types. ACV expansion without product pivot | + RevOps | Same four; PSM gains services-context prompts |
 | 3 | Cloud marketplace co-sell attribution (AWS ACE / Azure / GCP) + enterprise affiliate programs | AWS marketplace alone projected $85B throughput by 2028. Multi-party ledger advantage unlocks vs. single-touch tools | CRO + Cloud Alliances lead | + Cloud Alliance Agent (fifth persona); PSM + Ops gain marketplace context |
 | 4 | Regulated referral economies — insurance brokers, wealth advisor networks | ~$200B in US insurance commission flow annually, horrible spreadsheet tooling. Higher ACV, compliance moat | Ops/Compliance + Head of Distribution | Persona re-map: Producer / Broker-Relations / Product-Manager / Commission-Ops agents |
-| 5 | Embedded splits API — any marketplace needing N-way splits (the Stripe Connect moment) | Ledger + rules engine become infrastructure. Developer-led distribution. 10x TAM unlock | Platform engineers / CTOs | Agent layer exposed as an SDK; customers assemble their own persona agents on top |
+| 5 | Embedded splits API — any marketplace needing N-way revenue splits | Ledger + rules engine become infrastructure. Developer-led distribution. 10x TAM unlock | Platform engineers / CTOs | Agent layer exposed as an SDK; customers assemble their own persona agents on top |
 | 6-7 | Professional services + legal referral fees | High-trust, high-dollar, manual today | Managing partner / Ops | Referral-Intake / Relationship / Rules / Reconciliation quartet |
 | 8-10 | Royalty/IP management + AI-agent economic settlement | When agents transact on behalf of humans/companies, someone splits economics across model provider, orchestrator, data source, operator | Platform/rights holders | Covant's endgame — the agent layer is the buyer, not the user |
 
@@ -72,7 +72,7 @@ This is what makes the Series A vision architecturally true: both the ledger and
 ## The three most credible expansion bets (in order)
 
 1. **Cloud marketplace co-sell attribution (Year 3).** Same customers, same data shape, new source (AWS ACE / Azure / GCP). Tackle-adjacent but with multi-party attribution they don't have. Projected AWS marketplace throughput is $85B+ by 2028.
-2. **Embedded splits API / Stripe Connect analog (Year 5).** The ledger and rules engine become infrastructure for any marketplace that needs N-way revenue splits. Developer-led distribution, massive TAM unlock, fits the "Stripe for multi-party splits" positioning directly. The agent layer becomes an SDK primitive.
+2. **Embedded splits API (Year 5).** The ledger and rules engine become infrastructure for any marketplace that needs N-way revenue splits. Developer-led distribution, massive TAM unlock, fits the "system of record for multi-party revenue" positioning directly. The agent layer becomes an SDK primitive.
 3. **Regulated referral economies — insurance + wealth (Year 4).** First jump outside tech. Insurance commission flow is ~$200B/year with spreadsheet-era tooling. FINRA/state-compliance layer is a moat once built.
 
 ---

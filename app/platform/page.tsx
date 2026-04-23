@@ -15,7 +15,7 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "The Platform — Covant",
   description:
-    "The platform your partner team runs on. A ledger, a branded portal, commission rules — plus four in-product agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.",
+    "The platform your partner team runs on. A ledger, a branded portal, revenue intelligence — plus four in-product agents (PSM, PAM, Program, Ops) that help teams unlock, monitor, and measure channel revenue end-to-end.",
   openGraph: {
     title: "The Platform — Covant",
     description:
@@ -83,8 +83,8 @@ function TourSection({
 
 const PROBLEMS = [
   { before: "Who actually drove this deal?", after: "The ledger records every touchpoint — portal submissions, deal registrations, co-sells, introductions — and runs whichever attribution model your team agreed on. Full audit trail on every deal." },
-  { before: "How do I calculate commissions without a spreadsheet?", after: "Configure commission rules by tier, deal size, product line, or geography. The ledger calculates what's owed; the Ops agent reconciles before any number leaves the system." },
-  { before: "Partners keep asking where they stand.", after: "A branded partner portal gives every partner real-time visibility into their deals, commissions, tier status, and performance — free and unlimited." },
+  { before: "I can't prove which partners actually drove revenue.", after: "Attribution runs on every deal; revenue rolls up by program, tier, and partner. Every number traces back to the touchpoints and rules behind it." },
+  { before: "Partners keep asking where they stand.", after: "A branded partner portal gives every partner real-time visibility into their deals, revenue contribution, tier status, and performance — free and unlimited." },
   { before: "I can't hire a 6-person partner team.", after: "Four in-product agents — PSM, PAM, Program, Ops — cover the roles you haven't filled. They propose, your team approves, the system executes and logs." },
 ];
 
@@ -92,20 +92,20 @@ const PLATFORM_LAYERS = [
   { number: "01", title: "The Ledger", description: "The single system of record for channel activity — portal submissions, deal registrations, CRM-synced opps, manual touchpoints. Attribution models (first-touch, last-touch, time-decay, role-based, equal-split) run inside the ledger. Every number traces back to a source row." },
   { number: "02", title: "Partner Portal", description: "A branded, self-service workspace — free, unlimited seats. Deal registration, commission visibility, MDF requests, certifications, leaderboards. White-labeled to your brand. Partners don't just tolerate it; they log in." },
   { number: "03", title: "Deal Registration + CRM Sync", description: "Partners submit deals through the portal. You approve from the dashboard. Salesforce and HubSpot sync closed-won deals automatically and match them back to the registering partner. Webhooks for custom systems." },
-  { number: "04", title: "Commission Rules", description: "Configure commission rules by partner tier, deal size, product line, or geography. Stack rules with priority ordering. The ledger calculates what's owed on every deal; the Ops agent reconciles before anything leaves the system. Every dollar traces back to deal + touchpoint + rule." },
+  { number: "04", title: "Revenue Intelligence", description: "Attribution runs on every deal. Revenue rolls up by program, tier, and partner. Health scores and leaderboards surface who's driving what. Commission math can export to whichever finance rail you already use — Covant keeps the receipts, you keep the rails." },
 ];
 
 const AGENTS = [
   { number: "PSM", title: "Partner Sales Manager Agent", description: "Finds co-sell overlap across open deals and drafts the warm intro. Re-ignites stale partner-registered deals. Logs touchpoints after every meeting. Proposes; your team approves." },
   { number: "PAM", title: "Partner Account Manager Agent", description: "Watches every partner's health weekly. Flags risk before it becomes churn. Writes the check-in email, the QBR deck, and the 'we miss you' re-engagement. Proposes; your team approves." },
-  { number: "PROG", title: "Program Agent", description: "Spots commission leakage before it compounds. Proposes tier-threshold and rule changes — with a 90-day dry-run preview of impact before anything activates. Drafts MDF approval rationale. Flags certification gaps." },
-  { number: "OPS", title: "Ops Agent", description: "Reconciles attribution across every deal 72 hours before any commission settles. Flags dispute-risk patterns early. Produces the variance report that answers every 'where did this dollar go?' question. Explainable by construction." },
+  { number: "PROG", title: "Program Agent", description: "Spots tier, incentive, and certification drift before it compounds. Proposes program changes — with a 90-day dry-run preview of impact before anything activates. Drafts MDF approval rationale." },
+  { number: "OPS", title: "Ops Agent", description: "Reconciles attribution across every deal. Flags dispute-risk patterns early. Produces the variance report that answers every 'where did this revenue come from?' question. Explainable by construction." },
 ];
 
 const WHO = [
   { role: "Head of Partnerships", pain: "Hired with a mandate to prove partner ROI, underwater on day one.", after: "The ledger + four agents cover the team they haven't finished hiring. ROI reports write themselves." },
   { role: "Partner Sales Manager", pain: "Spends 40% of the week chasing partners and hunting for co-sell overlap.", after: "The PSM agent drafts the intros and logs the touchpoints. Time goes back to selling." },
-  { role: "Partner Ops / RevOps", pain: "Every commission cycle is a week of spreadsheet reconciliation and dispute triage.", after: "The Ops agent reconciles before the cycle closes. Disputes drop. Finance gets a variance report, not a surprise." },
+  { role: "Partner Ops / RevOps", pain: "Every month is a week of spreadsheet reconciliation and dispute triage just to know what partners drove.", after: "The Ops agent reconciles attribution continuously. Disputes drop. Finance gets a variance report, not a surprise." },
 ];
 
 /* ── Page ─────────────────────────────────────────────────── */
@@ -125,7 +125,7 @@ export default function PlatformPage() {
           </h1>
           <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 560 }}>
             One ledger for every touchpoint. A branded portal partners log into.
-            Commission rules with an audit trail on every dollar. Plus four
+            Revenue intelligence with an audit trail on every dollar. Plus four
             in-product agents — PSM, PAM, Program, Ops — that do the work of a
             partner team you haven&apos;t finished hiring.
           </p>
@@ -177,9 +177,10 @@ export default function PlatformPage() {
               </h2>
               <p className="l-body" style={{ fontSize: "1rem", marginBottom: "1.25rem" }}>
                 The platform records every touchpoint in one ledger, captures every deal
-                through a branded partner portal, and explains every commission back to
-                the rule that triggered it. Four in-product agents (PSM, PAM, Program, Ops)
-                propose the next move on every deal and every partner; your team approves.
+                through a branded partner portal, and explains every dollar of channel
+                revenue back to the partners who drove it. Four in-product agents
+                (PSM, PAM, Program, Ops) propose the next move on every deal and every
+                partner; your team approves.
               </p>
               <p className="l-body" style={{ fontSize: "1rem" }}>
                 The rules are yours. The agents do the work. The ledger keeps the receipts.
@@ -213,7 +214,7 @@ export default function PlatformPage() {
             What your team runs on.
           </h2>
           <p className="l-center" style={{ color: "#6b7280", fontSize: "1rem", maxWidth: 560, margin: "0 auto 3rem", lineHeight: 1.65 }}>
-            A ledger, a partner portal, deal registration, and commission rules.
+            A ledger, a partner portal, deal registration, and revenue intelligence.
             The infrastructure the four agents operate on top of.
           </p>
           <div className="l-grid-3">
@@ -438,13 +439,13 @@ export default function PlatformPage() {
         </MockWindow>
       </TourSection>
 
-      {/* Step 5 — Commissions */}
+      {/* Step 5 — Measurement */}
       <TourSection
         id="commissions"
-        step="Step 5 — Commissions"
-        title="Commission rules that match reality."
-        subtitle="The Ops agent reconciles before any number leaves the system."
-        description="Configure commission rules by product line, partner tier, deal size, or geography. Stack rules with priority ordering. The Ops agent flags any deal where attribution shifts the partner list, any rule gap, and any dispute-risk pattern. Every commission traces back to a deal, a touchpoint, and a rule."
+        step="Step 5 — Measurement"
+        title="Defensible numbers on every partner dollar."
+        subtitle="Attribution + rules + audit trail. You keep the rails."
+        description="Attribution runs on every deal. Revenue rolls up by program, tier, and partner. Commission math gets calculated against whatever rules your team already agreed on — then exports cleanly into whichever finance rail you already use. Covant keeps the receipts, not the bank account."
       >
         <MockWindow title="covant.ai/dashboard/settings/commission-rules">
           <div className="l-section-label" style={{ marginBottom: 12 }}>Commission Rules</div>

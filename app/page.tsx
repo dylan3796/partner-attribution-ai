@@ -39,7 +39,7 @@ export default function LandingPage() {
 Unlock channel revenue.
           </h1>
           <p className="l-muted l-subtitle">
-            The platform your partner team runs on — with four agents that record every touchpoint, capture every deal, action every partner, and turn channel activity into paid revenue. One ledger for your team. A branded portal for every partner.
+            The platform your partner team runs on — with four agents that record every touchpoint, capture every deal, action every partner, and unlock the channel revenue you already have. Monitor it. Measure it. One ledger for your team. A branded portal for every partner.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
             <Link href="/beta" className="l-btn">Become a design partner <span>→</span></Link>
@@ -64,7 +64,7 @@ Unlock channel revenue.
           </p>
           <p className="l-quote-attr">
             Covant replaces the spreadsheet with a system of record — so every touchpoint,
-            every attribution decision, and every commission has a paper trail.
+            every partner contribution, and every dollar of channel revenue has a paper trail.
           </p>
         </div>
       </section>
@@ -83,8 +83,8 @@ Unlock channel revenue.
               One ledger records every partner touchpoint. A branded portal captures
               every deal the moment a partner registers it. Four in-product agents
               (PSM, PAM, Program, Ops) take action on every partner — the team you
-              haven&apos;t hired yet. And channel revenue unlocks end-to-end, with an
-              audit trail on every commission.
+              haven&apos;t hired yet. Channel revenue gets unlocked, monitored, and
+              measured end-to-end.
             </p>
           </div>
 
@@ -103,15 +103,15 @@ Unlock channel revenue.
                   Every partner touchpoint in one system of record.
                 </h3>
                 <p className="l-body">
-                  The single source of truth for channel activity — portal submissions, deal registrations, CRM-synced opps, manual touchpoints. Configure the attribution model your team already agreed on; the ledger runs it end-to-end. Every dollar paid traces back to the deal, the touchpoint, the rule, and the payment.
+                  The single source of truth for channel activity — portal submissions, deal registrations, CRM-synced opps, manual touchpoints. Configure the attribution model your team already agreed on; the ledger runs it end-to-end. Every dollar traces back to the deal, the touchpoint, and the partner who drove it.
                 </p>
               </div>
               <div className="l-flex-col" style={{ gap: ".5rem" }}>
                 {[
                   { label: "One ledger", desc: "Every touchpoint, every partner, every deal — searchable, timestamped, auditable" },
                   { label: "Attribution your way", desc: "First-touch, last-touch, time-decay, role-based, equal-split — whichever model your team agreed on" },
-                  { label: "Branded partner portal", desc: "Free, unlimited partner seats. Deal reg, commission visibility, MDF requests, certifications" },
-                  { label: "Explainable by construction", desc: "Every number on every report traces back to a deal + touchpoint + rule + payment" },
+                  { label: "Branded partner portal", desc: "Free, unlimited partner seats. Deal reg, revenue visibility, MDF requests, certifications" },
+                  { label: "Explainable by construction", desc: "Every number on every report traces back to a deal, a touchpoint, and a rule" },
                 ].map((f, i) => (
                   <div key={i} className="l-feature-chip">
                     <span className="l-feature-chip-icon">✦</span>
@@ -125,26 +125,27 @@ Unlock channel revenue.
             </div>
           </div>
 
-          {/* Commissions + Agents */}
+          {/* Measurement + Agents */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", marginBottom: "2rem" }}>
             <div className="l-rec-card-panel" style={{ borderRadius: "0 0 0 16px" }}>
               <div>
                 <span className="l-engine-label" style={{ color: "#22c55e", marginBottom: ".75rem" }}>
                   <span className="l-dot-sm" style={{ background: "#22c55e", boxShadow: "0 0 6px #22c55e" }} />
-                  Commissions
+                  Monitor &amp; Measure
                 </span>
                 <h3 className="l-heading-sm">
-                  Rules that match reality. Math that&apos;s always defensible.
+                  Every partner dollar, traceable end-to-end.
                 </h3>
                 <p style={{ fontSize: ".85rem", color: "#6b7280", lineHeight: 1.65 }}>
-                  Configure commission rules by partner tier, deal size, product line, or geography.
-                  Stack rules with priority ordering. The ledger calculates what&apos;s owed; the
-                  Ops agent reconciles before any number leaves the system. Every commission
-                  traces back to a deal, a touchpoint, and a rule.
+                  Know exactly who drove what, how much, and why. Attribution runs on every deal;
+                  health scores run on every partner; revenue rolls up by program, tier, and partner.
+                  Your team gets defensible numbers. Your partners get transparent visibility. Take
+                  whichever commission export your finance team needs — Covant keeps the receipts,
+                  not the bank rails.
                 </p>
               </div>
               <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "auto" }}>
-                {["Tiered rates", "Dry-run reconciliation", "Defensible math"].map((t) => (
+                {["Multi-touch attribution", "Partner health", "Revenue rollups"].map((t) => (
                   <span key={t} className="l-pill" style={{ border: "1px solid rgba(34,197,94,.3)", color: "#22c55e", background: "rgba(34,197,94,.1)" }}>{t}</span>
                 ))}
               </div>
@@ -167,12 +168,12 @@ Unlock channel revenue.
                 {
                   accent: "#38bdf8",
                   name: "Program Agent",
-                  desc: "Program lead. Spots commission leakage before it compounds and proposes the tier-rule fix.",
+                  desc: "Program lead. Spots tier and incentive drift early and proposes fixes with a 90-day dry-run before anything ships.",
                 },
                 {
                   accent: "#22c55e",
                   name: "Ops Agent",
-                  desc: "Partner Ops. Reconciles attribution across every deal, flags disputes before they land, and answers every 'where did this dollar go?' question.",
+                  desc: "Partner Ops. Reconciles attribution across every deal, flags disputes early, and answers every 'where did this revenue come from?' question.",
                 },
               ].map((c) => (
                 <div key={c.name} className="l-cap-item">

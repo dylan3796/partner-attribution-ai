@@ -31,7 +31,7 @@ We don't sell an opinion on attribution — every partner team has one already, 
 ### How far along are you?
 Shipped MVP with paying-customer-ready scope:
 - Five attribution models (equal, first-touch, last-touch, time-decay, role-based).
-- Commission rule engine with tiered rates, priority ordering, Stripe Connect payouts.
+- Commission rule engine with tiered rates, priority ordering, and dry-run reconciliation.
 - Salesforce + HubSpot OAuth with automatic deal sync and partner matching.
 - Partner portal: deal registration, commission visibility, MDF requests, certifications, leaderboards, notifications.
 - Partner health scoring with automatic tier progression (Bronze → Platinum).

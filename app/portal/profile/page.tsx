@@ -37,7 +37,7 @@ function PortalProfilePageInner() {
   const totalRevenue = myAttributions.reduce((s, a) => s + a.amount, 0);
   const totalCommission = myAttributions.reduce((s, a) => s + a.commissionAmount, 0);
 
-  // Note: In demo mode, we simulate the Stripe connection status
+  // Note: In demo mode, we simulate the Stripe link status
   // In production, this would come from the partner's stripeOnboarded field
   const stripeOnboarded = partner.stripeOnboarded || stripeSuccess;
   const stripeAccountId = partner.stripeAccountId;
@@ -70,7 +70,7 @@ function PortalProfilePageInner() {
         alert(data.error || "Failed to start Stripe onboarding. Please try again.");
       }
     } catch (err) {
-      console.error("Stripe connect error:", err);
+      console.error("Stripe link error:", err);
       alert("Failed to connect to Stripe. Please try again.");
     } finally {
       setConnectingStripe(false);

@@ -45,10 +45,10 @@ const integrationsCatalog: Integration[] = [
   },
   {
     id: "stripe", name: "Stripe", logo: "💳", category: "payments",
-    description: "Automate partner commission payouts via Stripe Connect",
+    description: "Connect Stripe for commission processing on your existing rails",
     status: "disconnected",
-    features: ["Automated payouts", "Commission splitting", "Tax form generation", "Multi-currency"],
-    popular: true,
+    features: ["Commission export", "Tax form generation", "Multi-currency"],
+    popular: false,
   },
   {
     id: "slack", name: "Slack", logo: "💬", category: "communication",

@@ -62,7 +62,7 @@ const useCases: UseCase[] = [
     solutions: [
       { feature: "Automatic commission calculation", description: "When a deal closes, commissions are calculated instantly based on attribution and rate tiers." },
       { feature: "Full audit trail", description: "Every calculation is logged with the model used, attribution percentages, and approval chain." },
-      { feature: "Payout automation", description: "Approved commissions flow directly to Stripe Connect for automated ACH/wire payouts." },
+      { feature: "Reconciled commission export", description: "Every approved commission traces back to a deal, a touchpoint, and a rule. Export the variance report for your finance team, handled on existing rails." },
       { feature: "Dispute resolution", description: "Partners see their own attribution data in the portal, reducing disputes by 80%." },
     ],
     outcome: "RevOps teams save 15-20 hours per month and eliminate payout disputes.",

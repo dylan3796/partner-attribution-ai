@@ -98,21 +98,6 @@ const INTEGRATIONS: Integration[] = [
     tier: 'Pro',
     logo: '💬',
   },
-  {
-    name: 'Stripe',
-    slug: 'stripe',
-    category: 'Payments',
-    description: 'Automate partner payouts through Stripe Connect. When commissions are approved, payments are initiated automatically — no spreadsheets, no delays.',
-    features: [
-      'Stripe Connect onboarding for partners',
-      'Automated payout on commission approval',
-      'Payout status tracking in dashboard',
-      'Multi-currency support',
-    ],
-    status: 'beta',
-    tier: 'Scale',
-    logo: '💳',
-  },
 ];
 
 const STATUS_CONFIG = {
@@ -125,7 +110,6 @@ const CATEGORIES = [
   { name: 'CRM', icon: Database, description: 'Sync deals and contacts from your CRM. Attribution data flows both ways.' },
   { name: 'Events & API', icon: Code2, description: 'Webhooks and REST API for custom integrations and internal tools.' },
   { name: 'Notifications', icon: Globe, description: 'Keep your team informed with real-time alerts in the tools they use.' },
-  { name: 'Payments', icon: Webhook, description: 'Automate partner payouts when commissions are approved.' },
 ];
 
 export default function IntegrationsPage() {
