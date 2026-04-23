@@ -32,7 +32,7 @@ export default function Footer() {
           </span>
         </div>
         <div className="site-footer-links">
-          <Link href="/pricing">Pricing</Link>
+          <Link href="/platform">Platform</Link>
           <Link href="/demo">Demo</Link>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
