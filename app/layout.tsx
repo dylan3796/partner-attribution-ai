@@ -18,25 +18,25 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Covant — The Partner Intelligence Workspace",
+  title: "Covant — The platform your partner team runs on",
   description:
-    "Covant measures and tracks partner performance and turns it into a prioritized feed of hygiene fixes and revenue plays for sales, partner, and ops teams. Antitrust-safe, attribution-backed.",
+    "The platform your partner team runs on. Four agents that help you unlock, monitor, and measure channel revenue — record every touchpoint, capture every deal, action every partner. Free branded portal for partners.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "Covant — The Partner Intelligence Workspace",
-    description: "One prioritized feed of hygiene fixes and revenue opportunities for every team that touches partners — backed by a validated attribution record, governed for antitrust from day one.",
+    title: "Covant — The platform your partner team runs on",
+    description: "One ledger. Four agents (PSM, PAM, Program, Ops). Revenue intelligence. A branded portal your partners actually log into.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — The Partner Intelligence Workspace",
-    description: "Unlock channel revenue without the usual channel problems. Partner intelligence for sales, partner, and ops teams.",
+    title: "Covant — The platform your partner team runs on",
+    description: "Four agents that help teams unlock, monitor, and measure channel revenue. Record every touchpoint, capture every deal, action every partner.",
   },
   metadataBase: new URL("https://covant.ai"),
 };

@@ -36,208 +36,82 @@ export default function LandingPage() {
         <div className="wrap">
           <p className="l-label" style={{ marginBottom: "1.25rem" }}>AI-native partner platform</p>
           <h1 className="l-heading-xl l-color-primary">
-Unlock channel revenue<br />without the usual channel problems.
+Unlock channel revenue.
           </h1>
           <p className="l-muted l-subtitle">
-            Covant is the partner intelligence workspace where sales, partner, and ops teams see one prioritized feed of hygiene fixes and revenue opportunities — backed by a validated attribution record and governed for antitrust from day one.
+            The platform your partner team runs on — with four agents that record every touchpoint, capture every deal, action every partner, and unlock the channel revenue you already have. Monitor it. Measure it. One ledger for your team. A branded portal for every partner.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
-            <Link href="/sign-up" className="l-btn">Get Early Access <span>→</span></Link>
-            <Link href="/demo" className="l-btn-outline">Try it live <span>→</span></Link>
+            <Link href="/beta" className="l-btn">Become a design partner <span>→</span></Link>
+            <Link href="/platform" className="l-btn-outline">See the platform <span>→</span></Link>
           </div>
           <p className="l-muted" style={{ fontSize: ".9rem", fontWeight: 500 }}>
-            {leadsCount > 0 ? `${leadsCount} ${leadsCount === 1 ? "team" : "teams"} on the waitlist` : "Free for up to 5 partners · No credit card required"}
+            {leadsCount > 0 ? `${leadsCount} ${leadsCount === 1 ? "team" : "teams"} on the waitlist` : "Free for design partners · Locked-in pricing at GA"}
           </p>
           <p className="l-muted" style={{ fontSize: ".85rem", fontWeight: 500, marginTop: ".35rem" }}>
-            Works from day one — just connect your CRM
+            Works from day one — opportunities only, CRM optional
           </p>
         </div>
       </section>
 
-      {/* ── WHAT WE'RE ADDRESSING ────────────────────────── */}
-      <section className="l-section l-section-border-t">
-        <div className="wrap">
-          <div className="l-center" style={{ marginBottom: "2.5rem" }}>
-            <p className="l-tag" style={{ marginBottom: ".75rem" }}>What we&apos;re addressing</p>
-            <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
-              The tensions partner teams live with.
-            </h2>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
-            {[
-              {
-                title: "Partner programs running on gut feel",
-                desc: "Revenue decisions about which partners to invest in get made without a defensible, evidence-backed view of who's actually driving pipeline.",
-              },
-              {
-                title: "Partners operating in the dark",
-                desc: "Partners can't see which specific moves would grow their business with you, so they wait for a QBR that never quite tells them.",
-              },
-              {
-                title: "New-product launches that never reach the right partners",
-                desc: "Every launch starts over from scratch, with no memory of which partners have the history or specialization to carry it.",
-              },
-              {
-                title: "Too many dashboards, too few actions",
-                desc: "The teams touching partners open six surfaces every morning and still miss the moments that mattered yesterday.",
-              },
-              {
-                title: "Partner touchpoints that vanish",
-                desc: "The work partners do between registered deals — intros, co-sells, technical assists — rarely gets recorded in a way anyone can act on later.",
-              },
-            ].map((t) => (
-              <div key={t.title} className="l-feature-chip" style={{ alignItems: "flex-start" }}>
-                <span className="l-feature-chip-icon">✦</span>
-                <div>
-                  <div className="l-feature-chip-title">{t.title}</div>
-                  <div className="l-feature-chip-desc">{t.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <p className="l-muted" style={{ textAlign: "center", fontSize: ".95rem", fontWeight: 500 }}>
-            If any of these sound like your week, you&apos;re who Covant is built for.
-          </p>
-        </div>
-      </section>
-
-      {/* ── PROBLEM BRIDGE ──────────────────────────────── */}
+      {/* ── THE PROBLEM ─────────────────────────────────── */}
       <section className="l-quote-section">
-        <div className="wrap" style={{ maxWidth: 720, textAlign: "center" }}>
+        <div className="wrap" style={{ maxWidth: 680, textAlign: "center" }}>
+          <p className="l-tag" style={{ marginBottom: "1.5rem", color: "#9ca3af" }}>The problem we solve</p>
           <p className="l-quote">
-            Sales has Salesforce Intelligence. Marketing has HubSpot. Revenue ops has Clari.
-            Partner teams have a spreadsheet, a quarterly attribution argument, and a portal their partners dread opening.
+            Sales has Salesforce. Marketing has HubSpot. Finance has NetSuite.
+            Partner teams have a shared Google Sheet and a quarterly argument about who drove what.
           </p>
           <p className="l-quote-attr">
-            Covant is the first surface built for how partner teams actually work —
-            prioritized, evidence-backed, and safe to share.
+            Covant replaces the spreadsheet with a system of record — so every touchpoint,
+            every partner contribution, and every dollar of channel revenue has a paper trail.
           </p>
         </div>
       </section>
 
-      {/* ── THE PARTNER INTELLIGENCE WORKSPACE ──────────── */}
+      {/* ── WHAT COVANT DOES ─────────────────────────────── */}
       <section className="l-section l-section-border-t l-section-border-b">
         <div className="wrap">
           <div className="l-center" style={{ marginBottom: "3rem" }}>
             <p className="l-tag" style={{ marginBottom: ".75rem" }}>
-              What we&apos;re building
+              What Covant does
             </p>
             <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
-              One feed for the work that actually matters.
+              Record. Capture. Action. Unlock.<br />The four jobs of a partner program.
             </h2>
-            <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 620, margin: "0 auto", lineHeight: 1.65 }}>
-              Covant distills partner activity into a prioritized stream of things worth doing — across several signal families, with more shipping as we learn.
+            <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 560, margin: "0 auto", lineHeight: 1.65 }}>
+              One ledger records every partner touchpoint. A branded portal captures
+              every deal the moment a partner registers it. Four in-product agents
+              (PSM, PAM, Program, Ops) take action on every partner — the team you
+              haven&apos;t hired yet. Channel revenue gets unlocked, monitored, and
+              measured end-to-end.
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "1.5rem", marginBottom: "2.5rem" }}>
-            {/* Hygiene column */}
-            <div className="l-rec-card-panel" style={{ borderRadius: "16px" }}>
-              <div>
-                <span className="l-engine-label" style={{ color: "#6366f1", marginBottom: ".75rem" }}>
-                  <span className="l-dot-sm" style={{ background: "#6366f1", boxShadow: "0 0 6px #6366f1" }} />
-                  Hygiene gains
-                </span>
-                <h3 className="l-heading-sm">The cleanup nobody has time for.</h3>
-                <ul style={{ listStyle: "none", padding: 0, margin: "1rem 0 0", display: "flex", flexDirection: "column", gap: ".55rem" }}>
-                  {[
-                    "Stale deal registrations",
-                    "Open attribution conflicts",
-                    "CRM sync gaps",
-                    "Certs expiring on active-pipeline partners",
-                    "Overdue tier reviews",
-                  ].map((s) => (
-                    <li key={s} style={{ fontSize: ".9rem", color: "#4b5563", lineHeight: 1.55, paddingLeft: "1.1rem", position: "relative" }}>
-                      <span style={{ position: "absolute", left: 0, color: "#6366f1" }}>·</span>
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Opportunity column */}
-            <div className="l-rec-card-panel" style={{ borderRadius: "16px" }}>
-              <div>
-                <span className="l-engine-label" style={{ color: "#22c55e", marginBottom: ".75rem" }}>
-                  <span className="l-dot-sm" style={{ background: "#22c55e", boxShadow: "0 0 6px #22c55e" }} />
-                  Go-to-market opportunities
-                </span>
-                <h3 className="l-heading-sm">The plays hiding in your pipeline.</h3>
-                <ul style={{ listStyle: "none", padding: 0, margin: "1rem 0 0", display: "flex", flexDirection: "column", gap: ".55rem" }}>
-                  {[
-                    "Coverage gaps by territory",
-                    "New-product intro candidates",
-                    "Partners within reach of the next tier",
-                    "Co-sell warm paths from shared account history",
-                    "Dormant high-performers",
-                  ].map((s) => (
-                    <li key={s} style={{ fontSize: ".9rem", color: "#4b5563", lineHeight: 1.55, paddingLeft: "1.1rem", position: "relative" }}>
-                      <span style={{ position: "absolute", left: 0, color: "#22c55e" }}>·</span>
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* Teaser / more-to-come column */}
-            <div className="l-rec-card-panel" style={{ borderRadius: "16px", borderStyle: "dashed", opacity: 0.85 }}>
-              <div>
-                <span className="l-engine-label" style={{ color: "#9ca3af", marginBottom: ".75rem" }}>
-                  <span className="l-dot-sm" style={{ background: "#9ca3af" }} />
-                  More signal families
-                </span>
-                <h3 className="l-heading-sm" style={{ color: "#6b7280" }}>Coming as we learn.</h3>
-                <p style={{ fontSize: ".9rem", color: "#6b7280", lineHeight: 1.6, marginTop: "1rem" }}>
-                  Program health, relationship moves, enablement gaps, and more — shipped in response to what design partners tell us they need.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <p style={{ textAlign: "center", fontSize: ".95rem", color: "#4b5563", maxWidth: 680, margin: "0 auto", lineHeight: 1.6 }}>
-            Every signal is a named rule with named inputs — no black-box answers. Sales, partner, and ops teams each pick the signals and KPIs for their lens.
-          </p>
-        </div>
-      </section>
-
-      {/* ── FOUNDATIONS ─────────────────────────────────── */}
-      <section className="l-section l-section-border-b">
-        <div className="wrap">
-          <div className="l-center" style={{ marginBottom: "3rem" }}>
-            <p className="l-tag" style={{ marginBottom: ".75rem" }}>Foundations</p>
-            <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
-              The substrate the workspace runs on.
-            </h2>
-          </div>
-
-          {/* Attribution Engine — hero card */}
+          {/* The Ledger — hero card */}
           <div className="l-engine-card">
             <div className="l-engine-badge">
-              Foundation
+              The Platform
             </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2.5rem", alignItems: "flex-start" }}>
               <div>
                 <span className="l-engine-label">
                   <span className="l-dot" />
-                  Attribution Engine
+                  The Ledger
                 </span>
                 <h3 className="l-heading-md">
-                  The evidence every signal cites.
+                  Every partner touchpoint in one system of record.
                 </h3>
                 <p className="l-body">
-                  Every hygiene alert and every revenue play links back to a specific touchpoint, deal registration, or co-sell record. Connects to Salesforce or HubSpot, runs eight attribution models, and keeps a full audit trail on every deal — so when a signal says &ldquo;nudge this partner,&rdquo; you can show exactly why.
+                  The single source of truth for channel activity — portal submissions, deal registrations, CRM-synced opps, manual touchpoints. Configure the attribution model your team already agreed on; the ledger runs it end-to-end. Every dollar traces back to the deal, the touchpoint, and the partner who drove it.
                 </p>
               </div>
               <div className="l-flex-col" style={{ gap: ".5rem" }}>
                 {[
-                  { label: "Full partner history", desc: "Every touchpoint, deal, and interaction — searchable, timestamped, auditable" },
-                  { label: "Multi-touch attribution", desc: "First-touch, last-touch, time-decay, role-based, equal-split — runs on every deal automatically" },
-                  { label: "CRM integration", desc: "Syncs closed-won deals from Salesforce and HubSpot with automatic partner matching" },
-                  { label: "Customer + partner view", desc: "See the full relationship between any customer and any partner across all time" },
+                  { label: "One ledger", desc: "Every touchpoint, every partner, every deal — searchable, timestamped, auditable" },
+                  { label: "Attribution your way", desc: "First-touch, last-touch, time-decay, role-based, equal-split — whichever model your team agreed on" },
+                  { label: "Branded partner portal", desc: "Free, unlimited partner seats. Deal reg, revenue visibility, MDF requests, certifications" },
+                  { label: "Explainable by construction", desc: "Every number on every report traces back to a deal, a touchpoint, and a rule" },
                 ].map((f, i) => (
                   <div key={i} className="l-feature-chip">
                     <span className="l-feature-chip-icon">✦</span>
@@ -251,25 +125,55 @@ Unlock channel revenue<br />without the usual channel problems.
             </div>
           </div>
 
-          {/* Built-in capabilities */}
-          <div className="l-rec-card-panel" style={{ borderRadius: "16px", gap: "1.25rem", marginBottom: "2rem" }}>
-            <p className="l-tag-muted" style={{ margin: 0 }}>Also included</p>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1.25rem" }}>
+          {/* Measurement + Agents */}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", marginBottom: "2rem" }}>
+            <div className="l-rec-card-panel" style={{ borderRadius: "0 0 0 16px" }}>
+              <div>
+                <span className="l-engine-label" style={{ color: "#22c55e", marginBottom: ".75rem" }}>
+                  <span className="l-dot-sm" style={{ background: "#22c55e", boxShadow: "0 0 6px #22c55e" }} />
+                  Monitor &amp; Measure
+                </span>
+                <h3 className="l-heading-sm">
+                  Every partner dollar, traceable end-to-end.
+                </h3>
+                <p style={{ fontSize: ".85rem", color: "#6b7280", lineHeight: 1.65 }}>
+                  Know exactly who drove what, how much, and why. Attribution runs on every deal;
+                  health scores run on every partner; revenue rolls up by program, tier, and partner.
+                  Your team gets defensible numbers. Your partners get transparent visibility. Take
+                  whichever commission export your finance team needs — Covant keeps the receipts,
+                  not the bank rails.
+                </p>
+              </div>
+              <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "auto" }}>
+                {["Multi-touch attribution", "Partner health", "Revenue rollups"].map((t) => (
+                  <span key={t} className="l-pill" style={{ border: "1px solid rgba(34,197,94,.3)", color: "#22c55e", background: "rgba(34,197,94,.1)" }}>{t}</span>
+                ))}
+              </div>
+            </div>
+
+            {/* Agents */}
+            <div className="l-rec-card-panel" style={{ borderRadius: "0 0 16px 0", gap: "1.25rem" }}>
+              <p className="l-tag-muted" style={{ margin: 0 }}>The team you haven&apos;t hired</p>
               {[
                 {
                   accent: "#818cf8",
-                  name: "Deal Registration",
-                  desc: "Partners register deals through their portal. You approve from the dashboard. Attribution logic runs automatically.",
+                  name: "PSM Agent",
+                  desc: "Partner Sales Manager. Finds co-sell overlap across open deals and drafts the warm intro.",
                 },
                 {
                   accent: "#f59e0b",
-                  name: "Partner Scoring & Tiers",
-                  desc: "Health scores based on revenue, activity, win rate, and deal velocity. Machine-readable tier requirements, so partners can actually see the gap.",
+                  name: "PAM Agent",
+                  desc: "Partner Account Manager. Watches partner health, flags churn risk, writes the weekly check-in.",
                 },
                 {
                   accent: "#38bdf8",
-                  name: "Incentive Programs",
-                  desc: "SPIFs, MDF budgets, and accelerators — configured per tier, tracked per partner, approved through workflows.",
+                  name: "Program Agent",
+                  desc: "Program lead. Spots tier and incentive drift early and proposes fixes with a 90-day dry-run before anything ships.",
+                },
+                {
+                  accent: "#22c55e",
+                  name: "Ops Agent",
+                  desc: "Partner Ops. Reconciles attribution across every deal, flags disputes early, and answers every 'where did this revenue come from?' question.",
                 },
               ].map((c) => (
                 <div key={c.name} className="l-cap-item">
@@ -287,14 +191,14 @@ Unlock channel revenue<br />without the usual channel problems.
           <div className="l-portal-strip">
             <div className="l-portal-strip-inner">
               <span className="l-free-badge">
-                Included
+                Always Free
               </span>
               <span style={{ color: "#0a0a0a", fontSize: ".9rem", fontWeight: 600 }}>Partner Portal</span>
               <span style={{ color: "#6b7280", fontSize: ".85rem" }}>—</span>
-              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>The only partner view they&apos;ll actually open. Branded, read-only, governed so nothing leaves your four walls without approval.</span>
+              <span style={{ color: "#6b7280", fontSize: ".85rem" }}>Branded self-service workspace. Deal registration, commission visibility, MDF requests, certifications. Unlimited partner seats.</span>
             </div>
-            <Link href="/pricing" className="l-link-arrow">
-              See pricing →
+            <Link href="/beta" className="l-link-arrow">
+              Become a design partner →
             </Link>
           </div>
 
@@ -307,51 +211,14 @@ Unlock channel revenue<br />without the usual channel problems.
         </div>
       </section>
 
-      {/* ── TRUST BY CONSTRUCTION ───────────────────────── */}
-      <section className="l-section l-section-border-b">
-        <div className="wrap">
-          <div className="l-center" style={{ marginBottom: "2.5rem" }}>
-            <p className="l-tag" style={{ marginBottom: ".75rem" }}>Trust by construction</p>
-            <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
-              Antitrust-safe. Partner-visible by permission only.
-            </h2>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1rem" }}>
-            {[
-              {
-                title: "Per-signal sharing controls",
-                desc: "Everything is internal-only by default. A signal can only be shown to partners after an explicit compliance review.",
-              },
-              {
-                title: "Inference, not tagging",
-                desc: "Partner specialization comes from deal history and certifications — never a field the partner self-selects and you can't defend.",
-              },
-              {
-                title: "Full audit trail",
-                desc: "Every partner-visible surface writes to the log, with the user and signal kind that authorized it.",
-              },
-            ].map((t) => (
-              <div key={t.title} className="l-feature-chip" style={{ alignItems: "flex-start" }}>
-                <span className="l-feature-chip-icon">✦</span>
-                <div>
-                  <div className="l-feature-chip-title">{t.title}</div>
-                  <div className="l-feature-chip-desc">{t.desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ── FINAL CTA ────────────────────────────────────── */}
       <section className="l-section-light" style={{ padding: "7rem 0" }}>
         <div className="wrap l-center">
           <h2 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem", color: "#0a0a0a" }}>
-            Your partners are driving revenue.<br />Start proving it.
+            Your partners are driving revenue.<br />Start unlocking it.
           </h2>
           <p className="l-muted l-subtitle" style={{ maxWidth: 520, margin: "0 auto 2.5rem", lineHeight: 1.5 }}>
-            Free for up to 5 partners. No credit card required.
+            Free for design partners. Locked-in pricing at GA.
           </p>
           <form onSubmit={handleWaitlist} className="l-cta-form">
             <div className="l-cta-form-input">
