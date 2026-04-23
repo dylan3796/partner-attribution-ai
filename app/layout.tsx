@@ -20,7 +20,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Covant — The platform your partner team runs on",
   description:
-    "The platform your partner team runs on. Four agents that unlock channel revenue — record every touchpoint, capture every deal, action every partner, and pay commissions end-to-end. Free branded portal for partners.",
+    "The platform your partner team runs on. Four agents that unlock channel revenue — record every touchpoint, capture every deal, action every partner, and explain every commission back to the rule that triggered it. Free branded portal for partners.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Covant — The platform your partner team runs on",
-    description: "One ledger. Four agents (PSM, PAM, Program, Ops). Stripe Connect payouts. A branded portal your partners actually log into.",
+    description: "One ledger. Four agents (PSM, PAM, Program, Ops). Defensible commission rules. A branded portal your partners actually log into.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",

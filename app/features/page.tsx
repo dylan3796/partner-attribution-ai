@@ -98,19 +98,19 @@ const CATEGORIES: Category[] = [
       },
       {
         title: "Program Agent",
-        description: "Program lead. Spots commission leakage before payout. Proposes tier-threshold and rule changes with a 90-day dry-run preview. Drafts MDF approval rationale.",
+        description: "Program lead. Spots commission leakage before it compounds. Proposes tier-threshold and rule changes with a 90-day dry-run preview. Drafts MDF approval rationale.",
         icon: Scale,
       },
       {
         title: "Ops Agent",
-        description: "Partner Ops. Pre-payout reconciliation 72 hours before every run. Flags attribution mismatches that would trigger disputes. Produces the Stripe-ready payout file.",
+        description: "Partner Ops. Reconciles attribution across every deal 72 hours before any commission settles. Flags dispute-risk patterns early. Produces the variance report that answers every 'where did this dollar go?' question.",
         icon: Shield,
       },
     ],
   },
   {
-    name: "Unlock — Commissions & Payouts",
-    tagline: "Complex rules, automated calculations, zero spreadsheets.",
+    name: "Unlock — Commissions",
+    tagline: "Complex rules, automated calculations, math your CRO can defend.",
     color: "#22c55e",
     features: [
       {
@@ -124,13 +124,13 @@ const CATEGORIES: Category[] = [
         icon: Zap,
       },
       {
-        title: "Bulk Payout Approval",
-        description: "Select multiple payouts, approve in one click. Stats cards show pending, approved, and total amounts.",
+        title: "Bulk Commission Approval",
+        description: "Select multiple commissions, approve in one click. Stats cards show pending, approved, and total amounts.",
         icon: CheckCircle2,
       },
       {
         title: "End-of-Quarter Reconciliation",
-        description: "Quarter-by-quarter payout summaries with CSV export. Match what you owe to what you paid — no surprises.",
+        description: "Quarter-by-quarter commission summaries with CSV export. Every dollar traces back to a deal, a touchpoint, and a rule.",
         icon: Scale,
       },
       {
@@ -157,7 +157,7 @@ const CATEGORIES: Category[] = [
       },
       {
         title: "Commission Transparency",
-        description: "Partners see exactly what they've earned, what's pending, and the calculation behind each payout.",
+        description: "Partners see exactly what they've earned, what's pending, and the calculation behind every commission.",
         icon: Coins,
       },
 
@@ -170,7 +170,7 @@ const CATEGORIES: Category[] = [
     features: [
       {
         title: "Partner Health Scores",
-        description: "Composite 0–100 scores from deal activity, revenue, engagement, recency, and payout health. Auto-classify healthy, at-risk, and churning.",
+        description: "Composite 0–100 scores from deal activity, revenue, engagement, recency, and commission health. Auto-classify healthy, at-risk, and churning.",
         icon: HeartPulse,
       },
       {
@@ -240,12 +240,12 @@ const CATEGORIES: Category[] = [
       },
       {
         title: "Program Health Score",
-        description: "Single 0–100 composite score across engagement, deal velocity, payout health, and growth. One number to report upward.",
+        description: "Single 0–100 composite score across engagement, deal velocity, commission health, and growth. One number to report upward.",
         icon: HeartPulse,
       },
       {
         title: "Data Export Center",
-        description: "Bulk CSV download for partners, deals, payouts, touchpoints, audit log, commission rules, and products. Enterprise data portability.",
+        description: "Bulk CSV download for partners, deals, commissions, touchpoints, audit log, commission rules, and products. Enterprise data portability.",
         icon: FileDown,
       },
     ],

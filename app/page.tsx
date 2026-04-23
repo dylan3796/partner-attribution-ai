@@ -63,8 +63,8 @@ Unlock channel revenue.
             Partner teams have a shared Google Sheet and a quarterly argument about who drove what.
           </p>
           <p className="l-quote-attr">
-            Covant replaces the spreadsheet with a system of record — so every attribution decision,
-            every commission, and every payout has a paper trail.
+            Covant replaces the spreadsheet with a system of record — so every touchpoint,
+            every attribution decision, and every commission has a paper trail.
           </p>
         </div>
       </section>
@@ -83,8 +83,8 @@ Unlock channel revenue.
               One ledger records every partner touchpoint. A branded portal captures
               every deal the moment a partner registers it. Four in-product agents
               (PSM, PAM, Program, Ops) take action on every partner — the team you
-              haven&apos;t hired yet. Stripe Connect unlocks every commission
-              end-to-end, with an audit trail on every dollar.
+              haven&apos;t hired yet. And channel revenue unlocks end-to-end, with an
+              audit trail on every commission.
             </p>
           </div>
 
@@ -125,26 +125,26 @@ Unlock channel revenue.
             </div>
           </div>
 
-          {/* Payouts + Agents */}
+          {/* Commissions + Agents */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", marginBottom: "2rem" }}>
             <div className="l-rec-card-panel" style={{ borderRadius: "0 0 0 16px" }}>
               <div>
                 <span className="l-engine-label" style={{ color: "#22c55e", marginBottom: ".75rem" }}>
                   <span className="l-dot-sm" style={{ background: "#22c55e", boxShadow: "0 0 6px #22c55e" }} />
-                  Payouts
+                  Commissions
                 </span>
                 <h3 className="l-heading-sm">
-                  Rules that match reality. Payouts that happen automatically.
+                  Rules that match reality. Math that&apos;s always defensible.
                 </h3>
                 <p style={{ fontSize: ".85rem", color: "#6b7280", lineHeight: 1.65 }}>
                   Configure commission rules by partner tier, deal size, product line, or geography.
-                  Stack rules with priority ordering. The ledger calculates what&apos;s owed, and the
-                  Ops agent reconciles the payout file before it runs. Stripe Connect delivers the
-                  money.
+                  Stack rules with priority ordering. The ledger calculates what&apos;s owed; the
+                  Ops agent reconciles before any number leaves the system. Every commission
+                  traces back to a deal, a touchpoint, and a rule.
                 </p>
               </div>
               <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "auto" }}>
-                {["Tiered rates", "Dry-run reconciliation", "Stripe Connect"].map((t) => (
+                {["Tiered rates", "Dry-run reconciliation", "Defensible math"].map((t) => (
                   <span key={t} className="l-pill" style={{ border: "1px solid rgba(34,197,94,.3)", color: "#22c55e", background: "rgba(34,197,94,.1)" }}>{t}</span>
                 ))}
               </div>
@@ -167,12 +167,12 @@ Unlock channel revenue.
                 {
                   accent: "#38bdf8",
                   name: "Program Agent",
-                  desc: "Program lead. Spots commission leakage before payout and proposes the tier-rule fix.",
+                  desc: "Program lead. Spots commission leakage before it compounds and proposes the tier-rule fix.",
                 },
                 {
                   accent: "#22c55e",
                   name: "Ops Agent",
-                  desc: "Partner Ops. Reconciles attribution, flags disputes, produces the Stripe-ready payout file.",
+                  desc: "Partner Ops. Reconciles attribution across every deal, flags disputes before they land, and answers every 'where did this dollar go?' question.",
                 },
               ].map((c) => (
                 <div key={c.name} className="l-cap-item">

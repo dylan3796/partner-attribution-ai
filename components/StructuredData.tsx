@@ -7,7 +7,7 @@ export function OrganizationSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "The platform your partner team runs on. One ledger, a branded portal, Stripe Connect payouts — plus four agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.",
+      "The platform your partner team runs on. One ledger, a branded portal, defensible commission rules — plus four agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.",
     foundingDate: "2026",
     contactPoint: {
       "@type": "ContactPoint",
@@ -34,7 +34,7 @@ export function SoftwareApplicationSchema() {
     operatingSystem: "Web",
     url: "https://covant.ai",
     description:
-      "The platform your partner team runs on. One ledger, a branded portal, Stripe Connect payouts — plus four in-product agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.",
+      "The platform your partner team runs on. One ledger, a branded portal, defensible commission rules — plus four in-product agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.",
     offers: [
       {
         "@type": "Offer",

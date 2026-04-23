@@ -26,7 +26,7 @@ const FAQ_SECTIONS: FAQSection[] = [
       },
       {
         q: "Is there a free trial?",
-        a: "We're in design-partner phase. During pilot, you get full platform access — ledger, portal, deal reg, Stripe Connect payouts, and the four agents as they ship — free. Design partners lock in pricing at GA.",
+        a: "We're in design-partner phase. During pilot, you get full platform access — ledger, portal, deal reg, commission rules, and the four agents as they ship — free. Design partners lock in pricing at GA.",
       },
       {
         q: "Can I import existing partner data?",
@@ -43,7 +43,7 @@ const FAQ_SECTIONS: FAQSection[] = [
     items: [
       {
         q: "What are the four agents?",
-        a: "Four in-product agents, one per partner-team persona. PSM Agent finds co-sell overlap and drafts warm intros. PAM Agent watches partner health and writes the weekly check-in. Program Agent spots commission leakage and proposes tier-rule fixes. Ops Agent reconciles payouts and flags disputes before they land.",
+        a: "Four in-product agents, one per partner-team persona. PSM Agent finds co-sell overlap and drafts warm intros. PAM Agent watches partner health and writes the weekly check-in. Program Agent spots commission leakage and proposes tier-rule fixes. Ops Agent reconciles attribution and flags disputes before they land.",
       },
       {
         q: "Do the agents act on their own?",
@@ -51,7 +51,7 @@ const FAQ_SECTIONS: FAQSection[] = [
       },
       {
         q: "Are the agents optional?",
-        a: "Yes. The platform (ledger, portal, deal reg, Stripe Connect payouts) runs standalone. Turn agents on as you're ready — many teams start with Ops Agent for pre-payout reconciliation and add the others over 30 days.",
+        a: "Yes. The platform (ledger, portal, deal reg, commission rules) runs standalone. Turn agents on as you're ready — many teams start with Ops Agent for attribution reconciliation and add the others over 30 days.",
       },
     ],
   },
@@ -64,15 +64,15 @@ const FAQ_SECTIONS: FAQSection[] = [
       },
       {
         q: "How do you handle attribution disputes?",
-        a: "Every attribution decision comes with a step-by-step paper trail: deal value → credit percentage → partner amount → commission. The Ops Agent flags dispute-risk patterns before payout (e.g., a partner who registered the deal but is receiving <50% of expected commission). When an AE or partner questions a number, you open the ledger, not a spreadsheet.",
+        a: "Every attribution decision comes with a step-by-step paper trail: deal value → credit percentage → partner amount → commission. The Ops Agent flags dispute-risk patterns early (e.g., a partner who registered the deal but is receiving <50% of expected commission). When an AE or partner questions a number, you open the ledger, not a spreadsheet.",
       },
       {
         q: "Can I set different commission rates for different partners?",
         a: "Yes. Commission rules support conditions like partner tier, deal size, product type, and territory. Gold reseller gets 20%, referral partner gets 10%, enterprise deals over $100K get a different rate — all configurable without code. The Program Agent dry-runs any rule change against the last 90 days before it activates.",
       },
       {
-        q: "How are payouts processed?",
-        a: "The ledger calculates commissions automatically when deals close. The Ops Agent reconciles the payout file 72 hours before execution — flagging any deal where model choice shifts the partner list, any rule gap, or any Stripe Connect issue. You approve clean lines; Stripe Connect delivers the money.",
+        q: "How are commissions calculated?",
+        a: "The ledger calculates commissions automatically when deals close — rule match, tier check, attribution model, dollar amount. The Ops Agent reconciles across every deal and flags any mismatch before the number leaves the system. Every commission traces back to a deal, a touchpoint, and a rule. Finance handles final delivery on their existing rails.",
       },
     ],
   },
@@ -85,7 +85,7 @@ const FAQ_SECTIONS: FAQSection[] = [
       },
       {
         q: "Can I connect Covant to our existing tech stack?",
-        a: "Yes. Beyond CRM integrations, Covant supports Slack notifications, Stripe for billing and payouts, webhooks for real-time events, and a full API. Most teams connect their CRM in the first session and add other tools over time.",
+        a: "Yes. Beyond CRM integrations, Covant supports Slack notifications, webhooks for real-time events, and a full REST API. Most teams connect their CRM in the first session and add other tools over time.",
       },
       {
         q: "Does data sync in real time?",
@@ -123,7 +123,7 @@ const FAQ_SECTIONS: FAQSection[] = [
       },
       {
         q: "Where is data stored?",
-        a: "Data is stored in Convex's cloud infrastructure (US regions). We maintain a full audit trail of all data changes — every attribution calculation, commission update, and payout approval is logged with timestamps and actor information.",
+        a: "Data is stored in Convex's cloud infrastructure (US regions). We maintain a full audit trail of all data changes — every attribution calculation, commission update, and agent proposal is logged with timestamps and actor information.",
       },
       {
         q: "Is there SOC 2 compliance?",
@@ -136,7 +136,7 @@ const FAQ_SECTIONS: FAQSection[] = [
     items: [
       {
         q: "How does pricing work?",
-        a: "We're onboarding a small cohort of design partners right now. Design partners get the full platform — ledger, portal, deal reg, Stripe Connect payouts, and the four agents as they ship — free during pilot, with locked-in pricing at GA. Public pricing lands with general availability.",
+        a: "We're onboarding a small cohort of design partners right now. Design partners get the full platform — ledger, portal, deal reg, commission rules, and the four agents as they ship — free during pilot, with locked-in pricing at GA. Public pricing lands with general availability.",
       },
       {
         q: "Who are design partners and what do you expect from them?",

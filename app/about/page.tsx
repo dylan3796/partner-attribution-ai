@@ -4,7 +4,7 @@ import { ArrowLeft, Zap, Shield, Users, Target } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'About Covant — The platform your partner team runs on',
-  description: 'Covant is the platform your partner team runs on. A ledger, a branded portal, Stripe payouts — plus four agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.',
+  description: 'Covant is the platform your partner team runs on. A ledger, a branded portal, commission rules — plus four agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.',
 };
 
 const VALUES = [
@@ -55,8 +55,8 @@ export default function AboutPage() {
         <p style={{ color:'#6b7280', fontSize: '1.1rem', lineHeight: 1.7, marginBottom: 48, maxWidth: 600 }}>
           Most partner programs still run on spreadsheets, email threads, and quarterly
           true-ups that nobody trusts. Covant replaces that with a ledger, a branded
-          portal, Stripe Connect payouts — and four in-product agents that cover the
-          roles the partner team hasn&apos;t finished hiring.
+          portal, defensible commission rules — and four in-product agents that cover
+          the roles the partner team hasn&apos;t finished hiring.
         </p>
 
         {/* The problem */}
@@ -109,9 +109,9 @@ export default function AboutPage() {
           <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '28px 32px' }}>
             <p style={{ color:'#6b7280', fontSize: '0.95rem', lineHeight: 1.7, margin: 0 }}>
               Covant is in design-partner phase. The platform is live — ledger, branded
-              partner portal, deal registration, and Stripe Connect payouts are all
-              shipping and handling real data. The four agents (PSM, PAM, Program, Ops)
-              are rolling out in sequence.
+              partner portal, deal registration, and commission rules are all shipping
+              and handling real data. The four agents (PSM, PAM, Program, Ops) are
+              rolling out in sequence.
             </p>
             <p style={{ color:'#6b7280', fontSize: '0.95rem', lineHeight: 1.7, margin: '16px 0 0' }}>
               We&apos;re onboarding a small cohort of design partners hands-on. If you run

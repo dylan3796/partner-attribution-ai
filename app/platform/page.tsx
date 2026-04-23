@@ -15,7 +15,7 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "The Platform — Covant",
   description:
-    "The platform your partner team runs on. A ledger, a branded portal, Stripe payouts — plus four in-product agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.",
+    "The platform your partner team runs on. A ledger, a branded portal, commission rules — plus four in-product agents (PSM, PAM, Program, Ops) that unlock channel revenue end-to-end.",
   openGraph: {
     title: "The Platform — Covant",
     description:
@@ -83,8 +83,8 @@ function TourSection({
 
 const PROBLEMS = [
   { before: "Who actually drove this deal?", after: "The ledger records every touchpoint — portal submissions, deal registrations, co-sells, introductions — and runs whichever attribution model your team agreed on. Full audit trail on every deal." },
-  { before: "How do I calculate commissions without a spreadsheet?", after: "Configure commission rules by tier, deal size, product line, or geography. The Ops agent reconciles the payout file before it runs. Stripe Connect delivers the money." },
-  { before: "Partners keep asking where their payout is.", after: "A branded partner portal gives every partner real-time visibility into their deals, commissions, tier status, and performance — free and unlimited." },
+  { before: "How do I calculate commissions without a spreadsheet?", after: "Configure commission rules by tier, deal size, product line, or geography. The ledger calculates what's owed; the Ops agent reconciles before any number leaves the system." },
+  { before: "Partners keep asking where they stand.", after: "A branded partner portal gives every partner real-time visibility into their deals, commissions, tier status, and performance — free and unlimited." },
   { before: "I can't hire a 6-person partner team.", after: "Four in-product agents — PSM, PAM, Program, Ops — cover the roles you haven't filled. They propose, your team approves, the system executes and logs." },
 ];
 
@@ -92,20 +92,20 @@ const PLATFORM_LAYERS = [
   { number: "01", title: "The Ledger", description: "The single system of record for channel activity — portal submissions, deal registrations, CRM-synced opps, manual touchpoints. Attribution models (first-touch, last-touch, time-decay, role-based, equal-split) run inside the ledger. Every number traces back to a source row." },
   { number: "02", title: "Partner Portal", description: "A branded, self-service workspace — free, unlimited seats. Deal registration, commission visibility, MDF requests, certifications, leaderboards. White-labeled to your brand. Partners don't just tolerate it; they log in." },
   { number: "03", title: "Deal Registration + CRM Sync", description: "Partners submit deals through the portal. You approve from the dashboard. Salesforce and HubSpot sync closed-won deals automatically and match them back to the registering partner. Webhooks for custom systems." },
-  { number: "04", title: "Payouts via Stripe Connect", description: "Configure commission rules by partner tier, deal size, product line, or geography. The Ops agent reconciles every payout run before execution. Stripe Connect delivers the money. Every dollar links back to deal + touchpoint + rule." },
+  { number: "04", title: "Commission Rules", description: "Configure commission rules by partner tier, deal size, product line, or geography. Stack rules with priority ordering. The ledger calculates what's owed on every deal; the Ops agent reconciles before anything leaves the system. Every dollar traces back to deal + touchpoint + rule." },
 ];
 
 const AGENTS = [
   { number: "PSM", title: "Partner Sales Manager Agent", description: "Finds co-sell overlap across open deals and drafts the warm intro. Re-ignites stale partner-registered deals. Logs touchpoints after every meeting. Proposes; your team approves." },
   { number: "PAM", title: "Partner Account Manager Agent", description: "Watches every partner's health weekly. Flags risk before it becomes churn. Writes the check-in email, the QBR deck, and the 'we miss you' re-engagement. Proposes; your team approves." },
-  { number: "PROG", title: "Program Agent", description: "Spots commission leakage before payout. Proposes tier-threshold and rule changes — with a 90-day dry-run preview of impact before anything activates. Drafts MDF approval rationale. Flags certification gaps." },
-  { number: "OPS", title: "Ops Agent", description: "Pre-payout reconciliation 72 hours before every run. Flags attribution mismatches that would trigger disputes. Produces the Stripe-ready payout file with deal, partner, rule, and model per line. Explainable by construction." },
+  { number: "PROG", title: "Program Agent", description: "Spots commission leakage before it compounds. Proposes tier-threshold and rule changes — with a 90-day dry-run preview of impact before anything activates. Drafts MDF approval rationale. Flags certification gaps." },
+  { number: "OPS", title: "Ops Agent", description: "Reconciles attribution across every deal 72 hours before any commission settles. Flags dispute-risk patterns early. Produces the variance report that answers every 'where did this dollar go?' question. Explainable by construction." },
 ];
 
 const WHO = [
   { role: "Head of Partnerships", pain: "Hired with a mandate to prove partner ROI, underwater on day one.", after: "The ledger + four agents cover the team they haven't finished hiring. ROI reports write themselves." },
   { role: "Partner Sales Manager", pain: "Spends 40% of the week chasing partners and hunting for co-sell overlap.", after: "The PSM agent drafts the intros and logs the touchpoints. Time goes back to selling." },
-  { role: "Partner Ops / RevOps", pain: "Every payout run is a week of spreadsheet reconciliation and dispute triage.", after: "The Ops agent reconciles before the run. Disputes drop. Stripe ships the payouts." },
+  { role: "Partner Ops / RevOps", pain: "Every commission cycle is a week of spreadsheet reconciliation and dispute triage.", after: "The Ops agent reconciles before the cycle closes. Disputes drop. Finance gets a variance report, not a surprise." },
 ];
 
 /* ── Page ─────────────────────────────────────────────────── */
@@ -125,7 +125,7 @@ export default function PlatformPage() {
           </h1>
           <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 560 }}>
             One ledger for every touchpoint. A branded portal partners log into.
-            Stripe Connect payouts with an audit trail on every dollar. Plus four
+            Commission rules with an audit trail on every dollar. Plus four
             in-product agents — PSM, PAM, Program, Ops — that do the work of a
             partner team you haven&apos;t finished hiring.
           </p>
@@ -177,9 +177,9 @@ export default function PlatformPage() {
               </h2>
               <p className="l-body" style={{ fontSize: "1rem", marginBottom: "1.25rem" }}>
                 The platform records every touchpoint in one ledger, captures every deal
-                through a branded partner portal, and unlocks commissions end-to-end through
-                Stripe Connect. Four in-product agents (PSM, PAM, Program, Ops) propose the
-                next move on every deal and every partner; your team approves.
+                through a branded partner portal, and explains every commission back to
+                the rule that triggered it. Four in-product agents (PSM, PAM, Program, Ops)
+                propose the next move on every deal and every partner; your team approves.
               </p>
               <p className="l-body" style={{ fontSize: "1rem" }}>
                 The rules are yours. The agents do the work. The ledger keeps the receipts.
@@ -189,7 +189,7 @@ export default function PlatformPage() {
               {[
                 { label: "Partner-sourced revenue", value: "$1.2M", trend: "+24% QoQ", color: "#22c55e" },
                 { label: "Active partners", value: "47", trend: "12 pending onboard", color: "#3b82f6" },
-                { label: "Commissions owed", value: "$38,400", trend: "Payout scheduled Apr 1", color: "#a78bfa" },
+                { label: "Commissions owed", value: "$38,400", trend: "Reconciled Mar 28", color: "#a78bfa" },
                 { label: "Open deal registrations", value: "9", trend: "3 need review", color: "#f59e0b" },
               ].map((stat, i) => (
                 <div key={i} style={{ background: "#ffffff", borderRadius: 10, padding: "1rem 1.25rem", display: "flex", justifyContent: "space-between", alignItems: "center", border: "1px solid #e5e7eb" }}>
@@ -213,7 +213,7 @@ export default function PlatformPage() {
             What your team runs on.
           </h2>
           <p className="l-center" style={{ color: "#6b7280", fontSize: "1rem", maxWidth: 560, margin: "0 auto 3rem", lineHeight: 1.65 }}>
-            A ledger, a partner portal, deal registration, and Stripe Connect payouts.
+            A ledger, a partner portal, deal registration, and commission rules.
             The infrastructure the four agents operate on top of.
           </p>
           <div className="l-grid-3">
@@ -441,10 +441,10 @@ export default function PlatformPage() {
       {/* Step 5 — Commissions */}
       <TourSection
         id="commissions"
-        step="Step 5 — Commissions + Payouts"
+        step="Step 5 — Commissions"
         title="Commission rules that match reality."
-        subtitle="The Ops agent reconciles before every run."
-        description="Configure commission rules by product line, partner tier, deal size, or geography. Stack rules with priority ordering. Before every payout run, the Ops agent flags any deal where attribution shifts the partner list, any rule gap, and any Stripe Connect issue. You approve the clean lines; the system pays."
+        subtitle="The Ops agent reconciles before any number leaves the system."
+        description="Configure commission rules by product line, partner tier, deal size, or geography. Stack rules with priority ordering. The Ops agent flags any deal where attribution shifts the partner list, any rule gap, and any dispute-risk pattern. Every commission traces back to a deal, a touchpoint, and a rule."
       >
         <MockWindow title="covant.ai/dashboard/settings/commission-rules">
           <div className="l-section-label" style={{ marginBottom: 12 }}>Commission Rules</div>
