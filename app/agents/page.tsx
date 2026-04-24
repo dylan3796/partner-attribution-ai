@@ -179,7 +179,7 @@ export default function AgentsPage() {
           <div style={{ marginBottom: "3rem", maxWidth: 640 }}>
             <p className="l-section-tag">What each agent does</p>
             <h2 className="l-heading-lg">
-              Four agents reading the same record.
+              Every agent reads the same record.
             </h2>
             <p className="l-body" style={{ marginTop: "1rem" }}>
               Every recommendation cites the attribution evidence behind it — deal
