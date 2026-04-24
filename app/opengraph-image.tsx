@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Covant — Partner Intelligence Platform';
+export const alt = 'Covant — The platform your partner team runs on';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -50,7 +50,7 @@ export default function OgImage() {
           marginBottom: 24, maxWidth: 800,
           display: 'flex', flexWrap: 'wrap',
         }}>
-          Partner Intelligence Platform
+          The platform your partner team runs on.
         </div>
 
         {/* Subline */}
@@ -58,7 +58,7 @@ export default function OgImage() {
           color: '#888', fontSize: 24, lineHeight: 1.5,
           maxWidth: 700, display: 'flex',
         }}>
-          The rules engine that sits between "someone did something" and "someone gets paid."
+          Measure and attribute partner revenue. Run partner agents on your CRM.
         </div>
 
         {/* Bottom row */}
@@ -67,7 +67,7 @@ export default function OgImage() {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <div style={{ display: 'flex', gap: 32 }}>
-            {['Attribution', 'Commission Rules', 'Partner Portal', 'Payouts'].map(f => (
+            {['Attribution', 'PSM Agent', 'PAM Agent', 'Program Agent', 'Ops Agent'].map(f => (
               <span key={f} style={{ color:'#374151', fontSize: 14 }}>{f}</span>
             ))}
           </div>

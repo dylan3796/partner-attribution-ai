@@ -33,6 +33,7 @@ export default function Footer() {
         </div>
         <div className="site-footer-links">
           <Link href="/platform">Platform</Link>
+          <Link href="/agents">Agents</Link>
           <Link href="/beta">Design Partners</Link>
           <Link href="/privacy">Privacy</Link>
           <Link href="/terms">Terms</Link>
