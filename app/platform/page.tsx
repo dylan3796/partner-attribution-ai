@@ -8,79 +8,21 @@ import {
   Shield,
   Bell,
   ArrowRight,
-  Target,
-  Activity,
   TrendingUp,
-  Zap,
 } from "lucide-react";
 import Footer from "@/components/Footer";
+import { MockWindow, StatCard, Badge, TourSection } from "@/components/PlatformMockHelpers";
 
 export const metadata: Metadata = {
   title: "Platform — Covant",
   description:
-    "Measure and attribute partner revenue, then run partner agents — PSM, PAM, Program, and Ops to start — on your CRM data. The team you haven't hired yet.",
+    "Move partner attribution out of spreadsheets and CRM into one system of record. Connect Salesforce or HubSpot, pipe every touchpoint into one attributed ledger, give partners a branded portal.",
   openGraph: {
     title: "Platform — Covant",
     description:
-      "Measure and attribute partner revenue. Run partner agents on your CRM.",
+      "One system of record for partner attribution. Connect Salesforce or HubSpot. Branded portal for partners.",
   },
 };
-
-/* ── Mock UI helpers ──────────────────────────────────────── */
-
-function MockWindow({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="l-mock-window">
-      <div className="l-mock-titlebar">
-        <div className="l-mock-dots">
-          <div className="l-mock-dot" />
-          <div className="l-mock-dot" />
-          <div className="l-mock-dot" />
-        </div>
-        <span className="l-mock-title">{title}</span>
-      </div>
-      <div className="l-mock-body">{children}</div>
-    </div>
-  );
-}
-
-function StatCard({ label, value, trend }: { label: string; value: string; trend: string }) {
-  return (
-    <div className="l-stat-card">
-      <div className="l-stat-card-label">{label}</div>
-      <div className="l-stat-card-value">{value}</div>
-      <div className="l-stat-card-trend">{trend}</div>
-    </div>
-  );
-}
-
-function Badge({ text, color }: { text: string; color: string }) {
-  return (
-    <span className="l-badge-inline" style={{ background: `${color}20`, color }}>
-      {text}
-    </span>
-  );
-}
-
-function TourSection({
-  id, step, title, subtitle, description, children, reverse,
-}: {
-  id: string; step: string; title: string; subtitle: string; description: string; children: React.ReactNode; reverse?: boolean;
-}) {
-  return (
-    <section id={id} className="l-tour-section">
-      <div className="l-tour-grid">
-        <div style={{ order: reverse ? 2 : 1 }}>
-          <div className="l-tour-step">{step}</div>
-          <h2 className="l-tour-title">{title}</h2>
-          <p className="l-tour-subtitle">{subtitle}</p>
-          <p className="l-tour-desc">{description}</p>
-        </div>
-        <div style={{ order: reverse ? 1 : 2 }}>{children}</div>
-      </div>
-    </section>
-  );
-}
 
 /* ── Data ─────────────────────────────────────────────────── */
 
@@ -93,11 +35,9 @@ const PROBLEMS = [
 
 const PILLARS = [
   { number: "01", title: "Attribution & Measurement", description: "The substrate. Ingests partner activity from CRM syncs and deal registrations, applies multi-touch attribution models — first-touch, last-touch, time-decay, role-based, equal-split — and builds a complete, auditable record of who influenced every deal and what % of pipeline came from partners." },
-  { number: "02", title: "PSM Agent", description: "The partner sales manager you haven't hired. Surfaces pipeline coverage gaps, warm co-sell paths, dormant high-performers, and the handful of partners worth a nudge this week. Cites the attribution record on every call-out." },
-  { number: "03", title: "PAM Agent", description: "The partner account manager for every partner at once. Spots tier-up candidates, stale registrations, certification drift, and partners drifting from engaged to inactive — before the QBR. Scales the 1:1 motion without the 1:1 headcount." },
-  { number: "04", title: "Program Agent", description: "The program manager that never sleeps. Watches program health metrics — NPI adoption, new-partner ramp time, tier distribution, deal-reg throughput — and flags where the program is bending before it breaks." },
-  { number: "05", title: "Ops Agent", description: "The partner ops analyst that does the cleanup. CRM sync gaps, duplicate partner records, open attribution conflicts, overdue reviews — triaged, prioritized, and handed back as named actions instead of another dashboard." },
-  { number: "06", title: "Partner Portal", description: "A branded, self-service workspace — free for every partner, forever. Deal registration, performance dashboards, tier status. White-labeled. No partner caps. The only partner view they'll actually open." },
+  { number: "02", title: "CRM Sync", description: "Bidirectional with Salesforce and HubSpot. Pulls in closed-won and in-flight deals, pushes attributed partner credit back to the deal object so reports already in use keep working. OAuth setup, custom field mapping, webhook support." },
+  { number: "03", title: "Partner Portal", description: "A branded, self-service workspace — free for every partner, forever. Deal registration, performance dashboards, tier status. White-labeled. No partner caps. The only partner view they'll actually open." },
+  { number: "04", title: "Audit Trail & Governance", description: "Every touchpoint, attribution decision, and partner-visible change writes to the log with the actor and the rule. Per-signal sharing controls mean nothing leaves your four walls until you approve it. Antitrust-safe by construction." },
 ];
 
 const WHO = [
@@ -119,12 +59,12 @@ export default function PlatformPage() {
             The Partner Platform
           </p>
           <h1 className="l-heading-xl" style={{ fontSize: "clamp(2.4rem, 5.5vw, 3.75rem)", marginBottom: "1.75rem" }}>
-            Measure your partners.<br />Run the team you haven&apos;t hired.
+            Your partner attribution.<br />Out of spreadsheets. Into one system of record.
           </h1>
-          <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 560 }}>
-            Covant measures and attributes partner revenue — including what % of pipeline
-            partners actually drove — and runs partner agents on your CRM data.
-            PSM, PAM, Program, and Ops to start. The team you haven&apos;t hired yet.
+          <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 600 }}>
+            Connect Salesforce or HubSpot. Pipe every touchpoint, deal registration, and
+            co-sell into one attributed record — with a branded portal your partners
+            actually log into. The system of record partner teams have been missing.
           </p>
           <div className="l-flex-center">
             <Link href="/dashboard?demo=true" className="l-btn">Try it live →</Link>
@@ -170,17 +110,19 @@ export default function PlatformPage() {
             <div>
               <p className="l-section-tag">What Covant is</p>
               <h2 className="l-heading-lg" style={{ fontSize: "clamp(1.6rem, 3.5vw, 2.4rem)", marginBottom: "1.25rem" }}>
-                The measurement layer<br />and the team<br />that runs on top of it.
+                One system of record<br />for every partner touchpoint.
               </h2>
               <p className="l-body" style={{ fontSize: "1rem", marginBottom: "1.25rem" }}>
-                Covant connects to your CRM, ingests deal activity, attributes every touchpoint,
-                and measures partner-sourced and partner-influenced pipeline against the
-                rest of the business. One record. One audit trail.
+                Covant connects to your CRM, ingests deal activity, attributes every
+                touchpoint, and measures partner-sourced and partner-influenced pipeline
+                against the rest of the business. One record. One audit trail. Partners
+                see their own contribution through a branded portal.
               </p>
               <p className="l-body" style={{ fontSize: "1rem" }}>
-                Then partner agents run on it — PSM, PAM, Program, and Ops to start —
-                surfacing the plays and fixes a partner team would do if you had more people.
-                The data is yours. The agents do the work.
+                It&apos;s the foundation partner teams have been missing — the thing that
+                moves them off a shared spreadsheet or a set of Salesforce reports nobody
+                trusts. Once it&apos;s in, <Link href="/agents" style={{ color: "#0a0a0a", textDecoration: "underline" }}>partner agents</Link> read
+                the record and surface the moves worth making this week.
               </p>
             </div>
             <div className="l-flex-col" style={{ background: "#f9fafb", border: "1px solid #e5e7eb", borderRadius: 16, padding: "2rem", gap: "1rem" }}>
@@ -206,9 +148,9 @@ export default function PlatformPage() {
       {/* ── WHAT'S INSIDE ─────────────────────────────────────── */}
       <section className="l-section-alt l-section-border-b">
         <div className="wrap" style={{ maxWidth: 960 }}>
-          <p className="l-section-tag l-center" id="agents">What&apos;s inside</p>
+          <p className="l-section-tag l-center">What&apos;s inside</p>
           <h2 className="l-heading-lg l-center" style={{ marginBottom: "3.5rem" }}>
-            Measurement, agents, and the portal.
+            The system of record. And what partners see.
           </h2>
           <div className="l-grid-3">
             {PILLARS.map((p) => (
@@ -236,7 +178,6 @@ export default function PlatformPage() {
               { label: "Dashboard", href: "#dashboard" },
               { label: "Attribution", href: "#attribution" },
               { label: "Partner Portal", href: "#portal" },
-              { label: "Agents at work", href: "#agents-at-work" },
               { label: "Deal Registration", href: "#deals" },
             ].map((l) => (
               <a key={l.href} href={l.href} className="l-tour-step" style={{ marginBottom: 0 }}>
@@ -274,7 +215,7 @@ export default function PlatformPage() {
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 4 }}>
               <Badge text="Deal Reg Protection" color="#3b82f6" />
               <Badge text="35 Partners" color="#22c55e" />
-              <Badge text="Agents On" color="#a78bfa" />
+              <Badge text="Salesforce Synced" color="#a78bfa" />
             </div>
             <div style={{ color: "#9ca3af", fontSize: ".7rem", textAlign: "center", marginTop: 4 }}>Live config preview updates as you talk ↑</div>
           </div>
@@ -286,8 +227,8 @@ export default function PlatformPage() {
         id="dashboard"
         step="Step 2 — Dashboard"
         title="Your partner program, at a glance."
-        subtitle="Real-time metrics, agent findings, and trends."
-        description="No more logging into Salesforce, exporting to Excel, and building a pivot table to figure out how your partners are doing. Covant shows partner-sourced pipeline, % of total pipeline from partners, win rates, and the actions your agents flagged today — all updating in real time from your CRM."
+        subtitle="Real-time metrics from your CRM."
+        description="No more logging into Salesforce, exporting to Excel, and building a pivot table to figure out how your partners are doing. Covant shows partner-sourced pipeline, % of total pipeline from partners, win rates, and the open items worth your attention — all updating in real time from your CRM."
         reverse
       >
         <MockWindow title="covant.ai/dashboard">
@@ -296,11 +237,11 @@ export default function PlatformPage() {
             <StatCard label="% of Pipeline" value="31%" trend="↑ 5 pts QoQ" />
             <StatCard label="Win Rate" value="34%" trend="↑ 6pts vs direct" />
           </div>
-          <div className="l-section-label">Agent Findings</div>
+          <div className="l-section-label">Open Items</div>
           {[
-            { icon: ClipboardList, text: "PSM Agent: 3 deal registrations pending review", color: "#3b82f6" },
-            { icon: TrendingUp, text: "PAM Agent: 4 partners within 1 deal of tier-up", color: "#a78bfa" },
-            { icon: Users, text: "Ops Agent: 2 partners haven't completed onboarding", color: "#ef4444" },
+            { icon: ClipboardList, text: "3 deal registrations pending review", color: "#3b82f6" },
+            { icon: TrendingUp, text: "4 partners within 1 deal of tier-up", color: "#a78bfa" },
+            { icon: Users, text: "2 partners haven't completed onboarding", color: "#ef4444" },
           ].map((item, i) => (
             <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderBottom: i < 2 ? "1px solid #f3f4f6" : "none" }}>
               <item.icon size={14} style={{ color: item.color, flexShrink: 0 }} />
@@ -408,43 +349,13 @@ export default function PlatformPage() {
         </MockWindow>
       </TourSection>
 
-      {/* Step 5 — Agents at work */}
-      <TourSection
-        id="agents-at-work"
-        step="Step 5 — Agents at work"
-        title="Partner agents. One prioritized feed."
-        subtitle="The team you haven't hired yet."
-        description="Your partner agents read the same attributed record and surface the handful of things worth doing today — a tier-up nudge here, a coverage gap there, a dormant partner to reactivate. PSM, PAM, Program, and Ops to start; more ship as we learn. Every item cites the attribution it's based on."
-      >
-        <MockWindow title="covant.ai/dashboard/agents">
-          <div className="l-section-label" style={{ marginBottom: 12 }}>Today&apos;s feed</div>
-          {[
-            { agent: "PSM", icon: Target, title: "Coverage gap in APAC", detail: "No active partner for 4 enterprise deals in-flight. TechBridge & Apex both qualify.", color: "#3b82f6" },
-            { agent: "PAM", icon: TrendingUp, title: "4 partners within 1 deal of tier-up", detail: "TechBridge, Stackline, NexaCloud, Ridgeway. Platinum unlocks co-sell benefits.", color: "#a78bfa" },
-            { agent: "Program", icon: Activity, title: "NPI launch adoption below bar", detail: "Cloud Connect: 3 of 28 partners trained. Target is 70% by end of quarter.", color: "#22c55e" },
-            { agent: "Ops", icon: Zap, title: "12 CRM sync conflicts", detail: "Partner field mismatch between Salesforce and the registration form. Auto-merge ready.", color: "#eab308" },
-          ].map((item, i) => (
-            <div key={i} style={{ display: "flex", gap: 12, padding: "10px 12px", background: "#f9fafb", borderRadius: 6, marginBottom: 6, alignItems: "flex-start" }}>
-              <item.icon size={16} style={{ color: item.color, marginTop: 2, flexShrink: 0 }} />
-              <div style={{ flex: 1 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 2 }}>
-                  <span style={{ color: item.color, fontSize: ".65rem", fontWeight: 700, letterSpacing: "0.05em" }}>{item.agent} AGENT</span>
-                  <span style={{ color: "#374151", fontSize: ".82rem", fontWeight: 600 }}>{item.title}</span>
-                </div>
-                <div style={{ color: "#6b7280", fontSize: ".75rem", lineHeight: 1.5 }}>{item.detail}</div>
-              </div>
-            </div>
-          ))}
-        </MockWindow>
-      </TourSection>
-
-      {/* Step 6 — Deal Registration */}
+      {/* Step 5 — Deal Registration */}
       <TourSection
         id="deals"
-        step="Step 6 — Deal Registration"
+        step="Step 5 — Deal Registration"
         title="Deal registration that actually works."
         subtitle="Partners register. You approve. Attribution happens."
-        description="Partners submit deals through their portal. You review, approve, or reject from your dashboard. Approved deals are attributed automatically and appear on the dashboard and in the agent feed. No CSV imports, no email chains, no 'who registered this?' debates."
+        description="Partners submit deals through their portal. You review, approve, or reject from your dashboard. Approved deals are attributed automatically and flow into the ledger. No CSV imports, no email chains, no 'who registered this?' debates."
         reverse
       >
         <MockWindow title="covant.ai/dashboard/deals">
@@ -506,9 +417,9 @@ export default function PlatformPage() {
 
       {/* ── CTA ───────────────────────────────────────────────── */}
       <section className="l-section-dark l-center">
-        <div className="wrap" style={{ maxWidth: 600 }}>
+        <div className="wrap" style={{ maxWidth: 640 }}>
           <h2 className="l-heading-lg" style={{ color: "#fff", marginBottom: "1.25rem" }}>
-            Ready to run your partner program<br />on something real?
+            Move partner attribution<br />into one system of record.
           </h2>
           <p style={{ color: "#9ca3af", fontSize: "1.05rem", marginBottom: "2rem", lineHeight: 1.65 }}>
             Free for up to 5 partners. No credit card required.
@@ -517,8 +428,8 @@ export default function PlatformPage() {
             <Link href="/sign-up" style={{ background: "#fff", color: "#0a0a0a", padding: ".85rem 2rem", borderRadius: 8, fontWeight: 700, textDecoration: "none", fontSize: ".95rem", display: "inline-flex", alignItems: "center", gap: 8 }}>
               Get started free <ArrowRight size={16} />
             </Link>
-            <Link href="/dashboard?demo=true" style={{ border: "1px solid #333", color: "#fff", padding: ".85rem 2rem", borderRadius: 8, fontWeight: 600, textDecoration: "none", fontSize: ".95rem" }}>
-              Try it live
+            <Link href="/agents" style={{ border: "1px solid #333", color: "#fff", padding: ".85rem 2rem", borderRadius: 8, fontWeight: 600, textDecoration: "none", fontSize: ".95rem" }}>
+              See the agents →
             </Link>
           </div>
         </div>
