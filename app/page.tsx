@@ -39,7 +39,7 @@ export default function LandingPage() {
 Unlock channel revenue.
           </h1>
           <p className="l-muted l-subtitle">
-            The platform your partner team runs on — with partner agents that record every touchpoint, capture every deal, action every partner, and unlock the channel revenue you already have. Monitor it. Measure it. One ledger for your team. A branded portal for every partner.
+            Covant is the system of record for partner attribution — one ledger for every touchpoint, a branded portal for every partner, and partner agents that read the record and surface the moves worth making this week.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
             <Link href="/beta" className="l-btn">Become a design partner <span>→</span></Link>
@@ -164,22 +164,20 @@ Unlock channel revenue.
               What Covant does
             </p>
             <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
-              Record. Capture. Action. Unlock.<br />The four jobs of a partner program.
+              The platform. Then the agents.
             </h2>
-            <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 560, margin: "0 auto", lineHeight: 1.65 }}>
-              One ledger records every partner touchpoint. A branded portal captures
-              every deal the moment a partner registers it. In-product agents
-              take action on every partner — the team you haven&apos;t hired yet
-              (PSM, PAM, Program, and Ops, to start). Channel revenue gets
-              unlocked, monitored, and measured end-to-end.
+            <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 580, margin: "0 auto", lineHeight: 1.65 }}>
+              First, one ledger records every partner touchpoint and a branded portal
+              captures every deal the moment a partner registers it — the system of
+              record partner teams have been missing. Then partner agents read that
+              record and surface the moves worth making this week.
             </p>
           </div>
 
+          <p className="l-tag" style={{ marginBottom: "1rem" }}>01 &middot; The Platform</p>
+
           {/* The Ledger — hero card */}
           <div className="l-engine-card">
-            <div className="l-engine-badge">
-              The Platform
-            </div>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "2.5rem", alignItems: "flex-start" }}>
               <div>
                 <span className="l-engine-label">
@@ -212,34 +210,58 @@ Unlock channel revenue.
             </div>
           </div>
 
-          {/* Measurement + Agents */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1px", marginBottom: "2rem" }}>
-            <div className="l-rec-card-panel" style={{ borderRadius: "0 0 0 16px" }}>
-              <div>
-                <span className="l-engine-label" style={{ marginBottom: ".75rem" }}>
-                  <span className="l-dot-sm" style={{ background: "#0a0a0a" }} />
-                  Monitor &amp; Measure
-                </span>
-                <h3 className="l-heading-sm">
-                  Every partner dollar, traceable end-to-end.
-                </h3>
-                <p style={{ fontSize: ".85rem", color: "#6b7280", lineHeight: 1.65 }}>
-                  Know exactly who drove what, how much, and why. Attribution runs on every deal;
-                  health scores run on every partner; revenue rolls up by program, tier, partner,
-                  and as a share of total pipeline. Your team gets defensible numbers. Your
-                  partners get transparent visibility into their own contribution.
-                </p>
-              </div>
-              <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "auto" }}>
-                {["Multi-touch attribution", "Partner health", "Revenue rollups"].map((t) => (
-                  <span key={t} className="l-pill l-pill-mono">{t}</span>
-                ))}
+          {/* Measurement — full width below the ledger */}
+          <div className="l-rec-card-panel" style={{ borderRadius: "0 0 16px 16px", marginBottom: "1.5rem" }}>
+            <div>
+              <span className="l-engine-label" style={{ marginBottom: ".75rem" }}>
+                <span className="l-dot-sm" style={{ background: "#0a0a0a" }} />
+                Monitor &amp; Measure
+              </span>
+              <h3 className="l-heading-sm">
+                Every partner dollar, traceable end-to-end.
+              </h3>
+              <p style={{ fontSize: ".9rem", color: "#6b7280", lineHeight: 1.65 }}>
+                Know exactly who drove what, how much, and why. Attribution runs on every deal;
+                health scores run on every partner; revenue rolls up by program, tier, partner,
+                and as a share of total pipeline. Your team gets defensible numbers. Your
+                partners get transparent visibility into their own contribution.
+              </p>
+            </div>
+            <div style={{ display: "flex", gap: ".4rem", flexWrap: "wrap", marginTop: "1rem" }}>
+              {["Multi-touch attribution", "Partner health", "Revenue rollups", "CRM bidirectional sync"].map((t) => (
+                <span key={t} className="l-pill l-pill-mono">{t}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* Portal — quiet inline note, closes the Platform block */}
+          <div className="l-portal-inline">
+            <div>
+              <div className="l-portal-inline-title">Partner Portal</div>
+              <div className="l-portal-inline-desc">
+                Branded self-service workspace — deal registration, revenue visibility, MDF requests, certifications. Unlimited partner seats, free with every plan.
               </div>
             </div>
+            <Link href="/platform" className="l-link-arrow">
+              See the platform →
+            </Link>
+          </div>
 
-            {/* Agents */}
-            <div className="l-rec-card-panel" style={{ borderRadius: "0 0 16px 0", gap: "1.25rem" }}>
-              <p className="l-tag-muted" style={{ margin: 0 }}>The team you haven&apos;t hired</p>
+          {/* ── 02 · The Agents ─────────────────────────────── */}
+          <div style={{ marginTop: "5rem" }}>
+            <p className="l-tag" style={{ marginBottom: "1rem" }}>02 &middot; The Agents</p>
+            <div style={{ marginBottom: "2rem", maxWidth: 620 }}>
+              <h3 className="l-heading-md" style={{ marginBottom: ".75rem" }}>
+                The team you haven&apos;t hired.
+              </h3>
+              <p style={{ fontSize: "1rem", color: "#6b7280", lineHeight: 1.65 }}>
+                Partner agents read the attributed record and surface the handful of moves
+                worth making this week — coverage gaps, tier-up nudges, stale registrations,
+                CRM hygiene. PSM, PAM, Program, and Ops to start; more ship as we learn.
+              </p>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1rem" }}>
               {[
                 {
                   name: "PSM Agent",
@@ -255,31 +277,30 @@ Unlock channel revenue.
                 },
                 {
                   name: "Ops Agent",
-                  desc: "Partner Ops. Reconciles attribution across every deal, flags disputes early, and answers every 'where did this revenue come from?' question.",
+                  desc: "Partner Ops. Reconciles attribution across every deal, flags disputes early, and answers every ‘where did this revenue come from?’ question.",
                 },
               ].map((c) => (
-                <div key={c.name} className="l-cap-item">
-                  <span className="l-dot-sm" style={{ background: "#0a0a0a", marginTop: 6 }} />
-                  <div>
-                    <div className="l-cap-title">{c.name}</div>
-                    <div className="l-cap-desc">{c.desc}</div>
+                <div key={c.name} style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, padding: "1.5rem" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: ".75rem" }}>
+                    <span className="l-dot-sm" style={{ background: "#0a0a0a" }} />
+                    <div className="l-cap-title" style={{ margin: 0 }}>{c.name}</div>
                   </div>
+                  <div className="l-cap-desc">{c.desc}</div>
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Portal — quiet inline note */}
-          <div className="l-portal-inline">
-            <div>
-              <div className="l-portal-inline-title">Partner Portal</div>
-              <div className="l-portal-inline-desc">
-                Branded self-service workspace — deal registration, revenue visibility, MDF requests, certifications. Unlimited partner seats, free with every plan.
+            <div className="l-portal-inline" style={{ marginTop: "2rem" }}>
+              <div>
+                <div className="l-portal-inline-title">See how the agents work</div>
+                <div className="l-portal-inline-desc">
+                  Monday-morning walkthrough, example recommendations, and how agents stay antitrust-safe by construction.
+                </div>
               </div>
+              <Link href="/agents" className="l-link-arrow">
+                See the agents →
+              </Link>
             </div>
-            <Link href="/platform" className="l-link-arrow">
-              See the platform →
-            </Link>
           </div>
         </div>
       </section>
