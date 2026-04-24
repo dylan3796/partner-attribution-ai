@@ -53,8 +53,8 @@ type Category = {
 
 const CATEGORIES: Category[] = [
   {
-    name: "Attribution & Tracking",
-    tagline: "Know exactly which partner drove which deal — with the paper trail to prove it.",
+    name: "Record — The Ledger",
+    tagline: "Every partner touchpoint in one system of record — with the paper trail to prove it.",
     color: "#6366f1",
     features: [
       {
@@ -64,8 +64,8 @@ const CATEGORIES: Category[] = [
         link: "/product",
       },
       {
-        title: "Attribution Audit Trail",
-        description: "Per-partner touchpoint timeline, contribution notes, and step-by-step calculation chain. Show AEs exactly why a partner gets credit.",
+        title: "Explainable by Construction",
+        description: "Per-partner touchpoint timeline, contribution notes, and step-by-step calculation chain. Every number traces back to deal + touchpoint + rule + payment.",
         icon: GitBranch,
       },
       {
@@ -82,40 +82,67 @@ const CATEGORIES: Category[] = [
     ],
   },
   {
-    name: "Commissions & Payouts",
-    tagline: "Complex rules, automated calculations, zero spreadsheets.",
+    name: "Action — Four Agents",
+    tagline: "The team you haven't hired yet. Agents propose; your team approves; the system executes and logs.",
+    color: "#818cf8",
+    features: [
+      {
+        title: "PSM Agent",
+        description: "Partner Sales Manager. Finds co-sell overlap across open deals, drafts the warm intro, logs touchpoints after every meeting, re-ignites stale partner-registered deals.",
+        icon: Handshake,
+      },
+      {
+        title: "PAM Agent",
+        description: "Partner Account Manager. Watches partner health weekly, flags churn risk, writes check-ins by risk tier, preps QBR decks, handles new-partner onboarding.",
+        icon: HeartPulse,
+      },
+      {
+        title: "Program Agent",
+        description: "Program lead. Spots tier, incentive, and certification drift before it compounds. Proposes program changes with a 90-day dry-run preview. Drafts MDF approval rationale.",
+        icon: Scale,
+      },
+      {
+        title: "Ops Agent",
+        description: "Partner Ops. Reconciles attribution across every deal continuously. Flags dispute-risk patterns early. Produces the variance report that answers every 'where did this revenue come from?' question.",
+        icon: Shield,
+      },
+    ],
+  },
+  {
+    name: "Unlock — Revenue Intelligence",
+    tagline: "Measure partner contribution end-to-end. Numbers you can defend, exports finance can use on their own rails.",
     color: "#22c55e",
     features: [
       {
-        title: "Complex Commission Rules",
-        description: "Tiered rates by partner level, product line, deal size, and role. Create rules in plain English or configure manually.",
+        title: "Revenue Rollups",
+        description: "Channel revenue by program, tier, partner, and deal type. Drill from program health down to the individual touchpoint behind any number.",
         icon: Coins,
       },
       {
         title: "Auto-Commission on Approval",
-        description: "Approve a deal registration → commission calculates instantly based on matching rules. No manual spreadsheet step.",
+        description: "Approve a deal registration → commission math runs instantly against your configured rules. Export cleanly to whichever finance rail your team already uses.",
         icon: Zap,
       },
       {
-        title: "Bulk Payout Approval",
-        description: "Select multiple payouts, approve in one click. Stats cards show pending, approved, and total amounts.",
+        title: "Commission Rules",
+        description: "Tiered rates by partner level, product line, deal size, and role. Stack rules with priority ordering. Create rules in plain English or configure manually.",
         icon: CheckCircle2,
       },
       {
-        title: "End-of-Quarter Reconciliation",
-        description: "Quarter-by-quarter payout summaries with CSV export. Match what you owe to what you paid — no surprises.",
+        title: "Quarterly Variance Reports",
+        description: "Quarter-by-quarter revenue summaries with CSV export. Every dollar traces back to a deal, a touchpoint, and a rule.",
         icon: Scale,
       },
       {
         title: "Dispute Resolution",
-        description: "Partners open disputes on deals. Admins review, resolve, or reject with notes. Full audit trail. No more email threads.",
+        description: "Partners open disputes on deals or attribution. Admins review, resolve, or reject with notes. Full audit trail. No more email threads.",
         icon: Scale,
       },
     ],
   },
   {
-    name: "Partner Portal",
-    tagline: "A portal partners actually use — white-labeled, real data, under 2-minute visits.",
+    name: "Capture — Partner Portal & Deal Reg",
+    tagline: "A branded portal partners actually log into. Deal registration, commission visibility, real data.",
     color: "#f59e0b",
     features: [
       {
@@ -130,7 +157,7 @@ const CATEGORIES: Category[] = [
       },
       {
         title: "Commission Transparency",
-        description: "Partners see exactly what they've earned, what's pending, and the calculation behind each payout.",
+        description: "Partners see exactly what they've earned, what's pending, and the calculation behind every commission.",
         icon: Coins,
       },
 
@@ -143,7 +170,7 @@ const CATEGORIES: Category[] = [
     features: [
       {
         title: "Partner Health Scores",
-        description: "Composite 0–100 scores from deal activity, revenue, engagement, recency, and payout health. Auto-classify healthy, at-risk, and churning.",
+        description: "Composite 0–100 scores from deal activity, revenue, engagement, recency, and commission health. Auto-classify healthy, at-risk, and churning.",
         icon: HeartPulse,
       },
       {
@@ -213,12 +240,12 @@ const CATEGORIES: Category[] = [
       },
       {
         title: "Program Health Score",
-        description: "Single 0–100 composite score across engagement, deal velocity, payout health, and growth. One number to report upward.",
+        description: "Single 0–100 composite score across engagement, deal velocity, commission health, and growth. One number to report upward.",
         icon: HeartPulse,
       },
       {
         title: "Data Export Center",
-        description: "Bulk CSV download for partners, deals, payouts, touchpoints, audit log, commission rules, and products. Enterprise data portability.",
+        description: "Bulk CSV download for partners, deals, commissions, touchpoints, audit log, commission rules, and products. Enterprise data portability.",
         icon: FileDown,
       },
     ],
@@ -247,10 +274,9 @@ const CATEGORIES: Category[] = [
         link: "/integrations/api",
       },
       {
-        title: "Stripe Billing",
+        title: "Billing & Subscriptions",
         description: "Self-serve checkout, subscription management, and usage-based billing tied to active partner count.",
         icon: Coins,
-        link: "/integrations/stripe",
       },
       {
         title: "Team Management",
@@ -329,8 +355,9 @@ export default function FeaturesPage() {
           Every Feature, One Page
         </h1>
         <p style={{ marginTop: ".5rem", lineHeight: 1.6, color: "#888", fontSize: ".95rem", maxWidth: 640 }}>
-          {totalFeatures} features across {CATEGORIES.length} categories — built for VPs of Partnerships
-          who need attribution they can defend, commissions that run themselves, and analytics that replace manual decks.
+          {totalFeatures} features across {CATEGORIES.length} categories — the platform your
+          partner team runs on. Record every touchpoint, capture every deal, action every partner,
+          and unlock channel revenue end-to-end.
         </p>
 
         {/* Category jump links */}
@@ -475,8 +502,8 @@ export default function FeaturesPage() {
           See it in action
         </h3>
         <p style={{ fontSize: ".85rem", color: "#888", margin: "0 0 20px", maxWidth: 480, marginLeft: "auto", marginRight: "auto", lineHeight: 1.6 }}>
-          Try the interactive demo with sample data, or start free with your own program.
-          No credit card required.
+          Try the interactive demo with sample data, or apply to pilot Covant as a design partner.
+          Free during pilot, locked-in pricing at GA.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
           <Link
@@ -497,7 +524,7 @@ export default function FeaturesPage() {
             Try Interactive Demo <ArrowRight size={14} />
           </Link>
           <Link
-            href="/sign-up"
+            href="/beta"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -512,7 +539,7 @@ export default function FeaturesPage() {
               textDecoration: "none",
             }}
           >
-            Get Started Free
+            Become a design partner
           </Link>
         </div>
       </div>

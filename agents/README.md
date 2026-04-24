@@ -1,16 +1,36 @@
-# PartnerBase Business Ops - Multi-Agent System
+# Covant — Multi-Agent System
 
-**Autonomous agents working together to run PartnerBase as a business.**
+Two agent layers in this repo. Don't confuse them.
 
-## Architecture
+## Layer A — In-product persona agents (customer-facing)
 
-This is a **multi-agent coordination system** where specialized AI agents handle different aspects of running the business:
+These ship inside the Covant product. Each one works alongside a seat on the customer's partner team. See `docs/pitch.md` → "The Agent Layer" for the investor framing.
+
+1. **[PSM Agent](./psm.md)** — Partner Sales Manager. Account overlap, warm-intro drafting, touchpoint logging.
+2. **[PAM Agent](./pam.md)** — Partner Account Manager. Health watch, check-in drafts, QBR prep.
+3. **[Program Agent](./program.md)** — Program / incentives lead. Commission leakage alerts, tier recommendations, MDF rationale, certification gaps.
+4. **[Ops Agent](./ops.md)** — Partner ops / RevOps. Pre-payout reconciliation, dispute early-warning, payout-file production.
+
+Shared design rules across all four:
+- **Scoped toolset.** Each agent only reads/writes the Convex tables its persona owns.
+- **Human-in-the-loop.** Every action is a proposal; the human approves, edits, or rejects; the system executes and logs.
+- **Shared runtime.** One agent inbox (`/dashboard/agents`), one proposal ledger (`agent_proposals`), one activity log (`agent_activity`), four personas.
+
+## Layer B — Business-ops agents (running Covant itself)
+
+**Autonomous agents working together to run Covant as a business.** These are internal to Dylan's operation, not shipped in the product.
 
 1. **Lead Manager** - Handles inbound leads from landing page
 2. **Sales Agent** - Manages demos, closes deals
 3. **Content Creator** - Writes blog posts, case studies, docs
 4. **Product Builder** - Ships features, fixes bugs
 5. **Outreach Agent** - Cold outreach, LinkedIn, partnerships
+
+---
+
+## Architecture (Layer B — business-ops)
+
+This is a **multi-agent coordination system** where specialized AI agents handle different aspects of running the business:
 
 ## How It Works
 

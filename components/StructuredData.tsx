@@ -7,7 +7,7 @@ export function OrganizationSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "Partner Intelligence Platform — attribution, commission automation, and partner program management for B2B companies.",
+      "The platform your partner team runs on. One ledger, a branded portal, revenue intelligence — plus four agents (PSM, PAM, Program, Ops) that help teams unlock, monitor, and measure channel revenue end-to-end.",
     foundingDate: "2026",
     contactPoint: {
       "@type": "ContactPoint",
@@ -34,40 +34,14 @@ export function SoftwareApplicationSchema() {
     operatingSystem: "Web",
     url: "https://covant.ai",
     description:
-      "Partner attribution, commission automation, and partner program management platform.",
+      "The platform your partner team runs on. One ledger, a branded portal, revenue intelligence — plus four in-product agents (PSM, PAM, Program, Ops) that help teams unlock, monitor, and measure channel revenue end-to-end.",
     offers: [
       {
         "@type": "Offer",
-        name: "Free",
+        name: "Design Partner Pilot",
         price: "0",
         priceCurrency: "USD",
-        description: "Up to 5 partners, 3 commission rules",
-      },
-      {
-        "@type": "Offer",
-        name: "Pro",
-        price: "99",
-        priceCurrency: "USD",
-        priceSpecification: {
-          "@type": "UnitPriceSpecification",
-          price: "99",
-          priceCurrency: "USD",
-          billingDuration: "P1M",
-        },
-        description: "Up to 25 partners, Salesforce/HubSpot, multi-touch attribution",
-      },
-      {
-        "@type": "Offer",
-        name: "Scale",
-        price: "349",
-        priceCurrency: "USD",
-        priceSpecification: {
-          "@type": "UnitPriceSpecification",
-          price: "349",
-          priceCurrency: "USD",
-          billingDuration: "P1M",
-        },
-        description: "Up to 100 partners, 2 programs, approval workflows",
+        description: "Free during pilot for design partners. Full platform access including all four agents as they ship. Locked-in pricing at general availability.",
       },
     ],
   };
@@ -113,7 +87,7 @@ export function WebSiteSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "Partner Intelligence Platform — attribution, commission automation, and partner program management.",
+      "The platform your partner team runs on — with four agents that unlock channel revenue end-to-end.",
     potentialAction: {
       "@type": "SearchAction",
       target: "https://covant.ai/faq?q={search_term_string}",

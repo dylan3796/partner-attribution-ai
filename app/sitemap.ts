@@ -20,7 +20,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${base}/integrations/webhooks`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/integrations/api`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/integrations/slack`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
-    { url: `${base}/integrations/stripe`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${base}/compare`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/compare/partnerstack`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${base}/compare/impact-com`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
