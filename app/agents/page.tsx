@@ -17,11 +17,11 @@ import { MockWindow } from "@/components/PlatformMockHelpers";
 export const metadata: Metadata = {
   title: "Agents — Covant",
   description:
-    "Partner agents that read your attributed record and surface the moves worth making this week. PSM, PAM, Program, and Ops to start — coverage gaps, tier-up nudges, stale registrations, CRM hygiene.",
+    "Four role-specific partner agents on your attributed record. Deal & Partner Strategist, Partner Growth, Program Design, Insights & Attribution — each answering one core question for one role.",
   openGraph: {
     title: "Agents — Covant",
     description:
-      "Partner agents on your CRM data. Coverage gaps, tier-up nudges, hygiene — surfaced with the attribution evidence cited.",
+      "Four partner agents, one per role. Each answers a different question: which partner wins this deal, how do we grow this partner, is the system working, what is happening and why.",
   },
 };
 
@@ -29,49 +29,49 @@ const AGENTS = [
   {
     key: "psm",
     icon: Target,
-    name: "PSM Agent",
-    role: "Partner Sales Manager — finds the partner moves that close pipeline.",
-    reads: "Reads: open opportunities, partner specialization, deal history.",
+    name: "PSM — Deal & Partner Strategist",
+    role: "Opportunity-level. Answers: what partner helps us win this deal?",
+    reads: "Reads: open opportunities, partner specialization, deal history, delivery capability.",
     recs: [
       "Coverage gap in APAC — 4 enterprise deals in-flight, no active partner.",
       "Warm co-sell path on Acme ($180K) — TechBridge has deal history with the account.",
-      "Dormant high-performer — Stackline last closed 90d ago; 3 matching opps now open.",
+      "Delivery readiness gap on Northwind close — Bluewave hasn't done the Data Residency add-on before.",
     ],
   },
   {
     key: "pam",
     icon: TrendingUp,
-    name: "PAM Agent",
-    role: "Partner Account Manager — runs the 1:1 motion at 100:1 scale.",
-    reads: "Reads: tier progress, certifications, partner health, last-touch recency.",
+    name: "PAM — Partner Growth & Performance",
+    role: "Partner-level. Answers: how do I make this partner more effective over time?",
+    reads: "Reads: business-plan progress, capability milestones, activity trend, joint-pipeline contribution.",
     recs: [
-      "4 partners within 1 deal of tier-up — nudge this week to close the lift.",
-      "Certification drift — NexaCloud's solution architect cert expires in 30 days.",
-      "Health drop — Ridgeway win rate down 14pts QoQ; book a check-in.",
+      "Ridgeway off-plan at mid-quarter — pipeline contribution $0 vs. $180K trailing avg.",
+      "Capability gap — Stackline closed 3 FinServ deals this quarter; no one on their team holds the FinServ specialization.",
+      "Market opportunity — 3 PNW mid-market accounts match NexaCloud's past wins; draft a joint-target list.",
     ],
   },
   {
     key: "program",
     icon: Activity,
-    name: "Program Agent",
-    role: "Program lead — watches program health and flags drift before it breaks.",
-    reads: "Reads: NPI adoption, new-partner ramp, tier distribution, deal-reg throughput.",
+    name: "Program — Program Design & Optimization",
+    role: "Ecosystem-level. Answers: is our system producing the partners we want?",
+    reads: "Reads: tier distribution, progression velocity, incentive performance, enablement completion.",
     recs: [
-      "NPI launch adoption below bar — Cloud Connect: 3 of 28 partners trained.",
-      "Ramp time up to 87 days — 2x the Q3 baseline; worth a structured review.",
-      "Tier drift — 4 Gold partners eligible for downgrade per the new thresholds.",
+      "27 partners stuck one rung from Gold — 14 of them missing the same specialization.",
+      "Silver→Gold gap is 10x — recommend lowering Gold threshold OR adding a Platinum tier (dry-run for both attached).",
+      "Gold priority-routing perk isn't moving specialization completion — worth replacing with a capability-tied incentive.",
     ],
   },
   {
     key: "ops",
     icon: Zap,
-    name: "Ops Agent",
-    role: "Partner Ops — the cleanup nobody has time for.",
-    reads: "Reads: CRM sync state, attribution conflicts, duplicate records, review queues.",
+    name: "Ops — Insights & Attribution Engine",
+    role: "Cross-cutting. Answers: what is actually happening, and why?",
+    reads: "Reads: every partner-relevant data surface — deals, activity, partner state, program config.",
     recs: [
-      "12 CRM sync conflicts — partner field mismatch between Salesforce and the registration form.",
-      "Attribution conflict on $92K deal — two partners registered within the window.",
-      "7 overdue tier reviews on partners with active pipeline.",
+      "Q2 sourced pipeline down 14% — 11 points from a mid-tier activity drop, 3 points from the April 1 definition change.",
+      "Advanced Implementation specialization lifts close rate 34% within 60 days of completion — worth an incentive-design input.",
+      "12 CRM sync conflicts — partner field mismatch between Salesforce and the registration form; draft fix attached.",
     ],
   },
 ];
@@ -141,10 +141,9 @@ export default function AgentsPage() {
           </h1>
           <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 620, margin: "0 auto" }}>
             Covant&apos;s agents read your attributed record and surface the handful of
-            moves worth making this week — coverage gaps, tier-up nudges, stale
-            registrations, CRM hygiene. They amplify the work a partner team is already
-            doing so more of it gets done. PSM, PAM, Program, and Ops to start;
-            more ship as we learn.
+            moves worth making this week — the partner who wins the live deal, the
+            partner drifting off-plan, the bottleneck in progression, the real story
+            behind the number. Four agents to start, one per role; more ship as we learn.
           </p>
         </div>
 
@@ -154,9 +153,9 @@ export default function AgentsPage() {
             <div className="l-section-label" style={{ marginBottom: 12 }}>Today&apos;s feed</div>
             {[
               { agent: "PSM", icon: Target, title: "Coverage gap in APAC", detail: "No active partner for 4 enterprise deals in-flight. TechBridge & Apex both qualify." },
-              { agent: "PAM", icon: TrendingUp, title: "4 partners within 1 deal of tier-up", detail: "TechBridge, Stackline, NexaCloud, Ridgeway. Platinum unlocks co-sell benefits." },
-              { agent: "Program", icon: Activity, title: "NPI launch adoption below bar", detail: "Cloud Connect: 3 of 28 partners trained. Target is 70% by end of quarter." },
-              { agent: "Ops", icon: Zap, title: "12 CRM sync conflicts", detail: "Partner field mismatch between Salesforce and the registration form. Auto-merge ready." },
+              { agent: "PAM", icon: TrendingUp, title: "Ridgeway off-plan at mid-quarter", detail: "Pipeline contribution $0 this month vs. $180K trailing avg. Two certifications paused 4 weeks ago." },
+              { agent: "Program", icon: Activity, title: "27 partners stuck one rung from Gold", detail: "14 of them missing the same specialization. Group enablement campaign would move half." },
+              { agent: "Ops", icon: Zap, title: "Q2 sourced pipeline down 14%", detail: "11 points from mid-tier activity drop (6 partners). 3 points from the April 1 definition change." },
             ].map((item, i, arr) => (
               <div key={i} style={{ display: "flex", gap: 12, padding: "14px 0", borderBottom: i < arr.length - 1 ? "1px solid #f3f4f6" : "none", alignItems: "flex-start" }}>
                 <item.icon size={16} style={{ color: "#0a0a0a", marginTop: 2, flexShrink: 0 }} />

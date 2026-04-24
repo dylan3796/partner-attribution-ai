@@ -74,9 +74,9 @@ Unlock channel revenue.
               <div className="l-hero-mock-list">
                 {[
                   { agent: "PSM", title: "Coverage gap in APAC", detail: "4 enterprise deals in-flight, no active partner. TechBridge & Apex both qualify." },
-                  { agent: "PAM", title: "4 partners within 1 deal of tier-up", detail: "TechBridge, Stackline, NexaCloud, Ridgeway — Platinum unlocks co-sell benefits." },
-                  { agent: "Program", title: "NPI launch adoption below bar", detail: "Cloud Connect: 3 of 28 partners trained. Target is 70% by end of quarter." },
-                  { agent: "Ops", title: "12 CRM sync conflicts", detail: "Partner field mismatch between Salesforce and the registration form. Auto-merge ready." },
+                  { agent: "PAM", title: "Ridgeway off-plan at mid-quarter", detail: "Pipeline contribution $0 this month vs. $180K trailing avg. Two certifications paused 4 weeks ago." },
+                  { agent: "Program", title: "27 partners stuck one rung from Gold", detail: "14 of them missing the same specialization. Group enablement campaign would move half." },
+                  { agent: "Ops", title: "Q2 sourced pipeline down 14%", detail: "11 points from mid-tier activity drop (6 partners). 3 points from the April 1 definition change." },
                 ].map((r) => (
                   <div key={r.agent} className="l-hero-mock-row">
                     <span className="l-hero-mock-tag">{r.agent}</span>
@@ -256,29 +256,30 @@ Unlock channel revenue.
               </h3>
               <p style={{ fontSize: "1rem", color: "#6b7280", lineHeight: 1.65 }}>
                 Partner agents read the attributed record and surface the handful of moves
-                worth making this week — coverage gaps, tier-up nudges, stale registrations,
-                CRM hygiene. The work a partner team already does, amplified. PSM, PAM,
-                Program, and Ops to start; more ship as we learn.
+                worth making this week — coverage gaps on live deals, partners drifting
+                off-plan, ecosystem imbalances, the real story behind the number. The work
+                a partner team already does, amplified. PSM, PAM, Program, and Ops to start;
+                more ship as we learn.
               </p>
             </div>
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1rem" }}>
               {[
                 {
-                  name: "PSM Agent",
-                  desc: "Partner Sales Manager. Finds co-sell overlap across open deals and drafts the warm intro.",
+                  name: "PSM Agent — Deal & Partner Strategist",
+                  desc: "Opportunity-level. Finds the partner who most improves the odds on each live deal, drafts the warm intro, and flags readiness gaps before delivery.",
                 },
                 {
-                  name: "PAM Agent",
-                  desc: "Partner Account Manager. Watches partner health, flags churn risk, writes the weekly check-in.",
+                  name: "PAM Agent — Partner Growth & Performance",
+                  desc: "Partner-level. Runs the long game on each partner — business-plan progress, capability gaps, re-engagement, review prep.",
                 },
                 {
-                  name: "Program Agent",
-                  desc: "Program lead. Spots tier and incentive drift early and proposes fixes with a 90-day dry-run before anything ships.",
+                  name: "Program Agent — Program Design & Optimization",
+                  desc: "Ecosystem-level. Watches how partners progress through the system, where they stall, and which incentives are actually driving the behavior they were meant to. Every proposal ships with a dry-run.",
                 },
                 {
-                  name: "Ops Agent",
-                  desc: "Partner Ops. Reconciles attribution across every deal, flags disputes early, and answers every ‘where did this revenue come from?’ question.",
+                  name: "Ops Agent — Insights & Attribution Engine",
+                  desc: "Cross-cutting. The analytics brain — explains what moved and why, forecasts next period, answers leadership questions in plain English, and catches data-quality drift before it breaks the number.",
                 },
               ].map((c) => (
                 <div key={c.name} style={{ background: "#fff", border: "1px solid #e5e7eb", borderRadius: 12, padding: "1.5rem" }}>

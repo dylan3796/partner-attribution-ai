@@ -87,23 +87,23 @@ const CATEGORIES: Category[] = [
     color: "#818cf8",
     features: [
       {
-        title: "PSM Agent",
-        description: "Partner Sales Manager. Finds co-sell overlap across open deals, drafts the warm intro, logs touchpoints after every meeting, re-ignites stale partner-registered deals.",
+        title: "PSM — Deal & Partner Strategist",
+        description: "Opportunity-level. Answers: what partner helps us win this deal? Finds co-sell overlap on open deals, drafts the warm intro, re-ignites stale partner-registered deals, and flags delivery-readiness gaps before close.",
         icon: Handshake,
       },
       {
-        title: "PAM Agent",
-        description: "Partner Account Manager. Watches partner health weekly, flags churn risk, writes check-ins by risk tier, preps QBR decks, handles new-partner onboarding.",
+        title: "PAM — Partner Growth & Performance",
+        description: "Partner-level. Answers: how do I make this partner more effective over time? Runs weekly health sweeps, preps business reviews, surfaces capability gaps and market opportunities, handles new-partner onboarding.",
         icon: HeartPulse,
       },
       {
-        title: "Program Agent",
-        description: "Program lead. Spots tier, incentive, and certification drift before it compounds. Proposes program changes with a 90-day dry-run preview. Drafts MDF approval rationale.",
+        title: "Program — Program Design & Optimization",
+        description: "Ecosystem-level. Answers: is the system producing the partners we want? Analyzes tier progression, detects partners stuck one rung from the next level, evaluates whether incentives drive the intended behavior, proposes requirement changes with mandatory dry-run.",
         icon: Scale,
       },
       {
-        title: "Ops Agent",
-        description: "Partner Ops. Reconciles attribution across every deal continuously. Flags dispute-risk patterns early. Produces the variance report that answers every 'where did this revenue come from?' question.",
+        title: "Ops — Insights & Attribution Engine",
+        description: "Cross-cutting. Answers: what is actually happening, and why? Explains every metric movement with the drivers behind it, forecasts the next period, answers leadership questions in plain English, and flags data-quality drift before it breaks the number.",
         icon: Shield,
       },
     ],
