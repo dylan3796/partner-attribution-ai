@@ -16,7 +16,7 @@ import { MockWindow, StatCard, Badge, TourSection } from "@/components/PlatformM
 export const metadata: Metadata = {
   title: "Platform — Covant",
   description:
-    "Move partner attribution out of spreadsheets and CRM into one system of record. Connect Salesforce or HubSpot, pipe every touchpoint into one attributed ledger, give partners a branded portal.",
+    "One system of record for partner attribution. Connect Salesforce or HubSpot, pipe every touchpoint into one attributed ledger, give partners a branded portal.",
   openGraph: {
     title: "Platform — Covant",
     description:
@@ -59,7 +59,7 @@ export default function PlatformPage() {
             The Partner Platform
           </p>
           <h1 className="l-heading-xl" style={{ fontSize: "clamp(2.4rem, 5.5vw, 3.75rem)", marginBottom: "1.75rem" }}>
-            Your partner attribution.<br />Out of spreadsheets. Into one system of record.
+            Your partner attribution,<br />in one system of record.
           </h1>
           <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 600 }}>
             Connect Salesforce or HubSpot. Pipe every touchpoint, deal registration, and
@@ -80,7 +80,7 @@ export default function PlatformPage() {
             The problem
           </p>
           <h2 className="l-heading-lg l-center">
-            Partner ops is the last function<br />still running on spreadsheets.
+            Partner ops deserves<br />purpose-built infrastructure.
           </h2>
           <p className="l-center" style={{ color: "#6b7280", fontSize: "1.1rem", maxWidth: 560, margin: "0 auto 3.5rem", lineHeight: 1.65 }}>
             Sales has Salesforce. Marketing has HubSpot. RevOps has Clari.

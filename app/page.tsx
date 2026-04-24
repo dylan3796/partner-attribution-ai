@@ -252,12 +252,13 @@ Unlock channel revenue.
             <p className="l-tag" style={{ marginBottom: "1rem" }}>02 &middot; The Agents</p>
             <div style={{ marginBottom: "2rem", maxWidth: 620 }}>
               <h3 className="l-heading-md" style={{ marginBottom: ".75rem" }}>
-                The team you haven&apos;t hired.
+                Leverage for your partner team.
               </h3>
               <p style={{ fontSize: "1rem", color: "#6b7280", lineHeight: 1.65 }}>
                 Partner agents read the attributed record and surface the handful of moves
                 worth making this week — coverage gaps, tier-up nudges, stale registrations,
-                CRM hygiene. PSM, PAM, Program, and Ops to start; more ship as we learn.
+                CRM hygiene. The work a partner team already does, amplified. PSM, PAM,
+                Program, and Ops to start; more ship as we learn.
               </p>
             </div>
 

@@ -137,12 +137,13 @@ export default function AgentsPage() {
         <div className="wrap" style={{ maxWidth: 720 }}>
           <p className="l-section-tag" style={{ marginBottom: "1.5rem" }}>Agents</p>
           <h1 className="l-heading-xl" style={{ fontSize: "clamp(2.4rem, 5.5vw, 3.75rem)", marginBottom: "1.75rem" }}>
-            The partner team<br />you haven&apos;t hired.
+            Leverage<br />for your partner team.
           </h1>
           <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 620, margin: "0 auto" }}>
             Covant&apos;s agents read your attributed record and surface the handful of
             moves worth making this week — coverage gaps, tier-up nudges, stale
-            registrations, CRM hygiene. PSM, PAM, Program, and Ops to start;
+            registrations, CRM hygiene. They amplify the work a partner team is already
+            doing so more of it gets done. PSM, PAM, Program, and Ops to start;
             more ship as we learn.
           </p>
         </div>
