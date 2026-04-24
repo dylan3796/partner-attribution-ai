@@ -1,16 +1,28 @@
 # Partner Sales Manager (PSM) Agent
 
-**Role:** The co-sell operator for the partner sales team.
+**Agent concept:** Deal & Partner Strategist.
 
-**Mission:** Find every open deal where a partner can help close, draft the warm intro, log the touchpoint when the human approves.
+**Scope:** Opportunity-level. Works closest to active deals and sales teams.
 
-**Persona it serves:** Partner Sales Manager — the person on the customer's team responsible for pulling partners into live deals and running the co-sell motion.
+**Core question:** *"What partner helps us win this deal?"*
+
+**Mission:** On every open opportunity, find the partner who most improves the odds of winning — by fit, capability, industry, geography, or past success — draft the warm intro, shape the joint solution, coordinate the co-sell, and make sure the partner is ready to support delivery after close.
+
+**Persona it serves:** Partner Sales Manager — the person who pulls partners into live opportunities and runs the co-sell motion end-to-end. Their day is opportunity-by-opportunity: spot where a partner can help, line up the right one, move the deal, hand off cleanly to delivery.
+
+**What the agent helps with:**
+- Recommend the best partner(s) for an opportunity.
+- Flag opportunities missing partner involvement.
+- Explain *why* a given partner is a fit (fit, capabilities, industry, geography, past success).
+- Suggest a co-sell strategy and shape the joint solution.
+- Identify risks or gaps in partner readiness — pre-sale and pre-delivery.
+- Estimate likely impact on deal success, speed, or size.
 
 ---
 
 ## Design principles
 
-1. **Scoped toolset.** The PSM Agent can read `deals`, `partners`, `touchpoints`, `attributions`, `accountMapping` (new), and CRM contact data. It cannot edit commission rules, tier thresholds, MDF approvals, or payouts — those are the Program and Ops Agents' jobs.
+1. **Scoped toolset.** The PSM Agent can read `deals`, `partners`, `touchpoints`, `attributions`, `accountMapping` (new), and CRM contact data. It stays at the opportunity layer — it does not manage the long-term partner relationship (that's the PAM Agent), design program structure or tier criteria (the Program Agent), or own measurement and reporting (the Ops Agent).
 2. **Human-in-the-loop.** Every agent action writes a row to `agent_proposals` (`pending` → `approved` / `rejected` / `edited`). Only on approval does the mutation fire (e.g., email send, touchpoint insert, CRM update).
 3. **Audit first.** Every executed action leaves a trail: who proposed, who approved, what data was used as input, what the outcome was.
 
@@ -46,6 +58,19 @@
 **Trigger:** a deal marked `deal_registered` by a partner hasn't had a touchpoint in 14 days.
 
 **Proposal:** draft an update email to the partner asking for status, plus a summary of what's changed on the deal (new contacts, stage change, amount change).
+
+### Loop 4: Pre-delivery readiness check
+
+**Trigger:** deal moves to closed-won with an associated partner, OR deal reaches late-stage (e.g. verbal commit / contract out) with a partner expected to support delivery.
+
+**Detection:**
+- Partner has the capability / certification / practice needed for this solution type.
+- Partner has bandwidth signal (recent delivery activity, staffing availability if tracked).
+- Any open gaps between what was sold and what the partner has previously delivered.
+
+**Proposal:** "This deal is about to close with Bluewave as the delivery partner. Bluewave has delivered 3 similar engagements in the last 6 months, but they haven't done the new Data Residency add-on yet. Draft handoff note to Bluewave + internal delivery team calling out the gap and suggesting a 30-minute enablement session before kickoff?"
+
+**Human action:** approve + send handoff, edit, reject, or escalate if the readiness gap is material enough to involve the PAM.
 
 ---
 

@@ -1,16 +1,28 @@
 # Partner Account Manager (PAM) Agent
 
-**Role:** The relationship operator for the partner account team.
+**Agent concept:** Partner Growth & Performance Agent.
 
-**Mission:** Watch every partner's health. Flag risk before it becomes churn. Write the check-ins, the QBR prep, and the nudges that keep partners engaged.
+**Scope:** Partner-level. One agent instance per partner, across many deals and motions.
 
-**Persona it serves:** Partner Account Manager — the person on the customer's team responsible for the partner relationship (health, activity, communication, QBRs).
+**Core question:** *"How do I make this partner more effective over time?"*
+
+**Mission:** For each partner the org manages, run the long game: build and execute the joint business plan, develop capabilities and market readiness, keep the partner aligned to company priorities, drive pipeline creation, and track performance over time. Catch drop-off before it turns into churn, and keep the partner moving toward their own growth goals.
+
+**Persona it serves:** Partner Account Manager — the person who owns a book of partners across many deals and motions, and is measured on whether those partners grow in pipeline contribution, capability, and joint customer expansion. Their day rotates through partners, not deals: this week's check-ins, this month's business reviews, this quarter's capability milestones.
+
+**What the agent helps with:**
+- Analyze partner performance gaps across pipeline, activity, and capability.
+- Recommend next actions for a partner — specific, sequenced, and tied to their business plan.
+- Identify account or market opportunities the partner is well positioned for.
+- Track progress against partner goals and flag drift early.
+- Suggest capability-building actions (training paths, certifications, practice areas).
+- Prepare partner review and planning summaries (QBRs, monthly reviews, annual planning).
 
 ---
 
 ## Design principles
 
-1. **Scoped toolset.** The PAM Agent reads `partners`, `partnerHealth`, `partnerNotes`, `partnerApplications`, `activityHeatmap`, `weeklyDigest`, `deals` (for partner context), `dealFeedback` (when shipped), and `announcements`. It cannot edit commission rules, tier rules, or payouts.
+1. **Scoped toolset.** The PAM Agent reads `partners`, `partnerHealth`, `partnerNotes`, `partnerApplications`, `activityHeatmap`, `weeklyDigest`, `deals` (for partner context), `dealFeedback` (when shipped), and `announcements`. It stays at the partner-relationship layer — it does not design program structure or tier criteria (the Program Agent), operate on single opportunities (the PSM Agent), or own cross-org measurement (the Ops Agent).
 2. **Human-in-the-loop.** Every outbound communication is a proposal the PAM reviews and approves/edits/rejects.
 3. **Tone matters.** PAM Agent outputs go directly into partner-facing emails. Voice and tone are org-configurable and reviewed before any first send.
 
@@ -24,8 +36,8 @@
 
 **Inputs:**
 - All active partners, health scores (current and 4-week rolling).
-- Activity signals: deal registrations, portal logins, MDF requests, certifications, feedback submissions.
-- Commission activity: pending payouts, disputes, recent commissions received.
+- Activity signals: deal registrations, portal logins, training / certification progress, feedback submissions.
+- Performance signals: pipeline contribution this period vs. trend, closed business, capability milestones hit or missed, goal attainment against the partner's plan.
 
 **Output (one proposal per flagged partner):**
 - Health score delta (this week vs. last, with the two or three signals that drove the change).
@@ -38,16 +50,18 @@
 
 **Human action:** approve + send, edit tone/content, reject (mark as false positive), schedule call (creates a task).
 
-### Loop 2: QBR prep (monthly / quarterly)
+### Loop 2: Business-review prep (monthly / quarterly)
 
-**Trigger:** 10 days before a scheduled QBR (detected from calendar integration or manually set).
+**Trigger:** 10 days before a scheduled partner review (detected from calendar integration or manually set).
 
-**Output:** a structured QBR deck draft:
-- Deals sourced and influenced (with attribution breakdown).
-- Commission earned (paid + pending).
-- Top wins and win stories.
-- Areas to improve (open deal reg requests, certifications lapsed, missed MDF deadlines).
-- Two to three "ask" items for the partner.
+**Output:** a structured business-review deck draft:
+- Pipeline sourced and influenced by the partner, with attribution breakdown.
+- Deals closed and joint customer expansion.
+- Progress against the partner's business-plan goals.
+- Capability milestones: training completed, certifications earned or lapsed, new practice areas activated.
+- Top wins and win stories, framed in the partner's voice.
+- Areas to improve (stalled deal reg requests, flat activity signals, gaps vs. plan).
+- Two to three "ask" items for the partner, tied to company priorities.
 
 **Human action:** review, edit, approve for send.
 
@@ -62,6 +76,25 @@
 **Trigger:** new partner application approved (from `partnerApplications`).
 
 **Proposal:** draft the onboarding welcome email, plus a 30-day activation checklist. Schedule follow-ups at day 7, 14, and 30.
+
+### Loop 5: Capability-building recommendation
+
+**Trigger:** monthly, or whenever a partner closes a deal type they don't yet have deep practice in.
+
+**Detection:**
+- Gaps between the partner's current certifications/practice areas and the deal types they're engaging on.
+- Training or enablement paths the partner has started but not completed.
+- New company priorities (product launches, new verticals) where this partner has latent fit.
+
+**Proposal:** "Ridgeway has now supported 3 Financial Services deals this quarter but no one on their team holds the FinServ specialization. Suggest enrolling two of their SAs in the specialization track this month — draft note to the partner + internal enablement team?"
+
+### Loop 6: Market-opportunity surfacing
+
+**Trigger:** weekly.
+
+**Detection:** accounts or segments where (a) the company has open whitespace or expansion potential, and (b) this partner has demonstrated past success or geographic/vertical fit.
+
+**Proposal:** "Three mid-market accounts in the Pacific Northwest match Ridgeway's past wins. Want to draft a joint-target list for the next planning call?"
 
 ---
 
@@ -94,16 +127,18 @@ Partner: Ridgeway Partners — Gold tier, 7 deals YTD
 What changed:
   - Zero portal logins in 21 days (previously 2-3/week)
   - 1 deal reg rejected, no re-submission
-  - Open commission dispute from last payout run (11 days old)
+  - Pipeline contribution this month: $0 (trailing 3-mo avg: $180K)
+  - Two team members paused mid-certification 4 weeks ago
   - Slack: no response to last two Partner Success check-ins
 Draft email:
-  > Hi Jordan — quick check-in. Noticed things have been quieter on
-  > your side the last few weeks, and I saw the open dispute from
-  > our last payout hasn't been resolved. I want to make sure we're
-  > not missing something. Have 15 minutes this week to reset?
-  > Here's my calendar: [link]. If something bigger is going on,
-  > I'd rather hear it straight.
-Suggested follow-ups: resolve dispute within 3 business days.
+  > Hi Jordan — quick check-in. Noticed things have been quieter
+  > on your side the last few weeks — no new deal reg since the
+  > Northwind one, and your team's FinServ certifications have
+  > stalled. I want to make sure we're not missing something.
+  > Have 15 minutes this week to reset? Here's my calendar: [link].
+  > If something bigger is going on, I'd rather hear it straight.
+Suggested follow-ups: re-open joint business plan review this week;
+  re-confirm Q-end pipeline commit.
 [ Approve + Send ]  [ Edit ]  [ Schedule Call ]  [ Reject ]
 ```
 
@@ -113,9 +148,10 @@ Suggested follow-ups: resolve dispute within 3 business days.
 
 Escalate to the human PAM (no auto-send, direct Slack/Telegram alert) if:
 - Health drops >25 points in a single week.
-- Partner has pending payout + open dispute + zero communication in 14 days (signals they're about to churn or publicly complain).
+- Partner goes silent across multiple channels for 14+ days while also showing a material drop in activity or pipeline contribution (strong churn / complaint signal).
 - Tier 1 / strategic partner hasn't had a touch in 21 days.
 - Sentiment in recent feedback submissions trends negative.
+- Partner is tracking >30% off their business-plan goals at mid-quarter with no recovery signal.
 
 ---
 

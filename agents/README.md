@@ -6,10 +6,14 @@ Two agent layers in this repo. Don't confuse them.
 
 These ship inside the Covant product. Each one works alongside a seat on the customer's partner team. See `docs/pitch.md` → "The Agent Layer" for the investor framing.
 
-1. **[PSM Agent](./psm.md)** — Partner Sales Manager. Account overlap, warm-intro drafting, touchpoint logging.
-2. **[PAM Agent](./pam.md)** — Partner Account Manager. Health watch, check-in drafts, QBR prep.
-3. **[Program Agent](./program.md)** — Program / incentives lead. Commission leakage alerts, tier recommendations, MDF rationale, certification gaps.
-4. **[Ops Agent](./ops.md)** — Partner ops / RevOps. Pre-payout reconciliation, dispute early-warning, payout-file production.
+Each agent has a distinct scope and a single core question it answers:
+
+1. **[PSM Agent — Deal & Partner Strategist](./psm.md)** — serves the Partner Sales Manager. Scope: individual opportunity. Core question: *"What partner helps us win this deal?"*
+2. **[PAM Agent — Partner Growth & Performance Agent](./pam.md)** — serves the Partner Account Manager. Scope: individual partner across many deals. Core question: *"How do I make this partner more effective over time?"*
+3. **[Program Agent — Program Design & Optimization Agent](./program.md)** — serves the Partner Programs Lead. Scope: the whole ecosystem (tiers, requirements, incentives, enablement). Core question: *"Is our system producing the partners we want?"*
+4. **[Ops Agent — Insights & Attribution Engine](./ops.md)** — serves Partner Strategy & Operations. Scope: cross-cutting measurement and operations. Core question: *"What is actually happening, and why?"*
+
+How the four fit together: Programs designs the system, Ops measures and explains it, PAMs grow individual partners within it, PSMs execute partner strategy in live opportunities.
 
 Shared design rules across all four:
 - **Scoped toolset.** Each agent only reads/writes the Convex tables its persona owns.
