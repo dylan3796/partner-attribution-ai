@@ -16,11 +16,11 @@ import { MockWindow, StatCard, Badge, TourSection } from "@/components/PlatformM
 export const metadata: Metadata = {
   title: "Platform — Covant",
   description:
-    "One system of record for partner attribution. Connect Salesforce or HubSpot, pipe every touchpoint into one attributed ledger, give partners a branded portal.",
+    "The context graph for channel revenue. Vendor agents on your side, partner agents on theirs, one ledger between them — auditable, antitrust-safe by construction.",
   openGraph: {
     title: "Platform — Covant",
     description:
-      "One system of record for partner attribution. Connect Salesforce or HubSpot. Branded portal for partners.",
+      "The context graph for channel revenue. Two-sided agents on one shared ledger.",
   },
 };
 
@@ -34,16 +34,22 @@ const PROBLEMS = [
 ];
 
 const PILLARS = [
-  { number: "01", title: "Attribution & Measurement", description: "The substrate. Ingests partner activity from CRM syncs and deal registrations, applies multi-touch attribution models — first-touch, last-touch, time-decay, role-based, equal-split — and builds a complete, auditable record of who influenced every deal and what % of pipeline came from partners." },
-  { number: "02", title: "CRM Sync", description: "Bidirectional with Salesforce and HubSpot. Pulls in closed-won and in-flight deals, pushes attributed partner credit back to the deal object so reports already in use keep working. OAuth setup, custom field mapping, webhook support." },
-  { number: "03", title: "Partner Portal", description: "A branded, self-service workspace — free for every partner, forever. Deal registration, performance dashboards, tier status. White-labeled. No partner caps. The only partner view they'll actually open." },
-  { number: "04", title: "Audit Trail & Governance", description: "Every touchpoint, attribution decision, and partner-visible change writes to the log with the actor and the rule. Per-signal sharing controls mean nothing leaves your four walls until you approve it. Antitrust-safe by construction." },
+  { number: "01", title: "The Channel Ledger", description: "The substrate. Every partner touchpoint — CRM-synced opportunities, deal registrations, co-sells, technical assists, MDF requests — lands in one auditable record. Multi-touch attribution (first-touch, last-touch, time-decay, role-based, equal-split) runs end-to-end. Every dollar traces back to the deal, the touchpoint, and the partner who drove it." },
+  { number: "02", title: "Agents on the Ledger", description: "Vendor agents (PSM, PAM, Program, Ops) on your side; partner agents (Co-Sell, Delivery, Practice) inside your partners' portal. Both sides read the same ledger, scoped by permission. Every recommendation cites the attribution evidence. Every action is a proposal — humans approve, edit, or reject before anything fires." },
+  { number: "03", title: "Partner Portal", description: "A branded, self-service workspace — free for every partner, forever. Deal registration, performance dashboards, tier status. White-labeled. No partner caps. Where the partner-side agents run. The only partner view they'll actually open." },
+  { number: "04", title: "CRM Sync + Audit Trail", description: "Bidirectional Salesforce and HubSpot. Pulls in opps, pushes attributed credit back to the deal object. Every touchpoint, attribution decision, and partner-visible change writes to the log with the actor and the rule. Per-signal sharing controls — antitrust-safe by construction." },
 ];
 
 const WHO = [
   { role: "VP of Partnerships", pain: "Runs a $10M+ indirect channel on spreadsheets and hope.", after: "Has a system of record that shows exactly what's working — and agents that run on it." },
   { role: "Channel Sales Manager", pain: "Partner attribution gets disputed every quarter. No defensible answer to what % of pipeline partners drove.", after: "Attribution is an evidence-backed audit trail, not a debate. Partner pipeline is a number on the dashboard." },
   { role: "Head of Alliances", pain: "Can't prove partner ROI to the board, so budget stays flat.", after: "Has the attribution data to show partner-sourced revenue clearly — with agents surfacing the plays that move it." },
+];
+
+const PARTNER_WHO = [
+  { role: "Reseller Sales Lead", pain: "Carries 5 vendor relationships; can't surface co-sell paths across all of them at once.", after: "The Co-Sell Agent runs a daily overlap scan and drafts the warm reach-back to each vendor PSM." },
+  { role: "Implementation PM", pain: "Last to find out when an SOW is about to slip. Cert expiries discovered the week of cutover.", after: "The Delivery Agent surfaces slip risk 14+ days early and watches cert renewals across the engagement portfolio." },
+  { role: "Services Practice Lead", pain: "Picks SKUs to add to the practice based on vendor launch buzz, not closed-won mix.", after: "The Practice Agent ranks SKUs by projected $/quarter against historical adjacency and tier economics." },
 ];
 
 /* ── Page ─────────────────────────────────────────────────── */
@@ -59,12 +65,13 @@ export default function PlatformPage() {
             The Partner Platform
           </p>
           <h1 className="l-heading-xl" style={{ fontSize: "clamp(2.4rem, 5.5vw, 3.75rem)", marginBottom: "1.75rem" }}>
-            Your partner attribution,<br />in one system of record.
+            The context graph<br />for channel revenue.
           </h1>
-          <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 600 }}>
-            Connect Salesforce or HubSpot. Pipe every touchpoint, deal registration, and
-            co-sell into one attributed record — with a branded portal your partners
-            actually log into. The system of record partner teams have been missing.
+          <p className="l-subtitle" style={{ color: "#4b5563", maxWidth: 620 }}>
+            Your context isn&apos;t &ldquo;who emailed whom&rdquo; — it&apos;s who registered, who
+            influenced, who delivered, who got paid. That&apos;s a different ledger. Vendor
+            agents on your side, partner agents inside the portal, one shared record
+            between them.
           </p>
           <div className="l-flex-center">
             <Link href="/dashboard?demo=true" className="l-btn">Try it live →</Link>
@@ -178,6 +185,7 @@ export default function PlatformPage() {
               { label: "Dashboard", href: "#dashboard" },
               { label: "Attribution", href: "#attribution" },
               { label: "Partner Portal", href: "#portal" },
+              { label: "Partner Agents", href: "#partner-agents" },
               { label: "Deal Registration", href: "#deals" },
             ].map((l) => (
               <a key={l.href} href={l.href} className="l-tour-step" style={{ marginBottom: 0 }}>
@@ -349,6 +357,40 @@ export default function PlatformPage() {
         </MockWindow>
       </TourSection>
 
+      {/* Step 4b — Partner Agents (in-portal) */}
+      <TourSection
+        id="partner-agents"
+        step="Step 4b — Partner Agents"
+        title="Agents inside the partner portal, too."
+        subtitle="The partner-side of the same ledger."
+        description="The Co-Sell, Delivery, and Practice agents run inside the partner's own portal session — partner-scoped, vendor-permissioned. They surface co-sell overlap, slip risk, and practice-economics nudges with the same evidence-cited proposal pattern. The same shared ledger, read from both sides."
+      >
+        <MockWindow title="partners.covant.ai/agents">
+          <div className="l-section-label" style={{ marginBottom: 12 }}>Today&apos;s proposals (partner side)</div>
+          {[
+            { tag: "CO-SELL", title: "Northwind — vendor-pipeline overlap", detail: "Vendor opp at Proposal stage, no registered partner. You have 2 active contacts." },
+            { tag: "DELIVERY", title: "Acme cutover at slip risk (18d)", detail: "Burn 1.4× plan. Drafted heads-up to vendor PAM with mitigation." },
+            { tag: "PRACTICE", title: "Add Cloud Connect to the practice", detail: "Projected +$42K/q in year 1. 6 of 8 verticals match. Bridges to Platinum (+6pt rebate)." },
+          ].map((p, i, arr) => (
+            <div key={i} style={{ display: "flex", gap: 12, padding: "12px 0", borderBottom: i < arr.length - 1 ? "1px solid #f3f4f6" : "none", alignItems: "flex-start" }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 4 }}>
+                  <span style={{ color: "#6366f1", fontSize: ".62rem", fontWeight: 700, letterSpacing: ".08em", background: "rgba(99,102,241,.1)", padding: "3px 7px", borderRadius: 4 }}>{p.tag}</span>
+                  <span style={{ color: "#0a0a0a", fontSize: ".88rem", fontWeight: 600 }}>{p.title}</span>
+                </div>
+                <div style={{ color: "#6b7280", fontSize: ".82rem", lineHeight: 1.55 }}>{p.detail}</div>
+              </div>
+            </div>
+          ))}
+          <div style={{ marginTop: 12, padding: "10px 12px", background: "#f9fafb", borderRadius: 6, display: "flex", alignItems: "center", gap: 8 }}>
+            <Shield size={14} style={{ color: "#3b82f6", flexShrink: 0 }} />
+            <span style={{ color: "#6b7280", fontSize: ".75rem", lineHeight: 1.5 }}>
+              <strong style={{ color: "#374151" }}>Vendor-permissioned reads.</strong> The partner sees only the slice of the ledger marked partner-visible. Other-vendor data never crosses over.
+            </span>
+          </div>
+        </MockWindow>
+      </TourSection>
+
       {/* Step 5 — Deal Registration */}
       <TourSection
         id="deals"
@@ -411,6 +453,37 @@ export default function PlatformPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          <div style={{ marginTop: "4rem", textAlign: "center" }}>
+            <p className="l-section-tag" style={{ marginBottom: ".5rem" }}>And on the partner side</p>
+            <h3 className="l-heading-md" style={{ fontSize: "clamp(1.4rem, 3vw, 1.8rem)", marginBottom: "2.5rem" }}>
+              Resellers, implementation firms, services partners.
+            </h3>
+          </div>
+          <div className="l-grid-3" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))" }}>
+            {PARTNER_WHO.map((w) => (
+              <div key={w.role} className="l-who-card" style={{ borderStyle: "dashed" }}>
+                <div className="l-who-header">
+                  <div className="l-font-700" style={{ fontSize: "1rem" }}>{w.role}</div>
+                </div>
+                <div className="l-who-body">
+                  <div>
+                    <div className="l-who-label-before">Without a partner-side agent</div>
+                    <p className="l-body" style={{ lineHeight: 1.6 }}>{w.pain}</p>
+                  </div>
+                  <div>
+                    <div className="l-who-label-after">With Covant in the portal</div>
+                    <p style={{ color: "#374151", fontSize: ".9rem", lineHeight: 1.6 }}>{w.after}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: "center", marginTop: "2.5rem" }}>
+            <Link href="/for-partners" className="l-link-arrow">
+              See the partner-side track →
+            </Link>
           </div>
         </div>
       </section>

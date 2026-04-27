@@ -34,16 +34,16 @@ export default function LandingPage() {
       {/* ── HERO ─────────────────────────────────────────── */}
       <section className="l-section-hero">
         <div className="wrap">
-          <p className="l-label" style={{ marginBottom: "1.25rem" }}>AI-native partner platform</p>
+          <p className="l-label" style={{ marginBottom: "1.25rem" }}>The AI-native channel CRM</p>
           <h1 className="l-heading-xl l-color-primary">
-Unlock channel revenue.
+The revenue engine for indirect sales.
           </h1>
           <p className="l-muted l-subtitle">
-            Covant is the system of record for partner attribution — one ledger for every touchpoint, a branded portal for every partner, and partner agents that read the record and surface the moves worth making this week.
+            Monaco and Day AI are CRMs for direct sellers. Channel revenue runs on a different graph. Covant is two-sided by design — vendor agents on your side, partner agents on theirs, one ledger between them.
           </p>
           <div className="l-flex-center" style={{ marginBottom: "1.5rem" }}>
             <Link href="/beta" className="l-btn">Become a design partner <span>→</span></Link>
-            <Link href="/platform" className="l-btn-outline">See the platform <span>→</span></Link>
+            <Link href="/for-partners" className="l-btn-outline">For partners <span>→</span></Link>
           </div>
           <p className="l-muted" style={{ fontSize: ".9rem", fontWeight: 500 }}>
             {leadsCount > 0 ? `${leadsCount} ${leadsCount === 1 ? "team" : "teams"} on the waitlist` : "Free for design partners · Works from day one"}
@@ -64,6 +64,10 @@ Unlock channel revenue.
                 <div>
                   <div className="l-hero-mock-eyebrow">Today&apos;s feed</div>
                   <div className="l-hero-mock-title">4 actions your agents found</div>
+                  <div style={{ display: "inline-flex", gap: 4, marginTop: 8, padding: 3, background: "#f3f4f6", borderRadius: 6, fontSize: ".68rem", fontWeight: 600 }}>
+                    <span style={{ padding: "3px 8px", background: "#fff", borderRadius: 4, color: "#0a0a0a", boxShadow: "0 1px 2px rgba(0,0,0,.04)" }}>Vendor view</span>
+                    <span style={{ padding: "3px 8px", color: "#9ca3af" }}>Partner view</span>
+                  </div>
                 </div>
                 <div className="l-hero-mock-stat">
                   <span className="l-hero-mock-stat-label">Partner pipeline</span>
@@ -98,7 +102,7 @@ Unlock channel revenue.
           <div style={{ marginBottom: "3.5rem", maxWidth: 640 }}>
             <p className="l-tag" style={{ marginBottom: ".75rem" }}>What we&apos;re addressing</p>
             <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
-              The tensions partner teams live with.
+              What a channel-blind CRM misses.
             </h2>
           </div>
 
@@ -146,12 +150,13 @@ Unlock channel revenue.
         <div className="wrap" style={{ maxWidth: 680, textAlign: "center" }}>
           <p className="l-tag" style={{ marginBottom: "1.5rem", color: "#9ca3af" }}>The problem we solve</p>
           <p className="l-quote">
-            Sales has Salesforce. Marketing has HubSpot. Finance has NetSuite.
-            Partner teams have a spreadsheet and a quarterly argument about who drove what.
+            Day AI gives sales a context graph. Monaco gives sales an agent stack.
+            Covant does both — for the half of revenue that runs through partners.
           </p>
           <p className="l-quote-attr">
-            Covant replaces the spreadsheet with a system of record — so every touchpoint,
-            every partner contribution, and every dollar of channel revenue has a paper trail.
+            One ledger of every channel touchpoint. Vendor agents on your side, partner
+            agents on theirs. The shape of channel work — registrations, tier thresholds,
+            MDF, certifications, rebate math — is in the data model, not bolted on.
           </p>
         </div>
       </section>
@@ -164,17 +169,17 @@ Unlock channel revenue.
               What Covant does
             </p>
             <h2 className="l-heading-lg l-color-primary" style={{ marginBottom: "1rem" }}>
-              The platform. Then the agents.
+              The agents. On the ledger.
             </h2>
-            <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 580, margin: "0 auto", lineHeight: 1.65 }}>
-              First, one ledger records every partner touchpoint and a branded portal
-              captures every deal the moment a partner registers it — the system of
-              record partner teams have been missing. Then partner agents read that
-              record and surface the moves worth making this week.
+            <p style={{ fontSize: "1rem", color: "#6b7280", maxWidth: 620, margin: "0 auto", lineHeight: 1.65 }}>
+              Agents on both sides of the channel — vendor agents on your side, partner
+              agents inside your partners&apos; portal — running on one shared ledger of
+              every channel touchpoint. The agents are the protagonists; the ledger is
+              the substrate that lets them be specific instead of generic.
             </p>
           </div>
 
-          <p className="l-tag" style={{ marginBottom: "1rem" }}>01 &middot; The Platform</p>
+          <p className="l-tag" style={{ marginBottom: "1rem" }}>01 &middot; The Ledger</p>
 
           {/* The Ledger — hero card */}
           <div className="l-engine-card">
@@ -249,19 +254,21 @@ Unlock channel revenue.
 
           {/* ── 02 · The Agents ─────────────────────────────── */}
           <div style={{ marginTop: "5rem" }}>
-            <p className="l-tag" style={{ marginBottom: "1rem" }}>02 &middot; The Agents</p>
-            <div style={{ marginBottom: "2rem", maxWidth: 620 }}>
+            <p className="l-tag" style={{ marginBottom: "1rem" }}>02 &middot; The Agents (vendor + partner)</p>
+            <div style={{ marginBottom: "2rem", maxWidth: 640 }}>
               <h3 className="l-heading-md" style={{ marginBottom: ".75rem" }}>
-                Leverage for your partner team.
+                Two-sided leverage. One ledger underneath.
               </h3>
               <p style={{ fontSize: "1rem", color: "#6b7280", lineHeight: 1.65 }}>
-                Partner agents read the attributed record and surface the handful of moves
-                worth making this week — coverage gaps, tier-up nudges, stale registrations,
-                CRM hygiene. The work a partner team already does, amplified. PSM, PAM,
-                Program, and Ops to start; more ship as we learn.
+                Vendor agents (PSM, PAM, Program, Ops) read the attributed record and
+                surface the moves your partner team should make this week. Partner agents
+                (Co-Sell, Delivery, Practice) run inside your partners&apos; portal — scoped
+                to their own data — and surface the moves they should make back. The
+                shape of channel work is in the data model, not bolted on.
               </p>
             </div>
 
+            <p className="l-tag" style={{ marginBottom: ".75rem", color: "#6b7280", fontSize: ".7rem" }}>On your side</p>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1rem" }}>
               {[
                 {
@@ -291,11 +298,37 @@ Unlock channel revenue.
               ))}
             </div>
 
+            <p className="l-tag" style={{ marginTop: "2rem", marginBottom: ".75rem", color: "#6b7280", fontSize: ".7rem" }}>And, inside the partner portal</p>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "1rem" }}>
+              {[
+                {
+                  name: "Co-Sell Agent",
+                  desc: "For resellers. Finds vendor-pipeline overlap on the partner's open accounts and drafts the warm reach-back to the vendor PSM.",
+                },
+                {
+                  name: "Delivery Agent",
+                  desc: "For implementation firms. Watches the implementation backlog, surfaces capacity and certification gaps before SOWs slip.",
+                },
+                {
+                  name: "Practice Agent",
+                  desc: "For services partners. Picks the next vendor SKU to add to the practice based on dollar lift and tier economics — not launch hype.",
+                },
+              ].map((c) => (
+                <div key={c.name} style={{ background: "#fff", border: "1px dashed #d1d5db", borderRadius: 12, padding: "1.5rem" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: ".75rem" }}>
+                    <span className="l-dot-sm" style={{ background: "#6366f1" }} />
+                    <div className="l-cap-title" style={{ margin: 0 }}>{c.name}</div>
+                  </div>
+                  <div className="l-cap-desc">{c.desc}</div>
+                </div>
+              ))}
+            </div>
+
             <div className="l-portal-inline" style={{ marginTop: "2rem" }}>
               <div>
                 <div className="l-portal-inline-title">See how the agents work</div>
                 <div className="l-portal-inline-desc">
-                  Monday-morning walkthrough, example recommendations, and how agents stay antitrust-safe by construction.
+                  Monday-morning walkthrough, example recommendations on both sides, and how agents stay antitrust-safe by construction.
                 </div>
               </div>
               <Link href="/agents" className="l-link-arrow">
@@ -347,10 +380,11 @@ Unlock channel revenue.
       <section className="l-section-light" style={{ padding: "7rem 0" }}>
         <div className="wrap l-center">
           <h2 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-.02em", marginBottom: "1rem", color: "#0a0a0a" }}>
-            Your partners are driving revenue.<br />Start unlocking it.
+            Agents on both sides of the channel.<br />One ledger between them.
           </h2>
-          <p className="l-muted l-subtitle" style={{ maxWidth: 520, margin: "0 auto 2.5rem", lineHeight: 1.5 }}>
+          <p className="l-muted l-subtitle" style={{ maxWidth: 540, margin: "0 auto 2.5rem", lineHeight: 1.5 }}>
             Free for design partners. Hands-on onboarding with our team.
+            Are you a partner instead? <Link href="/for-partners" style={{ color: "#0a0a0a", textDecoration: "underline" }}>Start here →</Link>
           </p>
           <form onSubmit={handleWaitlist} className="l-cta-form">
             <div className="l-cta-form-input">
