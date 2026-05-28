@@ -175,13 +175,12 @@ export const getRevenueIntelligence = query({
       }
     }
 
-    // Build attribution commission totals by partner (for partners without payouts yet)
+    // Build attribution commission totals by partner (for partners without payouts yet).
+    // Each deal carries exactly one model (its program's), so all rows count.
     const attrCommissionByPartner = new Map<string, number>();
     for (const a of attributions) {
-      if (a.model === "role_based") {
-        const current = attrCommissionByPartner.get(a.partnerId) ?? 0;
-        attrCommissionByPartner.set(a.partnerId, current + a.commissionAmount);
-      }
+      const current = attrCommissionByPartner.get(a.partnerId) ?? 0;
+      attrCommissionByPartner.set(a.partnerId, current + a.commissionAmount);
     }
 
     // Compute per-partner profitability

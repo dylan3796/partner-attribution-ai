@@ -164,14 +164,14 @@ export const demoPayouts: Payout[] = [
 export const demoAuditLog: AuditEntry[] = [
   // Today / Recent
   { _id: "al_001", organizationId: ORG_ID, action: "deal.closed", entityType: "deal", entityId: "d_005", changes: '{"status":"open→won"}', createdAt: now - 2 * day },
-  { _id: "al_002", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_005", metadata: '{"model":"role_based","partners":"4","deal":"Workflow Automation Platform"}', createdAt: now - 2 * day + 300000 },
+  { _id: "al_002", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_005", metadata: '{"model":"role_weighted","partners":"4","deal":"Workflow Automation Platform"}', createdAt: now - 2 * day + 300000 },
   { _id: "al_003", organizationId: ORG_ID, action: "payout.created", entityType: "payout", entityId: "pay_004", metadata: '{"partner":"TechBridge Partners","amount":"$11,160","period":"2026-02"}', createdAt: now - 1 * day },
   { _id: "al_030", organizationId: ORG_ID, action: "payout.created", entityType: "payout", entityId: "pay_005", metadata: '{"partner":"Stackline Agency","amount":"$8,250","period":"2026-02"}', createdAt: now - 1 * day + 120000 },
   { _id: "al_031", organizationId: ORG_ID, action: "touchpoint.created", entityType: "touchpoint", entityId: "tp_019", metadata: '{"type":"negotiation","deal":"Workflow Automation Platform","partner":"TechBridge Partners"}', createdAt: now - 4 * day },
 
   // This week
   { _id: "al_005", organizationId: ORG_ID, action: "deal.closed", entityType: "deal", entityId: "d_001", metadata: '{"deal":"CloudSync Enterprise License","amount":"$85,000"}', createdAt: now - 5 * day },
-  { _id: "al_006", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_001", metadata: '{"model":"time_decay","partner":"TechBridge Partners"}', createdAt: now - 5 * day + 60000 },
+  { _id: "al_006", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_001", metadata: '{"model":"role_weighted","partner":"TechBridge Partners"}', createdAt: now - 5 * day + 60000 },
   { _id: "al_032", organizationId: ORG_ID, action: "touchpoint.created", entityType: "touchpoint", entityId: "tp_005", metadata: '{"type":"negotiation","deal":"CloudSync Enterprise License","partner":"TechBridge Partners"}', createdAt: now - 7 * day },
   { _id: "al_004", organizationId: ORG_ID, action: "partner.updated", entityType: "partner", entityId: "p_001", changes: '{"tier":"silver→gold"}', createdAt: now - 5 * day },
   { _id: "al_033", organizationId: ORG_ID, action: "partner.tier_change", entityType: "partner", entityId: "p_001", changes: '{"tier":"silver→gold"}', metadata: '{"partner":"TechBridge Partners","reason":"Exceeded quarterly targets by 40%"}', createdAt: now - 5 * day + 60000 },
@@ -187,21 +187,21 @@ export const demoAuditLog: AuditEntry[] = [
 
   // Two weeks ago
   { _id: "al_011", organizationId: ORG_ID, action: "deal.closed", entityType: "deal", entityId: "d_002", changes: '{"status":"open→won"}', createdAt: now - 12 * day },
-  { _id: "al_012", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_002", metadata: '{"model":"role_based","partners":"3","deal":"DevOps Transformation Suite"}', createdAt: now - 12 * day + 300000 },
+  { _id: "al_012", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_002", metadata: '{"model":"role_weighted","partners":"3","deal":"DevOps Transformation Suite"}', createdAt: now - 12 * day + 300000 },
   { _id: "al_013", organizationId: ORG_ID, action: "deal.registered", entityType: "deal", entityId: "d_009", metadata: '{"deal":"Infrastructure Modernization","partner":"TechBridge Partners"}', createdAt: now - 14 * day },
   { _id: "al_014", organizationId: ORG_ID, action: "touchpoint.created", entityType: "touchpoint", entityId: "tp_028", metadata: '{"type":"deal_registration","deal":"Infrastructure Modernization","partner":"TechBridge Partners"}', createdAt: now - 14 * day },
   { _id: "al_015", organizationId: ORG_ID, action: "approval.requested", entityType: "approval", entityId: "d_009", metadata: '{"type":"deal_registration","partner":"TechBridge Partners"}', createdAt: now - 13 * day },
 
   // Three weeks ago
   { _id: "al_016", organizationId: ORG_ID, action: "deal.closed", entityType: "deal", entityId: "d_003", changes: '{"status":"open→won"}', createdAt: now - 20 * day },
-  { _id: "al_017", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_003", metadata: '{"model":"role_based","partners":"2","deal":"API Gateway Implementation"}', createdAt: now - 20 * day + 300000 },
+  { _id: "al_017", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_003", metadata: '{"model":"role_weighted","partners":"2","deal":"API Gateway Implementation"}', createdAt: now - 20 * day + 300000 },
   { _id: "al_018", organizationId: ORG_ID, action: "deal.lost", entityType: "deal", entityId: "d_010", changes: '{"status":"open→lost"}', metadata: '{"deal":"Partner Portal Deployment","reason":"Budget constraints"}', createdAt: now - 20 * day },
   { _id: "al_019", organizationId: ORG_ID, action: "touchpoint.created", entityType: "touchpoint", entityId: "tp_018", metadata: '{"type":"proposal","deal":"Workflow Automation Platform","partner":"Apex Growth Group"}', createdAt: now - 10 * day - 7200000 },
 
   // Older
   { _id: "al_020", organizationId: ORG_ID, action: "deal.lost", entityType: "deal", entityId: "d_011", changes: '{"status":"open→lost"}', metadata: '{"deal":"Legacy System Migration","reason":"Chose competitor"}', createdAt: now - 30 * day },
   { _id: "al_021", organizationId: ORG_ID, action: "deal.closed", entityType: "deal", entityId: "d_004", changes: '{"status":"open→won"}', createdAt: now - 35 * day },
-  { _id: "al_022", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_004", metadata: '{"model":"role_based","partners":"3","deal":"Customer Analytics Suite"}', createdAt: now - 35 * day + 300000 },
+  { _id: "al_022", organizationId: ORG_ID, action: "attribution.calculated", entityType: "attribution", entityId: "d_004", metadata: '{"model":"role_weighted","partners":"3","deal":"Customer Analytics Suite"}', createdAt: now - 35 * day + 300000 },
   { _id: "al_023", organizationId: ORG_ID, action: "deal.created", entityType: "deal", entityId: "d_001", metadata: '{"deal":"CloudSync Enterprise License","value":"$85,000"}', createdAt: now - 45 * day },
   { _id: "al_024", organizationId: ORG_ID, action: "partner.created", entityType: "partner", entityId: "p_005", metadata: '{"partner":"Clearpath Consulting","type":"referral","tier":"bronze"}', createdAt: now - 60 * day },
   { _id: "al_025", organizationId: ORG_ID, action: "partner.created", entityType: "partner", entityId: "p_004", metadata: '{"partner":"Northlight Solutions","type":"integration","tier":"gold"}', createdAt: now - 90 * day },

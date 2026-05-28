@@ -773,7 +773,7 @@ X-Covant-Delivery: d_abc123
         "tier": "gold"
       },
       "attribution": {
-        "model": "deal_reg_protection",
+        "model": "first_touch_sourcer",
         "partnerShare": 1.0,
         "commission": 12500
       }

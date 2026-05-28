@@ -7,11 +7,11 @@ export const applyTemplate = mutation({
     orgName: v.string(),
     templateId: v.string(),
     attributionModel: v.union(
-      v.literal("equal_split"),
-      v.literal("first_touch"),
-      v.literal("last_touch"),
-      v.literal("time_decay"),
-      v.literal("role_based")
+      v.literal("first_touch_sourcer"),
+      v.literal("split_equally"),
+      v.literal("role_weighted"),
+      v.literal("implementation_credit"),
+      v.literal("marketplace_cosell_hybrid")
     ),
     defaultCommissionRate: v.number(),
     payoutFrequency: v.string(),

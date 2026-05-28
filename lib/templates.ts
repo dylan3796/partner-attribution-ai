@@ -6,7 +6,7 @@ export type ProgramTemplate = {
   bestFor: string;
   
   // Configuration
-  attributionModel: "equal_split" | "first_touch" | "last_touch" | "time_decay" | "role_based";
+  attributionModel: "first_touch_sourcer" | "split_equally" | "role_weighted" | "implementation_credit" | "marketplace_cosell_hybrid";
   defaultCommissionRate: number;
   payoutFrequency: "weekly" | "monthly" | "quarterly" | "annual";
   requireDealRegistration: boolean;
@@ -34,7 +34,7 @@ export const programTemplates: ProgramTemplate[] = [
     icon: "👥",
     bestFor: "SaaS, marketplaces, consumer apps looking for viral growth",
     
-    attributionModel: "first_touch",
+    attributionModel: "first_touch_sourcer",
     defaultCommissionRate: 10,
     payoutFrequency: "monthly",
     requireDealRegistration: false,
@@ -64,7 +64,7 @@ export const programTemplates: ProgramTemplate[] = [
     icon: "🏢",
     bestFor: "B2B software, enterprise solutions, hardware vendors",
     
-    attributionModel: "equal_split",
+    attributionModel: "split_equally",
     defaultCommissionRate: 20,
     payoutFrequency: "quarterly",
     requireDealRegistration: true,
@@ -99,7 +99,7 @@ export const programTemplates: ProgramTemplate[] = [
     icon: "🔌",
     bestFor: "API platforms, dev tools, SaaS ecosystems",
     
-    attributionModel: "last_touch",
+    attributionModel: "implementation_credit",
     defaultCommissionRate: 20,
     payoutFrequency: "monthly",
     requireDealRegistration: true,
@@ -129,7 +129,7 @@ export const programTemplates: ProgramTemplate[] = [
     icon: "📢",
     bestFor: "Content platforms, influencers, media companies, agencies",
     
-    attributionModel: "role_based",
+    attributionModel: "role_weighted",
     defaultCommissionRate: 12,
     payoutFrequency: "monthly",
     requireDealRegistration: false,

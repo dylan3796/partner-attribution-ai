@@ -21,15 +21,12 @@ Available interaction types (use their IDs):
 - certification_completed: Certification Completed
 - deal_closed: Deal Closed
 
-ATTRIBUTION MODELS (pick the best fit):
-- "deal_reg_protection": Partner who registered the deal gets full credit. Standard for reseller programs. Most common choice.
-- "source_wins": Partner who first introduced or referred the opportunity gets full credit. Best for referral networks.
-- "role_split": Each partner type gets a predefined percentage based on their role (reseller/referral/tech). Best for multi-partner co-sell programs.
-- "equal_split": All partners split credit equally. Simple but less precise.
-- "first_touch": First partner to engage gets full credit. Time-based.
-- "last_touch": Last partner to touch before close gets full credit.
-- "time_decay": More recent touches get more weight.
-- "role_based": Weighted by touchpoint type and recency.
+ATTRIBUTION MODELS (pick the best fit — Covant ships a bounded set of 5):
+- "first_touch_sourcer": Full credit to the partner who first registered/sourced the deal. Best for referral networks and deal-reg protection.
+- "split_equally": All partners with a qualifying touch split credit equally. Simple.
+- "role_weighted": Credit weighted by partner role (sourcer/influencer/implementer/closer), default 40/20/20/20. Best for complex multi-partner deals.
+- "implementation_credit": Full credit to the partner who delivered/implemented. Best for SI/services programs.
+- "marketplace_cosell_hybrid": Multi-party split for cloud co-sell (hyperscaler + partner + vendor). Best for AWS/Azure/GCP/Snowflake co-sell.
 
 Rules:
 - Be conversational and brief. No fluff, no corporate speak.

@@ -179,14 +179,14 @@ const API_SECTIONS: Section[] = [
         params: [
           { name: "deal_id", type: "string", required: false, description: "Filter by deal" },
           { name: "partner_id", type: "string", required: false, description: "Filter by partner" },
-          { name: "model", type: "string", required: false, description: "equal_split, first_touch, last_touch, time_decay, role_based" },
+          { name: "model", type: "string", required: false, description: "first_touch_sourcer, split_equally, role_weighted, implementation_credit, marketplace_cosell_hybrid" },
         ],
         responseExample: `{
   "data": [
     {
       "deal_id": "deal_xyz789",
       "partner_id": "ptr_abc123",
-      "model": "role_based",
+      "model": "role_weighted",
       "percentage": 65.0,
       "attributed_amount": 55250,
       "commission_amount": 5525

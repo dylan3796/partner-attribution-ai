@@ -88,10 +88,10 @@ export const getStats = query({
         wonDeals.length > 0
           ? Math.round(totalRevenue / wonDeals.length)
           : 0,
+      // Each deal carries exactly one model (its program's), so summing all
+      // ledger rows is the org-wide commission across every program.
       totalCommissions: Math.round(
-        attributions
-          .filter((a: any) => a.model === "role_based")
-          .reduce((s: number, a: any) => s + a.commissionAmount, 0)
+        attributions.reduce((s: number, a: any) => s + a.commissionAmount, 0)
       ),
       pendingPayouts: pendingPays.reduce((s: number, p: any) => s + p.amount, 0),
     };
@@ -188,8 +188,21 @@ export const getOrganization = query({
 // Reports & Analytics Queries
 // ============================================================================
 
-type AttributionModel = "equal_split" | "first_touch" | "last_touch" | "time_decay" | "role_based";
-const MODELS: AttributionModel[] = ["equal_split", "first_touch", "last_touch", "time_decay", "role_based"];
+type AttributionModel =
+  | "first_touch_sourcer"
+  | "split_equally"
+  | "role_weighted"
+  | "implementation_credit"
+  | "marketplace_cosell_hybrid";
+const MODELS: AttributionModel[] = [
+  "first_touch_sourcer",
+  "split_equally",
+  "role_weighted",
+  "implementation_credit",
+  "marketplace_cosell_hybrid",
+];
+// The model treated as the primary lens for single-number rollups.
+const PRIMARY_MODEL: AttributionModel = "role_weighted";
 
 /**
  * Get partner-by-model attribution data for leaderboards and radar charts
@@ -916,7 +929,7 @@ export const getDashboardData = query({
       winRate: closedCount > 0 ? Math.round((wonDeals.length / closedCount) * 100) : 0,
       avgDealSize: wonDeals.length > 0 ? Math.round(totalRevenue / wonDeals.length) : 0,
       totalCommissions: Math.round(
-        attributions.filter((a: any) => a.model === "role_based").reduce((s: number, a: any) => s + a.commissionAmount, 0)
+        attributions.reduce((s: number, a: any) => s + a.commissionAmount, 0)
       ),
       pendingPayouts: pendingPays.reduce((s: number, p: any) => s + p.amount, 0),
     };
@@ -1042,5 +1055,90 @@ export const getDashboardData = query({
       trends,
       programHealth,
     };
+  },
+});
+
+// ============================================================================
+// Per-program roll-up
+// ============================================================================
+
+/**
+ * Per-program attribution roll-up. Returns SEPARATE numbers per program (never
+ * one merged total): for each program, its model, deal count, attributed
+ * revenue, commission, and a per-partner breakdown. Rows whose programId is
+ * unset (legacy / pre-migration) are grouped under a synthetic "unassigned".
+ */
+export const getProgramRollups = query({
+  args: {},
+  handler: async (ctx) => {
+    const org = await defaultOrg(ctx);
+    if (!org) return { programs: [], orgTotal: { revenue: 0, commission: 0 } };
+
+    const [programs, attributions] = await Promise.all([
+      ctx.db
+        .query("programs")
+        .withIndex("by_organization", (q) => q.eq("organizationId", org._id))
+        .collect(),
+      ctx.db
+        .query("attributions")
+        .withIndex("by_organization", (q) => q.eq("organizationId", org._id))
+        .collect(),
+    ]);
+
+    const programById = new Map(programs.map((p) => [p._id as string, p]));
+
+    type Agg = {
+      programId: string | null;
+      name: string;
+      model: string;
+      deals: Set<string>;
+      revenue: number;
+      commission: number;
+      perPartner: Map<string, number>;
+    };
+    const groups = new Map<string, Agg>();
+
+    for (const a of attributions) {
+      const key = (a.programId as string) ?? "unassigned";
+      let g = groups.get(key);
+      if (!g) {
+        const program = a.programId ? programById.get(a.programId as string) : undefined;
+        g = {
+          programId: (a.programId as string) ?? null,
+          name: program?.name ?? "Unassigned",
+          model: program?.selectedModel ?? a.model,
+          deals: new Set(),
+          revenue: 0,
+          commission: 0,
+          perPartner: new Map(),
+        };
+        groups.set(key, g);
+      }
+      g.deals.add(a.dealId as string);
+      g.revenue += a.amount;
+      g.commission += a.commissionAmount;
+      g.perPartner.set(a.partnerId as string, (g.perPartner.get(a.partnerId as string) ?? 0) + a.amount);
+    }
+
+    const programRollups = Array.from(groups.values()).map((g) => ({
+      programId: g.programId,
+      name: g.name,
+      model: g.model,
+      dealCount: g.deals.size,
+      totalRevenue: Math.round(g.revenue),
+      totalCommission: Math.round(g.commission),
+      perPartner: Array.from(g.perPartner.entries()).map(([partnerId, amount]) => ({
+        partnerId,
+        amount: Math.round(amount),
+      })),
+    }));
+
+    // Org total is the explicit SUM of per-program totals (not a re-aggregation).
+    const orgTotal = {
+      revenue: programRollups.reduce((s, p) => s + p.totalRevenue, 0),
+      commission: programRollups.reduce((s, p) => s + p.totalCommission, 0),
+    };
+
+    return { programs: programRollups, orgTotal };
   },
 });
