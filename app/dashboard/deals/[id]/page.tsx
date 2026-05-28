@@ -682,6 +682,11 @@ export default function DealDetailPage({
                       <p className="muted" style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }}>
                         {formatCurrency(deal.amount)} deal  ×  {formatPercent(attr.percentage)} credit  ×  {partner.commissionRate}% commission rate  =  {formatCurrency(commissionAmount)}
                       </p>
+                      {attr.reason && (
+                        <p style={{ fontSize: "0.8rem", marginBottom: "0.5rem", fontStyle: "italic", color: "var(--text)" }}>
+                          ↳ {attr.reason}
+                        </p>
+                      )}
                       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap", fontSize: "0.78rem" }}>
                         <span style={{ background: "var(--bg)", padding: "0.25rem 0.6rem", borderRadius: 6, fontWeight: 500 }}>Deal value: {formatCurrency(deal.amount)}</span>
                         <span className="muted">→</span>
