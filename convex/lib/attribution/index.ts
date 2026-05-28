@@ -1,26 +1,47 @@
 /**
  * Attribution Module - Public API
- * 
- * Re-exports all public functions and types from the attribution engine.
+ *
+ * Covant ships a bounded set of 5 named, self-explaining attribution models.
+ * Each implements the shared AttributionModelImpl contract; a Program selects
+ * exactly one model + config.
  */
 
-// Models (pure functions for calculation)
+// Shared types
+export type {
+  AttributionModel,
+  AttributionModelImpl,
+  AttributionRole,
+  AttributionTarget,
+  CosellWeights,
+  LedgerEntry,
+  ModelConfig,
+  TouchpointInput,
+} from "./types";
+
+// Role derivation
+export { DEFAULT_ROLE_MAP, FALLBACK_ROLE, deriveRole } from "./roles";
+
+// Models (pure implementations) + finalizer
 export {
-  calculateEqualSplit,
-  calculateFirstTouch,
-  calculateLastTouch,
-  calculateTimeDecay,
-  calculateRoleBased,
-  normalizeAttributions,
-  getModelDescription,
-  getAllModels,
-  DEFAULT_ROLE_WEIGHTS,
-  type AttributionModel,
-  type TouchpointInput,
-  type AttributionResult,
+  finalizeLedger,
+  firstTouchSourcer,
+  implementationCredit,
+  marketplaceCosellHybrid,
+  roleWeighted,
+  splitEqually,
 } from "./models";
 
-// Calculator (orchestration with database)
+// Registry + runner
+export {
+  ATTRIBUTION_MODELS,
+  getAllModels,
+  getModel,
+  isAttributionModel,
+  mergeConfig,
+  runModel,
+} from "./registry";
+
+// Calculator (database orchestration)
 export {
   calculateDealAttribution,
   calculateMissingAttributions,
