@@ -59,6 +59,20 @@ export function isAttributionModel(value: string): value is AttributionModel {
  * (roleWeights, roleMap, cosellWeights) are merged key-by-key so a caller can
  * override a single weight; everything else is a plain override.
  */
+/**
+ * Parse a program's modelConfig (stored as a JSON string). Returns {} for
+ * missing/invalid JSON so a program always runs with its model defaults.
+ */
+export function parseModelConfig(json?: string | null): ModelConfig {
+  if (!json) return {};
+  try {
+    const parsed = JSON.parse(json);
+    return parsed && typeof parsed === "object" ? (parsed as ModelConfig) : {};
+  } catch {
+    return {};
+  }
+}
+
 export function mergeConfig(base: ModelConfig, override: ModelConfig): ModelConfig {
   return {
     ...base,

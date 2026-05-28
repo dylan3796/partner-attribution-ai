@@ -38,6 +38,7 @@ export {
   getModel,
   isAttributionModel,
   mergeConfig,
+  parseModelConfig,
   runModel,
 } from "./registry";
 
