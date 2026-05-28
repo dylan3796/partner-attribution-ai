@@ -128,6 +128,13 @@ export const CHART_COLORS = [
 ];
 
 export const MODEL_COLORS: Record<string, string> = {
+  // bounded canonical models
+  first_touch_sourcer: "#8b5cf6",
+  split_equally: "#6366f1",
+  role_weighted: "#f59e0b",
+  implementation_credit: "#14b8a6",
+  marketplace_cosell_hybrid: "#ec4899",
+  // legacy keys (kept for any pre-migration rows)
   equal_split: "#6366f1",
   first_touch: "#8b5cf6",
   last_touch: "#ec4899",

@@ -28,11 +28,11 @@ const PARTNER_TYPE_LABELS: Record<PartnerTypeKey, string> = {
 const PARTNER_TYPES = Object.keys(PARTNER_TYPE_LABELS) as PartnerTypeKey[];
 
 const ATTRIBUTION_MODELS: AttributionModel[] = [
-  "equal_split",
-  "first_touch",
-  "last_touch",
-  "time_decay",
-  "role_based",
+  "first_touch_sourcer",
+  "split_equally",
+  "role_weighted",
+  "implementation_credit",
+  "marketplace_cosell_hybrid",
 ];
 
 type TouchpointConfig = {
@@ -213,7 +213,7 @@ export default function AttributionSettingsPage() {
   const { toast } = useToast();
 
   // ── Section 1 ──────────────────────────────────────────────────────────────
-  const [defaultModel, setDefaultModel] = useState<AttributionModel>("equal_split");
+  const [defaultModel, setDefaultModel] = useState<AttributionModel>("role_weighted");
   const [partnerModelOverrides, setPartnerModelOverrides] = useState<
     Record<PartnerTypeKey, AttributionModel | "">
   >({ reseller: "", referral: "", integration: "", technology: "" });

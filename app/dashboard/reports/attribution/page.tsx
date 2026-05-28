@@ -31,11 +31,11 @@ const Pie = dynamic(() => import("recharts").then(m => ({ default: m.Pie })), { 
 const Cell = dynamic(() => import("recharts").then(m => ({ default: m.Cell })), { ssr: false });
 
 const MODELS: AttributionModel[] = [
-  "equal_split",
-  "first_touch",
-  "last_touch",
-  "time_decay",
-  "role_based",
+  "first_touch_sourcer",
+  "split_equally",
+  "role_weighted",
+  "implementation_credit",
+  "marketplace_cosell_hybrid",
 ];
 
 type LeaderboardEntry = {
@@ -129,7 +129,7 @@ export default function ReportsPage() {
   const allAttributions = useQuery(api.dashboard.getAllAttributions);
 
   const [selectedModel, setSelectedModel] =
-    useState<AttributionModel>("equal_split");
+    useState<AttributionModel>("role_weighted");
   const [sortBy, setSortBy] = useState<"revenue" | "commission" | "deals">(
     "revenue"
   );

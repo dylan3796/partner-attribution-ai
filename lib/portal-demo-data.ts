@@ -10,6 +10,7 @@ import {
   demoPartners,
 } from "./demo-data";
 import type { Deal, Touchpoint, Attribution } from "./types";
+import { PRIMARY_MODEL } from "./types";
 
 const now = Date.now();
 const day = 86400000;
@@ -127,7 +128,7 @@ export function getPartnerAttributions(
   return demoAttributions.filter(
     (a) =>
       profile.linkedPartnerIds.includes(a.partnerId) &&
-      a.model === "role_based" // Portal uses role-based as the default model
+      a.model === PRIMARY_MODEL // Portal uses the primary model as the default lens
   );
 }
 

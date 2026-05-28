@@ -12,6 +12,7 @@
  */
 
 import type { Partner, Deal, Touchpoint, Attribution, PartnerVolumeRecord } from "./types";
+import { PRIMARY_MODEL } from "./types";
 import { calculateCertificationScore } from "./certifications-data";
 import { demoPartnerVolumes } from "./distributor-demo-data";
 
@@ -81,15 +82,15 @@ function scoreRevenue(
   attributions: Attribution[],
   allAttributions: Attribution[]
 ): { score: number; detail: string; totalRevenue: number } {
-  // Only role_based model, only for won deals (attributions already filtered to won)
+  // Use the primary model's rows, only for won deals (attributions already filtered to won)
   const partnerAttrs = attributions.filter(
-    (a) => a.partnerId === partnerId && a.model === "role_based"
+    (a) => a.partnerId === partnerId && a.model === PRIMARY_MODEL
   );
   const totalAttributed = partnerAttrs.reduce((s, a) => s + a.amount, 0);
 
   // Compare against the max partner's revenue to normalize
   const allPartnerRevenues = new Map<string, number>();
-  for (const a of allAttributions.filter((a) => a.model === "role_based")) {
+  for (const a of allAttributions.filter((a) => a.model === PRIMARY_MODEL)) {
     allPartnerRevenues.set(
       a.partnerId,
       (allPartnerRevenues.get(a.partnerId) || 0) + a.amount

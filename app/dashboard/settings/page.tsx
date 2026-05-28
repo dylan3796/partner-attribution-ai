@@ -78,7 +78,7 @@ function SettingsPageInner() {
   }
   const [orgName, setOrgName] = useState(org?.name || "");
   const [orgEmail, setOrgEmail] = useState(org?.email || "");
-  const [defaultModel, setDefaultModel] = useState<AttributionModel>(org?.defaultAttributionModel || "equal_split");
+  const [defaultModel, setDefaultModel] = useState<AttributionModel>((org?.defaultAttributionModel as AttributionModel) || "role_weighted");
   const [defaultRate, setDefaultRate] = useState("10");
   const [showApiKey, setShowApiKey] = useState(false);
   const [sfSyncing, setSfSyncing] = useState(false);

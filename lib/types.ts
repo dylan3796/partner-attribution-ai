@@ -96,6 +96,13 @@ export type AttributionModel =
 
 export type AttributionRole = "sourcer" | "influencer" | "implementer" | "closer";
 
+/**
+ * The model treated as "primary" for legacy single-number rollups in demo data
+ * and analytics helpers. Each deal now carries exactly one model (its program's),
+ * so this is just the default lens for demo datasets that pre-compute several.
+ */
+export const PRIMARY_MODEL: AttributionModel = "role_weighted";
+
 export type ProgramArchetype = "si" | "cloud_cosell" | "tech_isv" | "reseller" | "other";
 
 export type Program = {
