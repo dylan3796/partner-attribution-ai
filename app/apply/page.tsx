@@ -108,8 +108,8 @@ export default function ApplyPage() {
             <Link href="/" style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", padding: ".75rem 1.5rem", borderRadius: 10, background: "#fff", color: "#000", fontWeight: 700, fontSize: ".9rem", textDecoration: "none" }}>
               Back to Covant
             </Link>
-            <Link href="/demo" style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", padding: ".75rem 1.5rem", borderRadius: 10, border:'1px solid #e5e7eb', color:'#0a0a0a', fontWeight: 600, fontSize: ".9rem", textDecoration: "none" }}>
-              Try the Demo <ArrowRight size={16} />
+            <Link href="/product" style={{ display: "inline-flex", alignItems: "center", gap: ".5rem", padding: ".75rem 1.5rem", borderRadius: 10, border:'1px solid #e5e7eb', color:'#0a0a0a', fontWeight: 600, fontSize: ".9rem", textDecoration: "none" }}>
+              See the product <ArrowRight size={16} />
             </Link>
           </div>
         </div>

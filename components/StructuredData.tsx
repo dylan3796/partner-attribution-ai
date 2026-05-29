@@ -7,7 +7,7 @@ export function OrganizationSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "The platform your partner team runs on. One ledger, a branded portal, revenue intelligence — plus four agents (PSM, PAM, Program, Ops) that help teams unlock, monitor, and measure channel revenue end-to-end.",
+      "Covant is the AI-native PRM for B2B SaaS running more than one partner motion. It scores every partner, recommends the attribution model that fits each motion, and hands the team the next move. Partner Experience Management — the successor to the PRM. Replaces legacy PRM, syncs your CRM.",
     foundingDate: "2026",
     contactPoint: {
       "@type": "ContactPoint",
@@ -34,14 +34,14 @@ export function SoftwareApplicationSchema() {
     operatingSystem: "Web",
     url: "https://covant.ai",
     description:
-      "The platform your partner team runs on. One ledger, a branded portal, revenue intelligence — plus four in-product agents (PSM, PAM, Program, Ops) that help teams unlock, monitor, and measure channel revenue end-to-end.",
+      "The AI-native PRM for partner revenue. Covant scores every partner, recommends the attribution model that fits each motion, reconstructs the last 12 months, and surfaces the next move. Replaces legacy PRM, syncs your CRM.",
     offers: [
       {
         "@type": "Offer",
         name: "Design Partner Pilot",
         price: "0",
         priceCurrency: "USD",
-        description: "Free during pilot for design partners. Full platform access including all four agents as they ship. Locked-in pricing at general availability.",
+        description: "Free during pilot for design partners. Full platform access. Locked-in pricing at general availability.",
       },
     ],
   };
@@ -87,12 +87,7 @@ export function WebSiteSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "The platform your partner team runs on — with four agents that unlock channel revenue end-to-end.",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://covant.ai/faq?q={search_term_string}",
-      "query-input": "required name=search_term_string",
-    },
+      "The AI-native PRM that tells you which partners drive revenue, which model to attribute them with, and what to do next.",
   };
 
   return (
