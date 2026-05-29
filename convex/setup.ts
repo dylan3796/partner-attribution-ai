@@ -30,6 +30,22 @@ export const applyTemplate = mutation({
       createdAt: Date.now(),
     });
 
+    // Create the org's default Program from the chosen template + model.
+    const TEMPLATE_ARCHETYPE: Record<string, "si" | "cloud_cosell" | "tech_isv" | "reseller" | "other"> = {
+      reseller: "reseller",
+      integration: "tech_isv",
+      referral: "other",
+      comarketing: "other",
+    };
+    await ctx.db.insert("programs", {
+      organizationId: orgId,
+      name: `${args.orgName} Program`,
+      archetype: TEMPLATE_ARCHETYPE[args.templateId] ?? "other",
+      selectedModel: args.attributionModel,
+      isDefault: true,
+      createdAt: Date.now(),
+    });
+
     // Log setup completion
     await ctx.db.insert("audit_log", {
       organizationId: orgId,

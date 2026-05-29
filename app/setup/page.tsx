@@ -9,6 +9,16 @@ import {
   Users, DollarSign, GitBranch, BarChart3, LayoutDashboard, Briefcase,
   Loader2, CheckCircle2,
 } from "lucide-react";
+import { recommendModel, type ProgramArchetype } from "@/convex/lib/attribution/recommender";
+import { MODEL_LABELS, type AttributionModel } from "@/lib/types";
+
+const MODEL_OPTIONS: AttributionModel[] = [
+  "first_touch_sourcer",
+  "split_equally",
+  "role_weighted",
+  "implementation_credit",
+  "marketplace_cosell_hybrid",
+];
 
 /* ─── Types ─── */
 type Flow = {
@@ -156,6 +166,7 @@ function StepDot({ n, active, done }: { n: number; active: boolean; done: boolea
 export default function SetupPage() {
   const router = useRouter();
   const seedDemo = useMutation(api.seedDemo.seedDemoData);
+  const createProgram = useMutation(api.programs.create);
   const [step, setStep] = useState(0); // 0=load, 1=describe, 2=flows
   const [seeding, setSeeding] = useState(false);
   const [seeded, setSeeded] = useState(false);
@@ -165,6 +176,10 @@ export default function SetupPage() {
   const [descText, setDescText] = useState("");
   const [parsed, setParsed] = useState<ParsedProgram | null>(null);
   const [exampleIdx, setExampleIdx] = useState(0);
+
+  // Recommended attribution model (computed from the description) + override
+  const [recommendation, setRecommendation] = useState<{ model: AttributionModel; archetype: ProgramArchetype; rationale: string } | null>(null);
+  const [selectedModel, setSelectedModel] = useState<AttributionModel>("role_weighted");
 
   // Step 2 — flows
   const [selectedFlows, setSelectedFlows] = useState<Set<string>>(new Set(["attribution", "incentives"]));
@@ -189,6 +204,13 @@ export default function SetupPage() {
     if (!descText.trim()) return;
     const p = parseProgram(descText);
     setParsed(p);
+    const rec = recommendModel({
+      description: descText,
+      partnerTypes: p.partnerTypes.map((t) => t.type),
+      hasTiers: p.tiers.length > 0,
+    });
+    setRecommendation(rec);
+    setSelectedModel(rec.model);
     setStep(2);
   }
 
@@ -201,7 +223,19 @@ export default function SetupPage() {
     });
   }
 
-  function handleFinish() {
+  async function handleFinish() {
+    // Persist the chosen attribution model as the org's default Program.
+    // Best-effort: no-ops gracefully when there's no authenticated org yet.
+    try {
+      await createProgram({
+        name: "My Partner Program",
+        archetype: recommendation?.archetype ?? "other",
+        selectedModel,
+        isDefault: true,
+      });
+    } catch {
+      /* no org / not authenticated — skip persistence */
+    }
     router.replace("/dashboard?setup=done");
   }
 
@@ -451,6 +485,39 @@ export default function SetupPage() {
                 Pick the ones that apply. You can turn others on later.
               </p>
             </div>
+
+            {/* Recommended attribution model */}
+            {recommendation && (
+              <div style={{
+                border: "1px solid #e5e7eb", borderRadius: 12, padding: "1.25rem",
+                marginBottom: "1.5rem", background: "#fafaff",
+              }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: ".5rem" }}>
+                  <Sparkles size={15} style={{ color: "#6366f1" }} />
+                  <span style={{ fontWeight: 700, fontSize: ".9rem" }}>Recommended attribution model</span>
+                </div>
+                <p style={{ fontSize: ".85rem", color: "#6b7280", lineHeight: 1.5, marginBottom: ".9rem" }}>
+                  {recommendation.rationale}
+                </p>
+                <label style={{ fontSize: ".78rem", color: "#9ca3af", display: "block", marginBottom: ".35rem" }}>
+                  Attribution model {selectedModel === recommendation.model ? "(recommended)" : "(overridden)"}
+                </label>
+                <select
+                  value={selectedModel}
+                  onChange={(e) => setSelectedModel(e.target.value as AttributionModel)}
+                  style={{
+                    width: "100%", padding: ".6rem .75rem", borderRadius: 8,
+                    border: "1px solid #d1d5db", fontSize: ".9rem", background: "#fff",
+                  }}
+                >
+                  {MODEL_OPTIONS.map((m) => (
+                    <option key={m} value={m}>
+                      {MODEL_LABELS[m]}{m === recommendation.model ? " — recommended" : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1rem", marginBottom: "2rem" }}>
               {FLOWS.map(flow => {
