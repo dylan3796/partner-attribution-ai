@@ -65,12 +65,13 @@ export const getOverview = query({
     const recentWonDeals = recentDeals.filter((d) => d.status === "won");
     const recentRevenue = recentWonDeals.reduce((sum, d) => sum + d.amount, 0);
 
-    // Top partners by attributed revenue (using equal_split model as default)
+    // Top partners by attributed revenue. Each deal carries exactly one model
+    // (its program's), so every ledger row counts.
     const partnerMap = new Map(partners.map((p) => [p._id, p]));
     const partnerRevenueMap = new Map<string, { name: string; revenue: number; deals: number }>();
 
     for (const attr of attributions) {
-      if (attr.model === "equal_split") {
+      {
         const existing = partnerRevenueMap.get(attr.partnerId);
 
         if (existing) {
@@ -262,18 +263,18 @@ export const getPartnerRanking = query({
   args: {
     apiKey: v.string(),
     model: v.optional(v.union(
-      v.literal("equal_split"),
-      v.literal("first_touch"),
-      v.literal("last_touch"),
-      v.literal("time_decay"),
-      v.literal("role_based")
+      v.literal("first_touch_sourcer"),
+      v.literal("split_equally"),
+      v.literal("role_weighted"),
+      v.literal("implementation_credit"),
+      v.literal("marketplace_cosell_hybrid")
     )),
     limit: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const org = await getOrgFromApiKey(ctx, args.apiKey);
     const limit = args.limit ?? 10;
-    const model = args.model ?? "equal_split";
+    const model = args.model ?? "role_weighted";
 
     // Get all attributions for the specified model
     const attributions = await ctx.db

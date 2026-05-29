@@ -55,6 +55,8 @@ export type Deal = {
   notes?: string;
   registeredBy?: string;
   registrationStatus?: "pending" | "approved" | "rejected";
+  programId?: string;
+  productName?: string;
   createdAt: number;
 };
 
@@ -84,25 +86,47 @@ export type Touchpoint = {
   deal?: Deal;
 };
 
+// The 5 bounded, canonical attribution models. A Program selects exactly one.
 export type AttributionModel =
-  | "equal_split"
-  | "first_touch"
-  | "last_touch"
-  | "time_decay"
-  | "role_based"
-  | "deal_reg_protection"
-  | "source_wins"
-  | "role_split";
+  | "first_touch_sourcer"
+  | "split_equally"
+  | "role_weighted"
+  | "implementation_credit"
+  | "marketplace_cosell_hybrid";
+
+export type AttributionRole = "sourcer" | "influencer" | "implementer" | "closer";
+
+/**
+ * The model treated as "primary" for legacy single-number rollups in demo data
+ * and analytics helpers. Each deal now carries exactly one model (its program's),
+ * so this is just the default lens for demo datasets that pre-compute several.
+ */
+export const PRIMARY_MODEL: AttributionModel = "role_weighted";
+
+export type ProgramArchetype = "si" | "cloud_cosell" | "tech_isv" | "reseller" | "other";
+
+export type Program = {
+  _id: string;
+  organizationId: string;
+  name: string;
+  archetype: ProgramArchetype;
+  selectedModel: AttributionModel;
+  modelConfig?: string; // JSON-serialized ModelConfig
+  isDefault?: boolean;
+  createdAt: number;
+};
 
 export type Attribution = {
   _id: string;
   organizationId: string;
   dealId: string;
   partnerId: string;
+  programId?: string;
   model: AttributionModel;
   percentage: number;
   amount: number;
   commissionAmount: number;
+  reason?: string;
   calculatedAt: number;
   // Enriched
   partner?: Partner;
@@ -169,25 +193,27 @@ export type Dispute = {
 };
 
 export const MODEL_LABELS: Record<AttributionModel, string> = {
-  equal_split: "Equal Split",
-  first_touch: "First Touch",
-  last_touch: "Last Touch",
-  time_decay: "Time Decay",
-  role_based: "Role-Based",
-  deal_reg_protection: "Deal Reg Protection",
-  source_wins: "Source Wins",
-  role_split: "Role Split",
+  first_touch_sourcer: "First Touch / Sourcer",
+  split_equally: "Split Equally",
+  role_weighted: "Role Weighted",
+  implementation_credit: "Implementation Credit",
+  marketplace_cosell_hybrid: "Marketplace Co-sell (Hybrid)",
 };
 
 export const MODEL_DESCRIPTIONS: Record<AttributionModel, string> = {
-  equal_split: "Each partner gets an equal share of credit",
-  first_touch: "100% credit to the first partner who touched the deal",
-  last_touch: "100% credit to the last partner who touched the deal",
-  time_decay: "More recent touchpoints get higher weight",
-  role_based: "Different touchpoint types have different weights",
-  deal_reg_protection: "Partner who registered the deal gets full credit",
-  source_wins: "Partner who sourced or first introduced the opportunity gets full credit",
-  role_split: "Credit split between partners based on their defined roles",
+  first_touch_sourcer: "Full credit to the partner who first registered or sourced the deal",
+  split_equally: "Equal credit across all partners with a qualifying touchpoint",
+  role_weighted: "Credit weighted by partner role (sourcer / influencer / implementer / closer)",
+  implementation_credit: "Full credit to the partner who delivered the implementation",
+  marketplace_cosell_hybrid: "Multi-party co-sell split: hyperscaler + partner + vendor",
+};
+
+export const PROGRAM_ARCHETYPE_LABELS: Record<ProgramArchetype, string> = {
+  si: "Systems Integrator",
+  cloud_cosell: "Cloud Co-sell",
+  tech_isv: "Technology / ISV",
+  reseller: "Reseller",
+  other: "Other",
 };
 
 export const TOUCHPOINT_LABELS: Record<TouchpointType, string> = {

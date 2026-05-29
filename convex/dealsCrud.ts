@@ -36,6 +36,7 @@ export const create = mutation({
     contactName: v.optional(v.string()),
     contactEmail: v.optional(v.string()),
     registeredBy: v.optional(v.id("partners")),
+    programId: v.optional(v.id("programs")),
     status: v.optional(v.union(v.literal("open"), v.literal("won"), v.literal("lost"))),
     registrationStatus: v.optional(v.union(v.literal("pending"), v.literal("approved"), v.literal("rejected"))),
     closedAt: v.optional(v.number()),
@@ -53,6 +54,7 @@ export const create = mutation({
       contactName: args.contactName,
       contactEmail: args.contactEmail,
       registeredBy: args.registeredBy,
+      programId: args.programId,
       registrationStatus: args.registrationStatus ?? (args.registeredBy ? "pending" : undefined),
       closedAt: args.closedAt,
       notes: args.notes,
@@ -88,7 +90,8 @@ export const closeDeal = mutation({
           entityType: "deal",
           entityId: args.id,
           changes: JSON.stringify({
-            models: result.modelsCalculated,
+            model: result.model,
+            programId: result.programId,
             attributionsCreated: result.totalAttributionsCreated,
             calculationTimeMs: result.calculationTimeMs,
           }),
@@ -97,7 +100,7 @@ export const closeDeal = mutation({
         return {
           success: true,
           attribution: {
-            modelsCalculated: result.modelsCalculated.length,
+            model: result.model,
             attributionsCreated: result.totalAttributionsCreated,
           },
         };
@@ -138,7 +141,8 @@ export const recalculateAttribution = mutation({
       entityType: "deal",
       entityId: args.dealId,
       changes: JSON.stringify({
-        models: result.modelsCalculated,
+        model: result.model,
+        programId: result.programId,
         attributionsCreated: result.totalAttributionsCreated,
       }),
       createdAt: Date.now(),
@@ -146,7 +150,7 @@ export const recalculateAttribution = mutation({
 
     return {
       success: true,
-      modelsCalculated: result.modelsCalculated.length,
+      model: result.model,
       attributionsCreated: result.totalAttributionsCreated,
       calculationTimeMs: result.calculationTimeMs,
     };

@@ -18,6 +18,7 @@ import type {
   AuditEntry,
   AttributionModel,
 } from "./types";
+import { PRIMARY_MODEL, MODEL_LABELS } from "./types";
 import { calculatePartnerScores, type PartnerScore } from "./partner-scoring";
 
 export type QueryContext = {
@@ -81,13 +82,13 @@ function extractNumber(q: string): number {
 
 function partnerRevenue(pid: string, attributions: Attribution[]): number {
   return attributions
-    .filter((a) => a.partnerId === pid && a.model === "role_based")
+    .filter((a) => a.partnerId === pid && a.model === PRIMARY_MODEL)
     .reduce((s, a) => s + a.amount, 0);
 }
 
 function partnerCommissions(pid: string, attributions: Attribution[]): number {
   return attributions
-    .filter((a) => a.partnerId === pid && a.model === "role_based")
+    .filter((a) => a.partnerId === pid && a.model === PRIMARY_MODEL)
     .reduce((s, a) => s + a.commissionAmount, 0);
 }
 
@@ -531,19 +532,13 @@ const matchers: Matcher[] = [
     ],
     handler: (_q, ctx) => {
       const models: AttributionModel[] = [
-        "equal_split",
-        "first_touch",
-        "last_touch",
-        "time_decay",
-        "role_based",
+        "first_touch_sourcer",
+        "split_equally",
+        "role_weighted",
+        "implementation_credit",
+        "marketplace_cosell_hybrid",
       ];
-      const modelLabels: Record<string, string> = {
-        equal_split: "Equal Split",
-        first_touch: "First Touch",
-        last_touch: "Last Touch",
-        time_decay: "Time Decay",
-        role_based: "Role-Based",
-      };
+      const modelLabels: Record<string, string> = MODEL_LABELS;
 
       let md = `## 🔀 Attribution Model Comparison\n\n`;
       md += "| Model | Total Attributed | Avg per Partner | Partners |\n";
@@ -557,7 +552,7 @@ const matchers: Matcher[] = [
         md += `| **${modelLabels[model]}** | ${fmt(totalAttr)} | ${fmt(Math.round(avgPerPartner))} | ${partnerSet.size} |\n`;
       }
 
-      md += `\n_Currently using **Role-Based** as the default model._`;
+      md += `\n_Each program selects one model; **${MODEL_LABELS[PRIMARY_MODEL]}** is the default lens._`;
       return md;
     },
   },

@@ -31,11 +31,11 @@ const Pie = dynamic(() => import("recharts").then(m => ({ default: m.Pie })), { 
 const Cell = dynamic(() => import("recharts").then(m => ({ default: m.Cell })), { ssr: false });
 
 const MODELS: AttributionModel[] = [
-  "equal_split",
-  "first_touch",
-  "last_touch",
-  "time_decay",
-  "role_based",
+  "first_touch_sourcer",
+  "split_equally",
+  "role_weighted",
+  "implementation_credit",
+  "marketplace_cosell_hybrid",
 ];
 
 type LeaderboardEntry = {
@@ -123,13 +123,61 @@ function EmptyState() {
   );
 }
 
+// Per-program roll-up: SEPARATE numbers per program (never one merged total).
+function ProgramRollupPanel() {
+  const data = useQuery(api.dashboard.getProgramRollups);
+  if (!data || data.programs.length === 0) return null;
+  return (
+    <div className="card">
+      <div style={{ marginBottom: "1rem" }}>
+        <h3 style={{ fontSize: "0.95rem", fontWeight: 600 }}>Per-Program Roll-up</h3>
+        <p className="muted" style={{ fontSize: "0.8rem" }}>
+          Each program runs one attribution model. Numbers are reported per program; the org
+          total is the explicit sum of programs.
+        </p>
+      </div>
+      <table style={{ width: "100%", fontSize: "0.85rem", borderCollapse: "collapse" }}>
+        <thead>
+          <tr style={{ textAlign: "left", color: "var(--muted)" }}>
+            <th style={{ padding: "0.4rem 0.5rem" }}>Program</th>
+            <th style={{ padding: "0.4rem 0.5rem" }}>Model</th>
+            <th style={{ padding: "0.4rem 0.5rem", textAlign: "right" }}>Deals</th>
+            <th style={{ padding: "0.4rem 0.5rem", textAlign: "right" }}>Attributed Revenue</th>
+            <th style={{ padding: "0.4rem 0.5rem", textAlign: "right" }}>Commission</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.programs.map((p) => (
+            <tr key={p.programId ?? p.name} style={{ borderTop: "1px solid var(--border)" }}>
+              <td style={{ padding: "0.4rem 0.5rem", fontWeight: 500 }}>{p.name}</td>
+              <td style={{ padding: "0.4rem 0.5rem" }}>
+                {MODEL_LABELS[p.model as AttributionModel] || p.model}
+              </td>
+              <td style={{ padding: "0.4rem 0.5rem", textAlign: "right" }}>{p.dealCount}</td>
+              <td style={{ padding: "0.4rem 0.5rem", textAlign: "right" }}>{formatCurrency(p.totalRevenue)}</td>
+              <td style={{ padding: "0.4rem 0.5rem", textAlign: "right" }}>{formatCurrency(p.totalCommission)}</td>
+            </tr>
+          ))}
+          <tr style={{ borderTop: "2px solid var(--border)", fontWeight: 600 }}>
+            <td style={{ padding: "0.4rem 0.5rem" }}>Org total (sum of programs)</td>
+            <td />
+            <td />
+            <td style={{ padding: "0.4rem 0.5rem", textAlign: "right" }}>{formatCurrency(data.orgTotal.revenue)}</td>
+            <td style={{ padding: "0.4rem 0.5rem", textAlign: "right" }}>{formatCurrency(data.orgTotal.commission)}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export default function ReportsPage() {
   const partnerModelResult = useQuery(api.dashboard.getPartnerModelData);
   const modelComparisonData = useQuery(api.dashboard.getModelComparison);
   const allAttributions = useQuery(api.dashboard.getAllAttributions);
 
   const [selectedModel, setSelectedModel] =
-    useState<AttributionModel>("equal_split");
+    useState<AttributionModel>("role_weighted");
   const [sortBy, setSortBy] = useState<"revenue" | "commission" | "deals">(
     "revenue"
   );
@@ -272,6 +320,9 @@ function ReportsContent({
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+      {/* Per-program roll-up (separate numbers per program) */}
+      <ProgramRollupPanel />
+
       {/* Header */}
       <div
         style={{

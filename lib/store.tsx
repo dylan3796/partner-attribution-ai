@@ -1,6 +1,7 @@
 "use client";
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import type { Organization, Partner, Deal, Touchpoint, Attribution, Payout, AuditEntry, AttributionModel, Certification, Badge, TrainingCompletion, SkillEndorsement, VolumeProgram, PartnerVolumeRecord, MDFBudget, MDFRequest, Product, ProductRebate, PartnerProductCertification, Territory, ChannelConflict, IncentiveProgram, IncentiveEnrollment } from "./types";
+import { PRIMARY_MODEL } from "./types";
 import { demoOrg, demoPartners, demoDeals, demoTouchpoints, demoAttributions, demoPayouts, demoAuditLog, enrichTouchpoints, enrichAttributions, generateAttributionsForDeal } from "./demo-data";
 import { demoCertifications, demoBadges, demoTrainingCompletions, demoSkillEndorsements } from "./certifications-data";
 import { demoVolumePrograms, demoPartnerVolumes, demoMDFBudgets, demoMDFRequests, demoProducts, demoProductRebates, demoPartnerProductCerts, demoTerritories, demoChannelConflicts } from "./distributor-demo-data";
@@ -260,7 +261,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     totalPartners: partners.length,
     winRate: closedCount > 0 ? Math.round((wonDealsList.length / closedCount) * 100) : 0,
     avgDealSize: wonDealsList.length > 0 ? Math.round(totalRevenue / wonDealsList.length) : 0,
-    totalCommissions: Math.round(attributions.filter((a) => a.model === "role_based").reduce((s, a) => s + a.commissionAmount, 0)),
+    totalCommissions: Math.round(attributions.filter((a) => a.model === PRIMARY_MODEL).reduce((s, a) => s + a.commissionAmount, 0)),
     pendingPayouts: payouts.filter((p) => p.status === "pending_approval").reduce((s, p) => s + p.amount, 0),
   };
 

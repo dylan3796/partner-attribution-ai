@@ -16,6 +16,8 @@ import {
 import { Modal } from "@/components/ui/modal";
 import {
   MODEL_LABELS,
+  MODEL_DESCRIPTIONS,
+  PRIMARY_MODEL,
   TOUCHPOINT_LABELS,
   type AttributionModel,
   type TouchpointType,
@@ -37,12 +39,11 @@ const Legend = dynamic(() => import("recharts").then(m => ({ default: m.Legend }
 const loadConfetti = () => import("canvas-confetti").then(m => m.default);
 
 const MODELS: AttributionModel[] = [
-  "deal_reg_protection",
-  "source_wins",
-  "role_split",
-  "equal_split",
-  "first_touch",
-  "last_touch",
+  "first_touch_sourcer",
+  "split_equally",
+  "role_weighted",
+  "implementation_credit",
+  "marketplace_cosell_hybrid",
 ];
 
 const statusBadgeClass: Record<string, string> = {
@@ -557,7 +558,7 @@ export default function DealDetailPage({
               setIsRecalculating(true);
               try {
                 const result = await recalculateAttributionMutation({ dealId: id as Id<"deals"> });
-                toast(`🎉 Attribution calculated — ${result.attributionsCreated} results across ${result.modelsCalculated} models`, "success");
+                toast(`🎉 Attribution calculated — ${result.attributionsCreated} results using ${MODEL_LABELS[result.model as AttributionModel] ?? result.model}`, "success");
               } catch (err: any) {
                 toast(err.message || "Failed to calculate", "error");
               } finally {
@@ -583,22 +584,11 @@ export default function DealDetailPage({
           negotiation: "Involved in negotiation — closing credit",
           content_share: "Shared content — awareness credit",
         };
-        const activeModel: AttributionModel = allAttributions.find(a => a.model === "deal_reg_protection") ? "deal_reg_protection"
-          : allAttributions.find(a => a.model === "source_wins") ? "source_wins"
-          : allAttributions.find(a => a.model === "role_split") ? "role_split"
-          : allAttributions.find(a => a.model === "role_based") ? "role_based"
-          : "equal_split";
+        // Each deal now carries exactly one model (its program's selected model).
+        const activeModel: AttributionModel =
+          (allAttributions[0]?.model as AttributionModel) ?? PRIMARY_MODEL;
 
-        const modelExplanations: Record<string, string> = {
-          deal_reg_protection: "The partner who registered this deal holds full credit. All commission goes to the registering partner.",
-          source_wins: "The partner who sourced or first introduced this opportunity receives full credit.",
-          role_split: "Credit is split between partners based on their defined roles in the program.",
-          equal_split: "Credit is split equally among all partners who touched this deal.",
-          first_touch: "The first partner to engage with this deal receives full credit.",
-          last_touch: "The last partner to engage before close receives full credit.",
-          time_decay: "Partners receive weighted credit based on recency — more recent touches count more.",
-          role_based: "Credit is weighted by touchpoint type and partner role.",
-        };
+        const modelExplanations: Record<string, string> = MODEL_DESCRIPTIONS;
 
         const auditModel = activeModel;
         const auditAttributions = allAttributions.filter((a) => a.model === auditModel);
@@ -614,7 +604,7 @@ export default function DealDetailPage({
                     setIsRecalculating(true);
                     try {
                       const result = await recalculateAttributionMutation({ dealId: id as Id<"deals"> });
-                      toast(`Attribution recalculated — ${result.attributionsCreated} results across ${result.modelsCalculated} models (${result.calculationTimeMs}ms)`, "success");
+                      toast(`Attribution recalculated — ${result.attributionsCreated} results using ${MODEL_LABELS[result.model as AttributionModel] ?? result.model} (${result.calculationTimeMs}ms)`, "success");
                     } catch (err: any) {
                       toast(err.message || "Failed to recalculate", "error");
                     } finally {
@@ -692,6 +682,11 @@ export default function DealDetailPage({
                       <p className="muted" style={{ fontSize: "0.8rem", marginBottom: "0.5rem" }}>
                         {formatCurrency(deal.amount)} deal  ×  {formatPercent(attr.percentage)} credit  ×  {partner.commissionRate}% commission rate  =  {formatCurrency(commissionAmount)}
                       </p>
+                      {attr.reason && (
+                        <p style={{ fontSize: "0.8rem", marginBottom: "0.5rem", fontStyle: "italic", color: "var(--text)" }}>
+                          ↳ {attr.reason}
+                        </p>
+                      )}
                       <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap", fontSize: "0.78rem" }}>
                         <span style={{ background: "var(--bg)", padding: "0.25rem 0.6rem", borderRadius: 6, fontWeight: 500 }}>Deal value: {formatCurrency(deal.amount)}</span>
                         <span className="muted">→</span>

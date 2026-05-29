@@ -150,7 +150,8 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
 
   const partner = partnerData;
   const touchpoints = partner.touchpoints || [];
-  const attributions = (partner.attributions || []).filter((a) => a.model === "role_based");
+  // Each deal carries exactly one model (its program's), so all ledger rows count.
+  const attributions = partner.attributions || [];
   const partnerPayouts = partner.payouts || [];
   const partnerDeals = partner.deals || [];
   const totalRevenue = attributions.reduce((s, a) => s + a.amount, 0);

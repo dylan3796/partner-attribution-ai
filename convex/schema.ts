@@ -1,6 +1,36 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
+// The 5 bounded, canonical attribution models. A Program selects exactly one.
+const BOUNDED_MODEL_LITERALS = [
+  v.literal("first_touch_sourcer"),
+  v.literal("split_equally"),
+  v.literal("role_weighted"),
+  v.literal("implementation_credit"),
+  v.literal("marketplace_cosell_hybrid"),
+] as const;
+
+/** Programs may only select a bounded model. */
+const boundedModelValidator = v.union(...BOUNDED_MODEL_LITERALS);
+
+/**
+ * Storage validator for attributions.model. Includes the bounded set plus the
+ * legacy literals so pre-existing rows still validate; once
+ * migrations:migrateAttributionModels has run everywhere, the legacy literals
+ * can be dropped. New writes only ever use the bounded set.
+ */
+const attributionModelValidator = v.union(
+  ...BOUNDED_MODEL_LITERALS,
+  v.literal("equal_split"),
+  v.literal("first_touch"),
+  v.literal("last_touch"),
+  v.literal("time_decay"),
+  v.literal("role_based"),
+  v.literal("deal_reg_protection"),
+  v.literal("source_wins"),
+  v.literal("role_split")
+);
+
 export default defineSchema({
   // Organizations/Companies using the platform
   organizations: defineTable({
@@ -8,16 +38,7 @@ export default defineSchema({
     email: v.string(),
     apiKey: v.string(),
     plan: v.union(v.literal("starter"), v.literal("growth"), v.literal("enterprise")),
-    defaultAttributionModel: v.optional(v.union(
-      v.literal("equal_split"),
-      v.literal("first_touch"),
-      v.literal("last_touch"),
-      v.literal("time_decay"),
-      v.literal("role_based"),
-      v.literal("deal_reg_protection"),
-      v.literal("source_wins"),
-      v.literal("role_split")
-    )),
+    defaultAttributionModel: v.optional(attributionModelValidator),
     stripeCustomerId: v.optional(v.string()),
     createdAt: v.number(),
   })
@@ -97,6 +118,7 @@ export default defineSchema({
     contactEmail: v.optional(v.string()),
     notes: v.optional(v.string()),
     productName: v.optional(v.string()), // links to product catalog for commission rule matching
+    programId: v.optional(v.id("programs")), // which attribution program this deal belongs to
     registeredBy: v.optional(v.id("partners")),
     registrationStatus: v.optional(v.union(
       v.literal("pending"),
@@ -147,31 +169,25 @@ export default defineSchema({
     .index("by_organization", ["organizationId"])
     .index("by_deal_and_date", ["dealId", "createdAt"]),
 
-  // Attribution results
+  // Attribution results (the per-program ledger)
   attributions: defineTable({
     organizationId: v.id("organizations"),
     dealId: v.id("deals"),
     partnerId: v.id("partners"),
-    // Supports: equal_split, first_touch, last_touch, time_decay, role_based, deal_reg_protection, source_wins, role_split
-    model: v.union(
-      v.literal("equal_split"),
-      v.literal("first_touch"),
-      v.literal("last_touch"),
-      v.literal("time_decay"),
-      v.literal("role_based"),
-      v.literal("deal_reg_protection"),
-      v.literal("source_wins"),
-      v.literal("role_split")
-    ),
-    percentage: v.number(),
+    programId: v.optional(v.id("programs")), // program whose model produced this row
+    model: attributionModelValidator,
+    percentage: v.number(), // 0-100
     amount: v.number(),
     commissionAmount: v.number(),
+    reason: v.optional(v.string()), // human-readable explanation from the model
     calculatedAt: v.number(),
   })
     .index("by_deal", ["dealId"])
     .index("by_partner", ["partnerId"])
     .index("by_organization", ["organizationId"])
     .index("by_model", ["model"])
+    .index("by_program", ["programId"])
+    .index("by_deal_and_program", ["dealId", "programId"])
     .index("by_partner_and_date", ["partnerId", "calculatedAt"]),
 
   // Payouts
@@ -526,6 +542,7 @@ export default defineSchema({
   // Commission rules (complex/tiered)
   commissionRules: defineTable({
     organizationId: v.id("organizations"),
+    programId: v.optional(v.id("programs")), // program-specific rule; undefined = org-wide
     name: v.string(),
     partnerType: v.optional(v.union(
       v.literal("affiliate"),
@@ -546,7 +563,30 @@ export default defineSchema({
     createdAt: v.number(),
   })
     .index("by_organization", ["organizationId"])
-    .index("by_org_priority", ["organizationId", "priority"]),
+    .index("by_org_priority", ["organizationId", "priority"])
+    .index("by_program", ["programId"]),
+
+  // Programs: a customer runs several partner programs in parallel (SI, cloud
+  // co-sell, tech/ISV, reseller). Each program selects ONE bounded attribution
+  // model + config. Deals, commission rules, and ledger rows are scoped to a
+  // program so we can report per-program AND roll up.
+  programs: defineTable({
+    organizationId: v.id("organizations"),
+    name: v.string(),
+    archetype: v.union(
+      v.literal("si"),
+      v.literal("cloud_cosell"),
+      v.literal("tech_isv"),
+      v.literal("reseller"),
+      v.literal("other")
+    ),
+    selectedModel: boundedModelValidator,
+    modelConfig: v.optional(v.string()), // JSON-serialized ModelConfig
+    isDefault: v.optional(v.boolean()), // org fallback program for unassigned deals
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_archetype", ["organizationId", "archetype"]),
 
   // Program configuration from setup wizard
   programConfig: defineTable({

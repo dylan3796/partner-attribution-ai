@@ -78,7 +78,7 @@ function SettingsPageInner() {
   }
   const [orgName, setOrgName] = useState(org?.name || "");
   const [orgEmail, setOrgEmail] = useState(org?.email || "");
-  const [defaultModel, setDefaultModel] = useState<AttributionModel>(org?.defaultAttributionModel || "equal_split");
+  const [defaultModel, setDefaultModel] = useState<AttributionModel>((org?.defaultAttributionModel as AttributionModel) || "role_weighted");
   const [defaultRate, setDefaultRate] = useState("10");
   const [showApiKey, setShowApiKey] = useState(false);
   const [sfSyncing, setSfSyncing] = useState(false);
@@ -356,13 +356,11 @@ function SettingsPageInner() {
                 <div>
                   <label style={{ display: "block", fontSize: ".85rem", fontWeight: 500, marginBottom: ".3rem" }}>Attribution Model</label>
                   <select className="input" value={configDraft.attributionModel} onChange={(e) => setConfigDraft({ ...configDraft, attributionModel: e.target.value })}>
-                    <option value="deal_reg_protection">Deal Reg Protection</option>
-                    <option value="source_wins">Source Wins</option>
-                    <option value="role_split">Role Split</option>
-                    <option value="equal_split">Equal Split</option>
-                    <option value="first_touch">First Touch</option>
-                    <option value="last_touch">Last Touch</option>
-                    <option value="time_decay">Time Decay</option>
+                    <option value="first_touch_sourcer">First Touch / Sourcer</option>
+                    <option value="split_equally">Split Equally</option>
+                    <option value="role_weighted">Role Weighted</option>
+                    <option value="implementation_credit">Implementation Credit</option>
+                    <option value="marketplace_cosell_hybrid">Marketplace Co-sell (Hybrid)</option>
                   </select>
                 </div>
               </div>
