@@ -99,7 +99,49 @@ async function run(ctx: any) {
     }
   }
 
-  return { orgs: orgs.length, dealsTagged, attributionsMigrated: migrated, attributionsDeleted: deleted };
+  // 4. Collapse to ONE model per deal. The legacy calculator stored rows for
+  // several models per deal; after remapping above a deal can still carry
+  // multiple (now-bounded) models, which would double-count when readers sum
+  // every row. Keep only the rows for the deal's program-selected model (or,
+  // if none match, the model with the most rows) and delete the rest — this
+  // restores the "one model per deal" invariant the new calculator maintains.
+  let collapsed = 0;
+  for (const deal of deals) {
+    const rows = await ctx.db
+      .query("attributions")
+      .withIndex("by_deal", (q: any) => q.eq("dealId", deal._id))
+      .collect();
+    if (rows.length === 0) continue;
+    const models = new Set(rows.map((r: any) => r.model));
+    if (models.size <= 1) continue; // already single-model
+
+    // Prefer the deal's program-selected model.
+    let target: string | undefined;
+    const pid = deal.programId ?? defaultProgramByOrg.get(deal.organizationId);
+    if (pid) {
+      const program = await ctx.db.get(pid);
+      target = program?.selectedModel;
+    }
+    if (!target || !models.has(target)) {
+      const counts = new Map<string, number>();
+      for (const r of rows) counts.set(r.model, (counts.get(r.model) ?? 0) + 1);
+      target = [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];
+    }
+    for (const r of rows) {
+      if (r.model !== target) {
+        await ctx.db.delete(r._id);
+        collapsed++;
+      }
+    }
+  }
+
+  return {
+    orgs: orgs.length,
+    dealsTagged,
+    attributionsMigrated: migrated,
+    attributionsDeleted: deleted,
+    attributionsCollapsed: collapsed,
+  };
 }
 
 /** Public entrypoint: npx convex run migrations:migrateAttributionModels */

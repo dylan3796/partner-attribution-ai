@@ -89,6 +89,13 @@ export const update = mutation({
     if (!org) throw new Error("No organization found.");
     const { id, ...patch } = args;
 
+    // Authorize: the program must belong to the caller's org (prevents
+    // cross-tenant modification via a leaked/guessed program id).
+    const existing = await ctx.db.get(id);
+    if (!existing || existing.organizationId !== org._id) {
+      throw new Error("Program not found.");
+    }
+
     if (patch.isDefault) await clearDefault(ctx, org._id);
 
     const cleaned = Object.fromEntries(
@@ -102,7 +109,14 @@ export const update = mutation({
 export const remove = mutation({
   args: { id: v.id("programs") },
   handler: async (ctx, args) => {
-    await ctx.db.patch(args.id, {}); // no-op to validate id exists
+    const org = await getOrg(ctx);
+    if (!org) throw new Error("No organization found.");
+
+    // Authorize: only delete a program owned by the caller's org.
+    const existing = await ctx.db.get(args.id);
+    if (!existing || existing.organizationId !== org._id) {
+      throw new Error("Program not found.");
+    }
     await ctx.db.delete(args.id);
     return { success: true };
   },

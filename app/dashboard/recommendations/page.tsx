@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { Sparkles, TrendingUp, Award, Users, Brain, Loader2, X } from "lucide-react";
+import { MODEL_LABELS, MODEL_DESCRIPTIONS, PROGRAM_ARCHETYPE_LABELS, type AttributionModel, type ProgramArchetype } from "@/lib/types";
+import { Sparkles, TrendingUp, Award, Users, Brain, Loader2, X, GitBranch } from "lucide-react";
 import type { Id } from "@/convex/_generated/dataModel";
 import type { Doc } from "@/convex/_generated/dataModel";
 
@@ -374,6 +375,41 @@ function RefineDealForm({ topPartners, openDeals }: { topPartners: RecommendedPa
 }
 
 /* ── Main Page ── */
+/* ── Programs & attribution-model recommendations ── */
+function ProgramsPanel() {
+  const programs = useQuery(api.programs.list);
+  if (!programs || programs.length === 0) return null;
+  return (
+    <div style={{ marginBottom: "2rem" }}>
+      <h2 style={{ fontSize: "1.1rem", fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: ".4rem" }}>
+        <GitBranch size={18} color="#6366f1" />
+        Your programs & attribution models
+      </h2>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "1rem" }}>
+        {programs.map((p) => (
+          <div key={p._id} className="card" style={{ padding: "1.1rem" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: ".4rem" }}>
+              <span style={{ fontWeight: 700 }}>{p.name}</span>
+              {p.isDefault && (
+                <span style={{ fontSize: ".65rem", fontWeight: 700, background: "#6366f120", color: "#6366f1", padding: "1px 7px", borderRadius: 999 }}>Default</span>
+              )}
+            </div>
+            <div className="muted" style={{ fontSize: ".75rem", marginBottom: ".5rem" }}>
+              {PROGRAM_ARCHETYPE_LABELS[p.archetype as ProgramArchetype] ?? p.archetype}
+            </div>
+            <div style={{ fontSize: ".9rem", fontWeight: 600, marginBottom: ".25rem" }}>
+              {MODEL_LABELS[p.selectedModel as AttributionModel] ?? p.selectedModel}
+            </div>
+            <p className="muted" style={{ fontSize: ".8rem", lineHeight: 1.45 }}>
+              {MODEL_DESCRIPTIONS[p.selectedModel as AttributionModel] ?? ""}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function RecommendationsPage() {
   const topRecommended = useQuery(api.recommendations.getTopRecommended);
   const openDeals = useQuery(api.recommendations.getOpenDeals);
@@ -399,6 +435,8 @@ export default function RecommendationsPage() {
           </p>
         </div>
       </div>
+
+      <ProgramsPanel />
 
       {!hasData && filteredRecommended !== undefined ? (
         <div className="card" style={{ padding: "3rem 2rem", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "1rem" }}>

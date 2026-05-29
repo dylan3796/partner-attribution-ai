@@ -9,6 +9,8 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 import type { Id } from "./_generated/dataModel";
+import { recommendModel } from "./lib/attribution/recommender";
+import { calculateDealAttribution } from "./lib/attribution/calculator";
 
 const DAY = 86_400_000;
 const now = Date.now();
@@ -84,6 +86,22 @@ export const seedFromProgram = mutation({
     bonuses: v.array(v.string()),
     summary: v.string(),
     description: v.string(), // the raw NL text
+    // Optional: the chosen bounded model + archetype. If omitted, the recommender
+    // picks one from the description + partner types.
+    attributionModel: v.optional(v.union(
+      v.literal("first_touch_sourcer"),
+      v.literal("split_equally"),
+      v.literal("role_weighted"),
+      v.literal("implementation_credit"),
+      v.literal("marketplace_cosell_hybrid")
+    )),
+    archetype: v.optional(v.union(
+      v.literal("si"),
+      v.literal("cloud_cosell"),
+      v.literal("tech_isv"),
+      v.literal("reseller"),
+      v.literal("other")
+    )),
   },
   handler: async (ctx, args) => {
     const { getOrg } = await import("./lib/getOrg");
@@ -98,6 +116,25 @@ export const seedFromProgram = mutation({
       .withIndex("by_organization", (q) => q.eq("organizationId", orgId))
       .first();
     if (existing) return { status: "already_has_data" };
+
+    // ── 0. Resolve the attribution model + create the default Program ──
+    const recommendation = recommendModel({
+      description: args.description,
+      partnerTypes: args.partnerTypes.map((p) => p.type),
+      hasTiers: args.tiers.length > 0,
+    });
+    const selectedModel = args.attributionModel ?? recommendation.model;
+    const archetype = args.archetype ?? recommendation.archetype;
+
+    const programId = await ctx.db.insert("programs", {
+      organizationId: orgId,
+      name: "My Partner Program",
+      archetype,
+      selectedModel,
+      isDefault: true,
+      createdAt: now - 86 * DAY,
+    });
+    await ctx.db.patch(orgId, { defaultAttributionModel: selectedModel });
 
     // ── 1. Commission Rules (from parsed program) ─────────────────
     let rulePriority = 1;
@@ -224,6 +261,7 @@ export const seedFromProgram = mutation({
         amount: d.amount,
         status,
         closedAt,
+        programId,
         createdAt: now - (daysAgo + 14) * DAY,
         registeredBy: primaryId,
         registrationStatus: "approved",
@@ -257,48 +295,19 @@ export const seedFromProgram = mutation({
         });
       }
 
-      // Attributions + payouts for won deals
+      // Attributions + payouts for won deals — computed through the real
+      // pipeline so the ledger uses the program's model + carries reasons.
       if (status === "won" && closedAt) {
-        const primaryPct = secondId ? 0.7 : 1.0;
-        const primaryRate = partnerMeta[primaryIdx].rate;
-
-        await ctx.db.insert("attributions", {
-          organizationId: orgId,
-          dealId,
-          partnerId: primaryId,
-          model: "role_weighted",
-          percentage: Math.round(primaryPct * 100),
-          amount: Math.round(d.amount * primaryPct),
-          commissionAmount: Math.round(d.amount * primaryPct * primaryRate),
-          calculatedAt: closedAt,
+        const result = await calculateDealAttribution(ctx, dealId, orgId, {
+          replaceExisting: true,
         });
-
         const payoutStatus = daysAgo > 30 ? "paid" as const : daysAgo > 15 ? "approved" as const : "pending_approval" as const;
-        await ctx.db.insert("payouts", {
-          organizationId: orgId,
-          partnerId: primaryId,
-          amount: Math.round(d.amount * primaryPct * primaryRate),
-          status: payoutStatus,
-          paidAt: payoutStatus === "paid" ? closedAt + 14 * DAY : undefined,
-          createdAt: closedAt,
-        });
-
-        if (secondId) {
-          const secondRate = partnerMeta[secondIdx].rate;
-          await ctx.db.insert("attributions", {
-            organizationId: orgId,
-            dealId,
-            partnerId: secondId,
-            model: "role_weighted",
-            percentage: 30,
-            amount: Math.round(d.amount * 0.3),
-            commissionAmount: Math.round(d.amount * 0.3 * secondRate),
-            calculatedAt: closedAt,
-          });
+        for (const entry of result.ledger) {
+          if (entry.commissionAmount <= 0) continue;
           await ctx.db.insert("payouts", {
             organizationId: orgId,
-            partnerId: secondId,
-            amount: Math.round(d.amount * 0.3 * secondRate),
+            partnerId: entry.partnerId as Id<"partners">,
+            amount: Math.round(entry.commissionAmount),
             status: payoutStatus,
             paidAt: payoutStatus === "paid" ? closedAt + 14 * DAY : undefined,
             createdAt: closedAt,
@@ -318,7 +327,7 @@ export const seedFromProgram = mutation({
         { id: "referral", label: "Referral", weight: 0.8, triggersAttribution: true, triggersPayout: true },
         { id: "co_sell", label: "Co-Sell", weight: 0.6, triggersAttribution: true, triggersPayout: false },
       ],
-      attributionModel: "role_weighted",
+      attributionModel: selectedModel,
       commissionRules: typesToCreate.map(pt => ({
         type: pt.type,
         value: pt.rate,
@@ -341,6 +350,10 @@ export const seedFromProgram = mutation({
       deals: dealCount,
       rules: rulePriority - 1,
       summary: args.summary,
+      programId,
+      attributionModel: selectedModel,
+      archetype,
+      recommendation: { model: recommendation.model, rationale: recommendation.rationale },
     };
   },
 });

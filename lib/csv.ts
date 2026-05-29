@@ -98,6 +98,28 @@ export function parsePartnersCSV(csv: string): Omit<Partner, "_id" | "organizati
   });
 }
 
+/** Parse CSV into row objects keyed by (trimmed, lowercased) header. */
+export function parseCsvToObjects(csv: string): Record<string, string>[] {
+  const lines = csv.trim().split(/\r?\n/).filter((l) => l.trim() !== "");
+  if (lines.length < 2) return [];
+  const headers = parseCsvLine(lines[0]).map((h) => h.trim().toLowerCase());
+  return lines.slice(1).map((line) => {
+    const cells = parseCsvLine(line);
+    const obj: Record<string, string> = {};
+    headers.forEach((h, i) => {
+      obj[h] = (cells[i] ?? "").trim();
+    });
+    return obj;
+  });
+}
+
+/** Coerce a currency/number-ish string to a number ("$12,000" -> 12000). */
+export function csvToNumber(value: string | undefined): number {
+  if (!value) return 0;
+  const n = parseFloat(value.replace(/[^0-9.\-]/g, ""));
+  return Number.isNaN(n) ? 0 : n;
+}
+
 export function parseDealsCSV(csv: string): Omit<Deal, "_id" | "organizationId" | "createdAt">[] {
   const lines = csv.trim().split("\n").filter(Boolean);
   if (lines.length < 2) return [];

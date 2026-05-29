@@ -46,7 +46,8 @@ Rules:
     {"id": "co_sell_meeting", "label": "Co-sell Meeting", "weight": 0.3, "triggersAttribution": true, "triggersPayout": false},
     {"id": "deal_closed", "label": "Deal Closed", "weight": 0.3, "triggersAttribution": true, "triggersPayout": true}
   ],
-  "attributionModel": "weighted",
+  "attributionModel": "role_weighted",
+  "archetype": "reseller",
   "commissionRules": [
     {"type": "percentage", "value": 15, "unit": "%", "label": "15% of deal value"}
   ],
@@ -54,6 +55,8 @@ Rules:
 }
 \`\`\`
 
+"attributionModel" MUST be exactly one of: first_touch_sourcer, split_equally, role_weighted, implementation_credit, marketplace_cosell_hybrid.
+"archetype" MUST be exactly one of: si, cloud_cosell, tech_isv, reseller, other.
 Weights across interactionTypes should sum to 1.0. Choose interaction types, modules, attribution model, and commission rules based on what the user describes. Be smart about defaults.`;
 
 export async function POST(req: NextRequest) {

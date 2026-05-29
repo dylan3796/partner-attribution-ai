@@ -5,8 +5,9 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import {
   Plug, CheckCircle2, XCircle, Clock, Settings, ExternalLink,
-  RefreshCw, Zap, ArrowRight, Shield, AlertTriangle,
+  RefreshCw, Zap, ArrowRight, Shield, AlertTriangle, UploadCloud,
 } from "lucide-react";
+import { ImportDataModal } from "@/components/ImportDataModal";
 
 type IntegrationStatus = "connected" | "disconnected" | "error" | "syncing";
 
@@ -21,6 +22,8 @@ type Integration = {
   syncedRecords?: number;
   features: string[];
   popular?: boolean;
+  /** No-auth: unlock data via CSV import instead of OAuth. */
+  importable?: boolean;
 };
 
 const DAY = 86400000;
@@ -42,6 +45,21 @@ const integrationsCatalog: Integration[] = [
     status: "disconnected",
     features: ["Deal pipeline sync", "Contact import", "Company matching", "Activity logging"],
     popular: true,
+  },
+  {
+    id: "partnerstack", name: "PartnerStack", logo: "🤝", category: "crm",
+    description: "Unlock your PartnerStack partners & deals via CSV export — no auth required",
+    status: "disconnected",
+    features: ["Partner import", "Deal import", "Auto attribution", "No OAuth needed"],
+    popular: true,
+    importable: true,
+  },
+  {
+    id: "monaco", name: "Monaco", logo: "🏎️", category: "crm",
+    description: "Bring your Monaco partner data in via CSV export — no auth required",
+    status: "disconnected",
+    features: ["Partner import", "Deal import", "Auto attribution", "No OAuth needed"],
+    importable: true,
   },
   {
     id: "stripe", name: "Stripe", logo: "💳", category: "payments",
@@ -95,6 +113,7 @@ export default function IntegrationsPage() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [syncing, setSyncing] = useState<string | null>(null);
+  const [importTarget, setImportTarget] = useState<{ source: string; label: string } | null>(null);
 
   // Merge real CRM status into the demo list
   const integrations: Integration[] = integrationsCatalog.map((intg) => {
@@ -292,6 +311,19 @@ export default function IntegrationsPage() {
 
                 {/* Action */}
                 <div style={{ display: "flex", gap: 8 }}>
+                  {intg.importable ? (
+                    <button
+                      onClick={() => setImportTarget({ source: intg.id, label: intg.name })}
+                      style={{
+                        flex: 1, padding: "8px 14px", borderRadius: 8, fontSize: ".85rem", fontWeight: 600,
+                        cursor: "pointer", border: "none", background: "#0a0a0a", color: "#fff",
+                        fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
+                      }}
+                    >
+                      <UploadCloud size={15} /> Import data (CSV)
+                    </button>
+                  ) : (
+                  <>
                   {intg.status === "connected" && (intg.id === "salesforce" || intg.id === "hubspot") && (
                     <button
                       onClick={() => handleSync(intg.id)}
@@ -318,12 +350,23 @@ export default function IntegrationsPage() {
                   >
                     {intg.status === "connected" ? "Disconnect" : "Connect"}
                   </button>
+                  </>
+                  )}
                 </div>
               </div>
             </div>
           );
         })}
       </div>
+
+      {importTarget && (
+        <ImportDataModal
+          open={!!importTarget}
+          onClose={() => setImportTarget(null)}
+          source={importTarget.source}
+          sourceLabel={importTarget.label}
+        />
+      )}
     </div>
   );
 }
