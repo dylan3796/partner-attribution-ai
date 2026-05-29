@@ -575,6 +575,16 @@ export default function SetupPage() {
               </div>
             )}
 
+            {/* Bring your own data — no-auth import (PartnerStack / Monaco) */}
+            <div style={{
+              padding: ".85rem 1.25rem", background: "#fff", border: "1px dashed #d1d5db",
+              borderRadius: 10, marginBottom: "1.5rem", fontSize: ".85rem", color: "#6b7280",
+              display: "flex", alignItems: "center", justifyContent: "space-between", gap: "1rem", flexWrap: "wrap",
+            }}>
+              <span>🤝 Already running <strong style={{ color: "#0a0a0a" }}>PartnerStack</strong> or <strong style={{ color: "#0a0a0a" }}>Monaco</strong>? Import your partners &amp; deals — no login required.</span>
+              <a href="/dashboard/integrations" style={{ color: "#6366f1", fontWeight: 700, whiteSpace: "nowrap" }}>Import data →</a>
+            </div>
+
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <button
                 onClick={() => setStep(1)}
