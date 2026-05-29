@@ -1,6 +1,7 @@
 // Shared content + constants for the Covant marketing site (Home / Product / Company).
-// Model names mirror the shipped attribution engine (convex/lib/attribution/models.ts)
-// so the site never claims a model the product doesn't compute.
+// Model names + descriptions mirror the shipped attribution engine
+// (convex/lib/attribution/models.ts + types.ts) so the site never claims a
+// model the product doesn't actually compute.
 
 export const DEMO_SOURCE = "demo_request";
 
@@ -12,28 +13,28 @@ export type MarketingModel = {
 
 export const MODELS: MarketingModel[] = [
   {
-    id: "first_touch",
-    label: "First touch",
-    line: "Credit the partner whose touch created the opportunity.",
+    id: "first_touch_sourcer",
+    label: "First touch / sourcer",
+    line: "Full credit to the partner who first registered or sourced the deal.",
   },
   {
-    id: "last_touch",
-    label: "Last touch",
-    line: "Credit the partner on the deal when it converts.",
+    id: "split_equally",
+    label: "Split equally",
+    line: "Equal credit across every partner with a qualifying touchpoint.",
   },
   {
-    id: "time_decay",
-    label: "Time decay",
-    line: "Weight recent touches more heavily than older ones.",
+    id: "role_weighted",
+    label: "Role weighted",
+    line: "Credit weighted by the role each partner played — sourcer, influencer, implementer, closer.",
   },
   {
-    id: "equal_split",
-    label: "Equal split",
-    line: "Divide credit evenly across every contributing partner.",
+    id: "implementation_credit",
+    label: "Implementation credit",
+    line: "Full credit to the partner who delivered and implemented the deal.",
   },
   {
-    id: "role_based",
-    label: "Role-based",
-    line: "Credit follows the role each partner played — sourcer, influencer, closer.",
+    id: "marketplace_cosell_hybrid",
+    label: "Marketplace co-sell (hybrid)",
+    line: "Multi-party split for cloud co-sell: hyperscaler influencer, partner sourcer, and your closing team.",
   },
 ];

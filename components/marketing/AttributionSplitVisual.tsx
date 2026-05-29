@@ -1,18 +1,18 @@
 /**
  * Illustrative attribution split for a single co-sell deal under the
- * role-based model. Clearly labelled as an example — not live customer data.
+ * role-weighted model. Clearly labelled as an example — not live customer data.
  */
 const ROWS = [
-  { name: "Sourcing partner", pct: 45 },
-  { name: "Implementation partner", pct: 35 },
-  { name: "Referral partner", pct: 20 },
+  { name: "Sourcer", pct: 45 },
+  { name: "Implementer", pct: 35 },
+  { name: "Influencer", pct: 20 },
 ];
 
 export default function AttributionSplitVisual() {
   return (
-    <div className="m-split" role="img" aria-label="Example attribution split across three partners">
+    <div className="m-split" role="img" aria-label="Example attribution split across three partner roles">
       <div className="m-split-head">
-        <span>Deal · role-based model</span>
+        <span>Deal · role-weighted model</span>
         <span>Example</span>
       </div>
       {ROWS.map((row) => (
