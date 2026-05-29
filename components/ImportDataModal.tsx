@@ -76,8 +76,8 @@ export function ImportDataModal({
         dealsCreated: res.dealsCreated,
         attributionsCreated: res.attributionsCreated,
       });
-    } catch (e: any) {
-      setError(e?.message || "Import failed.");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Import failed.");
     } finally {
       setBusy(false);
     }
@@ -109,7 +109,6 @@ export function ImportDataModal({
             value={partnersCsv}
             onChange={setPartnersCsv}
             onFile={(e) => onFile(e, setPartnersCsv)}
-            sample={PARTNER_SAMPLE}
             onUseSample={() => setPartnersCsv(PARTNER_SAMPLE)}
           />
           <Field
@@ -118,7 +117,6 @@ export function ImportDataModal({
             value={dealsCsv}
             onChange={setDealsCsv}
             onFile={(e) => onFile(e, setDealsCsv)}
-            sample={DEAL_SAMPLE}
             onUseSample={() => setDealsCsv(DEAL_SAMPLE)}
           />
 
@@ -142,14 +140,13 @@ export function ImportDataModal({
 }
 
 function Field({
-  label, hint, value, onChange, onFile, sample, onUseSample,
+  label, hint, value, onChange, onFile, onUseSample,
 }: {
   label: string;
   hint: string;
   value: string;
   onChange: (s: string) => void;
   onFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  sample: string;
   onUseSample: () => void;
 }) {
   return (
