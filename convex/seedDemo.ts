@@ -564,11 +564,81 @@ export const seedDemoOrg = mutation({
       }
     }
 
+    // ── Extra fixtures so the "next moves" feed shows one strong item per
+    //    agent lens (PSM coverage gap + co-sell, Program ramp, Ops queues). ──
+    const techbridge = pIds[0];
+    const apex = pIds[1];
+
+    // PROGRAM · a brand-new partner who hasn't ramped yet (no touchpoints)
+    await ctx.db.insert("partners", {
+      organizationId: orgId,
+      name: "Lumen Partners",
+      email: "dev.rao@lumenpartners.io",
+      contactName: "Dev Rao",
+      type: "reseller",
+      tier: "bronze",
+      commissionRate: 0.1,
+      status: "active",
+      tags: ["New"],
+      notes: "",
+      createdAt: now - 6 * DAY,
+    });
+
+    // PSM · coverage gap — a large open deal with no partner attached
+    await ctx.db.insert("deals", {
+      organizationId: orgId,
+      name: "Halcyon Group — Enterprise",
+      amount: 96000,
+      status: "open",
+      createdAt: now - 7 * DAY,
+      registrationStatus: "approved",
+      productName: "Platform License",
+      contactName: "Halcyon Group",
+    });
+
+    // PSM · co-sell — an open deal with two partners active on it
+    const coSellId = await ctx.db.insert("deals", {
+      organizationId: orgId,
+      name: "Pinnacle Cloud — Co-sell",
+      amount: 134000,
+      status: "open",
+      createdAt: now - 6 * DAY,
+      registeredBy: techbridge,
+      registrationStatus: "approved",
+      productName: "Platform License",
+      contactName: "Pinnacle Cloud",
+    });
+    await ctx.db.insert("touchpoints", { organizationId: orgId, dealId: coSellId, partnerId: techbridge, type: "deal_registration", notes: "Registered the opportunity", createdAt: now - 6 * DAY });
+    await ctx.db.insert("touchpoints", { organizationId: orgId, dealId: coSellId, partnerId: apex, type: "co_sell", notes: "Co-selling into the account", createdAt: now - 4 * DAY });
+
+    // OPS · a partner deal registration still awaiting review
+    const pendingRegId = await ctx.db.insert("deals", {
+      organizationId: orgId,
+      name: "Brightwave — Platform",
+      amount: 61000,
+      status: "open",
+      createdAt: now - 4 * DAY,
+      registeredBy: apex,
+      registrationStatus: "pending",
+      productName: "Platform License",
+      contactName: "Brightwave",
+    });
+    await ctx.db.insert("touchpoints", { organizationId: orgId, dealId: pendingRegId, partnerId: apex, type: "deal_registration", notes: "Awaiting review", createdAt: now - 4 * DAY });
+
+    // OPS · an aging payout sitting in pending approval
+    await ctx.db.insert("payouts", {
+      organizationId: orgId,
+      partnerId: techbridge,
+      amount: 14200,
+      status: "pending_approval",
+      createdAt: now - 21 * DAY,
+    });
+
     return {
       status: "seeded",
       orgId,
-      partnersCreated: DEMO_PARTNERS.length,
-      dealsCreated: DEMO_DEALS.length,
+      partnersCreated: DEMO_PARTNERS.length + 1,
+      dealsCreated: DEMO_DEALS.length + 3,
     };
   },
 });
