@@ -7,9 +7,8 @@ import { usePlatformConfig } from "@/lib/platform-config";
 import type { FeatureFlags } from "@/lib/types";
 
 const marketingLinks = [
-  { name: "Platform", href: "/platform" },
-  { name: "Agents", href: "/agents" },
-  { name: "Resources", href: "/resources" },
+  { name: "Product", href: "/product" },
+  { name: "Company", href: "/about" },
 ];
 
 type DashLink = {
@@ -32,6 +31,9 @@ export default function Nav() {
   const pathname = usePathname();
   const isDashboard = pathname.startsWith("/dashboard");
   const isPortal = pathname.startsWith("/portal");
+  // Marketing pages carry an in-page #demo band; elsewhere route to home's.
+  const isMarketing = pathname === "/" || pathname === "/product" || pathname === "/about";
+  const demoHref = isMarketing ? "#demo" : "/#demo";
   const [mobileOpen, setMobileOpen] = useState(false);
   const { isFeatureEnabled } = usePlatformConfig();
   
@@ -81,7 +83,7 @@ export default function Nav() {
             ) : (
               <>
                 <Link href="/sign-in" style={{ color: "#6b7280", fontSize: ".9rem", fontWeight: 500, textDecoration: "none", marginRight: ".5rem" }}>Sign in</Link>
-                <Link href="/dashboard?demo=true" className="btn nav-cta-btn">Try it live</Link>
+                <a href={demoHref} className="btn nav-cta-btn">Request a demo</a>
               </>
             )}
             <button
@@ -131,9 +133,9 @@ export default function Nav() {
                 <Link href="/sign-in" className="mobile-menu-item" onClick={() => setMobileOpen(false)}>
                   Sign in
                 </Link>
-                <Link href="/dashboard?demo=true" className="btn" style={{ margin: "0.5rem 1rem", textAlign: "center" }} onClick={() => setMobileOpen(false)}>
-                  Try it live
-                </Link>
+                <a href={demoHref} className="btn" style={{ margin: "0.5rem 1rem", textAlign: "center" }} onClick={() => setMobileOpen(false)}>
+                  Request a demo
+                </a>
               </>
             )}
           </div>
