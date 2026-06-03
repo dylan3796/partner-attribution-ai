@@ -6,7 +6,7 @@ import CTABand from "@/components/marketing/CTABand";
 export const metadata: Metadata = {
   title: "Company — Covant",
   description:
-    "We think PRM is becoming Partner Experience Management. Covant is the AI-native PRM for B2B SaaS running more than one partner motion — built for Heads of Partnerships and the CROs who need a partner-revenue number they can trust.",
+    "We're building Partner Experience Management. PRM managed partners as records and PEM mapped the ecosystem; neither served the partner's path or the team's next decision. Covant guides every partner to revenue — built for Heads of Partnerships, their partner managers, and the CROs who need a partner-revenue number they can trust.",
 };
 
 const LEGAL = [
@@ -23,12 +23,12 @@ export default function CompanyPage() {
       <section className="m-section m-section--flush m-hero">
         <div className="m-container" style={{ maxWidth: "820px" }}>
           <p className="m-eyebrow">Company</p>
-          <h1 className="m-h1">We think PRM is becoming Partner Experience Management.</h1>
+          <h1 className="m-h1">We&apos;re building Partner Experience Management.</h1>
           <p className="m-lead" style={{ maxWidth: "56ch" }}>
-            Managing partners as rows in a record is over. The job is serving each partner
-            their path to revenue — and serving your team the next decision. We hold the
-            term PXM lightly, but that&apos;s the direction the category is heading, and
-            it&apos;s what we&apos;re building.
+            PRM managed partners as records. PEM mapped the ecosystem. Neither one served the
+            partner&apos;s experience or the team&apos;s next decision. The job is to guide
+            each partner to revenue and grow together — intelligence doing the work, not a
+            filing cabinet. No one else is building it. So we are.
           </p>
         </div>
       </section>
@@ -44,9 +44,11 @@ export default function CompanyPage() {
             <Reveal>
               <p className="m-body">
                 Heads of Partnerships at B2B SaaS companies running more than one partner
-                motion, who are done explaining partner revenue from a spreadsheet — and the
-                CROs who want that number to be trustworthy. Covant replaces legacy PRM:
-                it&apos;s AI-native, prescriptive, and multi-program from day one.
+                motion, who are done explaining partner revenue from a spreadsheet. Their
+                partner managers, who get more visible and freed from the reconciliation grind
+                to do relationships and BD. And the CROs who want that number to be
+                trustworthy. Covant replaces the PRM-plus-portal stack: prescriptive,
+                multi-program, intelligent from day one.
               </p>
             </Reveal>
           </div>

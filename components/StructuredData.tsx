@@ -7,7 +7,7 @@ export function OrganizationSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "Covant is the AI-native PRM for B2B SaaS running more than one partner motion. It scores every partner, recommends the attribution model that fits each motion, and hands the team the next move. Partner Experience Management — the successor to the PRM. Replaces legacy PRM, syncs your CRM.",
+      "Covant is Partner Experience Management for B2B SaaS running more than one partner motion. It guides every partner to their next win, scores and ranks partners so the team knows who to back, and settles attribution underneath. Replaces the PRM-plus-portal stack, syncs your CRM.",
     foundingDate: "2026",
     contactPoint: {
       "@type": "ContactPoint",
@@ -34,7 +34,7 @@ export function SoftwareApplicationSchema() {
     operatingSystem: "Web",
     url: "https://covant.ai",
     description:
-      "The AI-native PRM for partner revenue. Covant scores every partner, recommends the attribution model that fits each motion, reconstructs the last 12 months, and surfaces the next move. Replaces legacy PRM, syncs your CRM.",
+      "Partner Experience Management for partner revenue. Covant guides every partner to their next win, scores and ranks partners so the team knows who to back, recommends the attribution model that fits each motion, and surfaces the next move. Replaces the PRM-plus-portal stack, syncs your CRM.",
     offers: [
       {
         "@type": "Offer",
@@ -87,7 +87,7 @@ export function WebSiteSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "The AI-native PRM that tells you which partners drive revenue, which model to attribute them with, and what to do next.",
+      "Partner Experience Management that guides every partner to their next win, tells you which partners to back, and settles attribution underneath.",
   };
 
   return (

@@ -7,29 +7,30 @@ import CTABand from "@/components/marketing/CTABand";
 export const metadata: Metadata = {
   title: "Product — Covant",
   description:
-    "A bounded set of attribution models, recommended per motion. Multi-program scoping, a per-program and CRO roll-up reconciled to your CRM, and prescriptive next-actions. The AI-native PRM.",
+    "One platform for the whole partner experience: a partner portal and scorecards that guide every partner, scoring and prescriptive actions that tell your team who to back, and a bounded set of attribution models reconciled to your CRM. Partner Experience Management, multi-program from day one.",
 };
 
 const CAPABILITIES = [
   {
-    title: "A bounded set of models",
-    body: "Five models, not a blank formula builder. Fewer choices, defensible numbers, no quarter-end debate about who gets credit.",
+    title: "Partner portal & scorecards",
+    body: "Each partner sees where they stand and what good looks like — tier, influence, commissions, deal registration, and a performance scorecard that points to their next move.",
   },
   {
-    title: "Multi-program scoping",
-    body: "Resellers, ISVs, referrals, co-sell — each program gets its own attribution model and rules, managed in one place.",
+    title: "Partner scoring & prescriptive actions",
+    body: "Covant scores every partner across revenue, pipeline, engagement, and velocity, then ranks the week's moves: who to back, who's going quiet, what to do today.",
   },
   {
-    title: "Per-program + CRO roll-up",
-    body: "Partner managers see their own program. The CRO sees partner-sourced revenue across all of them, reconciled to the CRM.",
+    title: "Multi-program attribution + CRO roll-up",
+    body: "Five bounded models, one per motion — resellers, ISVs, referrals, co-sell. Partner managers see their program; the CRO sees partner-sourced revenue across all of them, reconciled to the CRM.",
   },
   {
-    title: "Prescriptive next-actions",
-    body: "Covant ranks what matters this week: the partner going quiet, the deal stalling, the renewal nobody owns.",
+    title: "Ask Covant",
+    body: "Ask your partner data anything in plain language — who drove last quarter, which partners are ready for an upgrade, where the pipeline is stalling — and get the answer, not a report to build.",
   },
 ];
 
 const NOT = [
+  "Not a slow PRM rollout — Covant reads your CRM and you're live in days.",
   "Not a CRM. Covant reads yours and stays in sync.",
   "Not a contracts or billing system.",
   "Not a marketplace.",
@@ -44,11 +45,11 @@ export default function ProductPage() {
         <div className="m-container m-hero-grid">
           <div>
             <p className="m-eyebrow">Product</p>
-            <h1 className="m-h1">A bounded set of models. The right one, recommended.</h1>
+            <h1 className="m-h1">One platform for the whole partner experience.</h1>
             <p className="m-lead">
-              Covant doesn&apos;t ship infinite knobs. It ships a small, opinionated set of
-              attribution models, scopes them per program, rolls them up for the CRO, and
-              tells your team what to do next.
+              Covant guides your partners to their next win, tells your team who to back and
+              what to do this week, and settles attribution underneath — intelligence running
+              on your CRM, multi-program from day one.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -82,8 +83,8 @@ export default function ProductPage() {
       <section className="m-section">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">The five models</p>
-            <h2 className="m-h2">One per motion. Recommended, not guessed.</h2>
+            <p className="m-eyebrow">The attribution underneath</p>
+            <h2 className="m-h2">One model per motion. Recommended, not guessed.</h2>
           </Reveal>
           <Reveal style={{ marginTop: "2.5rem" }}>
             <ModelList />
@@ -97,13 +98,14 @@ export default function ProductPage() {
           <div className="m-grid m-grid-2" style={{ alignItems: "center" }}>
             <Reveal>
               <p className="m-eyebrow">Sits in your stack</p>
-              <h2 className="m-h2">Replaces legacy PRM. Syncs your CRM.</h2>
+              <h2 className="m-h2">Replaces your PRM and partner portal. Syncs your CRM.</h2>
             </Reveal>
             <Reveal>
               <p className="m-body">
-                Covant is the system of action on top of the partner record. Your CRM stays
-                the source of truth for deals. Covant owns partners, attribution, and the
-                next move — and writes back the numbers your CRO can trust.
+                Covant is the system of experience on top of the partner relationship. Your
+                CRM stays the source of truth for deals. Covant owns the partner experience,
+                scoring, attribution, and the next move — and writes back the numbers your
+                CRO can trust.
               </p>
             </Reveal>
           </div>

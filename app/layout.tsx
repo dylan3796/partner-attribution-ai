@@ -24,25 +24,25 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Covant — The AI-native PRM",
+  title: "Covant — Partner Experience Management",
   description:
-    "Covant is the AI-native PRM for B2B SaaS running more than one partner motion. It scores every partner, recommends the attribution model that fits each motion, and hands your team the next move. Partner Experience Management — the successor to the PRM.",
+    "Covant is Partner Experience Management for B2B SaaS running more than one partner motion. It guides every partner to their next win, tells your team which partners to back and what to do this week, and settles attribution underneath. Your partners grow. You grow with them.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "Covant — The AI-native PRM",
-    description: "The AI-native PRM that tells you which partners drive revenue, which model to attribute them with, and what to do next. Partner Experience Management — the successor to the PRM.",
+    title: "Covant — Partner Experience Management",
+    description: "Partner Experience Management for B2B SaaS. Covant guides every partner to their next win, tells your team who to back and what to do next, and settles attribution underneath.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — The AI-native PRM",
-    description: "The AI-native PRM that tells you which partners drive revenue, which model to attribute them with, and what to do next.",
+    title: "Covant — Partner Experience Management",
+    description: "Covant guides every partner to their next win, tells your team who to back and what to do next, and settles attribution underneath.",
   },
   metadataBase: new URL("https://covant.ai"),
 };

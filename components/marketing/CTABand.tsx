@@ -3,8 +3,8 @@ import RequestDemo from "./RequestDemo";
 /** Closing call-to-action band with the inline demo form. Anchored #demo. */
 export default function CTABand({
   eyebrow = "Get started",
-  heading = "See it on your own pipeline.",
-  body = "Connect your CRM and watch Covant attribute the last 12 months of partner-sourced revenue. We'll walk you through it.",
+  heading = "See Covant on your own partners.",
+  body = "We'll show you the partner portal, the partner scores, and your last 12 months of attribution on a pipeline that looks like yours.",
 }: {
   eyebrow?: string;
   heading?: string;
