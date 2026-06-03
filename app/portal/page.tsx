@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { usePortal } from "@/lib/portal-context";
+import NextMovesFeed from "@/components/NextMovesFeed";
 import { TOUCHPOINT_LABELS } from "@/lib/types";
 import type { Id } from "@/convex/_generated/dataModel";
 import {
@@ -98,6 +99,7 @@ export default function PortalDashboard() {
   const stats = useQuery(api.portalDashboard.getStats, partnerId ? { partnerId } : "skip");
   const deals = useQuery(api.portalDashboard.getDeals, partnerId ? { partnerId } : "skip");
   const touchpoints = useQuery(api.portalDashboard.getRecentTouchpoints, partnerId ? { partnerId, limit: 10 } : "skip");
+  const myMoves = useQuery(api.feed.getNextMovesForPartner, partnerId ? { partnerId, limit: 3 } : "skip");
 
   if (!partner) return null;
 
@@ -290,6 +292,17 @@ export default function PortalDashboard() {
           </div>
         ))}
       </div>
+
+      {/* Your next move (next-moves engine, scoped to this partner) */}
+      {myMoves && myMoves.moves.length > 0 && (
+        <div className="card">
+          <strong style={{ fontSize: "0.95rem" }}>Your next move</strong>
+          <p style={{ fontSize: "0.82rem", color: "var(--muted)", margin: "0.25rem 0 0.5rem" }}>
+            What would move your business with us forward this week.
+          </p>
+          <NextMovesFeed moves={myMoves.moves} linkFor={() => undefined} />
+        </div>
+      )}
 
       {/* Quick actions */}
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem" }}>

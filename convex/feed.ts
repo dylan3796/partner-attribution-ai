@@ -116,20 +116,21 @@ export const getNextMoves = query({
 
 /**
  * The same engine scoped to a single partner — powers the portal "your next
- * move" card. Returns the moves whose evidence points at this partner.
+ * move" card. Resolves the org from the partner record (matching the other
+ * portal queries' email-session pattern), then returns the moves whose evidence
+ * points at this partner.
  */
 export const getNextMovesForPartner = query({
   args: {
     partnerId: v.id("partners"),
-    apiKey: v.optional(v.string()),
-    demo: v.optional(v.boolean()),
     limit: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
-    const org = await resolveOrg(ctx, { apiKey: args.apiKey, demo: args.demo });
-    if (!org) return EMPTY;
+    const partner = await ctx.db.get(args.partnerId);
+    if (!partner) return EMPTY;
 
-    const rows = await loadOrgRows(ctx, org._id);
+    const org = await ctx.db.get(partner.organizationId);
+    const rows = await loadOrgRows(ctx, partner.organizationId);
     const full = generateNextMoves(
       {
         partners: rows.nmPartners,
@@ -138,7 +139,7 @@ export const getNextMovesForPartner = query({
         attributions: rows.nmAttributions,
         payouts: rows.nmPayouts,
       },
-      { limit: 50, primaryModel: (org as any).defaultAttributionModel ?? "role_weighted" }
+      { limit: 50, primaryModel: (org as any)?.defaultAttributionModel ?? "role_weighted" }
     );
 
     const moves = full.moves

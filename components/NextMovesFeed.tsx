@@ -21,13 +21,24 @@ const SEVERITY_COLOR: Record<string, string> = {
   low: "#6b7280",
 };
 
-function MoveRow({ move, last }: { move: NextMove; last: boolean }) {
+/** Default evidence link — points at the admin dashboard deal/partner pages. */
+function dashboardLinkFor(move: NextMove): string | undefined {
+  if (move.evidence.dealId) return `/dashboard/deals/${move.evidence.dealId}`;
+  if (move.evidence.partnerId) return `/dashboard/partners/${move.evidence.partnerId}`;
+  return undefined;
+}
+
+function MoveRow({
+  move,
+  last,
+  linkFor,
+}: {
+  move: NextMove;
+  last: boolean;
+  linkFor: (move: NextMove) => string | undefined;
+}) {
   const sev = SEVERITY_COLOR[move.severity] ?? "#6b7280";
-  const href = move.evidence.dealId
-    ? `/dashboard/deals/${move.evidence.dealId}`
-    : move.evidence.partnerId
-      ? `/dashboard/partners/${move.evidence.partnerId}`
-      : undefined;
+  const href = linkFor(move);
 
   const body = (
     <div
@@ -86,9 +97,12 @@ function MoveRow({ move, last }: { move: NextMove; last: boolean }) {
 export default function NextMovesFeed({
   moves,
   emptyHint = "No moves right now — you're all caught up.",
+  linkFor = dashboardLinkFor,
 }: {
   moves: NextMove[];
   emptyHint?: string;
+  /** Resolve a row's href; return undefined for no link. Defaults to the admin dashboard. */
+  linkFor?: (move: NextMove) => string | undefined;
 }) {
   if (moves.length === 0) {
     return (
@@ -98,7 +112,7 @@ export default function NextMovesFeed({
   return (
     <div>
       {moves.map((m, i) => (
-        <MoveRow key={m.id} move={m} last={i === moves.length - 1} />
+        <MoveRow key={m.id} move={m} last={i === moves.length - 1} linkFor={linkFor} />
       ))}
     </div>
   );
