@@ -63,7 +63,10 @@ export default function Nav() {
     <>
       <nav className="site-nav">
         <div className="nav-inner">
-          <Link href="/"><img src="/logo.svg" alt="Covant" height={19} style={{display:'block'}} /></Link>
+          <Link href="/" aria-label="Covant" style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+            <img src="/logo-mark.svg" alt="" height={20} style={{ display: "block" }} />
+            <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 600, fontSize: "1.0625rem", letterSpacing: "-0.02em", color: "#16150f", lineHeight: 1 }}>Covant</span>
+          </Link>
 
           {isDashboard ? (
             // Sidebar handles all dashboard navigation — empty center cell

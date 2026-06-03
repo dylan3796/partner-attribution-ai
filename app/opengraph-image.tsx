@@ -31,6 +31,11 @@ export default function OgImage() {
 
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 48 }}>
+          {/* Mark: two interlocking rings */}
+          <div style={{ display: 'flex', position: 'relative', width: 40, height: 26, marginRight: 12 }}>
+            <div style={{ position: 'absolute', left: 0, top: 2, width: 22, height: 22, borderRadius: 22, border: '3px solid #1f5d4c' }} />
+            <div style={{ position: 'absolute', left: 12, top: 2, width: 22, height: 22, borderRadius: 22, border: '3px solid #1f5d4c' }} />
+          </div>
           <span style={{ color:'#0a0a0a', fontSize: 28, fontWeight: 700, letterSpacing: '-0.03em' }}>
             Covant.ai
           </span>

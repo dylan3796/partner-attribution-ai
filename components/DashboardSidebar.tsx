@@ -182,7 +182,10 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
         {/* Header */}
         <div className="dash-sidebar-header">
           {showLabels && (
-            <Link href="/dashboard" className="dash-sidebar-brand"><img src="/logo.svg" alt="Covant" height={20} style={{display:'block'}} /></Link>
+            <Link href="/dashboard" className="dash-sidebar-brand" aria-label="Covant" style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
+              <img src="/logo-mark.svg" alt="" height={20} style={{ display: "block" }} />
+              <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 600, fontSize: "1.0625rem", letterSpacing: "-0.02em", color: "#16150f", lineHeight: 1 }}>Covant</span>
+            </Link>
           )}
           <button
             onClick={toggleCollapsed}
