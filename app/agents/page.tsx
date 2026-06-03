@@ -170,6 +170,14 @@ export default function AgentsPage() {
               </div>
             ))}
           </MockWindow>
+          <div style={{ textAlign: "center", marginTop: "1.5rem" }}>
+            <Link
+              href="/dashboard/feed?demo=true"
+              style={{ fontSize: ".9rem", fontWeight: 700, color: "#0a0a0a", textDecoration: "none", borderBottom: "2px solid #0a0a0a", paddingBottom: 2 }}
+            >
+              See it live on demo data →
+            </Link>
+          </div>
         </div>
       </section>
 

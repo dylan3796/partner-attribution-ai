@@ -26,14 +26,26 @@ const EMPTY = {
   generatedAt: 0,
 };
 
+/** Well-known email of the standalone "Covant Demo" org (see seedDemo.ts). */
+const DEMO_ORG_EMAIL = "demo@covant.ai";
+
 /**
- * Resolve the org from an apiKey when provided (demo/no-auth/MCP), otherwise
- * from the Clerk session (dashboard). Returns null when neither resolves.
+ * Resolve the org for the feed. Precedence:
+ *   1. `demo` flag → the shared no-auth demo org (by its well-known email),
+ *   2. `apiKey`   → programmatic / MCP access,
+ *   3. Clerk session → the signed-in dashboard user.
+ * Returns null when none resolve (caller returns an empty feed).
  */
-async function resolveOrg(ctx: any, apiKey?: string) {
-  if (apiKey) {
+async function resolveOrg(ctx: any, opts: { apiKey?: string; demo?: boolean }) {
+  if (opts.demo) {
+    return await ctx.db
+      .query("organizations")
+      .withIndex("by_email", (q: any) => q.eq("email", DEMO_ORG_EMAIL))
+      .first();
+  }
+  if (opts.apiKey) {
     try {
-      return await getOrgFromApiKey(ctx, apiKey);
+      return await getOrgFromApiKey(ctx, opts.apiKey);
     } catch {
       return null;
     }
@@ -78,10 +90,11 @@ async function loadOrgRows(ctx: any, orgId: string) {
 export const getNextMoves = query({
   args: {
     apiKey: v.optional(v.string()),
+    demo: v.optional(v.boolean()),
     limit: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
-    const org = await resolveOrg(ctx, args.apiKey);
+    const org = await resolveOrg(ctx, { apiKey: args.apiKey, demo: args.demo });
     if (!org) return EMPTY;
 
     const rows = await loadOrgRows(ctx, org._id);
@@ -109,10 +122,11 @@ export const getNextMovesForPartner = query({
   args: {
     partnerId: v.id("partners"),
     apiKey: v.optional(v.string()),
+    demo: v.optional(v.boolean()),
     limit: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
-    const org = await resolveOrg(ctx, args.apiKey);
+    const org = await resolveOrg(ctx, { apiKey: args.apiKey, demo: args.demo });
     if (!org) return EMPTY;
 
     const rows = await loadOrgRows(ctx, org._id);

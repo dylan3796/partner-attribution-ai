@@ -10,6 +10,7 @@ import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders,
 import { usePlatformConfig } from "@/lib/platform-config";
 import GettingStartedChecklist from "@/components/GettingStartedChecklist";
 import ActivityFeed from "@/components/ActivityFeed";
+import NextMovesFeed from "@/components/NextMovesFeed";
 import type { Deal, Partner, Payout, AuditEntry } from "@/lib/types";
 
 // Deferred query hook: delays enabling a query until after initial paint
@@ -296,6 +297,10 @@ export default function DashboardPage() {
     api.mdf.list,
     deferredEnabled ? {} : "skip"
   );
+  const convexNextMoves = useQuery(
+    api.feed.getNextMoves,
+    deferredEnabled ? { limit: 4 } : "skip"
+  );
   // Salesforce connection status — always skip for now (org ID issue)
   const sfStatus = useQuery(api.integrations.getSalesforceStatus, "skip");
 
@@ -479,6 +484,25 @@ export default function DashboardPage() {
             </div>
           </div>
           <Link href="/dashboard/mdf" className="btn" style={{ fontSize: ".8rem", padding: ".4rem 1rem", background: "#d97706" }}>Review →</Link>
+        </div>
+      )}
+
+      {/* ── Today's Moves (next-moves engine) ── */}
+      {convexNextMoves && convexNextMoves.moves.length > 0 && (
+        <div className="card" style={{ padding: "1.25rem", marginBottom: "1.5rem" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: ".25rem" }}>
+            <h3 style={{ fontWeight: 700, fontSize: "1rem", display: "flex", alignItems: "center", gap: ".5rem" }}>
+              <Sparkles size={16} />
+              Today&apos;s moves
+            </h3>
+            <Link href="/dashboard/feed" style={{ fontSize: ".82rem", fontWeight: 600, color: "var(--muted)", textDecoration: "none" }}>
+              View all →
+            </Link>
+          </div>
+          <p style={{ fontSize: ".82rem", color: "var(--muted)", margin: "0 0 .25rem" }}>
+            The moves worth making this week, with the evidence behind each.
+          </p>
+          <NextMovesFeed moves={convexNextMoves.moves} />
         </div>
       )}
 
