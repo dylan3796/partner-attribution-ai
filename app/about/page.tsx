@@ -6,7 +6,7 @@ import CTABand from "@/components/marketing/CTABand";
 export const metadata: Metadata = {
   title: "Company — Covant",
   description:
-    "We're building Partner Experience Management. PRM managed partners as records and PEM mapped the ecosystem; neither served the partner's path or the team's next decision. Covant guides every partner to revenue — built for Heads of Partnerships, their partner managers, and the CROs who need a partner-revenue number they can trust.",
+    "We're building AI-native Partner Experience Management. Partners are the most underused signal in B2B; Covant turns that data into each partner's next win — built for Heads of Partnerships, their partner managers, and the CROs who need a partner-revenue number they can trust.",
 };
 
 const LEGAL = [
@@ -25,10 +25,12 @@ export default function CompanyPage() {
           <p className="m-eyebrow">Company</p>
           <h1 className="m-h1">We&apos;re building Partner Experience Management.</h1>
           <p className="m-lead" style={{ maxWidth: "56ch" }}>
-            PRM managed partners as records. PEM mapped the ecosystem. Neither one served the
-            partner&apos;s experience or the team&apos;s next decision. The job is to guide
-            each partner to revenue and grow together — intelligence doing the work, not a
-            filing cabinet. No one else is building it. So we are.
+            Partners are the most underused signal in B2B — billions of datapoints about
+            what&apos;s working, who to back, and where to grow. The tools that came before
+            stored partners and mapped them; none of them used that signal to lift a single
+            partner toward revenue. That&apos;s the job: AI that turns partner data into each
+            partner&apos;s next win, and grows the business with them. No one else is building
+            it. So we are.
           </p>
         </div>
       </section>
@@ -47,8 +49,8 @@ export default function CompanyPage() {
                 motion, who are done explaining partner revenue from a spreadsheet. Their
                 partner managers, who get more visible and freed from the reconciliation grind
                 to do relationships and BD. And the CROs who want that number to be
-                trustworthy. Covant replaces the PRM-plus-portal stack: prescriptive,
-                multi-program, intelligent from day one.
+                trustworthy. Covant replaces the stack they&apos;ve outgrown: prescriptive,
+                multi-program, and intelligent from day one.
               </p>
             </Reveal>
           </div>

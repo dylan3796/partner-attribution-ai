@@ -2,24 +2,24 @@ import Link from "next/link";
 import Reveal from "@/components/marketing/Reveal";
 import AttributionSplitVisual from "@/components/marketing/AttributionSplitVisual";
 import CTABand from "@/components/marketing/CTABand";
-import { PILLARS, CATEGORY } from "@/lib/marketing";
+import { PILLARS, OUTCOMES } from "@/lib/marketing";
 
 const PROBLEMS = [
   {
-    title: "The whole market is leaving.",
-    body: "Companies are walking away from Salesforce PRM and the legacy partner stack. What they need next isn't another filing cabinet.",
+    title: "Billions of signals, no time to read them.",
+    body: "Deals, touchpoints, certifications, program activity — across every motion, more than any partner team can hold in its head.",
   },
   {
-    title: "PRM recorded. It never guided.",
-    body: "A system of record: one program, slow to stand up, stores the deal. It never tells a partner what to do, or your team who to call.",
+    title: "Every partner needs a different focus.",
+    body: "Some should be driving revenue, some running lead gen, some deep in enablement or co-marketing. Today you're guessing which is which.",
   },
   {
-    title: "PEM mapped. It never moved anyone.",
-    body: "Ecosystem maps showed who knows whom. They never showed a single partner the path from where they are to their next win.",
+    title: "Your reps don't know who to call.",
+    body: "The highest-leverage intro — the right rep, the right partner, the right reason — almost never happens, because no one can see it in time.",
   },
   {
-    title: "The team is stuck in the spreadsheet.",
-    body: "Partner managers spend the quarter reconciling numbers and arguing over credit instead of building the relationships that actually grow revenue.",
+    title: "“Better together” stays a slide.",
+    body: "The ecosystem story you sell your board takes years of manual relationship-building to make real. Most teams never get there.",
   },
 ];
 
@@ -32,13 +32,14 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">Partner Experience Management</p>
             <h1 className="m-h1">
-              PRM managed partners. PEM mapped them. Covant grows them.
+              You can&apos;t read a billion partner signals. Covant can.
             </h1>
-            <p className="m-lead" style={{ maxWidth: "52ch" }}>
-              Covant is Partner Experience Management. It guides every partner to their
-              next win, tells your team which partners to back and what to do this week,
-              and settles attribution underneath — intelligence doing the work, not another
-              system of record. Your partners grow. You grow with them.
+            <p className="m-lead" style={{ maxWidth: "54ch" }}>
+              Which partners should focus on revenue, which on lead gen, which on
+              enablement — and which rep should call whom, about what? The answer is sitting
+              in your partner data. Covant is AI-native Partner Experience Management: it
+              reads that data, learns how each of your programs works, and turns it into the
+              next move — so the &ldquo;better together&rdquo; story takes weeks, not a lifetime.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -55,14 +56,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The shift */}
+      {/* The problem */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">The shift</p>
-            <h2 className="m-h2" style={{ maxWidth: "22ch" }}>
-              The tools managed the relationship. None of them served the partner.
+            <p className="m-eyebrow">Why now</p>
+            <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
+              The answer&apos;s in your data. Reading it isn&apos;t humanly possible.
             </h2>
+            <p className="m-small" style={{ marginTop: ".9rem", maxWidth: "52ch" }}>
+              PRM stored your partners. PEM mapped them. Neither one ever lifted a single
+              partner toward their next win.
+            </p>
           </Reveal>
           <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
             {PROBLEMS.map((p, i) => (
@@ -80,12 +85,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What Covant does — three pillars */}
+      {/* How it works — the pipeline */}
       <section id="how" className="m-section">
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">How it works</p>
-            <h2 className="m-h2">What Covant does.</h2>
+            <h2 className="m-h2">Data in. Your programs, learned. The next move out.</h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
             {PILLARS.map((p, i) => (
@@ -99,7 +104,7 @@ export default function Home() {
             ))}
           </div>
           <p className="m-small" style={{ marginTop: "1.5rem" }}>
-            And ask your partner data anything —{" "}
+            And ask your partner data anything in plain language —{" "}
             <Link href="/product" style={{ color: "var(--m-accent)", fontWeight: 600 }}>
               see the platform →
             </Link>
@@ -107,39 +112,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The category moment — PRM → PEM → PXM */}
+      {/* The lift — outcomes */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">A new category</p>
-            <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-              Nobody was building for the partner. So we did.
+            <p className="m-eyebrow">The lift</p>
+            <h2 className="m-h2" style={{ maxWidth: "18ch" }}>
+              &ldquo;Better together&rdquo; — in weeks, not a lifetime.
             </h2>
+            <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
+              The work that used to take years of relationship-building, spreadsheet
+              archaeology, and guesswork — Covant compresses it. Everyone ends up pointed at
+              the same wins.
+            </p>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
-            {CATEGORY.map((c) => (
-              <Reveal
-                className="m-card"
-                key={c.term}
-                style={
-                  c.accent
-                    ? { borderColor: "var(--m-accent)", boxShadow: "0 0 0 1px var(--m-accent)" }
-                    : undefined
-                }
-              >
-                <h3
-                  className="m-h3"
-                  style={{
-                    marginBottom: ".15rem",
-                    color: c.accent ? "var(--m-accent)" : undefined,
-                  }}
-                >
-                  {c.term}
+            {OUTCOMES.map((o) => (
+              <Reveal className="m-card" key={o.title}>
+                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
+                  {o.title}
                 </h3>
-                <p className="m-small" style={{ marginBottom: ".6rem", fontWeight: 600 }}>
-                  {c.gloss}
-                </p>
-                <p className="m-body">{c.line}</p>
+                <p className="m-body">{o.body}</p>
               </Reveal>
             ))}
           </div>

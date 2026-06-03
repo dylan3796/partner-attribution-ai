@@ -98,14 +98,14 @@ export default function ProductPage() {
           <div className="m-grid m-grid-2" style={{ alignItems: "center" }}>
             <Reveal>
               <p className="m-eyebrow">Sits in your stack</p>
-              <h2 className="m-h2">Replaces your PRM and partner portal. Syncs your CRM.</h2>
+              <h2 className="m-h2">Replaces the stack you&apos;ve outgrown. Syncs your CRM.</h2>
             </Reveal>
             <Reveal>
               <p className="m-body">
-                Covant is the system of experience on top of the partner relationship. Your
-                CRM stays the source of truth for deals. Covant owns the partner experience,
-                scoring, attribution, and the next move — and writes back the numbers your
-                CRO can trust.
+                Covant sits on top of the partner relationship and runs the experience —
+                scoring, attribution, and the next move — so you can retire the old
+                relationship-management and portal tools underneath it. Your CRM stays the
+                source of truth for deals; Covant writes back the numbers your CRO can trust.
               </p>
             </Reveal>
           </div>
