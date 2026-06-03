@@ -63,9 +63,9 @@ export default function Nav() {
     <>
       <nav className="site-nav">
         <div className="nav-inner">
-          <Link href="/" aria-label="Covant" style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
-            <img src="/logo-mark.svg" alt="" width={20} height={20} style={{ display: "block", width: 20, height: 20, flexShrink: 0 }} />
-            <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 600, fontSize: "1.0625rem", letterSpacing: "-0.02em", color: "#16150f", lineHeight: 1 }}>Covant</span>
+          <Link href="/" aria-label="Covant" style={{ display: "inline-flex", alignItems: "center", gap: "10px" }}>
+            <img src="/logo-mark.svg" alt="" width={40} height={40} style={{ display: "block", width: 40, height: 40, flexShrink: 0 }} />
+            <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 600, fontSize: "2rem", letterSpacing: "-0.02em", color: "#16150f", lineHeight: 1 }}>Covant</span>
           </Link>
 
           {isDashboard ? (
