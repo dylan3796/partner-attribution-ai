@@ -7,34 +7,27 @@ import CTABand from "@/components/marketing/CTABand";
 export const metadata: Metadata = {
   title: "Product — Covant",
   description:
-    "One platform for the whole partner experience: a partner portal and scorecards that guide every partner, scoring and prescriptive actions that tell your team who to back, and a bounded set of attribution models reconciled to your CRM. Partner Experience Management, multi-program from day one.",
+    "One platform for the whole partner experience. Covant gives every partner their own home base — revenue, payments, where they stand, and their next move — in an experience you configure, brand, and control. Underneath: partner scoring, prescriptive actions, and attribution synced to your CRM. Multi-program from day one.",
 };
 
-const CAPABILITIES = [
+// What the partner sees — their home base. All grounded in the live portal + scoring engine.
+const PARTNER_VIEW = [
   {
-    title: "Partner portal & scorecards",
-    body: "Each partner sees where they stand and what good looks like — tier, influence, commissions, deal registration, and a performance scorecard that points to their next move.",
+    title: "Revenue, credited clearly.",
+    body: "Every deal a partner sourced or influenced, attributed and visible — no more wondering how they're measured or chasing someone for the number.",
   },
   {
-    title: "Partner scoring & prescriptive actions",
-    body: "Covant scores every partner across revenue, pipeline, engagement, and velocity, then ranks the week's moves: who to back, who's going quiet, what to do today.",
+    title: "Payments, in the open.",
+    body: "Commissions earned, paid, and pending — so partners always know exactly what's coming and when.",
   },
   {
-    title: "Multi-program attribution + CRO roll-up",
-    body: "Five bounded models, one per motion — resellers, ISVs, referrals, co-sell. Partner managers see their program; the CRO sees partner-sourced revenue across all of them, reconciled to the CRM.",
+    title: "Where they stand.",
+    body: "Score, tier, and influence, with what “good” looks like made explicit — the bar is visible, not a mystery.",
   },
   {
-    title: "Ask Covant",
-    body: "Ask your partner data anything in plain language — who drove last quarter, which partners are ready for an upgrade, where the pipeline is stalling — and get the answer, not a report to build.",
+    title: "Their next move.",
+    body: "AI recommends the next best action to grow — the deal to chase, the renewal to protect, the step that moves them up a tier.",
   },
-];
-
-const NOT = [
-  "Not a slow PRM rollout — Covant reads your CRM and you're live in days.",
-  "Not a CRM. Covant reads yours and stays in sync.",
-  "Not a contracts or billing system.",
-  "Not a marketplace.",
-  "Not a no-code formula sandbox — the models are bounded on purpose.",
 ];
 
 export default function ProductPage() {
@@ -47,9 +40,10 @@ export default function ProductPage() {
             <p className="m-eyebrow">Product</p>
             <h1 className="m-h1">One platform for the whole partner experience.</h1>
             <p className="m-lead">
-              Covant guides your partners to their next win, tells your team who to back and
-              what to do this week, and settles attribution underneath — intelligence running
-              on your CRM, multi-program from day one.
+              Covant gives every partner their own home base — the revenue they&apos;ve driven,
+              what they&apos;ll be paid, and their next move — in an experience you control and
+              brand. Underneath, it scores partners, tells your team who to back, and settles
+              attribution to your CRM. Multi-program from day one.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -63,18 +57,51 @@ export default function ProductPage() {
         </div>
       </section>
 
-      {/* Capabilities */}
+      {/* The partner's home base */}
       <section className="m-section m-section--surface">
         <div className="m-container">
-          <div className="m-grid m-grid-2">
-            {CAPABILITIES.map((c) => (
+          <Reveal>
+            <p className="m-eyebrow">The partner experience</p>
+            <h2 className="m-h2">Everything a partner needs, in one place.</h2>
+          </Reveal>
+          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
+            {PARTNER_VIEW.map((c) => (
               <Reveal className="m-card" key={c.title}>
-                <h2 className="m-h3" style={{ marginBottom: ".5rem" }}>
+                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
                   {c.title}
-                </h2>
+                </h3>
                 <p className="m-body">{c.body}</p>
               </Reveal>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Yours to shape — the customer / vehicle thesis */}
+      <section className="m-section m-section--ink">
+        <div className="m-container">
+          <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
+            <Reveal>
+              <p className="m-eyebrow">Yours to shape</p>
+              <h2 className="m-h2">You own the experience. We&apos;re the vehicle.</h2>
+            </Reveal>
+            <Reveal>
+              <p className="m-body">
+                Covant is the rails, not the brand. Decide exactly what each partner sees —
+                gated by tier and segment, under your rules. Run it as your own portal, embed
+                it in your product, or pipe the data into your stack via API. Administer every
+                program — tiers, payouts, the recommendations that fire — from one console, and
+                roll partner-sourced revenue up to the CRO across all of it. And ask your
+                partner data anything in plain language; Ask Covant answers, no report to build.
+              </p>
+              <p className="m-small" style={{ marginTop: "1.5rem" }}>
+                <strong style={{ color: "#fbfaf6" }}>Today:</strong> insights, payments,
+                scorecards, next-best-actions.{" "}
+                <strong style={{ color: "#fbfaf6" }}>Next:</strong> deal registration, partner
+                recruiting, and guided onboarding — added to the same experience, no
+                re-platforming.
+              </p>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -98,44 +125,21 @@ export default function ProductPage() {
           <div className="m-grid m-grid-2" style={{ alignItems: "center" }}>
             <Reveal>
               <p className="m-eyebrow">Sits in your stack</p>
-              <h2 className="m-h2">Replaces the stack you&apos;ve outgrown. Syncs your CRM.</h2>
+              <h2 className="m-h2">Built on your CRM, not instead of it.</h2>
             </Reveal>
             <Reveal>
               <p className="m-body">
-                Covant sits on top of the partner relationship and runs the experience —
-                scoring, attribution, and the next move — so you can retire the old
-                relationship-management and portal tools underneath it. Your CRM stays the
-                source of truth for deals; Covant writes back the numbers your CRO can trust.
+                Covant runs the partner experience on top of the relationship — scoring,
+                attribution, payments, and the next move. Your CRM stays the source of truth
+                for deals; Covant reads from it, writes back the numbers your CRO can trust, and
+                stands up in days, not a six-month rollout.
               </p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* What Covant is not */}
-      <section className="m-section">
-        <div className="m-container">
-          <Reveal>
-            <p className="m-eyebrow">Honest scope</p>
-            <h2 className="m-h2">What Covant is not.</h2>
-          </Reveal>
-          <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
-            {NOT.map((n) => (
-              <div className="m-list-item" key={n}>
-                <span className="m-num">—</span>
-                <p className="m-body" style={{ color: "var(--m-ink)" }}>
-                  {n}
-                </p>
-              </div>
-            ))}
-          </Reveal>
-        </div>
-      </section>
-
-      <CTABand
-        heading="See the models on your pipeline."
-        body="We'll reconstruct your last 12 months of partner-sourced revenue under the model that fits each motion."
-      />
+      <CTABand />
     </main>
   );
 }

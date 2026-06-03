@@ -104,9 +104,10 @@ export default function Home() {
             ))}
           </div>
           <p className="m-small" style={{ marginTop: "1.5rem" }}>
-            And ask your partner data anything in plain language —{" "}
+            And every partner gets their own home base — revenue, payments, and their next
+            move — in a portal you brand and control.{" "}
             <Link href="/product" style={{ color: "var(--m-accent)", fontWeight: 600 }}>
-              see the platform →
+              See the platform →
             </Link>
           </p>
         </div>
