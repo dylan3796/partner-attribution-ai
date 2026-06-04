@@ -5,7 +5,9 @@ import { useSearchParams } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import NextMovesFeed from "@/components/NextMovesFeed";
-import type { NextMoveAgent } from "@/convex/lib/nextMoves/types";
+import type { MoveFeedbackAction } from "@/components/NextMovesFeed";
+import type { NextMove, NextMoveAgent } from "@/convex/lib/nextMoves/types";
+import type { Id } from "@/convex/_generated/dataModel";
 
 const AGENTS: { key: NextMoveAgent; label: string }[] = [
   { key: "psm", label: "PSM" },
@@ -20,8 +22,21 @@ function FeedInner() {
 
   const data = useQuery(api.feed.getNextMoves, { limit: 24, demo: isDemo || undefined });
   const seedDemoOrg = useMutation(api.seedDemo.seedDemoOrg);
+  const recordFeedback = useMutation(api.feed.recordMoveFeedback);
   const seededRef = useRef(false);
   const [filter, setFilter] = useState<NextMoveAgent | "all">("all");
+
+  function handleFeedback(move: NextMove, action: MoveFeedbackAction) {
+    recordFeedback({
+      moveId: move.id,
+      moveKind: move.kind,
+      agent: move.agent,
+      action,
+      partnerId: move.evidence.partnerId as Id<"partners"> | undefined,
+      dealId: move.evidence.dealId as Id<"deals"> | undefined,
+      demo: isDemo || undefined,
+    }).catch(() => {});
+  }
 
   // In demo mode, seed the shared demo org once if the feed comes back empty.
   useEffect(() => {
@@ -78,6 +93,7 @@ function FeedInner() {
         ) : (
           <NextMovesFeed
             moves={moves}
+            onFeedback={handleFeedback}
             emptyHint={
               isDemo
                 ? "Spinning up the demo dataset… refresh in a moment."
@@ -86,6 +102,13 @@ function FeedInner() {
           />
         )}
       </div>
+
+      {data && data.muted.length > 0 && (
+        <p style={{ color: "var(--muted)", fontSize: ".78rem", marginTop: "0.75rem" }}>
+          Muted (dismissed repeatedly): {data.muted.join(", ")}. Covant stopped surfacing these — they&apos;ll
+          return if the underlying signal changes.
+        </p>
+      )}
     </div>
   );
 }

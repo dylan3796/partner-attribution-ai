@@ -285,6 +285,28 @@ export default defineSchema({
     .index("by_deal", ["dealId"])
     .index("by_status", ["status"]),
 
+  // Feedback + outcomes on next-moves recommendations (the learning loop).
+  moveFeedback: defineTable({
+    organizationId: v.id("organizations"),
+    moveId: v.string(), // stable id of the specific move
+    moveKind: v.string(), // e.g. "tier_up", "coverage_gap" — the unit we learn on
+    agent: v.string(), // psm | pam | program | ops
+    action: v.union(
+      v.literal("accepted"),
+      v.literal("dismissed"),
+      v.literal("snoozed"),
+      v.literal("completed")
+    ),
+    source: v.union(v.literal("user"), v.literal("system")), // explicit vs implicit
+    partnerId: v.optional(v.id("partners")),
+    dealId: v.optional(v.id("deals")),
+    reason: v.optional(v.string()),
+    snoozeUntil: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_move", ["organizationId", "moveId"]),
+
   // Salesforce CRM connections
   hubspotConnections: defineTable({
     organizationId: v.id("organizations"),

@@ -16,6 +16,7 @@ import {
   psmCoSell,
   psmCoverageGap,
 } from "./generators";
+import { applyFeedback } from "./feedback";
 import {
   SEVERITY_RANK,
   type NextMove,
@@ -26,6 +27,7 @@ import {
 } from "./types";
 
 export * from "./types";
+export * from "./feedback";
 export * as generators from "./generators";
 
 const DEFAULTS: Required<Omit<NextMovesConfig, "primaryModel">> & { primaryModel: string } = {
@@ -59,18 +61,29 @@ export function generateNextMoves(
     ...programRamp(input.partners, input.touchpoints, now, cfg.newPartnerDays),
   ];
 
-  // Rank: severity band first, then per-move score (desc), stable by id.
-  moves.sort((a, b) => {
-    const sev = SEVERITY_RANK[b.severity] - SEVERITY_RANK[a.severity];
-    if (sev !== 0) return sev;
-    if (b.score !== a.score) return b.score - a.score;
-    return a.id.localeCompare(b.id);
-  });
+  // Apply feedback (suppress dismissed/snoozed/muted + learned re-rank) BEFORE
+  // trimming, so suppressed moves don't consume a slot. Falls back to the plain
+  // severity-then-score ranking when there's no feedback.
+  let ranked: NextMove[];
+  let muted: string[] = [];
+  if (input.feedback && input.feedback.length > 0) {
+    const applied = applyFeedback(moves, input.feedback, SEVERITY_RANK, now);
+    ranked = applied.moves;
+    muted = applied.muted;
+  } else {
+    moves.sort((a, b) => {
+      const sev = SEVERITY_RANK[b.severity] - SEVERITY_RANK[a.severity];
+      if (sev !== 0) return sev;
+      if (b.score !== a.score) return b.score - a.score;
+      return a.id.localeCompare(b.id);
+    });
+    ranked = moves;
+  }
 
-  const trimmed = moves.slice(0, cfg.limit);
+  const trimmed = ranked.slice(0, cfg.limit);
 
   const counts: Record<NextMoveAgent, number> = { psm: 0, pam: 0, program: 0, ops: 0 };
   for (const m of trimmed) counts[m.agent] += 1;
 
-  return { moves: trimmed, counts, generatedAt: now };
+  return { moves: trimmed, counts, muted, generatedAt: now };
 }

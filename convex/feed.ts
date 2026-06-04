@@ -7,11 +7,12 @@
  * which is also the shape a future MCP tool would call.
  */
 
-import { query } from "./_generated/server";
+import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
 import { getOrg } from "./lib/getOrg";
 import { getOrgFromApiKey } from "./lib/helpers";
 import { generateNextMoves } from "./lib/nextMoves";
+import type { MoveFeedbackRecord } from "./lib/nextMoves/feedback";
 import type {
   NMAttribution,
   NMDeal,
@@ -23,6 +24,7 @@ import type {
 const EMPTY = {
   moves: [],
   counts: { psm: 0, pam: 0, program: 0, ops: 0 },
+  muted: [],
   generatedAt: 0,
 };
 
@@ -84,6 +86,21 @@ async function loadOrgRows(ctx: any, orgId: string) {
   return { nmPartners, nmDeals, nmTouchpoints, nmAttributions, nmPayouts };
 }
 
+/** Load this org's feedback history for the learning loop. */
+async function loadFeedback(ctx: any, orgId: string): Promise<MoveFeedbackRecord[]> {
+  const rows = await ctx.db
+    .query("moveFeedback")
+    .withIndex("by_organization", (q: any) => q.eq("organizationId", orgId))
+    .collect();
+  return rows.map((r: any) => ({
+    moveId: r.moveId,
+    moveKind: r.moveKind,
+    action: r.action,
+    snoozeUntil: r.snoozeUntil ?? undefined,
+    createdAt: r.createdAt,
+  }));
+}
+
 /**
  * The org-wide "Today's moves" feed.
  */
@@ -97,7 +114,10 @@ export const getNextMoves = query({
     const org = await resolveOrg(ctx, { apiKey: args.apiKey, demo: args.demo });
     if (!org) return EMPTY;
 
-    const rows = await loadOrgRows(ctx, org._id);
+    const [rows, feedback] = await Promise.all([
+      loadOrgRows(ctx, org._id),
+      loadFeedback(ctx, org._id),
+    ]);
     return generateNextMoves(
       {
         partners: rows.nmPartners,
@@ -105,6 +125,7 @@ export const getNextMoves = query({
         touchpoints: rows.nmTouchpoints,
         attributions: rows.nmAttributions,
         payouts: rows.nmPayouts,
+        feedback,
       },
       {
         limit: args.limit,
@@ -130,7 +151,10 @@ export const getNextMovesForPartner = query({
     if (!partner) return EMPTY;
 
     const org = await ctx.db.get(partner.organizationId);
-    const rows = await loadOrgRows(ctx, partner.organizationId);
+    const [rows, feedback] = await Promise.all([
+      loadOrgRows(ctx, partner.organizationId),
+      loadFeedback(ctx, partner.organizationId),
+    ]);
     const full = generateNextMoves(
       {
         partners: rows.nmPartners,
@@ -138,6 +162,7 @@ export const getNextMovesForPartner = query({
         touchpoints: rows.nmTouchpoints,
         attributions: rows.nmAttributions,
         payouts: rows.nmPayouts,
+        feedback,
       },
       { limit: 50, primaryModel: (org as any)?.defaultAttributionModel ?? "role_weighted" }
     );
@@ -148,6 +173,51 @@ export const getNextMovesForPartner = query({
     const counts = { psm: 0, pam: 0, program: 0, ops: 0 } as Record<string, number>;
     for (const m of moves) counts[m.agent] += 1;
 
-    return { moves, counts, generatedAt: full.generatedAt };
+    return { moves, counts, muted: full.muted, generatedAt: full.generatedAt };
+  },
+});
+
+/**
+ * Record explicit feedback on a move (accept / dismiss / snooze). Drives both
+ * suppression of the specific move and the per-kind learned re-ranking. Resolves
+ * the org the same way the feed query does (demo / apiKey / Clerk).
+ */
+export const recordMoveFeedback = mutation({
+  args: {
+    moveId: v.string(),
+    moveKind: v.string(),
+    agent: v.string(),
+    action: v.union(
+      v.literal("accepted"),
+      v.literal("dismissed"),
+      v.literal("snoozed"),
+      v.literal("completed")
+    ),
+    partnerId: v.optional(v.id("partners")),
+    dealId: v.optional(v.id("deals")),
+    reason: v.optional(v.string()),
+    snoozeDays: v.optional(v.number()),
+    apiKey: v.optional(v.string()),
+    demo: v.optional(v.boolean()),
+  },
+  handler: async (ctx, args) => {
+    const org = await resolveOrg(ctx, { apiKey: args.apiKey, demo: args.demo });
+    if (!org) return { ok: false as const };
+
+    const now = Date.now();
+    await ctx.db.insert("moveFeedback", {
+      organizationId: org._id,
+      moveId: args.moveId,
+      moveKind: args.moveKind,
+      agent: args.agent,
+      action: args.action,
+      source: "user",
+      partnerId: args.partnerId,
+      dealId: args.dealId,
+      reason: args.reason,
+      snoozeUntil: args.action === "snoozed" ? now + (args.snoozeDays ?? 7) * 86400000 : undefined,
+      createdAt: now,
+    });
+    return { ok: true as const };
   },
 });

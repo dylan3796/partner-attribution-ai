@@ -1,12 +1,18 @@
 /**
  * NextMovesFeed — presentational feed of the moves the next-moves engine
  * surfaced. Each row shows the agent lens, a severity marker, the move, the
- * evidence ("why"), and the suggested action — with a link back to the deal or
- * partner it came from. Pure/props-driven; data is fetched by the parent.
+ * evidence ("why"), and the suggested action, linked back to the deal/partner.
+ *
+ * When an `onFeedback` handler is passed, each row also gets accept / dismiss /
+ * snooze controls — the explicit half of the learning loop. Pure/props-driven;
+ * data + persistence live in the parent.
  */
 
 import Link from "next/link";
+import { Check, X, Clock } from "lucide-react";
 import type { NextMove, NextMoveAgent } from "@/convex/lib/nextMoves/types";
+
+export type MoveFeedbackAction = "accepted" | "dismissed" | "snoozed";
 
 const AGENT_LABEL: Record<NextMoveAgent, string> = {
   psm: "PSM",
@@ -28,14 +34,52 @@ function dashboardLinkFor(move: NextMove): string | undefined {
   return undefined;
 }
 
+function FeedbackButton({
+  label,
+  icon,
+  onClick,
+}: {
+  label: string;
+  icon: React.ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      title={label}
+      aria-label={label}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        onClick();
+      }}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: 28,
+        height: 28,
+        borderRadius: 6,
+        border: "1px solid var(--border)",
+        background: "var(--bg)",
+        color: "var(--muted)",
+        cursor: "pointer",
+      }}
+    >
+      {icon}
+    </button>
+  );
+}
+
 function MoveRow({
   move,
   last,
   linkFor,
+  onFeedback,
 }: {
   move: NextMove;
   last: boolean;
   linkFor: (move: NextMove) => string | undefined;
+  onFeedback?: (move: NextMove, action: MoveFeedbackAction) => void;
 }) {
   const sev = SEVERITY_COLOR[move.severity] ?? "#6b7280";
   const href = linkFor(move);
@@ -82,6 +126,13 @@ function MoveRow({
           → {move.suggestedAction}
         </div>
       </div>
+      {onFeedback && (
+        <div style={{ display: "flex", gap: 6, flexShrink: 0 }}>
+          <FeedbackButton label="Mark done / accept" icon={<Check size={14} />} onClick={() => onFeedback(move, "accepted")} />
+          <FeedbackButton label="Snooze for a week" icon={<Clock size={14} />} onClick={() => onFeedback(move, "snoozed")} />
+          <FeedbackButton label="Dismiss" icon={<X size={14} />} onClick={() => onFeedback(move, "dismissed")} />
+        </div>
+      )}
     </div>
   );
 
@@ -98,11 +149,14 @@ export default function NextMovesFeed({
   moves,
   emptyHint = "No moves right now — you're all caught up.",
   linkFor = dashboardLinkFor,
+  onFeedback,
 }: {
   moves: NextMove[];
   emptyHint?: string;
   /** Resolve a row's href; return undefined for no link. Defaults to the admin dashboard. */
   linkFor?: (move: NextMove) => string | undefined;
+  /** When provided, renders accept/dismiss/snooze controls per move. */
+  onFeedback?: (move: NextMove, action: MoveFeedbackAction) => void;
 }) {
   if (moves.length === 0) {
     return (
@@ -112,7 +166,7 @@ export default function NextMovesFeed({
   return (
     <div>
       {moves.map((m, i) => (
-        <MoveRow key={m.id} move={m} last={i === moves.length - 1} linkFor={linkFor} />
+        <MoveRow key={m.id} move={m} last={i === moves.length - 1} linkFor={linkFor} onFeedback={onFeedback} />
       ))}
     </div>
   );

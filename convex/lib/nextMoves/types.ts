@@ -91,6 +91,8 @@ export interface NextMovesInput {
   payouts: NMPayout[];
   /** Optional precomputed scores; if absent the engine computes them. */
   scores?: import("../scoring").PartnerScore[];
+  /** Optional feedback history — drives suppression + learned re-ranking. */
+  feedback?: import("./feedback").MoveFeedbackRecord[];
   /** Override "now" for deterministic tests. */
   now?: number;
 }
@@ -109,6 +111,8 @@ export interface NextMovesConfig {
 export interface NextMovesResult {
   moves: NextMove[];
   counts: Record<NextMoveAgent, number>;
+  /** Move kinds auto-muted because they were repeatedly dismissed. */
+  muted: string[];
   generatedAt: number;
 }
 
