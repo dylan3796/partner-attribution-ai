@@ -14,20 +14,20 @@ export type Pillar = {
   body: string;
 };
 
-// How Covant works, as a pipeline: data in -> your programs learned -> the next
+// How Covant works, as a pipeline: signal in -> your judgment encoded -> the next
 // move out. This is the demo arc, and each step is real product.
 export const PILLARS: Pillar[] = [
   {
-    title: "Connect your data.",
-    body: "Covant reads the deals, touchpoints, and partner activity you already have across every motion — the billions of signals no team has the hours to comb through.",
+    title: "Connect the signal.",
+    body: "Covant reads every deal, touch, and program event you already have, across every motion — the record that's too large for any team to hold in its head.",
   },
   {
-    title: "Teach it your programs.",
-    body: "Tell Covant how each program works — reseller, ISV, referral, co-sell — and where partners should focus: enablement, revenue, lead gen, co-marketing. It runs on your rules, not a generic template.",
+    title: "Encode your judgment.",
+    body: "Teach Covant how each program actually works — reseller, ISV, referral, co-sell — and what “good” means for each. It runs on your logic, not a vendor's template.",
   },
   {
     title: "Get the next move.",
-    body: "Covant returns the answer: which partners to focus where, which rep should call which partner about what, and each partner's path to their next win — with attribution settled underneath.",
+    body: "Out comes the decision: which partners to invest in, which rep belongs in which conversation, and each partner's path to their next win — attribution reconciled underneath.",
   },
 ];
 
@@ -36,19 +36,19 @@ export type Outcome = {
   body: string;
 };
 
-// The "better together" payoff, in concrete terms — what changes for each person.
+// What changes for each person once the channel runs on signal instead of instinct.
 export const OUTCOMES: Outcome[] = [
   {
-    title: "Partners know where they stand.",
-    body: "Each partner sees their score, their focus, and the next action — no more guessing what good looks like or waiting on a QBR to find out.",
+    title: "Partners stop guessing.",
+    body: "Each one sees where they stand, what “good” looks like, and their next action — without waiting on a QBR to find out they were off track.",
   },
   {
-    title: "Reps know who to call.",
-    body: "Your sellers get the highest-leverage partner moves, ranked — the right rep, the right partner, the right reason. The intros that used to never happen.",
+    title: "Reps move on the right partner.",
+    body: "Sellers get the highest-leverage play, ranked — the right rep, the right partner, the right reason — while it still changes the quarter.",
   },
   {
-    title: "The CRO sees the number.",
-    body: "Partner-sourced revenue, reconciled to the CRM and trustworthy — across every program, without a single spreadsheet.",
+    title: "The CRO trusts the number.",
+    body: "Partner-sourced revenue, reconciled across every program — defensible and current, not assembled in a spreadsheet the night before the board call.",
   },
 ];
 

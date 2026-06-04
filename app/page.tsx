@@ -6,20 +6,20 @@ import { PILLARS, OUTCOMES } from "@/lib/marketing";
 
 const PROBLEMS = [
   {
-    title: "Billions of signals, no time to read them.",
-    body: "Deals, touchpoints, certifications, program activity — across every motion, more than any partner team can hold in its head.",
+    title: "Spot the partners gaining momentum.",
+    body: "Some of your strongest partners are the quiet ones — heads-down and closing, not filling your inbox. Covant surfaces who's accelerating, so the relationship gets attention while it counts.",
   },
   {
-    title: "Every partner needs a different focus.",
-    body: "Some should be driving revenue, some running lead gen, some deep in enablement or co-marketing. Today you're guessing which is which.",
+    title: "See revenue before it's reported.",
+    body: "Engagement, enablement, and deal velocity all move before revenue does. Covant reads those leading signals, so you can shape a quarter while it's still in motion.",
   },
   {
-    title: "Your reps don't know who to call.",
-    body: "The highest-leverage intro — the right rep, the right partner, the right reason — almost never happens, because no one can see it in time.",
+    title: "Notice a partner going quiet — early.",
+    body: "Disengagement rarely announces itself; a partner just slows down. Covant flags the shift while a conversation can still turn it around.",
   },
   {
-    title: "“Better together” stays a slide.",
-    body: "The ecosystem story you sell your board takes years of manual relationship-building to make real. Most teams never get there.",
+    title: "Meet every partner where they are.",
+    body: "A platinum reseller and a week-one referral need different things. Covant tailors what each partner sees and does next, so the experience fits the partner — not the average.",
   },
 ];
 
@@ -32,14 +32,14 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">Partner Experience Management</p>
             <h1 className="m-h1">
-              You can&apos;t read a billion partner signals. Covant can.
+              Your partners are telling you everything. None of your tools are listening.
             </h1>
             <p className="m-lead" style={{ maxWidth: "54ch" }}>
-              Which partners should focus on revenue, which on lead gen, which on
-              enablement — and which rep should call whom, about what? The answer is sitting
-              in your partner data. Covant is AI-native Partner Experience Management: it
-              reads that data, learns how each of your programs works, and turns it into the
-              next move — so the &ldquo;better together&rdquo; story takes weeks, not a lifetime.
+              Every deal, every touch, every silence is a signal about where your channel is
+              headed — and almost all of it goes unread. Covant is AI-native Partner Experience
+              Management: it reads the full signal, learns how each program actually works, and
+              turns it into the next move — for every partner and the team running them. Not
+              another dashboard to check. Judgment, at the speed your channel moves.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -60,13 +60,13 @@ export default function Home() {
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">Why now</p>
-            <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-              The answer&apos;s in your data. Reading it isn&apos;t humanly possible.
+            <p className="m-eyebrow">What you could be doing</p>
+            <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
+              There&apos;s a layer of your channel you haven&apos;t been able to see.
             </h2>
-            <p className="m-small" style={{ marginTop: ".9rem", maxWidth: "52ch" }}>
-              PRM stored your partners. PEM mapped them. Neither one ever lifted a single
-              partner toward their next win.
+            <p className="m-small" style={{ marginTop: ".9rem", maxWidth: "54ch" }}>
+              Not for lack of looking — the signals that predict partner growth have lived in
+              systems built to record the past, not act on it. Covant turns that layer on.
             </p>
           </Reveal>
           <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
@@ -90,7 +90,7 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">How it works</p>
-            <h2 className="m-h2">Data in. Your programs, learned. The next move out.</h2>
+            <h2 className="m-h2">Signal in. Judgment out.</h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
             {PILLARS.map((p, i) => (
@@ -104,8 +104,8 @@ export default function Home() {
             ))}
           </div>
           <p className="m-small" style={{ marginTop: "1.5rem" }}>
-            And every partner gets their own home base — revenue, payments, and their next
-            move — in a portal you brand and control.{" "}
+            And every partner gets their own home base — revenue, payments, and the next move —
+            in a portal you brand and control.{" "}
             <Link href="/product" style={{ color: "var(--m-accent)", fontWeight: 600 }}>
               See the platform →
             </Link>
@@ -113,18 +113,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The lift — outcomes */}
+      {/* The shift — outcomes */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">The lift</p>
-            <h2 className="m-h2" style={{ maxWidth: "18ch" }}>
-              &ldquo;Better together&rdquo; — in weeks, not a lifetime.
+            <p className="m-eyebrow">What changes</p>
+            <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
+              The work shifts from upkeep to growth.
             </h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
-              The work that used to take years of relationship-building, spreadsheet
-              archaeology, and guesswork — Covant compresses it. Everyone ends up pointed at
-              the same wins.
+              The hours that used to disappear into reconciliation, credit disputes, and CRM
+              hygiene come back as time spent growing partners. Partner, rep, and CRO finally
+              read from the same page — and act before the moment passes.
             </p>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
