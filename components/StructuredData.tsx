@@ -7,7 +7,7 @@ export function OrganizationSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "The platform your partner team runs on. One ledger, a branded portal, revenue intelligence — plus four agents (PSM, PAM, Program, Ops) that help teams unlock, monitor, and measure channel revenue end-to-end.",
+      "Covant is Partner Experience Management for B2B SaaS running more than one partner motion. It guides every partner to their next win, scores and ranks partners so the team knows who to back, and settles attribution underneath. Replaces the PRM-plus-portal stack, syncs your CRM.",
     foundingDate: "2026",
     contactPoint: {
       "@type": "ContactPoint",
@@ -34,14 +34,14 @@ export function SoftwareApplicationSchema() {
     operatingSystem: "Web",
     url: "https://covant.ai",
     description:
-      "The platform your partner team runs on. One ledger, a branded portal, revenue intelligence — plus four in-product agents (PSM, PAM, Program, Ops) that help teams unlock, monitor, and measure channel revenue end-to-end.",
+      "Partner Experience Management for partner revenue. Covant guides every partner to their next win, scores and ranks partners so the team knows who to back, recommends the attribution model that fits each motion, and surfaces the next move. Replaces the PRM-plus-portal stack, syncs your CRM.",
     offers: [
       {
         "@type": "Offer",
         name: "Design Partner Pilot",
         price: "0",
         priceCurrency: "USD",
-        description: "Free during pilot for design partners. Full platform access including all four agents as they ship. Locked-in pricing at general availability.",
+        description: "Free during pilot for design partners. Full platform access. Locked-in pricing at general availability.",
       },
     ],
   };
@@ -87,12 +87,7 @@ export function WebSiteSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "The platform your partner team runs on — with four agents that unlock channel revenue end-to-end.",
-    potentialAction: {
-      "@type": "SearchAction",
-      target: "https://covant.ai/faq?q={search_term_string}",
-      "query-input": "required name=search_term_string",
-    },
+      "Partner Experience Management that guides every partner to their next win, tells you which partners to back, and settles attribution underneath.",
   };
 
   return (

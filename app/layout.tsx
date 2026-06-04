@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/lib/store";
 import { Analytics } from "@vercel/analytics/next";
@@ -17,26 +17,32 @@ const inter = Inter({
   subsets: ["latin"],
 });
 
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
 export const metadata: Metadata = {
-  title: "Covant — The platform your partner team runs on",
+  title: "Covant — Partner Experience Management",
   description:
-    "The platform your partner team runs on. Partner agents that help you unlock, monitor, and measure channel revenue — record every touchpoint, capture every deal, action every partner. Free branded portal for partners.",
+    "Covant is Partner Experience Management for B2B SaaS running more than one partner motion. It guides every partner to their next win, tells your team which partners to back and what to do this week, and settles attribution underneath. Your partners grow. You grow with them.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "Covant — The platform your partner team runs on",
-    description: "One ledger. Partner agents on your CRM. Revenue intelligence. A branded portal your partners actually log into.",
+    title: "Covant — Partner Experience Management",
+    description: "Partner Experience Management for B2B SaaS. Covant guides every partner to their next win, tells your team who to back and what to do next, and settles attribution underneath.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — The platform your partner team runs on",
-    description: "Partner agents that help teams unlock, monitor, and measure channel revenue. Record every touchpoint, capture every deal, action every partner.",
+    title: "Covant — Partner Experience Management",
+    description: "Covant guides every partner to their next win, tells your team who to back and what to do next, and settles attribution underneath.",
   },
   metadataBase: new URL("https://covant.ai"),
 };
@@ -50,12 +56,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         {/* Dark mode disabled — Covant is light-only */}
-        <link rel="alternate" type="application/rss+xml" title="Covant Blog" href="/blog/feed.xml" />
         <OrganizationSchema />
         <WebSiteSchema />
         <SoftwareApplicationSchema />
       </head>
-      <body className={`${inter.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         <Providers>
           <StoreProvider>
             <PlatformConfigProvider>

@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
   Sparkles, X, ChevronRight, Zap, Wrench, Star,
-  GitCommit, ExternalLink,
+  GitCommit,
 } from "lucide-react";
 
 type ChangeType = "feat" | "fix" | "polish" | "other";
@@ -416,19 +416,6 @@ export function WhatsNewButton() {
               <span style={{ fontWeight: 700, fontSize: ".9rem" }}>What&apos;s New</span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <a
-                href="/changelog"
-                style={{
-                  fontSize: ".75rem",
-                  color: "var(--muted)",
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 3,
-                }}
-              >
-                Full changelog <ExternalLink size={10} />
-              </a>
               <button
                 onClick={() => setOpen(false)}
                 style={{

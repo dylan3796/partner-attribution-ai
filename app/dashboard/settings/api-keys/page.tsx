@@ -232,7 +232,7 @@ export default function ApiKeysPage() {
         <Shield size={18} style={{ color: "#6366f1", flexShrink: 0, marginTop: 2 }} />
         <div style={{ fontSize: ".85rem", lineHeight: 1.6 }}>
           <p style={{ margin: 0 }}>
-            API keys authenticate requests to the <a href="/docs" style={{ color: "#6366f1", fontWeight: 600 }}>Covant REST API</a>.
+            API keys authenticate requests to the <strong style={{ fontWeight: 600 }}>Covant REST API</strong>.
             Each key can be scoped to specific permissions. Include the key in the <code style={{ background: "var(--border)", padding: "1px 5px", borderRadius: 4, fontSize: ".8rem" }}>Authorization</code> header:
           </p>
           <pre style={{

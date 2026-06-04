@@ -50,12 +50,10 @@ export default function NotFound() {
           </p>
           <div className="grid grid-cols-2 gap-2 text-sm">
             {[
-              { href: "/demo", label: "Try the Demo" },
-              { href: "/pricing", label: "Pricing" },
-              { href: "/blog", label: "Blog" },
-              { href: "/compare", label: "Comparisons" },
-              { href: "/contact", label: "Contact" },
-              { href: "/status", label: "System Status" },
+              { href: "/product", label: "Product" },
+              { href: "/about", label: "Company" },
+              { href: "/#demo", label: "Request a demo" },
+              { href: "/sign-in", label: "Sign in" },
             ].map(({ href, label }) => (
               <Link
                 key={href}
