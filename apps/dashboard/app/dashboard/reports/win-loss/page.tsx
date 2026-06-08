@@ -6,7 +6,6 @@ import { formatCurrency } from "@/lib/utils";
 import Link from "next/link";
 import {
   TrendingUp,
-  TrendingDown,
   Target,
   Clock,
   DollarSign,

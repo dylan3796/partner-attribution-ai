@@ -4,7 +4,7 @@ import { useState } from "react";
 import { usePortal } from "@/lib/portal-context";
 import {
   HelpCircle, MessageSquare, Book, Mail, Phone,
-  ChevronDown, ChevronUp, Search, ExternalLink,
+  ChevronDown, ChevronUp, Search,
   CheckCircle2, Clock, AlertCircle,
 } from "lucide-react";
 

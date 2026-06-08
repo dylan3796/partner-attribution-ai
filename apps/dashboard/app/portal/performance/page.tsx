@@ -5,7 +5,7 @@ import { usePortal } from "@/lib/portal-context";
 import { formatCurrency } from "@/lib/utils";
 import {
   Trophy, TrendingUp, Target, BarChart3, Award, Briefcase, DollarSign,
-  CheckCircle2, Clock, Users, Loader2,
+  CheckCircle2, Loader2,
 } from "lucide-react";
 
 const TIER_COLORS: Record<string, string> = {

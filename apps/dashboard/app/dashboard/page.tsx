@@ -6,7 +6,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useStore } from "@/lib/store";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowUpRight, TrendingUp, Users, Briefcase, DollarSign, Clock, Sliders, AlertTriangle, BarChart3, Megaphone, Cloud, CloudOff, Link2, Sparkles, CheckCircle, X, Activity } from "lucide-react";
+import { ArrowUpRight, TrendingUp, Users, Briefcase, Clock, Sliders, AlertTriangle, Megaphone, Cloud, Link2, Sparkles, CheckCircle, X, Activity } from "lucide-react";
 import { usePlatformConfig } from "@/lib/platform-config";
 import GettingStartedChecklist from "@/components/GettingStartedChecklist";
 import ActivityFeed from "@/components/ActivityFeed";

@@ -15,8 +15,6 @@ import {
   CheckSquare,
   Shield,
   FileText,
-  ChevronDown,
-  ChevronUp,
 } from "lucide-react";
 
 type BudgetTierRow = {

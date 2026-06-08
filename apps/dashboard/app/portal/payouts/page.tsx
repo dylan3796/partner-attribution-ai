@@ -10,12 +10,10 @@ import {
   Calendar,
   TrendingUp,
   Wallet,
-  ArrowUpRight,
   FileText,
   CreditCard,
   ChevronDown,
   ChevronUp,
-  BanknoteIcon,
 } from "lucide-react";
 import { usePortal } from "@/lib/portal-context";
 

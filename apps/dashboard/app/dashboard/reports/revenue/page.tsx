@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
 import {
   DollarSign, TrendingUp, Users, BarChart3, PieChart as PieIcon, Target,
-  ArrowRight, Award, Loader2, AlertTriangle, Layers,
+  ArrowRight, Award, AlertTriangle, Layers,
 } from "lucide-react";
 import Link from "next/link";
 

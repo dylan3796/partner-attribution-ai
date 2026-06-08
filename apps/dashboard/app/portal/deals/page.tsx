@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import Link from "next/link";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
@@ -9,7 +8,7 @@ import { usePortal } from "@/lib/portal-context";
 import { formatCurrency, formatCurrencyCompact as fmt } from "@/lib/utils";
 import {
   Plus, X, CheckCircle2, Clock, XCircle, Briefcase, TrendingUp,
-  DollarSign, Calendar, ChevronRight, Search, Filter,
+  DollarSign, Calendar, Search,
 } from "lucide-react";
 
 const DAY = 86400000;

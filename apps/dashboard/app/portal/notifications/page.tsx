@@ -5,19 +5,15 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { usePortal } from "@/lib/portal-context";
-import { formatCurrency } from "@/lib/utils";
 import {
   Bell,
-  CheckCircle2,
   DollarSign,
   TrendingUp,
   Briefcase,
   Award,
   Gift,
   AlertCircle,
-  Star,
   ChevronRight,
-  Filter,
   CheckCheck,
 } from "lucide-react";
 

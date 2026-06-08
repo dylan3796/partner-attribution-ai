@@ -12,8 +12,6 @@ import {
   Plus,
   Clock,
   CheckCircle2,
-  FileText,
-  TrendingUp,
   X,
   Loader2,
   Inbox,

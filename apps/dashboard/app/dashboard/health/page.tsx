@@ -9,7 +9,7 @@ import {
   Users, DollarSign, Briefcase, Clock, ArrowRight, Activity,
   Zap, Shield, Target,
 } from "lucide-react";
-import { formatCurrency, formatCurrencyCompact as fmt } from "@/lib/utils";
+import { formatCurrencyCompact as fmt } from "@/lib/utils";
 
 /* ── Health Score Calculator ── */
 

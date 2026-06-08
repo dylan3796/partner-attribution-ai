@@ -4,10 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
+import { formatCurrencyCompact } from "@/lib/utils";
 import {
   Trophy, Medal, Crown, TrendingUp, Target, Zap, DollarSign,
-  Users, ArrowUpRight, ChevronDown,
+  Users,
 } from "lucide-react";
 
 type Period = "thirtyDay" | "ninetyDay" | "allTime";

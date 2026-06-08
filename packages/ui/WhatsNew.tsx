@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Sparkles, X, ChevronRight, Zap, Wrench, Star,
+  Sparkles, X, ChevronRight, Zap, Wrench,
   GitCommit,
 } from "lucide-react";
 

@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Activity, Flame, Calendar, TrendingUp, Loader2, BarChart3 } from "lucide-react";
+import { Activity, Flame, Calendar, TrendingUp, BarChart3 } from "lucide-react";
 import Link from "next/link";
 
 // ─── Helpers ──────────────────────────────────────────────

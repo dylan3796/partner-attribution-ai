@@ -6,7 +6,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { formatCurrency } from "@/lib/utils";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
-import { ArrowLeft, Printer, Download, Building2, Mail, MapPin, Award, TrendingUp, TrendingDown, Minus, Calendar, Target, DollarSign, Handshake, BarChart3, Activity, Clock, Shield } from "lucide-react";
+import { ArrowLeft, Printer, Building2, Mail, MapPin, Award, TrendingUp, TrendingDown, Target, DollarSign, Handshake, BarChart3, Activity, Clock, Shield } from "lucide-react";
 
 function tierColor(tier: string) {
   const colors: Record<string, string> = {

@@ -15,13 +15,11 @@ import {
   AlertCircle,
   Clock,
   XCircle,
-  ExternalLink,
   User,
   Briefcase,
 } from "lucide-react";
 import {
   INBOUND_EVENT_STATUS_LABELS,
-  EVENT_SOURCE_TYPE_LABELS,
   type InboundEvent,
   type EventSource,
   type InboundEventStatus,

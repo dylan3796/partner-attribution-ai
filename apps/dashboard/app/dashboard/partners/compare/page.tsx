@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
-import { ArrowLeft, Trophy, TrendingUp, TrendingDown, Minus, Crown, Medal } from "lucide-react";
+import { ArrowLeft, Trophy, TrendingUp, Crown } from "lucide-react";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
 
 const TIER_ORDER = { platinum: 4, gold: 3, silver: 2, bronze: 1 };

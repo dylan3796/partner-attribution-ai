@@ -5,9 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import {
-  Award, Search, Shield, Users, Plus, X, Trash2, CheckCircle2,
-  Clock, AlertTriangle, BookOpen, Code, Briefcase, FileCheck,
-  ChevronDown, RotateCcw, Star,
+  Award, Search, Shield, Users, Plus, X, Trash2, CheckCircle2, AlertTriangle, BookOpen, Code, Briefcase, FileCheck, RotateCcw,
 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
 

@@ -1,28 +1,22 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { formatCurrency, formatDate } from "@/lib/utils";
 import {
-  GitBranch,
   DollarSign,
-  TrendingUp,
-  Users,
   Target,
   ArrowRight,
   Briefcase,
   CheckCircle2,
   Clock,
   XCircle,
-  Filter,
-  BarChart3,
   Handshake,
   Inbox,
   LayoutGrid,
   Columns3,
-  ShieldCheck,
   AlertCircle,
 } from "lucide-react";
 

@@ -13,10 +13,7 @@ import {
   Users,
   Target,
   Award,
-  CheckCircle2,
-  Clock,
   Trophy,
-  Star,
   Inbox,
   ArrowRight,
 } from "lucide-react";

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { usePortal } from "@/lib/portal-context";
 import {
-  Link2, Copy, Check, Users, DollarSign, TrendingUp, Briefcase, Loader2, ExternalLink, Info,
+  Link2, Copy, Check, Users, DollarSign, TrendingUp, Briefcase, Loader2, Info,
 } from "lucide-react";
 
 function fmt(n: number): string {

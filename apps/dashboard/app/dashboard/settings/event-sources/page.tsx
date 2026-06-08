@@ -13,9 +13,7 @@ import {
   Play,
   Trash2,
   Settings,
-  ExternalLink,
   Activity,
-  ChevronRight,
 } from "lucide-react";
 import {
   EVENT_SOURCE_TYPE_LABELS,

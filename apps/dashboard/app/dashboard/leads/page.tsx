@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
-import { Mail, Building2, Clock, TrendingUp, Users, CheckCircle2, XCircle, Calendar } from "lucide-react";
+import { Mail, TrendingUp, Users, CheckCircle2 } from "lucide-react";
 
 const STATUS_LABELS: Record<string, string> = {
   new: "New",

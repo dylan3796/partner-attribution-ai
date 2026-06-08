@@ -14,7 +14,6 @@ import {
   Check,
   Eye,
   EyeOff,
-  RefreshCw,
   Send,
   ChevronDown,
   ChevronRight,

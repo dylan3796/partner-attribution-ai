@@ -7,7 +7,6 @@ import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import {
   Bell,
-  Check,
   CheckCheck,
   Trophy,
   DollarSign,

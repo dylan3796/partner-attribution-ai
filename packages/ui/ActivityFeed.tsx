@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import {
-  Briefcase, CheckCircle, XCircle, Users, DollarSign, Shield,
+  Briefcase, CheckCircle, XCircle, DollarSign, Shield,
   Target, Settings, UserPlus, UserMinus, RefreshCw, Plus, Trash2,
   Award, FileText, Zap, ArrowUpRight, Scale,
 } from "lucide-react";

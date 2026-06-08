@@ -8,7 +8,6 @@ import { api } from "@/convex/_generated/api";
 import {
   formatCurrency,
   formatCurrencyCompact,
-  formatPercent,
   CHART_COLORS,
 } from "@/lib/utils";
 import {
@@ -20,9 +19,7 @@ import {
   ArrowRight,
   Download,
   Calendar,
-  Award,
   Target,
-  Zap,
   CheckCircle2,
   AlertTriangle,
   ArrowUpRight,

@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
 import {
-  ArrowLeft, Users, Plus, Shield, UserCog, User, X, Save,
+  ArrowLeft, Users, Plus, Shield, UserCog, User, X,
   MoreHorizontal, Mail, Clock, ChevronDown, Trash2, Crown,
 } from "lucide-react";
 

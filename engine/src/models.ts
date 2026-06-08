@@ -16,7 +16,6 @@
 import type {
   AttributionModelImpl,
   AttributionRole,
-  AttributionTarget,
   LedgerEntry,
   ModelConfig,
   TouchpointInput,

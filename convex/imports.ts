@@ -64,7 +64,7 @@ export const importPartnerData = mutation({
     const source = "manual" as const;
 
     // Ensure a default program exists so imported deals get a model.
-    let programs = await ctx.db
+    const programs = await ctx.db
       .query("programs")
       .withIndex("by_organization", (q) => q.eq("organizationId", orgId))
       .collect();

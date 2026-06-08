@@ -11,7 +11,7 @@
  * Tier recommendations are auto-calculated from the final score.
  */
 
-import type { Partner, Deal, Touchpoint, Attribution, PartnerVolumeRecord } from "./types";
+import type { Partner, Deal, Touchpoint, Attribution } from "./types";
 import { PRIMARY_MODEL } from "./types";
 import { calculateCertificationScore } from "./certifications-data";
 import { demoPartnerVolumes } from "./distributor-demo-data";

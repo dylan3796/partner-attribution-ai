@@ -1,6 +1,5 @@
-import { mutation, query, action } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
-import { api } from "./_generated/api";
 
 import { getOrg } from "./lib/getOrg";
 async function defaultOrg(ctx: any) {

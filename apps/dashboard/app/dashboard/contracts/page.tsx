@@ -5,7 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import {
-  FileText, Search, Plus, AlertTriangle, CheckCircle, Clock,
+  FileText, Search, AlertTriangle, CheckCircle, Clock,
   XCircle, RefreshCw, Download, ChevronDown, ChevronUp, Bell, Loader2,
 } from "lucide-react";
 

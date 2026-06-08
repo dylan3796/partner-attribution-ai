@@ -4,9 +4,7 @@ import { useState, useMemo } from "react";
 import { usePortal } from "@/lib/portal-context";
 import { formatCurrency, formatCurrencyCompact as fmt } from "@/lib/utils";
 import {
-  Download, DollarSign, TrendingUp, Clock, CheckCircle2,
-  Calendar, ChevronRight, BarChart3, ArrowUpCircle, Wallet,
-  Filter, PieChart,
+  Download, DollarSign, TrendingUp, Clock, CheckCircle2, BarChart3, Wallet, PieChart,
 } from "lucide-react";
 
 const DAY = 86400000;

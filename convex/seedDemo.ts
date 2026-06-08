@@ -10,7 +10,6 @@
  */
 
 import { mutation } from "./_generated/server";
-import { v } from "convex/values";
 import type { Id } from "./_generated/dataModel";
 
 const DAY = 86_400_000;

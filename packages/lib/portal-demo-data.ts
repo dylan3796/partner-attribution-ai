@@ -7,7 +7,6 @@ import {
   demoDeals,
   demoTouchpoints,
   demoAttributions,
-  demoPartners,
 } from "./demo-data";
 import type { Deal, Touchpoint, Attribution } from "./types";
 import { PRIMARY_MODEL } from "./types";

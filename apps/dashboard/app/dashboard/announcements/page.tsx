@@ -16,7 +16,6 @@ import {
   X,
   Send,
   FileText,
-  Tag,
   Calendar,
   Loader2,
 } from "lucide-react";

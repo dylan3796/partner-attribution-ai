@@ -5,7 +5,7 @@ import { usePortal } from "@/lib/portal-context";
 import { ArrowLeft, AlertTriangle, X } from "lucide-react";
 import { TOUCHPOINT_LABELS } from "@/lib/types";
 
-import { formatCurrencyCompact as fmt, formatCurrency } from "@/lib/utils";
+import { formatCurrencyCompact as fmt } from "@/lib/utils";
 
 export default function PortalDealDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);

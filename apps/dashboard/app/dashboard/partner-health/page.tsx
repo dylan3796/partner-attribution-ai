@@ -10,7 +10,6 @@ import {
   CheckCircle2,
   TrendingUp,
   TrendingDown,
-  Clock,
   Mail,
   ChevronDown,
   ChevronUp,
@@ -19,7 +18,6 @@ import {
   Users,
   Activity,
   MessageSquare,
-  Loader2,
 } from "lucide-react";
 
 /* ── Types ── */
@@ -145,7 +143,7 @@ export default function PartnerHealthPage() {
   const partners: PartnerHealthData[] = (healthData ?? []) as unknown as PartnerHealthData[];
 
   const filtered = useMemo(() => {
-    let list = partners.filter((p) => {
+    const list = partners.filter((p) => {
       if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
       if (riskFilter !== "all" && p.risk !== riskFilter) return false;
       return true;

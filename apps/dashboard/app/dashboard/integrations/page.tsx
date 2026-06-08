@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import {
-  Plug, CheckCircle2, XCircle, Clock, Settings, ExternalLink,
-  RefreshCw, Zap, ArrowRight, Shield, AlertTriangle, UploadCloud,
+  Plug, CheckCircle2, XCircle,
+  RefreshCw, Zap, Shield, AlertTriangle, UploadCloud,
 } from "lucide-react";
 import { ImportDataModal } from "@/components/ImportDataModal";
 

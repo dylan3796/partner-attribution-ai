@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
 import { Mail, Phone, MapPin, Award, ArrowUp, Globe, CreditCard, CheckCircle, ExternalLink, Loader2, Zap, LinkIcon, AlertCircle } from "lucide-react";
 
-import { formatCurrencyCompact as fmt, formatCurrency } from "@/lib/utils";
+import { formatCurrencyCompact as fmt } from "@/lib/utils";
 const TIER_LABELS: Record<string, string> = { bronze: "Bronze", silver: "Silver", gold: "Gold", platinum: "Platinum" };
 const TYPE_LABELS: Record<string, string> = { reseller: "Reseller", referral: "Referral", affiliate: "Affiliate", integration: "Integration" };
 

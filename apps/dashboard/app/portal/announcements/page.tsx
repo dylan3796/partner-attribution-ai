@@ -5,8 +5,6 @@ import { api } from "@/convex/_generated/api";
 import {
   Megaphone,
   Pin,
-  Calendar,
-  Tag,
   Loader2,
 } from "lucide-react";
 

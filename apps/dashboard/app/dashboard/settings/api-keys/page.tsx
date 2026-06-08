@@ -5,8 +5,7 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useToast } from "@/components/ui/toast";
 import {
-  Key, Plus, Copy, Check, Trash2, Shield, Clock, Eye, EyeOff,
-  AlertTriangle, ChevronDown, ChevronUp, ExternalLink, RefreshCw,
+  Key, Plus, Copy, Check, Trash2, Shield, Clock, ChevronDown, ChevronUp, RefreshCw,
 } from "lucide-react";
 
 const SCOPE_GROUPS = [

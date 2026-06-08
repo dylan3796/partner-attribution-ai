@@ -14,10 +14,8 @@ import {
   Briefcase,
   Plus,
   ArrowRight,
-  Mail,
   Package,
   Trophy,
-  Loader2,
 } from "lucide-react";
 
 import { formatCurrency } from "@/lib/utils";

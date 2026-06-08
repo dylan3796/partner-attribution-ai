@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { formatCurrency, formatNumber } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import { TrendingUp, Award, Target, ChevronRight, BarChart3, Trophy, Info } from "lucide-react";
 
 // Volume rebate tiers (program configuration - would typically come from a config table)

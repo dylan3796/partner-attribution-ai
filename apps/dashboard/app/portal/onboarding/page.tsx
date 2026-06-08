@@ -1,13 +1,11 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usePortal } from "@/lib/portal-context";
-import { formatCurrency } from "@/lib/utils";
 import {
   CheckCircle2,
-  Circle,
   ArrowRight,
   ArrowLeft,
   User,

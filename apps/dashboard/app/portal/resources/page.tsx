@@ -3,9 +3,8 @@
 import { useState, useMemo } from "react";
 import { usePortal } from "@/lib/portal-context";
 import {
-  Download, FileText, Video, BookOpen, Award, Search,
-  Star, Clock, Eye, ExternalLink, Play, Image, Archive,
-  TrendingUp, Filter, ChevronRight, Bookmark, BookmarkCheck,
+  Download, FileText, Video, Award, Search,
+  Star, Clock, Eye, Play, Image, Archive, Bookmark, BookmarkCheck,
 } from "lucide-react";
 
 type ResourceType = "pdf" | "video" | "doc" | "pptx" | "zip" | "quiz" | "webinar" | "template";

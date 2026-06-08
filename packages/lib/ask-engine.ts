@@ -19,7 +19,7 @@ import type {
   AttributionModel,
 } from "./types";
 import { PRIMARY_MODEL, MODEL_LABELS } from "./types";
-import { calculatePartnerScores, type PartnerScore } from "./partner-scoring";
+import { calculatePartnerScores } from "./partner-scoring";
 
 export type QueryContext = {
   partners: Partner[];
