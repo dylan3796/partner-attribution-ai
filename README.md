@@ -51,41 +51,48 @@ Progress tracking per partner (profile complete → first deal → first commiss
 | Deployment | Vercel (auto-deploy on push to `main`) |
 | Email | Resend *(configured, pending API key)* |
 
-No Tailwind. No ORM. No separate API layer — Convex handles all backend logic.
+Tailwind v4 + custom CSS (marketing styles scoped under `.site`). No ORM. No
+separate API layer — Convex handles all backend logic.
 
 ---
 
 ## Project Structure
 
+npm-workspace monorepo:
+
 ```
 partner-attribution-ai/
-├── app/                    # Next.js pages + layouts
-│   ├── page.tsx            # Landing page
-│   ├── dashboard/          # Dashboard (partners, deals, payouts, reports, settings)
-│   ├── portal/             # Partner portal
-│   ├── onboard/            # Onboarding wizard
-│   └── [marketing pages]   # pricing, platform, resources, etc.
-├── components/             # Shared UI components (Nav, Footer, etc.)
-├── convex/                 # Backend schema, queries, mutations
+├── apps/
+│   ├── web/                # Marketing site (covant.ai) — Next.js
+│   └── dashboard/          # Product app: dashboard + partner portal — Next.js
+├── engine/                 # @covant/engine — framework-agnostic attribution
+│   └── src/                # 5 bounded models, registry, roles, recommender
+├── convex/                 # Shared backend (schema, queries, mutations)
 │   ├── schema.ts           # Database schema
-│   ├── partners.ts         # Partner CRUD
 │   ├── deals.ts            # Deal management
-│   ├── attributions.ts     # Attribution engine
 │   ├── commissionRules.ts  # Commission rules engine
 │   ├── payouts.ts          # Payout management
-│   └── leads.ts            # Waitlist/lead capture
-├── lib/                    # Client utilities, types, store
-└── public/                 # Static assets (logo, etc.)
+│   ├── leads.ts            # Demo-request / lead capture
+│   └── lib/attribution/    # calculator.ts — DB orchestration over the engine
+├── packages/
+│   ├── ui/                 # Shared React components (@covant/ui → @/components)
+│   └── lib/                # Shared client libs (@covant/lib → @/lib)
+└── tests/                  # Engine unit tests (vitest)
 ```
+
+Per-folder `CLAUDE.md` files in `apps/web/` and `engine/` carry folder-specific
+rules.
 
 ---
 
 ## Local Development
 
 ```bash
-npm install
+npm install             # installs all workspaces
 npx convex dev          # Start Convex backend (dev deployment)
-npm run dev             # Start Next.js frontend
+npm run dev:web         # Marketing site (apps/web)
+npm run dev:dashboard   # Product app (apps/dashboard)
+npm run test:run        # Engine tests (vitest)
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
@@ -108,9 +115,14 @@ ADMIN_SECRET=                  # Admin dashboard basic auth
 
 ## Deployment
 
-Push to `main` → Vercel auto-deploys. No manual steps required.
+The two apps deploy as **two separate Vercel projects** from this one repo:
+`apps/web` → covant.ai, `apps/dashboard` → app.covant.ai. Push to `main`
+auto-deploys both. Full setup (root directories, DNS, env-var split, cutover) is
+in [`docs/monorepo-deploy.md`](docs/monorepo-deploy.md).
 
-Convex production deployment is separate — run `npx convex deploy --yes` only when intentionally updating backend schema or functions.
+Convex production deployment is separate and shared by both apps — run
+`npx convex deploy --yes` only when intentionally updating backend schema or
+functions.
 
 ---
 

@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r '.tool_input.file_path // empty'); case \"$f\" in *.ts|*.tsx|*.js|*.jsx|*.css) npx --no-install prettier --write \"$f\" || true ;; esac"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [ \"$(jq -r '.stop_hook_active // false')\" = \"true\" ]; then exit 0; fi; if npm run test:run --silent >/dev/null 2>&1; then exit 0; else echo 'Engine test suite is failing. Run: npm run test:run' >&2; exit 2; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

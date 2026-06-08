@@ -13,6 +13,7 @@
     "dev:dashboard": "npm run dev --workspace @covant/dashboard",
     "build": "npm run build --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
+    "format": "prettier --write .",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
@@ -41,6 +42,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
+    "prettier": "^3.4.2",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vitest": "^3.2.4"
