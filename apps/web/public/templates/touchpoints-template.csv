@@ -1,0 +1,3 @@
+deal_id,partner_id,type,date,notes
+d_001,p_001,referral,2026-01-15,Initial customer referral
+d_001,p_002,demo,2026-01-20,Joint demo session with customer

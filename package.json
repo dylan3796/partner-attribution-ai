@@ -8,10 +8,11 @@
     "engine"
   ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
+    "dev": "npm run dev --workspace @covant/dashboard",
+    "dev:web": "npm run dev --workspace @covant/web",
+    "dev:dashboard": "npm run dev --workspace @covant/dashboard",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage"
