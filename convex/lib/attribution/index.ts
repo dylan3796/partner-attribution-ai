@@ -1,48 +1,19 @@
 /**
- * Attribution Module - Public API
+ * Attribution (convex side) — backward-compatible barrel.
  *
- * Covant ships a bounded set of 5 named, self-explaining attribution models.
- * Each implements the shared AttributionModelImpl contract; a Program selects
- * exactly one model + config.
+ * The pure, framework-agnostic models, registry, roles, types and recommender
+ * now live in the top-level `@covant/engine` package. This barrel re-exports
+ * them alongside the Convex-coupled calculator (DB orchestration) so existing
+ * `convex/lib/attribution` consumers keep working.
+ *
+ * New code should import models/types/registry/roles/recommender directly from
+ * `@covant/engine`, and the calculator from `./calculator`.
  */
 
-// Shared types
-export type {
-  AttributionModel,
-  AttributionModelImpl,
-  AttributionRole,
-  AttributionTarget,
-  CosellWeights,
-  LedgerEntry,
-  ModelConfig,
-  TouchpointInput,
-} from "./types";
+// Pure engine (models, registry, roles, types)
+export * from "@covant/engine";
 
-// Role derivation
-export { DEFAULT_ROLE_MAP, FALLBACK_ROLE, deriveRole } from "./roles";
-
-// Models (pure implementations) + finalizer
-export {
-  finalizeLedger,
-  firstTouchSourcer,
-  implementationCredit,
-  marketplaceCosellHybrid,
-  roleWeighted,
-  splitEqually,
-} from "./models";
-
-// Registry + runner
-export {
-  ATTRIBUTION_MODELS,
-  getAllModels,
-  getModel,
-  isAttributionModel,
-  mergeConfig,
-  parseModelConfig,
-  runModel,
-} from "./registry";
-
-// Calculator (database orchestration)
+// Calculator (database orchestration — stays in convex/)
 export {
   calculateDealAttribution,
   calculateMissingAttributions,

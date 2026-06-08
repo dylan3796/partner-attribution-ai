@@ -3,9 +3,8 @@
  * Powers the UI in demo mode (no Convex backend required).
  */
 import type { AttributionModel, Organization, Partner, Deal, Touchpoint, Attribution, Payout, AuditEntry } from "./types";
-import { runModel, getAllModels } from "../convex/lib/attribution/registry";
-import { deriveRole } from "../convex/lib/attribution/roles";
-import type { TouchpointInput } from "../convex/lib/attribution/types";
+import { runModel, getAllModels, deriveRole } from "@covant/engine";
+import type { TouchpointInput } from "@covant/engine";
 
 const ORG_ID = "org_demo_001";
 const now = Date.now();

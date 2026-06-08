@@ -3,7 +3,7 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { recommendModel } from "../convex/lib/attribution/recommender";
+import { recommendModel } from "@covant/engine";
 
 describe("recommendModel", () => {
   it("recommends marketplace_cosell_hybrid for cloud co-sell programs", () => {

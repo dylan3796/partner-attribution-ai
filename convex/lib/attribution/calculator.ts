@@ -11,8 +11,13 @@
 
 import { MutationCtx } from "../../_generated/server";
 import { Id, Doc } from "../../_generated/dataModel";
-import { runModel, parseModelConfig, mergeConfig } from "./registry";
-import { DEFAULT_ROLE_MAP, deriveRole } from "./roles";
+import {
+  runModel,
+  parseModelConfig,
+  mergeConfig,
+  DEFAULT_ROLE_MAP,
+  deriveRole,
+} from "@covant/engine";
 import type {
   AttributionModel,
   AttributionRole,
@@ -20,7 +25,7 @@ import type {
   LedgerEntry,
   ModelConfig,
   TouchpointInput,
-} from "./types";
+} from "@covant/engine";
 
 // ============================================================================
 // Types

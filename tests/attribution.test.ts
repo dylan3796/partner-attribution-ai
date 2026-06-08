@@ -9,13 +9,8 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { runModel } from "../convex/lib/attribution/registry";
-import { finalizeLedger } from "../convex/lib/attribution/models";
-import { deriveRole } from "../convex/lib/attribution/roles";
-import type {
-  AttributionTarget,
-  TouchpointInput,
-} from "../convex/lib/attribution/types";
+import { runModel, finalizeLedger, deriveRole } from "@covant/engine";
+import type { AttributionTarget, TouchpointInput } from "@covant/engine";
 
 // ============================================================================
 // Fixture helpers

@@ -2,6 +2,11 @@
   "name": "partner-attribution-app",
   "version": "0.1.0",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "engine"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",

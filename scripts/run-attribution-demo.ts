@@ -8,14 +8,13 @@
  * Run: npx tsx scripts/run-attribution-demo.ts
  */
 
-import { runModel } from "../convex/lib/attribution/registry";
-import { deriveRole } from "../convex/lib/attribution/roles";
+import { runModel, deriveRole } from "@covant/engine";
 import type {
   AttributionModel,
   AttributionTarget,
   ModelConfig,
   TouchpointInput,
-} from "../convex/lib/attribution/types";
+} from "@covant/engine";
 
 // ---------------------------------------------------------------------------
 // Fixture data — one org ("Northwind"), four programs, realistic touchpoints.

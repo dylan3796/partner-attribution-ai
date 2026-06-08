@@ -9,7 +9,7 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 import type { Id } from "./_generated/dataModel";
-import { recommendModel } from "./lib/attribution/recommender";
+import { recommendModel } from "@covant/engine";
 import { calculateDealAttribution } from "./lib/attribution/calculator";
 
 const DAY = 86_400_000;

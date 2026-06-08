@@ -9,7 +9,7 @@ import {
   Users, DollarSign, GitBranch, BarChart3, LayoutDashboard, Briefcase,
   Loader2, CheckCircle2,
 } from "lucide-react";
-import { recommendModel, type ProgramArchetype } from "@/convex/lib/attribution/recommender";
+import { recommendModel, type ProgramArchetype } from "@covant/engine";
 import { MODEL_LABELS, type AttributionModel } from "@/lib/types";
 
 const MODEL_OPTIONS: AttributionModel[] = [

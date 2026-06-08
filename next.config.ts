@@ -16,6 +16,8 @@ const toProduct = [
 ];
 
 const nextConfig: NextConfig = {
+  // Source-only internal workspace packages must be transpiled by Next.
+  transpilePackages: ["@covant/engine"],
   async redirects() {
     return [
       ...toProduct.map((source) => ({

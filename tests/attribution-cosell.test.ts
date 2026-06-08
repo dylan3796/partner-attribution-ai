@@ -6,13 +6,12 @@
  */
 
 import { describe, it, expect } from "vitest";
-import { runModel } from "../convex/lib/attribution/registry";
-import { deriveRole } from "../convex/lib/attribution/roles";
+import { runModel, deriveRole } from "@covant/engine";
 import type {
   AttributionTarget,
   ModelConfig,
   TouchpointInput,
-} from "../convex/lib/attribution/types";
+} from "@covant/engine";
 
 const now = Date.now();
 const dayMs = 24 * 60 * 60 * 1000;
