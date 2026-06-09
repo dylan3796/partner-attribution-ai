@@ -4,7 +4,7 @@
  * no Convex, no Date.now(). Relative imports keep these usable from vitest
  * (no @/ alias there).
  */
-import type { AttributionModel, AttributionRole, Deal, Partner, Touchpoint } from "../types";
+import type { AttributionModel, Deal, Partner, Touchpoint } from "../types";
 import { MODEL_LABELS } from "../types";
 import { runModel, getAllModels } from "../../convex/lib/attribution/registry";
 import { deriveRole } from "../../convex/lib/attribution/roles";
