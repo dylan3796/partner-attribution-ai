@@ -22,6 +22,11 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: path.join(process.cwd(), "../.."),
   // Source-only internal workspace package consumed by name (e.g. app/setup).
   transpilePackages: ["@covant/engine"],
+  async redirects() {
+    // The product app has no marketing home; send the host root (and the shared
+    // nav logo, which links to "/") to the dashboard.
+    return [{ source: "/", destination: "/dashboard", permanent: false }];
+  },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];
   },
