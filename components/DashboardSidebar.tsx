@@ -184,7 +184,7 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
           {showLabels && (
             <Link href="/dashboard" className="dash-sidebar-brand" aria-label="Covant" style={{ display: "inline-flex", alignItems: "center", gap: "8px" }}>
               <img src="/logo-mark.svg" alt="" width={20} height={20} style={{ display: "block", width: 20, height: 20, flexShrink: 0 }} />
-              <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 600, fontSize: "1.0625rem", letterSpacing: "-0.02em", color: "#16150f", lineHeight: 1 }}>Covant</span>
+              <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 600, fontSize: "1.0625rem", letterSpacing: "-0.02em", color: "#0d1b2a", lineHeight: 1 }}>Covant</span>
             </Link>
           )}
           <button

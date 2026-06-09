@@ -95,9 +95,9 @@ export default function ProductPage() {
                 partner data anything in plain language; Ask Covant answers, no report to build.
               </p>
               <p className="m-small" style={{ marginTop: "1.5rem" }}>
-                <strong style={{ color: "#fbfaf6" }}>Today:</strong> insights, payments,
+                <strong style={{ color: "#f8fafc" }}>Today:</strong> insights, payments,
                 scorecards, next-best-actions.{" "}
-                <strong style={{ color: "#fbfaf6" }}>Next:</strong> deal registration, partner
+                <strong style={{ color: "#f8fafc" }}>Next:</strong> deal registration, partner
                 recruiting, and guided onboarding — added to the same experience, no
                 re-platforming.
               </p>
