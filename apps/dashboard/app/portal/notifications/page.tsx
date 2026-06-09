@@ -17,7 +17,13 @@ import {
   CheckCheck,
 } from "lucide-react";
 
-type NotificationType = "deal_update" | "payout" | "tier_change" | "incentive" | "enablement" | "system";
+type NotificationType =
+  | "deal_update"
+  | "payout"
+  | "tier_change"
+  | "incentive"
+  | "enablement"
+  | "system";
 
 type Notification = {
   id: string;
@@ -36,7 +42,10 @@ const now = Date.now();
 
 /* Demo notification generator removed — notifications now come from real Convex data only */
 
-const TYPE_CONFIG: Record<NotificationType, { icon: typeof Bell; color: string; label: string }> = {
+const TYPE_CONFIG: Record<
+  NotificationType,
+  { icon: typeof Bell; color: string; label: string }
+> = {
   deal_update: { icon: Briefcase, color: "#3b82f6", label: "Deal" },
   payout: { icon: DollarSign, color: "#22c55e", label: "Payout" },
   tier_change: { icon: TrendingUp, color: "#8b5cf6", label: "Tier" },
@@ -63,8 +72,6 @@ export default function NotificationsPage() {
   const markAllReadMutation = useMutation(api.notifications.markAllRead);
   const [filterType, setFilterType] = useState<string>("all");
 
-  if (!partner) return null;
-
   // Map Convex notifications to component format, fall back to demo data
   const TYPE_MAP: Record<string, NotificationType> = {
     deal_approved: "deal_update",
@@ -75,6 +82,7 @@ export default function NotificationsPage() {
     system: "system",
   };
 
+  // Hooks declared before the early return so they run unconditionally.
   const notifications: Notification[] = useMemo(() => {
     if (!convexNotifs) return [];
     return convexNotifs.map((n: any) => ({
@@ -89,13 +97,15 @@ export default function NotificationsPage() {
     }));
   }, [convexNotifs]);
 
-  const unreadCount = notifications.filter((n) => !n.read).length;
-
   const filtered = useMemo(() => {
     if (filterType === "all") return notifications;
     if (filterType === "unread") return notifications.filter((n) => !n.read);
     return notifications.filter((n) => n.type === filterType);
   }, [notifications, filterType]);
+
+  if (!partner) return null;
+
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   function markRead(id: string) {
     markReadMutation({ id: id as Id<"notifications"> }).catch(() => {});
@@ -108,15 +118,37 @@ export default function NotificationsPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "1rem" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+          gap: "1rem",
+        }}
+      >
         <div>
-          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Notifications</h1>
+          <h1
+            style={{
+              fontSize: "1.8rem",
+              fontWeight: 800,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Notifications
+          </h1>
           <p className="muted" style={{ marginTop: "0.25rem" }}>
-            {unreadCount > 0 ? `${unreadCount} unread` : "All caught up"} · {notifications.length} total
+            {unreadCount > 0 ? `${unreadCount} unread` : "All caught up"} ·{" "}
+            {notifications.length} total
           </p>
         </div>
         <div style={{ display: "flex", gap: ".75rem", alignItems: "center" }}>
-          <select className="input" value={filterType} onChange={(e) => setFilterType(e.target.value)} style={{ maxWidth: 170 }}>
+          <select
+            className="input"
+            value={filterType}
+            onChange={(e) => setFilterType(e.target.value)}
+            style={{ maxWidth: 170 }}
+          >
             <option value="all">All</option>
             <option value="unread">Unread ({unreadCount})</option>
             <option value="deal_update">Deals</option>
@@ -127,7 +159,16 @@ export default function NotificationsPage() {
             <option value="system">System</option>
           </select>
           {unreadCount > 0 && (
-            <button onClick={markAllRead} className="btn-outline" style={{ fontSize: ".8rem", display: "flex", alignItems: "center", gap: 6 }}>
+            <button
+              onClick={markAllRead}
+              className="btn-outline"
+              style={{
+                fontSize: ".8rem",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
               <CheckCheck size={14} /> Mark all read
             </button>
           )}
@@ -138,7 +179,9 @@ export default function NotificationsPage() {
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         {Object.entries(TYPE_CONFIG).map(([type, cfg]) => {
           const count = notifications.filter((n) => n.type === type).length;
-          const unread = notifications.filter((n) => n.type === type && !n.read).length;
+          const unread = notifications.filter(
+            (n) => n.type === type && !n.read,
+          ).length;
           if (count === 0) return null;
           const Icon = cfg.icon;
           return (
@@ -146,19 +189,39 @@ export default function NotificationsPage() {
               key={type}
               onClick={() => setFilterType(filterType === type ? "all" : type)}
               style={{
-                display: "flex", alignItems: "center", gap: 6, padding: "6px 14px", borderRadius: 999,
-                fontSize: ".8rem", fontWeight: 600, cursor: "pointer",
-                border: filterType === type ? `2px solid ${cfg.color}` : "1px solid var(--border)",
-                background: filterType === type ? `${cfg.color}12` : "transparent",
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                padding: "6px 14px",
+                borderRadius: 999,
+                fontSize: ".8rem",
+                fontWeight: 600,
+                cursor: "pointer",
+                border:
+                  filterType === type
+                    ? `2px solid ${cfg.color}`
+                    : "1px solid var(--border)",
+                background:
+                  filterType === type ? `${cfg.color}12` : "transparent",
                 color: filterType === type ? cfg.color : "var(--muted)",
               }}
             >
               <Icon size={14} /> {cfg.label}
               {unread > 0 && (
-                <span style={{
-                  width: 18, height: 18, borderRadius: 9, background: cfg.color, color: "#fff",
-                  fontSize: ".65rem", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center",
-                }}>
+                <span
+                  style={{
+                    width: 18,
+                    height: 18,
+                    borderRadius: 9,
+                    background: cfg.color,
+                    color: "#fff",
+                    fontSize: ".65rem",
+                    fontWeight: 700,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   {unread}
                 </span>
               )}
@@ -178,39 +241,101 @@ export default function NotificationsPage() {
               onClick={() => markRead(notif.id)}
               className="card"
               style={{
-                padding: "1rem 1.25rem", cursor: "pointer",
+                padding: "1rem 1.25rem",
+                cursor: "pointer",
                 borderLeft: `3px solid ${!notif.read ? cfg.color : "transparent"}`,
                 opacity: notif.read ? 0.75 : 1,
                 transition: "opacity 0.2s",
               }}
             >
               <div style={{ display: "flex", gap: 12 }}>
-                <div style={{
-                  width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                  background: `${cfg.color}15`, display: "flex", alignItems: "center", justifyContent: "center", color: cfg.color,
-                }}>
+                <div
+                  style={{
+                    width: 36,
+                    height: 36,
+                    borderRadius: 10,
+                    flexShrink: 0,
+                    background: `${cfg.color}15`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    color: cfg.color,
+                  }}
+                >
                   <Icon size={18} />
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 8 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ fontWeight: 700, fontSize: ".95rem" }}>{notif.title}</span>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                      gap: 8,
+                    }}
+                  >
+                    <div
+                      style={{ display: "flex", alignItems: "center", gap: 8 }}
+                    >
+                      <span style={{ fontWeight: 700, fontSize: ".95rem" }}>
+                        {notif.title}
+                      </span>
                       {!notif.read && (
-                        <span style={{ width: 8, height: 8, borderRadius: 4, background: cfg.color, flexShrink: 0 }} />
+                        <span
+                          style={{
+                            width: 8,
+                            height: 8,
+                            borderRadius: 4,
+                            background: cfg.color,
+                            flexShrink: 0,
+                          }}
+                        />
                       )}
                     </div>
-                    <span className="muted" style={{ fontSize: ".75rem", whiteSpace: "nowrap", flexShrink: 0 }}>{timeAgo(notif.timestamp)}</span>
+                    <span
+                      className="muted"
+                      style={{
+                        fontSize: ".75rem",
+                        whiteSpace: "nowrap",
+                        flexShrink: 0,
+                      }}
+                    >
+                      {timeAgo(notif.timestamp)}
+                    </span>
                   </div>
-                  <p className="muted" style={{ fontSize: ".85rem", lineHeight: 1.5, marginTop: 4 }}>{notif.body}</p>
+                  <p
+                    className="muted"
+                    style={{
+                      fontSize: ".85rem",
+                      lineHeight: 1.5,
+                      marginTop: 4,
+                    }}
+                  >
+                    {notif.body}
+                  </p>
 
                   {/* Meta tags */}
                   {notif.meta && (
-                    <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: 8,
+                        marginTop: 8,
+                        flexWrap: "wrap",
+                      }}
+                    >
                       {Object.entries(notif.meta).map(([k, v]) => (
-                        <span key={k} style={{
-                          padding: "2px 8px", borderRadius: 6, fontSize: ".7rem", fontWeight: 600,
-                          background: "var(--subtle)", color: "var(--muted)", textTransform: "capitalize",
-                        }}>
+                        <span
+                          key={k}
+                          style={{
+                            padding: "2px 8px",
+                            borderRadius: 6,
+                            fontSize: ".7rem",
+                            fontWeight: 600,
+                            background: "var(--subtle)",
+                            color: "var(--muted)",
+                            textTransform: "capitalize",
+                          }}
+                        >
                           {k.replace(/_/g, " ")}: {v}
                         </span>
                       ))}
@@ -223,8 +348,14 @@ export default function NotificationsPage() {
                       href={notif.actionUrl || "#"}
                       onClick={(e) => e.stopPropagation()}
                       style={{
-                        display: "inline-flex", alignItems: "center", gap: 4, marginTop: 8,
-                        fontSize: ".8rem", fontWeight: 600, color: cfg.color, textDecoration: "none",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 4,
+                        marginTop: 8,
+                        fontSize: ".8rem",
+                        fontWeight: 600,
+                        color: cfg.color,
+                        textDecoration: "none",
                       }}
                     >
                       {notif.actionLabel} <ChevronRight size={14} />
@@ -237,11 +368,19 @@ export default function NotificationsPage() {
         })}
 
         {filtered.length === 0 && (
-          <div className="card" style={{ padding: "3rem", textAlign: "center" }}>
-            <Bell size={32} style={{ color: "var(--muted)", margin: "0 auto 12px" }} />
+          <div
+            className="card"
+            style={{ padding: "3rem", textAlign: "center" }}
+          >
+            <Bell
+              size={32}
+              style={{ color: "var(--muted)", margin: "0 auto 12px" }}
+            />
             <p style={{ fontWeight: 600 }}>No notifications yet</p>
             <p className="muted" style={{ fontSize: ".875rem" }}>
-              {filterType !== "all" ? "No notifications match this filter." : "Notifications will appear here when deals are approved, commissions are calculated, or your tier changes."}
+              {filterType !== "all"
+                ? "No notifications match this filter."
+                : "Notifications will appear here when deals are approved, commissions are calculated, or your tier changes."}
             </p>
           </div>
         )}

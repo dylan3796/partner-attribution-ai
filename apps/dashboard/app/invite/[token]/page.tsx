@@ -4,7 +4,14 @@ import { useParams, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
-import { Building2, User, Mail, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
+import {
+  Building2,
+  User,
+  Mail,
+  CheckCircle,
+  AlertCircle,
+  Loader2,
+} from "lucide-react";
 
 const SESSION_KEY = "covant_portal_session";
 
@@ -26,36 +33,8 @@ export default function InvitePage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  // Loading state
-  if (invite === undefined) {
-    return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--subtle)" }}>
-        <Loader2 size={32} style={{ animation: "spin 1s linear infinite" }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
-    );
-  }
-
-  // Invalid or expired
-  if (!invite || invite.expired) {
-    return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--subtle)" }}>
-        <div className="card" style={{ maxWidth: 480, width: "100%", padding: "2.5rem", textAlign: "center" }}>
-          <AlertCircle size={48} style={{ color: "var(--muted)", marginBottom: "1rem" }} />
-          <h1 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem" }}>
-            {invite?.expired ? "Invite Expired" : "Invalid Invite"}
-          </h1>
-          <p style={{ color: "var(--muted)", lineHeight: 1.6 }}>
-            {invite?.expired
-              ? "This invitation link has expired. Please ask your partner manager to send a new one."
-              : "This invitation link is not valid. Please check the URL or contact your partner manager."}
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Pre-fill from invite data (once)
+  // Pre-fill from invite (once). Declared before the early returns below so all
+  // hooks run unconditionally; the effect guards on `invite` internally.
   const [prefilled, setPrefilled] = useState(false);
   useEffect(() => {
     if (prefilled || !invite || invite.expired) return;
@@ -67,6 +46,68 @@ export default function InvitePage() {
     }
     setPrefilled(true);
   }, [invite, prefilled]);
+
+  // Loading state
+  if (invite === undefined) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "var(--subtle)",
+        }}
+      >
+        <Loader2 size={32} style={{ animation: "spin 1s linear infinite" }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      </div>
+    );
+  }
+
+  // Invalid or expired
+  if (!invite || invite.expired) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "var(--subtle)",
+        }}
+      >
+        <div
+          className="card"
+          style={{
+            maxWidth: 480,
+            width: "100%",
+            padding: "2.5rem",
+            textAlign: "center",
+          }}
+        >
+          <AlertCircle
+            size={48}
+            style={{ color: "var(--muted)", marginBottom: "1rem" }}
+          />
+          <h1
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: 700,
+              marginBottom: "0.5rem",
+            }}
+          >
+            {invite?.expired ? "Invite Expired" : "Invalid Invite"}
+          </h1>
+          <p style={{ color: "var(--muted)", lineHeight: 1.6 }}>
+            {invite?.expired
+              ? "This invitation link has expired. Please ask your partner manager to send a new one."
+              : "This invitation link is not valid. Please check the URL or contact your partner manager."}
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,7 +130,7 @@ export default function InvitePage() {
           partnerId: result.partnerId,
           partnerName: result.name,
           email: result.email,
-        })
+        }),
       );
 
       setSuccess(true);
@@ -106,11 +147,40 @@ export default function InvitePage() {
   // Success state
   if (success) {
     return (
-      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--subtle)" }}>
-        <div className="card" style={{ maxWidth: 480, width: "100%", padding: "2.5rem", textAlign: "center" }}>
-          <CheckCircle size={48} style={{ color: "#22c55e", marginBottom: "1rem" }} />
-          <h1 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem" }}>Welcome aboard!</h1>
-          <p style={{ color: "var(--muted)" }}>Your partner account is set up. Redirecting to your portal...</p>
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          background: "var(--subtle)",
+        }}
+      >
+        <div
+          className="card"
+          style={{
+            maxWidth: 480,
+            width: "100%",
+            padding: "2.5rem",
+            textAlign: "center",
+          }}
+        >
+          <CheckCircle
+            size={48}
+            style={{ color: "#22c55e", marginBottom: "1rem" }}
+          />
+          <h1
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: 700,
+              marginBottom: "0.5rem",
+            }}
+          >
+            Welcome aboard!
+          </h1>
+          <p style={{ color: "var(--muted)" }}>
+            Your partner account is set up. Redirecting to your portal...
+          </p>
         </div>
       </div>
     );
@@ -139,18 +209,43 @@ export default function InvitePage() {
   };
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "var(--subtle)", padding: "1rem" }}>
-      <div className="card" style={{ maxWidth: 520, width: "100%", padding: "2.5rem" }}>
+    <div
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "var(--subtle)",
+        padding: "1rem",
+      }}
+    >
+      <div
+        className="card"
+        style={{ maxWidth: 520, width: "100%", padding: "2.5rem" }}
+      >
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-          <h1 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem" }}>
-            Join {"organizationName" in invite ? invite.organizationName : "Partner Program"}
+          <h1
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: 700,
+              marginBottom: "0.5rem",
+            }}
+          >
+            Join{" "}
+            {"organizationName" in invite
+              ? invite.organizationName
+              : "Partner Program"}
           </h1>
           <p style={{ color: "var(--muted)", fontSize: "0.95rem" }}>
-            You&apos;ve been invited to join the partner program. Fill out your details to get started.
+            You&apos;ve been invited to join the partner program. Fill out your
+            details to get started.
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
+        >
           <div>
             <label style={labelStyle}>
               <Building2 size={16} /> Company Name
@@ -159,7 +254,9 @@ export default function InvitePage() {
               type="text"
               required
               value={form.companyName}
-              onChange={(e) => setForm({ ...form, companyName: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, companyName: e.target.value })
+              }
               placeholder="Acme Partners Inc."
               style={inputStyle}
             />
@@ -173,7 +270,9 @@ export default function InvitePage() {
               type="text"
               required
               value={form.contactName}
-              onChange={(e) => setForm({ ...form, contactName: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, contactName: e.target.value })
+              }
               placeholder="Jane Smith"
               style={inputStyle}
             />
@@ -197,7 +296,9 @@ export default function InvitePage() {
             <label style={labelStyle}>Partner Type</label>
             <select
               value={form.type}
-              onChange={(e) => setForm({ ...form, type: e.target.value as typeof form.type })}
+              onChange={(e) =>
+                setForm({ ...form, type: e.target.value as typeof form.type })
+              }
               style={{ ...inputStyle, cursor: "pointer" }}
             >
               <option value="reseller">Reseller</option>
@@ -208,7 +309,16 @@ export default function InvitePage() {
           </div>
 
           {error && (
-            <div style={{ padding: "0.75rem 1rem", borderRadius: 8, background: "#fef2f2", border: "1px solid #fecaca", color: "#dc2626", fontSize: "0.9rem" }}>
+            <div
+              style={{
+                padding: "0.75rem 1rem",
+                borderRadius: 8,
+                background: "#fef2f2",
+                border: "1px solid #fecaca",
+                color: "#dc2626",
+                fontSize: "0.9rem",
+              }}
+            >
               {error}
             </div>
           )}
@@ -221,8 +331,8 @@ export default function InvitePage() {
               padding: "0.85rem",
               borderRadius: 8,
               border: "none",
-              background:'#f9fafb',
-              color:'#0a0a0a',
+              background: "#f9fafb",
+              color: "#0a0a0a",
               fontSize: "1rem",
               fontWeight: 600,
               cursor: submitting ? "not-allowed" : "pointer",
@@ -235,7 +345,14 @@ export default function InvitePage() {
           </button>
         </form>
 
-        <p style={{ textAlign: "center", fontSize: "0.8rem", color: "var(--muted)", marginTop: "1.5rem" }}>
+        <p
+          style={{
+            textAlign: "center",
+            fontSize: "0.8rem",
+            color: "var(--muted)",
+            marginTop: "1.5rem",
+          }}
+        >
           By joining, you agree to the partner program terms and conditions.
         </p>
       </div>

@@ -38,32 +38,32 @@ export default function AskCovant() {
   const inputRef = useRef<HTMLInputElement>(null);
   const store = useStore();
 
-  // Hide on auth pages and onboarding/setup
-  if (
-    pathname?.startsWith("/sign-in") ||
-    pathname?.startsWith("/sign-up") ||
-    pathname?.startsWith("/onboard") ||
-    pathname?.startsWith("/setup")
-  ) {
-    return null;
-  }
-
   // Real Convex data
   const convexPartners = useQuery(api.partners.listWithStats) ?? [];
   const convexDeals = useQuery(api.dealsCrud.list) ?? [];
   const convexPayouts = useQuery(api.payouts.list) ?? [];
 
   const buildConvexContext = useCallback((): string | undefined => {
-    if (convexPartners.length === 0 && convexDeals.length === 0) return undefined;
+    if (convexPartners.length === 0 && convexDeals.length === 0)
+      return undefined;
 
     const wonDeals = convexDeals.filter((d: any) => d.status === "won");
     const openDeals = convexDeals.filter((d: any) => d.status === "open");
     const lostDeals = convexDeals.filter((d: any) => d.status === "lost");
-    const totalRevenue = wonDeals.reduce((s: number, d: any) => s + (d.amount || 0), 0);
-    const pipelineValue = openDeals.reduce((s: number, d: any) => s + (d.amount || 0), 0);
-    const winRate = (wonDeals.length + lostDeals.length) > 0
-      ? Math.round((wonDeals.length / (wonDeals.length + lostDeals.length)) * 100)
-      : 0;
+    const totalRevenue = wonDeals.reduce(
+      (s: number, d: any) => s + (d.amount || 0),
+      0,
+    );
+    const pipelineValue = openDeals.reduce(
+      (s: number, d: any) => s + (d.amount || 0),
+      0,
+    );
+    const winRate =
+      wonDeals.length + lostDeals.length > 0
+        ? Math.round(
+            (wonDeals.length / (wonDeals.length + lostDeals.length)) * 100,
+          )
+        : 0;
 
     const stats = {
       totalRevenue,
@@ -73,8 +73,10 @@ export default function AskCovant() {
       openDeals: openDeals.length,
       lostDeals: lostDeals.length,
       winRate: `${winRate}%`,
-      avgDealSize: wonDeals.length > 0 ? Math.round(totalRevenue / wonDeals.length) : 0,
-      activePartners: convexPartners.filter((p: any) => p.status === "active").length,
+      avgDealSize:
+        wonDeals.length > 0 ? Math.round(totalRevenue / wonDeals.length) : 0,
+      activePartners: convexPartners.filter((p: any) => p.status === "active")
+        .length,
       totalPartners: convexPartners.length,
     };
 
@@ -98,8 +100,12 @@ export default function AskCovant() {
       name: d.name,
       amount: d.amount,
       status: d.status,
-      closedAt: d.closedAt ? new Date(d.closedAt).toISOString().split("T")[0] : null,
-      expectedClose: d.expectedCloseDate ? new Date(d.expectedCloseDate).toISOString().split("T")[0] : null,
+      closedAt: d.closedAt
+        ? new Date(d.closedAt).toISOString().split("T")[0]
+        : null,
+      expectedClose: d.expectedCloseDate
+        ? new Date(d.expectedCloseDate).toISOString().split("T")[0]
+        : null,
       registrationStatus: d.registrationStatus || null,
     }));
 
@@ -208,56 +214,70 @@ export default function AskCovant() {
     }
   }, [input, isProcessing, buildContext, buildConvexContext]);
 
-  const handleExampleClick = useCallback(async (query: string) => {
-    if (isProcessing) return;
-    setInput("");
+  const handleExampleClick = useCallback(
+    async (query: string) => {
+      if (isProcessing) return;
+      setInput("");
 
-    const userMsg: Message = {
-      id: `u_${Date.now()}`,
-      role: "user",
-      content: query,
-      timestamp: Date.now(),
-    };
-    setMessages((prev) => [...prev, userMsg]);
-    setIsProcessing(true);
-
-    try {
-      const ctx = buildContext();
-      const convexCtx = buildConvexContext();
-      const chatHistory = messages.map((m) => ({
-        role: m.role as "user" | "assistant",
-        content: m.content,
-      }));
-      const result = await askCovant(query, ctx, convexCtx, chatHistory);
-
-      const assistantMsg: Message = {
-        id: `a_${Date.now()}`,
-        role: "assistant",
-        content: result.answer,
+      const userMsg: Message = {
+        id: `u_${Date.now()}`,
+        role: "user",
+        content: query,
         timestamp: Date.now(),
-        aiPowered: result.aiPowered,
-        model: result.model,
       };
-      setMessages((prev) => [...prev, assistantMsg]);
-    } catch {
-      const ctx = buildContext();
-      const answer = processQuery(query, ctx);
-      const assistantMsg: Message = {
-        id: `a_${Date.now()}`,
-        role: "assistant",
-        content: answer,
-        timestamp: Date.now(),
-        aiPowered: false,
-      };
-      setMessages((prev) => [...prev, assistantMsg]);
-    } finally {
-      setIsProcessing(false);
-    }
-  }, [isProcessing, buildContext, buildConvexContext]);
+      setMessages((prev) => [...prev, userMsg]);
+      setIsProcessing(true);
+
+      try {
+        const ctx = buildContext();
+        const convexCtx = buildConvexContext();
+        const chatHistory = messages.map((m) => ({
+          role: m.role as "user" | "assistant",
+          content: m.content,
+        }));
+        const result = await askCovant(query, ctx, convexCtx, chatHistory);
+
+        const assistantMsg: Message = {
+          id: `a_${Date.now()}`,
+          role: "assistant",
+          content: result.answer,
+          timestamp: Date.now(),
+          aiPowered: result.aiPowered,
+          model: result.model,
+        };
+        setMessages((prev) => [...prev, assistantMsg]);
+      } catch {
+        const ctx = buildContext();
+        const answer = processQuery(query, ctx);
+        const assistantMsg: Message = {
+          id: `a_${Date.now()}`,
+          role: "assistant",
+          content: answer,
+          timestamp: Date.now(),
+          aiPowered: false,
+        };
+        setMessages((prev) => [...prev, assistantMsg]);
+      } finally {
+        setIsProcessing(false);
+      }
+    },
+    [isProcessing, buildContext, buildConvexContext],
+  );
 
   const clearHistory = useCallback(() => {
     setMessages([]);
   }, []);
+
+  // Hide on auth pages and onboarding/setup. Placed after all hooks so they run
+  // unconditionally (react-hooks/rules-of-hooks).
+  if (
+    pathname?.startsWith("/sign-in") ||
+    pathname?.startsWith("/sign-up") ||
+    pathname?.startsWith("/onboard") ||
+    pathname?.startsWith("/setup")
+  ) {
+    return null;
+  }
 
   return (
     <>
@@ -274,7 +294,7 @@ export default function AskCovant() {
           height: 56,
           borderRadius: "50%",
           background: "linear-gradient(135deg, #000 0%, #333 100%)",
-          color:'#ffffff',
+          color: "#ffffff",
           border: "none",
           cursor: "pointer",
           display: "flex",
@@ -306,7 +326,7 @@ export default function AskCovant() {
                 top: -8,
                 right: -8,
                 background: "linear-gradient(135deg, #6366f1, #8b5cf6)",
-                color:'#ffffff',
+                color: "#ffffff",
                 fontSize: "0.6rem",
                 fontWeight: 700,
                 padding: "2px 6px",
@@ -338,7 +358,8 @@ export default function AskCovant() {
             borderRadius: 16,
             background: "var(--bg, #fff)",
             border: "1px solid var(--border, #e9ecef)",
-            boxShadow: "0 8px 40px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08)",
+            boxShadow:
+              "0 8px 40px rgba(0,0,0,0.15), 0 2px 8px rgba(0,0,0,0.08)",
             zIndex: 999,
             display: "flex",
             flexDirection: "column",
@@ -392,7 +413,7 @@ export default function AskCovant() {
                   fontSize: "0.6rem",
                   fontWeight: 600,
                   color: "#6366f1",
-                  background:'#f3f4f6',
+                  background: "#f3f4f6",
                   border: "1px solid rgba(99,102,241,0.2)",
                   borderRadius: 6,
                   padding: "2px 6px",
@@ -419,8 +440,13 @@ export default function AskCovant() {
                     justifyContent: "center",
                     transition: "background 0.15s",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.background = "var(--subtle, #f8f9fa)")}
-                  onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
+                  onMouseEnter={(e) =>
+                    (e.currentTarget.style.background =
+                      "var(--subtle, #f8f9fa)")
+                  }
+                  onMouseLeave={(e) =>
+                    (e.currentTarget.style.background = "none")
+                  }
                 >
                   <Trash2 size={15} />
                 </button>
@@ -439,8 +465,12 @@ export default function AskCovant() {
                   justifyContent: "center",
                   transition: "background 0.15s",
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.background = "var(--subtle, #f8f9fa)")}
-                onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.background = "var(--subtle, #f8f9fa)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.background = "none")
+                }
               >
                 <X size={16} />
               </button>
@@ -459,14 +489,22 @@ export default function AskCovant() {
             }}
           >
             {messages.length === 0 ? (
-              <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <div
+                style={{
+                  flex: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
                 <div style={{ textAlign: "center", marginBottom: 24 }}>
                   <div
                     style={{
                       width: 48,
                       height: 48,
                       borderRadius: 12,
-                      background: "linear-gradient(135deg, #f0f0ff 0%, #e8e8ff 100%)",
+                      background:
+                        "linear-gradient(135deg, #f0f0ff 0%, #e8e8ff 100%)",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -522,13 +560,16 @@ export default function AskCovant() {
                       }}
                       onMouseEnter={(e) => {
                         if (!isProcessing) {
-                          e.currentTarget.style.background = "var(--subtle, #f8f9fa)";
-                          e.currentTarget.style.borderColor = "var(--muted, #6c757d)";
+                          e.currentTarget.style.background =
+                            "var(--subtle, #f8f9fa)";
+                          e.currentTarget.style.borderColor =
+                            "var(--muted, #6c757d)";
                         }
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = "var(--bg, #fff)";
-                        e.currentTarget.style.borderColor = "var(--border, #e9ecef)";
+                        e.currentTarget.style.borderColor =
+                          "var(--border, #e9ecef)";
                       }}
                     >
                       💬 {eq}
@@ -544,15 +585,22 @@ export default function AskCovant() {
                     style={{
                       display: "flex",
                       flexDirection: "column",
-                      alignItems: msg.role === "user" ? "flex-end" : "flex-start",
+                      alignItems:
+                        msg.role === "user" ? "flex-end" : "flex-start",
                       gap: 4,
                     }}
                   >
                     <div
-                      className={msg.role === "assistant" ? "ask-response-md" : ""}
+                      className={
+                        msg.role === "assistant" ? "ask-response-md" : ""
+                      }
                       style={{
-                        padding: msg.role === "user" ? "10px 14px" : "12px 16px",
-                        borderRadius: msg.role === "user" ? "14px 14px 4px 14px" : "14px 14px 14px 4px",
+                        padding:
+                          msg.role === "user" ? "10px 14px" : "12px 16px",
+                        borderRadius:
+                          msg.role === "user"
+                            ? "14px 14px 4px 14px"
+                            : "14px 14px 14px 4px",
                         background:
                           msg.role === "user"
                             ? "linear-gradient(135deg, #000 0%, #222 100%)"
@@ -562,7 +610,10 @@ export default function AskCovant() {
                         fontSize: "0.82rem",
                         lineHeight: 1.5,
                         wordBreak: "break-word",
-                        border: msg.role === "assistant" ? "1px solid var(--border, #e9ecef)" : "none",
+                        border:
+                          msg.role === "assistant"
+                            ? "1px solid var(--border, #e9ecef)"
+                            : "none",
                       }}
                     >
                       {msg.role === "assistant" ? (
@@ -714,8 +765,14 @@ export default function AskCovant() {
                   width: 34,
                   height: 34,
                   borderRadius: 10,
-                  background: input.trim() && !isProcessing ? "#000" : "var(--border, #e9ecef)",
-                  color: input.trim() && !isProcessing ? "#fff" : "var(--muted, #6c757d)",
+                  background:
+                    input.trim() && !isProcessing
+                      ? "#000"
+                      : "var(--border, #e9ecef)",
+                  color:
+                    input.trim() && !isProcessing
+                      ? "#fff"
+                      : "var(--muted, #6c757d)",
                   border: "none",
                   cursor: input.trim() && !isProcessing ? "pointer" : "default",
                   display: "flex",
