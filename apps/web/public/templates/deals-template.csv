@@ -1,0 +1,3 @@
+name,amount,stage,close_date,contact_name,contact_email,partner_ids
+"Acme Corp Enterprise License",75000,open,2026-03-15,John Smith,john@acme.com,
+"Widget Co Expansion",25000,open,2026-04-01,Jane Doe,jane@widgetco.com,

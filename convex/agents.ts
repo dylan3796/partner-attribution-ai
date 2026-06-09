@@ -59,7 +59,7 @@ export const getTasksForAgent = query({
     status: v.optional(TaskStatus),
   },
   handler: async (ctx, args) => {
-    let tasksQuery = ctx.db
+    const tasksQuery = ctx.db
       .query("agent_tasks")
       .withIndex("by_agent", (q) => q.eq("assignedTo", args.agentRole));
 

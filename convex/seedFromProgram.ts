@@ -9,43 +9,122 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
 import type { Id } from "./_generated/dataModel";
-import { recommendModel } from "./lib/attribution/recommender";
+import { recommendModel } from "@covant/engine";
 import { calculateDealAttribution } from "./lib/attribution/calculator";
 
 const DAY = 86_400_000;
 const now = Date.now();
 
 // Realistic partner company names per type
-const PARTNER_NAMES: Record<string, { name: string; contact: string; email: string }[]> = {
+const PARTNER_NAMES: Record<
+  string,
+  { name: string; contact: string; email: string }[]
+> = {
   reseller: [
-    { name: "CloudBridge Partners", contact: "Sarah Chen", email: "sarah@cloudbridge.io" },
-    { name: "Nexus Channel Group", contact: "David Park", email: "david@nexuschannel.com" },
-    { name: "Pinnacle Resellers", contact: "Maria Santos", email: "maria@pinnacleresellers.co" },
-    { name: "Velocity Distribution", contact: "Ryan Hughes", email: "ryan@velocitydist.com" },
+    {
+      name: "CloudBridge Partners",
+      contact: "Sarah Chen",
+      email: "sarah@cloudbridge.io",
+    },
+    {
+      name: "Nexus Channel Group",
+      contact: "David Park",
+      email: "david@nexuschannel.com",
+    },
+    {
+      name: "Pinnacle Resellers",
+      contact: "Maria Santos",
+      email: "maria@pinnacleresellers.co",
+    },
+    {
+      name: "Velocity Distribution",
+      contact: "Ryan Hughes",
+      email: "ryan@velocitydist.com",
+    },
   ],
   referral: [
-    { name: "Apex Advisory", contact: "Marcus Webb", email: "marcus@apexadvisory.com" },
-    { name: "Lighthouse Consulting", contact: "Emily Foster", email: "emily@lighthouseconsulting.io" },
-    { name: "Clearpath Solutions", contact: "Elena Torres", email: "elena@clearpathsolutions.co" },
-    { name: "Horizon Strategy", contact: "James Kim", email: "james@horizonstrategy.com" },
+    {
+      name: "Apex Advisory",
+      contact: "Marcus Webb",
+      email: "marcus@apexadvisory.com",
+    },
+    {
+      name: "Lighthouse Consulting",
+      contact: "Emily Foster",
+      email: "emily@lighthouseconsulting.io",
+    },
+    {
+      name: "Clearpath Solutions",
+      contact: "Elena Torres",
+      email: "elena@clearpathsolutions.co",
+    },
+    {
+      name: "Horizon Strategy",
+      contact: "James Kim",
+      email: "james@horizonstrategy.com",
+    },
   ],
   affiliate: [
-    { name: "TechStack Review", contact: "Priya Patel", email: "priya@techstackreview.com" },
-    { name: "SaaS Insider", contact: "Jordan Lee", email: "jordan@saasinsider.io" },
-    { name: "Growth Hackers Network", contact: "Alex Chen", email: "alex@growthhackersnet.com" },
-    { name: "DigitalFirst Media", contact: "Nina Rossi", email: "nina@digitalfirstmedia.co" },
+    {
+      name: "TechStack Review",
+      contact: "Priya Patel",
+      email: "priya@techstackreview.com",
+    },
+    {
+      name: "SaaS Insider",
+      contact: "Jordan Lee",
+      email: "jordan@saasinsider.io",
+    },
+    {
+      name: "Growth Hackers Network",
+      contact: "Alex Chen",
+      email: "alex@growthhackersnet.com",
+    },
+    {
+      name: "DigitalFirst Media",
+      contact: "Nina Rossi",
+      email: "nina@digitalfirstmedia.co",
+    },
   ],
   integration: [
-    { name: "DataSync Labs", contact: "Tom Brennan", email: "tom@datasynclabs.io" },
+    {
+      name: "DataSync Labs",
+      contact: "Tom Brennan",
+      email: "tom@datasynclabs.io",
+    },
     { name: "APIConnect", contact: "Lisa Wang", email: "lisa@apiconnect.dev" },
-    { name: "FlowBridge Tech", contact: "Carlos Mendez", email: "carlos@flowbridge.io" },
-    { name: "IntegrateHQ", contact: "Aisha Johnson", email: "aisha@integratehq.com" },
+    {
+      name: "FlowBridge Tech",
+      contact: "Carlos Mendez",
+      email: "carlos@flowbridge.io",
+    },
+    {
+      name: "IntegrateHQ",
+      contact: "Aisha Johnson",
+      email: "aisha@integratehq.com",
+    },
   ],
   partner: [
-    { name: "Strategic Growth Co", contact: "Michael Ross", email: "michael@strategicgrowth.co" },
-    { name: "Alliance Partners", contact: "Sarah Kim", email: "sarah@alliancepartners.io" },
-    { name: "TrueNorth Partners", contact: "David Chen", email: "david@truenorthpartners.com" },
-    { name: "Keystone Group", contact: "Rachel Green", email: "rachel@keystonegroup.co" },
+    {
+      name: "Strategic Growth Co",
+      contact: "Michael Ross",
+      email: "michael@strategicgrowth.co",
+    },
+    {
+      name: "Alliance Partners",
+      contact: "Sarah Kim",
+      email: "sarah@alliancepartners.io",
+    },
+    {
+      name: "TrueNorth Partners",
+      contact: "David Chen",
+      email: "david@truenorthpartners.com",
+    },
+    {
+      name: "Keystone Group",
+      contact: "Rachel Green",
+      email: "rachel@keystonegroup.co",
+    },
   ],
 };
 
@@ -70,38 +149,46 @@ const DEAL_TEMPLATES = [
   { name: "Driftwood Logistics — Enterprise", amount: 88000 },
 ];
 
-const TIERS_ORDER = ["bronze", "silver", "gold", "platinum"] as const;
+type TierName = "bronze" | "silver" | "gold" | "platinum";
 
 export const seedFromProgram = mutation({
   args: {
-    partnerTypes: v.array(v.object({
-      type: v.string(),
-      rate: v.number(),
-    })),
-    tiers: v.array(v.object({
-      name: v.string(),
-      rate: v.number(),
-      mdf: v.optional(v.number()),
-    })),
+    partnerTypes: v.array(
+      v.object({
+        type: v.string(),
+        rate: v.number(),
+      }),
+    ),
+    tiers: v.array(
+      v.object({
+        name: v.string(),
+        rate: v.number(),
+        mdf: v.optional(v.number()),
+      }),
+    ),
     bonuses: v.array(v.string()),
     summary: v.string(),
     description: v.string(), // the raw NL text
     // Optional: the chosen bounded model + archetype. If omitted, the recommender
     // picks one from the description + partner types.
-    attributionModel: v.optional(v.union(
-      v.literal("first_touch_sourcer"),
-      v.literal("split_equally"),
-      v.literal("role_weighted"),
-      v.literal("implementation_credit"),
-      v.literal("marketplace_cosell_hybrid")
-    )),
-    archetype: v.optional(v.union(
-      v.literal("si"),
-      v.literal("cloud_cosell"),
-      v.literal("tech_isv"),
-      v.literal("reseller"),
-      v.literal("other")
-    )),
+    attributionModel: v.optional(
+      v.union(
+        v.literal("first_touch_sourcer"),
+        v.literal("split_equally"),
+        v.literal("role_weighted"),
+        v.literal("implementation_credit"),
+        v.literal("marketplace_cosell_hybrid"),
+      ),
+    ),
+    archetype: v.optional(
+      v.union(
+        v.literal("si"),
+        v.literal("cloud_cosell"),
+        v.literal("tech_isv"),
+        v.literal("reseller"),
+        v.literal("other"),
+      ),
+    ),
   },
   handler: async (ctx, args) => {
     const { getOrg } = await import("./lib/getOrg");
@@ -158,14 +245,15 @@ export const seedFromProgram = mutation({
       if (!tierName) continue;
 
       // Find which types this tier might apply to — create rules for each
-      const types = args.partnerTypes.length > 0
-        ? args.partnerTypes.map(pt => normalizePartnerType(pt.type))
-        : ["reseller" as const]; // default if no types specified
+      const types =
+        args.partnerTypes.length > 0
+          ? args.partnerTypes.map((pt) => normalizePartnerType(pt.type))
+          : ["reseller" as const]; // default if no types specified
 
       for (const partnerType of types) {
         // Only create tier rule if rate differs from type base rate
         const existingTypeRule = args.partnerTypes.find(
-          pt => normalizePartnerType(pt.type) === partnerType
+          (pt) => normalizePartnerType(pt.type) === partnerType,
         );
         if (existingTypeRule && existingTypeRule.rate === tier.rate) continue;
 
@@ -197,13 +285,17 @@ export const seedFromProgram = mutation({
     const partnerMeta: { type: string; rate: number; tier?: string }[] = [];
 
     // Determine which types and tiers to create partners for
-    const typesToCreate = args.partnerTypes.length > 0
-      ? args.partnerTypes
-      : [{ type: "partner", rate: 15 }];
+    const typesToCreate =
+      args.partnerTypes.length > 0
+        ? args.partnerTypes
+        : [{ type: "partner", rate: 15 }];
 
-    const tiersList = args.tiers.length > 0
-      ? args.tiers.map(t => normalizeTier(t.name)).filter(Boolean) as typeof TIERS_ORDER[number][]
-      : ["silver", "gold"] as typeof TIERS_ORDER[number][];
+    const tiersList =
+      args.tiers.length > 0
+        ? (args.tiers
+            .map((t) => normalizeTier(t.name))
+            .filter(Boolean) as TierName[])
+        : (["silver", "gold"] as TierName[]);
 
     let partnerCount = 0;
     for (const pt of typesToCreate) {
@@ -217,7 +309,7 @@ export const seedFromProgram = mutation({
         const tier = tiersList[i % tiersList.length];
 
         // Use tier-specific rate if available, otherwise type rate
-        const tierInfo = args.tiers.find(t => normalizeTier(t.name) === tier);
+        const tierInfo = args.tiers.find((t) => normalizeTier(t.name) === tier);
         const effectiveRate = tierInfo ? tierInfo.rate / 100 : pt.rate / 100;
 
         const id = await ctx.db.insert("partners", {
@@ -229,7 +321,12 @@ export const seedFromProgram = mutation({
           tier: tier,
           commissionRate: effectiveRate,
           status: "active" as const,
-          tags: tier === "gold" || tier === "platinum" ? ["Top Performer", "Strategic"] : tier === "silver" ? ["Strategic"] : ["New"],
+          tags:
+            tier === "gold" || tier === "platinum"
+              ? ["Top Performer", "Strategic"]
+              : tier === "silver"
+                ? ["Strategic"]
+                : ["New"],
           notes: "",
           createdAt: now - (80 - partnerCount * 3) * DAY,
         });
@@ -240,7 +337,10 @@ export const seedFromProgram = mutation({
     }
 
     // ── 3. Deals + Touchpoints + Attributions + Payouts ──────────
-    const dealCount = Math.min(DEAL_TEMPLATES.length, Math.max(10, pIds.length * 3));
+    const dealCount = Math.min(
+      DEAL_TEMPLATES.length,
+      Math.max(10, pIds.length * 3),
+    );
 
     for (let i = 0; i < dealCount; i++) {
       const d = DEAL_TEMPLATES[i];
@@ -250,8 +350,7 @@ export const seedFromProgram = mutation({
 
       // Mix of won/open/lost
       const status: "won" | "open" | "lost" =
-        i < dealCount * 0.6 ? "won" :
-        i < dealCount * 0.85 ? "open" : "lost";
+        i < dealCount * 0.6 ? "won" : i < dealCount * 0.85 ? "open" : "lost";
 
       const closedAt = status === "won" ? now - daysAgo * DAY : undefined;
 
@@ -282,7 +381,8 @@ export const seedFromProgram = mutation({
       // ~33% get a second partner touchpoint
       const hasSecond = i % 3 === 0;
       const secondIdx = (primaryIdx + 2) % pIds.length;
-      const secondId = hasSecond && secondIdx !== primaryIdx ? pIds[secondIdx] : undefined;
+      const secondId =
+        hasSecond && secondIdx !== primaryIdx ? pIds[secondIdx] : undefined;
 
       if (secondId) {
         await ctx.db.insert("touchpoints", {
@@ -301,7 +401,12 @@ export const seedFromProgram = mutation({
         const result = await calculateDealAttribution(ctx, dealId, orgId, {
           replaceExisting: true,
         });
-        const payoutStatus = daysAgo > 30 ? "paid" as const : daysAgo > 15 ? "approved" as const : "pending_approval" as const;
+        const payoutStatus =
+          daysAgo > 30
+            ? ("paid" as const)
+            : daysAgo > 15
+              ? ("approved" as const)
+              : ("pending_approval" as const);
         for (const entry of result.ledger) {
           if (entry.commissionAmount <= 0) continue;
           await ctx.db.insert("payouts", {
@@ -321,14 +426,32 @@ export const seedFromProgram = mutation({
     await ctx.db.insert("programConfig", {
       sessionId: `onboard_${Date.now()}`,
       programName: "My Partner Program",
-      programType: typesToCreate.map(t => t.type).join(", "),
+      programType: typesToCreate.map((t) => t.type).join(", "),
       interactionTypes: [
-        { id: "deal_registration", label: "Deal Registration", weight: 1, triggersAttribution: true, triggersPayout: true },
-        { id: "referral", label: "Referral", weight: 0.8, triggersAttribution: true, triggersPayout: true },
-        { id: "co_sell", label: "Co-Sell", weight: 0.6, triggersAttribution: true, triggersPayout: false },
+        {
+          id: "deal_registration",
+          label: "Deal Registration",
+          weight: 1,
+          triggersAttribution: true,
+          triggersPayout: true,
+        },
+        {
+          id: "referral",
+          label: "Referral",
+          weight: 0.8,
+          triggersAttribution: true,
+          triggersPayout: true,
+        },
+        {
+          id: "co_sell",
+          label: "Co-Sell",
+          weight: 0.6,
+          triggersAttribution: true,
+          triggersPayout: false,
+        },
       ],
       attributionModel: selectedModel,
-      commissionRules: typesToCreate.map(pt => ({
+      commissionRules: typesToCreate.map((pt) => ({
         type: pt.type,
         value: pt.rate,
         unit: "percent",
@@ -353,14 +476,19 @@ export const seedFromProgram = mutation({
       programId,
       attributionModel: selectedModel,
       archetype,
-      recommendation: { model: recommendation.model, rationale: recommendation.rationale },
+      recommendation: {
+        model: recommendation.model,
+        rationale: recommendation.rationale,
+      },
     };
   },
 });
 
 // ── Helpers ──────────────────────────────────────────────────────
 
-function normalizePartnerType(raw: string): "reseller" | "referral" | "affiliate" | "integration" {
+function normalizePartnerType(
+  raw: string,
+): "reseller" | "referral" | "affiliate" | "integration" {
   const lower = raw.toLowerCase();
   if (lower.includes("resell") || lower.includes("channel")) return "reseller";
   if (lower.includes("referr")) return "referral";
@@ -369,7 +497,9 @@ function normalizePartnerType(raw: string): "reseller" | "referral" | "affiliate
   return "referral"; // safe default
 }
 
-function normalizeTier(raw: string): "bronze" | "silver" | "gold" | "platinum" | null {
+function normalizeTier(
+  raw: string,
+): "bronze" | "silver" | "gold" | "platinum" | null {
   const lower = raw.toLowerCase();
   if (lower.includes("plat")) return "platinum";
   if (lower.includes("gold")) return "gold";

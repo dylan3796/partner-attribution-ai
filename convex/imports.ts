@@ -15,12 +15,12 @@ import type { Doc, Id } from "./_generated/dataModel";
 import { getOrg } from "./lib/getOrg";
 import { calculateDealAttribution } from "./lib/attribution/calculator";
 
-const PARTNER_TYPES = ["affiliate", "referral", "reseller", "integration"] as const;
-type PartnerType = (typeof PARTNER_TYPES)[number];
+type PartnerType = "affiliate" | "referral" | "reseller" | "integration";
 
 function normType(t?: string): PartnerType {
   const v = (t ?? "").toLowerCase();
-  if (v.includes("resell") || v.includes("channel") || v.includes("distrib")) return "reseller";
+  if (v.includes("resell") || v.includes("channel") || v.includes("distrib"))
+    return "reseller";
   if (v.includes("integr") || v.includes("tech")) return "integration";
   if (v.includes("affil")) return "affiliate";
   return "referral";
@@ -41,7 +41,7 @@ export const importPartnerData = mutation({
         type: v.optional(v.string()),
         tier: v.optional(v.string()),
         commissionRate: v.optional(v.number()),
-      })
+      }),
     ),
     deals: v.optional(
       v.array(
@@ -52,8 +52,8 @@ export const importPartnerData = mutation({
           partnerName: v.string(), // which partner sourced/registered it
           closedAt: v.optional(v.number()),
           productName: v.optional(v.string()),
-        })
-      )
+        }),
+      ),
     ),
   },
   handler: async (ctx, args) => {
@@ -64,7 +64,7 @@ export const importPartnerData = mutation({
     const source = "manual" as const;
 
     // Ensure a default program exists so imported deals get a model.
-    let programs = await ctx.db
+    const programs = await ctx.db
       .query("programs")
       .withIndex("by_organization", (q) => q.eq("organizationId", orgId))
       .collect();
@@ -75,9 +75,10 @@ export const importPartnerData = mutation({
         organizationId: orgId,
         name: "Imported Program",
         archetype: "other",
-        selectedModel: org.defaultAttributionModel && isBounded(org.defaultAttributionModel)
-          ? (org.defaultAttributionModel as any)
-          : "role_weighted",
+        selectedModel:
+          org.defaultAttributionModel && isBounded(org.defaultAttributionModel)
+            ? (org.defaultAttributionModel as any)
+            : "role_weighted",
         isDefault: true,
         createdAt: Date.now(),
       });
@@ -124,8 +125,10 @@ export const importPartnerData = mutation({
       if (dealByName.has(d.name.toLowerCase())) continue;
       const partnerId = byName.get(d.partnerName.toLowerCase());
       if (!partnerId) continue; // skip deals whose partner wasn't in the import
-      const status = d.status === "won" || d.status === "lost" ? d.status : "open";
-      const closedAt = status === "won" ? d.closedAt ?? Date.now() : undefined;
+      const status =
+        d.status === "won" || d.status === "lost" ? d.status : "open";
+      const closedAt =
+        status === "won" ? (d.closedAt ?? Date.now()) : undefined;
 
       const dealId = await ctx.db.insert("deals", {
         organizationId: orgId,
@@ -154,7 +157,9 @@ export const importPartnerData = mutation({
 
       if (status === "won") {
         try {
-          const result = await calculateDealAttribution(ctx, dealId, orgId, { replaceExisting: true });
+          const result = await calculateDealAttribution(ctx, dealId, orgId, {
+            replaceExisting: true,
+          });
           attributionsCreated += result.totalAttributionsCreated;
         } catch {
           /* no touchpoints / no program — skip */
@@ -183,7 +188,9 @@ function isBounded(m: string): boolean {
   ].includes(m);
 }
 
-function normTier(t?: string): "bronze" | "silver" | "gold" | "platinum" | undefined {
+function normTier(
+  t?: string,
+): "bronze" | "silver" | "gold" | "platinum" | undefined {
   const v = (t ?? "").toLowerCase();
   if (v.includes("platinum")) return "platinum";
   if (v.includes("gold")) return "gold";

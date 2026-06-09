@@ -1,0 +1,524 @@
+"use client";
+
+import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import {
+  Sparkles, X, ChevronRight, Zap, Wrench,
+  GitCommit,
+} from "lucide-react";
+
+type ChangeType = "feat" | "fix" | "polish" | "other";
+
+type ChangeEntry = {
+  id: string;
+  date: string;
+  type: ChangeType;
+  title: string;
+  description: string;
+  link?: string;
+};
+
+const TYPE_CONFIG: Record<ChangeType, { label: string; color: string; bg: string; icon: typeof Sparkles }> = {
+  feat: { label: "New", color: "#22c55e", bg: "rgba(34,197,94,.12)", icon: Sparkles },
+  fix: { label: "Fix", color: "#f59e0b", bg: "rgba(245,158,11,.12)", icon: Wrench },
+  polish: { label: "Polish", color: "#8b5cf6", bg: "rgba(139,92,246,.12)", icon: Zap },
+  other: { label: "Update", color: "#6b7280", bg: "rgba(107,114,128,.12)", icon: GitCommit },
+};
+
+// Recent notable features — curated highlights, not exhaustive git log
+const RECENT_CHANGES: ChangeEntry[] = [
+  {
+    id: "2026-03-08-blog-rss",
+    date: "Mar 8",
+    type: "feat",
+    title: "Blog RSS Feed",
+    description: "Subscribe to Covant's blog via RSS at /blog/feed.xml. Auto-discovery in page head for RSS readers. Standard content syndication for SEO and subscriber engagement.",
+    link: "/blog/feed.xml",
+  },
+  {
+    id: "2026-03-08-cookie-consent",
+    date: "Mar 8",
+    type: "polish",
+    title: "Cookie Consent Banner",
+    description: "GDPR/CCPA-compliant cookie consent banner on all marketing pages. Accept/decline with persisted preferences. Links to privacy policy. Enterprise compliance trust signal.",
+    link: "/privacy",
+  },
+  {
+    id: "2026-03-07-dashboard-preview",
+    date: "Mar 7",
+    type: "feat",
+    title: "Dashboard Preview",
+    description: "See the admin command center VPs use to run their programs — attribution audit trails, commission management, partner intelligence, QBR reports, and pipeline operations. The counterpart to Portal Preview.",
+    link: "/dashboard-preview",
+  },
+  {
+    id: "2026-03-07-portal-preview",
+    date: "Mar 7",
+    type: "feat",
+    title: "Partner Portal Preview",
+    description: "See what your partners experience — dedicated marketing page with interactive mockups of the portal dashboard, deal registration, commission tracking, performance analytics, certifications, and announcements.",
+    link: "/portal-preview",
+  },
+  {
+    id: "2026-03-07-announcements",
+    date: "Mar 7",
+    type: "feat",
+    title: "Partner Announcements",
+    description: "Broadcast product updates, incentive campaigns, policy changes, and events to your entire partner network. Draft, publish, pin, and manage from the dashboard — partners see a curated feed in their portal.",
+    link: "/dashboard/announcements",
+  },
+  {
+    id: "2026-03-07-features-page",
+    date: "Mar 7",
+    type: "feat",
+    title: "Features Page",
+    description: "Comprehensive feature reference with 45+ capabilities organized into 7 categories — the page VPs forward to procurement teams during vendor evaluation.",
+    link: "/features",
+  },
+  {
+    id: "2026-03-07-reports-hub",
+    date: "Mar 7",
+    type: "feat",
+    title: "Reports Hub",
+    description: "Centralized reports overview — all 8 analytics reports organized in one page with quick-access shortcuts for Attribution, Weekly Digest, and QBR.",
+    link: "/dashboard/reports",
+  },
+  {
+    id: "2026-03-07-blog-enhancements",
+    date: "Mar 7",
+    type: "polish",
+    title: "Blog Article Enhancements",
+    description: "Table of contents, social sharing (LinkedIn, X, copy link), related posts at bottom of every article, and Article JSON-LD for Google rich results.",
+    link: "/blog",
+  },
+  {
+    id: "2026-03-07-certifications",
+    date: "Mar 7",
+    type: "feat",
+    title: "Partner Certifications",
+    description: "Full certification program management — create programs, award certs to partners, track completion and expiry. Tier-gated certifications, scores, audit trail. Replaces placeholder.",
+    link: "/dashboard/certifications",
+  },
+  {
+    id: "2026-03-07-partner-scorecard",
+    date: "Mar 7",
+    type: "feat",
+    title: "Partner Scorecard",
+    description: "Print-ready one-page partner performance report. Health score, key metrics, revenue trend, top deals, and auto-generated insights. Share with leadership or use for QBR prep.",
+  },
+  {
+    id: "2026-03-07-activity-heatmap",
+    date: "Mar 7",
+    type: "feat",
+    title: "Partner Activity Heatmap",
+    description: "GitHub-style contribution graph showing daily partner program activity over 12 months. Streak tracking, busiest day, activity breakdown by type. Spot engagement patterns at a glance.",
+    link: "/dashboard/reports/activity",
+  },
+  {
+    id: "2026-03-06-win-loss",
+    date: "Mar 6",
+    type: "feat",
+    title: "Win/Loss Analysis",
+    description: "Deep dive into deal outcomes — win rates by partner, product, and deal size. Deal velocity comparison, touchpoint correlation, monthly trends, auto-generated insights. QBR-ready.",
+    link: "/dashboard/reports/win-loss",
+  },
+  {
+    id: "2026-03-06-keyboard-shortcuts",
+    date: "Mar 6",
+    type: "polish",
+    title: "Keyboard Shortcuts",
+    description: "Press ? to see all shortcuts. G+key navigation: G then D for Dashboard, G then P for Partners, G then E for Deals, and more. Power-user navigation.",
+    link: "/dashboard",
+  },
+  {
+    id: "2026-03-06-deals-advanced",
+    date: "Mar 6",
+    type: "feat",
+    title: "Advanced Deals Page",
+    description: "Stats cards, 6-filter system (status, partner, product, amount range, registration), sortable table columns, and active filter pills. Find any deal instantly.",
+    link: "/dashboard/deals",
+  },
+  {
+    id: "2026-03-06-revenue-intelligence",
+    date: "Mar 6",
+    type: "feat",
+    title: "Revenue Intelligence",
+    description: "Deep analytics on partner-attributed revenue — breakdown by type & tier, monthly trends (partner-sourced vs direct), concentration risk analysis, top partners, and largest deals.",
+    link: "/dashboard/reports/revenue",
+  },
+  {
+    id: "2026-03-06-partner-compare",
+    date: "Mar 6",
+    type: "feat",
+    title: "Partner Comparison",
+    description: "Select 2–4 partners and compare side-by-side: revenue, win rate, deals, engagement, monthly trends, and auto-generated insights.",
+    link: "/dashboard/partners",
+  },
+  {
+    id: "2026-03-06-partner-tags",
+    date: "Mar 6",
+    type: "feat",
+    title: "Partner Tags",
+    description: "Color-coded labels to organize partners (Top Performer, Strategic, At Risk, VIP, etc). Add/remove inline, filter by tag on the list page.",
+    link: "/dashboard/partners",
+  },
+  {
+    id: "2026-03-06-partner-notes",
+    date: "Mar 6",
+    type: "feat",
+    title: "Partner Notes",
+    description: "Threaded internal notes on partner detail pages. Pin important notes, inline edit, full audit trail. Track conversations and context across your team.",
+    link: "/dashboard/partners",
+  },
+  {
+    id: "2026-03-06-portal-volume",
+    date: "Mar 6",
+    type: "feat",
+    title: "Portal Volume — Real Data",
+    description: "Volume programs, tier progress, and leaderboard now persist in Convex. All portal pages use real data — zero useStore remaining.",
+    link: "/portal/volume",
+  },
+  {
+    id: "2026-03-06-tier-reviews",
+    date: "Mar 6",
+    type: "feat",
+    title: "Tier Reviews with Convex",
+    description: "Approve, reject, or defer partner tier changes — decisions now persist across sessions with full audit trail.",
+    link: "/dashboard/scoring/tier-reviews",
+  },
+  {
+    id: "2026-03-06-whats-new",
+    date: "Mar 6",
+    type: "polish",
+    title: "What's New Widget",
+    description: "Sparkle button in the top bar shows curated feature highlights with unseen badge and click-to-navigate.",
+  },
+  {
+    id: "2026-03-05-goals",
+    date: "Mar 5",
+    type: "feat",
+    title: "Goals & Targets",
+    description: "Set quarterly objectives and track live progress with color-coded pace indicators.",
+    link: "/dashboard/goals",
+  },
+  {
+    id: "2026-03-05-export",
+    date: "Mar 5",
+    type: "feat",
+    title: "Data Export Center",
+    description: "Bulk CSV download for all program data — partners, deals, payouts, touchpoints, and more.",
+    link: "/dashboard/reports/export",
+  },
+  {
+    id: "2026-03-05-leaderboard",
+    date: "Mar 5",
+    type: "feat",
+    title: "Partner Leaderboard",
+    description: "Gamified performance rankings with composite scoring, top-3 podium, and time period filters.",
+    link: "/dashboard/leaderboard",
+  },
+  {
+    id: "2026-03-05-health",
+    date: "Mar 5",
+    type: "feat",
+    title: "Partner Health Scores",
+    description: "Individual 0-100 health scores computed from live deal activity, revenue, and engagement.",
+    link: "/dashboard/partner-health",
+  },
+  {
+    id: "2026-03-05-qbr",
+    date: "Mar 5",
+    type: "feat",
+    title: "QBR Reports",
+    description: "Executive quarterly reviews with revenue charts, partner rankings, and print/PDF support.",
+    link: "/dashboard/reports/qbr",
+  },
+  {
+    id: "2026-03-05-disputes",
+    date: "Mar 5",
+    type: "feat",
+    title: "Dispute Resolution",
+    description: "Full dispute lifecycle — open, review, resolve, reject — with Convex persistence and audit trail.",
+    link: "/dashboard/conflicts",
+  },
+  {
+    id: "2026-03-04-products",
+    date: "Mar 4",
+    type: "feat",
+    title: "Product Catalog",
+    description: "Manage products with SKUs, categories, and margins. Commission rules now tie to specific products.",
+    link: "/dashboard/products",
+  },
+  {
+    id: "2026-03-04-webhooks",
+    date: "Mar 4",
+    type: "feat",
+    title: "Webhooks & API Keys",
+    description: "Create webhook endpoints with HMAC signing, manage API keys with granular scopes and expiration.",
+    link: "/dashboard/settings/webhooks",
+  },
+  {
+    id: "2026-03-04-team",
+    date: "Mar 4",
+    type: "feat",
+    title: "Team Management",
+    description: "Invite members, assign roles (Admin/Manager/Member), and manage permissions.",
+    link: "/dashboard/settings/team",
+  },
+  {
+    id: "2026-03-04-notifications",
+    date: "Mar 4",
+    type: "feat",
+    title: "Notification Center",
+    description: "Full notifications inbox with type filtering, bulk actions, and configurable preferences.",
+    link: "/dashboard/notifications",
+  },
+  {
+    id: "2026-03-04-kanban",
+    date: "Mar 4",
+    type: "feat",
+    title: "Pipeline Board View",
+    description: "Kanban-style deal pipeline with drag columns — Pending, Active, Won, Lost.",
+    link: "/dashboard/pipeline",
+  },
+  {
+    id: "2026-03-03-blog",
+    date: "Mar 3",
+    type: "feat",
+    title: "Blog & Resources",
+    description: "7 SEO-optimized articles, resource hub, and partner program assessment tool.",
+    link: "/blog",
+  },
+];
+
+const STORAGE_KEY = "covant-whats-new-seen";
+const LATEST_VERSION = "2026-03-08";
+
+function getSeenVersion(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(STORAGE_KEY);
+}
+
+function markSeen() {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(STORAGE_KEY, LATEST_VERSION);
+}
+
+export function WhatsNewButton() {
+  const [open, setOpen] = useState(false);
+  const [hasNew, setHasNew] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    const seen = getSeenVersion();
+    setHasNew(seen !== LATEST_VERSION);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (
+        panelRef.current && !panelRef.current.contains(e.target as Node) &&
+        btnRef.current && !btnRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  function handleOpen() {
+    setOpen(!open);
+    if (!open) {
+      markSeen();
+      setHasNew(false);
+    }
+  }
+
+  function handleItemClick(link?: string) {
+    if (link) {
+      router.push(link);
+      setOpen(false);
+    }
+  }
+
+  return (
+    <div style={{ position: "relative" }}>
+      <button
+        ref={btnRef}
+        onClick={handleOpen}
+        aria-label="What's New"
+        title="What's New"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 5,
+          padding: "5px 10px",
+          borderRadius: 8,
+          border: "1px solid var(--border)",
+          background: open ? "var(--subtle)" : "transparent",
+          cursor: "pointer",
+          color: "var(--muted)",
+          fontSize: ".78rem",
+          fontWeight: 500,
+          fontFamily: "inherit",
+          transition: "all .15s",
+          position: "relative",
+        }}
+      >
+        <Sparkles size={14} />
+        <span style={{ display: "inline-block" }}>New</span>
+        {hasNew && (
+          <span style={{
+            position: "absolute",
+            top: -2,
+            right: -2,
+            width: 8,
+            height: 8,
+            borderRadius: "50%",
+            background: "#22c55e",
+            border: "2px solid var(--bg)",
+          }} />
+        )}
+      </button>
+
+      {open && (
+        <div
+          ref={panelRef}
+          style={{
+            position: "absolute",
+            top: "calc(100% + 8px)",
+            right: 0,
+            width: 380,
+            maxHeight: "70vh",
+            background:'#ffffff',
+            border:'1px solid #e5e7eb',
+            borderRadius: 12,
+            boxShadow: "0 20px 60px rgba(0,0,0,.5)",
+            overflow: "hidden",
+            zIndex: 200,
+            animation: "whatsNewSlide .15s ease-out",
+          }}
+        >
+          {/* Header */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "14px 16px",
+            borderBottom:'1px solid #e5e7eb',
+          }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <Sparkles size={16} color="#22c55e" />
+              <span style={{ fontWeight: 700, fontSize: ".9rem" }}>What&apos;s New</span>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <button
+                onClick={() => setOpen(false)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  padding: 2,
+                  color: "var(--muted)",
+                  lineHeight: 0,
+                }}
+              >
+                <X size={14} />
+              </button>
+            </div>
+          </div>
+
+          {/* Entries */}
+          <div style={{
+            overflowY: "auto",
+            maxHeight: "calc(70vh - 52px)",
+            padding: "8px 0",
+          }}>
+            {RECENT_CHANGES.map((entry) => {
+              const cfg = TYPE_CONFIG[entry.type];
+              const Icon = cfg.icon;
+              return (
+                <button
+                  key={entry.id}
+                  onClick={() => handleItemClick(entry.link)}
+                  style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 10,
+                    padding: "10px 16px",
+                    width: "100%",
+                    background: "transparent",
+                    border: "none",
+                    cursor: entry.link ? "pointer" : "default",
+                    textAlign: "left",
+                    color: "var(--fg)",
+                    fontFamily: "inherit",
+                    transition: "background .1s",
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(255,255,255,.04)")}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = "transparent")}
+                >
+                  <span style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 3,
+                    padding: "2px 7px",
+                    borderRadius: 5,
+                    fontSize: ".6rem",
+                    fontWeight: 700,
+                    color: cfg.color,
+                    background: cfg.bg,
+                    flexShrink: 0,
+                    marginTop: 2,
+                    textTransform: "uppercase",
+                    letterSpacing: ".03em",
+                  }}>
+                    <Icon size={9} /> {cfg.label}
+                  </span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
+                      <span style={{ fontSize: ".83rem", fontWeight: 600, lineHeight: 1.3 }}>
+                        {entry.title}
+                      </span>
+                      <span style={{ fontSize: ".65rem", color: "var(--muted)", flexShrink: 0 }}>
+                        {entry.date}
+                      </span>
+                    </div>
+                    <p style={{
+                      fontSize: ".75rem",
+                      color: "var(--muted)",
+                      lineHeight: 1.4,
+                      marginTop: 2,
+                    }}>
+                      {entry.description}
+                    </p>
+                  </div>
+                  {entry.link && (
+                    <ChevronRight size={13} style={{ flexShrink: 0, marginTop: 3, color:"#9ca3af" }} />
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      <style jsx>{`
+        @keyframes whatsNewSlide {
+          from {
+            opacity: 0;
+            transform: translateY(-4px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+    </div>
+  );
+}

@@ -1,0 +1,11 @@
+# build output & generated
+**/.next/
+**/out/
+**/build/
+coverage/
+convex/_generated/
+# deps & lockfiles
+**/node_modules/
+package-lock.json
+# assets
+**/*.svg

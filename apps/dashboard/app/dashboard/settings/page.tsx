@@ -1,0 +1,2761 @@
+"use client";
+
+import { useState, useEffect, Suspense, useCallback } from "react";
+import { useSearchParams } from "next/navigation";
+import { useQuery, useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { useStore } from "@/lib/store";
+import { useToast } from "@/components/ui/toast";
+import {
+  MODEL_LABELS,
+  MODEL_DESCRIPTIONS,
+  type AttributionModel,
+  FEATURE_FLAG_LABELS,
+  type FeatureFlags,
+  type ComplexityLevel,
+  type UIDensity,
+} from "@/lib/types";
+import { usePlatformConfig } from "@/lib/platform-config";
+import {
+  ToggleLeft,
+  ToggleRight,
+  Sliders,
+  Layout,
+  RefreshCw,
+  Server,
+  Lightbulb,
+  Sparkles,
+  FileUp,
+  Mail,
+  CheckCircle,
+  XCircle,
+  Loader2,
+  Unplug,
+  CreditCard,
+  Zap,
+  ExternalLink,
+  AlertCircle,
+  Settings2,
+  Plus,
+  Trash2,
+  Save,
+} from "lucide-react";
+import CSVImport from "@/components/CSVImport";
+
+function SettingsPageInner() {
+  const { org: storeOrg, updateOrg } = useStore();
+  const { toast } = useToast();
+  const searchParams = useSearchParams();
+  const {
+    config,
+    updateFeatureFlag,
+    setComplexityLevel,
+    setUIDensity,
+    resetToDefaults,
+  } = usePlatformConfig();
+
+  // Get real organization from Convex
+  const convexOrg = useQuery(api.dashboard.getOrganization);
+  const org = convexOrg ?? storeOrg;
+
+  // Program Config
+  const programConfig = useQuery(api.programConfig.getLatest);
+  const updateProgramConfig = useMutation(api.programConfig.update);
+  const [editingConfig, setEditingConfig] = useState(false);
+  const [configDraft, setConfigDraft] = useState<{
+    programName: string;
+    programType: string;
+    attributionModel: string;
+    interactionTypes: Array<{
+      id: string;
+      label: string;
+      weight: number;
+      triggersAttribution: boolean;
+      triggersPayout: boolean;
+    }>;
+    commissionRules: Array<{
+      type: string;
+      value: number;
+      unit: string;
+      label: string;
+    }>;
+  } | null>(null);
+  const [configSaving, setConfigSaving] = useState(false);
+
+  const startEditingConfig = useCallback(() => {
+    if (!programConfig) return;
+    setConfigDraft({
+      programName: programConfig.programName || "",
+      programType: programConfig.programType,
+      attributionModel: programConfig.attributionModel,
+      interactionTypes: [...programConfig.interactionTypes],
+      commissionRules: [...programConfig.commissionRules],
+    });
+    setEditingConfig(true);
+  }, [programConfig]);
+
+  async function saveConfigChanges() {
+    if (!configDraft || !programConfig?._id) return;
+    // Warn if attribution model changed — this affects how future deals are calculated
+    if (configDraft.attributionModel !== programConfig.attributionModel) {
+      const confirmed = confirm(
+        `Changing attribution model from "${programConfig.attributionModel.replace(/_/g, " ")}" to "${configDraft.attributionModel.replace(/_/g, " ")}". This will affect how future deals are attributed. Existing deal attributions won't change retroactively. Continue?`,
+      );
+      if (!confirmed) return;
+    }
+    setConfigSaving(true);
+    try {
+      await updateProgramConfig({
+        id: programConfig._id,
+        programName: configDraft.programName,
+        programType: configDraft.programType,
+        attributionModel: configDraft.attributionModel,
+        interactionTypes: configDraft.interactionTypes,
+        commissionRules: configDraft.commissionRules,
+      });
+      setEditingConfig(false);
+      setConfigDraft(null);
+      toast("Program configuration updated");
+    } catch {
+      toast("Failed to save configuration", "error");
+    } finally {
+      setConfigSaving(false);
+    }
+  }
+  const [orgName, setOrgName] = useState(org?.name || "");
+  const [orgEmail, setOrgEmail] = useState(org?.email || "");
+  const [defaultModel, setDefaultModel] = useState<AttributionModel>(
+    (org?.defaultAttributionModel as AttributionModel) || "role_weighted",
+  );
+  const [defaultRate, setDefaultRate] = useState("10");
+  const [showApiKey, setShowApiKey] = useState(false);
+  const [sfSyncing, setSfSyncing] = useState(false);
+  const [sfDisconnecting, setSfDisconnecting] = useState(false);
+
+  // Salesforce status — skip for now (store org ID is not a valid Convex ID)
+  const demoOrgId: string | undefined = undefined; // Will come from real auth context
+  const sfStatus = useQuery(api.integrations.getSalesforceStatus, "skip");
+
+  // Show toast on OAuth callback
+  useEffect(() => {
+    const connected = searchParams.get("connected");
+    const error = searchParams.get("error");
+
+    if (connected === "salesforce") {
+      toast(
+        "Salesforce connected successfully! You can now sync deals.",
+        "success",
+      );
+    } else if (error) {
+      toast(`Connection error: ${error.replace(/_/g, " ")}`, "error");
+    }
+  }, [searchParams, toast]);
+
+  // Salesforce sync handler
+  async function handleSalesforceSync() {
+    if (!demoOrgId) return;
+    setSfSyncing(true);
+    try {
+      const res = await fetch("/api/integrations/salesforce/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ organizationId: demoOrgId }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast(
+          `Synced ${data.synced.total} opportunities (${data.synced.created} new, ${data.synced.updated} updated)`,
+          "success",
+        );
+      } else {
+        toast(data.error || "Sync failed", "error");
+      }
+    } catch {
+      toast("Failed to sync with Salesforce", "error");
+    } finally {
+      setSfSyncing(false);
+    }
+  }
+
+  // Salesforce disconnect handler
+  async function handleSalesforceDisconnect() {
+    if (!demoOrgId) return;
+    if (
+      !confirm(
+        "Are you sure you want to disconnect Salesforce? Synced deals will remain.",
+      )
+    )
+      return;
+    setSfDisconnecting(true);
+    try {
+      const res = await fetch("/api/integrations/salesforce/disconnect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ organizationId: demoOrgId }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast("Salesforce disconnected", "info");
+      } else {
+        toast(data.error || "Disconnect failed", "error");
+      }
+    } catch {
+      toast("Failed to disconnect Salesforce", "error");
+    } finally {
+      setSfDisconnecting(false);
+    }
+  }
+
+  // Email notification settings
+  const [emailSettings, setEmailSettings] = useState({
+    notifyDealApproval: true,
+    notifyCommissionPaid: true,
+    sendPartnerInvites: true,
+  });
+  const [emailConfigured, setEmailConfigured] = useState<boolean | null>(null);
+  const [emailSaving, setEmailSaving] = useState(false);
+
+  // Stripe payout settings
+  const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(
+    null,
+  );
+
+  // Check if email and Stripe are configured on mount
+  useEffect(() => {
+    async function checkEmailConfig() {
+      try {
+        const res = await fetch("/api/email/test");
+        const data = await res.json();
+        setEmailConfigured(data.configured ?? false);
+      } catch {
+        setEmailConfigured(false);
+      }
+    }
+    async function checkStripeConfig() {
+      try {
+        const res = await fetch("/api/stripe/status");
+        const data = await res.json();
+        setStripeConfigured(data.configured ?? false);
+      } catch {
+        setStripeConfigured(false);
+      }
+    }
+    checkEmailConfig();
+    checkStripeConfig();
+  }, []);
+
+  function handleEmailSettingsSave() {
+    setEmailSaving(true);
+    // In a real app, this would save to backend/Convex
+    setTimeout(() => {
+      setEmailSaving(false);
+      toast("Email notification settings saved");
+    }, 500);
+  }
+
+  const apiKey = org?.apiKey || "pk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+  const maskedKey =
+    apiKey.slice(0, 6) + "•".repeat(apiKey.length - 10) + apiKey.slice(-4);
+
+  function handleSave(e: React.FormEvent) {
+    e.preventDefault();
+    updateOrg({
+      name: orgName,
+      email: orgEmail,
+      defaultAttributionModel: defaultModel,
+    });
+    toast("Settings saved successfully");
+  }
+
+  function copyApiKey() {
+    navigator.clipboard.writeText(apiKey);
+    toast("API key copied to clipboard", "info");
+  }
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "2rem",
+        maxWidth: 800,
+      }}
+    >
+      <div>
+        <h1
+          style={{
+            fontSize: "2rem",
+            fontWeight: 800,
+            letterSpacing: "-0.02em",
+          }}
+        >
+          Settings
+        </h1>
+        <p className="muted" style={{ marginTop: "0.25rem" }}>
+          Manage your organization and platform configuration
+        </p>
+      </div>
+
+      {/* Customization Hero Banner */}
+      <div
+        style={{
+          padding: "1.5rem 2rem",
+          borderRadius: 12,
+          background:
+            "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 50%, #fdf4ff 100%)",
+          border: "1px solid #c7d2fe",
+          display: "flex",
+          alignItems: "center",
+          gap: "1.5rem",
+        }}
+      >
+        <div
+          style={{
+            width: 48,
+            height: 48,
+            borderRadius: 12,
+            background: "#6366f1",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0,
+          }}
+        >
+          <Sparkles size={24} color="white" />
+        </div>
+        <div style={{ flex: 1 }}>
+          <h3
+            style={{
+              fontWeight: 700,
+              fontSize: "1rem",
+              marginBottom: ".25rem",
+              color: "#312e81",
+            }}
+          >
+            Built for YOUR partner program
+          </h3>
+          <p
+            style={{
+              fontSize: ".85rem",
+              color: "#4338ca",
+              lineHeight: 1.5,
+              margin: 0,
+            }}
+          >
+            Covant is the intelligence layer on top of your CRM. Connect your
+            deal data, then toggle features, adjust complexity, and customize
+            the UI — make it yours. Enable only what you need, from simple
+            partner attribution to enterprise-grade multi-model program
+            management.
+          </p>
+        </div>
+      </div>
+
+      {/* Quick Links to Sub-Settings */}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          gap: 12,
+        }}
+      >
+        {[
+          {
+            label: "Attribution Model",
+            href: "/dashboard/settings/attribution",
+            icon: "⚡",
+          },
+          {
+            label: "Tier Configuration",
+            href: "/dashboard/settings/tiers",
+            icon: "🏅",
+          },
+          {
+            label: "Commission Rules",
+            href: "/dashboard/settings/commission-rules",
+            icon: "💰",
+          },
+          {
+            label: "Event Sources",
+            href: "/dashboard/settings/event-sources",
+            icon: "📡",
+          },
+          {
+            label: "Webhooks",
+            href: "/dashboard/settings/webhooks",
+            icon: "🔗",
+          },
+          {
+            label: "API Keys",
+            href: "/dashboard/settings/api-keys",
+            icon: "🔑",
+          },
+          { label: "Team", href: "/dashboard/settings/team", icon: "👥" },
+          {
+            label: "Notifications",
+            href: "/dashboard/settings/notifications",
+            icon: "🔔",
+          },
+        ].map((link) => (
+          <a
+            key={link.href}
+            href={link.href}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              padding: "12px 16px",
+              borderRadius: 10,
+              border: "1px solid var(--border)",
+              background: "var(--bg)",
+              textDecoration: "none",
+              color: "var(--fg)",
+              fontSize: ".85rem",
+              fontWeight: 600,
+              transition: "border-color .15s",
+            }}
+          >
+            <span style={{ fontSize: "1.1rem" }}>{link.icon}</span>
+            {link.label}
+          </a>
+        ))}
+      </div>
+
+      {/* Program Configuration (from AI Setup) */}
+      {programConfig && (
+        <div className="card" id="program-config">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "1rem",
+            }}
+          >
+            <h2
+              style={{
+                fontSize: "1.1rem",
+                fontWeight: 700,
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+              }}
+            >
+              <Settings2 size={18} /> Program Configuration
+            </h2>
+            {!editingConfig ? (
+              <button
+                className="btn-outline"
+                onClick={startEditingConfig}
+                style={{ fontSize: ".8rem", padding: "4px 12px" }}
+              >
+                Edit Config
+              </button>
+            ) : (
+              <div style={{ display: "flex", gap: ".5rem" }}>
+                <button
+                  className="btn-outline"
+                  onClick={() => {
+                    setEditingConfig(false);
+                    setConfigDraft(null);
+                  }}
+                  style={{ fontSize: ".8rem", padding: "4px 12px" }}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn"
+                  onClick={saveConfigChanges}
+                  disabled={configSaving}
+                  style={{
+                    fontSize: ".8rem",
+                    padding: "4px 12px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 4,
+                  }}
+                >
+                  {configSaving ? (
+                    <Loader2 size={13} className="animate-spin" />
+                  ) : (
+                    <Save size={13} />
+                  )}
+                  Save
+                </button>
+              </div>
+            )}
+          </div>
+          <p
+            className="muted"
+            style={{ fontSize: ".85rem", marginBottom: "1.25rem" }}
+          >
+            These settings were configured during your AI-powered setup. Edit
+            them anytime as your program evolves.
+          </p>
+
+          {!editingConfig ? (
+            /* Read-only view */
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            >
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                  gap: "1rem",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "1rem",
+                    background: "var(--subtle)",
+                    borderRadius: 8,
+                  }}
+                >
+                  <p
+                    className="muted"
+                    style={{
+                      fontSize: ".7rem",
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      letterSpacing: ".04em",
+                      marginBottom: ".25rem",
+                    }}
+                  >
+                    Program Name
+                  </p>
+                  <p style={{ fontSize: ".9rem", fontWeight: 600 }}>
+                    {programConfig.programName || "Unnamed Program"}
+                  </p>
+                </div>
+                <div
+                  style={{
+                    padding: "1rem",
+                    background: "var(--subtle)",
+                    borderRadius: 8,
+                  }}
+                >
+                  <p
+                    className="muted"
+                    style={{
+                      fontSize: ".7rem",
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      letterSpacing: ".04em",
+                      marginBottom: ".25rem",
+                    }}
+                  >
+                    Program Type
+                  </p>
+                  <p
+                    style={{
+                      fontSize: ".9rem",
+                      fontWeight: 600,
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {programConfig.programType}
+                  </p>
+                </div>
+                <div
+                  style={{
+                    padding: "1rem",
+                    background: "var(--subtle)",
+                    borderRadius: 8,
+                  }}
+                >
+                  <p
+                    className="muted"
+                    style={{
+                      fontSize: ".7rem",
+                      fontWeight: 600,
+                      textTransform: "uppercase",
+                      letterSpacing: ".04em",
+                      marginBottom: ".25rem",
+                    }}
+                  >
+                    Attribution Model
+                  </p>
+                  <p
+                    style={{
+                      fontSize: ".9rem",
+                      fontWeight: 600,
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {programConfig.attributionModel.replace(/_/g, " ")}
+                  </p>
+                </div>
+              </div>
+
+              {/* Interaction Types */}
+              <div>
+                <p
+                  style={{
+                    fontSize: ".85rem",
+                    fontWeight: 600,
+                    marginBottom: ".5rem",
+                  }}
+                >
+                  Interaction Types
+                </p>
+                <div
+                  style={{ display: "flex", flexWrap: "wrap", gap: ".5rem" }}
+                >
+                  {programConfig.interactionTypes.map((it) => (
+                    <span
+                      key={it.id}
+                      style={{
+                        padding: "4px 10px",
+                        borderRadius: 6,
+                        fontSize: ".8rem",
+                        fontWeight: 500,
+                        background: "var(--subtle)",
+                        border: "1px solid var(--border)",
+                      }}
+                    >
+                      {it.label} <span className="muted">(w:{it.weight})</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Commission Rules */}
+              <div>
+                <p
+                  style={{
+                    fontSize: ".85rem",
+                    fontWeight: 600,
+                    marginBottom: ".5rem",
+                  }}
+                >
+                  Commission Rules
+                </p>
+                <div
+                  style={{ display: "flex", flexWrap: "wrap", gap: ".5rem" }}
+                >
+                  {programConfig.commissionRules.map((rule, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        padding: "4px 10px",
+                        borderRadius: 6,
+                        fontSize: ".8rem",
+                        fontWeight: 500,
+                        background: "#ecfdf5",
+                        border: "1px solid #bbf7d0",
+                        color: "#166534",
+                      }}
+                    >
+                      {rule.label}: {rule.value}
+                      {rule.unit === "percent" ? "%" : ` ${rule.unit}`}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <p className="muted" style={{ fontSize: ".75rem" }}>
+                Last configured:{" "}
+                {new Date(programConfig.configuredAt).toLocaleString()}
+              </p>
+            </div>
+          ) : configDraft ? (
+            /* Edit mode */
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.25rem",
+              }}
+            >
+              {/* Basic fields */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "1rem",
+                }}
+              >
+                <div>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: ".85rem",
+                      fontWeight: 500,
+                      marginBottom: ".3rem",
+                    }}
+                  >
+                    Program Name
+                  </label>
+                  <input
+                    className="input"
+                    value={configDraft.programName}
+                    onChange={(e) =>
+                      setConfigDraft({
+                        ...configDraft,
+                        programName: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <label
+                    style={{
+                      display: "block",
+                      fontSize: ".85rem",
+                      fontWeight: 500,
+                      marginBottom: ".3rem",
+                    }}
+                  >
+                    Attribution Model
+                  </label>
+                  <select
+                    className="input"
+                    value={configDraft.attributionModel}
+                    onChange={(e) =>
+                      setConfigDraft({
+                        ...configDraft,
+                        attributionModel: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="first_touch_sourcer">
+                      First Touch / Sourcer
+                    </option>
+                    <option value="split_equally">Split Equally</option>
+                    <option value="role_weighted">Role Weighted</option>
+                    <option value="implementation_credit">
+                      Implementation Credit
+                    </option>
+                    <option value="marketplace_cosell_hybrid">
+                      Marketplace Co-sell (Hybrid)
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Interaction Types */}
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: ".5rem",
+                  }}
+                >
+                  <label style={{ fontSize: ".85rem", fontWeight: 600 }}>
+                    Interaction Types
+                  </label>
+                  <button
+                    className="btn-outline"
+                    style={{
+                      fontSize: ".75rem",
+                      padding: "2px 8px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 3,
+                    }}
+                    onClick={() =>
+                      setConfigDraft({
+                        ...configDraft,
+                        interactionTypes: [
+                          ...configDraft.interactionTypes,
+                          {
+                            id: `it_${Date.now()}`,
+                            label: "",
+                            weight: 1,
+                            triggersAttribution: true,
+                            triggersPayout: false,
+                          },
+                        ],
+                      })
+                    }
+                  >
+                    <Plus size={12} /> Add
+                  </button>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: ".5rem",
+                  }}
+                >
+                  {configDraft.interactionTypes.map((it, idx) => (
+                    <div
+                      key={it.id}
+                      style={{
+                        display: "flex",
+                        gap: ".5rem",
+                        alignItems: "center",
+                        padding: ".5rem",
+                        background: "var(--subtle)",
+                        borderRadius: 8,
+                      }}
+                    >
+                      <input
+                        className="input"
+                        placeholder="Label"
+                        value={it.label}
+                        onChange={(e) => {
+                          const updated = [...configDraft.interactionTypes];
+                          updated[idx] = { ...it, label: e.target.value };
+                          setConfigDraft({
+                            ...configDraft,
+                            interactionTypes: updated,
+                          });
+                        }}
+                        style={{ flex: 2 }}
+                      />
+                      <input
+                        className="input"
+                        type="number"
+                        min="0"
+                        max="10"
+                        step="0.1"
+                        value={it.weight}
+                        onChange={(e) => {
+                          const updated = [...configDraft.interactionTypes];
+                          updated[idx] = {
+                            ...it,
+                            weight: parseFloat(e.target.value) || 0,
+                          };
+                          setConfigDraft({
+                            ...configDraft,
+                            interactionTypes: updated,
+                          });
+                        }}
+                        style={{ width: 70 }}
+                        title="Weight"
+                      />
+                      <label
+                        style={{
+                          fontSize: ".75rem",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 3,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={it.triggersAttribution}
+                          onChange={(e) => {
+                            const updated = [...configDraft.interactionTypes];
+                            updated[idx] = {
+                              ...it,
+                              triggersAttribution: e.target.checked,
+                            };
+                            setConfigDraft({
+                              ...configDraft,
+                              interactionTypes: updated,
+                            });
+                          }}
+                        />
+                        Attribution
+                      </label>
+                      <label
+                        style={{
+                          fontSize: ".75rem",
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 3,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={it.triggersPayout}
+                          onChange={(e) => {
+                            const updated = [...configDraft.interactionTypes];
+                            updated[idx] = {
+                              ...it,
+                              triggersPayout: e.target.checked,
+                            };
+                            setConfigDraft({
+                              ...configDraft,
+                              interactionTypes: updated,
+                            });
+                          }}
+                        />
+                        Payout
+                      </label>
+                      <button
+                        onClick={() =>
+                          setConfigDraft({
+                            ...configDraft,
+                            interactionTypes:
+                              configDraft.interactionTypes.filter(
+                                (_, i) => i !== idx,
+                              ),
+                          })
+                        }
+                        style={{
+                          background: "none",
+                          border: "none",
+                          cursor: "pointer",
+                          padding: 4,
+                          color: "#ef4444",
+                        }}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Commission Rules */}
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: ".5rem",
+                  }}
+                >
+                  <label style={{ fontSize: ".85rem", fontWeight: 600 }}>
+                    Commission Rules
+                  </label>
+                  <button
+                    className="btn-outline"
+                    style={{
+                      fontSize: ".75rem",
+                      padding: "2px 8px",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 3,
+                    }}
+                    onClick={() =>
+                      setConfigDraft({
+                        ...configDraft,
+                        commissionRules: [
+                          ...configDraft.commissionRules,
+                          {
+                            type: "flat",
+                            value: 10,
+                            unit: "percent",
+                            label: "",
+                          },
+                        ],
+                      })
+                    }
+                  >
+                    <Plus size={12} /> Add Rule
+                  </button>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: ".5rem",
+                  }}
+                >
+                  {configDraft.commissionRules.map((rule, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        display: "flex",
+                        gap: ".5rem",
+                        alignItems: "center",
+                        padding: ".5rem",
+                        background: "#ecfdf5",
+                        borderRadius: 8,
+                        border: "1px solid #bbf7d0",
+                      }}
+                    >
+                      <input
+                        className="input"
+                        placeholder="Rule label"
+                        value={rule.label}
+                        onChange={(e) => {
+                          const updated = [...configDraft.commissionRules];
+                          updated[idx] = { ...rule, label: e.target.value };
+                          setConfigDraft({
+                            ...configDraft,
+                            commissionRules: updated,
+                          });
+                        }}
+                        style={{ flex: 2 }}
+                      />
+                      <input
+                        className="input"
+                        type="number"
+                        min="0"
+                        step="0.5"
+                        value={rule.value}
+                        onChange={(e) => {
+                          const updated = [...configDraft.commissionRules];
+                          updated[idx] = {
+                            ...rule,
+                            value: parseFloat(e.target.value) || 0,
+                          };
+                          setConfigDraft({
+                            ...configDraft,
+                            commissionRules: updated,
+                          });
+                        }}
+                        style={{ width: 80 }}
+                      />
+                      <select
+                        className="input"
+                        value={rule.unit}
+                        onChange={(e) => {
+                          const updated = [...configDraft.commissionRules];
+                          updated[idx] = { ...rule, unit: e.target.value };
+                          setConfigDraft({
+                            ...configDraft,
+                            commissionRules: updated,
+                          });
+                        }}
+                        style={{ width: 100 }}
+                      >
+                        <option value="percent">%</option>
+                        <option value="USD">USD</option>
+                      </select>
+                      <button
+                        onClick={() =>
+                          setConfigDraft({
+                            ...configDraft,
+                            commissionRules: configDraft.commissionRules.filter(
+                              (_, i) => i !== idx,
+                            ),
+                          })
+                        }
+                        style={{
+                          background: "none",
+                          border: "none",
+                          cursor: "pointer",
+                          padding: 4,
+                          color: "#ef4444",
+                        }}
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : null}
+        </div>
+      )}
+
+      {/* Organization Settings */}
+      <div className="card">
+        <h2
+          style={{
+            fontSize: "1.1rem",
+            fontWeight: 700,
+            marginBottom: "1.5rem",
+          }}
+        >
+          Organization
+        </h2>
+        <form
+          onSubmit={handleSave}
+          style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+        >
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                marginBottom: "0.4rem",
+              }}
+            >
+              Organization Name
+            </label>
+            <input
+              className="input"
+              value={orgName}
+              onChange={(e) => setOrgName(e.target.value)}
+              placeholder="Your company name"
+            />
+          </div>
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                marginBottom: "0.4rem",
+              }}
+            >
+              Email
+            </label>
+            <input
+              className="input"
+              type="email"
+              value={orgEmail}
+              onChange={(e) => setOrgEmail(e.target.value)}
+              placeholder="admin@company.com"
+            />
+          </div>
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                marginBottom: "0.4rem",
+              }}
+            >
+              Plan
+            </label>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.75rem",
+              }}
+            >
+              <span className="badge" style={{ textTransform: "capitalize" }}>
+                {org?.plan || "starter"}
+              </span>
+              <span className="muted" style={{ fontSize: "0.85rem" }}>
+                {org?.plan === "enterprise"
+                  ? "Full access, priority support"
+                  : org?.plan === "growth"
+                    ? "All features, standard support"
+                    : "Basic features"}
+              </span>
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              paddingTop: "0.5rem",
+            }}
+          >
+            <button type="submit" className="btn">
+              Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* CRM Connection */}
+      <div className="card" id="crm-connection">
+        <h2
+          style={{
+            fontSize: "1.1rem",
+            fontWeight: 700,
+            marginBottom: "1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          🔗 CRM Connection
+        </h2>
+        <p
+          className="muted"
+          style={{
+            fontSize: ".85rem",
+            marginBottom: "1.5rem",
+            lineHeight: 1.5,
+          }}
+        >
+          Covant layers on top of your CRM. Connect your system of record to
+          automatically sync deals, contacts, and pipeline data. We add partner
+          attribution and program intelligence on top.
+        </p>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          {/* Salesforce */}
+          {sfStatus?.connected ? (
+            <div
+              style={{
+                padding: "1rem",
+                border: "2px solid #22c55e",
+                borderRadius: 10,
+                background: "#f0fdf4",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  marginBottom: ".75rem",
+                }}
+              >
+                <div
+                  style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+                >
+                  <div
+                    style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 10,
+                      background: "#dcfce7",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "1.2rem",
+                    }}
+                  >
+                    ☁️
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: ".5rem",
+                      }}
+                    >
+                      <p style={{ fontWeight: 600, fontSize: ".9rem" }}>
+                        Salesforce
+                      </p>
+                      <span
+                        style={{
+                          background: "#22c55e",
+                          color: "white",
+                          fontSize: ".65rem",
+                          padding: "2px 6px",
+                          borderRadius: 4,
+                          fontWeight: 600,
+                        }}
+                      >
+                        CONNECTED
+                      </span>
+                    </div>
+                    <p className="muted" style={{ fontSize: ".8rem" }}>
+                      {sfStatus.salesforceOrgName || sfStatus.salesforceOrgId} ·{" "}
+                      {sfStatus.syncedDeals} deals synced
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  paddingTop: ".75rem",
+                  borderTop: "1px solid #bbf7d0",
+                }}
+              >
+                <p style={{ fontSize: ".75rem", color: "#166534" }}>
+                  {sfStatus.lastSyncedAt
+                    ? `Last synced ${new Date(sfStatus.lastSyncedAt).toLocaleString()}`
+                    : "Never synced"}
+                </p>
+                <div style={{ display: "flex", gap: ".5rem" }}>
+                  <button
+                    className="btn"
+                    style={{
+                      fontSize: ".8rem",
+                      padding: ".4rem .75rem",
+                      background: "#22c55e",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: ".3rem",
+                    }}
+                    onClick={handleSalesforceSync}
+                    disabled={sfSyncing}
+                  >
+                    {sfSyncing ? (
+                      <Loader2 size={14} className="animate-spin" />
+                    ) : (
+                      <RefreshCw size={14} />
+                    )}
+                    {sfSyncing ? "Syncing..." : "Sync Now"}
+                  </button>
+                  <button
+                    className="btn-outline"
+                    style={{
+                      fontSize: ".8rem",
+                      padding: ".4rem .75rem",
+                      color: "#dc2626",
+                      borderColor: "#fca5a5",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: ".3rem",
+                    }}
+                    onClick={handleSalesforceDisconnect}
+                    disabled={sfDisconnecting}
+                  >
+                    {sfDisconnecting ? (
+                      <Loader2 size={14} className="animate-spin" />
+                    ) : (
+                      <Unplug size={14} />
+                    )}
+                    Disconnect
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "1rem",
+                border: "1px solid var(--border)",
+                borderRadius: 10,
+                background: "var(--subtle)",
+              }}
+            >
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "1rem" }}
+              >
+                <div
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 10,
+                    background: "#eef2ff",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    fontSize: "1.2rem",
+                  }}
+                >
+                  ☁️
+                </div>
+                <div>
+                  <p style={{ fontWeight: 600, fontSize: ".9rem" }}>
+                    Salesforce
+                  </p>
+                  <p className="muted" style={{ fontSize: ".8rem" }}>
+                    Sync deals, accounts, and opportunities
+                  </p>
+                </div>
+              </div>
+              <button
+                className="btn"
+                style={{ fontSize: ".8rem", background: "#0176d3" }}
+                onClick={() => {
+                  if (!demoOrgId) {
+                    toast(
+                      "Organization ID not available. Please set up your organization first.",
+                      "error",
+                    );
+                    return;
+                  }
+                  if (!process.env.NEXT_PUBLIC_CONVEX_URL) {
+                    toast(
+                      "Salesforce OAuth requires configuration. Contact support to enable.",
+                      "info",
+                    );
+                    return;
+                  }
+                  window.location.href = `/api/integrations/salesforce/connect?orgId=${demoOrgId}`;
+                }}
+              >
+                Connect Salesforce
+              </button>
+            </div>
+          )}
+
+          {/* HubSpot */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "1rem",
+              border: "1px solid var(--border)",
+              borderRadius: 10,
+              background: "var(--subtle)",
+              opacity: 0.7,
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 10,
+                  background: "#fff7ed",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "1.2rem",
+                }}
+              >
+                🟠
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: ".5rem",
+                  }}
+                >
+                  <p style={{ fontWeight: 600, fontSize: ".9rem" }}>HubSpot</p>
+                  <span
+                    style={{
+                      background: "#fbbf24",
+                      color: "#78350f",
+                      fontSize: ".6rem",
+                      padding: "2px 6px",
+                      borderRadius: 4,
+                      fontWeight: 600,
+                    }}
+                  >
+                    COMING SOON
+                  </span>
+                </div>
+                <p className="muted" style={{ fontSize: ".8rem" }}>
+                  Sync deals, contacts, and pipeline stages
+                </p>
+              </div>
+            </div>
+            <button
+              className="btn-outline"
+              style={{ fontSize: ".8rem" }}
+              disabled
+            >
+              Connect
+            </button>
+          </div>
+
+          {/* Pipedrive */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "1rem",
+              border: "1px solid var(--border)",
+              borderRadius: 10,
+              background: "var(--subtle)",
+              opacity: 0.7,
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 10,
+                  background: "#ecfdf5",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "1.2rem",
+                }}
+              >
+                🟢
+              </div>
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: ".5rem",
+                  }}
+                >
+                  <p style={{ fontWeight: 600, fontSize: ".9rem" }}>
+                    Pipedrive
+                  </p>
+                  <span
+                    style={{
+                      background: "#fbbf24",
+                      color: "#78350f",
+                      fontSize: ".6rem",
+                      padding: "2px 6px",
+                      borderRadius: 4,
+                      fontWeight: 600,
+                    }}
+                  >
+                    COMING SOON
+                  </span>
+                </div>
+                <p className="muted" style={{ fontSize: ".8rem" }}>
+                  Sync deals and pipeline data
+                </p>
+              </div>
+            </div>
+            <button
+              className="btn-outline"
+              style={{ fontSize: ".8rem" }}
+              disabled
+            >
+              Connect
+            </button>
+          </div>
+
+          {/* REST API */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "1rem",
+              border: "1px solid var(--border)",
+              borderRadius: 10,
+              background: "var(--subtle)",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 10,
+                  background: "var(--bg)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "1.2rem",
+                }}
+              >
+                🔗
+              </div>
+              <div>
+                <p style={{ fontWeight: 600, fontSize: ".9rem" }}>
+                  Custom CRM (REST API)
+                </p>
+                <p className="muted" style={{ fontSize: ".8rem" }}>
+                  Push deal data via API from any system
+                </p>
+              </div>
+            </div>
+            <button
+              className="btn-outline"
+              style={{ fontSize: ".8rem" }}
+              onClick={() =>
+                toast(
+                  "Use the API key below to push deal data from any CRM.",
+                  "info",
+                )
+              }
+            >
+              View Docs
+            </button>
+          </div>
+        </div>
+
+        <div
+          style={{
+            marginTop: "1.25rem",
+            padding: "1rem",
+            borderRadius: 8,
+            background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)",
+            border: "1px solid #c7d2fe",
+          }}
+        >
+          <p style={{ fontSize: ".85rem", color: "#3730a3", lineHeight: 1.5 }}>
+            <strong>💡 No CRM connected yet?</strong> You can import deals
+            manually from the{" "}
+            <a
+              href="/dashboard/deals"
+              style={{ fontWeight: 600, textDecoration: "underline" }}
+            >
+              Deals page
+            </a>
+            . When you connect a CRM, existing manual entries will be preserved
+            alongside synced data.
+          </p>
+        </div>
+      </div>
+
+      {/* Data Import */}
+      <div className="card" id="data-import">
+        <h2
+          style={{
+            fontSize: "1.1rem",
+            fontWeight: 700,
+            marginBottom: "1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <FileUp size={18} /> Data Import
+        </h2>
+        <p
+          className="muted"
+          style={{
+            fontSize: ".85rem",
+            marginBottom: "1.25rem",
+            lineHeight: 1.5,
+          }}
+        >
+          Upload a CSV file with your data, or download our template to get
+          started. Import partners, deals, and touchpoints in bulk with
+          validation and duplicate detection.
+        </p>
+        <CSVImport />
+      </div>
+
+      {/* Attribution Settings */}
+      <div className="card">
+        <h2
+          style={{
+            fontSize: "1.1rem",
+            fontWeight: 700,
+            marginBottom: "1.5rem",
+          }}
+        >
+          Attribution Defaults
+        </h2>
+        <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                marginBottom: "0.4rem",
+              }}
+            >
+              Default Attribution Model
+            </label>
+            <select
+              className="input"
+              value={defaultModel}
+              onChange={(e) =>
+                setDefaultModel(e.target.value as AttributionModel)
+              }
+            >
+              {(Object.keys(MODEL_LABELS) as AttributionModel[]).map(
+                (model) => (
+                  <option key={model} value={model}>
+                    {MODEL_LABELS[model]}
+                  </option>
+                ),
+              )}
+            </select>
+            <p
+              className="muted"
+              style={{ fontSize: "0.8rem", marginTop: "0.4rem" }}
+            >
+              {MODEL_DESCRIPTIONS[defaultModel]}
+            </p>
+          </div>
+          <div>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.9rem",
+                fontWeight: 500,
+                marginBottom: "0.4rem",
+              }}
+            >
+              Default Commission Rate (%)
+            </label>
+            <input
+              className="input"
+              type="number"
+              min="0"
+              max="100"
+              step="0.5"
+              value={defaultRate}
+              onChange={(e) => setDefaultRate(e.target.value)}
+              style={{ maxWidth: 200 }}
+            />
+            <p
+              className="muted"
+              style={{ fontSize: "0.8rem", marginTop: "0.4rem" }}
+            >
+              Applied to new partners by default. Can be overridden per partner.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Email Notifications */}
+      <div className="card" id="email-notifications">
+        <h2
+          style={{
+            fontSize: "1.1rem",
+            fontWeight: 700,
+            marginBottom: "1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <Mail size={18} /> Email Notifications
+        </h2>
+        <p
+          className="muted"
+          style={{
+            fontSize: ".85rem",
+            marginBottom: "1.25rem",
+            lineHeight: 1.5,
+          }}
+        >
+          Configure automated email notifications to keep partners informed
+          about deal updates and payouts.
+        </p>
+
+        {/* Connection Status */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.75rem",
+            padding: "0.75rem 1rem",
+            borderRadius: 8,
+            marginBottom: "1.25rem",
+            background:
+              emailConfigured === null
+                ? "var(--subtle)"
+                : emailConfigured
+                  ? "#ecfdf5"
+                  : "#fef2f2",
+            border: `1px solid ${emailConfigured === null ? "var(--border)" : emailConfigured ? "#86efac" : "#fecaca"}`,
+          }}
+        >
+          {emailConfigured === null ? (
+            <>
+              <div
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: "50%",
+                  border: "2px solid var(--muted)",
+                  borderTopColor: "transparent",
+                  animation: "spin 1s linear infinite",
+                }}
+              />
+              <span style={{ fontSize: ".85rem", color: "var(--muted)" }}>
+                Checking email configuration...
+              </span>
+            </>
+          ) : emailConfigured ? (
+            <>
+              <CheckCircle size={18} color="#22c55e" />
+              <span
+                style={{
+                  fontSize: ".85rem",
+                  color: "#15803d",
+                  fontWeight: 500,
+                }}
+              >
+                Email configured ✓
+              </span>
+              <span
+                style={{
+                  fontSize: ".8rem",
+                  color: "#166534",
+                  marginLeft: "auto",
+                }}
+              >
+                Resend connected
+              </span>
+            </>
+          ) : (
+            <>
+              <XCircle size={18} color="#ef4444" />
+              <span
+                style={{
+                  fontSize: ".85rem",
+                  color: "#991b1b",
+                  fontWeight: 500,
+                }}
+              >
+                Not configured
+              </span>
+              <span
+                style={{
+                  fontSize: ".8rem",
+                  color: "#b91c1c",
+                  marginLeft: "auto",
+                }}
+              >
+                Add RESEND_API_KEY to enable
+              </span>
+            </>
+          )}
+        </div>
+
+        {/* Notification Toggles */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.75rem",
+            marginBottom: "1.25rem",
+          }}
+        >
+          {[
+            {
+              key: "notifyDealApproval",
+              label: "Notify partners on deal approval",
+              description: "Send email when a deal registration is approved",
+            },
+            {
+              key: "notifyCommissionPaid",
+              label: "Notify partners on commission paid",
+              description: "Send email when a commission payout is processed",
+            },
+            {
+              key: "sendPartnerInvites",
+              label: "Send partner invite emails",
+              description: "Email partners when they're invited to the program",
+            },
+          ].map(({ key, label, description }) => (
+            <div
+              key={key}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "0.75rem 1rem",
+                borderRadius: 8,
+                border: "1px solid var(--border)",
+                background: emailSettings[key as keyof typeof emailSettings]
+                  ? "var(--bg)"
+                  : "var(--subtle)",
+                opacity: emailConfigured ? 1 : 0.6,
+              }}
+            >
+              <div>
+                <p style={{ fontSize: ".9rem", fontWeight: 600 }}>{label}</p>
+                <p className="muted" style={{ fontSize: ".75rem" }}>
+                  {description}
+                </p>
+              </div>
+              <button
+                onClick={() =>
+                  setEmailSettings((prev) => ({
+                    ...prev,
+                    [key]: !prev[key as keyof typeof emailSettings],
+                  }))
+                }
+                disabled={!emailConfigured}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: emailConfigured ? "pointer" : "not-allowed",
+                  padding: 4,
+                }}
+                title={
+                  emailSettings[key as keyof typeof emailSettings]
+                    ? "Disable"
+                    : "Enable"
+                }
+              >
+                {emailSettings[key as keyof typeof emailSettings] ? (
+                  <ToggleRight
+                    size={28}
+                    color={emailConfigured ? "#059669" : "#9ca3af"}
+                  />
+                ) : (
+                  <ToggleLeft size={28} color="#9ca3af" />
+                )}
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* Save Button */}
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <button
+            className="btn"
+            onClick={handleEmailSettingsSave}
+            disabled={!emailConfigured || emailSaving}
+            style={{ opacity: emailConfigured ? 1 : 0.5 }}
+          >
+            {emailSaving ? "Saving..." : "Save Email Settings"}
+          </button>
+        </div>
+
+        {/* Help text */}
+        {!emailConfigured && (
+          <div
+            style={{
+              marginTop: "1rem",
+              padding: "0.75rem 1rem",
+              background: "var(--subtle)",
+              borderRadius: 8,
+              fontSize: ".8rem",
+              color: "var(--muted)",
+            }}
+          >
+            💡 To enable email notifications, add{" "}
+            <code
+              style={{
+                background: "var(--border)",
+                padding: "0.1rem 0.3rem",
+                borderRadius: 4,
+              }}
+            >
+              RESEND_API_KEY
+            </code>{" "}
+            to your environment variables. Get your API key from{" "}
+            <a
+              href="https://resend.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#6366f1" }}
+            >
+              resend.com
+            </a>
+            .
+          </div>
+        )}
+      </div>
+
+      {/* Payouts & Stripe */}
+      <div className="card" id="payouts">
+        <h2
+          style={{
+            fontSize: "1.1rem",
+            fontWeight: 700,
+            marginBottom: "1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+          }}
+        >
+          <CreditCard size={18} /> Payouts
+        </h2>
+        <p
+          className="muted"
+          style={{
+            fontSize: ".85rem",
+            marginBottom: "1.25rem",
+            lineHeight: 1.5,
+          }}
+        >
+          Configure how partner commissions are paid out. Connect Stripe to
+          enable automatic bank transfers.
+        </p>
+
+        {/* Stripe Link Status */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.75rem",
+            padding: "0.75rem 1rem",
+            borderRadius: 8,
+            marginBottom: "1.25rem",
+            background:
+              stripeConfigured === null
+                ? "var(--subtle)"
+                : stripeConfigured
+                  ? "#eef2ff"
+                  : "#fef2f2",
+            border: `1px solid ${stripeConfigured === null ? "var(--border)" : stripeConfigured ? "#c7d2fe" : "#fecaca"}`,
+          }}
+        >
+          {stripeConfigured === null ? (
+            <>
+              <div
+                style={{
+                  width: 20,
+                  height: 20,
+                  borderRadius: "50%",
+                  border: "2px solid var(--muted)",
+                  borderTopColor: "transparent",
+                  animation: "spin 1s linear infinite",
+                }}
+              />
+              <span style={{ fontSize: ".85rem", color: "var(--muted)" }}>
+                Checking Stripe configuration...
+              </span>
+            </>
+          ) : stripeConfigured ? (
+            <>
+              <Zap size={18} color="#6366f1" />
+              <span
+                style={{
+                  fontSize: ".85rem",
+                  color: "#4338ca",
+                  fontWeight: 500,
+                }}
+              >
+                Stripe enabled ✓
+              </span>
+              <a
+                href="https://dashboard.stripe.com/connect/accounts/overview"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontSize: ".8rem",
+                  color: "#6366f1",
+                  marginLeft: "auto",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: ".25rem",
+                }}
+              >
+                View Dashboard <ExternalLink size={12} />
+              </a>
+            </>
+          ) : (
+            <>
+              <AlertCircle size={18} color="#ef4444" />
+              <span
+                style={{
+                  fontSize: ".85rem",
+                  color: "#991b1b",
+                  fontWeight: 500,
+                }}
+              >
+                Not configured
+              </span>
+              <span
+                style={{
+                  fontSize: ".8rem",
+                  color: "#b91c1c",
+                  marginLeft: "auto",
+                }}
+              >
+                Add STRIPE_SECRET_KEY to enable
+              </span>
+            </>
+          )}
+        </div>
+
+        {/* Payout Settings */}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.75rem",
+            marginBottom: "1.25rem",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0.75rem 1rem",
+              borderRadius: 8,
+              border: "1px solid var(--border)",
+              background: stripeConfigured ? "var(--bg)" : "var(--subtle)",
+              opacity: stripeConfigured ? 1 : 0.6,
+            }}
+          >
+            <div>
+              <p style={{ fontSize: ".9rem", fontWeight: 600 }}>
+                Require connected Stripe account
+              </p>
+              <p className="muted" style={{ fontSize: ".75rem" }}>
+                When enabled, only partners with a linked Stripe account appear
+                in commission exports
+              </p>
+            </div>
+            <button
+              disabled={!stripeConfigured}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: stripeConfigured ? "pointer" : "not-allowed",
+                padding: 4,
+              }}
+            >
+              <ToggleLeft size={28} color="#9ca3af" />
+            </button>
+          </div>
+        </div>
+
+        {/* Help text */}
+        {!stripeConfigured && (
+          <div
+            style={{
+              padding: "0.75rem 1rem",
+              background: "var(--subtle)",
+              borderRadius: 8,
+              fontSize: ".8rem",
+              color: "var(--muted)",
+            }}
+          >
+            💡 To enable Stripe payouts, add{" "}
+            <code
+              style={{
+                background: "var(--border)",
+                padding: "0.1rem 0.3rem",
+                borderRadius: 4,
+              }}
+            >
+              STRIPE_SECRET_KEY
+            </code>{" "}
+            to your environment variables. Get your API key from{" "}
+            <a
+              href="https://dashboard.stripe.com/apikeys"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#6366f1" }}
+            >
+              stripe.com
+            </a>
+            . For webhooks, also add{" "}
+            <code
+              style={{
+                background: "var(--border)",
+                padding: "0.1rem 0.3rem",
+                borderRadius: 4,
+              }}
+            >
+              STRIPE_WEBHOOK_SECRET
+            </code>
+            .
+          </div>
+        )}
+      </div>
+
+      {/* Team Members */}
+      <div className="card">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "1rem",
+          }}
+        >
+          <h2 style={{ fontSize: "1.1rem", fontWeight: 700, margin: 0 }}>
+            Team Members
+          </h2>
+          <a
+            href="/dashboard/settings/team"
+            style={{
+              fontSize: ".85rem",
+              color: "#6366f1",
+              fontWeight: 600,
+              textDecoration: "none",
+            }}
+          >
+            Manage Team →
+          </a>
+        </div>
+        <p className="muted" style={{ fontSize: ".9rem" }}>
+          Invite teammates, assign roles (Admin, Manager, Member), and control
+          who has access to your partner program dashboard.
+        </p>
+      </div>
+
+      {/* API Key */}
+      <div className="card">
+        <h2
+          style={{
+            fontSize: "1.1rem",
+            fontWeight: 700,
+            marginBottom: "1.5rem",
+          }}
+        >
+          API Access
+        </h2>
+        <div>
+          <label
+            style={{
+              display: "block",
+              fontSize: "0.9rem",
+              fontWeight: 500,
+              marginBottom: "0.4rem",
+            }}
+          >
+            API Key
+          </label>
+          <div
+            style={{
+              display: "flex",
+              gap: "0.75rem",
+              alignItems: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <div
+              style={{
+                flex: 1,
+                padding: "0.7rem 1rem",
+                background: "var(--subtle)",
+                borderRadius: 8,
+                fontFamily: "monospace",
+                fontSize: "0.85rem",
+                color: "var(--muted)",
+                border: "1px solid var(--border)",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                minWidth: 200,
+              }}
+            >
+              {showApiKey ? apiKey : maskedKey}
+            </div>
+            <button
+              className="btn-outline"
+              onClick={() => setShowApiKey(!showApiKey)}
+              style={{ whiteSpace: "nowrap" }}
+            >
+              {showApiKey ? "Hide" : "Show"}
+            </button>
+            <button
+              className="btn-outline"
+              onClick={copyApiKey}
+              style={{ whiteSpace: "nowrap" }}
+            >
+              Copy
+            </button>
+          </div>
+          <p
+            className="muted"
+            style={{ fontSize: "0.8rem", marginTop: "0.4rem" }}
+          >
+            Use this key to authenticate API requests. Keep it secret.
+          </p>
+        </div>
+      </div>
+
+      {/* Platform Configuration */}
+      <div className="card" id="platform-config">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: ".75rem",
+          }}
+        >
+          <h2
+            style={{
+              fontSize: "1.1rem",
+              fontWeight: 700,
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <Sliders size={18} /> Platform Configuration
+          </h2>
+          <button
+            className="btn-outline"
+            onClick={resetToDefaults}
+            style={{
+              fontSize: ".8rem",
+              padding: "4px 12px",
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+            }}
+          >
+            <RefreshCw size={13} /> Reset to Defaults
+          </button>
+        </div>
+        <p
+          className="muted"
+          style={{
+            fontSize: ".85rem",
+            marginBottom: "1.5rem",
+            lineHeight: 1.5,
+          }}
+        >
+          Configure Covant&apos;s intelligence layer for your workflow. Toggle
+          complexity, enable only the modules you use, and adapt the platform as
+          your partner program grows. Your CRM stays your system of record — we
+          add the partner ops on top.
+        </p>
+
+        {/* Configuration Tips */}
+        <div
+          style={{
+            padding: "1rem 1.25rem",
+            borderRadius: 10,
+            border: "1px solid #c7d2fe",
+            background: "linear-gradient(135deg, #eef2ff 0%, #f5f3ff 100%)",
+            marginBottom: "1.5rem",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: ".5rem",
+              marginBottom: ".5rem",
+            }}
+          >
+            <Lightbulb size={15} color="#4338ca" />
+            <span
+              style={{ fontWeight: 700, fontSize: ".85rem", color: "#4338ca" }}
+            >
+              Configuration Tips
+            </span>
+          </div>
+          <ul
+            style={{
+              listStyle: "none",
+              padding: 0,
+              margin: 0,
+              display: "flex",
+              flexDirection: "column",
+              gap: ".35rem",
+            }}
+          >
+            <li
+              style={{
+                fontSize: ".8rem",
+                color: "#3730a3",
+                display: "flex",
+                alignItems: "flex-start",
+                gap: ".4rem",
+              }}
+            >
+              <span style={{ color: "#6366f1", fontWeight: 700 }}>→</span>
+              Start with &quot;Simple&quot; complexity and enable features as
+              your program matures
+            </li>
+            <li
+              style={{
+                fontSize: ".8rem",
+                color: "#3730a3",
+                display: "flex",
+                alignItems: "flex-start",
+                gap: ".4rem",
+              }}
+            >
+              <span style={{ color: "#6366f1", fontWeight: 700 }}>→</span>
+              Toggle individual features below to show/hide them from navigation
+              and dashboards
+            </li>
+            <li
+              style={{
+                fontSize: ".8rem",
+                color: "#3730a3",
+                display: "flex",
+                alignItems: "flex-start",
+                gap: ".4rem",
+              }}
+            >
+              <span style={{ color: "#6366f1", fontWeight: 700 }}>→</span>
+              Use &quot;Compact&quot; density for data-heavy views,
+              &quot;Spacious&quot; for readability
+            </li>
+            <li
+              style={{
+                fontSize: ".8rem",
+                color: "#3730a3",
+                display: "flex",
+                alignItems: "flex-start",
+                gap: ".4rem",
+              }}
+            >
+              <span style={{ color: "#6366f1", fontWeight: 700 }}>→</span>
+              Changes apply instantly — no restart needed. Experiment freely!
+            </li>
+          </ul>
+        </div>
+
+        {/* Complexity Level */}
+        <div style={{ marginBottom: "1.5rem" }}>
+          <label
+            style={{
+              display: "block",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+            }}
+          >
+            Complexity Level
+          </label>
+          <p
+            className="muted"
+            style={{ fontSize: ".8rem", marginBottom: ".5rem" }}
+          >
+            Toggle complexity based on your team&apos;s needs. Simple for lean
+            operations, Advanced for full power.
+          </p>
+          <div style={{ display: "flex", gap: ".75rem" }}>
+            {(["simple", "standard", "advanced"] as ComplexityLevel[]).map(
+              (level) => (
+                <button
+                  key={level}
+                  onClick={() => setComplexityLevel(level)}
+                  style={{
+                    flex: 1,
+                    padding: ".6rem 1rem",
+                    borderRadius: 8,
+                    fontSize: ".85rem",
+                    fontWeight: 600,
+                    border:
+                      config.complexityLevel === level
+                        ? "2px solid #6366f1"
+                        : "1px solid var(--border)",
+                    background:
+                      config.complexityLevel === level
+                        ? "#eef2ff"
+                        : "var(--bg)",
+                    color:
+                      config.complexityLevel === level
+                        ? "#4338ca"
+                        : "var(--fg)",
+                    cursor: "pointer",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {level}
+                  <br />
+                  <span
+                    style={{
+                      fontSize: ".7rem",
+                      fontWeight: 400,
+                      color: "var(--muted)",
+                    }}
+                  >
+                    {level === "simple"
+                      ? "Core features only"
+                      : level === "standard"
+                        ? "Most features"
+                        : "Full power"}
+                  </span>
+                </button>
+              ),
+            )}
+          </div>
+        </div>
+
+        {/* UI Density */}
+        <div style={{ marginBottom: "1.5rem" }}>
+          <label
+            style={{
+              display: "flex",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <Layout size={15} /> UI Density
+          </label>
+          <div style={{ display: "flex", gap: ".75rem" }}>
+            {(["compact", "comfortable", "spacious"] as UIDensity[]).map(
+              (density) => (
+                <button
+                  key={density}
+                  onClick={() => setUIDensity(density)}
+                  style={{
+                    flex: 1,
+                    padding: ".5rem .75rem",
+                    borderRadius: 8,
+                    fontSize: ".85rem",
+                    fontWeight: 600,
+                    border:
+                      config.uiDensity === density
+                        ? "2px solid #6366f1"
+                        : "1px solid var(--border)",
+                    background:
+                      config.uiDensity === density ? "#eef2ff" : "var(--bg)",
+                    color:
+                      config.uiDensity === density ? "#4338ca" : "var(--fg)",
+                    cursor: "pointer",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {density}
+                </button>
+              ),
+            )}
+          </div>
+        </div>
+
+        {/* Feature Flags */}
+        <div>
+          <label
+            style={{
+              display: "block",
+              fontSize: "0.9rem",
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+            }}
+          >
+            Feature Modules — Enable Only What You Use
+          </label>
+          <p
+            className="muted"
+            style={{ fontSize: ".8rem", marginBottom: ".75rem" }}
+          >
+            Every toggle instantly shows or hides the feature across the
+            platform. Disabled features are fully hidden from navigation,
+            dashboards, and your team&apos;s view.
+          </p>
+          <div
+            style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}
+          >
+            {(Object.keys(FEATURE_FLAG_LABELS) as (keyof FeatureFlags)[]).map(
+              (flag) => {
+                const meta = FEATURE_FLAG_LABELS[flag];
+                const enabled = config.featureFlags[flag];
+                return (
+                  <div
+                    key={flag}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: ".6rem .75rem",
+                      borderRadius: 8,
+                      border: "1px solid var(--border)",
+                      background: enabled ? "var(--bg)" : "var(--subtle)",
+                      opacity: enabled ? 1 : 0.7,
+                    }}
+                  >
+                    <div>
+                      <p style={{ fontSize: ".85rem", fontWeight: 600 }}>
+                        {meta.label}
+                      </p>
+                      <p className="muted" style={{ fontSize: ".75rem" }}>
+                        {meta.description}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => updateFeatureFlag(flag, !enabled)}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        padding: 4,
+                      }}
+                      title={enabled ? "Disable" : "Enable"}
+                    >
+                      {enabled ? (
+                        <ToggleRight size={28} color="#059669" />
+                      ) : (
+                        <ToggleLeft size={28} color="#9ca3af" />
+                      )}
+                    </button>
+                  </div>
+                );
+              },
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* MCP Integration Info */}
+      {config.featureFlags.mcpIntegration && (
+        <div className="card">
+          <h2
+            style={{
+              fontSize: "1.1rem",
+              fontWeight: 700,
+              marginBottom: "1rem",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
+            <Server size={18} /> MCP Integration
+          </h2>
+          <p
+            className="muted"
+            style={{ fontSize: ".85rem", marginBottom: "1rem" }}
+          >
+            Use the Model Context Protocol (MCP) to query your Covant data with
+            natural language through any MCP-compatible LLM client.
+          </p>
+          <div
+            style={{
+              background: "var(--subtle)",
+              borderRadius: 8,
+              padding: "1rem",
+              fontFamily: "monospace",
+              fontSize: ".8rem",
+              border: "1px solid var(--border)",
+            }}
+          >
+            <p
+              style={{
+                fontWeight: 600,
+                marginBottom: ".5rem",
+                fontFamily: "inherit",
+              }}
+            >
+              Connection Instructions:
+            </p>
+            <pre
+              style={{
+                margin: 0,
+                whiteSpace: "pre-wrap",
+                wordBreak: "break-all",
+              }}
+            >{`# The MCP server is in ../partner-attribution-ai-mcp/
+# Install and run:
+cd ../partner-attribution-ai-mcp/
+npm install
+npm start
+
+# Or add to your MCP client config:
+{
+  "mcpServers": {
+    "partnerai": {
+      "command": "node",
+      "args": ["path/to/partner-attribution-ai-mcp/dist/index.js"],
+      "env": {
+        "PARTNERAI_API_KEY": "${apiKey}"
+      }
+    }
+  }
+}`}</pre>
+          </div>
+          <div style={{ marginTop: "1rem" }}>
+            <p
+              style={{
+                fontWeight: 600,
+                fontSize: ".85rem",
+                marginBottom: ".5rem",
+              }}
+            >
+              Available Tools:
+            </p>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: ".75rem",
+              }}
+            >
+              {[
+                "query_partners — Search and filter partners",
+                "query_deals — Search deals pipeline",
+                "get_attribution — Get deal attribution data",
+                "query_payouts — View payout status",
+                "get_partner_score — Get partner scores",
+                "query_revenue — Revenue analytics",
+              ].map((tool) => (
+                <div
+                  key={tool}
+                  style={{
+                    fontSize: ".8rem",
+                    padding: ".4rem .6rem",
+                    background: "var(--subtle)",
+                    borderRadius: 6,
+                    border: "1px solid var(--border)",
+                  }}
+                >
+                  <code>{tool}</code>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Danger Zone */}
+      <div
+        className="card"
+        style={{
+          borderColor: "#fecaca",
+        }}
+      >
+        <h2
+          style={{
+            fontSize: "1.1rem",
+            fontWeight: 700,
+            marginBottom: "0.5rem",
+            color: "#991b1b",
+          }}
+        >
+          Danger Zone
+        </h2>
+        <p
+          className="muted"
+          style={{ fontSize: "0.85rem", marginBottom: "1rem" }}
+        >
+          Irreversible actions. Proceed with caution.
+        </p>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.75rem",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "1rem",
+              border: "1px solid var(--border)",
+              borderRadius: 8,
+              flexWrap: "wrap",
+              gap: ".5rem",
+            }}
+          >
+            <div>
+              <p style={{ fontSize: "0.9rem", fontWeight: 500 }}>
+                Regenerate API Key
+              </p>
+              <p className="muted" style={{ fontSize: "0.8rem" }}>
+                This will invalidate your current key
+              </p>
+            </div>
+            <button
+              className="btn-outline"
+              style={{
+                borderColor: "#fca5a5",
+                color: "#991b1b",
+              }}
+              onClick={() =>
+                toast(
+                  "Coming soon. Contact support to enable this feature.",
+                  "info",
+                )
+              }
+            >
+              Regenerate
+            </button>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "1rem",
+              border: "1px solid var(--border)",
+              borderRadius: 8,
+              flexWrap: "wrap",
+              gap: ".5rem",
+            }}
+          >
+            <div>
+              <p style={{ fontSize: "0.9rem", fontWeight: 500 }}>
+                Delete Organization
+              </p>
+              <p className="muted" style={{ fontSize: "0.8rem" }}>
+                Permanently delete all data including partners, deals, and
+                attributions
+              </p>
+            </div>
+            <button
+              className="btn"
+              style={{
+                background: "#dc2626",
+                color: "white",
+              }}
+              onClick={() =>
+                toast(
+                  "Coming soon. Contact support to enable this feature.",
+                  "info",
+                )
+              }
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function SettingsPage() {
+  return (
+    <Suspense
+      fallback={
+        <div style={{ padding: "2rem", color: "#fff" }}>Loading settings…</div>
+      }
+    >
+      <SettingsPageInner />
+    </Suspense>
+  );
+}

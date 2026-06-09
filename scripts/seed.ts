@@ -1,13 +1,13 @@
 /**
  * Seed Script for Partner Attribution Platform
- * 
+ *
  * Creates test data for development and testing:
  * - 1 organization
  * - 5 partners
  * - 10 deals (3 won, 2 lost, 5 open)
  * - Multiple touchpoints per deal
  * - Attributions for won deals
- * 
+ *
  * Run with: npx convex run scripts/seed
  * Or:       npx ts-node scripts/seed.ts (for testing locally)
  */
@@ -16,17 +16,13 @@ import { ConvexHttpClient } from "convex/browser";
 import { api } from "../convex/_generated/api";
 
 // Initialize client (for local development)
-const client = new ConvexHttpClient(process.env.CONVEX_URL || "https://quick-lemur-850.convex.cloud");
+const client = new ConvexHttpClient(
+  process.env.CONVEX_URL || "https://quick-lemur-850.convex.cloud",
+);
 
 // ============================================================================
 // Test Data
 // ============================================================================
-
-const testOrganization = {
-  name: "Clearpath Partners",
-  email: "admin@acme-partners.com",
-  plan: "growth" as const,
-};
 
 const testPartners = [
   {
@@ -65,12 +61,16 @@ const testDeals = [
   // Won deals (will have attributions)
   { name: "Clearpath Annual Contract", amount: 50000, status: "won" as const },
   { name: "TechStart Pilot Program", amount: 15000, status: "won" as const },
-  { name: "GlobalBank Enterprise Deal", amount: 120000, status: "won" as const },
-  
+  {
+    name: "GlobalBank Enterprise Deal",
+    amount: 120000,
+    status: "won" as const,
+  },
+
   // Lost deals
   { name: "MedTech Proposal", amount: 35000, status: "lost" as const },
   { name: "RetailCo Expansion", amount: 22000, status: "lost" as const },
-  
+
   // Open deals (in progress)
   { name: "FinServ Q2 Opportunity", amount: 75000, status: "open" as const },
   { name: "EduTech Platform Deal", amount: 28000, status: "open" as const },
@@ -94,14 +94,11 @@ const touchpointTypes = [
 
 export async function seedData(apiKey: string) {
   console.log("🌱 Starting seed process...\n");
-  
-  const now = Date.now();
-  const dayMs = 24 * 60 * 60 * 1000;
-  
+
   // Track created IDs
   const partnerIds: string[] = [];
   const dealIds: string[] = [];
-  
+
   // 1. Create partners
   console.log("👥 Creating partners...");
   for (const partnerData of testPartners) {
@@ -112,18 +109,20 @@ export async function seedData(apiKey: string) {
       });
       partnerIds.push(partnerId);
       console.log(`   ✓ Created partner: ${partnerData.name}`);
-      
+
       // Activate the partner
       await client.mutation(api.partners.mutations.activate, {
         apiKey,
         partnerId,
       });
     } catch (error: any) {
-      console.log(`   ⚠ Skipped partner: ${partnerData.name} (${error.message})`);
+      console.log(
+        `   ⚠ Skipped partner: ${partnerData.name} (${error.message})`,
+      );
     }
   }
   console.log(`   Created ${partnerIds.length} partners\n`);
-  
+
   // 2. Create deals
   console.log("💼 Creating deals...");
   for (const dealData of testDeals) {
@@ -135,16 +134,17 @@ export async function seedData(apiKey: string) {
       });
       dealIds.push(dealId);
       console.log(`   ✓ Created deal: ${dealData.name}`);
-      
+
       // 3. Add touchpoints to each deal (2-4 touchpoints per deal)
       const numTouchpoints = 2 + Math.floor(Math.random() * 3);
       console.log(`     Adding ${numTouchpoints} touchpoints...`);
-      
+
       for (let i = 0; i < numTouchpoints; i++) {
-        const partnerId = partnerIds[Math.floor(Math.random() * partnerIds.length)];
-        const touchpointType = touchpointTypes[Math.floor(Math.random() * touchpointTypes.length)];
-        const daysAgo = Math.floor(Math.random() * 30) + 1; // 1-30 days ago
-        
+        const partnerId =
+          partnerIds[Math.floor(Math.random() * partnerIds.length)];
+        const touchpointType =
+          touchpointTypes[Math.floor(Math.random() * touchpointTypes.length)];
+
         try {
           await client.mutation(api.touchpoints.mutations.create, {
             apiKey,
@@ -157,7 +157,7 @@ export async function seedData(apiKey: string) {
           console.log(`     ⚠ Skipped touchpoint: ${error.message}`);
         }
       }
-      
+
       // 4. Close deals with appropriate status
       if (dealData.status !== "open") {
         try {
@@ -167,7 +167,7 @@ export async function seedData(apiKey: string) {
             status: dealData.status,
           });
           console.log(`     Closed as: ${dealData.status}`);
-          
+
           // 5. Calculate attribution for won deals
           if (dealData.status === "won") {
             try {
@@ -189,11 +189,13 @@ export async function seedData(apiKey: string) {
     }
   }
   console.log(`   Created ${dealIds.length} deals\n`);
-  
+
   // 6. Summary
   console.log("📊 Fetching summary...");
   try {
-    const stats = await client.query(api.organizations.queries.getStats, { apiKey });
+    const stats = await client.query(api.organizations.queries.getStats, {
+      apiKey,
+    });
     console.log(`
    Summary:
    --------
@@ -207,7 +209,7 @@ export async function seedData(apiKey: string) {
   } catch (error: any) {
     console.log(`   ⚠ Could not fetch stats: ${error.message}`);
   }
-  
+
   console.log("✅ Seed complete!\n");
 }
 
@@ -222,7 +224,9 @@ export async function seedData(apiKey: string) {
 export const seed = async () => {
   // Note: This is a stub. The actual Convex mutation would need to be in convex/ directory
   // For now, use the HTTP client version above
-  console.log("Use the HTTP client version: npx ts-node scripts/seed.ts <API_KEY>");
+  console.log(
+    "Use the HTTP client version: npx ts-node scripts/seed.ts <API_KEY>",
+  );
 };
 
 // ============================================================================
@@ -231,7 +235,7 @@ export const seed = async () => {
 
 async function main() {
   const apiKey = process.argv[2];
-  
+
   if (!apiKey) {
     console.log(`
 Usage: npx ts-node scripts/seed.ts <API_KEY>
@@ -243,7 +247,7 @@ First, create an organization:
 `);
     process.exit(1);
   }
-  
+
   await seedData(apiKey);
 }
 
