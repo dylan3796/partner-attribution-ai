@@ -17,6 +17,7 @@ import {
   getKpis,
   getLeaderboard,
   getPartnerSurfacedAction,
+  isInterestingDeal,
 } from "../lib/meridian/selectors";
 import { DEFAULT_ROLE_MAP } from "../convex/lib/attribution/roles";
 import { getAllModels } from "../convex/lib/attribution/registry";
@@ -164,6 +165,20 @@ describe("scenario 4 — the flagship deal (md_003)", () => {
 
   it("diverges enough to earn the 'models disagree' flag", () => {
     expect(dealDivergence(SCENARIO.flagshipDealId)).toBeGreaterThanOrEqual(25);
+  });
+});
+
+describe("the 'models disagree' flag", () => {
+  it("flags the scenario deals", () => {
+    expect(isInterestingDeal(SCENARIO.flagshipDealId)).toBe(true);
+    expect(isInterestingDeal(SCENARIO.attributionGapDealId)).toBe(true);
+    expect(isInterestingDeal(SCENARIO.cosellDealId)).toBe(true);
+  });
+
+  it("stays a spotlight, not background noise", () => {
+    const flagged = meridian.deals.filter((d) => isInterestingDeal(d._id));
+    expect(flagged.length).toBeGreaterThanOrEqual(3);
+    expect(flagged.length).toBeLessThanOrEqual(8);
   });
 });
 

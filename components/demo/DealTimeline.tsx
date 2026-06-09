@@ -17,8 +17,9 @@ export default function DealTimeline() {
     <div className="d-card">
       <h2 className="d-h2">Deals</h2>
       <p className="d-sub">
-        All 20 deals. The amber flag marks deals where the five models disagree
-        by 25+ points on someone&apos;s credit — worth a look before payout.
+        All 20 deals. The amber flag marks contested deals — three or more
+        partners with sharply different credit depending on the lens. Worth a
+        look before payout.
       </p>
       <div style={{ marginTop: "0.75rem" }}>
         {deals.map((deal) => {

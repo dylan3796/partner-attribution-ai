@@ -185,8 +185,14 @@ export function dealDivergence(dealId: string): number {
   return divergence;
 }
 
+/**
+ * The amber "models disagree" flag. Winner-take-all models guarantee big
+ * divergence on any two-partner deal, so the flag requires a genuinely
+ * contested deal: three or more partners AND a sharp spread.
+ */
 export function isInterestingDeal(dealId: string): boolean {
-  return dealDivergence(dealId) >= 25;
+  const partners = new Set(getDealTouchpoints(dealId).map((t) => t.partnerId));
+  return partners.size >= 3 && dealDivergence(dealId) >= 50;
 }
 
 // ── The attribution gap (landing-page headline number) ──
