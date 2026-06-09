@@ -2403,15 +2403,14 @@ a:focus-visible {
 @keyframes m-flow-travel{0%{left:0;opacity:0}8%{opacity:1}30%{left:33.3%}55%{left:66.6%}85%{left:100%;opacity:1}100%{left:100%;opacity:0}}
 .m-flow-nodes{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
 .m-flow-node{display:flex;flex-direction:column;align-items:center;text-align:center}
-.m-flow-node-num{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:99px;border:1px solid var(--m-border);background:var(--m-bg);font-family:var(--font-display);font-weight:600;color:var(--m-accent);position:relative;z-index:1}
-.m-flow-node h3{margin-top:1rem}
-.m-flow-node p{margin-top:.5rem;font-size:.9rem}
+.m-flow-node-num{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:99px;border:1px solid var(--m-border);background:var(--m-bg);font-family:var(--font-display);font-weight:600;color:var(--m-accent);position:relative;z-index:1;flex-shrink:0}
+.m-flow-node-text h3{margin-top:1rem}
+.m-flow-node-text p{margin-top:.5rem;font-size:.9rem}
 @media (max-width:860px){
   .m-flow-track{display:none}
   .m-flow-nodes{grid-template-columns:1fr;gap:1.25rem}
   .m-flow-node{flex-direction:row;text-align:left;gap:1rem;align-items:flex-start}
-  .m-flow-node-num{flex-shrink:0}
-  .m-flow-node h3{margin-top:.4rem}
+  .m-flow-node-text h3{margin-top:.4rem}
 }
 @media (prefers-reduced-motion: reduce){.m-flow-dot{animation:none;opacity:0}}
 
