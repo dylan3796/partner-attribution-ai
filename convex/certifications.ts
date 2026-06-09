@@ -24,20 +24,22 @@ export const create = mutation({
       v.literal("beginner"),
       v.literal("intermediate"),
       v.literal("advanced"),
-      v.literal("expert")
+      v.literal("expert"),
     ),
     category: v.union(
       v.literal("sales"),
       v.literal("technical"),
       v.literal("product"),
-      v.literal("compliance")
+      v.literal("compliance"),
     ),
-    requiredForTier: v.optional(v.union(
-      v.literal("bronze"),
-      v.literal("silver"),
-      v.literal("gold"),
-      v.literal("platinum")
-    )),
+    requiredForTier: v.optional(
+      v.union(
+        v.literal("bronze"),
+        v.literal("silver"),
+        v.literal("gold"),
+        v.literal("platinum"),
+      ),
+    ),
     validityMonths: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
@@ -64,24 +66,30 @@ export const update = mutation({
     id: v.id("certifications"),
     name: v.optional(v.string()),
     description: v.optional(v.string()),
-    level: v.optional(v.union(
-      v.literal("beginner"),
-      v.literal("intermediate"),
-      v.literal("advanced"),
-      v.literal("expert")
-    )),
-    category: v.optional(v.union(
-      v.literal("sales"),
-      v.literal("technical"),
-      v.literal("product"),
-      v.literal("compliance")
-    )),
-    requiredForTier: v.optional(v.union(
-      v.literal("bronze"),
-      v.literal("silver"),
-      v.literal("gold"),
-      v.literal("platinum")
-    )),
+    level: v.optional(
+      v.union(
+        v.literal("beginner"),
+        v.literal("intermediate"),
+        v.literal("advanced"),
+        v.literal("expert"),
+      ),
+    ),
+    category: v.optional(
+      v.union(
+        v.literal("sales"),
+        v.literal("technical"),
+        v.literal("product"),
+        v.literal("compliance"),
+      ),
+    ),
+    requiredForTier: v.optional(
+      v.union(
+        v.literal("bronze"),
+        v.literal("silver"),
+        v.literal("gold"),
+        v.literal("platinum"),
+      ),
+    ),
     validityMonths: v.optional(v.number()),
     status: v.optional(v.union(v.literal("active"), v.literal("archived"))),
   },
@@ -89,10 +97,11 @@ export const update = mutation({
     const orgId = await getOrgId(ctx);
     if (!orgId) throw new Error("Not authenticated");
     const existing = await ctx.db.get(args.id);
-    if (!existing || existing.organizationId !== orgId) throw new Error("Not found");
-    const { id, ...updates } = args;
+    if (!existing || existing.organizationId !== orgId)
+      throw new Error("Not found");
+    const { id: _id, ...updates } = args;
     const filtered = Object.fromEntries(
-      Object.entries(updates).filter(([, v]) => v !== undefined)
+      Object.entries(updates).filter(([, v]) => v !== undefined),
     );
     await ctx.db.patch(args.id, { ...filtered, updatedAt: Date.now() });
   },
@@ -104,12 +113,13 @@ export const remove = mutation({
     const orgId = await getOrgId(ctx);
     if (!orgId) throw new Error("Not authenticated");
     const existing = await ctx.db.get(args.id);
-    if (!existing || existing.organizationId !== orgId) throw new Error("Not found");
+    if (!existing || existing.organizationId !== orgId)
+      throw new Error("Not found");
     // Also remove all partner certification records for this cert
     const records = await ctx.db
       .query("partnerCertifications")
       .withIndex("by_org_and_cert", (q) =>
-        q.eq("organizationId", orgId).eq("certificationId", args.id)
+        q.eq("organizationId", orgId).eq("certificationId", args.id),
       )
       .collect();
     for (const r of records) {
@@ -141,7 +151,7 @@ export const listByPartner = query({
     return await ctx.db
       .query("partnerCertifications")
       .withIndex("by_org_and_partner", (q) =>
-        q.eq("organizationId", orgId).eq("partnerId", args.partnerId)
+        q.eq("organizationId", orgId).eq("partnerId", args.partnerId),
       )
       .collect();
   },
@@ -160,7 +170,8 @@ export const award = mutation({
 
     // Look up the cert to determine expiry
     const cert = await ctx.db.get(args.certificationId);
-    if (!cert || cert.organizationId !== orgId) throw new Error("Certification not found");
+    if (!cert || cert.organizationId !== orgId)
+      throw new Error("Certification not found");
 
     const now = Date.now();
     let expiresAt: number | undefined;
@@ -172,11 +183,13 @@ export const award = mutation({
     const existing = await ctx.db
       .query("partnerCertifications")
       .withIndex("by_org_and_partner", (q) =>
-        q.eq("organizationId", orgId).eq("partnerId", args.partnerId)
+        q.eq("organizationId", orgId).eq("partnerId", args.partnerId),
       )
       .collect();
     const dup = existing.find(
-      (r) => r.certificationId === args.certificationId && (r.status === "completed" || r.status === "in_progress")
+      (r) =>
+        r.certificationId === args.certificationId &&
+        (r.status === "completed" || r.status === "in_progress"),
     );
     if (dup) throw new Error("Partner already has this certification");
 
@@ -217,7 +230,8 @@ export const revoke = mutation({
     const orgId = await getOrgId(ctx);
     if (!orgId) throw new Error("Not authenticated");
     const record = await ctx.db.get(args.id);
-    if (!record || record.organizationId !== orgId) throw new Error("Not found");
+    if (!record || record.organizationId !== orgId)
+      throw new Error("Not found");
     await ctx.db.patch(args.id, { status: "revoked" });
 
     await ctx.db.insert("audit_log", {
@@ -240,7 +254,16 @@ export const getStats = query({
   args: {},
   handler: async (ctx) => {
     const orgId = await getOrgId(ctx);
-    if (!orgId) return { totalPrograms: 0, activePrograms: 0, totalAwarded: 0, completedCount: 0, expiringCount: 0, partnerCoverage: 0, totalPartners: 0 };
+    if (!orgId)
+      return {
+        totalPrograms: 0,
+        activePrograms: 0,
+        totalAwarded: 0,
+        completedCount: 0,
+        expiringCount: 0,
+        partnerCoverage: 0,
+        totalPartners: 0,
+      };
 
     const certs = await ctx.db
       .query("certifications")
@@ -262,7 +285,7 @@ export const getStats = query({
     const active = certs.filter((c) => c.status === "active");
     const completed = records.filter((r) => r.status === "completed");
     const expiring = completed.filter(
-      (r) => r.expiresAt && r.expiresAt - now < thirtyDays && r.expiresAt > now
+      (r) => r.expiresAt && r.expiresAt - now < thirtyDays && r.expiresAt > now,
     );
     const certifiedPartnerIds = new Set(completed.map((r) => r.partnerId));
 

@@ -2,8 +2,6 @@ import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
 import { getOrgId } from "./lib/getOrg";
 
-const ROLES = ["admin", "manager", "member"] as const;
-
 /**
  * List all team members for the current org (excludes partner-role users).
  */
@@ -51,7 +49,11 @@ export const invite = mutation({
   args: {
     email: v.string(),
     name: v.string(),
-    role: v.union(v.literal("admin"), v.literal("manager"), v.literal("member")),
+    role: v.union(
+      v.literal("admin"),
+      v.literal("manager"),
+      v.literal("member"),
+    ),
   },
   handler: async (ctx, args) => {
     const orgId = await getOrgId(ctx);
@@ -74,7 +76,9 @@ export const invite = mutation({
       .query("users")
       .withIndex("by_organization", (q) => q.eq("organizationId", orgId))
       .collect();
-    if (existing.some((u) => u.email.toLowerCase() === args.email.toLowerCase())) {
+    if (
+      existing.some((u) => u.email.toLowerCase() === args.email.toLowerCase())
+    ) {
       throw new Error("A team member with this email already exists");
     }
 
@@ -108,7 +112,11 @@ export const invite = mutation({
 export const updateRole = mutation({
   args: {
     userId: v.id("users"),
-    role: v.union(v.literal("admin"), v.literal("manager"), v.literal("member")),
+    role: v.union(
+      v.literal("admin"),
+      v.literal("manager"),
+      v.literal("member"),
+    ),
   },
   handler: async (ctx, args) => {
     const orgId = await getOrgId(ctx);
@@ -139,7 +147,9 @@ export const updateRole = mutation({
         .collect();
       const adminCount = admins.filter((u) => u.role === "admin").length;
       if (adminCount <= 1) {
-        throw new Error("Cannot remove the last admin. Promote another member first.");
+        throw new Error(
+          "Cannot remove the last admin. Promote another member first.",
+        );
       }
     }
 

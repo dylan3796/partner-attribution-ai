@@ -20,7 +20,6 @@ import {
 } from "lucide-react";
 
 const DAY = 86400000;
-const now = Date.now();
 
 type DemoDeal = {
   id: string;
@@ -247,8 +246,8 @@ export default function PortalDealsPage() {
     expectedCloseDate: "",
     productName: "",
   });
-  const [regError, setRegError] = useState("");
-  const [regSaving, setRegSaving] = useState(false);
+  const [, setRegError] = useState("");
+  const [, setRegSaving] = useState(false);
 
   if (!partner) return null;
 

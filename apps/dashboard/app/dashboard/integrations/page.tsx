@@ -4,8 +4,14 @@ import { useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import {
-  Plug, CheckCircle2, XCircle,
-  RefreshCw, Zap, Shield, AlertTriangle, UploadCloud,
+  Plug,
+  CheckCircle2,
+  XCircle,
+  RefreshCw,
+  Zap,
+  Shield,
+  AlertTriangle,
+  UploadCloud,
 } from "lucide-react";
 import { ImportDataModal } from "@/components/ImportDataModal";
 
@@ -33,52 +39,108 @@ const now = Date.now();
    Salesforce & HubSpot status is overridden from real CRM data below. */
 const integrationsCatalog: Integration[] = [
   {
-    id: "salesforce", name: "Salesforce", logo: "☁️", category: "crm",
+    id: "salesforce",
+    name: "Salesforce",
+    logo: "☁️",
+    category: "crm",
     description: "Sync deals, contacts, and opportunities bi-directionally",
     status: "disconnected",
-    features: ["Deal sync", "Contact import", "Opportunity mapping", "Custom field mapping", "Real-time webhooks"],
+    features: [
+      "Deal sync",
+      "Contact import",
+      "Opportunity mapping",
+      "Custom field mapping",
+      "Real-time webhooks",
+    ],
     popular: true,
   },
   {
-    id: "hubspot", name: "HubSpot", logo: "🟠", category: "crm",
+    id: "hubspot",
+    name: "HubSpot",
+    logo: "🟠",
+    category: "crm",
     description: "Import deals and contacts from HubSpot CRM",
     status: "disconnected",
-    features: ["Deal pipeline sync", "Contact import", "Company matching", "Activity logging"],
+    features: [
+      "Deal pipeline sync",
+      "Contact import",
+      "Company matching",
+      "Activity logging",
+    ],
     popular: true,
   },
   {
-    id: "partnerstack", name: "PartnerStack", logo: "🤝", category: "crm",
-    description: "Unlock your PartnerStack partners & deals via CSV export — no auth required",
+    id: "partnerstack",
+    name: "PartnerStack",
+    logo: "🤝",
+    category: "crm",
+    description:
+      "Unlock your PartnerStack partners & deals via CSV export — no auth required",
     status: "disconnected",
-    features: ["Partner import", "Deal import", "Auto attribution", "No OAuth needed"],
+    features: [
+      "Partner import",
+      "Deal import",
+      "Auto attribution",
+      "No OAuth needed",
+    ],
     popular: true,
     importable: true,
   },
   {
-    id: "monaco", name: "Monaco", logo: "🏎️", category: "crm",
-    description: "Bring your Monaco partner data in via CSV export — no auth required",
+    id: "monaco",
+    name: "Monaco",
+    logo: "🏎️",
+    category: "crm",
+    description:
+      "Bring your Monaco partner data in via CSV export — no auth required",
     status: "disconnected",
-    features: ["Partner import", "Deal import", "Auto attribution", "No OAuth needed"],
+    features: [
+      "Partner import",
+      "Deal import",
+      "Auto attribution",
+      "No OAuth needed",
+    ],
     importable: true,
   },
   {
-    id: "stripe", name: "Stripe", logo: "💳", category: "payments",
-    description: "Connect Stripe for commission processing on your existing rails",
+    id: "stripe",
+    name: "Stripe",
+    logo: "💳",
+    category: "payments",
+    description:
+      "Connect Stripe for commission processing on your existing rails",
     status: "disconnected",
     features: ["Commission export", "Tax form generation", "Multi-currency"],
     popular: false,
   },
   {
-    id: "slack", name: "Slack", logo: "💬", category: "communication",
-    description: "Deal alerts, payout notifications, and partner activity in Slack channels",
+    id: "slack",
+    name: "Slack",
+    logo: "💬",
+    category: "communication",
+    description:
+      "Deal alerts, payout notifications, and partner activity in Slack channels",
     status: "disconnected",
-    features: ["Deal won alerts", "Payout notifications", "Weekly digest", "Partner activity feed"],
+    features: [
+      "Deal won alerts",
+      "Payout notifications",
+      "Weekly digest",
+      "Partner activity feed",
+    ],
   },
   {
-    id: "zapier", name: "Zapier", logo: "⚡", category: "automation",
+    id: "zapier",
+    name: "Zapier",
+    logo: "⚡",
+    category: "automation",
     description: "Connect Covant to 5,000+ apps with no-code automations",
     status: "disconnected",
-    features: ["Trigger on events", "Multi-step zaps", "Custom webhooks", "Scheduled automations"],
+    features: [
+      "Trigger on events",
+      "Multi-step zaps",
+      "Custom webhooks",
+      "Scheduled automations",
+    ],
     popular: true,
   },
 ];
@@ -91,7 +153,10 @@ const CATEGORY_LABELS: Record<string, { label: string; color: string }> = {
   automation: { label: "Automation", color: "#ec4899" },
 };
 
-const STATUS_CONFIG: Record<IntegrationStatus, { label: string; color: string; icon: typeof CheckCircle2 }> = {
+const STATUS_CONFIG: Record<
+  IntegrationStatus,
+  { label: string; color: string; icon: typeof CheckCircle2 }
+> = {
   connected: { label: "Connected", color: "#22c55e", icon: CheckCircle2 },
   disconnected: { label: "Not connected", color: "#64748b", icon: XCircle },
   error: { label: "Error", color: "#ef4444", icon: AlertTriangle },
@@ -111,9 +176,11 @@ export default function IntegrationsPage() {
   const crmStatuses = useQuery(api.integrations.getCrmStatuses);
   const [filterCategory, setFilterCategory] = useState<string>("all");
   const [filterStatus, setFilterStatus] = useState<string>("all");
-  const [expandedId, setExpandedId] = useState<string | null>(null);
   const [syncing, setSyncing] = useState<string | null>(null);
-  const [importTarget, setImportTarget] = useState<{ source: string; label: string } | null>(null);
+  const [importTarget, setImportTarget] = useState<{
+    source: string;
+    label: string;
+  } | null>(null);
 
   // Merge real CRM status into the demo list
   const integrations: Integration[] = integrationsCatalog.map((intg) => {
@@ -121,7 +188,9 @@ export default function IntegrationsPage() {
       const sf = crmStatuses.salesforce;
       return {
         ...intg,
-        status: sf.connected ? "connected" as const : "disconnected" as const,
+        status: sf.connected
+          ? ("connected" as const)
+          : ("disconnected" as const),
         lastSync: sf.connected ? (sf.lastSyncedAt ?? undefined) : undefined,
         syncedRecords: sf.connected ? sf.syncedDeals : undefined,
       };
@@ -130,7 +199,9 @@ export default function IntegrationsPage() {
       const hs = crmStatuses.hubspot;
       return {
         ...intg,
-        status: hs.connected ? "connected" as const : "disconnected" as const,
+        status: hs.connected
+          ? ("connected" as const)
+          : ("disconnected" as const),
         lastSync: hs.connected ? (hs.lastSyncedAt ?? undefined) : undefined,
         syncedRecords: hs.connected ? hs.syncedDeals : undefined,
       };
@@ -142,7 +213,8 @@ export default function IntegrationsPage() {
   const filtered = integrations.filter((i) => {
     if (filterCategory !== "all" && i.category !== filterCategory) return false;
     if (filterStatus === "connected" && i.status !== "connected") return false;
-    if (filterStatus === "disconnected" && i.status !== "disconnected") return false;
+    if (filterStatus === "disconnected" && i.status !== "disconnected")
+      return false;
     return true;
   });
 
@@ -163,26 +235,36 @@ export default function IntegrationsPage() {
 
   async function handleDisconnect(id: string) {
     if (!orgId) return;
-    const endpoint = id === "salesforce"
-      ? "/api/integrations/salesforce/disconnect"
-      : id === "hubspot"
-      ? "/api/integrations/hubspot/disconnect"
-      : null;
+    const endpoint =
+      id === "salesforce"
+        ? "/api/integrations/salesforce/disconnect"
+        : id === "hubspot"
+          ? "/api/integrations/hubspot/disconnect"
+          : null;
     if (!endpoint) return;
-    await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ organizationId: orgId }) });
+    await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ organizationId: orgId }),
+    });
   }
 
   async function handleSync(id: string) {
     if (!orgId) return;
-    const endpoint = id === "salesforce"
-      ? "/api/integrations/salesforce/sync"
-      : id === "hubspot"
-      ? "/api/integrations/hubspot/sync"
-      : null;
+    const endpoint =
+      id === "salesforce"
+        ? "/api/integrations/salesforce/sync"
+        : id === "hubspot"
+          ? "/api/integrations/hubspot/sync"
+          : null;
     if (!endpoint) return;
     setSyncing(id);
     try {
-      await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ organizationId: orgId }) });
+      await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ organizationId: orgId }),
+      });
     } finally {
       setSyncing(null);
     }
@@ -201,24 +283,102 @@ export default function IntegrationsPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       <div>
-        <h1 style={{ fontSize: "2rem", fontWeight: 800, letterSpacing: "-0.02em" }}>Integrations</h1>
-        <p className="muted" style={{ marginTop: "0.25rem" }}>Connect your tools to automate partner operations</p>
+        <h1
+          style={{
+            fontSize: "2rem",
+            fontWeight: 800,
+            letterSpacing: "-0.02em",
+          }}
+        >
+          Integrations
+        </h1>
+        <p className="muted" style={{ marginTop: "0.25rem" }}>
+          Connect your tools to automate partner operations
+        </p>
       </div>
 
       {/* Stats */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: "1rem" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gap: "1rem",
+        }}
+      >
         {[
-          { icon: <Plug size={22} />, label: "Connected", value: String(connected.length), sub: `of ${integrations.length} available`, color: "#22c55e" },
-          { icon: <Zap size={22} />, label: "Events Today", value: "1,847", color: "#6366f1" },
-          { icon: <RefreshCw size={22} />, label: "Records Synced", value: connected.reduce((s, i) => s + (i.syncedRecords || 0), 0).toLocaleString(), color: "#f59e0b" },
-          { icon: <Shield size={22} />, label: "API Health", value: "99.9%", sub: "uptime", color: "#22c55e" },
+          {
+            icon: <Plug size={22} />,
+            label: "Connected",
+            value: String(connected.length),
+            sub: `of ${integrations.length} available`,
+            color: "#22c55e",
+          },
+          {
+            icon: <Zap size={22} />,
+            label: "Events Today",
+            value: "1,847",
+            color: "#6366f1",
+          },
+          {
+            icon: <RefreshCw size={22} />,
+            label: "Records Synced",
+            value: connected
+              .reduce((s, i) => s + (i.syncedRecords || 0), 0)
+              .toLocaleString(),
+            color: "#f59e0b",
+          },
+          {
+            icon: <Shield size={22} />,
+            label: "API Health",
+            value: "99.9%",
+            sub: "uptime",
+            color: "#22c55e",
+          },
         ].map((s, i) => (
-          <div key={i} className="card" style={{ padding: "1.25rem", display: "flex", gap: "1rem", alignItems: "center" }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: `${s.color}18`, display: "flex", alignItems: "center", justifyContent: "center", color: s.color }}>{s.icon}</div>
+          <div
+            key={i}
+            className="card"
+            style={{
+              padding: "1.25rem",
+              display: "flex",
+              gap: "1rem",
+              alignItems: "center",
+            }}
+          >
+            <div
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 12,
+                background: `${s.color}18`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: s.color,
+              }}
+            >
+              {s.icon}
+            </div>
             <div>
-              <div className="muted" style={{ fontSize: ".75rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>{s.label}</div>
-              <div style={{ fontSize: "1.5rem", fontWeight: 800 }}>{s.value}</div>
-              {s.sub && <div className="muted" style={{ fontSize: ".8rem" }}>{s.sub}</div>}
+              <div
+                className="muted"
+                style={{
+                  fontSize: ".75rem",
+                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
+                }}
+              >
+                {s.label}
+              </div>
+              <div style={{ fontSize: "1.5rem", fontWeight: 800 }}>
+                {s.value}
+              </div>
+              {s.sub && (
+                <div className="muted" style={{ fontSize: ".8rem" }}>
+                  {s.sub}
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -228,16 +388,32 @@ export default function IntegrationsPage() {
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
         {["all", ...Object.keys(CATEGORY_LABELS)].map((cat) => {
           const cfg = CATEGORY_LABELS[cat];
-          const count = cat === "all" ? integrations.length : integrations.filter((i) => i.category === cat).length;
+          const count =
+            cat === "all"
+              ? integrations.length
+              : integrations.filter((i) => i.category === cat).length;
           return (
             <button
               key={cat}
               onClick={() => setFilterCategory(cat)}
               style={{
-                padding: "4px 14px", borderRadius: 999, fontSize: ".8rem", fontWeight: 600, cursor: "pointer",
-                border: filterCategory === cat ? `2px solid ${cfg?.color || "#6366f1"}` : "1px solid var(--border)",
-                background: filterCategory === cat ? `${cfg?.color || "#6366f1"}15` : "transparent",
-                color: filterCategory === cat ? (cfg?.color || "#6366f1") : "var(--muted)",
+                padding: "4px 14px",
+                borderRadius: 999,
+                fontSize: ".8rem",
+                fontWeight: 600,
+                cursor: "pointer",
+                border:
+                  filterCategory === cat
+                    ? `2px solid ${cfg?.color || "#6366f1"}`
+                    : "1px solid var(--border)",
+                background:
+                  filterCategory === cat
+                    ? `${cfg?.color || "#6366f1"}15`
+                    : "transparent",
+                color:
+                  filterCategory === cat
+                    ? cfg?.color || "#6366f1"
+                    : "var(--muted)",
                 textTransform: "capitalize",
               }}
             >
@@ -246,7 +422,12 @@ export default function IntegrationsPage() {
           );
         })}
         <div style={{ marginLeft: "auto" }}>
-          <select className="input" value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} style={{ maxWidth: 160, fontSize: ".8rem" }}>
+          <select
+            className="input"
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            style={{ maxWidth: 160, fontSize: ".8rem" }}
+          >
             <option value="all">All Status</option>
             <option value="connected">Connected</option>
             <option value="disconnected">Available</option>
@@ -255,108 +436,267 @@ export default function IntegrationsPage() {
       </div>
 
       {/* Integration cards */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))", gap: "1rem" }}>
-        {filtered.sort((a, b) => (a.status === "connected" ? 0 : 1) - (b.status === "connected" ? 0 : 1)).map((intg) => {
-          const statusCfg = STATUS_CONFIG[intg.status];
-          const StatusIcon = statusCfg.icon;
-          const catCfg = CATEGORY_LABELS[intg.category];
-          const isExpanded = expandedId === intg.id;
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+          gap: "1rem",
+        }}
+      >
+        {filtered
+          .sort(
+            (a, b) =>
+              (a.status === "connected" ? 0 : 1) -
+              (b.status === "connected" ? 0 : 1),
+          )
+          .map((intg) => {
+            const statusCfg = STATUS_CONFIG[intg.status];
+            const StatusIcon = statusCfg.icon;
+            const catCfg = CATEGORY_LABELS[intg.category];
 
-          return (
-            <div
-              key={intg.id}
-              className="card"
-              style={{
-                padding: 0, overflow: "hidden",
-                border: intg.status === "connected" ? `1px solid ${statusCfg.color}33` : "1px solid var(--border)",
-              }}
-            >
-              <div style={{ padding: "1.25rem" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                    <span style={{ fontSize: "1.5rem" }}>{intg.logo}</span>
-                    <div>
-                      <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <span style={{ fontWeight: 700, fontSize: "1rem" }}>{intg.name}</span>
-                        {intg.popular && <span style={{ padding: "1px 6px", borderRadius: 999, fontSize: ".6rem", fontWeight: 700, background: "#6366f120", color: "#6366f1" }}>Popular</span>}
-                      </div>
-                      <span style={{ padding: "1px 7px", borderRadius: 999, fontSize: ".65rem", fontWeight: 600, background: `${catCfg.color}15`, color: catCfg.color }}>{catCfg.label}</span>
-                    </div>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 4, color: statusCfg.color }}>
-                    <StatusIcon size={14} />
-                    <span style={{ fontSize: ".75rem", fontWeight: 600 }}>{statusCfg.label}</span>
-                  </div>
-                </div>
-
-                <p className="muted" style={{ fontSize: ".85rem", lineHeight: 1.5, marginBottom: 12 }}>{intg.description}</p>
-
-                {/* Connected info */}
-                {intg.status === "connected" && (
-                  <div style={{ display: "flex", gap: "1rem", fontSize: ".75rem", marginBottom: 12 }}>
-                    {intg.lastSync && <span className="muted">Last sync: {timeAgo(intg.lastSync)}</span>}
-                    {intg.syncedRecords && <span className="muted">{intg.syncedRecords.toLocaleString()} records</span>}
-                  </div>
-                )}
-
-                {/* Features preview */}
-                <div style={{ display: "flex", gap: 4, flexWrap: "wrap", marginBottom: 12 }}>
-                  {intg.features.slice(0, 3).map((f) => (
-                    <span key={f} style={{ padding: "2px 8px", borderRadius: 6, fontSize: ".7rem", fontWeight: 500, background: "var(--subtle)", color: "var(--muted)" }}>{f}</span>
-                  ))}
-                  {intg.features.length > 3 && (
-                    <span style={{ fontSize: ".7rem", color: "var(--muted)", padding: "2px 4px" }}>+{intg.features.length - 3} more</span>
-                  )}
-                </div>
-
-                {/* Action */}
-                <div style={{ display: "flex", gap: 8 }}>
-                  {intg.importable ? (
-                    <button
-                      onClick={() => setImportTarget({ source: intg.id, label: intg.name })}
-                      style={{
-                        flex: 1, padding: "8px 14px", borderRadius: 8, fontSize: ".85rem", fontWeight: 600,
-                        cursor: "pointer", border: "none", background: "#0a0a0a", color: "#fff",
-                        fontFamily: "inherit", display: "flex", alignItems: "center", justifyContent: "center", gap: 6,
-                      }}
-                    >
-                      <UploadCloud size={15} /> Import data (CSV)
-                    </button>
-                  ) : (
-                  <>
-                  {intg.status === "connected" && (intg.id === "salesforce" || intg.id === "hubspot") && (
-                    <button
-                      onClick={() => handleSync(intg.id)}
-                      disabled={syncing === intg.id}
-                      style={{
-                        flex: 1, padding: "8px", borderRadius: 8, fontSize: ".85rem", fontWeight: 600, cursor: "pointer",
-                        border: "none", background: "#6366f1", color: "#fff", fontFamily: "inherit",
-                        opacity: syncing === intg.id ? 0.7 : 1,
-                      }}
-                    >
-                      {syncing === intg.id ? "Syncing…" : "Sync Now"}
-                    </button>
-                  )}
-                  <button
-                    onClick={() => toggleConnect(intg.id)}
+            return (
+              <div
+                key={intg.id}
+                className="card"
+                style={{
+                  padding: 0,
+                  overflow: "hidden",
+                  border:
+                    intg.status === "connected"
+                      ? `1px solid ${statusCfg.color}33`
+                      : "1px solid var(--border)",
+                }}
+              >
+                <div style={{ padding: "1.25rem" }}>
+                  <div
                     style={{
-                      flex: intg.status === "connected" && (intg.id === "salesforce" || intg.id === "hubspot") ? "0 0 auto" : 1,
-                      padding: "8px 14px", borderRadius: 8, fontSize: ".85rem", fontWeight: 600, cursor: "pointer",
-                      border: intg.status === "connected" ? "1px solid var(--border)" : "none",
-                      background: intg.status === "connected" ? "transparent" : "#6366f1",
-                      color: intg.status === "connected" ? "var(--muted)" : "#fff",
-                      fontFamily: "inherit",
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                      marginBottom: 10,
                     }}
                   >
-                    {intg.status === "connected" ? "Disconnect" : "Connect"}
-                  </button>
-                  </>
+                    <div
+                      style={{ display: "flex", alignItems: "center", gap: 10 }}
+                    >
+                      <span style={{ fontSize: "1.5rem" }}>{intg.logo}</span>
+                      <div>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 6,
+                          }}
+                        >
+                          <span style={{ fontWeight: 700, fontSize: "1rem" }}>
+                            {intg.name}
+                          </span>
+                          {intg.popular && (
+                            <span
+                              style={{
+                                padding: "1px 6px",
+                                borderRadius: 999,
+                                fontSize: ".6rem",
+                                fontWeight: 700,
+                                background: "#6366f120",
+                                color: "#6366f1",
+                              }}
+                            >
+                              Popular
+                            </span>
+                          )}
+                        </div>
+                        <span
+                          style={{
+                            padding: "1px 7px",
+                            borderRadius: 999,
+                            fontSize: ".65rem",
+                            fontWeight: 600,
+                            background: `${catCfg.color}15`,
+                            color: catCfg.color,
+                          }}
+                        >
+                          {catCfg.label}
+                        </span>
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 4,
+                        color: statusCfg.color,
+                      }}
+                    >
+                      <StatusIcon size={14} />
+                      <span style={{ fontSize: ".75rem", fontWeight: 600 }}>
+                        {statusCfg.label}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p
+                    className="muted"
+                    style={{
+                      fontSize: ".85rem",
+                      lineHeight: 1.5,
+                      marginBottom: 12,
+                    }}
+                  >
+                    {intg.description}
+                  </p>
+
+                  {/* Connected info */}
+                  {intg.status === "connected" && (
+                    <div
+                      style={{
+                        display: "flex",
+                        gap: "1rem",
+                        fontSize: ".75rem",
+                        marginBottom: 12,
+                      }}
+                    >
+                      {intg.lastSync && (
+                        <span className="muted">
+                          Last sync: {timeAgo(intg.lastSync)}
+                        </span>
+                      )}
+                      {intg.syncedRecords && (
+                        <span className="muted">
+                          {intg.syncedRecords.toLocaleString()} records
+                        </span>
+                      )}
+                    </div>
                   )}
+
+                  {/* Features preview */}
+                  <div
+                    style={{
+                      display: "flex",
+                      gap: 4,
+                      flexWrap: "wrap",
+                      marginBottom: 12,
+                    }}
+                  >
+                    {intg.features.slice(0, 3).map((f) => (
+                      <span
+                        key={f}
+                        style={{
+                          padding: "2px 8px",
+                          borderRadius: 6,
+                          fontSize: ".7rem",
+                          fontWeight: 500,
+                          background: "var(--subtle)",
+                          color: "var(--muted)",
+                        }}
+                      >
+                        {f}
+                      </span>
+                    ))}
+                    {intg.features.length > 3 && (
+                      <span
+                        style={{
+                          fontSize: ".7rem",
+                          color: "var(--muted)",
+                          padding: "2px 4px",
+                        }}
+                      >
+                        +{intg.features.length - 3} more
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Action */}
+                  <div style={{ display: "flex", gap: 8 }}>
+                    {intg.importable ? (
+                      <button
+                        onClick={() =>
+                          setImportTarget({ source: intg.id, label: intg.name })
+                        }
+                        style={{
+                          flex: 1,
+                          padding: "8px 14px",
+                          borderRadius: 8,
+                          fontSize: ".85rem",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          border: "none",
+                          background: "#0a0a0a",
+                          color: "#fff",
+                          fontFamily: "inherit",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 6,
+                        }}
+                      >
+                        <UploadCloud size={15} /> Import data (CSV)
+                      </button>
+                    ) : (
+                      <>
+                        {intg.status === "connected" &&
+                          (intg.id === "salesforce" ||
+                            intg.id === "hubspot") && (
+                            <button
+                              onClick={() => handleSync(intg.id)}
+                              disabled={syncing === intg.id}
+                              style={{
+                                flex: 1,
+                                padding: "8px",
+                                borderRadius: 8,
+                                fontSize: ".85rem",
+                                fontWeight: 600,
+                                cursor: "pointer",
+                                border: "none",
+                                background: "#6366f1",
+                                color: "#fff",
+                                fontFamily: "inherit",
+                                opacity: syncing === intg.id ? 0.7 : 1,
+                              }}
+                            >
+                              {syncing === intg.id ? "Syncing…" : "Sync Now"}
+                            </button>
+                          )}
+                        <button
+                          onClick={() => toggleConnect(intg.id)}
+                          style={{
+                            flex:
+                              intg.status === "connected" &&
+                              (intg.id === "salesforce" ||
+                                intg.id === "hubspot")
+                                ? "0 0 auto"
+                                : 1,
+                            padding: "8px 14px",
+                            borderRadius: 8,
+                            fontSize: ".85rem",
+                            fontWeight: 600,
+                            cursor: "pointer",
+                            border:
+                              intg.status === "connected"
+                                ? "1px solid var(--border)"
+                                : "none",
+                            background:
+                              intg.status === "connected"
+                                ? "transparent"
+                                : "#6366f1",
+                            color:
+                              intg.status === "connected"
+                                ? "var(--muted)"
+                                : "#fff",
+                            fontFamily: "inherit",
+                          }}
+                        >
+                          {intg.status === "connected"
+                            ? "Disconnect"
+                            : "Connect"}
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </div>
 
       {importTarget && (

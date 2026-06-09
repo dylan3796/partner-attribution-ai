@@ -7,24 +7,83 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useToast } from "@/components/ui/toast";
 import { formatCurrency, formatCurrencyCompact } from "@/lib/utils";
-import { ArrowLeft, Mail, Phone, MapPin, Edit, X, Save, Award, Shield, BookOpen, Star, BarChart3, MessageSquare, Pin, PinOff, Trash2, Loader2, Send, Tag, Plus, FileText } from "lucide-react";
-import { PARTNER_TYPE_LABELS, TIER_LABELS, TOUCHPOINT_LABELS, CERTIFICATION_LEVEL_LABELS, type CertificationLevel } from "@/lib/types";
+import {
+  ArrowLeft,
+  Mail,
+  Phone,
+  MapPin,
+  Edit,
+  X,
+  Save,
+  Award,
+  Shield,
+  BookOpen,
+  Star,
+  BarChart3,
+  MessageSquare,
+  Pin,
+  PinOff,
+  Trash2,
+  Loader2,
+  Send,
+  Tag,
+  Plus,
+  FileText,
+} from "lucide-react";
+import {
+  PARTNER_TYPE_LABELS,
+  TIER_LABELS,
+  TOUCHPOINT_LABELS,
+  CERTIFICATION_LEVEL_LABELS,
+  type CertificationLevel,
+} from "@/lib/types";
 import { usePlatformConfig } from "@/lib/platform-config";
 
 // Dynamic imports for recharts (heavy library)
-const ChartLoadingPlaceholder = () => <div className="h-48 bg-gray-800 animate-pulse rounded" />;
+const ChartLoadingPlaceholder = () => (
+  <div className="h-48 bg-gray-800 animate-pulse rounded" />
+);
 
-const BarChart = dynamic(() => import("recharts").then(m => ({ default: m.BarChart })), { ssr: false, loading: ChartLoadingPlaceholder });
-const Bar = dynamic(() => import("recharts").then(m => ({ default: m.Bar })), { ssr: false });
-const XAxis = dynamic(() => import("recharts").then(m => ({ default: m.XAxis })), { ssr: false });
-const YAxis = dynamic(() => import("recharts").then(m => ({ default: m.YAxis })), { ssr: false });
-const CartesianGrid = dynamic(() => import("recharts").then(m => ({ default: m.CartesianGrid })), { ssr: false });
-const Tooltip = dynamic(() => import("recharts").then(m => ({ default: m.Tooltip })), { ssr: false });
-const ResponsiveContainer = dynamic(() => import("recharts").then(m => ({ default: m.ResponsiveContainer })), { ssr: false, loading: ChartLoadingPlaceholder });
-const PieChart = dynamic(() => import("recharts").then(m => ({ default: m.PieChart })), { ssr: false, loading: ChartLoadingPlaceholder });
-const Pie = dynamic(() => import("recharts").then(m => ({ default: m.Pie })), { ssr: false });
-const Cell = dynamic(() => import("recharts").then(m => ({ default: m.Cell })), { ssr: false });
-const Legend = dynamic(() => import("recharts").then(m => ({ default: m.Legend })), { ssr: false });
+const BarChart = dynamic(
+  () => import("recharts").then((m) => ({ default: m.BarChart })),
+  { ssr: false, loading: ChartLoadingPlaceholder },
+);
+const Bar = dynamic(
+  () => import("recharts").then((m) => ({ default: m.Bar })),
+  { ssr: false },
+);
+const XAxis = dynamic(
+  () => import("recharts").then((m) => ({ default: m.XAxis })),
+  { ssr: false },
+);
+const YAxis = dynamic(
+  () => import("recharts").then((m) => ({ default: m.YAxis })),
+  { ssr: false },
+);
+const CartesianGrid = dynamic(
+  () => import("recharts").then((m) => ({ default: m.CartesianGrid })),
+  { ssr: false },
+);
+const Tooltip = dynamic(
+  () => import("recharts").then((m) => ({ default: m.Tooltip })),
+  { ssr: false },
+);
+const ResponsiveContainer = dynamic(
+  () => import("recharts").then((m) => ({ default: m.ResponsiveContainer })),
+  { ssr: false, loading: ChartLoadingPlaceholder },
+);
+const PieChart = dynamic(
+  () => import("recharts").then((m) => ({ default: m.PieChart })),
+  { ssr: false, loading: ChartLoadingPlaceholder },
+);
+const Pie = dynamic(
+  () => import("recharts").then((m) => ({ default: m.Pie })),
+  { ssr: false },
+);
+const Cell = dynamic(
+  () => import("recharts").then((m) => ({ default: m.Cell })),
+  { ssr: false },
+);
 
 const STAGE_COLORS: Record<string, string> = {
   pending_registration: "#6366f1",
@@ -36,29 +95,91 @@ const STAGE_COLORS: Record<string, string> = {
   rejected: "#f97316",
 };
 
-const TP_COLORS = ["#6366f1", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4", "#ec4899", "#f97316", "#14b8a6"];
+const TP_COLORS = [
+  "#6366f1",
+  "#22c55e",
+  "#f59e0b",
+  "#ef4444",
+  "#8b5cf6",
+  "#06b6d4",
+  "#ec4899",
+  "#f97316",
+  "#14b8a6",
+];
 
-const TAG_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  "Top Performer": { bg: "rgba(34,197,94,.15)", text: "#22c55e", border: "rgba(34,197,94,.3)" },
-  "Strategic": { bg: "rgba(99,102,241,.15)", text: "#818cf8", border: "rgba(99,102,241,.3)" },
-  "At Risk": { bg: "rgba(239,68,68,.15)", text: "#ef4444", border: "rgba(239,68,68,.3)" },
-  "Needs Attention": { bg: "rgba(245,158,11,.15)", text: "#f59e0b", border: "rgba(245,158,11,.3)" },
-  "New": { bg: "rgba(6,182,212,.15)", text: "#06b6d4", border: "rgba(6,182,212,.3)" },
-  "Expansion": { bg: "rgba(139,92,246,.15)", text: "#8b5cf6", border: "rgba(139,92,246,.3)" },
-  "Enterprise": { bg: "rgba(236,72,153,.15)", text: "#ec4899", border: "rgba(236,72,153,.3)" },
-  "VIP": { bg: "rgba(249,115,22,.15)", text: "#f97316", border: "rgba(249,115,22,.3)" },
+const TAG_COLORS: Record<string, { bg: string; text: string; border: string }> =
+  {
+    "Top Performer": {
+      bg: "rgba(34,197,94,.15)",
+      text: "#22c55e",
+      border: "rgba(34,197,94,.3)",
+    },
+    Strategic: {
+      bg: "rgba(99,102,241,.15)",
+      text: "#818cf8",
+      border: "rgba(99,102,241,.3)",
+    },
+    "At Risk": {
+      bg: "rgba(239,68,68,.15)",
+      text: "#ef4444",
+      border: "rgba(239,68,68,.3)",
+    },
+    "Needs Attention": {
+      bg: "rgba(245,158,11,.15)",
+      text: "#f59e0b",
+      border: "rgba(245,158,11,.3)",
+    },
+    New: {
+      bg: "rgba(6,182,212,.15)",
+      text: "#06b6d4",
+      border: "rgba(6,182,212,.3)",
+    },
+    Expansion: {
+      bg: "rgba(139,92,246,.15)",
+      text: "#8b5cf6",
+      border: "rgba(139,92,246,.3)",
+    },
+    Enterprise: {
+      bg: "rgba(236,72,153,.15)",
+      text: "#ec4899",
+      border: "rgba(236,72,153,.3)",
+    },
+    VIP: {
+      bg: "rgba(249,115,22,.15)",
+      text: "#f97316",
+      border: "rgba(249,115,22,.3)",
+    },
+  };
+const DEFAULT_TAG_COLOR = {
+  bg: "rgba(148,163,184,.15)",
+  text: "#94a3b8",
+  border: "rgba(148,163,184,.3)",
 };
-const DEFAULT_TAG_COLOR = { bg: "rgba(148,163,184,.15)", text: "#94a3b8", border: "rgba(148,163,184,.3)" };
-function getTagColor(tag: string) { return TAG_COLORS[tag] || DEFAULT_TAG_COLOR; }
+function getTagColor(tag: string) {
+  return TAG_COLORS[tag] || DEFAULT_TAG_COLOR;
+}
 const SUGGESTED_TAGS = Object.keys(TAG_COLORS);
 
 function CustomTooltip({ active, payload, label }: any) {
   if (!active || !payload?.length) return null;
   return (
-    <div style={{ background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "8px 12px", fontSize: ".8rem" }}>
+    <div
+      style={{
+        background: "var(--card-bg)",
+        border: "1px solid var(--border)",
+        borderRadius: 8,
+        padding: "8px 12px",
+        fontSize: ".8rem",
+      }}
+    >
       <p style={{ fontWeight: 600, marginBottom: 4 }}>{label}</p>
       {payload.map((p: any, i: number) => (
-        <p key={i} style={{ color: p.color, margin: 0 }}>{p.name}: {typeof p.value === "number" && p.name !== "Deals" ? formatCurrencyCompact(p.value) : p.value}</p>
+        <p key={i} style={{ color: p.color, margin: 0 }}>
+          {p.name}:{" "}
+          {typeof p.value === "number" && p.name !== "Deals"
+            ? formatCurrencyCompact(p.value)
+            : p.value}
+        </p>
       ))}
     </div>
   );
@@ -67,21 +188,66 @@ function CustomTooltip({ active, payload, label }: any) {
 function LoadingSkeleton() {
   return (
     <div style={{ padding: "2rem" }}>
-      <div style={{ height: 20, width: 120, background: "var(--border)", borderRadius: 4, marginBottom: "1.5rem" }} />
+      <div
+        style={{
+          height: 20,
+          width: 120,
+          background: "var(--border)",
+          borderRadius: 4,
+          marginBottom: "1.5rem",
+        }}
+      />
       <div className="card" style={{ marginBottom: "1.5rem" }}>
         <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-          <div style={{ width: 56, height: 56, borderRadius: "50%", background: "var(--border)" }} />
+          <div
+            style={{
+              width: 56,
+              height: 56,
+              borderRadius: "50%",
+              background: "var(--border)",
+            }}
+          />
           <div>
-            <div style={{ height: 24, width: 180, background: "var(--border)", borderRadius: 4, marginBottom: 8 }} />
-            <div style={{ height: 20, width: 240, background: "var(--border)", borderRadius: 4 }} />
+            <div
+              style={{
+                height: 24,
+                width: 180,
+                background: "var(--border)",
+                borderRadius: 4,
+                marginBottom: 8,
+              }}
+            />
+            <div
+              style={{
+                height: 20,
+                width: 240,
+                background: "var(--border)",
+                borderRadius: 4,
+              }}
+            />
           </div>
         </div>
       </div>
       <div className="stat-grid" style={{ marginBottom: "1.5rem" }}>
         {[1, 2, 3, 4].map((i) => (
           <div key={i} className="card" style={{ height: 80 }}>
-            <div style={{ height: 16, width: 100, background: "var(--border)", borderRadius: 4, marginBottom: 8 }} />
-            <div style={{ height: 28, width: 60, background: "var(--border)", borderRadius: 4 }} />
+            <div
+              style={{
+                height: 16,
+                width: 100,
+                background: "var(--border)",
+                borderRadius: 4,
+                marginBottom: 8,
+              }}
+            />
+            <div
+              style={{
+                height: 28,
+                width: 60,
+                background: "var(--border)",
+                borderRadius: 4,
+              }}
+            />
           </div>
         ))}
       </div>
@@ -89,7 +255,11 @@ function LoadingSkeleton() {
   );
 }
 
-export default function PartnerDetailPage({ params }: { params: Promise<{ id: string }> }) {
+export default function PartnerDetailPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = use(params);
   const { toast } = useToast();
   const { isFeatureEnabled } = usePlatformConfig();
@@ -100,9 +270,13 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
   const [editingNoteText, setEditingNoteText] = useState("");
 
   // Convex queries
-  const partnerData = useQuery(api.partners.getById, { id: id as Id<"partners"> });
+  const partnerData = useQuery(api.partners.getById, {
+    id: id as Id<"partners">,
+  });
   const auditLog = useQuery(api.dashboard.getAuditLog, {});
-  const partnerNotes = useQuery(api.partnerNotes.list, { partnerId: id as Id<"partners"> });
+  const partnerNotes = useQuery(api.partnerNotes.list, {
+    partnerId: id as Id<"partners">,
+  });
   const updatePartner = useMutation(api.partners.update);
   const updateTags = useMutation(api.partners.updateTags);
   const [showTagInput, setShowTagInput] = useState(false);
@@ -142,8 +316,12 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
   if (partnerData === null) {
     return (
       <div style={{ textAlign: "center", padding: "3rem" }}>
-        <p className="muted" style={{ marginBottom: "1rem" }}>Partner not found.</p>
-        <Link href="/dashboard/partners" className="btn-outline">← Back to partners</Link>
+        <p className="muted" style={{ marginBottom: "1rem" }}>
+          Partner not found.
+        </p>
+        <Link href="/dashboard/partners" className="btn-outline">
+          ← Back to partners
+        </Link>
       </div>
     );
   }
@@ -155,15 +333,25 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
   const partnerPayouts = partner.payouts || [];
   const partnerDeals = partner.deals || [];
   const totalRevenue = attributions.reduce((s, a) => s + a.amount, 0);
-  const totalCommission = attributions.reduce((s, a) => s + a.commissionAmount, 0);
+  const totalCommission = attributions.reduce(
+    (s, a) => s + a.commissionAmount,
+    0,
+  );
 
   // Onboarding progress
   const hasProfile = !!(partner.contactName && partner.email);
   const hasDeal = partnerDeals.length > 0 || touchpoints.length > 0;
   const hasCommission = totalCommission > 0;
-  const onboardingSteps = [hasProfile, hasDeal, hasCommission].filter(Boolean).length;
+  const onboardingSteps = [hasProfile, hasDeal, hasCommission].filter(
+    Boolean,
+  ).length;
   const onboardingPct = Math.round((onboardingSteps / 3) * 100);
-  const obColor = onboardingPct === 100 ? "#22c55e" : onboardingPct >= 66 ? "#eab308" : "#ef4444";
+  const obColor =
+    onboardingPct === 100
+      ? "#22c55e"
+      : onboardingPct >= 66
+        ? "#eab308"
+        : "#ef4444";
 
   // For now, certs/badges/trainings/endorsements are not in Convex yet, so we'll show empty
   const showCerts = isFeatureEnabled("certifications");
@@ -191,50 +379,211 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
 
   return (
     <>
-      <Link href="/dashboard/partners" style={{ display: "inline-flex", alignItems: "center", gap: ".4rem", marginBottom: "1.5rem", fontSize: ".9rem" }} className="muted"><ArrowLeft size={16} /> Back to partners</Link>
+      <Link
+        href="/dashboard/partners"
+        style={{
+          display: "inline-flex",
+          alignItems: "center",
+          gap: ".4rem",
+          marginBottom: "1.5rem",
+          fontSize: ".9rem",
+        }}
+        className="muted"
+      >
+        <ArrowLeft size={16} /> Back to partners
+      </Link>
 
       {/* Header */}
       <div className="card" style={{ marginBottom: "1.5rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "start", flexWrap: "wrap", gap: "1rem" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "start",
+            flexWrap: "wrap",
+            gap: "1rem",
+          }}
+        >
           <div style={{ display: "flex", gap: "1.2rem", alignItems: "center" }}>
-            <div className="avatar" style={{ width: 56, height: 56, fontSize: "1.1rem" }}>{partner.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}</div>
+            <div
+              className="avatar"
+              style={{ width: 56, height: 56, fontSize: "1.1rem" }}
+            >
+              {partner.name
+                .split(" ")
+                .map((w) => w[0])
+                .join("")
+                .slice(0, 2)}
+            </div>
             <div>
-              <h1 style={{ fontSize: "1.5rem", fontWeight: 800, letterSpacing: "-.02em" }}>{partner.name}</h1>
-              <div style={{ display: "flex", gap: ".75rem", marginTop: ".3rem", flexWrap: "wrap" }}>
-                <span className="chip">{PARTNER_TYPE_LABELS[partner.type]}</span>
-                <span className="badge badge-neutral">{partner.tier ? TIER_LABELS[partner.tier] : "No Tier"}</span>
-                <span className={`badge badge-${partner.status === "active" ? "success" : partner.status === "pending" ? "info" : "danger"}`}>{partner.status}</span>
+              <h1
+                style={{
+                  fontSize: "1.5rem",
+                  fontWeight: 800,
+                  letterSpacing: "-.02em",
+                }}
+              >
+                {partner.name}
+              </h1>
+              <div
+                style={{
+                  display: "flex",
+                  gap: ".75rem",
+                  marginTop: ".3rem",
+                  flexWrap: "wrap",
+                }}
+              >
+                <span className="chip">
+                  {PARTNER_TYPE_LABELS[partner.type]}
+                </span>
+                <span className="badge badge-neutral">
+                  {partner.tier ? TIER_LABELS[partner.tier] : "No Tier"}
+                </span>
+                <span
+                  className={`badge badge-${partner.status === "active" ? "success" : partner.status === "pending" ? "info" : "danger"}`}
+                >
+                  {partner.status}
+                </span>
               </div>
             </div>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <Link href={`/dashboard/partners/${id}/scorecard`} className="btn-outline" style={{ textDecoration: "none" }}><FileText size={15} /> Scorecard</Link>
-            <button className="btn-outline" onClick={() => { setEditing(true); setEditForm({ name: partner.name, email: partner.email, commissionRate: partner.commissionRate, territory: partner.territory || "", notes: partner.notes || "" }); }}><Edit size={15} /> Edit Partner</button>
+            <Link
+              href={`/dashboard/partners/${id}/scorecard`}
+              className="btn-outline"
+              style={{ textDecoration: "none" }}
+            >
+              <FileText size={15} /> Scorecard
+            </Link>
+            <button
+              className="btn-outline"
+              onClick={() => {
+                setEditing(true);
+                setEditForm({
+                  name: partner.name,
+                  email: partner.email,
+                  commissionRate: partner.commissionRate,
+                  territory: partner.territory || "",
+                  notes: partner.notes || "",
+                });
+              }}
+            >
+              <Edit size={15} /> Edit Partner
+            </button>
           </div>
         </div>
-        <div style={{ display: "flex", gap: "2rem", marginTop: "1.2rem", flexWrap: "wrap" }}>
-          <span className="muted" style={{ display: "flex", alignItems: "center", gap: ".3rem", fontSize: ".85rem" }}><Mail size={14} /> {partner.email}</span>
-          {partner.contactPhone && <span className="muted" style={{ display: "flex", alignItems: "center", gap: ".3rem", fontSize: ".85rem" }}><Phone size={14} /> {partner.contactPhone}</span>}
-          {partner.territory && <span className="muted" style={{ display: "flex", alignItems: "center", gap: ".3rem", fontSize: ".85rem" }}><MapPin size={14} /> {partner.territory}</span>}
+        <div
+          style={{
+            display: "flex",
+            gap: "2rem",
+            marginTop: "1.2rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <span
+            className="muted"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: ".3rem",
+              fontSize: ".85rem",
+            }}
+          >
+            <Mail size={14} /> {partner.email}
+          </span>
+          {partner.contactPhone && (
+            <span
+              className="muted"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".3rem",
+                fontSize: ".85rem",
+              }}
+            >
+              <Phone size={14} /> {partner.contactPhone}
+            </span>
+          )}
+          {partner.territory && (
+            <span
+              className="muted"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".3rem",
+                fontSize: ".85rem",
+              }}
+            >
+              <MapPin size={14} /> {partner.territory}
+            </span>
+          )}
         </div>
         {/* Tags */}
-        <div style={{ display: "flex", gap: ".5rem", marginTop: "1rem", flexWrap: "wrap", alignItems: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: ".5rem",
+            marginTop: "1rem",
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
           <Tag size={14} color="var(--muted)" />
           {(partner.tags || []).map((tag: string) => {
             const c = getTagColor(tag);
             return (
-              <span key={tag} style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "3px 10px", borderRadius: 12, fontSize: ".75rem", fontWeight: 600, background: c.bg, color: c.text, border: `1px solid ${c.border}` }}>
+              <span
+                key={tag}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 4,
+                  padding: "3px 10px",
+                  borderRadius: 12,
+                  fontSize: ".75rem",
+                  fontWeight: 600,
+                  background: c.bg,
+                  color: c.text,
+                  border: `1px solid ${c.border}`,
+                }}
+              >
                 {tag}
-                <button onClick={async () => {
-                  const updated = (partner.tags || []).filter((t: string) => t !== tag);
-                  await updateTags({ id: id as Id<"partners">, tags: updated });
-                  toast("Tag removed");
-                }} style={{ background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 1, color: c.text, opacity: .7 }} title="Remove tag"><X size={12} /></button>
+                <button
+                  onClick={async () => {
+                    const updated = (partner.tags || []).filter(
+                      (t: string) => t !== tag,
+                    );
+                    await updateTags({
+                      id: id as Id<"partners">,
+                      tags: updated,
+                    });
+                    toast("Tag removed");
+                  }}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                    lineHeight: 1,
+                    color: c.text,
+                    opacity: 0.7,
+                  }}
+                  title="Remove tag"
+                >
+                  <X size={12} />
+                </button>
               </span>
             );
           })}
           {showTagInput ? (
-            <div style={{ display: "flex", alignItems: "center", gap: 4, position: "relative" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+                position: "relative",
+              }}
+            >
               <input
                 autoFocus
                 className="input"
@@ -251,55 +600,154 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                     setNewTag("");
                     setShowTagInput(false);
                   }
-                  if (e.key === "Escape") { setNewTag(""); setShowTagInput(false); }
+                  if (e.key === "Escape") {
+                    setNewTag("");
+                    setShowTagInput(false);
+                  }
                 }}
                 placeholder="Type tag name…"
-                style={{ width: 150, height: 28, fontSize: ".8rem", padding: "2px 8px" }}
+                style={{
+                  width: 150,
+                  height: 28,
+                  fontSize: ".8rem",
+                  padding: "2px 8px",
+                }}
               />
               {newTag.trim() === "" && (
-                <div style={{ position: "absolute", top: 32, left: 0, background: "var(--card-bg)", border: "1px solid var(--border)", borderRadius: 8, padding: "6px 0", zIndex: 10, minWidth: 160 }}>
-                  {SUGGESTED_TAGS.filter((t) => !(partner.tags || []).includes(t)).map((tag) => (
-                    <button key={tag} onClick={async () => {
-                      const tags = [...(partner.tags || []), tag];
-                      await updateTags({ id: id as Id<"partners">, tags });
-                      toast("Tag added");
-                      setNewTag("");
-                      setShowTagInput(false);
-                    }} style={{ display: "block", width: "100%", textAlign: "left", padding: "5px 12px", background: "none", border: "none", cursor: "pointer", fontSize: ".8rem", color: getTagColor(tag).text, fontFamily: "inherit" }}
-                    onMouseOver={(e) => e.currentTarget.style.background = "var(--subtle)"}
-                    onMouseOut={(e) => e.currentTarget.style.background = ""}
-                    >{tag}</button>
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 32,
+                    left: 0,
+                    background: "var(--card-bg)",
+                    border: "1px solid var(--border)",
+                    borderRadius: 8,
+                    padding: "6px 0",
+                    zIndex: 10,
+                    minWidth: 160,
+                  }}
+                >
+                  {SUGGESTED_TAGS.filter(
+                    (t) => !(partner.tags || []).includes(t),
+                  ).map((tag) => (
+                    <button
+                      key={tag}
+                      onClick={async () => {
+                        const tags = [...(partner.tags || []), tag];
+                        await updateTags({ id: id as Id<"partners">, tags });
+                        toast("Tag added");
+                        setNewTag("");
+                        setShowTagInput(false);
+                      }}
+                      style={{
+                        display: "block",
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "5px 12px",
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        fontSize: ".8rem",
+                        color: getTagColor(tag).text,
+                        fontFamily: "inherit",
+                      }}
+                      onMouseOver={(e) =>
+                        (e.currentTarget.style.background = "var(--subtle)")
+                      }
+                      onMouseOut={(e) =>
+                        (e.currentTarget.style.background = "")
+                      }
+                    >
+                      {tag}
+                    </button>
                   ))}
                 </div>
               )}
-              <button onClick={() => { setNewTag(""); setShowTagInput(false); }} style={{ background: "none", border: "none", cursor: "pointer", color: "var(--muted)", padding: 0 }}><X size={14} /></button>
+              <button
+                onClick={() => {
+                  setNewTag("");
+                  setShowTagInput(false);
+                }}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "var(--muted)",
+                  padding: 0,
+                }}
+              >
+                <X size={14} />
+              </button>
             </div>
           ) : (
-            <button onClick={() => setShowTagInput(true)} style={{ display: "inline-flex", alignItems: "center", gap: 3, padding: "3px 8px", borderRadius: 12, fontSize: ".75rem", fontWeight: 500, background: "none", border: "1px dashed var(--border)", cursor: "pointer", color: "var(--muted)", fontFamily: "inherit" }}>
+            <button
+              onClick={() => setShowTagInput(true)}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 3,
+                padding: "3px 8px",
+                borderRadius: 12,
+                fontSize: ".75rem",
+                fontWeight: 500,
+                background: "none",
+                border: "1px dashed var(--border)",
+                cursor: "pointer",
+                color: "var(--muted)",
+                fontFamily: "inherit",
+              }}
+            >
               <Plus size={12} /> Add Tag
             </button>
           )}
         </div>
-        {partner.notes && <p className="muted" style={{ marginTop: ".8rem", fontSize: ".9rem", fontStyle: "italic" }}>{partner.notes}</p>}
+        {partner.notes && (
+          <p
+            className="muted"
+            style={{
+              marginTop: ".8rem",
+              fontSize: ".9rem",
+              fontStyle: "italic",
+            }}
+          >
+            {partner.notes}
+          </p>
+        )}
       </div>
 
       {/* Stats */}
       <div className="stat-grid" style={{ marginBottom: "1.5rem" }}>
         <div className="card" style={{ textAlign: "center" }}>
-          <p className="muted" style={{ fontSize: ".8rem" }}>Commission Rate</p>
-          <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{partner.commissionRate}%</p>
+          <p className="muted" style={{ fontSize: ".8rem" }}>
+            Commission Rate
+          </p>
+          <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>
+            {partner.commissionRate}%
+          </p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
-          <p className="muted" style={{ fontSize: ".8rem" }}>Attributed Revenue</p>
-          <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{formatCurrencyCompact(totalRevenue)}</p>
+          <p className="muted" style={{ fontSize: ".8rem" }}>
+            Attributed Revenue
+          </p>
+          <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>
+            {formatCurrencyCompact(totalRevenue)}
+          </p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
-          <p className="muted" style={{ fontSize: ".8rem" }}>Commission Earned</p>
-          <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{formatCurrencyCompact(totalCommission)}</p>
+          <p className="muted" style={{ fontSize: ".8rem" }}>
+            Commission Earned
+          </p>
+          <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>
+            {formatCurrencyCompact(totalCommission)}
+          </p>
         </div>
         <div className="card" style={{ textAlign: "center" }}>
-          <p className="muted" style={{ fontSize: ".8rem" }}>Touchpoints</p>
-          <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>{touchpoints.length}</p>
+          <p className="muted" style={{ fontSize: ".8rem" }}>
+            Touchpoints
+          </p>
+          <p style={{ fontSize: "1.6rem", fontWeight: 800 }}>
+            {touchpoints.length}
+          </p>
         </div>
       </div>
 
@@ -308,21 +756,41 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
         // Deal revenue by month (last 6 months)
         const monthlyData = (() => {
           const now = new Date();
-          const months: { month: string; revenue: number; deals: number }[] = [];
+          const months: { month: string; revenue: number; deals: number }[] =
+            [];
           for (let i = 5; i >= 0; i--) {
             const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-            const label = d.toLocaleDateString("en-US", { month: "short", year: "2-digit" });
+            const label = d.toLocaleDateString("en-US", {
+              month: "short",
+              year: "2-digit",
+            });
             const mStart = d.getTime();
-            const mEnd = new Date(d.getFullYear(), d.getMonth() + 1, 0, 23, 59, 59).getTime();
+            const mEnd = new Date(
+              d.getFullYear(),
+              d.getMonth() + 1,
+              0,
+              23,
+              59,
+              59,
+            ).getTime();
             const mDeals = partnerDeals.filter((deal: any) => {
               const ts = deal.closedAt || deal.createdAt || deal._creationTime;
               return ts >= mStart && ts <= mEnd;
             });
-            months.push({ month: label, revenue: mDeals.reduce((s: number, deal: any) => s + (deal.value || 0), 0), deals: mDeals.length });
+            months.push({
+              month: label,
+              revenue: mDeals.reduce(
+                (s: number, deal: any) => s + (deal.value || 0),
+                0,
+              ),
+              deals: mDeals.length,
+            });
           }
           return months;
         })();
-        const hasRevenueData = monthlyData.some((m) => m.revenue > 0 || m.deals > 0);
+        const hasRevenueData = monthlyData.some(
+          (m) => m.revenue > 0 || m.deals > 0,
+        );
 
         // Deal stage breakdown
         const stageData = (() => {
@@ -332,7 +800,9 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
             counts[stage] = (counts[stage] || 0) + 1;
           });
           return Object.entries(counts).map(([stage, count]) => ({
-            name: stage.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()),
+            name: stage
+              .replace(/_/g, " ")
+              .replace(/\b\w/g, (c) => c.toUpperCase()),
             value: count,
             color: STAGE_COLORS[stage] || "#6b7280",
           }));
@@ -342,7 +812,9 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
         const tpData = (() => {
           const counts: Record<string, number> = {};
           touchpoints.forEach((tp: any) => {
-            const label = TOUCHPOINT_LABELS[tp.type as keyof typeof TOUCHPOINT_LABELS] || tp.type;
+            const label =
+              TOUCHPOINT_LABELS[tp.type as keyof typeof TOUCHPOINT_LABELS] ||
+              tp.type;
             counts[label] = (counts[label] || 0) + 1;
           });
           return Object.entries(counts).map(([name, value], i) => ({
@@ -352,43 +824,123 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           }));
         })();
 
-        if (!hasRevenueData && stageData.length === 0 && tpData.length === 0) return null;
+        if (!hasRevenueData && stageData.length === 0 && tpData.length === 0)
+          return null;
 
         return (
           <div className="card" style={{ marginBottom: "1.5rem" }}>
-            <h3 style={{ fontWeight: 700, marginBottom: "1.2rem", display: "flex", alignItems: "center", gap: 8 }}>
+            <h3
+              style={{
+                fontWeight: 700,
+                marginBottom: "1.2rem",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+              }}
+            >
               <BarChart3 size={18} color="#6366f1" /> Performance Analytics
             </h3>
 
-            <div style={{ display: "grid", gridTemplateColumns: hasRevenueData ? "2fr 1fr" : "1fr 1fr", gap: "1.5rem" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: hasRevenueData ? "2fr 1fr" : "1fr 1fr",
+                gap: "1.5rem",
+              }}
+            >
               {/* Revenue by month */}
               {hasRevenueData && (
                 <div>
-                  <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".5rem", fontWeight: 600 }}>Revenue by Month (Last 6 Months)</p>
+                  <p
+                    className="muted"
+                    style={{
+                      fontSize: ".8rem",
+                      marginBottom: ".5rem",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Revenue by Month (Last 6 Months)
+                  </p>
                   <ResponsiveContainer width="100%" height={200}>
-                    <BarChart data={monthlyData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
+                    <BarChart
+                      data={monthlyData}
+                      margin={{ top: 5, right: 5, left: 0, bottom: 0 }}
+                    >
                       <CartesianGrid strokeDasharray="3 3" stroke="#222" />
-                      <XAxis dataKey="month" tick={{ fill: "#888", fontSize: 11 }} axisLine={{ stroke: "#333" }} />
-                      <YAxis tick={{ fill: "#888", fontSize: 11 }} axisLine={{ stroke: "#333" }} tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`} />
+                      <XAxis
+                        dataKey="month"
+                        tick={{ fill: "#888", fontSize: 11 }}
+                        axisLine={{ stroke: "#333" }}
+                      />
+                      <YAxis
+                        tick={{ fill: "#888", fontSize: 11 }}
+                        axisLine={{ stroke: "#333" }}
+                        tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
+                      />
                       <Tooltip content={<CustomTooltip />} />
-                      <Bar dataKey="revenue" name="Revenue" fill="#6366f1" radius={[4, 4, 0, 0]} />
+                      <Bar
+                        dataKey="revenue"
+                        name="Revenue"
+                        fill="#6366f1"
+                        radius={[4, 4, 0, 0]}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
               )}
 
               {/* Right column: Stage + Touchpoint breakdowns */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1.5rem",
+                }}
+              >
                 {/* Deal stage breakdown */}
                 {stageData.length > 0 && (
                   <div>
-                    <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".5rem", fontWeight: 600 }}>Deal Stages</p>
-                    <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    <p
+                      className="muted"
+                      style={{
+                        fontSize: ".8rem",
+                        marginBottom: ".5rem",
+                        fontWeight: 600,
+                      }}
+                    >
+                      Deal Stages
+                    </p>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 6,
+                      }}
+                    >
                       {stageData.map((s) => (
-                        <div key={s.name} style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                          <div style={{ width: 8, height: 8, borderRadius: "50%", background: s.color, flexShrink: 0 }} />
-                          <span style={{ fontSize: ".8rem", flex: 1 }}>{s.name}</span>
-                          <span style={{ fontSize: ".85rem", fontWeight: 700 }}>{s.value}</span>
+                        <div
+                          key={s.name}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 8,
+                          }}
+                        >
+                          <div
+                            style={{
+                              width: 8,
+                              height: 8,
+                              borderRadius: "50%",
+                              background: s.color,
+                              flexShrink: 0,
+                            }}
+                          />
+                          <span style={{ fontSize: ".8rem", flex: 1 }}>
+                            {s.name}
+                          </span>
+                          <span style={{ fontSize: ".85rem", fontWeight: 700 }}>
+                            {s.value}
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -398,19 +950,62 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                 {/* Touchpoint type distribution */}
                 {tpData.length > 0 && (
                   <div>
-                    <p className="muted" style={{ fontSize: ".8rem", marginBottom: ".5rem", fontWeight: 600 }}>Touchpoint Types</p>
+                    <p
+                      className="muted"
+                      style={{
+                        fontSize: ".8rem",
+                        marginBottom: ".5rem",
+                        fontWeight: 600,
+                      }}
+                    >
+                      Touchpoint Types
+                    </p>
                     <ResponsiveContainer width="100%" height={140}>
                       <PieChart>
-                        <Pie data={tpData} cx="50%" cy="50%" innerRadius={30} outerRadius={55} dataKey="value" paddingAngle={2}>
-                          {tpData.map((entry, i) => <Cell key={i} fill={entry.color} />)}
+                        <Pie
+                          data={tpData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={30}
+                          outerRadius={55}
+                          dataKey="value"
+                          paddingAngle={2}
+                        >
+                          {tpData.map((entry, i) => (
+                            <Cell key={i} fill={entry.color} />
+                          ))}
                         </Pie>
                         <Tooltip content={<CustomTooltip />} />
                       </PieChart>
                     </ResponsiveContainer>
-                    <div style={{ display: "flex", flexWrap: "wrap", gap: "6px 12px", justifyContent: "center" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: "6px 12px",
+                        justifyContent: "center",
+                      }}
+                    >
                       {tpData.map((t, i) => (
-                        <span key={i} style={{ fontSize: ".7rem", display: "flex", alignItems: "center", gap: 4, color: "var(--muted)" }}>
-                          <span style={{ width: 6, height: 6, borderRadius: "50%", background: t.color, display: "inline-block" }} />
+                        <span
+                          key={i}
+                          style={{
+                            fontSize: ".7rem",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 4,
+                            color: "var(--muted)",
+                          }}
+                        >
+                          <span
+                            style={{
+                              width: 6,
+                              height: 6,
+                              borderRadius: "50%",
+                              background: t.color,
+                              display: "inline-block",
+                            }}
+                          />
                           {t.name} ({t.value})
                         </span>
                       ))}
@@ -425,18 +1020,57 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
 
       {/* Onboarding Progress */}
       {onboardingPct < 100 && (
-        <div className="card" style={{ marginBottom: "1.5rem", padding: "1.25rem" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.75rem" }}>
-            <h3 style={{ fontWeight: 700, margin: 0, fontSize: "0.95rem" }}>Onboarding Progress</h3>
-            <span style={{ fontSize: "0.85rem", fontWeight: 700, color: obColor }}>{onboardingPct}%</span>
+        <div
+          className="card"
+          style={{ marginBottom: "1.5rem", padding: "1.25rem" }}
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: "0.75rem",
+            }}
+          >
+            <h3 style={{ fontWeight: 700, margin: 0, fontSize: "0.95rem" }}>
+              Onboarding Progress
+            </h3>
+            <span
+              style={{ fontSize: "0.85rem", fontWeight: 700, color: obColor }}
+            >
+              {onboardingPct}%
+            </span>
           </div>
-          <div style={{ width: "100%", height: 8, borderRadius: 4, background: "var(--border)", marginBottom: "0.75rem", overflow: "hidden" }}>
-            <div style={{ width: `${onboardingPct}%`, height: "100%", borderRadius: 4, background: obColor, transition: "width 0.3s" }} />
+          <div
+            style={{
+              width: "100%",
+              height: 8,
+              borderRadius: 4,
+              background: "var(--border)",
+              marginBottom: "0.75rem",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                width: `${onboardingPct}%`,
+                height: "100%",
+                borderRadius: 4,
+                background: obColor,
+                transition: "width 0.3s",
+              }}
+            />
           </div>
           <div style={{ display: "flex", gap: "1.5rem", fontSize: "0.85rem" }}>
-            <span style={{ color: hasProfile ? "#22c55e" : "var(--muted)" }}>{hasProfile ? "✓" : "○"} Profile complete</span>
-            <span style={{ color: hasDeal ? "#22c55e" : "var(--muted)" }}>{hasDeal ? "✓" : "○"} First deal registered</span>
-            <span style={{ color: hasCommission ? "#22c55e" : "var(--muted)" }}>{hasCommission ? "✓" : "○"} First commission earned</span>
+            <span style={{ color: hasProfile ? "#22c55e" : "var(--muted)" }}>
+              {hasProfile ? "✓" : "○"} Profile complete
+            </span>
+            <span style={{ color: hasDeal ? "#22c55e" : "var(--muted)" }}>
+              {hasDeal ? "✓" : "○"} First deal registered
+            </span>
+            <span style={{ color: hasCommission ? "#22c55e" : "var(--muted)" }}>
+              {hasCommission ? "✓" : "○"} First commission earned
+            </span>
           </div>
         </div>
       )}
@@ -444,14 +1078,43 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
       {/* Certifications & Badges Section */}
       {showCerts && (activeCerts.length > 0 || partnerBadges.length > 0) && (
         <div className="card" style={{ marginBottom: "1.5rem" }}>
-          <h3 style={{ fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: 6 }}>
+          <h3
+            style={{
+              fontWeight: 700,
+              marginBottom: "1rem",
+              display: "flex",
+              alignItems: "center",
+              gap: 6,
+            }}
+          >
             <Award size={18} color="#6366f1" /> Certifications & Badges
           </h3>
           {/* Badges row */}
           {partnerBadges.length > 0 && (
-            <div style={{ display: "flex", gap: ".75rem", flexWrap: "wrap", marginBottom: activeCerts.length > 0 ? "1rem" : 0 }}>
+            <div
+              style={{
+                display: "flex",
+                gap: ".75rem",
+                flexWrap: "wrap",
+                marginBottom: activeCerts.length > 0 ? "1rem" : 0,
+              }}
+            >
               {partnerBadges.map((b: any) => (
-                <span key={b._id} title={b.description} style={{ display: "inline-flex", alignItems: "center", gap: 4, padding: "4px 10px", borderRadius: 16, fontSize: ".8rem", fontWeight: 600, background: "var(--subtle)", border: "1px solid var(--border)" }}>
+                <span
+                  key={b._id}
+                  title={b.description}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
+                    padding: "4px 10px",
+                    borderRadius: 16,
+                    fontSize: ".8rem",
+                    fontWeight: 600,
+                    background: "var(--subtle)",
+                    border: "1px solid var(--border)",
+                  }}
+                >
                   {b.icon} {b.name}
                 </span>
               ))}
@@ -459,15 +1122,54 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           )}
           {/* Certs list */}
           {activeCerts.length > 0 && (
-            <div style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: ".5rem" }}
+            >
               {activeCerts.map((c: any) => (
-                <div key={c._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: ".5rem .75rem", borderRadius: 8, background: "var(--subtle)" }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div
+                  key={c._id}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: ".5rem .75rem",
+                    borderRadius: 8,
+                    background: "var(--subtle)",
+                  }}
+                >
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
+                  >
                     <Shield size={14} color="#059669" />
-                    <span style={{ fontWeight: 600, fontSize: ".85rem" }}>{c.name}</span>
-                    <span className="muted" style={{ fontSize: ".75rem" }}>· {c.issuer}</span>
+                    <span style={{ fontWeight: 600, fontSize: ".85rem" }}>
+                      {c.name}
+                    </span>
+                    <span className="muted" style={{ fontSize: ".75rem" }}>
+                      · {c.issuer}
+                    </span>
                   </div>
-                  <span style={{ display: "inline-flex", padding: "2px 8px", borderRadius: 10, fontSize: ".7rem", fontWeight: 700, background: c.level === "expert" ? "#ecfdf5" : c.level === "advanced" ? "#fef3c7" : "#dbeafe", color: c.level === "expert" ? "#065f46" : c.level === "advanced" ? "#92400e" : "#1e40af", textTransform: "uppercase" }}>
+                  <span
+                    style={{
+                      display: "inline-flex",
+                      padding: "2px 8px",
+                      borderRadius: 10,
+                      fontSize: ".7rem",
+                      fontWeight: 700,
+                      background:
+                        c.level === "expert"
+                          ? "#ecfdf5"
+                          : c.level === "advanced"
+                            ? "#fef3c7"
+                            : "#dbeafe",
+                      color:
+                        c.level === "expert"
+                          ? "#065f46"
+                          : c.level === "advanced"
+                            ? "#92400e"
+                            : "#1e40af",
+                      textTransform: "uppercase",
+                    }}
+                  >
                     {CERTIFICATION_LEVEL_LABELS[c.level as CertificationLevel]}
                   </span>
                 </div>
@@ -477,12 +1179,28 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
           {/* Training + Endorsement counts */}
           <div style={{ display: "flex", gap: "1.5rem", marginTop: "1rem" }}>
             {trainings.length > 0 && (
-              <span className="muted" style={{ fontSize: ".8rem", display: "flex", alignItems: "center", gap: 4 }}>
+              <span
+                className="muted"
+                style={{
+                  fontSize: ".8rem",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4,
+                }}
+              >
                 <BookOpen size={13} /> {trainings.length} trainings completed
               </span>
             )}
             {endorsements.length > 0 && (
-              <span className="muted" style={{ fontSize: ".8rem", display: "flex", alignItems: "center", gap: 4 }}>
+              <span
+                className="muted"
+                style={{
+                  fontSize: ".8rem",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4,
+                }}
+              >
                 <Star size={13} /> {endorsements.length} skill endorsements
               </span>
             )}
@@ -493,75 +1211,189 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
       <div className="dash-grid-2">
         {/* Activity Timeline */}
         <div className="card">
-          <h3 style={{ fontWeight: 700, marginBottom: "1.2rem" }}>Activity Timeline</h3>
+          <h3 style={{ fontWeight: 700, marginBottom: "1.2rem" }}>
+            Activity Timeline
+          </h3>
           <div className="timeline">
-            {touchpoints.sort((a, b) => b.createdAt - a.createdAt).map((tp) => (
-              <div key={tp._id} className="tl-item">
-                <div className="tl-dot active"></div>
-                <div>
-                  <strong>{TOUCHPOINT_LABELS[tp.type as keyof typeof TOUCHPOINT_LABELS] || tp.type}</strong> — <Link href={`/dashboard/deals/${tp.dealId}`} style={{ fontWeight: 500 }}>{tp.deal?.name || tp.dealId}</Link>
-                  <br /><small className="muted">{new Date(tp.createdAt).toLocaleDateString()} {tp.notes && `· ${tp.notes}`}</small>
+            {touchpoints
+              .sort((a, b) => b.createdAt - a.createdAt)
+              .map((tp) => (
+                <div key={tp._id} className="tl-item">
+                  <div className="tl-dot active"></div>
+                  <div>
+                    <strong>
+                      {TOUCHPOINT_LABELS[
+                        tp.type as keyof typeof TOUCHPOINT_LABELS
+                      ] || tp.type}
+                    </strong>{" "}
+                    —{" "}
+                    <Link
+                      href={`/dashboard/deals/${tp.dealId}`}
+                      style={{ fontWeight: 500 }}
+                    >
+                      {tp.deal?.name || tp.dealId}
+                    </Link>
+                    <br />
+                    <small className="muted">
+                      {new Date(tp.createdAt).toLocaleDateString()}{" "}
+                      {tp.notes && `· ${tp.notes}`}
+                    </small>
+                  </div>
                 </div>
-              </div>
-            ))}
-            {touchpoints.length === 0 && <p className="muted">No activity yet.</p>}
+              ))}
+            {touchpoints.length === 0 && (
+              <p className="muted">No activity yet.</p>
+            )}
           </div>
         </div>
 
         {/* Sidebar */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
+        >
           {/* Attributions */}
           <div className="card">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-              <h3 style={{ fontWeight: 700, margin: 0 }}>Attribution (Role-Based)</h3>
-              <Link href="/dashboard/deals" style={{ fontSize: ".78rem", color: "#6366f1", fontWeight: 600 }}>All Deals →</Link>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "1rem",
+              }}
+            >
+              <h3 style={{ fontWeight: 700, margin: 0 }}>
+                Attribution (Role-Based)
+              </h3>
+              <Link
+                href="/dashboard/deals"
+                style={{
+                  fontSize: ".78rem",
+                  color: "#6366f1",
+                  fontWeight: 600,
+                }}
+              >
+                All Deals →
+              </Link>
             </div>
             {attributions.map((a) => (
-              <div key={a._id} style={{ display: "flex", justifyContent: "space-between", padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
+              <div
+                key={a._id}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: ".5rem 0",
+                  borderBottom: "1px solid var(--border)",
+                }}
+              >
                 <div>
-                  <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{a.deal?.name}</p>
-                  <p className="muted" style={{ fontSize: ".75rem" }}>{a.percentage.toFixed(1)}% · {formatCurrency(a.amount)}</p>
+                  <p style={{ fontWeight: 600, fontSize: ".85rem" }}>
+                    {a.deal?.name}
+                  </p>
+                  <p className="muted" style={{ fontSize: ".75rem" }}>
+                    {a.percentage.toFixed(1)}% · {formatCurrency(a.amount)}
+                  </p>
                 </div>
-                <strong style={{ color: "#065f46" }}>{formatCurrency(a.commissionAmount)}</strong>
+                <strong style={{ color: "#065f46" }}>
+                  {formatCurrency(a.commissionAmount)}
+                </strong>
               </div>
             ))}
-            {attributions.length === 0 && <p className="muted" style={{ fontSize: ".85rem" }}>No attributions yet.</p>}
+            {attributions.length === 0 && (
+              <p className="muted" style={{ fontSize: ".85rem" }}>
+                No attributions yet.
+              </p>
+            )}
           </div>
 
           {/* Payouts */}
           <div className="card">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginBottom: "1rem",
+              }}
+            >
               <h3 style={{ fontWeight: 700, margin: 0 }}>Payouts</h3>
-              <Link href="/dashboard/payouts" style={{ fontSize: ".78rem", color: "#6366f1", fontWeight: 600 }}>View All →</Link>
+              <Link
+                href="/dashboard/payouts"
+                style={{
+                  fontSize: ".78rem",
+                  color: "#6366f1",
+                  fontWeight: 600,
+                }}
+              >
+                View All →
+              </Link>
             </div>
             {partnerPayouts.map((p) => (
-              <div key={p._id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: ".5rem 0", borderBottom: "1px solid var(--border)" }}>
+              <div
+                key={p._id}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  padding: ".5rem 0",
+                  borderBottom: "1px solid var(--border)",
+                }}
+              >
                 <div>
-                  <p style={{ fontWeight: 600, fontSize: ".85rem" }}>{p.period || "—"}</p>
-                  <span className={`badge badge-${p.status === "paid" ? "success" : p.status === "approved" ? "info" : p.status.includes("pending") ? "neutral" : "danger"}`} style={{ fontSize: ".7rem" }}>{p.status.replace("_", " ")}</span>
+                  <p style={{ fontWeight: 600, fontSize: ".85rem" }}>
+                    {p.period || "—"}
+                  </p>
+                  <span
+                    className={`badge badge-${p.status === "paid" ? "success" : p.status === "approved" ? "info" : p.status.includes("pending") ? "neutral" : "danger"}`}
+                    style={{ fontSize: ".7rem" }}
+                  >
+                    {p.status.replace("_", " ")}
+                  </span>
                 </div>
                 <strong>{formatCurrency(p.amount)}</strong>
               </div>
             ))}
-            {partnerPayouts.length === 0 && <p className="muted" style={{ fontSize: ".85rem" }}>No payouts yet.</p>}
+            {partnerPayouts.length === 0 && (
+              <p className="muted" style={{ fontSize: ".85rem" }}>
+                No payouts yet.
+              </p>
+            )}
           </div>
         </div>
       </div>
 
       {/* Audit Trail */}
       {(() => {
-        const partnerAudit = (auditLog ?? []).filter((e: any) => e.entityId === id || e.userId === id).slice(0, 10);
+        const partnerAudit = (auditLog ?? [])
+          .filter((e: any) => e.entityId === id || e.userId === id)
+          .slice(0, 10);
         if (partnerAudit.length === 0) return null;
         return (
           <div className="card" style={{ marginTop: "1.5rem" }}>
-            <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>Audit Trail</h3>
+            <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>
+              Audit Trail
+            </h3>
             {partnerAudit.map((entry: any, i: number) => (
-              <div key={entry._id || i} style={{ display: "flex", justifyContent: "space-between", padding: ".5rem 0", borderBottom: "1px solid var(--border)", fontSize: ".85rem" }}>
+              <div
+                key={entry._id || i}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: ".5rem 0",
+                  borderBottom: "1px solid var(--border)",
+                  fontSize: ".85rem",
+                }}
+              >
                 <div>
-                  <span style={{ fontWeight: 600 }}>{entry.action.replace(/_/g, " ")}</span>
-                  <span className="muted" style={{ marginLeft: ".5rem" }}>{entry.entityType}</span>
+                  <span style={{ fontWeight: 600 }}>
+                    {entry.action.replace(/_/g, " ")}
+                  </span>
+                  <span className="muted" style={{ marginLeft: ".5rem" }}>
+                    {entry.entityType}
+                  </span>
                 </div>
-                <span className="muted">{new Date(entry.createdAt).toLocaleDateString()}</span>
+                <span className="muted">
+                  {new Date(entry.createdAt).toLocaleDateString()}
+                </span>
               </div>
             ))}
           </div>
@@ -570,11 +1402,28 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
 
       {/* Internal Notes */}
       <div className="card" style={{ marginTop: "1.5rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-          <h3 style={{ fontWeight: 700, margin: 0, display: "flex", alignItems: "center", gap: 8 }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "1rem",
+          }}
+        >
+          <h3
+            style={{
+              fontWeight: 700,
+              margin: 0,
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}
+          >
             <MessageSquare size={18} color="#6366f1" /> Internal Notes
           </h3>
-          <span className="muted" style={{ fontSize: ".75rem" }}>{partnerNotes?.length ?? 0} notes</span>
+          <span className="muted" style={{ fontSize: ".75rem" }}>
+            {partnerNotes?.length ?? 0} notes
+          </span>
         </div>
 
         {/* Add note form */}
@@ -587,18 +1436,31 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
               value={noteText}
               onChange={(e) => setNoteText(e.target.value)}
               onKeyDown={async (e) => {
-                if (e.key === "Enter" && (e.metaKey || e.ctrlKey) && noteText.trim()) {
+                if (
+                  e.key === "Enter" &&
+                  (e.metaKey || e.ctrlKey) &&
+                  noteText.trim()
+                ) {
                   e.preventDefault();
                   setAddingNote(true);
                   try {
-                    await addNote({ partnerId: id as Id<"partners">, content: noteText.trim() });
+                    await addNote({
+                      partnerId: id as Id<"partners">,
+                      content: noteText.trim(),
+                    });
                     setNoteText("");
                     toast("Note added");
-                  } catch { toast("Failed to add note", "error"); }
+                  } catch {
+                    toast("Failed to add note", "error");
+                  }
                   setAddingNote(false);
                 }
               }}
-              style={{ paddingRight: "3rem", resize: "vertical", minHeight: 56 }}
+              style={{
+                paddingRight: "3rem",
+                resize: "vertical",
+                minHeight: 56,
+              }}
             />
             <button
               disabled={!noteText.trim() || addingNote}
@@ -606,39 +1468,83 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                 if (!noteText.trim()) return;
                 setAddingNote(true);
                 try {
-                  await addNote({ partnerId: id as Id<"partners">, content: noteText.trim() });
+                  await addNote({
+                    partnerId: id as Id<"partners">,
+                    content: noteText.trim(),
+                  });
                   setNoteText("");
                   toast("Note added");
-                } catch { toast("Failed to add note", "error"); }
+                } catch {
+                  toast("Failed to add note", "error");
+                }
                 setAddingNote(false);
               }}
               style={{
-                position: "absolute", right: 8, bottom: 8,
+                position: "absolute",
+                right: 8,
+                bottom: 8,
                 background: noteText.trim() ? "#6366f1" : "transparent",
-                border: "none", borderRadius: 6, padding: "6px 8px",
+                border: "none",
+                borderRadius: 6,
+                padding: "6px 8px",
                 cursor: noteText.trim() ? "pointer" : "default",
                 opacity: noteText.trim() ? 1 : 0.3,
-                display: "flex", alignItems: "center",
+                display: "flex",
+                alignItems: "center",
               }}
             >
-              {addingNote ? <Loader2 size={16} color="#fff" className="animate-spin" /> : <Send size={16} color="#fff" />}
+              {addingNote ? (
+                <Loader2 size={16} color="#fff" className="animate-spin" />
+              ) : (
+                <Send size={16} color="#fff" />
+              )}
             </button>
           </div>
-          <p className="muted" style={{ fontSize: ".7rem", marginTop: 4 }}>⌘+Enter to submit</p>
+          <p className="muted" style={{ fontSize: ".7rem", marginTop: 4 }}>
+            ⌘+Enter to submit
+          </p>
         </div>
 
         {/* Notes list */}
         {partnerNotes === undefined ? (
           <div style={{ padding: "1rem 0" }}>
             {[1, 2].map((i) => (
-              <div key={i} style={{ padding: ".75rem 0", borderBottom: "1px solid var(--border)" }}>
-                <div style={{ height: 14, width: 120, background: "var(--border)", borderRadius: 4, marginBottom: 8 }} />
-                <div style={{ height: 14, width: "80%", background: "var(--border)", borderRadius: 4 }} />
+              <div
+                key={i}
+                style={{
+                  padding: ".75rem 0",
+                  borderBottom: "1px solid var(--border)",
+                }}
+              >
+                <div
+                  style={{
+                    height: 14,
+                    width: 120,
+                    background: "var(--border)",
+                    borderRadius: 4,
+                    marginBottom: 8,
+                  }}
+                />
+                <div
+                  style={{
+                    height: 14,
+                    width: "80%",
+                    background: "var(--border)",
+                    borderRadius: 4,
+                  }}
+                />
               </div>
             ))}
           </div>
         ) : partnerNotes.length === 0 ? (
-          <p className="muted" style={{ fontSize: ".85rem", padding: "1rem 0", textAlign: "center" }}>
+          <p
+            className="muted"
+            style={{
+              fontSize: ".85rem",
+              padding: "1rem 0",
+              textAlign: "center",
+            }}
+          >
             No notes yet. Add context about this partner for your team.
           </p>
         ) : (
@@ -650,43 +1556,102 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                   padding: ".75rem 0",
                   borderBottom: "1px solid var(--border)",
                   position: "relative",
-                  ...(note.isPinned ? { borderLeft: "3px solid #6366f1", paddingLeft: "1rem", marginLeft: -4 } : {}),
+                  ...(note.isPinned
+                    ? {
+                        borderLeft: "3px solid #6366f1",
+                        paddingLeft: "1rem",
+                        marginLeft: -4,
+                      }
+                    : {}),
                 }}
               >
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 4,
+                  }}
+                >
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 8 }}
+                  >
                     <div
                       style={{
-                        width: 24, height: 24, borderRadius: "50%",
-                        background:'#f3f4f6', color:'#0a0a0a',
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: ".65rem", fontWeight: 700,
+                        width: 24,
+                        height: 24,
+                        borderRadius: "50%",
+                        background: "#f3f4f6",
+                        color: "#0a0a0a",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        fontSize: ".65rem",
+                        fontWeight: 700,
                       }}
                     >
-                      {note.authorName.split(" ").map((w) => w[0]).join("").slice(0, 2).toUpperCase()}
+                      {note.authorName
+                        .split(" ")
+                        .map((w) => w[0])
+                        .join("")
+                        .slice(0, 2)
+                        .toUpperCase()}
                     </div>
-                    <span style={{ fontWeight: 600, fontSize: ".82rem" }}>{note.authorName}</span>
+                    <span style={{ fontWeight: 600, fontSize: ".82rem" }}>
+                      {note.authorName}
+                    </span>
                     {note.isPinned && (
-                      <span style={{ fontSize: ".65rem", color: "#6366f1", fontWeight: 600, display: "flex", alignItems: "center", gap: 2 }}>
+                      <span
+                        style={{
+                          fontSize: ".65rem",
+                          color: "#6366f1",
+                          fontWeight: 600,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 2,
+                        }}
+                      >
                         <Pin size={10} /> Pinned
                       </span>
                     )}
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                  <div
+                    style={{ display: "flex", alignItems: "center", gap: 4 }}
+                  >
                     <span className="muted" style={{ fontSize: ".72rem" }}>
-                      {new Date(note.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                      {new Date(note.createdAt).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })}
                       {" · "}
-                      {new Date(note.createdAt).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}
+                      {new Date(note.createdAt).toLocaleTimeString("en-US", {
+                        hour: "numeric",
+                        minute: "2-digit",
+                      })}
                       {note.updatedAt && " (edited)"}
                     </span>
                     <button
                       onClick={() => togglePinNote({ noteId: note._id })}
                       title={note.isPinned ? "Unpin" : "Pin"}
-                      style={{ background: "none", border: "none", cursor: "pointer", padding: 4, opacity: 0.5 }}
-                      onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-                      onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        padding: 4,
+                        opacity: 0.5,
+                      }}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.opacity = "1")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.opacity = "0.5")
+                      }
                     >
-                      {note.isPinned ? <PinOff size={13} color="#6366f1" /> : <Pin size={13} color="var(--muted)" />}
+                      {note.isPinned ? (
+                        <PinOff size={13} color="#6366f1" />
+                      ) : (
+                        <Pin size={13} color="var(--muted)" />
+                      )}
                     </button>
                     <button
                       onClick={() => {
@@ -694,9 +1659,19 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                         setEditingNoteText(note.content);
                       }}
                       title="Edit"
-                      style={{ background: "none", border: "none", cursor: "pointer", padding: 4, opacity: 0.5 }}
-                      onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-                      onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        padding: 4,
+                        opacity: 0.5,
+                      }}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.opacity = "1")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.opacity = "0.5")
+                      }
                     >
                       <Edit size={13} color="var(--muted)" />
                     </button>
@@ -708,9 +1683,19 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                         }
                       }}
                       title="Delete"
-                      style={{ background: "none", border: "none", cursor: "pointer", padding: 4, opacity: 0.5 }}
-                      onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-                      onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        cursor: "pointer",
+                        padding: 4,
+                        opacity: 0.5,
+                      }}
+                      onMouseEnter={(e) =>
+                        (e.currentTarget.style.opacity = "1")
+                      }
+                      onMouseLeave={(e) =>
+                        (e.currentTarget.style.opacity = "0.5")
+                      }
                     >
                       <Trash2 size={13} color="var(--muted)" />
                     </button>
@@ -732,7 +1717,10 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                         className="btn"
                         style={{ fontSize: ".78rem", padding: "4px 12px" }}
                         onClick={async () => {
-                          await updateNote({ noteId: note._id, content: editingNoteText.trim() });
+                          await updateNote({
+                            noteId: note._id,
+                            content: editingNoteText.trim(),
+                          });
                           setEditingNoteId(null);
                           toast("Note updated");
                         }}
@@ -749,7 +1737,15 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
                     </div>
                   </div>
                 ) : (
-                  <p style={{ fontSize: ".85rem", lineHeight: 1.6, whiteSpace: "pre-wrap", margin: 0, color:"#374151" }}>
+                  <p
+                    style={{
+                      fontSize: ".85rem",
+                      lineHeight: 1.6,
+                      whiteSpace: "pre-wrap",
+                      margin: 0,
+                      color: "#374151",
+                    }}
+                  >
                     {note.content}
                   </p>
                 )}
@@ -761,21 +1757,163 @@ export default function PartnerDetailPage({ params }: { params: Promise<{ id: st
 
       {/* Edit Modal */}
       {editing && (
-        <div style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,.4)", zIndex: 200, display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem" }} onClick={() => setEditing(false)}>
-          <div className="card animate-in" style={{ width: 500, maxWidth: "100%" }} onClick={(e) => e.stopPropagation()}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1.5rem" }}>
-              <h2 style={{ fontSize: "1.2rem", fontWeight: 700 }}>Edit Partner</h2>
-              <button onClick={() => setEditing(false)} style={{ background: "none", border: "none", cursor: "pointer" }}><X size={20} /></button>
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,.4)",
+            zIndex: 200,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1rem",
+          }}
+          onClick={() => setEditing(false)}
+        >
+          <div
+            className="card animate-in"
+            style={{ width: 500, maxWidth: "100%" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: "1.5rem",
+              }}
+            >
+              <h2 style={{ fontSize: "1.2rem", fontWeight: 700 }}>
+                Edit Partner
+              </h2>
+              <button
+                onClick={() => setEditing(false)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                }}
+              >
+                <X size={20} />
+              </button>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-              <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Company Name</label><input className="input" value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} /></div>
-              <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Email</label><input className="input" value={editForm.email} onChange={(e) => setEditForm({ ...editForm, email: e.target.value })} /></div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
-                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Commission Rate %</label><input className="input" type="number" value={editForm.commissionRate} onChange={(e) => setEditForm({ ...editForm, commissionRate: Number(e.target.value) })} /></div>
-                <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Territory</label><input className="input" value={editForm.territory} onChange={(e) => setEditForm({ ...editForm, territory: e.target.value })} /></div>
+            <div
+              style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+            >
+              <div>
+                <label
+                  className="muted"
+                  style={{
+                    fontSize: ".8rem",
+                    display: "block",
+                    marginBottom: ".3rem",
+                  }}
+                >
+                  Company Name
+                </label>
+                <input
+                  className="input"
+                  value={editForm.name}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, name: e.target.value })
+                  }
+                />
               </div>
-              <div><label className="muted" style={{ fontSize: ".8rem", display: "block", marginBottom: ".3rem" }}>Notes</label><textarea className="input" rows={3} value={editForm.notes} onChange={(e) => setEditForm({ ...editForm, notes: e.target.value })} /></div>
-              <button className="btn" style={{ width: "100%" }} onClick={handleSaveEdit}><Save size={15} /> Save Changes</button>
+              <div>
+                <label
+                  className="muted"
+                  style={{
+                    fontSize: ".8rem",
+                    display: "block",
+                    marginBottom: ".3rem",
+                  }}
+                >
+                  Email
+                </label>
+                <input
+                  className="input"
+                  value={editForm.email}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, email: e.target.value })
+                  }
+                />
+              </div>
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: "1rem",
+                }}
+              >
+                <div>
+                  <label
+                    className="muted"
+                    style={{
+                      fontSize: ".8rem",
+                      display: "block",
+                      marginBottom: ".3rem",
+                    }}
+                  >
+                    Commission Rate %
+                  </label>
+                  <input
+                    className="input"
+                    type="number"
+                    value={editForm.commissionRate}
+                    onChange={(e) =>
+                      setEditForm({
+                        ...editForm,
+                        commissionRate: Number(e.target.value),
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                  <label
+                    className="muted"
+                    style={{
+                      fontSize: ".8rem",
+                      display: "block",
+                      marginBottom: ".3rem",
+                    }}
+                  >
+                    Territory
+                  </label>
+                  <input
+                    className="input"
+                    value={editForm.territory}
+                    onChange={(e) =>
+                      setEditForm({ ...editForm, territory: e.target.value })
+                    }
+                  />
+                </div>
+              </div>
+              <div>
+                <label
+                  className="muted"
+                  style={{
+                    fontSize: ".8rem",
+                    display: "block",
+                    marginBottom: ".3rem",
+                  }}
+                >
+                  Notes
+                </label>
+                <textarea
+                  className="input"
+                  rows={3}
+                  value={editForm.notes}
+                  onChange={(e) =>
+                    setEditForm({ ...editForm, notes: e.target.value })
+                  }
+                />
+              </div>
+              <button
+                className="btn"
+                style={{ width: "100%" }}
+                onClick={handleSaveEdit}
+              >
+                <Save size={15} /> Save Changes
+              </button>
             </div>
           </div>
         </div>

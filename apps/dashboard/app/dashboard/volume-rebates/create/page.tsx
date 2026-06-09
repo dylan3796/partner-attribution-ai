@@ -207,7 +207,7 @@ export default function CreateVolumeRebatePage() {
 
   function updateRebateTier(id: string, updates: Partial<RebateTierRow>) {
     setRebateTiers(
-      rebateTiers.map((t) => (t.id === id ? { ...t, ...updates } : t))
+      rebateTiers.map((t) => (t.id === id ? { ...t, ...updates } : t)),
     );
   }
 
@@ -243,7 +243,7 @@ export default function CreateVolumeRebatePage() {
     icon: React.ReactNode,
     title: string,
     subtitle: string,
-    children: React.ReactNode
+    children: React.ReactNode,
   ) => (
     <div className="card">
       <div style={{ marginBottom: "1.25rem" }}>
@@ -360,8 +360,7 @@ export default function CreateVolumeRebatePage() {
                       periodType === p
                         ? "2px solid #6366f1"
                         : "1px solid var(--border)",
-                    background:
-                      periodType === p ? "#eef2ff" : "var(--bg)",
+                    background: periodType === p ? "#eef2ff" : "var(--bg)",
                     color: periodType === p ? "#4338ca" : "var(--fg)",
                     fontWeight: 600,
                     fontSize: ".8rem",
@@ -397,7 +396,9 @@ export default function CreateVolumeRebatePage() {
 
           <div style={{ gridColumn: "1 / -1" }}>
             <label style={label}>Product Scope</label>
-            <div style={{ display: "flex", gap: ".5rem", marginBottom: ".75rem" }}>
+            <div
+              style={{ display: "flex", gap: ".5rem", marginBottom: ".75rem" }}
+            >
               {[
                 {
                   value: "all",
@@ -446,9 +447,7 @@ export default function CreateVolumeRebatePage() {
                         fontWeight: 600,
                         fontSize: ".875rem",
                         color:
-                          productScope === opt.value
-                            ? "#4338ca"
-                            : "var(--fg)",
+                          productScope === opt.value ? "#4338ca" : "var(--fg)",
                       }}
                     >
                       {opt.label}
@@ -495,7 +494,7 @@ export default function CreateVolumeRebatePage() {
               </div>
             )}
           </div>
-        </div>
+        </div>,
       )}
 
       {/* Section 2: Rebate Tier Structure */}
@@ -538,14 +537,14 @@ export default function CreateVolumeRebatePage() {
                 </tr>
               </thead>
               <tbody>
-                {rebateTiers.map((row, idx) => {
+                {rebateTiers.map((row, _idx) => {
                   const rebate = Number(row.rebatePercent);
                   const rebateColor =
                     rebate >= 8
                       ? "#059669"
                       : rebate >= 5
-                      ? "#d97706"
-                      : "#6b7280";
+                        ? "#d97706"
+                        : "#6b7280";
 
                   return (
                     <tr
@@ -590,7 +589,11 @@ export default function CreateVolumeRebatePage() {
                       </td>
                       <td style={{ padding: ".6rem 1rem" }}>
                         <div
-                          style={{ display: "flex", alignItems: "center", gap: ".4rem" }}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: ".4rem",
+                          }}
                         >
                           <input
                             type="number"
@@ -609,14 +612,32 @@ export default function CreateVolumeRebatePage() {
                             }}
                             placeholder="5"
                           />
-                          <span style={{ color: "var(--muted)", fontSize: ".85rem" }}>%</span>
+                          <span
+                            style={{
+                              color: "var(--muted)",
+                              fontSize: ".85rem",
+                            }}
+                          >
+                            %
+                          </span>
                         </div>
                       </td>
                       <td style={{ padding: ".6rem 1rem" }}>
                         <div
-                          style={{ display: "flex", alignItems: "center", gap: ".4rem" }}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: ".4rem",
+                          }}
                         >
-                          <span style={{ color: "var(--muted)", fontSize: ".85rem" }}>$</span>
+                          <span
+                            style={{
+                              color: "var(--muted)",
+                              fontSize: ".85rem",
+                            }}
+                          >
+                            $
+                          </span>
                           <input
                             type="number"
                             min={0}
@@ -644,8 +665,7 @@ export default function CreateVolumeRebatePage() {
                             whiteSpace: "nowrap",
                           }}
                         >
-                          {row.minUnits}–
-                          {row.maxUnits || "∞"} units →{" "}
+                          {row.minUnits}–{row.maxUnits || "∞"} units →{" "}
                           {row.rebatePercent}%
                           {Number(row.bonusAmount) > 0
                             ? ` + $${Number(row.bonusAmount).toLocaleString()}`
@@ -690,10 +710,10 @@ export default function CreateVolumeRebatePage() {
             className="muted"
             style={{ fontSize: ".75rem", marginTop: ".6rem" }}
           >
-            Example: 0–100 units = 2% rebate, 101–500 = 5%, 501+ = 8% +
-            $5,000 bonus
+            Example: 0–100 units = 2% rebate, 101–500 = 5%, 501+ = 8% + $5,000
+            bonus
           </p>
-        </>
+        </>,
       )}
 
       {/* Section 3: Eligibility */}
@@ -776,10 +796,12 @@ export default function CreateVolumeRebatePage() {
                 marginTop: ".6rem",
               }}
             >
-              {autoEnroll ? "✓ Auto-enroll eligible partners" : "Manual invitation only"}
+              {autoEnroll
+                ? "✓ Auto-enroll eligible partners"
+                : "Manual invitation only"}
             </p>
           </div>
-        </div>
+        </div>,
       )}
 
       {/* Section 4: Tracking & Notifications */}
@@ -850,14 +872,11 @@ export default function CreateVolumeRebatePage() {
                   marginTop: ".2rem",
                 }}
               >
-                Partners can see their ranking versus other participants in
-                the portal
+                Partners can see their ranking versus other participants in the
+                portal
               </p>
             </div>
-            <Toggle
-              checked={showLeaderboard}
-              onChange={setShowLeaderboard}
-            />
+            <Toggle checked={showLeaderboard} onChange={setShowLeaderboard} />
           </div>
 
           {/* Payout method */}
@@ -904,9 +923,7 @@ export default function CreateVolumeRebatePage() {
                         ? "2px solid #6366f1"
                         : "1px solid var(--border)",
                     background:
-                      payoutMethod === opt.value
-                        ? "#eef2ff"
-                        : "var(--subtle)",
+                      payoutMethod === opt.value ? "#eef2ff" : "var(--subtle)",
                     cursor: "pointer",
                     flex: "1 1 200px",
                     minWidth: 200,
@@ -924,7 +941,7 @@ export default function CreateVolumeRebatePage() {
                         opt.value as
                           | "invoice_credit"
                           | "direct_payment"
-                          | "account_credit"
+                          | "account_credit",
                       )
                     }
                     style={{ accentColor: "#6366f1", marginTop: 2 }}
@@ -935,9 +952,7 @@ export default function CreateVolumeRebatePage() {
                         fontWeight: 600,
                         fontSize: ".875rem",
                         color:
-                          payoutMethod === opt.value
-                            ? "#4338ca"
-                            : "var(--fg)",
+                          payoutMethod === opt.value ? "#4338ca" : "var(--fg)",
                       }}
                     >
                       {opt.label}
@@ -957,7 +972,7 @@ export default function CreateVolumeRebatePage() {
               ))}
             </div>
           </div>
-        </div>
+        </div>,
       )}
 
       {/* Save footer */}

@@ -2,16 +2,42 @@
 import { usePortal } from "@/lib/portal-context";
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect, Suspense } from "react";
-import { Mail, Phone, MapPin, Award, ArrowUp, Globe, CreditCard, CheckCircle, ExternalLink, Loader2, Zap, LinkIcon, AlertCircle } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Award,
+  ArrowUp,
+  Globe,
+  CreditCard,
+  CheckCircle,
+  ExternalLink,
+  Loader2,
+  Zap,
+  LinkIcon,
+  AlertCircle,
+} from "lucide-react";
 
 import { formatCurrencyCompact as fmt } from "@/lib/utils";
-const TIER_LABELS: Record<string, string> = { bronze: "Bronze", silver: "Silver", gold: "Gold", platinum: "Platinum" };
-const TYPE_LABELS: Record<string, string> = { reseller: "Reseller", referral: "Referral", affiliate: "Affiliate", integration: "Integration" };
+const TIER_LABELS: Record<string, string> = {
+  bronze: "Bronze",
+  silver: "Silver",
+  gold: "Gold",
+  platinum: "Platinum",
+};
+const TYPE_LABELS: Record<string, string> = {
+  reseller: "Reseller",
+  referral: "Referral",
+  affiliate: "Affiliate",
+  integration: "Integration",
+};
 
 function PortalProfilePageInner() {
-  const { partner, setPartnerId, allPartners, myDeals, myAttributions, stats } = usePortal();
+  const { partner, setPartnerId, allPartners, stats } = usePortal();
   const searchParams = useSearchParams();
-  const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(null);
+  const [stripeConfigured, setStripeConfigured] = useState<boolean | null>(
+    null,
+  );
   const [connectingStripe, setConnectingStripe] = useState(false);
   const [stripeSuccess, setStripeSuccess] = useState(false);
 
@@ -32,10 +58,12 @@ function PortalProfilePageInner() {
       .catch(() => setStripeConfigured(false));
   }, []);
 
-  if (!partner) return <div style={{ textAlign: "center", padding: "3rem" }}><p className="muted">Select a partner to view profile.</p></div>;
-
-  const totalRevenue = myAttributions.reduce((s, a) => s + a.amount, 0);
-  const totalCommission = myAttributions.reduce((s, a) => s + a.commissionAmount, 0);
+  if (!partner)
+    return (
+      <div style={{ textAlign: "center", padding: "3rem" }}>
+        <p className="muted">Select a partner to view profile.</p>
+      </div>
+    );
 
   // Note: In demo mode, we simulate the Stripe link status
   // In production, this would come from the partner's stripeOnboarded field
@@ -44,30 +72,32 @@ function PortalProfilePageInner() {
 
   async function handleConnectStripe() {
     if (!partner) return;
-    
+
     setConnectingStripe(true);
     try {
       // In production, use the actual partner ID from Convex
       // For demo, we'll use the linkedPartnerIds
       const partnerId = partner.linkedPartnerIds?.[0] || partner.id;
-      
+
       const res = await fetch("/api/stripe/connect", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           partnerId,
           returnUrl: `${window.location.origin}/portal/profile?stripe_connected=true`,
         }),
       });
-      
+
       const data = await res.json();
-      
+
       if (res.ok && data.onboardingUrl) {
         // Redirect to Stripe onboarding
         window.location.href = data.onboardingUrl;
       } else {
         console.error("Failed to start Stripe onboarding:", data.error);
-        alert(data.error || "Failed to start Stripe onboarding. Please try again.");
+        alert(
+          data.error || "Failed to start Stripe onboarding. Please try again.",
+        );
       }
     } catch (err) {
       console.error("Stripe link error:", err);
@@ -79,215 +109,562 @@ function PortalProfilePageInner() {
 
   return (
     <div style={{ maxWidth: 800 }}>
-        <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em", marginBottom: "1.5rem" }}>Partner Profile</h1>
+      <h1
+        style={{
+          fontSize: "1.8rem",
+          fontWeight: 800,
+          letterSpacing: "-.02em",
+          marginBottom: "1.5rem",
+        }}
+      >
+        Partner Profile
+      </h1>
 
-        {/* Switch Partner (Demo) */}
-        <div className="card" style={{ marginBottom: "1.5rem", background: "#fffbeb", border: "1px solid #fde68a" }}>
-          <p style={{ fontWeight: 600, fontSize: ".85rem", marginBottom: ".5rem" }}>🎭 Demo Mode — Switch Partner View</p>
-          <select className="input" style={{ width: "auto" }} value={partner.id} onChange={(e) => setPartnerId(e.target.value)}>
-            {allPartners.map((p) => (
-              <option key={p.id} value={p.id}>{p.companyName} ({p.type})</option>
-            ))}
-          </select>
-        </div>
+      {/* Switch Partner (Demo) */}
+      <div
+        className="card"
+        style={{
+          marginBottom: "1.5rem",
+          background: "#fffbeb",
+          border: "1px solid #fde68a",
+        }}
+      >
+        <p
+          style={{ fontWeight: 600, fontSize: ".85rem", marginBottom: ".5rem" }}
+        >
+          🎭 Demo Mode — Switch Partner View
+        </p>
+        <select
+          className="input"
+          style={{ width: "auto" }}
+          value={partner.id}
+          onChange={(e) => setPartnerId(e.target.value)}
+        >
+          {allPartners.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.companyName} ({p.type})
+            </option>
+          ))}
+        </select>
+      </div>
 
-        {/* Company Info */}
-        <div className="card" style={{ marginBottom: "1.5rem" }}>
-          <div style={{ display: "flex", gap: "1.2rem", alignItems: "center", marginBottom: "1.5rem" }}>
-            <div className="avatar" style={{ width: 64, height: 64, fontSize: "1.2rem" }}>{partner.companyName.split(" ").map((w: string) => w[0]).join("").slice(0, 2)}</div>
-            <div>
-              <h2 style={{ fontSize: "1.3rem", fontWeight: 800 }}>{partner.companyName}</h2>
-              <div style={{ display: "flex", gap: ".75rem", marginTop: ".3rem" }}>
-                <span className="chip">{TYPE_LABELS[partner.type] || partner.type}</span>
-                <span className={`badge badge-${partner.tier === "platinum" ? "info" : partner.tier === "gold" ? "success" : "neutral"}`}>{TIER_LABELS[partner.tier] || partner.tier}</span>
-                <span className="badge badge-success">{partner.status}</span>
-              </div>
-            </div>
+      {/* Company Info */}
+      <div className="card" style={{ marginBottom: "1.5rem" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "1.2rem",
+            alignItems: "center",
+            marginBottom: "1.5rem",
+          }}
+        >
+          <div
+            className="avatar"
+            style={{ width: 64, height: 64, fontSize: "1.2rem" }}
+          >
+            {partner.companyName
+              .split(" ")
+              .map((w: string) => w[0])
+              .join("")
+              .slice(0, 2)}
           </div>
-
-          <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
-            <span style={{ display: "flex", alignItems: "center", gap: ".5rem", fontSize: ".9rem" }}><Mail size={16} color="var(--muted)" /> {partner.contactEmail}</span>
-            {partner.phone && <span style={{ display: "flex", alignItems: "center", gap: ".5rem", fontSize: ".9rem" }}><Phone size={16} color="var(--muted)" /> {partner.phone}</span>}
-            {partner.address && <span style={{ display: "flex", alignItems: "center", gap: ".5rem", fontSize: ".9rem" }}><MapPin size={16} color="var(--muted)" /> {partner.address}</span>}
-            {partner.website && <span style={{ display: "flex", alignItems: "center", gap: ".5rem", fontSize: ".9rem" }}><Globe size={16} color="var(--muted)" /> {partner.website}</span>}
-            <span style={{ display: "flex", alignItems: "center", gap: ".5rem", fontSize: ".9rem" }}>👤 Primary Contact: {partner.contactName}</span>
-          </div>
-        </div>
-
-        {/* Performance */}
-        <div className="card" style={{ marginBottom: "1.5rem" }}>
-          <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}><Award size={18} style={{ display: "inline", verticalAlign: "-3px", marginRight: ".4rem" }} /> Performance Summary</h3>
-          <div className="stat-grid" style={{ gridTemplateColumns: "repeat(2, 1fr)" }}>
-            <div style={{ textAlign: "center", padding: "1rem" }}>
-              <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>{stats.totalDeals}</p>
-              <p className="muted" style={{ fontSize: ".8rem" }}>Total Deals</p>
+          <div>
+            <h2 style={{ fontSize: "1.3rem", fontWeight: 800 }}>
+              {partner.companyName}
+            </h2>
+            <div style={{ display: "flex", gap: ".75rem", marginTop: ".3rem" }}>
+              <span className="chip">
+                {TYPE_LABELS[partner.type] || partner.type}
+              </span>
+              <span
+                className={`badge badge-${partner.tier === "platinum" ? "info" : partner.tier === "gold" ? "success" : "neutral"}`}
+              >
+                {TIER_LABELS[partner.tier] || partner.tier}
+              </span>
+              <span className="badge badge-success">{partner.status}</span>
             </div>
-            <div style={{ textAlign: "center", padding: "1rem" }}>
-              <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>{fmt(stats.totalRevenue)}</p>
-              <p className="muted" style={{ fontSize: ".8rem" }}>Partner-Influenced Revenue</p>
-            </div>
-            <div style={{ textAlign: "center", padding: "1rem" }}>
-              <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>{fmt(stats.totalEarned)}</p>
-              <p className="muted" style={{ fontSize: ".8rem" }}>Commission Earned</p>
-            </div>
-            <div style={{ textAlign: "center", padding: "1rem" }}>
-              <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>{partner.commissionRate}%</p>
-              <p className="muted" style={{ fontSize: ".8rem" }}>Commission Rate</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Tier Info */}
-        <div className="card" style={{ marginBottom: "1.5rem" }}>
-          <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>Tier Status</h3>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "1rem" }}>
-            <div>
-              <p style={{ fontSize: "1.1rem", fontWeight: 700 }}>{TIER_LABELS[partner.tier] || partner.tier} Tier</p>
-              <p className="muted" style={{ fontSize: ".85rem" }}>Based on trailing 12-month performance</p>
-            </div>
-            <button className="btn-outline" style={{ fontSize: ".85rem" }} onClick={() => alert("Upgrade request submitted! Your partner manager will be in touch within 48 hours.")}><ArrowUp size={14} /> Request Upgrade</button>
-          </div>
-          <div style={{ height: 8, background: "var(--border)", borderRadius: 4, overflow: "hidden" }}>
-            <div style={{ width: partner.tier === "platinum" ? "100%" : partner.tier === "gold" ? "75%" : partner.tier === "silver" ? "50%" : "25%", height: "100%", background: "var(--fg)", borderRadius: 4 }}></div>
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", marginTop: ".3rem" }}>
-            <span className="muted" style={{ fontSize: ".75rem" }}>Bronze</span>
-            <span className="muted" style={{ fontSize: ".75rem" }}>Silver</span>
-            <span className="muted" style={{ fontSize: ".75rem" }}>Gold</span>
-            <span className="muted" style={{ fontSize: ".75rem" }}>Platinum</span>
           </div>
         </div>
 
-        {/* Bank Account & Payouts */}
-        <div className="card" style={{ marginBottom: "1.5rem" }}>
-          <h3 style={{ fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: ".5rem" }}>
-            <CreditCard size={18} /> Bank Account & Payouts
-          </h3>
-          
-          {stripeConfigured === null ? (
-            <div style={{ display: "flex", alignItems: "center", gap: ".5rem", color: "var(--muted)" }}>
-              <Loader2 size={16} className="animate-spin" /> Checking payout configuration...
-            </div>
-          ) : !stripeConfigured ? (
-            <div style={{ background: "#fef3c7", padding: "1rem", borderRadius: 8, border: "1px solid #fde68a" }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: ".75rem" }}>
-                <AlertCircle size={20} color="#92400e" style={{ flexShrink: 0, marginTop: 2 }} />
-                <div>
-                  <p style={{ fontWeight: 600, color: "#92400e", marginBottom: ".25rem" }}>
-                    Automatic payouts not available
-                  </p>
-                  <p style={{ fontSize: ".85rem", color: "#a16207" }}>
-                    Your organization hasn&apos;t enabled Stripe payouts yet. Contact your partner manager to discuss payout options.
-                  </p>
-                </div>
-              </div>
-            </div>
-          ) : stripeOnboarded ? (
-            <div style={{ background: "#ecfdf5", padding: "1rem", borderRadius: 8, border: "1px solid #a7f3d0" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: ".75rem" }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#059669", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <CheckCircle size={20} color="white" />
-                </div>
-                <div>
-                  <p style={{ fontWeight: 700, color: "#065f46" }}>Bank account connected</p>
-                  <p style={{ fontSize: ".85rem", color: "#047857" }}>
-                    Your payouts will be automatically deposited to your account.
-                  </p>
-                </div>
-              </div>
-              <div style={{ display: "flex", gap: ".75rem", marginTop: "1rem" }}>
-                <button 
-                  className="btn-outline" 
-                  style={{ fontSize: ".85rem" }}
-                  onClick={() => {
-                    // In production, this would open the Stripe Express dashboard
-                    window.open("https://connect.stripe.com/express_login", "_blank");
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}
+        >
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: ".5rem",
+              fontSize: ".9rem",
+            }}
+          >
+            <Mail size={16} color="var(--muted)" /> {partner.contactEmail}
+          </span>
+          {partner.phone && (
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".5rem",
+                fontSize: ".9rem",
+              }}
+            >
+              <Phone size={16} color="var(--muted)" /> {partner.phone}
+            </span>
+          )}
+          {partner.address && (
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".5rem",
+                fontSize: ".9rem",
+              }}
+            >
+              <MapPin size={16} color="var(--muted)" /> {partner.address}
+            </span>
+          )}
+          {partner.website && (
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".5rem",
+                fontSize: ".9rem",
+              }}
+            >
+              <Globe size={16} color="var(--muted)" /> {partner.website}
+            </span>
+          )}
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: ".5rem",
+              fontSize: ".9rem",
+            }}
+          >
+            👤 Primary Contact: {partner.contactName}
+          </span>
+        </div>
+      </div>
+
+      {/* Performance */}
+      <div className="card" style={{ marginBottom: "1.5rem" }}>
+        <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>
+          <Award
+            size={18}
+            style={{
+              display: "inline",
+              verticalAlign: "-3px",
+              marginRight: ".4rem",
+            }}
+          />{" "}
+          Performance Summary
+        </h3>
+        <div
+          className="stat-grid"
+          style={{ gridTemplateColumns: "repeat(2, 1fr)" }}
+        >
+          <div style={{ textAlign: "center", padding: "1rem" }}>
+            <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>
+              {stats.totalDeals}
+            </p>
+            <p className="muted" style={{ fontSize: ".8rem" }}>
+              Total Deals
+            </p>
+          </div>
+          <div style={{ textAlign: "center", padding: "1rem" }}>
+            <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>
+              {fmt(stats.totalRevenue)}
+            </p>
+            <p className="muted" style={{ fontSize: ".8rem" }}>
+              Partner-Influenced Revenue
+            </p>
+          </div>
+          <div style={{ textAlign: "center", padding: "1rem" }}>
+            <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>
+              {fmt(stats.totalEarned)}
+            </p>
+            <p className="muted" style={{ fontSize: ".8rem" }}>
+              Commission Earned
+            </p>
+          </div>
+          <div style={{ textAlign: "center", padding: "1rem" }}>
+            <p style={{ fontSize: "1.5rem", fontWeight: 800 }}>
+              {partner.commissionRate}%
+            </p>
+            <p className="muted" style={{ fontSize: ".8rem" }}>
+              Commission Rate
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Tier Info */}
+      <div className="card" style={{ marginBottom: "1.5rem" }}>
+        <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>Tier Status</h3>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "1rem",
+          }}
+        >
+          <div>
+            <p style={{ fontSize: "1.1rem", fontWeight: 700 }}>
+              {TIER_LABELS[partner.tier] || partner.tier} Tier
+            </p>
+            <p className="muted" style={{ fontSize: ".85rem" }}>
+              Based on trailing 12-month performance
+            </p>
+          </div>
+          <button
+            className="btn-outline"
+            style={{ fontSize: ".85rem" }}
+            onClick={() =>
+              alert(
+                "Upgrade request submitted! Your partner manager will be in touch within 48 hours.",
+              )
+            }
+          >
+            <ArrowUp size={14} /> Request Upgrade
+          </button>
+        </div>
+        <div
+          style={{
+            height: 8,
+            background: "var(--border)",
+            borderRadius: 4,
+            overflow: "hidden",
+          }}
+        >
+          <div
+            style={{
+              width:
+                partner.tier === "platinum"
+                  ? "100%"
+                  : partner.tier === "gold"
+                    ? "75%"
+                    : partner.tier === "silver"
+                      ? "50%"
+                      : "25%",
+              height: "100%",
+              background: "var(--fg)",
+              borderRadius: 4,
+            }}
+          ></div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            marginTop: ".3rem",
+          }}
+        >
+          <span className="muted" style={{ fontSize: ".75rem" }}>
+            Bronze
+          </span>
+          <span className="muted" style={{ fontSize: ".75rem" }}>
+            Silver
+          </span>
+          <span className="muted" style={{ fontSize: ".75rem" }}>
+            Gold
+          </span>
+          <span className="muted" style={{ fontSize: ".75rem" }}>
+            Platinum
+          </span>
+        </div>
+      </div>
+
+      {/* Bank Account & Payouts */}
+      <div className="card" style={{ marginBottom: "1.5rem" }}>
+        <h3
+          style={{
+            fontWeight: 700,
+            marginBottom: "1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: ".5rem",
+          }}
+        >
+          <CreditCard size={18} /> Bank Account & Payouts
+        </h3>
+
+        {stripeConfigured === null ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: ".5rem",
+              color: "var(--muted)",
+            }}
+          >
+            <Loader2 size={16} className="animate-spin" /> Checking payout
+            configuration...
+          </div>
+        ) : !stripeConfigured ? (
+          <div
+            style={{
+              background: "#fef3c7",
+              padding: "1rem",
+              borderRadius: 8,
+              border: "1px solid #fde68a",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-start",
+                gap: ".75rem",
+              }}
+            >
+              <AlertCircle
+                size={20}
+                color="#92400e"
+                style={{ flexShrink: 0, marginTop: 2 }}
+              />
+              <div>
+                <p
+                  style={{
+                    fontWeight: 600,
+                    color: "#92400e",
+                    marginBottom: ".25rem",
                   }}
                 >
-                  <ExternalLink size={14} /> View Stripe Dashboard
-                </button>
+                  Automatic payouts not available
+                </p>
+                <p style={{ fontSize: ".85rem", color: "#a16207" }}>
+                  Your organization hasn&apos;t enabled Stripe payouts yet.
+                  Contact your partner manager to discuss payout options.
+                </p>
               </div>
-            </div>
-          ) : stripeAccountId ? (
-            <div style={{ background: "#fef3c7", padding: "1rem", borderRadius: 8, border: "1px solid #fde68a" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: ".75rem" }}>
-                <div style={{ width: 40, height: 40, borderRadius: 10, background: "#d97706", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <LinkIcon size={20} color="white" />
-                </div>
-                <div>
-                  <p style={{ fontWeight: 700, color: "#92400e" }}>Complete your setup</p>
-                  <p style={{ fontSize: ".85rem", color: "#a16207" }}>
-                    You started connecting your bank account but haven&apos;t finished yet.
-                  </p>
-                </div>
-              </div>
-              <button 
-                className="btn" 
-                style={{ marginTop: ".5rem" }}
-                onClick={handleConnectStripe}
-                disabled={connectingStripe}
-              >
-                {connectingStripe ? (
-                  <><Loader2 size={16} className="animate-spin" /> Redirecting...</>
-                ) : (
-                  <><Zap size={16} /> Continue Setup</>
-                )}
-              </button>
-            </div>
-          ) : (
-            <div style={{ background: "var(--subtle)", padding: "1.25rem", borderRadius: 8, border: "1px solid var(--border)" }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
-                <div style={{ width: 48, height: 48, borderRadius: 10, background: "#6366f1", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Zap size={24} color="white" />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontWeight: 700, fontSize: "1rem", marginBottom: ".25rem" }}>
-                    Get paid automatically
-                  </p>
-                  <p style={{ fontSize: ".9rem", color: "var(--muted)", marginBottom: "1rem", lineHeight: 1.5 }}>
-                    Connect your bank account to receive commission payouts automatically. 
-                    Powered by Stripe — the same payment platform used by millions of businesses worldwide.
-                  </p>
-                  <button 
-                    className="btn" 
-                    style={{ background: "#6366f1" }}
-                    onClick={handleConnectStripe}
-                    disabled={connectingStripe}
-                  >
-                    {connectingStripe ? (
-                      <><Loader2 size={16} className="animate-spin" /> Connecting...</>
-                    ) : (
-                      <><Zap size={16} /> Connect with Stripe</>
-                    )}
-                  </button>
-                  <p className="muted" style={{ fontSize: ".75rem", marginTop: ".75rem" }}>
-                    Takes about 5 minutes. You&apos;ll need your bank account details.
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Partner Manager */}
-        <div className="card">
-          <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>Your Partner Manager</h3>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-            <div className="avatar" style={{ width: 48, height: 48 }}>{partner.partnerManager.name.split(" ").map((w: string) => w[0]).join("")}</div>
-            <div>
-              <p style={{ fontWeight: 600 }}>{partner.partnerManager.name}</p>
-              <p className="muted" style={{ fontSize: ".85rem" }}>Partner Account Manager</p>
-              <p className="muted" style={{ fontSize: ".85rem" }}>{partner.partnerManager.email} · {partner.partnerManager.phone}</p>
             </div>
           </div>
+        ) : stripeOnboarded ? (
+          <div
+            style={{
+              background: "#ecfdf5",
+              padding: "1rem",
+              borderRadius: 8,
+              border: "1px solid #a7f3d0",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".75rem",
+                marginBottom: ".75rem",
+              }}
+            >
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 10,
+                  background: "#059669",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <CheckCircle size={20} color="white" />
+              </div>
+              <div>
+                <p style={{ fontWeight: 700, color: "#065f46" }}>
+                  Bank account connected
+                </p>
+                <p style={{ fontSize: ".85rem", color: "#047857" }}>
+                  Your payouts will be automatically deposited to your account.
+                </p>
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: ".75rem", marginTop: "1rem" }}>
+              <button
+                className="btn-outline"
+                style={{ fontSize: ".85rem" }}
+                onClick={() => {
+                  // In production, this would open the Stripe Express dashboard
+                  window.open(
+                    "https://connect.stripe.com/express_login",
+                    "_blank",
+                  );
+                }}
+              >
+                <ExternalLink size={14} /> View Stripe Dashboard
+              </button>
+            </div>
+          </div>
+        ) : stripeAccountId ? (
+          <div
+            style={{
+              background: "#fef3c7",
+              padding: "1rem",
+              borderRadius: 8,
+              border: "1px solid #fde68a",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".75rem",
+                marginBottom: ".75rem",
+              }}
+            >
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 10,
+                  background: "#d97706",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <LinkIcon size={20} color="white" />
+              </div>
+              <div>
+                <p style={{ fontWeight: 700, color: "#92400e" }}>
+                  Complete your setup
+                </p>
+                <p style={{ fontSize: ".85rem", color: "#a16207" }}>
+                  You started connecting your bank account but haven&apos;t
+                  finished yet.
+                </p>
+              </div>
+            </div>
+            <button
+              className="btn"
+              style={{ marginTop: ".5rem" }}
+              onClick={handleConnectStripe}
+              disabled={connectingStripe}
+            >
+              {connectingStripe ? (
+                <>
+                  <Loader2 size={16} className="animate-spin" /> Redirecting...
+                </>
+              ) : (
+                <>
+                  <Zap size={16} /> Continue Setup
+                </>
+              )}
+            </button>
+          </div>
+        ) : (
+          <div
+            style={{
+              background: "var(--subtle)",
+              padding: "1.25rem",
+              borderRadius: 8,
+              border: "1px solid var(--border)",
+            }}
+          >
+            <div
+              style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}
+            >
+              <div
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 10,
+                  background: "#6366f1",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}
+              >
+                <Zap size={24} color="white" />
+              </div>
+              <div style={{ flex: 1 }}>
+                <p
+                  style={{
+                    fontWeight: 700,
+                    fontSize: "1rem",
+                    marginBottom: ".25rem",
+                  }}
+                >
+                  Get paid automatically
+                </p>
+                <p
+                  style={{
+                    fontSize: ".9rem",
+                    color: "var(--muted)",
+                    marginBottom: "1rem",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  Connect your bank account to receive commission payouts
+                  automatically. Powered by Stripe — the same payment platform
+                  used by millions of businesses worldwide.
+                </p>
+                <button
+                  className="btn"
+                  style={{ background: "#6366f1" }}
+                  onClick={handleConnectStripe}
+                  disabled={connectingStripe}
+                >
+                  {connectingStripe ? (
+                    <>
+                      <Loader2 size={16} className="animate-spin" />{" "}
+                      Connecting...
+                    </>
+                  ) : (
+                    <>
+                      <Zap size={16} /> Connect with Stripe
+                    </>
+                  )}
+                </button>
+                <p
+                  className="muted"
+                  style={{ fontSize: ".75rem", marginTop: ".75rem" }}
+                >
+                  Takes about 5 minutes. You&apos;ll need your bank account
+                  details.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Partner Manager */}
+      <div className="card">
+        <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>
+          Your Partner Manager
+        </h3>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <div className="avatar" style={{ width: 48, height: 48 }}>
+            {partner.partnerManager.name
+              .split(" ")
+              .map((w: string) => w[0])
+              .join("")}
+          </div>
+          <div>
+            <p style={{ fontWeight: 600 }}>{partner.partnerManager.name}</p>
+            <p className="muted" style={{ fontSize: ".85rem" }}>
+              Partner Account Manager
+            </p>
+            <p className="muted" style={{ fontSize: ".85rem" }}>
+              {partner.partnerManager.email} · {partner.partnerManager.phone}
+            </p>
+          </div>
         </div>
+      </div>
     </div>
   );
 }
 
 export default function PortalProfilePage() {
   return (
-    <Suspense fallback={<div style={{ padding: "2rem", color: "var(--muted)" }}>Loading…</div>}>
+    <Suspense
+      fallback={
+        <div style={{ padding: "2rem", color: "var(--muted)" }}>Loading…</div>
+      }
+    >
       <PortalProfilePageInner />
     </Suspense>
   );

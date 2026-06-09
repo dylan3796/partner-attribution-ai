@@ -145,7 +145,7 @@ export default function DashboardSidebar({ mobileOpen = false, onMobileClose }: 
     if (mobileOpen && onMobileClose) {
       onMobileClose();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+   
   }, [pathname]);
 
   function toggleCollapsed() {

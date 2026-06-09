@@ -33,14 +33,56 @@ type NotificationType =
 
 const TYPE_CONFIG: Record<
   NotificationType,
-  { icon: typeof Bell; color: string; bg: string; label: string; category: string }
+  {
+    icon: typeof Bell;
+    color: string;
+    bg: string;
+    label: string;
+    category: string;
+  }
 > = {
-  deal_approved: { icon: Briefcase, color: "#22c55e", bg: "#22c55e15", label: "Deal Approved", category: "Deals" },
-  commission_paid: { icon: DollarSign, color: "#3b82f6", bg: "#3b82f615", label: "Commission Paid", category: "Revenue" },
-  partner_joined: { icon: UserPlus, color: "#8b5cf6", bg: "#8b5cf615", label: "Partner Joined", category: "Partners" },
-  tier_change: { icon: Trophy, color: "#f59e0b", bg: "#f59e0b15", label: "Tier Change", category: "Partners" },
-  deal_disputed: { icon: AlertTriangle, color: "#ef4444", bg: "#ef444415", label: "Dispute Filed", category: "Deals" },
-  system: { icon: Info, color: "#64748b", bg: "#64748b15", label: "System", category: "System" },
+  deal_approved: {
+    icon: Briefcase,
+    color: "#22c55e",
+    bg: "#22c55e15",
+    label: "Deal Approved",
+    category: "Deals",
+  },
+  commission_paid: {
+    icon: DollarSign,
+    color: "#3b82f6",
+    bg: "#3b82f615",
+    label: "Commission Paid",
+    category: "Revenue",
+  },
+  partner_joined: {
+    icon: UserPlus,
+    color: "#8b5cf6",
+    bg: "#8b5cf615",
+    label: "Partner Joined",
+    category: "Partners",
+  },
+  tier_change: {
+    icon: Trophy,
+    color: "#f59e0b",
+    bg: "#f59e0b15",
+    label: "Tier Change",
+    category: "Partners",
+  },
+  deal_disputed: {
+    icon: AlertTriangle,
+    color: "#ef4444",
+    bg: "#ef444415",
+    label: "Dispute Filed",
+    category: "Deals",
+  },
+  system: {
+    icon: Info,
+    color: "#64748b",
+    bg: "#64748b15",
+    label: "System",
+    category: "System",
+  },
 };
 
 const FILTER_OPTIONS: { value: string; label: string }[] = [
@@ -67,7 +109,10 @@ function formatTimeAgo(timestamp: number): string {
   if (days === 1) return "Yesterday";
   if (days < 7) return `${days}d ago`;
   if (days < 30) return `${Math.floor(days / 7)}w ago`;
-  return new Date(timestamp).toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  return new Date(timestamp).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+  });
 }
 
 function formatDate(ts: number): string {
@@ -97,7 +142,6 @@ interface Notification {
 export default function NotificationsPage() {
   const router = useRouter();
   const notifications = useQuery(api.notifications.list, { limit: 100 });
-  const unreadCount = useQuery(api.notifications.unreadCount);
   const markRead = useMutation(api.notifications.markRead);
   const markAllRead = useMutation(api.notifications.markAllRead);
 
@@ -133,13 +177,18 @@ export default function NotificationsPage() {
 
   // Stats
   const stats = useMemo(() => {
-    if (!notifications) return { total: 0, unread: 0, deals: 0, partners: 0, revenue: 0 };
+    if (!notifications)
+      return { total: 0, unread: 0, deals: 0, partners: 0, revenue: 0 };
     const items = notifications as Notification[];
     return {
       total: items.length,
       unread: items.filter((n) => !n.read).length,
-      deals: items.filter((n) => n.type === "deal_approved" || n.type === "deal_disputed").length,
-      partners: items.filter((n) => n.type === "partner_joined" || n.type === "tier_change").length,
+      deals: items.filter(
+        (n) => n.type === "deal_approved" || n.type === "deal_disputed",
+      ).length,
+      partners: items.filter(
+        (n) => n.type === "partner_joined" || n.type === "tier_change",
+      ).length,
       revenue: items.filter((n) => n.type === "commission_paid").length,
     };
   }, [notifications]);
@@ -163,7 +212,7 @@ export default function NotificationsPage() {
 
   const markSelectedRead = async () => {
     const promises = Array.from(selected).map((id) =>
-      markRead({ id: id as Id<"notifications"> })
+      markRead({ id: id as Id<"notifications"> }),
     );
     await Promise.all(promises);
     setSelected(new Set());
@@ -181,7 +230,12 @@ export default function NotificationsPage() {
   if (isLoading) {
     return (
       <div style={{ textAlign: "center", padding: "4rem" }}>
-        <Loader2 size={28} color="var(--muted)" className="animate-spin" style={{ marginBottom: ".5rem" }} />
+        <Loader2
+          size={28}
+          color="var(--muted)"
+          className="animate-spin"
+          style={{ marginBottom: ".5rem" }}
+        />
         <p className="muted">Loading notifications…</p>
       </div>
     );
@@ -190,9 +244,25 @@ export default function NotificationsPage() {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
       {/* Header */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "1rem",
+        }}
+      >
         <div>
-          <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>Notifications</h1>
+          <h1
+            style={{
+              fontSize: "1.8rem",
+              fontWeight: 800,
+              letterSpacing: "-.02em",
+            }}
+          >
+            Notifications
+          </h1>
           <p className="muted">
             {stats.unread > 0
               ? `${stats.unread} unread notification${stats.unread !== 1 ? "s" : ""}`
@@ -205,29 +275,86 @@ export default function NotificationsPage() {
               <CheckCheck size={15} /> Mark all read
             </button>
           )}
-          <button className="btn-outline" onClick={() => router.push("/dashboard/settings/notifications")}>
+          <button
+            className="btn-outline"
+            onClick={() => router.push("/dashboard/settings/notifications")}
+          >
             <Settings size={15} /> Preferences
           </button>
         </div>
       </div>
 
       {/* Stats row */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: ".75rem" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(5, 1fr)",
+          gap: ".75rem",
+        }}
+      >
         {[
           { label: "Total", value: stats.total, icon: Bell, color: "#6366f1" },
-          { label: "Unread", value: stats.unread, icon: Inbox, color: "#ef4444" },
-          { label: "Deals", value: stats.deals, icon: Briefcase, color: "#22c55e" },
-          { label: "Partners", value: stats.partners, icon: UserPlus, color: "#8b5cf6" },
-          { label: "Revenue", value: stats.revenue, icon: DollarSign, color: "#3b82f6" },
+          {
+            label: "Unread",
+            value: stats.unread,
+            icon: Inbox,
+            color: "#ef4444",
+          },
+          {
+            label: "Deals",
+            value: stats.deals,
+            icon: Briefcase,
+            color: "#22c55e",
+          },
+          {
+            label: "Partners",
+            value: stats.partners,
+            icon: UserPlus,
+            color: "#8b5cf6",
+          },
+          {
+            label: "Revenue",
+            value: stats.revenue,
+            icon: DollarSign,
+            color: "#3b82f6",
+          },
         ].map((s) => (
-          <div key={s.label} className="card" style={{ padding: ".75rem 1rem" }}>
+          <div
+            key={s.label}
+            className="card"
+            style={{ padding: ".75rem 1rem" }}
+          >
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <div style={{ width: 28, height: 28, borderRadius: 8, background: `${s.color}15`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div
+                style={{
+                  width: 28,
+                  height: 28,
+                  borderRadius: 8,
+                  background: `${s.color}15`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <s.icon size={14} style={{ color: s.color }} />
               </div>
               <div>
-                <p className="muted" style={{ fontSize: ".65rem", margin: 0, lineHeight: 1.2 }}>{s.label}</p>
-                <p style={{ fontSize: "1.1rem", fontWeight: 800, margin: 0, lineHeight: 1.2 }}>{s.value}</p>
+                <p
+                  className="muted"
+                  style={{ fontSize: ".65rem", margin: 0, lineHeight: 1.2 }}
+                >
+                  {s.label}
+                </p>
+                <p
+                  style={{
+                    fontSize: "1.1rem",
+                    fontWeight: 800,
+                    margin: 0,
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {s.value}
+                </p>
               </div>
             </div>
           </div>
@@ -235,12 +362,24 @@ export default function NotificationsPage() {
       </div>
 
       {/* Filter bar */}
-      <div className="card" style={{ padding: ".75rem 1rem", display: "flex", alignItems: "center", gap: ".75rem", flexWrap: "wrap" }}>
+      <div
+        className="card"
+        style={{
+          padding: ".75rem 1rem",
+          display: "flex",
+          alignItems: "center",
+          gap: ".75rem",
+          flexWrap: "wrap",
+        }}
+      >
         <Filter size={15} style={{ color: "var(--muted)" }} />
         {FILTER_OPTIONS.map((opt) => (
           <button
             key={opt.value}
-            onClick={() => { setFilter(opt.value); setSelected(new Set()); }}
+            onClick={() => {
+              setFilter(opt.value);
+              setSelected(new Set());
+            }}
             style={{
               padding: ".35rem .75rem",
               borderRadius: 6,
@@ -256,15 +395,17 @@ export default function NotificationsPage() {
           >
             {opt.label}
             {opt.value === "unread" && stats.unread > 0 && (
-              <span style={{
-                marginLeft: 6,
-                padding: "0 5px",
-                borderRadius: 999,
-                background: "#ef4444",
-                color: "white",
-                fontSize: ".65rem",
-                fontWeight: 700,
-              }}>
+              <span
+                style={{
+                  marginLeft: 6,
+                  padding: "0 5px",
+                  borderRadius: 999,
+                  background: "#ef4444",
+                  color: "white",
+                  fontSize: ".65rem",
+                  fontWeight: 700,
+                }}
+              >
                 {stats.unread}
               </span>
             )}
@@ -274,23 +415,34 @@ export default function NotificationsPage() {
 
       {/* Bulk actions */}
       {selected.size > 0 && (
-        <div className="card" style={{
-          padding: ".75rem 1rem",
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
-          background: "#6366f108",
-          border: "1px solid #6366f130",
-        }}>
+        <div
+          className="card"
+          style={{
+            padding: ".75rem 1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: "1rem",
+            background: "#6366f108",
+            border: "1px solid #6366f130",
+          }}
+        >
           <span style={{ fontSize: ".85rem", fontWeight: 600 }}>
             {selected.size} selected
           </span>
-          <button className="btn-outline" style={{ padding: ".35rem .75rem", fontSize: ".8rem" }} onClick={markSelectedRead}>
+          <button
+            className="btn-outline"
+            style={{ padding: ".35rem .75rem", fontSize: ".8rem" }}
+            onClick={markSelectedRead}
+          >
             <Check size={14} /> Mark read
           </button>
           <button
             className="btn-outline"
-            style={{ padding: ".35rem .75rem", fontSize: ".8rem", marginLeft: "auto" }}
+            style={{
+              padding: ".35rem .75rem",
+              fontSize: ".8rem",
+              marginLeft: "auto",
+            }}
             onClick={() => setSelected(new Set())}
           >
             Clear selection
@@ -303,19 +455,51 @@ export default function NotificationsPage() {
         <div className="card" style={{ textAlign: "center", padding: "3rem" }}>
           {filter === "all" ? (
             <>
-              <Bell size={48} style={{ color: "var(--muted)", opacity: 0.4, marginBottom: "1rem" }} />
-              <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>No notifications yet</h3>
-              <p className="muted" style={{ fontSize: ".9rem", maxWidth: 400, margin: "0 auto" }}>
-                Notifications will appear here as deals are approved, partners join, commissions are paid, and more.
+              <Bell
+                size={48}
+                style={{
+                  color: "var(--muted)",
+                  opacity: 0.4,
+                  marginBottom: "1rem",
+                }}
+              />
+              <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>
+                No notifications yet
+              </h3>
+              <p
+                className="muted"
+                style={{ fontSize: ".9rem", maxWidth: 400, margin: "0 auto" }}
+              >
+                Notifications will appear here as deals are approved, partners
+                join, commissions are paid, and more.
               </p>
             </>
           ) : (
             <>
-              <Filter size={36} style={{ color: "var(--muted)", opacity: 0.4, marginBottom: "1rem" }} />
-              <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>No matching notifications</h3>
+              <Filter
+                size={36}
+                style={{
+                  color: "var(--muted)",
+                  opacity: 0.4,
+                  marginBottom: "1rem",
+                }}
+              />
+              <h3 style={{ fontWeight: 600, marginBottom: ".5rem" }}>
+                No matching notifications
+              </h3>
               <p className="muted" style={{ fontSize: ".9rem" }}>
                 Try a different filter or{" "}
-                <button onClick={() => setFilter("all")} style={{ color: "#6366f1", fontWeight: 600, background: "none", border: "none", cursor: "pointer", textDecoration: "underline" }}>
+                <button
+                  onClick={() => setFilter("all")}
+                  style={{
+                    color: "#6366f1",
+                    fontWeight: 600,
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                  }}
+                >
                   view all
                 </button>
               </p>
@@ -323,19 +507,42 @@ export default function NotificationsPage() {
           )}
         </div>
       ) : (
-        <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}
+        >
           {/* Select all */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "0 .25rem" }}>
-            <label style={{ display: "flex", alignItems: "center", gap: 8, cursor: "pointer", fontSize: ".8rem", color: "var(--muted)" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "0 .25rem",
+            }}
+          >
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                cursor: "pointer",
+                fontSize: ".8rem",
+                color: "var(--muted)",
+              }}
+            >
               <input
                 type="checkbox"
-                checked={selected.size === filtered.length && filtered.length > 0}
+                checked={
+                  selected.size === filtered.length && filtered.length > 0
+                }
                 onChange={selectAll}
                 style={{ accentColor: "#6366f1" }}
               />
               Select all ({filtered.length})
             </label>
-            <span className="muted" style={{ fontSize: ".8rem", marginLeft: "auto" }}>
+            <span
+              className="muted"
+              style={{ fontSize: ".8rem", marginLeft: "auto" }}
+            >
               {filtered.length} notification{filtered.length !== 1 ? "s" : ""}
             </span>
           </div>
@@ -343,11 +550,29 @@ export default function NotificationsPage() {
           {grouped.map((group) => (
             <div key={group.label}>
               {/* Date header */}
-              <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: ".5rem" }}>
-                <span style={{ fontSize: ".75rem", fontWeight: 700, color: "var(--muted)", whiteSpace: "nowrap", textTransform: "uppercase", letterSpacing: ".05em" }}>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: ".75rem",
+                  marginBottom: ".5rem",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: ".75rem",
+                    fontWeight: 700,
+                    color: "var(--muted)",
+                    whiteSpace: "nowrap",
+                    textTransform: "uppercase",
+                    letterSpacing: ".05em",
+                  }}
+                >
                   {group.label}
                 </span>
-                <div style={{ flex: 1, height: 1, background: "var(--border)" }} />
+                <div
+                  style={{ flex: 1, height: 1, background: "var(--border)" }}
+                />
               </div>
 
               <div className="card" style={{ padding: 0, overflow: "hidden" }}>
@@ -364,13 +589,26 @@ export default function NotificationsPage() {
                         alignItems: "flex-start",
                         gap: "1rem",
                         padding: "1rem 1.25rem",
-                        borderBottom: idx < group.items.length - 1 ? "1px solid var(--border)" : "none",
-                        background: !n.read ? "rgba(99, 102, 241, 0.04)" : "transparent",
+                        borderBottom:
+                          idx < group.items.length - 1
+                            ? "1px solid var(--border)"
+                            : "none",
+                        background: !n.read
+                          ? "rgba(99, 102, 241, 0.04)"
+                          : "transparent",
                         transition: "background .15s",
                         cursor: n.link ? "pointer" : "default",
                       }}
-                      onMouseOver={(e) => { e.currentTarget.style.background = !n.read ? "rgba(99, 102, 241, 0.08)" : "var(--subtle)"; }}
-                      onMouseOut={(e) => { e.currentTarget.style.background = !n.read ? "rgba(99, 102, 241, 0.04)" : "transparent"; }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.background = !n.read
+                          ? "rgba(99, 102, 241, 0.08)"
+                          : "var(--subtle)";
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.background = !n.read
+                          ? "rgba(99, 102, 241, 0.04)"
+                          : "transparent";
+                      }}
                     >
                       {/* Checkbox */}
                       <input
@@ -378,7 +616,11 @@ export default function NotificationsPage() {
                         checked={isSelected}
                         onChange={() => toggleSelect(n._id)}
                         onClick={(e) => e.stopPropagation()}
-                        style={{ accentColor: "#6366f1", marginTop: 4, flexShrink: 0 }}
+                        style={{
+                          accentColor: "#6366f1",
+                          marginTop: 4,
+                          flexShrink: 0,
+                        }}
                       />
 
                       {/* Icon */}
@@ -400,51 +642,89 @@ export default function NotificationsPage() {
                       </div>
 
                       {/* Content */}
-                      <div style={{ flex: 1, minWidth: 0 }} onClick={() => handleClick(n)}>
-                        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                          <span style={{ fontWeight: n.read ? 500 : 700, fontSize: ".9rem" }}>{n.title}</span>
-                          <span style={{
-                            fontSize: ".65rem",
-                            fontWeight: 600,
-                            padding: "1px 6px",
-                            borderRadius: 4,
-                            background: config?.bg ?? "#64748b15",
-                            color: config?.color ?? "#64748b",
-                          }}>
+                      <div
+                        style={{ flex: 1, minWidth: 0 }}
+                        onClick={() => handleClick(n)}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 8,
+                            flexWrap: "wrap",
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontWeight: n.read ? 500 : 700,
+                              fontSize: ".9rem",
+                            }}
+                          >
+                            {n.title}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: ".65rem",
+                              fontWeight: 600,
+                              padding: "1px 6px",
+                              borderRadius: 4,
+                              background: config?.bg ?? "#64748b15",
+                              color: config?.color ?? "#64748b",
+                            }}
+                          >
                             {config?.label ?? n.type}
                           </span>
                           {!n.read && (
-                            <span style={{
-                              width: 8,
-                              height: 8,
-                              borderRadius: 4,
-                              background: "#6366f1",
-                              flexShrink: 0,
-                            }} />
+                            <span
+                              style={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: 4,
+                                background: "#6366f1",
+                                flexShrink: 0,
+                              }}
+                            />
                           )}
                         </div>
-                        <p style={{
-                          fontSize: ".85rem",
-                          color: "var(--muted)",
-                          marginTop: 2,
-                          lineHeight: 1.4,
-                          display: "-webkit-box",
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: "vertical" as const,
-                          overflow: "hidden",
-                        }}>
+                        <p
+                          style={{
+                            fontSize: ".85rem",
+                            color: "var(--muted)",
+                            marginTop: 2,
+                            lineHeight: 1.4,
+                            display: "-webkit-box",
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: "vertical" as const,
+                            overflow: "hidden",
+                          }}
+                        >
                           {n.body}
                         </p>
                       </div>
 
                       {/* Time + actions */}
-                      <div style={{ textAlign: "right", flexShrink: 0, display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
-                        <span className="muted" style={{ fontSize: ".75rem", whiteSpace: "nowrap" }}>
+                      <div
+                        style={{
+                          textAlign: "right",
+                          flexShrink: 0,
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "flex-end",
+                          gap: 4,
+                        }}
+                      >
+                        <span
+                          className="muted"
+                          style={{ fontSize: ".75rem", whiteSpace: "nowrap" }}
+                        >
                           {formatTimeAgo(n.createdAt)}
                         </span>
                         {!n.read && (
                           <button
-                            onClick={(e) => { e.stopPropagation(); markRead({ id: n._id }); }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              markRead({ id: n._id });
+                            }}
                             title="Mark as read"
                             style={{
                               background: "none",
@@ -459,8 +739,15 @@ export default function NotificationsPage() {
                               color: "var(--muted)",
                               transition: "all .15s",
                             }}
-                            onMouseOver={(e) => { e.currentTarget.style.borderColor = "#6366f1"; e.currentTarget.style.color = "#6366f1"; }}
-                            onMouseOut={(e) => { e.currentTarget.style.borderColor = "var(--border)"; e.currentTarget.style.color = "var(--muted)"; }}
+                            onMouseOver={(e) => {
+                              e.currentTarget.style.borderColor = "#6366f1";
+                              e.currentTarget.style.color = "#6366f1";
+                            }}
+                            onMouseOut={(e) => {
+                              e.currentTarget.style.borderColor =
+                                "var(--border)";
+                              e.currentTarget.style.color = "var(--muted)";
+                            }}
                           >
                             <Check size={11} /> Read
                           </button>

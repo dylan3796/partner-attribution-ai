@@ -8,7 +8,6 @@ import type { Id } from "@/convex/_generated/dataModel";
 import { ArrowLeft, Trophy, TrendingUp, Crown } from "lucide-react";
 import { PARTNER_TYPE_LABELS, TIER_LABELS } from "@/lib/types";
 
-const TIER_ORDER = { platinum: 4, gold: 3, silver: 2, bronze: 1 };
 const TIER_COLORS: Record<string, string> = {
   platinum: "#a78bfa",
   gold: "#f59e0b",
@@ -16,17 +15,54 @@ const TIER_COLORS: Record<string, string> = {
   bronze: "#d97706",
 };
 
-const TAG_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-  "Top Performer": { bg: "rgba(34,197,94,.15)", text: "#22c55e", border: "rgba(34,197,94,.3)" },
-  "Strategic": { bg: "rgba(99,102,241,.15)", text: "#818cf8", border: "rgba(99,102,241,.3)" },
-  "At Risk": { bg: "rgba(239,68,68,.15)", text: "#ef4444", border: "rgba(239,68,68,.3)" },
-  "Needs Attention": { bg: "rgba(245,158,11,.15)", text: "#f59e0b", border: "rgba(245,158,11,.3)" },
-  "New": { bg: "rgba(6,182,212,.15)", text: "#06b6d4", border: "rgba(6,182,212,.3)" },
-  "Expansion": { bg: "rgba(139,92,246,.15)", text: "#8b5cf6", border: "rgba(139,92,246,.3)" },
-  "Enterprise": { bg: "rgba(236,72,153,.15)", text: "#ec4899", border: "rgba(236,72,153,.3)" },
-  "VIP": { bg: "rgba(249,115,22,.15)", text: "#f97316", border: "rgba(249,115,22,.3)" },
+const TAG_COLORS: Record<string, { bg: string; text: string; border: string }> =
+  {
+    "Top Performer": {
+      bg: "rgba(34,197,94,.15)",
+      text: "#22c55e",
+      border: "rgba(34,197,94,.3)",
+    },
+    Strategic: {
+      bg: "rgba(99,102,241,.15)",
+      text: "#818cf8",
+      border: "rgba(99,102,241,.3)",
+    },
+    "At Risk": {
+      bg: "rgba(239,68,68,.15)",
+      text: "#ef4444",
+      border: "rgba(239,68,68,.3)",
+    },
+    "Needs Attention": {
+      bg: "rgba(245,158,11,.15)",
+      text: "#f59e0b",
+      border: "rgba(245,158,11,.3)",
+    },
+    New: {
+      bg: "rgba(6,182,212,.15)",
+      text: "#06b6d4",
+      border: "rgba(6,182,212,.3)",
+    },
+    Expansion: {
+      bg: "rgba(139,92,246,.15)",
+      text: "#8b5cf6",
+      border: "rgba(139,92,246,.3)",
+    },
+    Enterprise: {
+      bg: "rgba(236,72,153,.15)",
+      text: "#ec4899",
+      border: "rgba(236,72,153,.3)",
+    },
+    VIP: {
+      bg: "rgba(249,115,22,.15)",
+      text: "#f97316",
+      border: "rgba(249,115,22,.3)",
+    },
+  };
+const DEFAULT_TAG = {
+  bg: "rgba(148,163,184,.15)",
+  text: "#94a3b8",
+  border: "rgba(148,163,184,.3)",
 };
-const DEFAULT_TAG = { bg: "rgba(148,163,184,.15)", text: "#94a3b8", border: "rgba(148,163,184,.3)" };
 
 function fmt(n: number): string {
   if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
@@ -73,7 +109,10 @@ type PartnerData = {
 };
 
 // Which partner has the best value for a metric (higher = better)
-function bestIdx(partners: PartnerData[], getter: (p: PartnerData) => number): number {
+function bestIdx(
+  partners: PartnerData[],
+  getter: (p: PartnerData) => number,
+): number {
   let best = 0;
   for (let i = 1; i < partners.length; i++) {
     if (getter(partners[i]) > getter(partners[best])) best = i;
@@ -90,17 +129,33 @@ export default function ComparePartnersPage() {
 
   const data = useQuery(
     api.partnerCompare.getComparison,
-    partnerIds.length >= 2 ? { partnerIds } : "skip"
+    partnerIds.length >= 2 ? { partnerIds } : "skip",
   );
 
   if (partnerIds.length < 2) {
     return (
       <div style={{ padding: "3rem", textAlign: "center" }}>
-        <Link href="/dashboard/partners" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--muted)", fontSize: ".85rem", textDecoration: "none", marginBottom: "2rem" }}>
+        <Link
+          href="/dashboard/partners"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            color: "var(--muted)",
+            fontSize: ".85rem",
+            textDecoration: "none",
+            marginBottom: "2rem",
+          }}
+        >
           <ArrowLeft size={14} /> Back to Partners
         </Link>
-        <h2 style={{ fontWeight: 700, marginBottom: 8 }}>Select Partners to Compare</h2>
-        <p className="muted">Select 2–4 partners from the partners list using checkboxes, then click &quot;Compare&quot; in the bulk action bar.</p>
+        <h2 style={{ fontWeight: 700, marginBottom: 8 }}>
+          Select Partners to Compare
+        </h2>
+        <p className="muted">
+          Select 2–4 partners from the partners list using checkboxes, then
+          click &quot;Compare&quot; in the bulk action bar.
+        </p>
       </div>
     );
   }
@@ -108,14 +163,59 @@ export default function ComparePartnersPage() {
   if (data === undefined) {
     return (
       <div style={{ padding: "2rem" }}>
-        <div style={{ height: 20, width: 120, background: "var(--border)", borderRadius: 4, marginBottom: "1.5rem" }} />
-        <div style={{ display: "grid", gridTemplateColumns: `repeat(${partnerIds.length}, 1fr)`, gap: "1rem" }}>
+        <div
+          style={{
+            height: 20,
+            width: 120,
+            background: "var(--border)",
+            borderRadius: 4,
+            marginBottom: "1.5rem",
+          }}
+        />
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: `repeat(${partnerIds.length}, 1fr)`,
+            gap: "1rem",
+          }}
+        >
           {partnerIds.map((_, i) => (
             <div key={i} className="card" style={{ height: 300 }}>
-              <div style={{ height: 24, width: "60%", background: "var(--border)", borderRadius: 4, marginBottom: 16 }} />
-              <div style={{ height: 16, width: "80%", background: "var(--border)", borderRadius: 4, marginBottom: 12 }} />
-              <div style={{ height: 16, width: "70%", background: "var(--border)", borderRadius: 4, marginBottom: 12 }} />
-              <div style={{ height: 16, width: "50%", background: "var(--border)", borderRadius: 4 }} />
+              <div
+                style={{
+                  height: 24,
+                  width: "60%",
+                  background: "var(--border)",
+                  borderRadius: 4,
+                  marginBottom: 16,
+                }}
+              />
+              <div
+                style={{
+                  height: 16,
+                  width: "80%",
+                  background: "var(--border)",
+                  borderRadius: 4,
+                  marginBottom: 12,
+                }}
+              />
+              <div
+                style={{
+                  height: 16,
+                  width: "70%",
+                  background: "var(--border)",
+                  borderRadius: 4,
+                  marginBottom: 12,
+                }}
+              />
+              <div
+                style={{
+                  height: 16,
+                  width: "50%",
+                  background: "var(--border)",
+                  borderRadius: 4,
+                }}
+              />
             </div>
           ))}
         </div>
@@ -127,11 +227,24 @@ export default function ComparePartnersPage() {
   if (partners.length < 2) {
     return (
       <div style={{ padding: "3rem", textAlign: "center" }}>
-        <Link href="/dashboard/partners" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--muted)", fontSize: ".85rem", textDecoration: "none", marginBottom: "2rem" }}>
+        <Link
+          href="/dashboard/partners"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            color: "var(--muted)",
+            fontSize: ".85rem",
+            textDecoration: "none",
+            marginBottom: "2rem",
+          }}
+        >
           <ArrowLeft size={14} /> Back to Partners
         </Link>
         <h2 style={{ fontWeight: 700 }}>Partners not found</h2>
-        <p className="muted">One or more selected partners could not be loaded.</p>
+        <p className="muted">
+          One or more selected partners could not be loaded.
+        </p>
       </div>
     );
   }
@@ -227,10 +340,27 @@ export default function ComparePartnersPage() {
     <div style={{ maxWidth: 1200, margin: "0 auto" }}>
       {/* Header */}
       <div style={{ marginBottom: "1.5rem" }}>
-        <Link href="/dashboard/partners" style={{ display: "inline-flex", alignItems: "center", gap: 6, color: "var(--muted)", fontSize: ".85rem", textDecoration: "none", marginBottom: 12 }}>
+        <Link
+          href="/dashboard/partners"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 6,
+            color: "var(--muted)",
+            fontSize: ".85rem",
+            textDecoration: "none",
+            marginBottom: 12,
+          }}
+        >
           <ArrowLeft size={14} /> Back to Partners
         </Link>
-        <h1 style={{ fontSize: "1.8rem", fontWeight: 800, letterSpacing: "-.02em" }}>
+        <h1
+          style={{
+            fontSize: "1.8rem",
+            fontWeight: 800,
+            letterSpacing: "-.02em",
+          }}
+        >
           Partner Comparison
         </h1>
         <p className="muted">
@@ -259,20 +389,50 @@ export default function ComparePartnersPage() {
               transition: "transform .15s",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: ".75rem", marginBottom: ".75rem" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: ".75rem",
+                marginBottom: ".75rem",
+              }}
+            >
               <div
                 className="avatar"
-                style={{ background: PARTNER_COLORS[i], color: "#fff", fontWeight: 700 }}
+                style={{
+                  background: PARTNER_COLORS[i],
+                  color: "#fff",
+                  fontWeight: 700,
+                }}
               >
-                {p.name.split(" ").map((w) => w[0]).join("").slice(0, 2)}
+                {p.name
+                  .split(" ")
+                  .map((w) => w[0])
+                  .join("")
+                  .slice(0, 2)}
               </div>
               <div>
-                <div style={{ fontWeight: 700, fontSize: "1rem" }}>{p.name}</div>
-                <div className="muted" style={{ fontSize: ".8rem" }}>{p.contactName || p.email}</div>
+                <div style={{ fontWeight: 700, fontSize: "1rem" }}>
+                  {p.name}
+                </div>
+                <div className="muted" style={{ fontSize: ".8rem" }}>
+                  {p.contactName || p.email}
+                </div>
               </div>
             </div>
-            <div style={{ display: "flex", gap: ".5rem", flexWrap: "wrap", marginBottom: ".5rem" }}>
-              <span className="chip">{PARTNER_TYPE_LABELS[p.type as keyof typeof PARTNER_TYPE_LABELS] ?? p.type}</span>
+            <div
+              style={{
+                display: "flex",
+                gap: ".5rem",
+                flexWrap: "wrap",
+                marginBottom: ".5rem",
+              }}
+            >
+              <span className="chip">
+                {PARTNER_TYPE_LABELS[
+                  p.type as keyof typeof PARTNER_TYPE_LABELS
+                ] ?? p.type}
+              </span>
               <span
                 className="badge"
                 style={{
@@ -283,7 +443,9 @@ export default function ComparePartnersPage() {
               >
                 {TIER_LABELS[p.tier as keyof typeof TIER_LABELS] ?? p.tier}
               </span>
-              <span className={`badge badge-${p.status === "active" ? "success" : p.status === "pending" ? "info" : "danger"}`}>
+              <span
+                className={`badge badge-${p.status === "active" ? "success" : p.status === "pending" ? "info" : "danger"}`}
+              >
                 {p.status}
               </span>
             </div>
@@ -310,8 +472,12 @@ export default function ComparePartnersPage() {
                 })}
               </div>
             )}
-            <div className="muted" style={{ fontSize: ".75rem", marginTop: ".5rem" }}>
-              {p.territory ? `📍 ${p.territory}` : ""} · {p.commissionRate}% rate · Last active: {relTime(p.lastActivity)}
+            <div
+              className="muted"
+              style={{ fontSize: ".75rem", marginTop: ".5rem" }}
+            >
+              {p.territory ? `📍 ${p.territory}` : ""} · {p.commissionRate}%
+              rate · Last active: {relTime(p.lastActivity)}
             </div>
           </Link>
         ))}
@@ -319,20 +485,53 @@ export default function ComparePartnersPage() {
 
       {/* Revenue Bars — visual comparison */}
       <div className="card" style={{ marginBottom: "1.5rem" }}>
-        <h3 style={{ fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: 8 }}>
+        <h3
+          style={{
+            fontWeight: 700,
+            marginBottom: "1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
           <Trophy size={18} color="#f59e0b" /> Revenue Comparison
         </h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}>
+        <div
+          style={{ display: "flex", flexDirection: "column", gap: ".75rem" }}
+        >
           {partners.map((p, i) => {
-            const pct = maxRevenue > 0 ? (p.totalRevenue / maxRevenue) * 100 : 0;
+            const pct =
+              maxRevenue > 0 ? (p.totalRevenue / maxRevenue) * 100 : 0;
             const isBest = i === bestIdx(partners, (x) => x.totalRevenue);
             return (
-              <div key={p._id} style={{ display: "flex", alignItems: "center", gap: ".75rem" }}>
-                <div style={{ width: 120, fontSize: ".85rem", fontWeight: 600, flexShrink: 0, display: "flex", alignItems: "center", gap: 6 }}>
+              <div
+                key={p._id}
+                style={{ display: "flex", alignItems: "center", gap: ".75rem" }}
+              >
+                <div
+                  style={{
+                    width: 120,
+                    fontSize: ".85rem",
+                    fontWeight: 600,
+                    flexShrink: 0,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                  }}
+                >
                   {isBest && <Crown size={14} color="#f59e0b" />}
                   {p.name.split(" ")[0]}
                 </div>
-                <div style={{ flex: 1, height: 28, background: "var(--border)", borderRadius: 6, overflow: "hidden", position: "relative" }}>
+                <div
+                  style={{
+                    flex: 1,
+                    height: 28,
+                    background: "var(--border)",
+                    borderRadius: 6,
+                    overflow: "hidden",
+                    position: "relative",
+                  }}
+                >
                   <div
                     style={{
                       width: `${Math.max(pct, 2)}%`,
@@ -342,14 +541,16 @@ export default function ComparePartnersPage() {
                       transition: "width .6s ease-out",
                     }}
                   />
-                  <span style={{
-                    position: "absolute",
-                    right: 10,
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    fontSize: ".8rem",
-                    fontWeight: 700,
-                  }}>
+                  <span
+                    style={{
+                      position: "absolute",
+                      right: 10,
+                      top: "50%",
+                      transform: "translateY(-50%)",
+                      fontSize: ".8rem",
+                      fontWeight: 700,
+                    }}
+                  >
                     {fmt(p.totalRevenue)}
                   </span>
                 </div>
@@ -360,12 +561,34 @@ export default function ComparePartnersPage() {
       </div>
 
       {/* Metrics Table */}
-      <div className="card" style={{ padding: 0, overflow: "hidden", marginBottom: "1.5rem" }}>
+      <div
+        className="card"
+        style={{ padding: 0, overflow: "hidden", marginBottom: "1.5rem" }}
+      >
         <div className="table-responsive">
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: ".9rem" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse",
+              fontSize: ".9rem",
+            }}
+          >
             <thead>
-              <tr style={{ borderBottom: "1px solid var(--border)", background: "var(--subtle)" }}>
-                <th style={{ padding: ".8rem 1.2rem", textAlign: "left", fontWeight: 600, fontSize: ".8rem", color: "var(--muted)" }}>
+              <tr
+                style={{
+                  borderBottom: "1px solid var(--border)",
+                  background: "var(--subtle)",
+                }}
+              >
+                <th
+                  style={{
+                    padding: ".8rem 1.2rem",
+                    textAlign: "left",
+                    fontWeight: 600,
+                    fontSize: ".8rem",
+                    color: "var(--muted)",
+                  }}
+                >
                   Metric
                 </th>
                 {partners.map((p, i) => (
@@ -387,8 +610,17 @@ export default function ComparePartnersPage() {
             </thead>
             <tbody>
               {metrics.map((row) => (
-                <tr key={row.label} style={{ borderBottom: "1px solid var(--border)" }}>
-                  <td style={{ padding: ".7rem 1.2rem", fontWeight: 500, fontSize: ".85rem" }}>
+                <tr
+                  key={row.label}
+                  style={{ borderBottom: "1px solid var(--border)" }}
+                >
+                  <td
+                    style={{
+                      padding: ".7rem 1.2rem",
+                      fontWeight: 500,
+                      fontSize: ".85rem",
+                    }}
+                  >
                     {row.label}
                   </td>
                   {row.values.map((val, i) => {
@@ -408,7 +640,11 @@ export default function ComparePartnersPage() {
                       >
                         {val}
                         {isBest && !allEqual && (
-                          <Crown size={12} color="#22c55e" style={{ marginLeft: 6, verticalAlign: "middle" }} />
+                          <Crown
+                            size={12}
+                            color="#22c55e"
+                            style={{ marginLeft: 6, verticalAlign: "middle" }}
+                          />
                         )}
                       </td>
                     );
@@ -422,26 +658,59 @@ export default function ComparePartnersPage() {
 
       {/* Monthly Revenue Trend */}
       <div className="card" style={{ marginBottom: "1.5rem" }}>
-        <h3 style={{ fontWeight: 700, marginBottom: "1rem", display: "flex", alignItems: "center", gap: 8 }}>
-          <TrendingUp size={18} color="#6366f1" /> Monthly Revenue Trend (6 months)
+        <h3
+          style={{
+            fontWeight: 700,
+            marginBottom: "1rem",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <TrendingUp size={18} color="#6366f1" /> Monthly Revenue Trend (6
+          months)
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: ".5rem" }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(6, 1fr)",
+            gap: ".5rem",
+          }}
+        >
           {/* Month headers */}
           {(partners[0]?.monthlyRevenue ?? []).map((m) => (
-            <div key={m.month} style={{ textAlign: "center", fontSize: ".75rem", color: "var(--muted)", fontWeight: 600, paddingBottom: ".5rem" }}>
+            <div
+              key={m.month}
+              style={{
+                textAlign: "center",
+                fontSize: ".75rem",
+                color: "var(--muted)",
+                fontWeight: 600,
+                paddingBottom: ".5rem",
+              }}
+            >
               {m.month}
             </div>
           ))}
           {/* Bars per month per partner */}
           {(partners[0]?.monthlyRevenue ?? []).map((_, mi) => {
-            const monthMax = Math.max(...partners.map((p) => p.monthlyRevenue[mi]?.revenue ?? 0), 1);
+            const monthMax = Math.max(
+              ...partners.map((p) => p.monthlyRevenue[mi]?.revenue ?? 0),
+              1,
+            );
             return (
-              <div key={mi} style={{ display: "flex", flexDirection: "column", gap: 3 }}>
+              <div
+                key={mi}
+                style={{ display: "flex", flexDirection: "column", gap: 3 }}
+              >
                 {partners.map((p, pi) => {
                   const rev = p.monthlyRevenue[mi]?.revenue ?? 0;
                   const pct = (rev / monthMax) * 100;
                   return (
-                    <div key={p._id} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <div
+                      key={p._id}
+                      style={{ display: "flex", alignItems: "center", gap: 4 }}
+                    >
                       <div
                         style={{
                           flex: 1,
@@ -461,7 +730,14 @@ export default function ComparePartnersPage() {
                           }}
                         />
                       </div>
-                      <span style={{ fontSize: ".65rem", color: "var(--muted)", minWidth: 30, textAlign: "right" }}>
+                      <span
+                        style={{
+                          fontSize: ".65rem",
+                          color: "var(--muted)",
+                          minWidth: 30,
+                          textAlign: "right",
+                        }}
+                      >
                         {rev > 0 ? fmt(rev) : "—"}
                       </span>
                     </div>
@@ -472,10 +748,32 @@ export default function ComparePartnersPage() {
           })}
         </div>
         {/* Legend */}
-        <div style={{ display: "flex", gap: "1.5rem", marginTop: ".75rem", justifyContent: "center" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "1.5rem",
+            marginTop: ".75rem",
+            justifyContent: "center",
+          }}
+        >
           {partners.map((p, i) => (
-            <div key={p._id} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: ".8rem" }}>
-              <div style={{ width: 10, height: 10, borderRadius: 3, background: PARTNER_COLORS[i] }} />
+            <div
+              key={p._id}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontSize: ".8rem",
+              }}
+            >
+              <div
+                style={{
+                  width: 10,
+                  height: 10,
+                  borderRadius: 3,
+                  background: PARTNER_COLORS[i],
+                }}
+              />
               {p.name}
             </div>
           ))}
@@ -485,51 +783,98 @@ export default function ComparePartnersPage() {
       {/* Summary Insights */}
       <div className="card">
         <h3 style={{ fontWeight: 700, marginBottom: "1rem" }}>Key Insights</h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: ".5rem", fontSize: ".9rem" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: ".5rem",
+            fontSize: ".9rem",
+          }}
+        >
           {(() => {
             const insights: string[] = [];
 
             // Revenue leader
-            const revLeader = partners[bestIdx(partners, (p) => p.totalRevenue)];
-            const revSecond = partners.filter((p) => p._id !== revLeader._id).sort((a, b) => b.totalRevenue - a.totalRevenue)[0];
+            const revLeader =
+              partners[bestIdx(partners, (p) => p.totalRevenue)];
+            const revSecond = partners
+              .filter((p) => p._id !== revLeader._id)
+              .sort((a, b) => b.totalRevenue - a.totalRevenue)[0];
             if (revLeader.totalRevenue > 0 && revSecond) {
               const gap = revLeader.totalRevenue - revSecond.totalRevenue;
-              insights.push(`${revLeader.name} leads in revenue by ${fmt(gap)} over ${revSecond.name}.`);
+              insights.push(
+                `${revLeader.name} leads in revenue by ${fmt(gap)} over ${revSecond.name}.`,
+              );
             }
 
             // Win rate comparison
             const wrLeader = partners[bestIdx(partners, (p) => p.winRate)];
-            const wrLowest = partners.reduce((min, p) => p.winRate < min.winRate ? p : min, partners[0]);
-            if (wrLeader.winRate > wrLowest.winRate && wrLeader._id !== wrLowest._id) {
-              insights.push(`${wrLeader.name} has the highest win rate (${wrLeader.winRate}%) — ${wrLeader.winRate - wrLowest.winRate}pp above ${wrLowest.name} (${wrLowest.winRate}%).`);
+            const wrLowest = partners.reduce(
+              (min, p) => (p.winRate < min.winRate ? p : min),
+              partners[0],
+            );
+            if (
+              wrLeader.winRate > wrLowest.winRate &&
+              wrLeader._id !== wrLowest._id
+            ) {
+              insights.push(
+                `${wrLeader.name} has the highest win rate (${wrLeader.winRate}%) — ${wrLeader.winRate - wrLowest.winRate}pp above ${wrLowest.name} (${wrLowest.winRate}%).`,
+              );
             }
 
             // Engagement
-            const engLeader = partners[bestIdx(partners, (p) => p.touchpointsLast90)];
+            const engLeader =
+              partners[bestIdx(partners, (p) => p.touchpointsLast90)];
             if (engLeader.touchpointsLast90 > 0) {
-              insights.push(`${engLeader.name} is most engaged with ${engLeader.touchpointsLast90} touchpoints in the last 90 days.`);
+              insights.push(
+                `${engLeader.name} is most engaged with ${engLeader.touchpointsLast90} touchpoints in the last 90 days.`,
+              );
             }
 
             // Deal size
             const dsLeader = partners[bestIdx(partners, (p) => p.avgDealSize)];
-            const dsSmallest = partners.reduce((min, p) => p.avgDealSize > 0 && (min.avgDealSize === 0 || p.avgDealSize < min.avgDealSize) ? p : min, partners[0]);
-            if (dsLeader.avgDealSize > dsSmallest.avgDealSize && dsLeader._id !== dsSmallest._id && dsSmallest.avgDealSize > 0) {
-              const mult = (dsLeader.avgDealSize / dsSmallest.avgDealSize).toFixed(1);
-              insights.push(`${dsLeader.name}'s avg deal (${fmt(dsLeader.avgDealSize)}) is ${mult}× larger than ${dsSmallest.name}'s (${fmt(dsSmallest.avgDealSize)}).`);
+            const dsSmallest = partners.reduce(
+              (min, p) =>
+                p.avgDealSize > 0 &&
+                (min.avgDealSize === 0 || p.avgDealSize < min.avgDealSize)
+                  ? p
+                  : min,
+              partners[0],
+            );
+            if (
+              dsLeader.avgDealSize > dsSmallest.avgDealSize &&
+              dsLeader._id !== dsSmallest._id &&
+              dsSmallest.avgDealSize > 0
+            ) {
+              const mult = (
+                dsLeader.avgDealSize / dsSmallest.avgDealSize
+              ).toFixed(1);
+              insights.push(
+                `${dsLeader.name}'s avg deal (${fmt(dsLeader.avgDealSize)}) is ${mult}× larger than ${dsSmallest.name}'s (${fmt(dsSmallest.avgDealSize)}).`,
+              );
             }
 
             // Inactive warning
-            const inactive = partners.filter((p) => p.dealsLast30 === 0 && p.touchpointsLast90 === 0);
+            const inactive = partners.filter(
+              (p) => p.dealsLast30 === 0 && p.touchpointsLast90 === 0,
+            );
             if (inactive.length > 0) {
-              insights.push(`⚠️ ${inactive.map((p) => p.name).join(" and ")} ${inactive.length === 1 ? "has" : "have"} no recent activity — may need re-engagement.`);
+              insights.push(
+                `⚠️ ${inactive.map((p) => p.name).join(" and ")} ${inactive.length === 1 ? "has" : "have"} no recent activity — may need re-engagement.`,
+              );
             }
 
             if (insights.length === 0) {
-              insights.push("Not enough data to generate insights. As partners register deals and log touchpoints, comparison insights will appear here.");
+              insights.push(
+                "Not enough data to generate insights. As partners register deals and log touchpoints, comparison insights will appear here.",
+              );
             }
 
             return insights.map((text, i) => (
-              <div key={i} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+              <div
+                key={i}
+                style={{ display: "flex", gap: 8, alignItems: "flex-start" }}
+              >
                 <span style={{ color: "var(--muted)", flexShrink: 0 }}>•</span>
                 <span style={{ lineHeight: 1.5 }}>{text}</span>
               </div>

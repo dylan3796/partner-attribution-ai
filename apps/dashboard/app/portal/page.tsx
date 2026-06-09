@@ -133,7 +133,7 @@ export default function PortalDashboard() {
   );
 
   // Declared before the early return so hooks run unconditionally.
-  const [showOnboardingBanner, setShowOnboardingBanner] = useState(() => {
+  const [showOnboardingBanner] = useState(() => {
     if (typeof window === "undefined") return true;
     return localStorage.getItem("covant_onboarding_done") !== "true";
   });

@@ -34,25 +34,25 @@ export const getStats = query({
       ctx.db
         .query("deals")
         .withIndex("by_organization", (q: any) =>
-          q.eq("organizationId", org._id)
+          q.eq("organizationId", org._id),
         )
         .collect(),
       ctx.db
         .query("partners")
         .withIndex("by_organization", (q: any) =>
-          q.eq("organizationId", org._id)
+          q.eq("organizationId", org._id),
         )
         .collect(),
       ctx.db
         .query("payouts")
         .withIndex("by_organization", (q: any) =>
-          q.eq("organizationId", org._id)
+          q.eq("organizationId", org._id),
         )
         .collect(),
       ctx.db
         .query("attributions")
         .withIndex("by_organization", (q: any) =>
-          q.eq("organizationId", org._id)
+          q.eq("organizationId", org._id),
         )
         .collect(),
     ]);
@@ -60,15 +60,18 @@ export const getStats = query({
     const wonDeals = deals.filter((d: any) => d.status === "won");
     const openDeals = deals.filter((d: any) => d.status === "open");
     const lostDeals = deals.filter((d: any) => d.status === "lost");
-    const totalRevenue = wonDeals.reduce((s: number, d: any) => s + d.amount, 0);
+    const totalRevenue = wonDeals.reduce(
+      (s: number, d: any) => s + d.amount,
+      0,
+    );
     const pipelineValue = openDeals.reduce(
       (s: number, d: any) => s + d.amount,
-      0
+      0,
     );
     const closedCount = wonDeals.length + lostDeals.length;
     const activePartners = partners.filter((p: any) => p.status === "active");
     const pendingPays = payouts.filter(
-      (p: any) => p.status === "pending_approval"
+      (p: any) => p.status === "pending_approval",
     );
 
     return {
@@ -81,19 +84,18 @@ export const getStats = query({
       activePartners: activePartners.length,
       totalPartners: partners.length,
       winRate:
-        closedCount > 0
-          ? Math.round((wonDeals.length / closedCount) * 100)
-          : 0,
+        closedCount > 0 ? Math.round((wonDeals.length / closedCount) * 100) : 0,
       avgDealSize:
-        wonDeals.length > 0
-          ? Math.round(totalRevenue / wonDeals.length)
-          : 0,
+        wonDeals.length > 0 ? Math.round(totalRevenue / wonDeals.length) : 0,
       // Each deal carries exactly one model (its program's), so summing all
       // ledger rows is the org-wide commission across every program.
       totalCommissions: Math.round(
-        attributions.reduce((s: number, a: any) => s + a.commissionAmount, 0)
+        attributions.reduce((s: number, a: any) => s + a.commissionAmount, 0),
       ),
-      pendingPayouts: pendingPays.reduce((s: number, p: any) => s + p.amount, 0),
+      pendingPayouts: pendingPays.reduce(
+        (s: number, p: any) => s + p.amount,
+        0,
+      ),
     };
   },
 });
@@ -105,9 +107,7 @@ export const getRecentDeals = query({
     if (!org) return [];
     return await ctx.db
       .query("deals")
-      .withIndex("by_organization", (q: any) =>
-        q.eq("organizationId", org._id)
-      )
+      .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
       .order("desc")
       .take(5);
   },
@@ -121,7 +121,7 @@ export const getTopPartners = query({
     return await ctx.db
       .query("partners")
       .withIndex("by_org_and_status", (q: any) =>
-        q.eq("organizationId", org._id).eq("status", "active")
+        q.eq("organizationId", org._id).eq("status", "active"),
       )
       .take(5);
   },
@@ -135,14 +135,14 @@ export const getPendingPayouts = query({
     const payouts = await ctx.db
       .query("payouts")
       .withIndex("by_org_and_status", (q: any) =>
-        q.eq("organizationId", org._id).eq("status", "pending_approval")
+        q.eq("organizationId", org._id).eq("status", "pending_approval"),
       )
       .collect();
     return await Promise.all(
       payouts.map(async (payout: any) => {
         const partner = await ctx.db.get(payout.partnerId);
         return { ...payout, partner: partner ?? undefined };
-      })
+      }),
     );
   },
 });
@@ -154,9 +154,7 @@ export const getRecentAuditLog = query({
     if (!org) return [];
     return await ctx.db
       .query("audit_log")
-      .withIndex("by_organization", (q: any) =>
-        q.eq("organizationId", org._id)
-      )
+      .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
       .order("desc")
       .take(5);
   },
@@ -169,9 +167,7 @@ export const getAuditLog = query({
     if (!org) return [];
     return await ctx.db
       .query("audit_log")
-      .withIndex("by_organization", (q: any) =>
-        q.eq("organizationId", org._id)
-      )
+      .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
       .order("desc")
       .take(args.limit ?? 50);
   },
@@ -201,8 +197,6 @@ const MODELS: AttributionModel[] = [
   "implementation_credit",
   "marketplace_cosell_hybrid",
 ];
-// The model treated as the primary lens for single-number rollups.
-const PRIMARY_MODEL: AttributionModel = "role_weighted";
 
 /**
  * Get partner-by-model attribution data for leaderboards and radar charts
@@ -216,22 +210,32 @@ export const getPartnerModelData = query({
     const [partners, attributions] = await Promise.all([
       ctx.db
         .query("partners")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
       ctx.db
         .query("attributions")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
     ]);
 
     // Aggregate by partner and model
-    const partnerData: Record<string, Record<string, {
-      revenue: number;
-      commission: number;
-      deals: string[];
-      pct: number;
-      count: number;
-    }>> = {};
+    const partnerData: Record<
+      string,
+      Record<
+        string,
+        {
+          revenue: number;
+          commission: number;
+          deals: string[];
+          pct: number;
+          count: number;
+        }
+      >
+    > = {};
 
     for (const a of attributions) {
       if (!partnerData[a.partnerId]) partnerData[a.partnerId] = {};
@@ -279,7 +283,10 @@ export const getModelComparison = query({
       .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
       .collect();
 
-    const totals: Record<string, { revenue: number; commission: number; deals: Set<string> }> = {};
+    const totals: Record<
+      string,
+      { revenue: number; commission: number; deals: Set<string> }
+    > = {};
     for (const m of MODELS) {
       totals[m] = { revenue: 0, commission: 0, deals: new Set() };
     }
@@ -313,15 +320,21 @@ export const getAllAttributions = query({
     const [attributions, partners, deals] = await Promise.all([
       ctx.db
         .query("attributions")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
       ctx.db
         .query("partners")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
       ctx.db
         .query("deals")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
     ]);
 
@@ -343,23 +356,44 @@ export const getPipelineDeals = query({
   args: {},
   handler: async (ctx) => {
     const org = await defaultOrg(ctx);
-    if (!org) return { open: [], won: [], lost: [], total: 0, openValue: 0, wonValue: 0, lostValue: 0 };
-    
+    if (!org)
+      return {
+        open: [],
+        won: [],
+        lost: [],
+        total: 0,
+        openValue: 0,
+        wonValue: 0,
+        lostValue: 0,
+      };
+
     const [deals, touchpoints, partners, attributions] = await Promise.all([
-      ctx.db.query("deals")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      ctx.db
+        .query("deals")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
-      ctx.db.query("touchpoints")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      ctx.db
+        .query("touchpoints")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
-      ctx.db.query("partners")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      ctx.db
+        .query("partners")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
-      ctx.db.query("attributions")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      ctx.db
+        .query("attributions")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
     ]);
-    
+
     const partnerMap = new Map(partners.map((p: any) => [p._id, p]));
 
     // Pre-build deal-indexed Maps for O(1) lookups
@@ -380,30 +414,38 @@ export const getPipelineDeals = query({
     const enriched = deals.map((d: any) => {
       const dealTouchpoints = touchpointsByDeal.get(d._id) ?? [];
       const dealAttributions = attributionsByDeal.get(d._id) ?? [];
-      const registeredPartner = d.registeredBy ? partnerMap.get(d.registeredBy) : null;
-      
+      const registeredPartner = d.registeredBy
+        ? partnerMap.get(d.registeredBy)
+        : null;
+
       // Get all partners who touched this deal
-      const involvedPartners = [...new Set(dealTouchpoints.map((t: any) => t.partnerId))]
+      const involvedPartners = [
+        ...new Set(dealTouchpoints.map((t: any) => t.partnerId)),
+      ]
         .map((pid: any) => {
           const partner = partnerMap.get(pid);
           const attr = dealAttributions.find((a: any) => a.partnerId === pid);
-          return partner ? {
-            _id: partner._id,
-            name: partner.name,
-            tier: partner.tier,
-            type: partner.type,
-            attributionPct: attr?.percentage ?? 0,
-          } : null;
+          return partner
+            ? {
+                _id: partner._id,
+                name: partner.name,
+                tier: partner.tier,
+                type: partner.type,
+                attributionPct: attr?.percentage ?? 0,
+              }
+            : null;
         })
         .filter(Boolean);
-      
+
       return {
         ...d,
-        registeredPartner: registeredPartner ? {
-          _id: registeredPartner._id,
-          name: registeredPartner.name,
-          tier: registeredPartner.tier,
-        } : null,
+        registeredPartner: registeredPartner
+          ? {
+              _id: registeredPartner._id,
+              name: registeredPartner.name,
+              tier: registeredPartner.tier,
+            }
+          : null,
         touchpoints: dealTouchpoints.map((t: any) => ({
           _id: t._id,
           type: t.type,
@@ -414,11 +456,11 @@ export const getPipelineDeals = query({
         involvedPartners,
       };
     });
-    
+
     const open = enriched.filter((d: any) => d.status === "open");
     const won = enriched.filter((d: any) => d.status === "won");
     const lost = enriched.filter((d: any) => d.status === "lost");
-    
+
     return {
       open,
       won,
@@ -439,22 +481,34 @@ export const getPartnerPerformance = query({
   handler: async (ctx) => {
     const org = await defaultOrg(ctx);
     if (!org) return [];
-    
+
     const [partners, deals, touchpoints, attributions] = await Promise.all([
-      ctx.db.query("partners")
-        .withIndex("by_org_and_status", (q: any) => q.eq("organizationId", org._id).eq("status", "active"))
+      ctx.db
+        .query("partners")
+        .withIndex("by_org_and_status", (q: any) =>
+          q.eq("organizationId", org._id).eq("status", "active"),
+        )
         .collect(),
-      ctx.db.query("deals")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      ctx.db
+        .query("deals")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
-      ctx.db.query("touchpoints")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      ctx.db
+        .query("touchpoints")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
-      ctx.db.query("attributions")
-        .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
+      ctx.db
+        .query("attributions")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
         .collect(),
     ]);
-    
+
     // Pre-build partner-indexed Maps for O(1) lookups
     const tpByPartner = new Map<string, any[]>();
     for (const t of touchpoints) {
@@ -478,47 +532,63 @@ export const getPartnerPerformance = query({
       }
     }
 
-    return partners.map((partner: any) => {
-      const partnerTouchpoints = tpByPartner.get(partner._id) ?? [];
-      const dealIds = [...new Set(partnerTouchpoints.map((t: any) => t.dealId))];
-      const partnerDeals = dealIds.map((id: any) => dealMap.get(id)).filter(Boolean);
-      const partnerAttributions = attrByPartner.get(partner._id) ?? [];
+    return partners
+      .map((partner: any) => {
+        const partnerTouchpoints = tpByPartner.get(partner._id) ?? [];
+        const dealIds = [
+          ...new Set(partnerTouchpoints.map((t: any) => t.dealId)),
+        ];
+        const partnerDeals = dealIds
+          .map((id: any) => dealMap.get(id))
+          .filter(Boolean);
+        const partnerAttributions = attrByPartner.get(partner._id) ?? [];
 
-      const wonDeals = partnerDeals.filter((d: any) => d.status === "won");
-      const openDeals = partnerDeals.filter((d: any) => d.status === "open");
-      const registeredDeals = dealsByRegisteredPartner.get(partner._id) ?? [];
-      
-      const totalRevenue = partnerAttributions.reduce((s: number, a: any) => s + a.amount, 0);
-      const totalCommission = partnerAttributions.reduce((s: number, a: any) => s + a.commissionAmount, 0);
-      const openPipeline = openDeals.reduce((s: number, d: any) => s + d.amount, 0);
-      
-      // Calculate incentive eligibility thresholds
-      const metrics = {
-        dealsWon: wonDeals.length,
-        dealsOpen: openDeals.length,
-        dealsRegistered: registeredDeals.length,
-        totalRevenue,
-        totalCommission,
-        openPipeline,
-        touchpointCount: partnerTouchpoints.length,
-        avgDealSize: wonDeals.length > 0 ? totalRevenue / wonDeals.length : 0,
-      };
-      
-      // Determine incentive eligibility based on performance
-      const incentives = {
-        spifEligible: metrics.dealsWon >= 3, // SPIF for 3+ closed deals
-        bonusEligible: metrics.totalRevenue >= 100000, // Bonus for $100k+ revenue
-        acceleratorEligible: metrics.dealsWon >= 5 && metrics.totalRevenue >= 200000, // Top performers
-        dealRegBonus: metrics.dealsRegistered >= 2, // Deal registration bonus
-      };
-      
-      return {
-        ...partner,
-        metrics,
-        incentives,
-        rank: 0, // Will be calculated after sorting
-      };
-    }).sort((a: any, b: any) => b.metrics.totalRevenue - a.metrics.totalRevenue)
+        const wonDeals = partnerDeals.filter((d: any) => d.status === "won");
+        const openDeals = partnerDeals.filter((d: any) => d.status === "open");
+        const registeredDeals = dealsByRegisteredPartner.get(partner._id) ?? [];
+
+        const totalRevenue = partnerAttributions.reduce(
+          (s: number, a: any) => s + a.amount,
+          0,
+        );
+        const totalCommission = partnerAttributions.reduce(
+          (s: number, a: any) => s + a.commissionAmount,
+          0,
+        );
+        const openPipeline = openDeals.reduce(
+          (s: number, d: any) => s + d.amount,
+          0,
+        );
+
+        // Calculate incentive eligibility thresholds
+        const metrics = {
+          dealsWon: wonDeals.length,
+          dealsOpen: openDeals.length,
+          dealsRegistered: registeredDeals.length,
+          totalRevenue,
+          totalCommission,
+          openPipeline,
+          touchpointCount: partnerTouchpoints.length,
+          avgDealSize: wonDeals.length > 0 ? totalRevenue / wonDeals.length : 0,
+        };
+
+        // Determine incentive eligibility based on performance
+        const incentives = {
+          spifEligible: metrics.dealsWon >= 3, // SPIF for 3+ closed deals
+          bonusEligible: metrics.totalRevenue >= 100000, // Bonus for $100k+ revenue
+          acceleratorEligible:
+            metrics.dealsWon >= 5 && metrics.totalRevenue >= 200000, // Top performers
+          dealRegBonus: metrics.dealsRegistered >= 2, // Deal registration bonus
+        };
+
+        return {
+          ...partner,
+          metrics,
+          incentives,
+          rank: 0, // Will be calculated after sorting
+        };
+      })
+      .sort((a: any, b: any) => b.metrics.totalRevenue - a.metrics.totalRevenue)
       .map((p: any, idx: number) => ({ ...p, rank: idx + 1 }));
   },
 });
@@ -531,20 +601,23 @@ export const getChannelConflicts = query({
   handler: async (ctx) => {
     const org = await defaultOrg(ctx);
     if (!org) return [];
-    
-    const deals = await ctx.db.query("deals")
+
+    const deals = await ctx.db
+      .query("deals")
       .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
       .filter((q: any) => q.eq(q.field("status"), "open"))
       .collect();
-    
-    const touchpoints = await ctx.db.query("touchpoints")
+
+    const touchpoints = await ctx.db
+      .query("touchpoints")
       .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
       .collect();
-    
-    const partners = await ctx.db.query("partners")
+
+    const partners = await ctx.db
+      .query("partners")
       .withIndex("by_organization", (q: any) => q.eq("organizationId", org._id))
       .collect();
-    
+
     const partnerMap = new Map(partners.map((p: any) => [p._id, p]));
 
     // Pre-build deal-indexed touchpoint Map for O(1) lookups
@@ -560,7 +633,9 @@ export const getChannelConflicts = query({
 
     for (const deal of deals) {
       const dealTouchpoints = touchpointsByDeal.get(deal._id) ?? [];
-      const partnerIds = [...new Set(dealTouchpoints.map((t: any) => t.partnerId))];
+      const partnerIds = [
+        ...new Set(dealTouchpoints.map((t: any) => t.partnerId)),
+      ];
 
       if (partnerIds.length > 1) {
         const involvedPartners = partnerIds.map((id: string) => {
@@ -578,7 +653,7 @@ export const getChannelConflicts = query({
         });
       }
     }
-    
+
     return conflicts;
   },
 });
@@ -608,75 +683,73 @@ export const getActionItems = query({
         ctx.db
           .query("partners")
           .withIndex("by_organization", (q: any) =>
-            q.eq("organizationId", org._id)
+            q.eq("organizationId", org._id),
           )
           .collect(),
         ctx.db
           .query("payouts")
           .withIndex("by_org_and_status", (q: any) =>
-            q.eq("organizationId", org._id).eq("status", "pending_approval")
+            q.eq("organizationId", org._id).eq("status", "pending_approval"),
           )
           .collect(),
         ctx.db
           .query("partnerInvites")
           .withIndex("by_organization", (q: any) =>
-            q.eq("organizationId", org._id)
+            q.eq("organizationId", org._id),
           )
           .collect(),
         ctx.db
           .query("email_templates")
           .withIndex("by_organization", (q: any) =>
-            q.eq("organizationId", org._id)
+            q.eq("organizationId", org._id),
           )
           .collect(),
         ctx.db
           .query("mdfRequests")
           .withIndex("by_organization", (q: any) =>
-            q.eq("organizationId", org._id)
+            q.eq("organizationId", org._id),
           )
           .collect(),
         ctx.db
           .query("deals")
           .withIndex("by_organization", (q: any) =>
-            q.eq("organizationId", org._id)
+            q.eq("organizationId", org._id),
           )
           .collect(),
       ]);
 
     // Partners in "pending" status = still onboarding
     const partnersOnboarding = partners.filter(
-      (p: any) => p.status === "pending"
+      (p: any) => p.status === "pending",
     ).length;
 
     // Tier reviews: active partners without a tier assigned (need review)
     const tierReviewsPending = partners.filter(
-      (p: any) => p.status === "active" && !p.tier
+      (p: any) => p.status === "active" && !p.tier,
     ).length;
 
     // Unpaid commissions total
     const unpaidCommissions = payouts.reduce(
       (s: number, p: any) => s + p.amount,
-      0
+      0,
     );
 
     // Pending invites (not yet accepted)
     const pendingInvites = invites.filter(
-      (i: any) => i.status === "pending"
+      (i: any) => i.status === "pending",
     ).length;
 
     // Email triggers: enabled / total
-    const enabledEmails = emailTemplates.filter(
-      (t: any) => t.enabled
-    ).length;
+    const enabledEmails = emailTemplates.filter((t: any) => t.enabled).length;
 
     // Pending MDF requests
     const pendingMdf = mdfRequests.filter(
-      (r: any) => r.status === "pending"
+      (r: any) => r.status === "pending",
     ).length;
 
     // Pending deal registrations
     const pendingDealRegs = deals.filter(
-      (d: any) => d.registrationStatus === "pending"
+      (d: any) => d.registrationStatus === "pending",
     ).length;
 
     return {
@@ -717,13 +790,13 @@ export const getTrends = query({
       ctx.db
         .query("deals")
         .withIndex("by_organization", (q: any) =>
-          q.eq("organizationId", org._id)
+          q.eq("organizationId", org._id),
         )
         .collect(),
       ctx.db
         .query("partners")
         .withIndex("by_organization", (q: any) =>
-          q.eq("organizationId", org._id)
+          q.eq("organizationId", org._id),
         )
         .collect(),
     ]);
@@ -743,7 +816,7 @@ export const getTrends = query({
 
       // Revenue: cumulative won deals up to this month
       const wonByMonth = deals.filter(
-        (d: any) => d.status === "won" && d.createdAt <= monthEnd
+        (d: any) => d.status === "won" && d.createdAt <= monthEnd,
       );
       revenue.push(wonByMonth.reduce((s: number, d: any) => s + d.amount, 0));
 
@@ -751,13 +824,14 @@ export const getTrends = query({
       const openByMonth = deals.filter(
         (d: any) =>
           d.createdAt <= monthEnd &&
-          (d.status === "open" || (d.status === "won" && d.createdAt > monthStart))
+          (d.status === "open" ||
+            (d.status === "won" && d.createdAt > monthStart)),
       );
       pipeline.push(openByMonth.reduce((s: number, d: any) => s + d.amount, 0));
 
       // Partners: count of partners created up to this month
       const partnersByMonth = partners.filter(
-        (p: any) => p.createdAt <= monthEnd
+        (p: any) => p.createdAt <= monthEnd,
       );
       partnerCounts.push(partnersByMonth.length);
 
@@ -765,11 +839,15 @@ export const getTrends = query({
       const closedByMonth = deals.filter(
         (d: any) =>
           (d.status === "won" || d.status === "lost") &&
-          d.createdAt <= monthEnd
+          d.createdAt <= monthEnd,
       );
-      const wonCount = closedByMonth.filter((d: any) => d.status === "won").length;
+      const wonCount = closedByMonth.filter(
+        (d: any) => d.status === "won",
+      ).length;
       const closedCount = closedByMonth.length;
-      winRates.push(closedCount > 0 ? Math.round((wonCount / closedCount) * 100) : 0);
+      winRates.push(
+        closedCount > 0 ? Math.round((wonCount / closedCount) * 100) : 0,
+      );
     }
 
     return { revenue, pipeline, partners: partnerCounts, winRate: winRates };
@@ -787,10 +865,30 @@ export const getProgramHealth = query({
     if (!org) return null;
 
     const [deals, partners, payouts, touchpoints] = await Promise.all([
-      ctx.db.query("deals").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
-      ctx.db.query("partners").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
-      ctx.db.query("payouts").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
-      ctx.db.query("touchpoints").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db
+        .query("deals")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
+      ctx.db
+        .query("partners")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
+      ctx.db
+        .query("payouts")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
+      ctx.db
+        .query("touchpoints")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
     ]);
 
     const now = Date.now();
@@ -803,19 +901,27 @@ export const getProgramHealth = query({
     const totalActive = activePartners.length;
     // Build Set of partner IDs with recent touchpoints for O(1) lookup
     const recentlyEngagedPartnerIds = new Set(
-      touchpoints.filter((t: any) => t.createdAt >= ninetyDaysAgo).map((t: any) => t.partnerId)
+      touchpoints
+        .filter((t: any) => t.createdAt >= ninetyDaysAgo)
+        .map((t: any) => t.partnerId),
     );
-    const engagedPartners = totalActive > 0
-      ? activePartners.filter((p: any) => recentlyEngagedPartnerIds.has(p._id)).length
-      : 0;
+    const engagedPartners =
+      totalActive > 0
+        ? activePartners.filter((p: any) =>
+            recentlyEngagedPartnerIds.has(p._id),
+          ).length
+        : 0;
     const engagementRate = totalActive > 0 ? engagedPartners / totalActive : 0;
     const engagementScore = Math.round(Math.min(engagementRate * 1.25, 1) * 25); // 80%+ engagement = full marks
 
     // ── 2. Deal Velocity (0-25) ──
     // Based on win rate and recent deal activity
-    const closedDeals = deals.filter((d: any) => d.status === "won" || d.status === "lost");
+    const closedDeals = deals.filter(
+      (d: any) => d.status === "won" || d.status === "lost",
+    );
     const wonDeals = deals.filter((d: any) => d.status === "won");
-    const winRate = closedDeals.length > 0 ? wonDeals.length / closedDeals.length : 0;
+    const winRate =
+      closedDeals.length > 0 ? wonDeals.length / closedDeals.length : 0;
     const recentDeals = deals.filter((d: any) => d.createdAt >= thirtyDaysAgo);
     const dealActivity = Math.min(recentDeals.length / 5, 1); // 5+ deals in 30 days = full activity
     const velocityScore = Math.round((winRate * 0.6 + dealActivity * 0.4) * 25);
@@ -823,28 +929,67 @@ export const getProgramHealth = query({
     // ── 3. Payout Health (0-25) ──
     // Low pending-to-total ratio = healthy
     const totalPayouts = payouts.length;
-    const pendingPayouts = payouts.filter((p: any) => p.status === "pending_approval" || p.status === "pending");
+    const pendingPayouts = payouts.filter(
+      (p: any) => p.status === "pending_approval" || p.status === "pending",
+    );
     const paidPayouts = payouts.filter((p: any) => p.status === "paid");
-    const payoutRatio = totalPayouts > 0 ? paidPayouts.length / totalPayouts : 1;
+    const payoutRatio =
+      totalPayouts > 0 ? paidPayouts.length / totalPayouts : 1;
     const payoutScore = Math.round(payoutRatio * 25);
 
     // ── 4. Program Growth (0-25) ──
     // New partners and deals in last 30 days relative to total
-    const newPartners30d = partners.filter((p: any) => p.createdAt >= thirtyDaysAgo).length;
-    const partnerGrowth = totalActive > 0 ? Math.min(newPartners30d / totalActive, 1) : (newPartners30d > 0 ? 1 : 0);
-    const newDeals30d = deals.filter((d: any) => d.createdAt >= thirtyDaysAgo).length;
-    const dealGrowth = deals.length > 0 ? Math.min(newDeals30d / Math.max(deals.length * 0.2, 1), 1) : (newDeals30d > 0 ? 1 : 0);
-    const growthScore = Math.round((partnerGrowth * 0.5 + dealGrowth * 0.5) * 25);
+    const newPartners30d = partners.filter(
+      (p: any) => p.createdAt >= thirtyDaysAgo,
+    ).length;
+    const partnerGrowth =
+      totalActive > 0
+        ? Math.min(newPartners30d / totalActive, 1)
+        : newPartners30d > 0
+          ? 1
+          : 0;
+    const newDeals30d = deals.filter(
+      (d: any) => d.createdAt >= thirtyDaysAgo,
+    ).length;
+    const dealGrowth =
+      deals.length > 0
+        ? Math.min(newDeals30d / Math.max(deals.length * 0.2, 1), 1)
+        : newDeals30d > 0
+          ? 1
+          : 0;
+    const growthScore = Math.round(
+      (partnerGrowth * 0.5 + dealGrowth * 0.5) * 25,
+    );
 
     const overall = engagementScore + velocityScore + payoutScore + growthScore;
 
     return {
       overall,
       categories: {
-        engagement: { score: engagementScore, max: 25, label: "Partner Engagement", detail: `${engagedPartners}/${totalActive} active in 90d` },
-        velocity: { score: velocityScore, max: 25, label: "Deal Velocity", detail: `${Math.round(winRate * 100)}% win rate` },
-        payouts: { score: payoutScore, max: 25, label: "Payout Health", detail: `${pendingPayouts.length} pending` },
-        growth: { score: growthScore, max: 25, label: "Program Growth", detail: `+${newPartners30d} partners, +${newDeals30d} deals (30d)` },
+        engagement: {
+          score: engagementScore,
+          max: 25,
+          label: "Partner Engagement",
+          detail: `${engagedPartners}/${totalActive} active in 90d`,
+        },
+        velocity: {
+          score: velocityScore,
+          max: 25,
+          label: "Deal Velocity",
+          detail: `${Math.round(winRate * 100)}% win rate`,
+        },
+        payouts: {
+          score: payoutScore,
+          max: 25,
+          label: "Payout Health",
+          detail: `${pendingPayouts.length} pending`,
+        },
+        growth: {
+          score: growthScore,
+          max: 25,
+          label: "Program Growth",
+          detail: `+${newPartners30d} partners, +${newDeals30d} deals (30d)`,
+        },
       },
     };
   },
@@ -879,7 +1024,12 @@ export const getDashboardData = query({
           pendingMdfRequests: 0,
           pendingDealRegs: 0,
         },
-        trends: { revenue: [] as number[], pipeline: [] as number[], partners: [] as number[], winRate: [] as number[] },
+        trends: {
+          revenue: [] as number[],
+          pipeline: [] as number[],
+          partners: [] as number[],
+          winRate: [] as number[],
+        },
         programHealth: null,
       };
     }
@@ -896,26 +1046,82 @@ export const getDashboardData = query({
       mdfRequests,
       touchpoints,
     ] = await Promise.all([
-      ctx.db.query("deals").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
-      ctx.db.query("partners").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
-      ctx.db.query("payouts").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
-      ctx.db.query("attributions").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
-      ctx.db.query("audit_log").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).order("desc").take(5),
-      ctx.db.query("partnerInvites").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
-      ctx.db.query("email_templates").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
-      ctx.db.query("mdfRequests").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
-      ctx.db.query("touchpoints").withIndex("by_organization", (q: any) => q.eq("organizationId", org._id)).collect(),
+      ctx.db
+        .query("deals")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
+      ctx.db
+        .query("partners")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
+      ctx.db
+        .query("payouts")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
+      ctx.db
+        .query("attributions")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
+      ctx.db
+        .query("audit_log")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .order("desc")
+        .take(5),
+      ctx.db
+        .query("partnerInvites")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
+      ctx.db
+        .query("email_templates")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
+      ctx.db
+        .query("mdfRequests")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
+      ctx.db
+        .query("touchpoints")
+        .withIndex("by_organization", (q: any) =>
+          q.eq("organizationId", org._id),
+        )
+        .collect(),
     ]);
 
     // ── Stats ──
     const wonDeals = deals.filter((d: any) => d.status === "won");
     const openDeals = deals.filter((d: any) => d.status === "open");
     const lostDeals = deals.filter((d: any) => d.status === "lost");
-    const totalRevenue = wonDeals.reduce((s: number, d: any) => s + d.amount, 0);
-    const pipelineValue = openDeals.reduce((s: number, d: any) => s + d.amount, 0);
+    const totalRevenue = wonDeals.reduce(
+      (s: number, d: any) => s + d.amount,
+      0,
+    );
+    const pipelineValue = openDeals.reduce(
+      (s: number, d: any) => s + d.amount,
+      0,
+    );
     const closedCount = wonDeals.length + lostDeals.length;
-    const activePartnersList = partners.filter((p: any) => p.status === "active");
-    const pendingPays = payouts.filter((p: any) => p.status === "pending_approval");
+    const activePartnersList = partners.filter(
+      (p: any) => p.status === "active",
+    );
+    const pendingPays = payouts.filter(
+      (p: any) => p.status === "pending_approval",
+    );
 
     const stats = {
       totalRevenue,
@@ -926,16 +1132,23 @@ export const getDashboardData = query({
       lostDeals: lostDeals.length,
       activePartners: activePartnersList.length,
       totalPartners: partners.length,
-      winRate: closedCount > 0 ? Math.round((wonDeals.length / closedCount) * 100) : 0,
-      avgDealSize: wonDeals.length > 0 ? Math.round(totalRevenue / wonDeals.length) : 0,
+      winRate:
+        closedCount > 0 ? Math.round((wonDeals.length / closedCount) * 100) : 0,
+      avgDealSize:
+        wonDeals.length > 0 ? Math.round(totalRevenue / wonDeals.length) : 0,
       totalCommissions: Math.round(
-        attributions.reduce((s: number, a: any) => s + a.commissionAmount, 0)
+        attributions.reduce((s: number, a: any) => s + a.commissionAmount, 0),
       ),
-      pendingPayouts: pendingPays.reduce((s: number, p: any) => s + p.amount, 0),
+      pendingPayouts: pendingPays.reduce(
+        (s: number, p: any) => s + p.amount,
+        0,
+      ),
     };
 
     // ── Recent Deals (sorted desc, take 5) ──
-    const recentDeals = [...deals].sort((a: any, b: any) => b._creationTime - a._creationTime).slice(0, 5);
+    const recentDeals = [...deals]
+      .sort((a: any, b: any) => b._creationTime - a._creationTime)
+      .slice(0, 5);
 
     // ── Top Partners (active, take 5) ──
     const topPartners = activePartnersList.slice(0, 5);
@@ -945,17 +1158,30 @@ export const getDashboardData = query({
       pendingPays.map(async (payout: any) => {
         const partner = await ctx.db.get(payout.partnerId);
         return { ...payout, partner: partner ?? undefined };
-      })
+      }),
     );
 
     // ── Action Items ──
-    const partnersOnboarding = partners.filter((p: any) => p.status === "pending").length;
-    const tierReviewsPending = partners.filter((p: any) => p.status === "active" && !p.tier).length;
-    const unpaidCommissions = pendingPays.reduce((s: number, p: any) => s + p.amount, 0);
-    const pendingInvites = invites.filter((i: any) => i.status === "pending").length;
+    const partnersOnboarding = partners.filter(
+      (p: any) => p.status === "pending",
+    ).length;
+    const tierReviewsPending = partners.filter(
+      (p: any) => p.status === "active" && !p.tier,
+    ).length;
+    const unpaidCommissions = pendingPays.reduce(
+      (s: number, p: any) => s + p.amount,
+      0,
+    );
+    const pendingInvites = invites.filter(
+      (i: any) => i.status === "pending",
+    ).length;
     const enabledEmails = emailTemplates.filter((t: any) => t.enabled).length;
-    const pendingMdf = mdfRequests.filter((r: any) => r.status === "pending").length;
-    const pendingDealRegs = deals.filter((d: any) => d.registrationStatus === "pending").length;
+    const pendingMdf = mdfRequests.filter(
+      (r: any) => r.status === "pending",
+    ).length;
+    const pendingDealRegs = deals.filter(
+      (d: any) => d.registrationStatus === "pending",
+    ).length;
 
     const actionItems = {
       tierReviewsPending,
@@ -980,26 +1206,44 @@ export const getDashboardData = query({
       const monthEnd = now - i * MS_PER_MONTH;
       const monthStart = monthEnd - MS_PER_MONTH;
 
-      const wonByMonth = deals.filter((d: any) => d.status === "won" && d.createdAt <= monthEnd);
+      const wonByMonth = deals.filter(
+        (d: any) => d.status === "won" && d.createdAt <= monthEnd,
+      );
       revenue.push(wonByMonth.reduce((s: number, d: any) => s + d.amount, 0));
 
       const openByMonth = deals.filter(
-        (d: any) => d.createdAt <= monthEnd && (d.status === "open" || (d.status === "won" && d.createdAt > monthStart))
+        (d: any) =>
+          d.createdAt <= monthEnd &&
+          (d.status === "open" ||
+            (d.status === "won" && d.createdAt > monthStart)),
       );
       pipeline.push(openByMonth.reduce((s: number, d: any) => s + d.amount, 0));
 
-      const partnersByMonth = partners.filter((p: any) => p.createdAt <= monthEnd);
+      const partnersByMonth = partners.filter(
+        (p: any) => p.createdAt <= monthEnd,
+      );
       partnerCounts.push(partnersByMonth.length);
 
       const closedByMonth = deals.filter(
-        (d: any) => (d.status === "won" || d.status === "lost") && d.createdAt <= monthEnd
+        (d: any) =>
+          (d.status === "won" || d.status === "lost") &&
+          d.createdAt <= monthEnd,
       );
-      const wonCount = closedByMonth.filter((d: any) => d.status === "won").length;
+      const wonCount = closedByMonth.filter(
+        (d: any) => d.status === "won",
+      ).length;
       const closedTotal = closedByMonth.length;
-      winRates.push(closedTotal > 0 ? Math.round((wonCount / closedTotal) * 100) : 0);
+      winRates.push(
+        closedTotal > 0 ? Math.round((wonCount / closedTotal) * 100) : 0,
+      );
     }
 
-    const trends = { revenue, pipeline, partners: partnerCounts, winRate: winRates };
+    const trends = {
+      revenue,
+      pipeline,
+      partners: partnerCounts,
+      winRate: winRates,
+    };
 
     // ── Program Health ──
     const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
@@ -1008,40 +1252,87 @@ export const getDashboardData = query({
     const totalActive = activePartnersList.length;
     // Build Set of partner IDs with recent touchpoints for O(1) lookup
     const recentlyEngagedIds = new Set(
-      touchpoints.filter((t: any) => t.createdAt >= ninetyDaysAgo).map((t: any) => t.partnerId)
+      touchpoints
+        .filter((t: any) => t.createdAt >= ninetyDaysAgo)
+        .map((t: any) => t.partnerId),
     );
-    const engagedPartners = totalActive > 0
-      ? activePartnersList.filter((p: any) => recentlyEngagedIds.has(p._id)).length
-      : 0;
+    const engagedPartners =
+      totalActive > 0
+        ? activePartnersList.filter((p: any) => recentlyEngagedIds.has(p._id))
+            .length
+        : 0;
     const engagementRate = totalActive > 0 ? engagedPartners / totalActive : 0;
     const engagementScore = Math.round(Math.min(engagementRate * 1.25, 1) * 25);
 
     const winRateVal = closedCount > 0 ? wonDeals.length / closedCount : 0;
-    const recentDealsCount = deals.filter((d: any) => d.createdAt >= thirtyDaysAgo).length;
+    const recentDealsCount = deals.filter(
+      (d: any) => d.createdAt >= thirtyDaysAgo,
+    ).length;
     const dealActivity = Math.min(recentDealsCount / 5, 1);
-    const velocityScore = Math.round((winRateVal * 0.6 + dealActivity * 0.4) * 25);
+    const velocityScore = Math.round(
+      (winRateVal * 0.6 + dealActivity * 0.4) * 25,
+    );
 
     const totalPayoutsCount = payouts.length;
-    const pendingPayoutsCount = payouts.filter((p: any) => p.status === "pending_approval" || p.status === "pending").length;
+    const pendingPayoutsCount = payouts.filter(
+      (p: any) => p.status === "pending_approval" || p.status === "pending",
+    ).length;
     const paidPayouts = payouts.filter((p: any) => p.status === "paid");
-    const payoutRatio = totalPayoutsCount > 0 ? paidPayouts.length / totalPayoutsCount : 1;
+    const payoutRatio =
+      totalPayoutsCount > 0 ? paidPayouts.length / totalPayoutsCount : 1;
     const payoutScore = Math.round(payoutRatio * 25);
 
-    const newPartners30d = partners.filter((p: any) => p.createdAt >= thirtyDaysAgo).length;
-    const partnerGrowth = totalActive > 0 ? Math.min(newPartners30d / totalActive, 1) : (newPartners30d > 0 ? 1 : 0);
-    const newDeals30d = deals.filter((d: any) => d.createdAt >= thirtyDaysAgo).length;
-    const dealGrowth = deals.length > 0 ? Math.min(newDeals30d / Math.max(deals.length * 0.2, 1), 1) : (newDeals30d > 0 ? 1 : 0);
-    const growthScore = Math.round((partnerGrowth * 0.5 + dealGrowth * 0.5) * 25);
+    const newPartners30d = partners.filter(
+      (p: any) => p.createdAt >= thirtyDaysAgo,
+    ).length;
+    const partnerGrowth =
+      totalActive > 0
+        ? Math.min(newPartners30d / totalActive, 1)
+        : newPartners30d > 0
+          ? 1
+          : 0;
+    const newDeals30d = deals.filter(
+      (d: any) => d.createdAt >= thirtyDaysAgo,
+    ).length;
+    const dealGrowth =
+      deals.length > 0
+        ? Math.min(newDeals30d / Math.max(deals.length * 0.2, 1), 1)
+        : newDeals30d > 0
+          ? 1
+          : 0;
+    const growthScore = Math.round(
+      (partnerGrowth * 0.5 + dealGrowth * 0.5) * 25,
+    );
 
     const overall = engagementScore + velocityScore + payoutScore + growthScore;
 
     const programHealth = {
       overall,
       categories: {
-        engagement: { score: engagementScore, max: 25, label: "Partner Engagement", detail: `${engagedPartners}/${totalActive} active in 90d` },
-        velocity: { score: velocityScore, max: 25, label: "Deal Velocity", detail: `${Math.round(winRateVal * 100)}% win rate` },
-        payouts: { score: payoutScore, max: 25, label: "Payout Health", detail: `${pendingPayoutsCount} pending` },
-        growth: { score: growthScore, max: 25, label: "Program Growth", detail: `+${newPartners30d} partners, +${newDeals30d} deals (30d)` },
+        engagement: {
+          score: engagementScore,
+          max: 25,
+          label: "Partner Engagement",
+          detail: `${engagedPartners}/${totalActive} active in 90d`,
+        },
+        velocity: {
+          score: velocityScore,
+          max: 25,
+          label: "Deal Velocity",
+          detail: `${Math.round(winRateVal * 100)}% win rate`,
+        },
+        payouts: {
+          score: payoutScore,
+          max: 25,
+          label: "Payout Health",
+          detail: `${pendingPayoutsCount} pending`,
+        },
+        growth: {
+          score: growthScore,
+          max: 25,
+          label: "Program Growth",
+          detail: `+${newPartners30d} partners, +${newDeals30d} deals (30d)`,
+        },
       },
     };
 
@@ -1102,7 +1393,9 @@ export const getProgramRollups = query({
       const key = (a.programId as string) ?? "unassigned";
       let g = groups.get(key);
       if (!g) {
-        const program = a.programId ? programById.get(a.programId as string) : undefined;
+        const program = a.programId
+          ? programById.get(a.programId as string)
+          : undefined;
         g = {
           programId: (a.programId as string) ?? null,
           name: program?.name ?? "Unassigned",
@@ -1117,7 +1410,10 @@ export const getProgramRollups = query({
       g.deals.add(a.dealId as string);
       g.revenue += a.amount;
       g.commission += a.commissionAmount;
-      g.perPartner.set(a.partnerId as string, (g.perPartner.get(a.partnerId as string) ?? 0) + a.amount);
+      g.perPartner.set(
+        a.partnerId as string,
+        (g.perPartner.get(a.partnerId as string) ?? 0) + a.amount,
+      );
     }
 
     const programRollups = Array.from(groups.values()).map((g) => ({
@@ -1127,10 +1423,12 @@ export const getProgramRollups = query({
       dealCount: g.deals.size,
       totalRevenue: Math.round(g.revenue),
       totalCommission: Math.round(g.commission),
-      perPartner: Array.from(g.perPartner.entries()).map(([partnerId, amount]) => ({
-        partnerId,
-        amount: Math.round(amount),
-      })),
+      perPartner: Array.from(g.perPartner.entries()).map(
+        ([partnerId, amount]) => ({
+          partnerId,
+          amount: Math.round(amount),
+        }),
+      ),
     }));
 
     // Org total is the explicit SUM of per-program totals (not a re-aggregation).

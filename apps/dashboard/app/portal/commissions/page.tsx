@@ -122,7 +122,7 @@ function DonutChart({
 }
 
 export default function PortalCommissionsPage() {
-  const { myAttributions, myPayouts, stats, partner } = usePortal();
+  const { myAttributions, myPayouts, partner } = usePortal();
   const [periodFilter, setPeriodFilter] = useState<string>("all");
 
   // Hooks below are declared before the early return so they run
