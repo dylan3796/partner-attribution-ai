@@ -2391,6 +2391,12 @@ a:focus-visible {
 .m-next-move{display:flex;flex-direction:column;gap:.45rem;padding:1rem 1.1rem;background:var(--m-accent-soft);font-size:.9rem;line-height:1.45;color:var(--m-accent-ink)}
 .m-next-move-tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--m-accent)}
 
+/* Workflow walkthrough cards (numbered step loops) */
+.m-flow-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--m-accent);margin:0 0 .55rem}
+.m-flow-steps{list-style:none;margin:1.1rem 0 0;padding:0;display:flex;flex-direction:column;counter-reset:flow}
+.m-flow-steps li{counter-increment:flow;display:grid;grid-template-columns:auto 1fr;gap:.85rem;align-items:baseline;padding:.6rem 0;border-top:1px solid var(--m-border);font-size:.92rem;line-height:1.5;color:var(--m-ink-2)}
+.m-flow-steps li::before{content:counter(flow);font-family:var(--font-display);font-size:.78rem;font-weight:600;color:var(--m-accent);border:1px solid var(--m-border);border-radius:99px;width:1.5rem;height:1.5rem;display:inline-flex;align-items:center;justify-content:center;transform:translateY(.2rem)}
+
 /* Demo form / modal */
 .m-form{display:flex;flex-direction:column;gap:.85rem;max-width:420px}
 .m-input{width:100%;font-size:.95rem;padding:.75rem .9rem;border:1px solid var(--m-border);border-radius:var(--m-radius);background:var(--m-bg);color:var(--m-ink);font-family:inherit}

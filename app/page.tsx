@@ -3,38 +3,16 @@ import Reveal from "@/components/marketing/Reveal";
 import AttributionExplainVisual from "@/components/marketing/AttributionExplainVisual";
 import NextMoveVisual from "@/components/marketing/NextMoveVisual";
 import CTABand from "@/components/marketing/CTABand";
-import { PILLARS, MOTIONS, OUTCOMES } from "@/lib/marketing";
-
-// The moments most programs can't prove — each one maps to product surface
-// that makes it provable (touchpoint attribution, audit log, health signals,
-// commission rules).
-const PROBLEMS = [
-  {
-    title: "The influence you can't see.",
-    body: "Your SI specs the architecture and delivers the rollout — and never touches the paper. Their fingerprints are on the deal; your system says they weren't there.",
-  },
-  {
-    title: "The quarter-end credit fight.",
-    body: "Sales, marketing, and three partners claim the same deal. It gets settled by spreadsheet diplomacy, and someone leaves the table trusting you less.",
-  },
-  {
-    title: "The partner going quiet.",
-    body: "Disengagement doesn't announce itself — registrations slow, touches thin out. By the QBR it's a post-mortem.",
-  },
-  {
-    title: "The incentive nobody can verify.",
-    body: "A partner believes they've earned the bonus. Finance wants evidence. Without a paper trail, every payout is a negotiation.",
-  },
-];
+import { PILLARS, WORKFLOWS, MOTIONS } from "@/lib/marketing";
 
 const PARTNER_ANSWERS = [
   {
     title: "Why they earned that number.",
-    body: "Every percentage arrives with its reason attached — the deal they registered, the demo they ran, the work they delivered. No black box, nothing to take on faith.",
+    body: "Every percentage arrives with its reason attached — the deal they registered, the demo they ran, the work they delivered.",
   },
   {
     title: "What's owed, and where it stands.",
-    body: "Earned, pending, projected — visible the moment it changes, not chased down over email at the end of the quarter.",
+    body: "Earned, pending, projected — visible the moment it changes, not chased down at the end of the quarter.",
   },
   {
     title: "Where they stand, and what's next.",
@@ -45,15 +23,15 @@ const PARTNER_ANSWERS = [
 const START_STEPS = [
   {
     title: "Day one — connect what you have.",
-    body: "CRM connectors, CSV import, or the event API. Nothing to rip out, no six-month rollout standing between you and the first number.",
+    body: "CRM connectors, CSV import, or the event API. Nothing to rip out.",
   },
   {
     title: "Week one — attribution on your history.",
-    body: "Covant runs your last 12 months of pipeline through five attribution models, side by side — so you choose the model per motion with evidence, not instinct.",
+    body: "Your last 12 months of pipeline through five attribution models, side by side — choose per motion with evidence.",
   },
   {
     title: "First month — the machine is running.",
-    body: "Portal live under your brand, registrations flowing, incentives flagging with evidence attached. Your partners see where they stand; your CFO sees why.",
+    body: "Portal live under your brand, registrations flowing, incentives flagging with evidence attached.",
   },
 ];
 
@@ -66,22 +44,19 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">Partner Experience Management</p>
             <h1 className="m-h1">
-              Partner revenue you can prove. Partners who know their next move.
+              The partner experience is your growth engine. Covant runs it.
             </h1>
-            <p className="m-lead" style={{ maxWidth: "54ch" }}>
-              The signal that runs a great channel is scattered — across your CRM, inboxes,
-              spreadsheets, and marketplace portals — and most of it is never read. Covant
-              pulls it together, generates the signal you&apos;re missing, and turns it into a
-              machine: attribution with a paper trail under every dollar, incentives flagged
-              the moment they&apos;re earned, and a portal that shows every partner where to
-              push next.
+            <p className="m-lead" style={{ maxWidth: "50ch" }}>
+              Covant is PXM: the KPIs, tiers, and incentives you&apos;ve agreed with partners
+              become a live experience that guides each one down the right path — and
+              everything partners do for you, in every channel, finally counts.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
                 Request a demo
               </a>
-              <a className="m-btn-ghost" href="#how">
-                See how it works
+              <a className="m-btn-ghost" href="#workflows">
+                See the workflows
               </a>
             </div>
           </div>
@@ -110,52 +85,43 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The gap */}
+      {/* What you run on Covant */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">The gap</p>
-            <h2 className="m-h2" style={{ maxWidth: "26ch" }}>
-              Seven partners touch the average deal. Most programs can prove one.
-            </h2>
-            <p className="m-small" style={{ marginTop: ".9rem", maxWidth: "54ch" }}>
-              Deal registration and sourced pipeline are the only moments most programs
-              measure. Everything else — the SI who ran the eval, the integration that saved
-              the renewal, the cloud rep who opened the door — happens off the books.
-              Unmeasured means unrewarded, and partners learn the lesson fast.
-            </p>
+            <p className="m-eyebrow">What you run on Covant</p>
+            <h2 className="m-h2">Prove it. Reward it. Guide it.</h2>
           </Reveal>
-          <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
-            {PROBLEMS.map((p, i) => (
-              <div className="m-list-item" key={p.title}>
-                <span className="m-num">{String(i + 1).padStart(2, "0")}</span>
-                <div>
-                  <h3 className="m-h3" style={{ marginBottom: ".35rem" }}>
-                    {p.title}
-                  </h3>
-                  <p className="m-body">{p.body}</p>
-                </div>
-              </div>
-            ))}
-          </Reveal>
-        </div>
-      </section>
-
-      {/* How it works — the pipeline */}
-      <section id="how" className="m-section">
-        <div className="m-container">
-          <Reveal>
-            <p className="m-eyebrow">How it works</p>
-            <h2 className="m-h2">From scattered signal to a running machine.</h2>
-          </Reveal>
-          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
-            {PILLARS.map((p, i) => (
+          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
+            {PILLARS.map((p) => (
               <Reveal className="m-card" key={p.title}>
-                <span className="m-num">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="m-h3" style={{ margin: ".6rem 0 .5rem" }}>
+                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
                   {p.title}
                 </h3>
                 <p className="m-body">{p.body}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Workflows */}
+      <section id="workflows" className="m-section">
+        <div className="m-container">
+          <Reveal>
+            <p className="m-eyebrow">Workflows</p>
+            <h2 className="m-h2">Three loops your team will run in week one.</h2>
+          </Reveal>
+          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
+            {WORKFLOWS.map((w) => (
+              <Reveal className="m-card" key={w.title}>
+                <p className="m-flow-label">{w.label}</p>
+                <h3 className="m-h3">{w.title}</h3>
+                <ol className="m-flow-steps">
+                  {w.steps.map((s) => (
+                    <li key={s}>{s}</li>
+                  ))}
+                </ol>
               </Reveal>
             ))}
           </div>
@@ -169,12 +135,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Program motions */}
+      {/* Every shape of ecosystem */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">Built for how channels really run</p>
-            <h2 className="m-h2">Whatever your motion, Covant speaks it.</h2>
+            <p className="m-eyebrow">Every shape of ecosystem</p>
+            <h2 className="m-h2">Your data. Your priorities. Your program.</h2>
+            <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
+              No two ecosystems run alike. Covant starts from whatever you have — CRM,
+              spreadsheets, an event stream — and encodes the program you&apos;ve already
+              promised your partners: your KPIs, your tiers, your rules. Five partners or
+              five hundred, one motion or four, side by side.
+            </p>
           </Reveal>
           <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
             {MOTIONS.map((m) => (
@@ -186,9 +158,6 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
-          <p className="m-small" style={{ marginTop: "1.5rem" }}>
-            Run them all at once, from one console — rolled up to one partner-revenue number.
-          </p>
         </div>
       </section>
 
@@ -223,35 +192,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The shift — outcomes */}
-      <section className="m-section m-section--surface">
-        <div className="m-container">
-          <Reveal>
-            <p className="m-eyebrow">What changes</p>
-            <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-              The work shifts from upkeep to growth.
-            </h2>
-            <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
-              The hours that used to disappear into reconciliation, credit disputes, and CRM
-              hygiene come back as time spent growing partners. Partner, rep, and CRO finally
-              read from the same page — and act before the moment passes.
-            </p>
-          </Reveal>
-          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
-            {OUTCOMES.map((o) => (
-              <Reveal className="m-card" key={o.title}>
-                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
-                  {o.title}
-                </h3>
-                <p className="m-body">{o.body}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Getting started */}
-      <section className="m-section">
+      <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">Getting started</p>
