@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Reveal from "@/components/marketing/Reveal";
 import ModelList from "@/components/marketing/ModelList";
 import AttributionSplitVisual from "@/components/marketing/AttributionSplitVisual";
+import PartnerPulse from "@/components/marketing/PartnerPulse";
 import CTABand from "@/components/marketing/CTABand";
+import { ATTRIBUTION_FLEX } from "@/lib/marketing";
 
 export const metadata: Metadata = {
   title: "Product — Covant",
@@ -52,7 +54,7 @@ export default function ProductPage() {
             </div>
           </div>
           <Reveal>
-            <AttributionSplitVisual />
+            <PartnerPulse />
           </Reveal>
         </div>
       </section>
@@ -95,24 +97,32 @@ export default function ProductPage() {
                 partner data anything in plain language; Ask Covant answers, no report to build.
               </p>
               <p className="m-small" style={{ marginTop: "1.5rem" }}>
-                <strong style={{ color: "#fbfaf6" }}>Today:</strong> insights, payments,
-                scorecards, next-best-actions.{" "}
-                <strong style={{ color: "#fbfaf6" }}>Next:</strong> deal registration, partner
-                recruiting, and guided onboarding — added to the same experience, no
-                re-platforming.
+                <strong style={{ color: "#f8fafc" }}>In the product today:</strong> insights,
+                payments, scorecards, next-best-actions, deal registration, partner recruiting,
+                and guided onboarding — one experience, no re-platforming.
               </p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* The five models */}
+      {/* The attribution underneath — evidence for the team's call */}
       <section className="m-section">
         <div className="m-container">
-          <Reveal>
-            <p className="m-eyebrow">The attribution underneath</p>
-            <h2 className="m-h2">One model per motion. Recommended, not guessed.</h2>
-          </Reveal>
+          <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
+            <Reveal>
+              <p className="m-eyebrow">{ATTRIBUTION_FLEX.eyebrow}</p>
+              <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
+                {ATTRIBUTION_FLEX.heading}
+              </h2>
+              <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
+                {ATTRIBUTION_FLEX.body}
+              </p>
+            </Reveal>
+            <Reveal>
+              <AttributionSplitVisual />
+            </Reveal>
+          </div>
           <Reveal style={{ marginTop: "2.5rem" }}>
             <ModelList />
           </Reveal>

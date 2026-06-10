@@ -56,8 +56,8 @@ export default function Nav() {
     return () => { document.body.style.overflow = ""; };
   }, [mobileOpen]);
 
-  // Portal has its own nav in layout.tsx
-  if (isPortal) return null;
+  // Portal has its own nav in layout.tsx; the demo environment brings its own top bar
+  if (isPortal || pathname.startsWith("/demo")) return null;
 
   return (
     <>
@@ -65,7 +65,7 @@ export default function Nav() {
         <div className="nav-inner">
           <Link href="/" aria-label="Covant" style={{ display: "inline-flex", alignItems: "center", gap: "10px" }}>
             <img src="/logo-mark.svg" alt="" width={40} height={40} style={{ display: "block", width: 40, height: 40, flexShrink: 0 }} />
-            <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 600, fontSize: "2rem", letterSpacing: "-0.02em", color: "#16150f", lineHeight: 1 }}>Covant</span>
+            <span style={{ fontFamily: "var(--font-space-grotesk)", fontWeight: 600, fontSize: "2rem", letterSpacing: "-0.02em", color: "#0d1b2a", lineHeight: 1 }}>Covant</span>
           </Link>
 
           {isDashboard ? (

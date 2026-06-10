@@ -1,15 +1,14 @@
 import type { NextConfig } from "next";
 
-// The marketing surface is three pages: / , /product , /about.
-// Highest-equity legacy slugs 301 to the closest of the three; everything
-// else 404s by design.
+// The marketing surface is three pages plus the /demo environment.
+// Highest-equity legacy slugs 301 to the closest page; everything
+// else 404s by design. (/demo is a real route now — the Meridian demo.)
 const toProduct = [
   "/platform",
   "/features",
   "/agents",
   "/integrations",
   "/compare",
-  "/demo",
   "/beta",
   "/roi",
   "/resources",

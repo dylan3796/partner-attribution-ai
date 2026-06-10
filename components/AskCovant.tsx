@@ -43,7 +43,8 @@ export default function AskCovant() {
     pathname?.startsWith("/sign-in") ||
     pathname?.startsWith("/sign-up") ||
     pathname?.startsWith("/onboard") ||
-    pathname?.startsWith("/setup")
+    pathname?.startsWith("/setup") ||
+    pathname?.startsWith("/demo")
   ) {
     return null;
   }

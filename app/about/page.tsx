@@ -136,8 +136,8 @@ export default function CompanyPage() {
 
       <CTABand
         eyebrow="Get started"
-        heading="See what your partners actually drive."
-        body="Request a demo and we'll show you Covant on a pipeline that looks like yours."
+        heading="Give your partners a better Monday."
+        body="Request a demo and we'll show you the experience your partners could be waking up to — on a program that looks like yours."
       />
     </main>
   );

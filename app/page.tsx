@@ -1,27 +1,13 @@
 import Link from "next/link";
 import Reveal from "@/components/marketing/Reveal";
-import AttributionSplitVisual from "@/components/marketing/AttributionSplitVisual";
+import PartnerPulse from "@/components/marketing/PartnerPulse";
+import ProblemPanels from "@/components/marketing/ProblemPanels";
+import LifecycleFlow from "@/components/marketing/LifecycleFlow";
+import PxmSplitScreen from "@/components/marketing/PxmSplitScreen";
+import EarlyAccessForm from "@/components/marketing/EarlyAccessForm";
 import CTABand from "@/components/marketing/CTABand";
-import { PILLARS, OUTCOMES } from "@/lib/marketing";
-
-const PROBLEMS = [
-  {
-    title: "Spot the partners gaining momentum.",
-    body: "Some of your strongest partners are the quiet ones — heads-down and closing, not filling your inbox. Covant surfaces who's accelerating, so the relationship gets attention while it counts.",
-  },
-  {
-    title: "See revenue before it's reported.",
-    body: "Engagement, enablement, and deal velocity all move before revenue does. Covant reads those leading signals, so you can shape a quarter while it's still in motion.",
-  },
-  {
-    title: "Notice a partner going quiet — early.",
-    body: "Disengagement rarely announces itself; a partner just slows down. Covant flags the shift while a conversation can still turn it around.",
-  },
-  {
-    title: "Meet every partner where they are.",
-    body: "A platinum reseller and a week-one referral need different things. Covant tailors what each partner sees and does next, so the experience fits the partner — not the average.",
-  },
-];
+import { ATTRIBUTION_FLEX, EXPERIENCE_PILLARS, NEW_ERA } from "@/lib/marketing";
+import { SCENARIO } from "@/lib/meridian/selectors";
 
 export default function Home() {
   return (
@@ -32,26 +18,32 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">Partner Experience Management</p>
             <h1 className="m-h1">
-              Your partners are telling you everything. None of your tools are listening.
+              Every partner starts the day knowing their next move.
             </h1>
             <p className="m-lead" style={{ maxWidth: "54ch" }}>
-              Every deal, every touch, every silence is a signal about where your channel is
-              headed — and almost all of it goes unread. Covant is AI-native Partner Experience
-              Management: it reads the full signal, learns how each program actually works, and
-              turns it into the next move — for every partner and the team running them. Not
-              another dashboard to check. Judgment, at the speed your channel moves.
+              Covant turns your partner program into a white-glove experience —
+              for every partner, whatever your program looks like. Each one gets
+              a daily pulse: the deal to push, the payout in flight, the tier
+              they&apos;re closing in on. Your team gets the ecosystem view: who
+              to recruit, who to activate, who to grow.
             </p>
             <div className="m-hero-cta">
-              <a className="m-btn" href="#demo">
-                Request a demo
-              </a>
-              <a className="m-btn-ghost" href="#how">
-                See how it works
+              <Link
+                className="m-btn"
+                href={`/demo/partner-view?partner=${SCENARIO.pulseHeroPartnerId}`}
+              >
+                See a partner&apos;s morning
+              </Link>
+              <a className="m-btn-ghost" href="#demo">
+                Request early access
               </a>
             </div>
+            <p className="m-hero-note">
+              Built for mid-market B2B SaaS. Works beside your CRM and PRM.
+            </p>
           </div>
           <Reveal>
-            <AttributionSplitVisual />
+            <PartnerPulse />
           </Reveal>
         </div>
       </section>
@@ -60,87 +52,120 @@ export default function Home() {
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">What you could be doing</p>
-            <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
-              There&apos;s a layer of your channel you haven&apos;t been able to see.
+            <p className="m-eyebrow">The problem</p>
+            <h2 className="m-h2" style={{ maxWidth: "26ch" }}>
+              Your best partners get white-glove. The rest get a login.
             </h2>
             <p className="m-small" style={{ marginTop: ".9rem", maxWidth: "54ch" }}>
-              Not for lack of looking — the signals that predict partner growth have lived in
-              systems built to record the past, not act on it. Covant turns that layer on.
+              Treating partners well is manual work — so it only happens for the
+              few your team knows by name.
             </p>
           </Reveal>
-          <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
-            {PROBLEMS.map((p, i) => (
-              <div className="m-list-item" key={p.title}>
-                <span className="m-num">{String(i + 1).padStart(2, "0")}</span>
-                <div>
-                  <h3 className="m-h3" style={{ marginBottom: ".35rem" }}>
-                    {p.title}
-                  </h3>
-                  <p className="m-body">{p.body}</p>
-                </div>
-              </div>
-            ))}
-          </Reveal>
+          <ProblemPanels />
         </div>
       </section>
 
-      {/* How it works — the pipeline */}
+      {/* The lifecycle */}
       <section id="how" className="m-section">
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">How it works</p>
-            <h2 className="m-h2">Signal in. Judgment out.</h2>
+            <h2 className="m-h2">One motion: recruit, activate, grow, reward.</h2>
           </Reveal>
-          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
-            {PILLARS.map((p, i) => (
-              <Reveal className="m-card" key={p.title}>
-                <span className="m-num">{String(i + 1).padStart(2, "0")}</span>
-                <h3 className="m-h3" style={{ margin: ".6rem 0 .5rem" }}>
-                  {p.title}
-                </h3>
-                <p className="m-body">{p.body}</p>
-              </Reveal>
-            ))}
-          </div>
-          <p className="m-small" style={{ marginTop: "1.5rem" }}>
-            And every partner gets their own home base — revenue, payments, and the next move —
-            in a portal you brand and control.{" "}
-            <Link href="/product" style={{ color: "var(--m-accent)", fontWeight: 600 }}>
-              See the platform →
-            </Link>
-          </p>
+          <Reveal>
+            <LifecycleFlow />
+          </Reveal>
         </div>
       </section>
 
-      {/* The shift — outcomes */}
+      {/* PXM split-screen */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">What changes</p>
-            <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-              The work shifts from upkeep to growth.
+            <p className="m-eyebrow">{NEW_ERA.tagline}</p>
+            <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
+              One ledger. Two experiences.
             </h2>
-            <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
-              The hours that used to disappear into reconciliation, credit disputes, and CRM
-              hygiene come back as time spent growing partners. Partner, rep, and CRO finally
-              read from the same page — and act before the moment passes.
-            </p>
+          </Reveal>
+          <Reveal>
+            <PxmSplitScreen />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* Experience pillars */}
+      <section className="m-section">
+        <div className="m-container">
+          <Reveal>
+            <p className="m-eyebrow">In the product today</p>
+            <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
+              White-glove, without the headcount.
+            </h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
-            {OUTCOMES.map((o) => (
-              <Reveal className="m-card" key={o.title}>
+            {EXPERIENCE_PILLARS.map((pillar) => (
+              <Reveal className="m-card" key={pillar.title}>
+                <p className="m-eyebrow" style={{ marginBottom: ".6rem" }}>
+                  {pillar.eyebrow}
+                </p>
                 <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
-                  {o.title}
+                  {pillar.title}
                 </h3>
-                <p className="m-body">{o.body}</p>
+                <p className="m-body">{pillar.body}</p>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <CTABand />
+      {/* Attribution, demoted to a strip */}
+      <section className="m-section m-section--surface">
+        <div className="m-container">
+          <Reveal>
+            <p className="m-eyebrow">{ATTRIBUTION_FLEX.eyebrow}</p>
+            <h2 className="m-h2" style={{ maxWidth: "26ch" }}>
+              {ATTRIBUTION_FLEX.heading}
+            </h2>
+            <p className="m-body" style={{ marginTop: "1rem", maxWidth: "62ch" }}>
+              {ATTRIBUTION_FLEX.body}{" "}
+              <Link
+                href={ATTRIBUTION_FLEX.href}
+                style={{ color: "var(--m-accent)", fontWeight: 600 }}
+              >
+                {ATTRIBUTION_FLEX.linkLabel}
+              </Link>
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* The new era */}
+      <section className="m-section m-section--ink">
+        <div className="m-container">
+          <Reveal>
+            <p className="m-eyebrow">{NEW_ERA.eyebrow}</p>
+            <h2 className="m-h2" style={{ maxWidth: "22ch" }}>
+              {NEW_ERA.heading}
+            </h2>
+            {NEW_ERA.body.map((paragraph) => (
+              <p
+                key={paragraph.slice(0, 24)}
+                className="m-body"
+                style={{ marginTop: "1.25rem", maxWidth: "62ch" }}
+              >
+                {paragraph}
+              </p>
+            ))}
+          </Reveal>
+        </div>
+      </section>
+
+      <CTABand
+        eyebrow="Early access"
+        heading="Give every partner the white-glove treatment."
+        body="Tell us what runs your program today, and we'll show you the experience your partners could be getting — on data shaped like yours."
+        form={<EarlyAccessForm />}
+      />
     </main>
   );
 }
