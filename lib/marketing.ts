@@ -8,12 +8,17 @@
 //  - no "AI-powered" in the hero
 //  - never: streamline, leverage, holistic, best-in-class
 //  - no fake logos, testimonials, or stats presented as real
+//  - attribution is a capability we mention, not a pillar we sell; credit is
+//    the customer's team's decision — Covant brings the evidence
+//  - AI is named only where it's real (Ask Covant Q&A, per-deal partner
+//    recommendations); the pulse is "the morning view in their portal",
+//    never a "daily email digest"
 
 export const DEMO_SOURCE = "demo_request";
 export const EARLY_ACCESS_SOURCE = "early_access";
 export const AUDIT_SOURCE = "program_audit";
 
-/** Options for the "current attribution tool" field on the early-access form. */
+/** Options for the "what runs your partner program today" field on the early-access form. */
 export const ATTRIBUTION_TOOLS = [
   "PartnerStack",
   "Crossbeam",
@@ -29,49 +34,83 @@ export type ProblemPanel = {
   body: string;
 };
 
-// The problem, told through the tools partner teams actually run.
+// The problem: the partner experience, as most programs actually deliver it.
 export const PROBLEM_PANELS: ProblemPanel[] = [
   {
     tool: "Your PRM",
-    title: "PartnerStack shows activity, not influence.",
-    body: "A PRM can tell you a partner registered a deal. It can't tell you about the other three partners who moved it — the introduction, the integration work, the final push. Activity gets logged; influence goes missing.",
+    title: "A records system partners log into once.",
+    body: "The PRM stores agreements, registrations, and a resources page nobody can find. Partners visit to register a deal, then never come back — because nothing in there tells them what to do next or what they've earned.",
   },
   {
-    tool: "Your CRM",
-    title: "Salesforce gives the credit to one name.",
-    body: "One partner-source field per opportunity. Whoever registered first owns 100% of the credit forever, no matter who did the work after. Every other partner on the deal is invisible at payout time.",
+    tool: "Your inbox",
+    title: "The real partner experience lives in email.",
+    body: "One-off intros, stale decks, 'just checking in.' Whatever your best partner manager does by hand for the top accounts is the actual program — and it doesn't survive vacations, turnover, or partner number forty.",
   },
   {
-    tool: "Your QBRs",
-    title: "Quarterly reviews run on anecdotes.",
-    body: "Without the influence chain, partner reviews come down to whoever tells the best story. Budget follows the loudest partner — and the ones quietly delivering your hardest deals never come up.",
+    tool: "Your program",
+    title: "One structure stretched over every partner.",
+    body: "Resellers, SIs, marketplaces, and referral firms all get the same tier sheet and the same quarterly email. White-glove treatment for the three partners you know well; silence for everyone else.",
   },
 ];
 
-export type HowItWorksStep = {
+export type LifecycleStep = {
   title: string;
   body: string;
 };
 
-// The product arc: signal in -> roles mapped -> five lenses -> the next move.
-export const HOW_IT_WORKS_STEPS: HowItWorksStep[] = [
+// The ecosystem arc the product runs: recruit -> activate -> grow -> reward.
+export const LIFECYCLE_STEPS: LifecycleStep[] = [
   {
-    title: "Connect your stack",
-    body: "CRM, PRM, marketplace, and billing events land in one timeline. Covant sits beside the tools you run today — no rip-and-replace.",
+    title: "Recruit",
+    body: "Applications, invites, and a real first impression. Every prospective partner lands in one queue with the context to say yes quickly — not a web form that goes nowhere.",
   },
   {
-    title: "Map every touchpoint",
-    body: "Registrations, intros, demos, integration work, co-sell motions — each touch is typed and assigned a role in the deal: sourcer, influencer, implementer, closer.",
+    title: "Activate",
+    body: "Guided onboarding, certifications, and an enablement library partners actually use. New partners reach their first registered deal with a checklist, not a cold start.",
   },
   {
-    title: "Run five attribution lenses",
-    body: "The same deal, computed under five bounded models. Every split comes with a written reason you can read aloud in a partner dispute.",
+    title: "Grow",
+    body: "Health signals show who's accelerating and who's going quiet. Recommendations — refined per deal — tell your team which partner to bring in next, before the quarter decides for you.",
   },
   {
-    title: "Act on what's next",
-    body: "The ledger becomes moves: which partner to back, which deal to review before payout, which relationship is going quiet.",
+    title: "Reward",
+    body: "Transparent payouts and credit your partners can read for themselves. Covant brings the evidence for every split; your team makes the call.",
   },
 ];
+
+export type ExperiencePillar = {
+  eyebrow: string;
+  title: string;
+  body: string;
+};
+
+// White-glove, grounded: each pillar maps to a shipped surface.
+export const EXPERIENCE_PILLARS: ExperiencePillar[] = [
+  {
+    eyebrow: "Every morning",
+    title: "A daily pulse for every partner.",
+    body: "Each partner opens their portal to the same view your best partner manager would prepare by hand: the deal to push, the payout in flight, the tier within reach. Computed from the ledger, for partner number forty as much as partner number one.",
+  },
+  {
+    eyebrow: "Ask anything",
+    title: "Plain-language answers about your ecosystem.",
+    body: "\"Which partners touched our biggest open deals?\" \"Who's gone quiet this quarter?\" Ask Covant answers from your partner data directly — no report to build, no analyst to wait on.",
+  },
+  {
+    eyebrow: "Per deal",
+    title: "Recommendations refined by Claude.",
+    body: "Give Covant a deal's context and it weighs your historical win patterns to suggest the three partners most likely to move it — with the reasoning written out, not a score you have to trust blind.",
+  },
+];
+
+// Attribution, demoted to what it is: evidence for the team's decision.
+export const ATTRIBUTION_FLEX = {
+  eyebrow: "Attribution, handled with care",
+  heading: "Credit is a team decision. Covant brings the evidence.",
+  body: "Who sourced, who built, who closed — Covant maps every touch and computes credit under five models, weights tuned to your program, every split with a written reason. So when your team decides who gets what, it's a conversation about facts.",
+  linkLabel: "Watch the models disagree on the same deal →",
+  href: "/demo",
+};
 
 export type MarketingModel = {
   id: string;
@@ -123,7 +162,7 @@ export const NEW_ERA = {
   eyebrow: "A new category",
   heading: "Partner Experience Management.",
   body: [
-    "Partners now touch most B2B software deals — sourcing them, integrating them, closing them — yet most companies can still only see the first touch. The tooling generation built to manage partner records was never built to manage partner outcomes.",
+    "PRMs were built to store partner records. But software that just stores and fulfills is exactly what the AI era is leaving behind — what's left is the experience a product delivers. For a partner program, that experience is the program: every partner treated like your top partner, whatever shape your program takes.",
     "PXM is the difference. Every partner knows where they stand and what to do next. Every partner manager knows who to back and why. And finance trusts the number underneath, because every split carries its reason.",
   ],
   tagline: "PXM, not PRM.",

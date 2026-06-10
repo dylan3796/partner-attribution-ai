@@ -15,3 +15,12 @@ export function fmtDate(ms: number): string {
   const d = new Date(ms);
   return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
 }
+
+const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+const MONTHS_FULL = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+/** "Monday, June 1" — the pulse card's morning header. */
+export function fmtWeekdayDate(ms: number): string {
+  const d = new Date(ms);
+  return `${WEEKDAYS[d.getUTCDay()]}, ${MONTHS_FULL[d.getUTCMonth()]} ${d.getUTCDate()}`;
+}

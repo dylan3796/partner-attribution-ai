@@ -4,8 +4,8 @@ import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { meridian } from "@/lib/meridian/dataset";
 import {
+  getPartnerPulse,
   getPartnerScorecard,
-  getPartnerSurfacedAction,
   getPartnerDeals,
 } from "@/lib/meridian/selectors";
 import { MODEL_LABELS, TIER_LABELS, type AttributionModel } from "@/lib/types";
@@ -20,7 +20,7 @@ function PartnerView() {
   const partnerId = searchParams.get("partner") ?? "mp_001";
   const card = getPartnerScorecard(partnerId) ?? getPartnerScorecard("mp_001")!;
   const { partner } = card;
-  const action = getPartnerSurfacedAction(partner._id);
+  const pulse = getPartnerPulse(partner._id);
   const deals = getPartnerDeals(partner._id).sort(
     (a, b) => (b.closedAt ?? b.expectedCloseDate ?? b.createdAt) - (a.closedAt ?? a.expectedCloseDate ?? a.createdAt)
   );
@@ -64,13 +64,32 @@ function PartnerView() {
         </label>
       </div>
 
-      {action && (
+      {pulse && (
         <div className="d-section">
-          <div className="d-action">
-            <div>
-              <p className="d-action-title">Next action: {action.title}</p>
-              <p className="d-action-why">{action.why}</p>
+          <div className="d-card">
+            <h2 className="d-h2">Today&apos;s pulse</h2>
+            <p className="d-sub">{pulse.summary}</p>
+            <div style={{ display: "flex", flexDirection: "column", gap: ".6rem", marginTop: ".75rem" }}>
+              {pulse.items.map((item, i) => (
+                <div
+                  className={`d-action${i === 0 ? "" : " d-action--quiet"}`}
+                  key={`${item.kind}-${item.dealId ?? i}`}
+                >
+                  <div>
+                    <p className="d-action-title">{item.title}</p>
+                    <p className="d-action-why">{item.detail}</p>
+                  </div>
+                </div>
+              ))}
             </div>
+            {pulse.pendingPayout.amount > 0 && (
+              <p className="d-sub" style={{ marginTop: ".85rem" }}>
+                Payout in flight: <strong>{fmtMoney(pulse.pendingPayout.amount)}</strong> from{" "}
+                {pulse.pendingPayout.deals.length} win
+                {pulse.pendingPayout.deals.length === 1 ? "" : "s"} closed in the last 30 days, at{" "}
+                {partner.commissionRate ?? 10}% commission on credited revenue.
+              </p>
+            )}
           </div>
         </div>
       )}

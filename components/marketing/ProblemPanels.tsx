@@ -1,7 +1,7 @@
 import { PROBLEM_PANELS } from "@/lib/marketing";
 import Reveal from "./Reveal";
 
-/** The three places partner influence dies today: the PRM, the CRM, the QBR. */
+/** The three places the partner experience breaks today: the PRM, the inbox, the program. */
 export default function ProblemPanels() {
   return (
     <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>

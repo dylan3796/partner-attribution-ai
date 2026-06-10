@@ -2437,6 +2437,19 @@ a:focus-visible {
 .m-mock-bar{grid-column:1 / -1;height:6px;border-radius:99px;background:var(--m-accent-soft);overflow:hidden}
 .m-mock-bar-fill{display:block;height:100%;border-radius:99px;background:var(--m-accent)}
 
+/* Partner pulse — the hero's "a partner's morning" card */
+.m-pulse{border:1px solid var(--m-border);border-radius:var(--m-radius);background:var(--m-bg);box-shadow:0 18px 50px rgba(13,27,42,.08);overflow:hidden}
+.m-pulse-head{padding:1rem 1.2rem;background:var(--m-surface);border-bottom:1px solid var(--m-border)}
+.m-pulse-greeting{display:block;font-family:var(--font-display);font-weight:600;font-size:1.05rem;color:var(--m-ink)}
+.m-pulse-meta{display:block;margin-top:.25rem;font-size:.78rem;color:var(--m-muted);letter-spacing:.03em}
+.m-pulse-summary{padding:.85rem 1.2rem 0;font-size:.875rem;color:var(--m-ink-2)}
+.m-pulse-items{display:flex;flex-direction:column;gap:.6rem;padding:.85rem 1.2rem}
+.m-pulse-item{display:flex;flex-direction:column;gap:.2rem;border:1px solid var(--m-border);border-radius:calc(var(--m-radius) - 2px);padding:.7rem .85rem}
+.m-pulse-item--lead{background:var(--m-warn-soft);border-color:rgba(245,158,11,.35);border-left:3px solid var(--m-warn)}
+.m-pulse-item-title{font-size:.9rem;font-weight:600;color:var(--m-ink)}
+.m-pulse-item-detail{font-size:.8rem;line-height:1.5;color:var(--m-ink-2)}
+.m-pulse-foot{padding:0 1.2rem .9rem}
+
 /* Select styled like m-input */
 .m-select{width:100%;font-size:.95rem;padding:.75rem .9rem;border:1px solid var(--m-border);border-radius:var(--m-radius);background:var(--m-bg);color:var(--m-ink);font-family:inherit;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%2364748b' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .9rem center}
 .m-select:focus{outline:2px solid var(--m-accent);outline-offset:1px;border-color:var(--m-accent)}
@@ -2518,6 +2531,7 @@ a:focus-visible {
 .d-action{display:flex;gap:.85rem;align-items:flex-start;background:var(--m-warn-soft);border:1px solid rgba(245,158,11,.35);border-left:3px solid var(--m-warn);border-radius:10px;padding:1rem 1.1rem}
 .d-action-title{font-weight:600;color:var(--m-ink);font-size:.95rem}
 .d-action-why{font-size:.85rem;color:var(--m-ink-2);margin-top:.3rem;line-height:1.5}
+.d-action--quiet{background:var(--m-bg);border-color:var(--m-border);border-left:3px solid var(--m-border)}
 
 /* Small multiples — credit per model on the partner scorecard */
 .d-model-split{display:grid;grid-template-columns:170px 1fr 110px;gap:1rem;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--m-border);font-size:.875rem}
