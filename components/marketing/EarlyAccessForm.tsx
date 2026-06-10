@@ -24,8 +24,8 @@ const COPY: Record<Variant, { button: string; sending: string; done: string; swi
 
 /**
  * Early-access capture for the landing page. Posts to the existing Convex
- * captureLead mutation; the "current attribution tool" answer rides in notes
- * so no schema change is needed. Falls back to mailto when Convex is
+ * captureLead mutation; the "what runs your program today" answer rides in
+ * notes so no schema change is needed. Falls back to mailto when Convex is
  * unavailable (e.g. demo deployments without a backend).
  */
 export default function EarlyAccessForm({ defaultVariant = "early_access" }: { defaultVariant?: Variant }) {
@@ -47,7 +47,7 @@ export default function EarlyAccessForm({ defaultVariant = "early_access" }: { d
         email,
         contactName: contactName || undefined,
         company: company || undefined,
-        notes: tool ? `attribution_tool: ${tool}` : undefined,
+        notes: tool ? `program_tool: ${tool}` : undefined,
         source: variant === "audit" ? AUDIT_SOURCE : EARLY_ACCESS_SOURCE,
       });
       setStatus("done");
@@ -91,9 +91,9 @@ export default function EarlyAccessForm({ defaultVariant = "early_access" }: { d
         className="m-select"
         value={tool}
         onChange={(e) => setTool(e.target.value)}
-        aria-label="How do you track partner attribution today?"
+        aria-label="What runs your partner program today?"
       >
-        <option value="">How do you track attribution today?</option>
+        <option value="">What runs your partner program today?</option>
         {ATTRIBUTION_TOOLS.map((t) => (
           <option key={t} value={t}>
             {t}
