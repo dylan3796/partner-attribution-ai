@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import Reveal from "@/components/marketing/Reveal";
 import ModelList from "@/components/marketing/ModelList";
-import AttributionSplitVisual from "@/components/marketing/AttributionSplitVisual";
+import NextMoveVisual from "@/components/marketing/NextMoveVisual";
 import CTABand from "@/components/marketing/CTABand";
+import { MOTIONS } from "@/lib/marketing";
 
 export const metadata: Metadata = {
   title: "Product — Covant",
   description:
-    "One platform for the whole partner experience. Covant gives every partner their own home base — revenue, payments, where they stand, and their next move — in an experience you configure, brand, and control. Underneath: partner scoring, prescriptive actions, and attribution synced to your CRM. Multi-program from day one.",
+    "One platform for the whole partner experience. Covant gives every partner their own home base — revenue credited with reasons, what they're owed, where they stand, and their next move — in an experience you configure, brand, and control. Underneath: partner scoring, prescriptive actions, and attribution with a paper trail, synced to your CRM. Multi-program from day one.",
 };
 
 // What the partner sees — their home base. All grounded in the live portal + scoring engine.
@@ -17,8 +18,8 @@ const PARTNER_VIEW = [
     body: "Every deal a partner sourced or influenced, attributed and visible — no more wondering how they're measured or chasing someone for the number.",
   },
   {
-    title: "Payments, in the open.",
-    body: "Commissions earned, paid, and pending — so partners always know exactly what's coming and when.",
+    title: "Incentives, in the open.",
+    body: "Earned, pending, approved — flagged the moment the criteria are met, with the evidence attached. Payment stays in your hands; the guesswork doesn't.",
   },
   {
     title: "Where they stand.",
@@ -41,9 +42,9 @@ export default function ProductPage() {
             <h1 className="m-h1">One platform for the whole partner experience.</h1>
             <p className="m-lead">
               Covant gives every partner their own home base — the revenue they&apos;ve driven,
-              what they&apos;ll be paid, and their next move — in an experience you control and
+              what they&apos;re owed, and their next move — in an experience you control and
               brand. Underneath, it scores partners, tells your team who to back, and settles
-              attribution to your CRM. Multi-program from day one.
+              attribution to your CRM with a paper trail. Multi-program from day one.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -52,7 +53,7 @@ export default function ProductPage() {
             </div>
           </div>
           <Reveal>
-            <AttributionSplitVisual />
+            <NextMoveVisual />
           </Reveal>
         </div>
       </section>
@@ -90,24 +91,45 @@ export default function ProductPage() {
                 Covant is the rails, not the brand. Decide exactly what each partner sees —
                 gated by tier and segment, under your rules. Run it as your own portal, embed
                 it in your product, or pipe the data into your stack via API. Administer every
-                program — tiers, payouts, the recommendations that fire — from one console, and
-                roll partner-sourced revenue up to the CRO across all of it. And ask your
-                partner data anything in plain language; Ask Covant answers, no report to build.
+                program — tiers, incentive rules, payout approvals, the recommendations that
+                fire — from one console, and roll partner-sourced revenue up to the CRO across
+                all of it. And ask your partner data anything in plain language; Ask Covant
+                answers, no report to build.
               </p>
               <p className="m-small" style={{ marginTop: "1.5rem" }}>
-                <strong style={{ color: "#fbfaf6" }}>Today:</strong> insights, payments,
-                scorecards, next-best-actions.{" "}
-                <strong style={{ color: "#fbfaf6" }}>Next:</strong> deal registration, partner
-                recruiting, and guided onboarding — added to the same experience, no
-                re-platforming.
+                <strong style={{ color: "#fbfaf6" }}>Today:</strong> deal registration,
+                attribution with a paper trail, earned-incentive tracking, scorecards,
+                next-best-actions.{" "}
+                <strong style={{ color: "#fbfaf6" }}>Next:</strong> partner recruiting and
+                guided onboarding — added to the same experience, no re-platforming.
               </p>
             </Reveal>
           </div>
         </div>
       </section>
 
-      {/* The five models */}
+      {/* The motions, then the models that serve them */}
       <section className="m-section">
+        <div className="m-container">
+          <Reveal>
+            <p className="m-eyebrow">Built for how channels really run</p>
+            <h2 className="m-h2">Whatever your motion, Covant speaks it.</h2>
+          </Reveal>
+          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
+            {MOTIONS.map((m) => (
+              <Reveal className="m-card" key={m.title}>
+                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
+                  {m.title}
+                </h3>
+                <p className="m-body">{m.body}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The five models */}
+      <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">The attribution underneath</p>
@@ -120,7 +142,7 @@ export default function ProductPage() {
       </section>
 
       {/* Stack fit */}
-      <section className="m-section m-section--surface">
+      <section className="m-section">
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "center" }}>
             <Reveal>
@@ -130,9 +152,10 @@ export default function ProductPage() {
             <Reveal>
               <p className="m-body">
                 Covant runs the partner experience on top of the relationship — scoring,
-                attribution, payments, and the next move. Your CRM stays the source of truth
-                for deals; Covant reads from it, writes back the numbers your CRO can trust, and
-                stands up in days, not a six-month rollout.
+                attribution, earned incentives, and the next move. Your CRM stays the source
+                of truth for deals; Covant reads from it, catches the signal that never made
+                it in, writes back the numbers your CRO can trust, and stands up in days, not
+                a six-month rollout.
               </p>
             </Reveal>
           </div>
