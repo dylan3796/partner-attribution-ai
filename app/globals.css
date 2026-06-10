@@ -2364,7 +2364,7 @@ a:focus-visible {
 .m-split-row:last-child{border-bottom:none}
 .m-split-name{font-size:.9rem;font-weight:600;color:var(--m-ink)}
 .m-split-track{height:8px;border-radius:99px;background:var(--m-accent-soft);overflow:hidden}
-.m-split-fill{height:100%;border-radius:99px;background:var(--m-accent)}
+.m-split-fill{display:block;height:100%;border-radius:99px;background:var(--m-accent)}
 .m-split-pct{font-size:.85rem;font-weight:600;color:var(--m-ink-2);text-align:right;font-variant-numeric:tabular-nums}
 @media (max-width:560px){.m-split-row{grid-template-columns:1fr 44px;grid-template-areas:"name pct" "track track"}.m-split-name{grid-area:name}.m-split-pct{grid-area:pct}.m-split-track{grid-area:track}}
 
