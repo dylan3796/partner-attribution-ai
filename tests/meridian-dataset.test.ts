@@ -16,6 +16,7 @@ import {
   getDealLedger,
   getKpis,
   getLeaderboard,
+  getPartnerPulse,
   getPartnerSurfacedAction,
   isInterestingDeal,
 } from "../lib/meridian/selectors";
@@ -179,6 +180,81 @@ describe("the 'models disagree' flag", () => {
     const flagged = meridian.deals.filter((d) => isInterestingDeal(d._id));
     expect(flagged.length).toBeGreaterThanOrEqual(3);
     expect(flagged.length).toBeLessThanOrEqual(8);
+  });
+});
+
+describe("partner pulse", () => {
+  const BANNED = ["streamline", "leverage", "holistic", "best-in-class", "AI-powered"];
+  const allStrings = (partnerId: string): string[] => {
+    const pulse = getPartnerPulse(partnerId)!;
+    return [pulse.summary, ...pulse.items.flatMap((i) => [i.title, i.detail])];
+  };
+
+  it("exists, is deterministic, and is well-formed for every partner", () => {
+    for (const partner of meridian.partners) {
+      const pulse = getPartnerPulse(partner._id);
+      expect(pulse, partner._id).not.toBeNull();
+      expect(getPartnerPulse(partner._id)).toEqual(pulse); // same input, same pulse
+      expect(pulse!.asOf).toBe(MERIDIAN_NOW);
+      expect(pulse!.items.length, partner._id).toBeGreaterThanOrEqual(2);
+      expect(pulse!.items.length, partner._id).toBeLessThanOrEqual(3);
+      expect(pulse!.tier.progress).toBeGreaterThanOrEqual(0);
+      expect(pulse!.tier.progress).toBeLessThanOrEqual(100);
+      expect(pulse!.pendingPayout.amount).toBeGreaterThanOrEqual(0);
+      expect(pulse!.summary.length).toBeGreaterThan(0);
+      for (const item of pulse!.items) {
+        expect(item.title.length, partner._id).toBeGreaterThan(0);
+        expect(item.detail.length, partner._id).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it("unknown partners get null, not a fabricated morning", () => {
+    expect(getPartnerPulse("mp_999")).toBeNull();
+  });
+
+  it("hero partner (Bluepeak, mp_002) wakes up to the full story", () => {
+    const pulse = getPartnerPulse(SCENARIO.pulseHeroPartnerId)!;
+    const closePush = pulse.items.find((i) => i.kind === "close_push");
+    expect(closePush).toBeDefined();
+    expect(closePush!.dealId).toBe("md_011"); // Meridian West Clinics, 14 days out
+    expect(pulse.pendingPayout.amount).toBeGreaterThan(0);
+    expect(pulse.pendingPayout.deals.map((d) => d.dealId)).toContain("md_007");
+    expect(pulse.tier.next).toBe("platinum");
+    expect(pulse.tier.progress).toBeGreaterThanOrEqual(40);
+    expect(pulse.tier.progress).toBeLessThanOrEqual(70);
+  });
+
+  it("a platinum partner (mp_001) has no tier chase", () => {
+    const pulse = getPartnerPulse("mp_001")!;
+    expect(pulse.tier.next).toBeNull();
+    expect(pulse.items.some((i) => i.kind === "tier")).toBe(false);
+  });
+
+  it("surfaces Vector's stuck registration (mp_005 → md_014)", () => {
+    const pulse = getPartnerPulse("mp_005")!;
+    const reg = pulse.items.find((i) => i.kind === "registration_pending");
+    expect(reg).toBeDefined();
+    expect(reg!.dealId).toBe("md_014");
+  });
+
+  it("never references the same deal twice in one morning", () => {
+    for (const partner of meridian.partners) {
+      const dealIds = getPartnerPulse(partner._id)!
+        .items.map((i) => i.dealId)
+        .filter(Boolean);
+      expect(new Set(dealIds).size, partner._id).toBe(dealIds.length);
+    }
+  });
+
+  it("obeys the marketing copy rules", () => {
+    for (const partner of meridian.partners) {
+      for (const text of allStrings(partner._id)) {
+        for (const word of BANNED) {
+          expect(text.toLowerCase(), `${partner._id}: "${text}"`).not.toContain(word.toLowerCase());
+        }
+      }
+    }
   });
 });
 

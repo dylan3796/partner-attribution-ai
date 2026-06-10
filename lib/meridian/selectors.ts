@@ -341,4 +341,196 @@ export function getPartnerSurfacedAction(partnerId: string): SurfacedAction | nu
   };
 }
 
+// ── The partner's daily pulse (landing hero + demo partner view) ──
+// Partner-voice, unlike getPartnerSurfacedAction above (vendor-voice).
+
+export type PulseItemKind =
+  | "close_push"
+  | "payout"
+  | "registration_pending"
+  | "stalled"
+  | "tier"
+  | "enablement";
+
+export interface PulseItem {
+  kind: PulseItemKind;
+  /** Partner-voice headline, e.g. "Push Meridian West Clinics across the line". */
+  title: string;
+  detail: string;
+  dealId?: string;
+}
+
+export interface PartnerPulse {
+  partner: Partner;
+  asOf: number;
+  /** One-line morning summary, e.g. "1 deal closing soon, 4 wins paying out, 54% to platinum." */
+  summary: string;
+  /** 2–3 items, priority-ordered; the first is the lead action. */
+  items: PulseItem[];
+  tier: { current: string; next: string | null; progress: number };
+  pendingPayout: {
+    /** Commission dollars from won deals closed in the last 30 days. */
+    amount: number;
+    /** Per-deal role-weighted credit (pre-commission) behind that amount. */
+    deals: { dealId: string; dealName: string; credit: number }[];
+  };
+}
+
+const fmtK = (amount: number) => `$${Math.round(amount / 1000)}k`;
+const shortName = (deal: Deal) => deal.name.split(" — ")[0];
+
+export function getPartnerPulse(partnerId: string): PartnerPulse | null {
+  const card = getPartnerScorecard(partnerId);
+  if (!card) return null;
+  const { partner } = card;
+  const rate = partner.commissionRate ?? 10;
+  const deals = getPartnerDeals(partnerId);
+  const touches = getPartnerTouchpoints(partnerId);
+  const lastTouchOn = (dealId: string): number | null => {
+    const own = touches.filter((t) => t.dealId === dealId);
+    return own.length ? Math.max(...own.map((t) => t.createdAt)) : null;
+  };
+
+  const payoutDeals = deals
+    .filter((d) => d.status === "won" && d.closedAt && MERIDIAN_NOW - d.closedAt <= 30 * DAY)
+    .map((d) => ({
+      deal: d,
+      credit: getDealLedger(d._id, "role_weighted").find((e) => e.partnerId === partnerId)?.amount ?? 0,
+    }))
+    .filter((x) => x.credit > 0)
+    .sort((a, b) => b.credit - a.credit);
+  const pendingPayout = {
+    amount: payoutDeals.reduce((s, x) => s + (x.credit * rate) / 100, 0),
+    deals: payoutDeals.map((x) => ({ dealId: x.deal._id, dealName: x.deal.name, credit: x.credit })),
+  };
+
+  const closingSoon = deals
+    .filter((d) => d.status === "open" && d.expectedCloseDate && d.expectedCloseDate - MERIDIAN_NOW <= 21 * DAY)
+    .sort((a, b) => (a.expectedCloseDate ?? 0) - (b.expectedCloseDate ?? 0));
+
+  const items: PulseItem[] = [];
+  const referenced = new Set<string>();
+  const push = (item: PulseItem) => {
+    if (items.length >= 3) return;
+    if (item.dealId) {
+      if (referenced.has(item.dealId)) return;
+      referenced.add(item.dealId);
+    }
+    items.push(item);
+  };
+
+  // 1. A close-dated open deal — the highest-energy move of the morning.
+  if (closingSoon[0]) {
+    const deal = closingSoon[0];
+    const days = Math.round(((deal.expectedCloseDate ?? MERIDIAN_NOW) - MERIDIAN_NOW) / DAY);
+    const last = lastTouchOn(deal._id);
+    const sinceTouch = last !== null ? Math.round((MERIDIAN_NOW - last) / DAY) : null;
+    push({
+      kind: "close_push",
+      title: `Push ${shortName(deal)} across the line`,
+      detail: `Expected to close in ${days} days (${fmtK(deal.amount)}).${
+        sinceTouch !== null
+          ? ` Your last activity was ${sinceTouch} days ago — a nudge now keeps it on track.`
+          : ""
+      }`,
+      dealId: deal._id,
+    });
+  }
+
+  // 2. Money in motion.
+  if (pendingPayout.amount > 0) {
+    const n = pendingPayout.deals.length;
+    push({
+      kind: "payout",
+      title:
+        n === 1
+          ? `Your payout from ${pendingPayout.deals[0].dealName.split(" — ")[0]} is in flight`
+          : `Your payout from ${n} recent wins is in flight`,
+      detail: `${fmtK(pendingPayout.amount)} in commission from deals closed in the last 30 days, at your ${rate}% rate on credited revenue.`,
+    });
+  }
+
+  // 3. A registration stuck in the queue.
+  const pendingReg = deals.find(
+    (d) => d.registeredBy === partnerId && d.registrationStatus === "pending"
+  );
+  if (pendingReg) {
+    const reg = getDealTouchpoints(pendingReg._id).find(
+      (t) => t.partnerId === partnerId && t.type === "deal_registration"
+    );
+    const daysPending = reg ? Math.round((MERIDIAN_NOW - reg.createdAt) / DAY) : null;
+    push({
+      kind: "registration_pending",
+      title: `Your ${shortName(pendingReg)} registration is still pending`,
+      detail: `Submitted ${daysPending ?? "several"} days ago and awaiting approval — worth a note to your partner manager.`,
+      dealId: pendingReg._id,
+    });
+  }
+
+  // 4. An open deal that's gone quiet.
+  const stalled = deals
+    .filter((d) => d.status === "open")
+    .map((d) => ({ deal: d, last: lastTouchOn(d._id) }))
+    .filter((x): x is { deal: Deal; last: number } => x.last !== null && MERIDIAN_NOW - x.last > 45 * DAY)
+    .sort((a, b) => a.last - b.last)[0];
+  if (stalled) {
+    const days = Math.round((MERIDIAN_NOW - stalled.last) / DAY);
+    push({
+      kind: "stalled",
+      title: `${shortName(stalled.deal)} has gone quiet`,
+      detail: `No activity from you in ${days} days on this ${fmtK(stalled.deal.amount)} opportunity. One check-in could restart it.`,
+      dealId: stalled.deal._id,
+    });
+  }
+
+  // 5. A tier within reach.
+  if (card.nextTier && card.tierProgress >= 40 && card.tierProgress < 100) {
+    const remaining =
+      TIER_THRESHOLDS[card.nextTier as (typeof TIER_ORDER)[number]] -
+      card.creditByModel.role_weighted;
+    push({
+      kind: "tier",
+      title: `You're ${Math.round(card.tierProgress)}% of the way to ${card.nextTier}`,
+      detail: `${fmtK(Math.max(remaining, 0))} more in credited revenue unlocks ${card.nextTier} benefits.`,
+    });
+  }
+
+  // Fallbacks guarantee every partner wakes up to at least two items.
+  if (items.length < 2) {
+    push({
+      kind: "enablement",
+      title: "New enablement is ready for you",
+      detail: "This quarter's certification track and co-sell kit are waiting in your resources library.",
+    });
+  }
+  if (items.length < 2) {
+    push({
+      kind: "enablement",
+      title: "Your performance summary is ready",
+      detail: "Deals touched, credited revenue, and tier progress — refreshed this morning in your portal.",
+    });
+  }
+
+  const parts: string[] = [];
+  if (closingSoon.length > 0)
+    parts.push(`${closingSoon.length} deal${closingSoon.length === 1 ? "" : "s"} closing soon`);
+  if (pendingPayout.deals.length > 0)
+    parts.push(`${pendingPayout.deals.length} win${pendingPayout.deals.length === 1 ? "" : "s"} paying out`);
+  if (card.nextTier) parts.push(`${Math.round(card.tierProgress)}% to ${card.nextTier}`);
+  const summary = parts.length ? `${parts.join(", ")}.` : "Nothing urgent on your plate today.";
+
+  return {
+    partner,
+    asOf: MERIDIAN_NOW,
+    summary,
+    items,
+    tier: {
+      current: partner.tier ?? "bronze",
+      next: card.nextTier,
+      progress: Math.round(card.tierProgress),
+    },
+    pendingPayout,
+  };
+}
+
 export { SCENARIO, MERIDIAN_NOW, meridian };

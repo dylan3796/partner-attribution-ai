@@ -311,4 +311,7 @@ export const SCENARIO = {
   dormantImplementerPartnerId: "mp_006",
   cosellDealId: "md_012",
   flagshipDealId: "md_003",
+  /** The landing-page hero pulse: Bluepeak has a close-dated deal, four
+   *  recent wins paying out, and a visible run at platinum. */
+  pulseHeroPartnerId: "mp_002",
 } as const;
