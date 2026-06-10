@@ -26,7 +26,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Covant — Partner Experience Management",
   description:
-    "Covant is Partner Experience Management for B2B SaaS running more than one partner motion. It guides every partner to their next win, tells your team which partners to back and what to do this week, and settles attribution underneath. Your partners grow. You grow with them.",
+    "Covant is Partner Experience Management for B2B SaaS running more than one partner motion — SI, co-sell, ISV, reseller. Attribution with a paper trail under every dollar, incentives flagged the moment they're earned, and a portal that shows every partner their next move.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Covant — Partner Experience Management",
-    description: "Partner Experience Management for B2B SaaS. Covant guides every partner to their next win, tells your team who to back and what to do next, and settles attribution underneath.",
+    description: "Partner Experience Management for B2B SaaS. Attribution with a paper trail, incentives flagged the moment they're earned, and a portal that shows every partner their next move.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Covant — Partner Experience Management",
-    description: "Covant guides every partner to their next win, tells your team who to back and what to do next, and settles attribution underneath.",
+    description: "Attribution with a paper trail, incentives flagged the moment they're earned, and a portal that shows every partner their next move.",
   },
   metadataBase: new URL("https://covant.ai"),
 };

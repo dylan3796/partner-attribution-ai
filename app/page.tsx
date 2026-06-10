@@ -1,25 +1,59 @@
 import Link from "next/link";
 import Reveal from "@/components/marketing/Reveal";
-import AttributionSplitVisual from "@/components/marketing/AttributionSplitVisual";
+import AttributionExplainVisual from "@/components/marketing/AttributionExplainVisual";
+import NextMoveVisual from "@/components/marketing/NextMoveVisual";
 import CTABand from "@/components/marketing/CTABand";
-import { PILLARS, OUTCOMES } from "@/lib/marketing";
+import { PILLARS, MOTIONS, OUTCOMES } from "@/lib/marketing";
 
+// The moments most programs can't prove — each one maps to product surface
+// that makes it provable (touchpoint attribution, audit log, health signals,
+// commission rules).
 const PROBLEMS = [
   {
-    title: "Spot the partners gaining momentum.",
-    body: "Some of your strongest partners are the quiet ones — heads-down and closing, not filling your inbox. Covant surfaces who's accelerating, so the relationship gets attention while it counts.",
+    title: "The influence you can't see.",
+    body: "Your SI specs the architecture and delivers the rollout — and never touches the paper. Their fingerprints are on the deal; your system says they weren't there.",
   },
   {
-    title: "See revenue before it's reported.",
-    body: "Engagement, enablement, and deal velocity all move before revenue does. Covant reads those leading signals, so you can shape a quarter while it's still in motion.",
+    title: "The quarter-end credit fight.",
+    body: "Sales, marketing, and three partners claim the same deal. It gets settled by spreadsheet diplomacy, and someone leaves the table trusting you less.",
   },
   {
-    title: "Notice a partner going quiet — early.",
-    body: "Disengagement rarely announces itself; a partner just slows down. Covant flags the shift while a conversation can still turn it around.",
+    title: "The partner going quiet.",
+    body: "Disengagement doesn't announce itself — registrations slow, touches thin out. By the QBR it's a post-mortem.",
   },
   {
-    title: "Meet every partner where they are.",
-    body: "A platinum reseller and a week-one referral need different things. Covant tailors what each partner sees and does next, so the experience fits the partner — not the average.",
+    title: "The incentive nobody can verify.",
+    body: "A partner believes they've earned the bonus. Finance wants evidence. Without a paper trail, every payout is a negotiation.",
+  },
+];
+
+const PARTNER_ANSWERS = [
+  {
+    title: "Why they earned that number.",
+    body: "Every percentage arrives with its reason attached — the deal they registered, the demo they ran, the work they delivered. No black box, nothing to take on faith.",
+  },
+  {
+    title: "What's owed, and where it stands.",
+    body: "Earned, pending, projected — visible the moment it changes, not chased down over email at the end of the quarter.",
+  },
+  {
+    title: "Where they stand, and what's next.",
+    body: "Tier, score, and the bar for the next level made explicit — with the next best action to get there.",
+  },
+];
+
+const START_STEPS = [
+  {
+    title: "Day one — connect what you have.",
+    body: "CRM connectors, CSV import, or the event API. Nothing to rip out, no six-month rollout standing between you and the first number.",
+  },
+  {
+    title: "Week one — attribution on your history.",
+    body: "Covant runs your last 12 months of pipeline through five attribution models, side by side — so you choose the model per motion with evidence, not instinct.",
+  },
+  {
+    title: "First month — the machine is running.",
+    body: "Portal live under your brand, registrations flowing, incentives flagging with evidence attached. Your partners see where they stand; your CFO sees why.",
   },
 ];
 
@@ -32,14 +66,15 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">Partner Experience Management</p>
             <h1 className="m-h1">
-              Your partners are telling you everything. None of your tools are listening.
+              Partner revenue you can prove. Partners who know their next move.
             </h1>
             <p className="m-lead" style={{ maxWidth: "54ch" }}>
-              Every deal, every touch, every silence is a signal about where your channel is
-              headed — and almost all of it goes unread. Covant is AI-native Partner Experience
-              Management: it reads the full signal, learns how each program actually works, and
-              turns it into the next move — for every partner and the team running them. Not
-              another dashboard to check. Judgment, at the speed your channel moves.
+              The signal that runs a great channel is scattered — across your CRM, inboxes,
+              spreadsheets, and marketplace portals — and most of it is never read. Covant
+              pulls it together, generates the signal you&apos;re missing, and turns it into a
+              machine: attribution with a paper trail under every dollar, incentives flagged
+              the moment they&apos;re earned, and a portal that shows every partner where to
+              push next.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -51,22 +86,43 @@ export default function Home() {
             </div>
           </div>
           <Reveal>
-            <AttributionSplitVisual />
+            <AttributionExplainVisual />
           </Reveal>
         </div>
       </section>
 
-      {/* The problem */}
+      {/* Trust strip */}
+      <section className="m-section m-section--flush" style={{ padding: 0 }}>
+        <div className="m-container">
+          <div className="m-trust">
+            <p className="m-trust-label">Built on the systems you already run</p>
+            <ul className="m-trust-items">
+              <li>Salesforce</li>
+              <li>HubSpot</li>
+              <li>CSV import</li>
+              <li>Event API &amp; webhooks</li>
+            </ul>
+            <p className="m-trust-note">
+              Audit-logged end to end. GDPR &amp; CCPA ready. Your data never trains AI models.{" "}
+              <Link href="/security">Security →</Link>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* The gap */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">What you could be doing</p>
-            <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
-              There&apos;s a layer of your channel you haven&apos;t been able to see.
+            <p className="m-eyebrow">The gap</p>
+            <h2 className="m-h2" style={{ maxWidth: "26ch" }}>
+              Seven partners touch the average deal. Most programs can prove one.
             </h2>
             <p className="m-small" style={{ marginTop: ".9rem", maxWidth: "54ch" }}>
-              Not for lack of looking — the signals that predict partner growth have lived in
-              systems built to record the past, not act on it. Covant turns that layer on.
+              Deal registration and sourced pipeline are the only moments most programs
+              measure. Everything else — the SI who ran the eval, the integration that saved
+              the renewal, the cloud rep who opened the door — happens off the books.
+              Unmeasured means unrewarded, and partners learn the lesson fast.
             </p>
           </Reveal>
           <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
@@ -90,9 +146,9 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">How it works</p>
-            <h2 className="m-h2">Signal in. Judgment out.</h2>
+            <h2 className="m-h2">From scattered signal to a running machine.</h2>
           </Reveal>
-          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
+          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
             {PILLARS.map((p, i) => (
               <Reveal className="m-card" key={p.title}>
                 <span className="m-num">{String(i + 1).padStart(2, "0")}</span>
@@ -104,12 +160,66 @@ export default function Home() {
             ))}
           </div>
           <p className="m-small" style={{ marginTop: "1.5rem" }}>
-            And every partner gets their own home base — revenue, payments, and the next move —
-            in a portal you brand and control.{" "}
+            Underneath: five attribution models, a rules engine for incentives, and an audit
+            log on every change.{" "}
             <Link href="/product" style={{ color: "var(--m-accent)", fontWeight: 600 }}>
               See the platform →
             </Link>
           </p>
+        </div>
+      </section>
+
+      {/* Program motions */}
+      <section className="m-section m-section--surface">
+        <div className="m-container">
+          <Reveal>
+            <p className="m-eyebrow">Built for how channels really run</p>
+            <h2 className="m-h2">Whatever your motion, Covant speaks it.</h2>
+          </Reveal>
+          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
+            {MOTIONS.map((m) => (
+              <Reveal className="m-card" key={m.title}>
+                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
+                  {m.title}
+                </h3>
+                <p className="m-body">{m.body}</p>
+              </Reveal>
+            ))}
+          </div>
+          <p className="m-small" style={{ marginTop: "1.5rem" }}>
+            Run them all at once, from one console — rolled up to one partner-revenue number.
+          </p>
+        </div>
+      </section>
+
+      {/* What partners get */}
+      <section className="m-section">
+        <div className="m-container">
+          <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
+            <Reveal>
+              <p className="m-eyebrow">What partners get</p>
+              <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
+                Partners don&apos;t want another portal. They want answers.
+              </h2>
+              <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
+                Partners who trust the math bring you more: every registration and logged
+                touch is new signal, and the machine gets sharper with each one.
+              </p>
+            </Reveal>
+            <Reveal>
+              <NextMoveVisual />
+            </Reveal>
+          </div>
+          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
+            {PARTNER_ANSWERS.map((c) => (
+              <Reveal className="m-card" key={c.title}>
+                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
+                  {c.title}
+                </h3>
+                <p className="m-body">{c.body}</p>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -137,6 +247,33 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Getting started */}
+      <section className="m-section">
+        <div className="m-container">
+          <Reveal>
+            <p className="m-eyebrow">Getting started</p>
+            <h2 className="m-h2">Weeks, not quarters.</h2>
+          </Reveal>
+          <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
+            {START_STEPS.map((s, i) => (
+              <div className="m-list-item" key={s.title}>
+                <span className="m-num">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3 className="m-h3" style={{ marginBottom: ".35rem" }}>
+                    {s.title}
+                  </h3>
+                  <p className="m-body">{s.body}</p>
+                </div>
+              </div>
+            ))}
+          </Reveal>
+          <p className="m-small" style={{ marginTop: "1.5rem" }}>
+            We&apos;re building with our first customers — you&apos;ll work directly with the
+            team.
+          </p>
         </div>
       </section>
 
