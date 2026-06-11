@@ -4,9 +4,9 @@
 
 **Covant is the revenue engine for your channel.**
 
-Most partner platforms are a place to file paperwork — a PRM on one side, CRM reports on the other, and the actual revenue motion living in spreadsheets and Slack threads in between. We're building the place the partner business itself runs: deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Explainable attribution is the wedge — it's how we earn the trust to own the whole motion — but what we sell is partner pipeline and progression.
+Most partner platforms are a place to file paperwork — a PRM on one side, CRM reports on the other, and the actual revenue motion living in spreadsheets and Slack threads in between. We're building the place the partner business itself runs: deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained. Explainable attribution is the wedge — it's how we earn the trust to own the whole motion — but what we sell is partner pipeline and progression.
 
-> "If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that."
+> "Covant is the revenue engine for your channel — partner pipeline that registers, progresses, and gets credited in one system."
 
 ---
 
@@ -274,7 +274,7 @@ The numbers partner leadership runs the channel on — and walks into the CRO me
 | Reveal | Data sharing | No attribution or management | Full platform, not just data |
 | Allbound | Partner portal | Basic attribution | The whole motion runs here, not just the portal |
 
-**Our moat:** We're the system of record for the partner motion. Explainable attribution is the wedge that earns the trust — and once deals register, progress, get credited, and pay out of Covant, there's nothing left to switch away to.
+**Our moat:** We're the system of record for the partner motion. Explainable attribution is the wedge that earns the trust — and once deals register, progress, and get credited in Covant — with every commission calculated and approved here — there's nothing left to switch away to.
 
 ---
 
@@ -315,7 +315,7 @@ The numbers partner leadership runs the channel on — and walks into the CRO me
 
 ## The One-Liner
 
-> **Covant is the revenue engine for your channel — deals register, progress, get credited, and pay out of Covant.**
+> **Covant is the revenue engine for your channel — deals register, progress, and get credited, with every commission calculated and explained.**
 
 ---
 

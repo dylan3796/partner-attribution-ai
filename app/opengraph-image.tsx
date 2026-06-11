@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Covant — Partner Experience Management';
+export const alt = 'Covant — Partner Pipeline & Progression';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -55,7 +55,7 @@ export default function OgImage() {
           marginBottom: 24, maxWidth: 800,
           display: 'flex', flexWrap: 'wrap',
         }}>
-          Partner Experience Management.
+          The revenue engine for your channel.
         </div>
 
         {/* Subline */}
@@ -63,7 +63,7 @@ export default function OgImage() {
           color: '#888', fontSize: 24, lineHeight: 1.5,
           maxWidth: 700, display: 'flex',
         }}>
-          Guide every partner. Back the right ones. Settle attribution underneath.
+          Deals register, progress, and get credited — every commission explained.
         </div>
 
         {/* Bottom row */}
@@ -72,7 +72,7 @@ export default function OgImage() {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <div style={{ display: 'flex', gap: 32 }}>
-            {['Partner portal', 'Partner scoring', 'Next actions', 'Attribution', 'Ask Covant'].map(f => (
+            {['Deal registration', 'Pipeline progression', 'Explainable credit', 'Partner scoring', 'Ask Covant'].map(f => (
               <span key={f} style={{ color:'#374151', fontSize: 14 }}>{f}</span>
             ))}
           </div>

@@ -11,8 +11,8 @@ const PARTNER_ANSWERS = [
     body: "Every percentage arrives with its reason attached — the deal they registered, the demo they ran, the work they delivered.",
   },
   {
-    title: "What's owed, and when it pays.",
-    body: "Earned, pending, paid — payouts run out of Covant, visible the moment they change, not chased at quarter end.",
+    title: "What's owed, down to the dollar.",
+    body: "Earned, pending, paid — every commission calculated and tracked in Covant, visible the moment it changes, not chased at quarter end.",
   },
   {
     title: "Where they stand, and what's next.",
@@ -31,7 +31,7 @@ const START_STEPS = [
   },
   {
     title: "First month — the channel runs in Covant.",
-    body: "Portal live under your brand, deals registering and progressing, commissions paying out with the reason attached.",
+    body: "Portal live under your brand, deals registering and progressing, every commission calculated with the reason attached.",
   },
 ];
 
@@ -44,12 +44,13 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">Partner Pipeline &amp; Progression</p>
             <h1 className="m-h1">
-              Partner-driven revenue, without hiring a channel sales team.
+              Make partner-sourced revenue real.
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
               Covant is the revenue engine for your channel: deals get registered in
-              Covant, progress in Covant, get credited in Covant, and pay out of Covant —
-              your partner motion in one place, not scattered across PRM and CRM reports.
+              Covant, progress in Covant, and get credited in Covant — every commission
+              calculated and explained, your partner motion in one place instead of
+              scattered across PRM and CRM reports.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -90,7 +91,7 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">What you run on Covant</p>
-            <h2 className="m-h2">Register it. Progress it. Pay it.</h2>
+            <h2 className="m-h2">Register it. Progress it. Credit it.</h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
             {PILLARS.map((p) => (
@@ -145,7 +146,8 @@ export default function Home() {
               No two channels run alike. Covant takes the program you&apos;ve already
               promised your partners — your tiers, your rules, your registration flow —
               and runs it end to end: pipeline in, progression tracked, credit explained,
-              payouts out. Five partners or five hundred, one motion or four.
+              every payout calculated and routed for your approval. Five partners or five
+              hundred, one motion or four.
             </p>
           </Reveal>
           <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>

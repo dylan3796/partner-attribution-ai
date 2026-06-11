@@ -153,7 +153,7 @@ Excited to get you started!
 
 ### "It's too expensive"
 **Response:**
-"I get it - let's look at ROI. Right now you spend {{hours}} per quarter calculating partner commissions manually. That's {{cost}} in staff time alone. Covant handles that math and explains every credit, which eliminates disputes and keeps partners registering deals. And it's a fraction of what a channel sales hire or legacy PRM would cost. Break-even is usually {{timeframe}}."
+"I get it - let's look at ROI. Right now you spend {{hours}} per quarter calculating partner commissions manually. That's {{cost}} in staff time alone. Covant handles that math and explains every credit, which eliminates disputes and keeps partners registering deals. And it's a fraction of what a legacy PRM would cost. Break-even is usually {{timeframe}}."
 
 ### "We're already using [Competitor]"
 **Response:**

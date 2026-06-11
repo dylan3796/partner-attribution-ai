@@ -7,7 +7,7 @@ export function OrganizationSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "Covant is Partner Experience Management for B2B SaaS running more than one partner motion. It guides every partner to their next win, scores and ranks partners so the team knows who to back, and settles attribution underneath. Replaces the PRM-plus-portal stack, syncs your CRM.",
+      "Covant is the revenue engine for your channel — the system partner pipeline runs in. Deals get registered, progress, and get credited in Covant, with every commission calculated and explained. Replaces the PRM-plus-CRM-reports patchwork; Salesforce and HubSpot sync underneath.",
     foundingDate: "2026",
     contactPoint: {
       "@type": "ContactPoint",
@@ -34,7 +34,7 @@ export function SoftwareApplicationSchema() {
     operatingSystem: "Web",
     url: "https://covant.ai",
     description:
-      "Partner Experience Management for partner revenue. Covant guides every partner to their next win, scores and ranks partners so the team knows who to back, recommends the attribution model that fits each motion, and surfaces the next move. Replaces the PRM-plus-portal stack, syncs your CRM.",
+      "The revenue engine for your channel. Partner deals get registered, progress, and get credited in Covant — explainable attribution, partner scoring, and next-best-actions underneath. Replaces the PRM-plus-CRM-reports patchwork; syncs your CRM.",
     offers: [
       {
         "@type": "Offer",
@@ -87,7 +87,7 @@ export function WebSiteSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "Partner Experience Management that guides every partner to their next win, tells you which partners to back, and settles attribution underneath.",
+      "The revenue engine for your channel — partner deals register, progress, and get credited in one system, every commission explained.",
   };
 
   return (

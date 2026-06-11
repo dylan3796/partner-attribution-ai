@@ -80,9 +80,9 @@ The lesson isn't that gaps are fine — it's that **every gap maps to a buyer th
 
 The literal product: a partner platform the channel motion runs in — deal registration, 5 attribution models (first-touch, last-touch, split, role-weighted, marketplace co-sell hybrid), commission rules engine, payout approval workflow, partner portal, reconciliation, and "Ask Covant" (AI Q&A over real org data).
 
-We are not fixing the attribution problem. Attribution visibility is the wedge — we parlay it into something much bigger: the partner business itself runs out of Covant. Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Stop using a PRM and CRM reports to see where partners are doing business — run it right out of Covant.
+We are not fixing the attribution problem. Attribution visibility is the wedge — we parlay it into something much bigger: the partner business itself runs out of Covant. Deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained. Stop using a PRM and CRM reports to see where partners are doing business — run it right out of Covant.
 
-The outcome the buyer (VP Partnerships at a $10–200M ARR SaaS) actually wants: **partner-sourced pipeline that builds and progresses — without having to hire a channel sales team to make partner-driven revenue real.**
+The outcome the buyer (VP Partnerships at a $10–200M ARR SaaS) actually wants: **partner-sourced pipeline that builds, progresses, and gets credited — partner-driven revenue made real.**
 
 ### What do we care about?
 
@@ -129,7 +129,7 @@ What to steal, what to translate, what to refuse.
 
 ### Translate (the big one)
 
-**Monaco's pitch is "you can't hire a sales team, so Monaco IS your sales team." Ours is the channel version: if you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do exactly that.** The agentic moves that make that literal:
+**Monaco's pitch is "you can't hire a sales team, so Monaco IS your sales team." We take the system-of-record ambition but NOT the headcount-replacement framing: Covant is where the partner motion itself runs — your team and your partners stay the sellers.** The agentic moves that make that literal:
 
 - Agent chases stale deal registrations and missing touchpoint data — keeps the partner pipeline moving, not just measured
 - Agent flags stuck deals and recommends which partner belongs on a deal — progression, actively driven
@@ -146,12 +146,12 @@ What to steal, what to translate, what to refuse.
 1. **Opaque pricing.** Monaco can get away with it; for us, transparent pricing is a primary weapon against $30K+/yr quote-gated legacy PRM. Keep the public pricing page.
 2. **Beta-gated everything.** Self-serve free tier is our PLG wedge; Monaco doesn't need PLG, we do.
 
-One nuance on the replace-the-stack move: we DO take Monaco's system-of-record ambition — the partner motion runs out of Covant, not out of a PRM or CRM reports. But the company's direct-sales CRM stays; the Salesforce/HubSpot connectors matter as **plumbing** (close data flows in so credit and payouts stay automatic), not as positioning. Activate them, but never describe Covant as a layer on the CRM.
+One nuance on the replace-the-stack move: we DO take Monaco's system-of-record ambition — the partner motion runs out of Covant, not out of a PRM or CRM reports. But the company's direct-sales CRM stays; the Salesforce/HubSpot connectors matter as **plumbing** (close data flows in so credit and commission math stay automatic), not as positioning. Activate them, but never describe Covant as a layer on the CRM.
 
 ### The symmetry, in one line
 
 > Monaco: *"You can't afford a sales team — our AI agents + one embedded human ARE your sales team."*
-> Covant: *"You can't hire a channel sales team to integrate partner-driven revenue — Covant runs your partner pipeline and progression for you."*
+> Covant: *"Covant runs your partner pipeline and progression — registered, progressing, credited, in one system."*
 
 ---
 

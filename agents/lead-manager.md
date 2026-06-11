@@ -61,7 +61,7 @@ Subject: Welcome to Covant - Let's get your partner pipeline moving
 
 Hi {{first_name}},
 
-Thanks for your interest in Covant! I'm {{agent_name}}, and I help teams like yours run their partner pipeline — registration to payout — out of one system, without hiring a channel sales team.
+Thanks for your interest in Covant! I'm {{agent_name}}, and I help teams like yours run their partner pipeline — registration through credited commission — out of one system.
 
 I'd love to learn more about your partner program. Mind answering a few quick questions?
 

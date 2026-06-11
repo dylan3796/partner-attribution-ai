@@ -26,7 +26,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "Covant — Partner Pipeline & Progression",
   description:
-    "Covant is the revenue engine for your channel. If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that: deals get registered, progress, get credited, and pay out — all in Covant. No black-box attribution — every commission ships with a why.",
+    "Covant is the revenue engine for your channel: deals get registered, progress, and get credited — all in Covant, with every commission calculated and explained. No black-box attribution — every credit ships with a why.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Covant — Partner Pipeline & Progression",
-    description: "The revenue engine for your channel. Deals register, progress, get credited, and pay out — all in Covant. Partner-driven revenue without hiring a channel sales team.",
+    description: "The revenue engine for your channel. Deals register, progress, and get credited — all in Covant. Partner pipeline and progression in one system.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Covant — Partner Pipeline & Progression",
-    description: "Deals register, progress, get credited, and pay out — all in Covant. Partner-driven revenue without hiring a channel sales team.",
+    description: "Deals register, progress, and get credited — all in Covant. Partner pipeline and progression in one system.",
   },
   metadataBase: new URL("https://covant.ai"),
 };

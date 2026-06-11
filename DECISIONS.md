@@ -66,12 +66,14 @@
 
 ## 2026-06-11 — Repositioning: Partner Pipeline & Progression
 
-**Decision:** Covant sells **partner pipeline and progression** — "the revenue engine for your channel." Headline pitch: *"If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that."*
+**Decision:** Covant sells **partner pipeline and progression** — "the revenue engine for your channel." Headline pitch: *"The revenue engine for your channel — partner deals get registered, progress, and get credited in one system, every commission calculated and explained."*
 
 **Retired framings (do not use as the lead):** "Partner Intelligence Platform," "prove partner ROI," "measure partner impact," "payouts that run themselves," any "analytics/intelligence layer on top of your CRM" language. These survive only as supporting benefits.
 
-**The model:** Attribution visibility is the wedge, not the product. It's parlayed into the partner motion running out of Covant: deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Covant replaces "PRM + CRM reports" as the place the partner business lives. Salesforce/HubSpot connectors are plumbing (closed-deal data flows in), never the positioning.
+**The model:** Attribution visibility is the wedge, not the product. It's parlayed into the partner motion running out of Covant: deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained. Covant replaces "PRM + CRM reports" as the place the partner business lives. Salesforce/HubSpot connectors are plumbing (closed-deal data flows in), never the positioning.
 
-**Guardrail kept:** Covant never moves money. Payouts are calculated, explained, flagged as earned, and routed for the company's approval — never imply otherwise.
+**Guardrail — money:** Covant never moves money and never facilitates payments. Payouts are calculated, explained, flagged as earned, and routed for the company's approval; the company pays through its own rails. Never write "pay out of Covant" or imply funds flow through us.
+
+**Guardrail — hiring:** Don't pitch Covant as a substitute for hiring ("without hiring a channel sales team," "the team you don't have to hire," "without headcount"). We sell the system the partner pipeline runs in — the customer's team and partners stay the sellers.
 
 **Why:** Channel-driven buyers buy the outcome (pipeline that builds and progresses), not measurement. Mirrors the Monaco playbook — sell the outcome, be the system the motion runs in (see MONACO_ANALYSIS.md).

@@ -8,7 +8,7 @@ import { MOTIONS } from "@/lib/marketing";
 export const metadata: Metadata = {
   title: "Product — Covant",
   description:
-    "The revenue engine for your channel. Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant — partner-driven revenue integrated without hiring a channel sales team. Underneath: explainable attribution where every commission ships with a why, partner scoring, and the next best action. Multi-program from day one.",
+    "The revenue engine for your channel. Deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated and explained. Underneath: explainable attribution where every credit ships with a why, partner scoring, and the next best action. Multi-program from day one.",
 };
 
 // What the partner sees — their home base. All grounded in the live portal + scoring engine.
@@ -19,7 +19,7 @@ const PARTNER_VIEW = [
   },
   {
     title: "Incentives, in the open.",
-    body: "Earned, pending, paid — payouts run out of Covant, flagged the moment the criteria are met, with the evidence attached. No quarter-end chasing, no guesswork.",
+    body: "Earned, pending, paid — every incentive calculated in Covant and flagged the moment the criteria are met, with the evidence attached. No quarter-end chasing, no guesswork.",
   },
   {
     title: "Where they stand.",
@@ -41,10 +41,10 @@ export default function ProductPage() {
             <p className="m-eyebrow">Product</p>
             <h1 className="m-h1">The revenue engine for your channel.</h1>
             <p className="m-lead">
-              Deals get registered in Covant, progress in Covant, get credited in Covant, and
-              pay out of Covant — the whole partner motion in one place, under your brand.
-              Underneath, explainable attribution keeps every credit defensible and tells your
-              team who to back. Multi-program from day one.
+              Deals get registered in Covant, progress in Covant, and get credited in Covant —
+              the whole partner motion in one place, under your brand. Underneath, explainable
+              attribution keeps every credit defensible and tells your team who to back.
+              Multi-program from day one.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -100,8 +100,8 @@ export default function ProductPage() {
               </p>
               <p className="m-small" style={{ marginTop: "1.5rem" }}>
                 <strong style={{ color: "#fbfaf6" }}>Today:</strong> deal registration,
-                pipeline progression, explainable credit, commission payouts,
-                next-best-actions.{" "}
+                pipeline progression, explainable credit, commission calculation and
+                approvals, next-best-actions.{" "}
                 <strong style={{ color: "#fbfaf6" }}>Next:</strong> partner recruiting and
                 guided onboarding — added to the same experience, no re-platforming.
               </p>
@@ -154,9 +154,9 @@ export default function ProductPage() {
             <Reveal>
               <p className="m-body">
                 Salesforce and HubSpot connectors are plumbing: closed-deal data flows in so
-                credit and payouts stay automatic. The partner motion itself — registration,
-                progression, credit, payout — lives in Covant, not scattered across PRM and
-                CRM reports. Self-serve in 15 minutes, not a six-month rollout.
+                credit and commission math stay automatic. The partner motion itself —
+                registration, progression, credit — lives in Covant, not scattered across PRM
+                and CRM reports. Self-serve in 15 minutes, not a six-month rollout.
               </p>
             </Reveal>
           </div>

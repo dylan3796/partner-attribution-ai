@@ -92,7 +92,7 @@
 
 **Where We Win Against Impact.com:**
 1. **Price** — 10x cheaper for mid-market ($299/mo vs $30K+/year)
-2. **The motion, not the tracking** — They track clicks and conversions; in Covant the partner deal itself gets registered, progresses, gets credited, and pays out
+2. **The motion, not the tracking** — They track clicks and conversions; in Covant the partner deal itself gets registered, progresses, and gets credited, with every commission calculated and explained
 3. **Modern UX** — They have a decade of UI debt; we're building clean and modern
 4. **Every partner type** — They're strongest in affiliate/influencer; resellers, agencies, and tech partners run their pipeline in Covant too
 5. **Self-serve** — They require lengthy enterprise sales + onboarding; we're live in 15 minutes
@@ -146,7 +146,7 @@
 3. **Multi-industry** — We serve SaaS, hardware, fintech, services; they're SaaS-only
 4. **Transparent pricing** — Self-serve, published pricing ($299/$799/$1,999); they require sales calls
 5. **Program management** — We have tiers, certifications, territory management; they don't
-6. **A channel sales team in software** — If you can't hire one, Covant does that job; PartnerStack assumes you already have the motion figured out
+6. **The motion end to end** — Covant runs registration through credit in one system; PartnerStack assumes you already have the motion figured out
 
 ---
 
@@ -192,10 +192,10 @@
 **G2 Rating:** 4.6/5 (200+ reviews)
 
 **Where We Win Against Crossbeam:**
-1. **We run the deals; they map the accounts** — Overlap data tells you where to hunt; Covant is where the resulting deals get registered, progress, and pay out
+1. **We run the deals; they map the accounts** — Overlap data tells you where to hunt; Covant is where the resulting deals get registered, progress, and get credited
 2. **Revenue, not reports** — They show partner influence; we integrate partner-driven revenue end to end, with explainable credit on every dollar
 3. **Actionability** — We don't just show overlap; the entire partner motion — registration through payout — lives in Covant
-4. **Incentive management** — Commissions calculate and pay out of Covant; they can't touch money
+4. **Incentive management** — Commission calculation and approval workflows run in Covant; Crossbeam has nothing here
 5. **Partner portal** — Partners work their own pipeline self-serve in Covant; Crossbeam has no partner-facing experience
 6. **Complementary, not competitive** — Initially, we can integrate WITH Crossbeam as a data source
 
@@ -583,7 +583,7 @@ ZINFI           → We're simple and modern; they're complex and dated
 
 ### Summary: Competitive Positioning
 
-> **Covant is the revenue engine for the channel — partner pipeline and progression in one place.** If you can't hire a channel sales team to integrate partner-driven revenue, you use Covant to do just that: deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Attribution visibility is the wedge — explainable, no-black-box credit is what makes partners and finance trust the system enough to run the whole motion in it. Every competitor either stops at visibility (Crossbeam), stops at payouts (PartnerStack, Impact.com), or buries mid-market teams in enterprise PRM (Impartner, ZINFI). No one runs the partner motion end to end, self-serve in 15 minutes, at mid-market pricing. That's our gap. That's our opportunity.
+> **Covant is the revenue engine for the channel — partner pipeline and progression in one place.** Deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained. Attribution visibility is the wedge — explainable, no-black-box credit is what makes partners and finance trust the system enough to run the whole motion in it. Every competitor either stops at visibility (Crossbeam), stops at payouts (PartnerStack, Impact.com), or buries mid-market teams in enterprise PRM (Impartner, ZINFI). No one runs the partner motion end to end, self-serve in 15 minutes, at mid-market pricing. That's our gap. That's our opportunity.
 
 ---
 

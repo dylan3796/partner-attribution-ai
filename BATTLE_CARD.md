@@ -7,13 +7,13 @@
 
 ## The One-Liner
 
-**"Legacy PRMs store partner contracts and onboarding docs. Covant runs your partner revenue — deals get registered, progress, get credited, and pay out, all in one place. Different category."**
+**"Legacy PRMs store partner contracts and onboarding docs. Covant runs your partner revenue — deals get registered, progress, and get credited, with every commission calculated and explained, all in one place. Different category."**
 
 ---
 
 ## Category: The Revenue Engine for Your Channel
 
-We're not a PRM (Partner Relationship Management). We're the **revenue engine for your channel** — the system your partner pipeline actually runs in. If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that: deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant.
+We're not a PRM (Partner Relationship Management). We're the **revenue engine for your channel** — the system your partner pipeline actually runs in. Deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained.
 
 Think of it like:
 - **PRM** = Partner filing cabinet (contracts, onboarding, content libraries)
@@ -36,7 +36,7 @@ Some customers keep a PRM for contracts and training. The partner motion itself 
 | Lots of features (complex) | Takes 6-12 months to implement |
 
 **When to position against them:**
-- "Impartner is great for managing 500+ partner records at scale, but the deals themselves still live in CRM reports and spreadsheets. Covant is where partner deals actually get registered, progress, and pay out."
+- "Impartner is great for managing 500+ partner records at scale, but the deals themselves still live in CRM reports and spreadsheets. Covant is where partner deals actually get registered, progress, and get credited."
 - "Allbound handles onboarding. Covant runs the revenue — registration, progression, credit, payout. When your CFO asks what the program returned, the answer falls out of the system."
 
 **When to partner with them:**
@@ -127,7 +127,7 @@ Transparency is how we land. Running the partner motion is why we stay.
 ## Objection Handling
 
 ### "We already use [Impartner/Allbound]"
-✅ **Great — keep it for onboarding and content if it's working. The revenue side is what moves into Covant: deals get registered, progress, get credited, and pay out here. Most teams find their PRM quietly becomes a content library, and the partner business runs out of Covant.**
+✅ **Great — keep it for onboarding and content if it's working. The revenue side is what moves into Covant: deals get registered, progress, and get credited here. Most teams find their PRM quietly becomes a content library, and the partner business runs out of Covant.**
 
 ### "Salesforce PRM is free"
 ✅ **It's free, but how much does your finance team spend reconciling partner commissions every quarter? What's the cost of a partner dispute that delays a deal by 30 days? When the deal flow runs in Covant, credit and payouts are automatic — we save 40+ hours/month and eliminate disputes. It pays for itself in Month 1.**
@@ -139,7 +139,7 @@ Transparency is how we land. Running the partner motion is why we stay.
 ✅ **Crossbeam finds co-sell opportunities. Covant is where those opportunities become pipeline — registered, progressed, credited, and paid. Crossbeam is discovery. Covant is the revenue engine. Use both.**
 
 ### "Can you do [feature X] that Impartner has?"
-❌ **We're not trying to out-feature Impartner. We solve a different problem: integrating partner-driven revenue without hiring a channel sales team. If you need contract workflows and training libraries, keep Impartner. If you need partner pipeline created, progressing, and paying out, that's us.**
+❌ **We're not trying to out-feature Impartner. We solve a different problem: running partner pipeline end to end — registered, progressing, credited. If you need contract workflows and training libraries, keep Impartner. If you need partner pipeline created, progressing, and credited, that's us.**
 
 ---
 
@@ -154,8 +154,8 @@ Transparency is how we land. Running the partner motion is why we stay.
 3. **"Trust Through Transparency"**
    - Partners see exactly why they earned their commission. No black boxes.
 
-4. **"The Channel Sales Team You Don't Have to Hire"**
-   - Built for the CRO asking "Where's my next $10M in partner-sourced pipeline?" — and the team expected to deliver it without headcount.
+4. **"Partner Pipeline That Actually Progresses"**
+   - Built for the CRO asking "Where's my next $10M in partner-sourced pipeline?" — and the team expected to deliver it.
 
 ---
 
@@ -192,7 +192,7 @@ We're in early access — formal case studies are in development. In the meantim
 
 ## The Benioff Close
 
-*"You're not buying software. You're buying the channel sales team you can't hire: deals registered, progressed, credited, and paid — without adding headcount."*
+*"You're not buying software. You're buying partner pipeline that moves: deals registered, progressed, and credited — every commission explained."*
 
 *"Partner programs are either a cost center or a revenue engine. Covant turns yours into an engine."*
 
