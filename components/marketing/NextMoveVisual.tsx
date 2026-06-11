@@ -1,42 +1,79 @@
 /**
- * Illustrative snapshot of a partner's home base in the portal: where they
- * stand, what's owed, and the next move Covant recommends. Clearly labelled
- * as an example — not live customer data. Mirrors real portal surface
- * (app/portal/** dashboard, commissions, tier progress).
+ * Illustrative product shot: a partner's home base in the portal — earnings
+ * at a glance, explicit tier criteria, and the recommended next move.
+ * Clearly labelled example data, not a live customer. Mirrors real portal
+ * surface (app/portal/** dashboard, commissions, tier progress).
  */
 export default function NextMoveVisual() {
   return (
     <div
-      className="m-split"
+      className="m-shot"
       role="img"
-      aria-label="Example partner portal view showing tier progress, earnings status, and a recommended next move"
+      aria-label="Example partner portal screen: earnings summary, progress toward Gold tier with explicit criteria, and a recommended next move"
     >
-      <div className="m-split-head">
-        <span>Partner portal · Meridian Consulting</span>
-        <span>Example</span>
-      </div>
-      <div className="m-next-body">
-        <div className="m-next-row">
-          <span className="m-next-label">Tier</span>
-          <span className="m-next-value">
-            Silver — 2 won deals from Gold
-            <span className="m-split-track m-next-track">
-              <span className="m-split-fill" style={{ width: "70%" }} />
+      <div className="m-app">
+        <div className="m-app-bar">
+          <span className="m-app-dot" />
+          <span className="m-app-dot" />
+          <span className="m-app-dot" />
+          <span className="m-app-title">Partner portal · your brand</span>
+          <span className="m-app-tag">Example data</span>
+        </div>
+        <div className="m-app-head" style={{ alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: ".7rem" }}>
+            <span className="m-avatar" style={{ background: "#1f5d4c" }}>
+              MC
             </span>
-          </span>
+            <div>
+              <div className="m-app-deal">Meridian Consulting</div>
+              <p className="m-app-sub" style={{ marginTop: ".1rem" }}>
+                SI program · partner since 2024
+              </p>
+            </div>
+          </div>
+          <span className="m-pill">Silver tier</span>
         </div>
-        <div className="m-next-row">
-          <span className="m-next-label">Owed</span>
-          <span className="m-next-value">
-            $18,400 earned · $6,200 pending approval · $4,100 projected next quarter
-          </span>
+        <div className="m-stats">
+          <div className="m-stat">
+            <p className="m-stat-label">Earned YTD</p>
+            <p className="m-stat-value">$48,200</p>
+          </div>
+          <div className="m-stat">
+            <p className="m-stat-label">Pending approval</p>
+            <p className="m-stat-value">$6,400</p>
+          </div>
+          <div className="m-stat">
+            <p className="m-stat-label">Projected Q3</p>
+            <p className="m-stat-value">$12,800</p>
+          </div>
         </div>
-        <div className="m-next-move">
-          <span className="m-next-move-tag">Next move</span>
-          <span>
-            Register the Northwind expansion — your eval work is already credited on the
-            account.
+        <div className="m-prog">
+          <div className="m-prog-top">
+            <span>Progress to Gold</span>
+            <span>78%</span>
+          </div>
+          <span className="m-app-bartrack">
+            <span className="m-app-barfill" style={{ width: "78%" }} />
           </span>
+          <ul className="m-checklist">
+            <li>
+              <span className="m-check">✓</span> $250K influenced revenue — met
+            </li>
+            <li>
+              <span className="m-check">✓</span> 8 registered deals — met
+            </li>
+            <li>
+              <span className="m-check m-check--todo">○</span> 2 more closed wins to qualify
+            </li>
+          </ul>
+        </div>
+        <div className="m-reco">
+          <p className="m-reco-tag">Recommended next move</p>
+          <p className="m-reco-body">
+            Register the Atlas Logistics expansion — your evaluation work on the account is
+            already credited.
+          </p>
+          <span className="m-reco-btn">Register deal →</span>
         </div>
       </div>
     </div>

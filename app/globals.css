@@ -2357,22 +2357,54 @@ a:focus-visible {
 .m-list-item{display:grid;grid-template-columns:auto 1fr;gap:1.5rem;padding:1.5rem 0;border-top:1px solid var(--m-border)}
 .m-list-item:last-child{border-bottom:1px solid var(--m-border)}
 
-/* Attribution split visual (illustrative) */
-.m-split{border:1px solid var(--m-border);border-radius:var(--m-radius);overflow:hidden}
-.m-split-head{display:flex;justify-content:space-between;align-items:center;padding:.85rem 1.1rem;background:var(--m-surface);border-bottom:1px solid var(--m-border);font-size:.8rem;color:var(--m-muted);letter-spacing:.04em}
-.m-split-row{display:grid;grid-template-columns:160px 1fr 52px;align-items:center;gap:1rem;padding:.85rem 1.1rem;border-bottom:1px solid var(--m-border)}
-.m-split-row:last-child{border-bottom:none}
-.m-split-name{font-size:.9rem;font-weight:600;color:var(--m-ink)}
-.m-split-track{height:8px;border-radius:99px;background:var(--m-accent-soft);overflow:hidden}
-.m-split-fill{display:block;height:100%;border-radius:99px;background:var(--m-accent)}
-.m-split-pct{font-size:.85rem;font-weight:600;color:var(--m-ink-2);text-align:right;font-variant-numeric:tabular-nums}
-@media (max-width:560px){.m-split-row{grid-template-columns:1fr 44px;grid-template-areas:"name pct" "track track"}.m-split-name{grid-area:name}.m-split-pct{grid-area:pct}.m-split-track{grid-area:track}}
-
-/* Split variant with a per-row reason line (the paper trail) */
-.m-split-row--reason{grid-template-areas:"name track pct" "reason reason reason";grid-template-rows:auto auto;row-gap:.3rem}
-.m-split-role{font-size:.72rem;font-weight:600;color:var(--m-muted);letter-spacing:.06em;text-transform:uppercase;margin-left:.35rem}
-.m-split-reason{grid-area:reason;font-size:.82rem;line-height:1.4;color:var(--m-muted)}
-@media (max-width:560px){.m-split-row--reason{grid-template-areas:"name pct" "track track" "reason reason"}}
+/* ── Product mockups (illustrative app windows) ─────────────
+   Framed, layered UI shots built in JSX/CSS — believable product surface,
+   not wireframes. Shared chrome (.m-app*), then per-shot pieces. */
+.m-shot{position:relative}
+.m-app{background:#fff;border:1px solid var(--m-border);border-radius:14px;box-shadow:0 1px 2px rgba(22,21,15,.05),0 28px 64px -28px rgba(22,21,15,.28);overflow:hidden;font-size:.85rem}
+.m-app-bar{display:flex;align-items:center;gap:.4rem;padding:.6rem .9rem;border-bottom:1px solid var(--m-border);background:var(--m-surface)}
+.m-app-dot{width:8px;height:8px;border-radius:99px;background:var(--m-border)}
+.m-app-title{flex:1;text-align:center;font-size:.72rem;color:var(--m-muted);letter-spacing:.04em}
+.m-app-tag{font-size:.64rem;font-weight:600;color:var(--m-muted);border:1px solid var(--m-border);border-radius:99px;padding:.12rem .5rem;letter-spacing:.04em;white-space:nowrap}
+.m-app-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;padding:1rem 1.1rem;border-bottom:1px solid var(--m-border)}
+.m-app-deal{font-family:var(--font-display);font-weight:600;font-size:1.02rem;color:var(--m-ink);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.m-app-sub{font-size:.74rem;color:var(--m-muted);margin-top:.25rem}
+.m-app-amount{font-family:var(--font-display);font-weight:600;font-size:1.15rem;color:var(--m-ink);text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.m-pill{display:inline-flex;align-items:center;font-size:.64rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:99px;padding:.16rem .55rem;background:var(--m-accent-soft);color:var(--m-accent-ink);white-space:nowrap}
+.m-pill--line{background:transparent;border:1px solid var(--m-border);color:var(--m-muted)}
+.m-app-row{display:grid;grid-template-columns:auto 1fr auto;gap:.85rem;padding:.85rem 1.1rem;align-items:flex-start}
+.m-app-row+.m-app-row{border-top:1px solid var(--m-border)}
+.m-avatar{width:30px;height:30px;border-radius:99px;display:inline-flex;align-items:center;justify-content:center;font-size:.64rem;font-weight:700;color:#fff;background:var(--m-accent);flex-shrink:0}
+.m-app-name{font-weight:600;font-size:.86rem;color:var(--m-ink);display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.m-app-reason{font-size:.74rem;color:var(--m-muted);margin-top:.3rem;line-height:1.45}
+.m-app-bartrack{display:block;height:5px;border-radius:99px;background:#edebe4;margin-top:.55rem;overflow:hidden}
+.m-app-barfill{display:block;height:100%;border-radius:99px;background:var(--m-accent)}
+.m-app-pct{font-weight:700;font-size:.92rem;color:var(--m-ink);text-align:right;font-variant-numeric:tabular-nums}
+.m-app-credit{font-size:.72rem;color:var(--m-muted);text-align:right;margin-top:.2rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.m-app-foot{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:.7rem 1.1rem;border-top:1px solid var(--m-border);background:var(--m-surface);font-size:.74rem;color:var(--m-muted)}
+.m-app-link{color:var(--m-accent);font-weight:600;white-space:nowrap}
+/* Partner-portal shot */
+.m-stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--m-border)}
+.m-stat{padding:.85rem 1.1rem;min-width:0}
+.m-stat+.m-stat{border-left:1px solid var(--m-border)}
+.m-stat-label{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--m-muted);font-weight:700}
+.m-stat-value{font-family:var(--font-display);font-weight:600;font-size:1.02rem;color:var(--m-ink);margin-top:.3rem;font-variant-numeric:tabular-nums}
+.m-prog{padding:1rem 1.1rem;border-bottom:1px solid var(--m-border)}
+.m-prog-top{display:flex;justify-content:space-between;align-items:baseline;font-size:.8rem;font-weight:600;color:var(--m-ink)}
+.m-checklist{list-style:none;margin:.75rem 0 0;padding:0;display:flex;flex-direction:column;gap:.45rem;font-size:.76rem;color:var(--m-ink-2)}
+.m-checklist li{display:flex;align-items:center;gap:.55rem}
+.m-check{width:16px;height:16px;border-radius:99px;display:inline-flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;background:var(--m-accent);color:#fff;flex-shrink:0}
+.m-check--todo{background:transparent;border:1px solid var(--m-border);color:var(--m-muted)}
+.m-reco{margin:1rem 1.1rem 1.1rem;padding:.9rem 1rem;background:var(--m-accent-soft);border-radius:10px}
+.m-reco-tag{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--m-accent)}
+.m-reco-body{font-size:.8rem;margin:.4rem 0 0;line-height:1.5;color:var(--m-accent-ink)}
+.m-reco-btn{display:inline-block;margin-top:.65rem;font-size:.76rem;font-weight:700;color:var(--m-accent)}
+/* Floating toast overlapping the window (depth) */
+.m-float{position:absolute;left:-2.4rem;bottom:-2.6rem;display:flex;gap:.65rem;align-items:flex-start;background:#fff;border:1px solid var(--m-border);border-radius:12px;box-shadow:0 18px 48px -18px rgba(22,21,15,.35);padding:.75rem .95rem;max-width:280px}
+.m-float-icon{width:26px;height:26px;border-radius:99px;background:var(--m-accent-soft);color:var(--m-accent);display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0}
+.m-float-title{font-size:.78rem;font-weight:700;color:var(--m-ink);margin:0}
+.m-float-sub{font-size:.72rem;color:var(--m-muted);margin:.15rem 0 0;line-height:1.4}
+@media (max-width:900px){.m-float{position:static;margin-top:.9rem;max-width:none}}
 
 /* Trust strip (integrations + security line under the hero) */
 .m-trust{display:flex;flex-wrap:wrap;align-items:baseline;gap:.6rem 2rem;padding:1.4rem 0;border-top:1px solid var(--m-border)}
@@ -2381,15 +2413,6 @@ a:focus-visible {
 .m-trust-items li{font-size:.9rem;font-weight:600;color:var(--m-ink-2)}
 .m-trust-note{font-size:.82rem;color:var(--m-muted);margin:0;flex-basis:100%}
 .m-trust-note a{color:var(--m-accent);font-weight:600;text-decoration:none}
-
-/* Partner portal "next move" visual (illustrative) */
-.m-next-body{display:flex;flex-direction:column}
-.m-next-row{display:grid;grid-template-columns:64px 1fr;gap:1rem;align-items:start;padding:.95rem 1.1rem;border-bottom:1px solid var(--m-border)}
-.m-next-label{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--m-muted);padding-top:.15rem}
-.m-next-value{font-size:.9rem;font-weight:500;color:var(--m-ink);line-height:1.45}
-.m-next-track{display:block;margin-top:.55rem}
-.m-next-move{display:flex;flex-direction:column;gap:.45rem;padding:1rem 1.1rem;background:var(--m-accent-soft);font-size:.9rem;line-height:1.45;color:var(--m-accent-ink)}
-.m-next-move-tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--m-accent)}
 
 /* Workflow walkthrough cards (numbered step loops) */
 .m-flow-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--m-accent);margin:0 0 .55rem}
