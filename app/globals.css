@@ -2305,7 +2305,7 @@ a:focus-visible {
 
 /* Layout primitives */
 .m-container{max-width:var(--m-maxw);margin:0 auto;padding:0 1.5rem;width:100%}
-.m-section{padding:5rem 0;border-top:1px solid var(--m-border)}
+.m-section{padding:5rem 0;border-top:1px solid var(--m-border);scroll-margin-top:90px}
 .m-section--flush{border-top:none}
 .m-section--surface{background:var(--m-surface)}
 .m-section--ink{background:var(--m-ink);color:#f3f1ea;border-top:none}
@@ -2324,6 +2324,7 @@ a:focus-visible {
 .m-body{font-size:1rem;line-height:1.6;color:var(--m-ink-2);margin:0}
 .m-small{font-size:.875rem;line-height:1.5;color:var(--m-muted)}
 .m-section--ink .m-body{color:#c9c6bc}
+.m-section--ink .m-small{color:#a8a496}
 
 /* Buttons */
 .m-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-size:.95rem;font-weight:600;padding:.8rem 1.4rem;border-radius:var(--m-radius);border:1px solid var(--m-accent);background:var(--m-accent);color:var(--m-accent-fg);cursor:pointer;transition:background .15s ease,border-color .15s ease;text-align:center;line-height:1}
@@ -2411,7 +2412,7 @@ a:focus-visible {
 .m-trust-label{font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--m-muted);margin:0}
 .m-trust-items{display:flex;flex-wrap:wrap;gap:.5rem 1.75rem;margin:0;padding:0;list-style:none}
 .m-trust-items li{font-size:.9rem;font-weight:600;color:var(--m-ink-2)}
-.m-trust-note{font-size:.82rem;color:var(--m-muted);margin:0;flex-basis:100%}
+.m-trust-note{font-size:.82rem;color:var(--m-ink-2);margin:0;flex-basis:100%}
 .m-trust-note a{color:var(--m-accent);font-weight:600;text-decoration:none}
 
 /* Workflow walkthrough cards (numbered step loops) */

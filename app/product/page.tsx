@@ -90,11 +90,13 @@ export default function ProductPage() {
               <p className="m-body">
                 Covant is the rails, not the brand. Decide exactly what each partner sees —
                 gated by tier and segment, under your rules. Run it as your own portal, embed
-                it in your product, or pipe the data into your stack via API. Administer every
-                program — tiers, incentive rules, payout approvals, the recommendations that
-                fire — from one console, and roll partner-sourced revenue up to the CRO across
-                all of it. And ask your partner data anything in plain language; Ask Covant
-                answers, no report to build.
+                it in your product, or pipe the data into your stack via API.
+              </p>
+              <p className="m-body" style={{ marginTop: "1rem" }}>
+                Administer every program — tiers, incentive rules, payout approvals, the
+                recommendations that fire — from one console, and roll partner-sourced
+                revenue up to the CRO across all of it. And ask your partner data anything in
+                plain language; Ask Covant answers, no report to build.
               </p>
               <p className="m-small" style={{ marginTop: "1.5rem" }}>
                 <strong style={{ color: "#fbfaf6" }}>Today:</strong> deal registration,
