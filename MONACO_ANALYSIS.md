@@ -76,19 +76,22 @@ The lesson isn't that gaps are fine — it's that **every gap maps to a buyer th
 
 ### What are we selling?
 
-**Not software. Proof — and payouts that run themselves.**
+**Not software. Partner pipeline and progression.**
 
-The literal product: an attribution-first partner intelligence platform — 5 attribution models (first-touch, last-touch, split, role-weighted, marketplace co-sell hybrid), commission rules engine, payout approval workflow, partner portal, deal registration, reconciliation, and "Ask Covant" (AI Q&A over real org data).
+The literal product: a partner platform the channel motion runs in — deal registration, 5 attribution models (first-touch, last-touch, split, role-weighted, marketplace co-sell hybrid), commission rules engine, payout approval workflow, partner portal, reconciliation, and "Ask Covant" (AI Q&A over real org data).
 
-The outcome the buyer (VP Partnerships at a $10–200M ARR SaaS) actually wants: **walk into the CRO meeting and prove which partners drive revenue — then pay them without disputes or spreadsheets.**
+We are not fixing the attribution problem. Attribution visibility is the wedge — we parlay it into something much bigger: the partner business itself runs out of Covant. Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Stop using a PRM and CRM reports to see where partners are doing business — run it right out of Covant.
+
+The outcome the buyer (VP Partnerships at a $10–200M ARR SaaS) actually wants: **partner-sourced pipeline that builds and progresses — without having to hire a channel sales team to make partner-driven revenue real.**
 
 ### What do we care about?
 
-1. **Attribution truth, explained.** Every commission ships with a "why" ("you got 60% because you registered + demoed"). Explainability kills disputes, and disputes are the #1 trust-killer in channel programs.
-2. **Trust between vendor and partner.** Partner portal with real-time commission visibility on every plan — transparency as a feature, not a tier.
-3. **Mid-market economics.** $299–$1,999/mo, transparent, self-serve vs. $30K–$100K/yr legacy PRM with 6-month implementations.
-4. **Speed to value.** 15 minutes to first attribution report.
-5. **AI-native, not AI-washed.** Attribution data feeds everything; Ask Covant reasons over it.
+1. **The partner motion living in one place.** Register → progress → credit → pay, all in Covant. Not a reporting layer bolted onto a CRM and a PRM nobody logs into.
+2. **Attribution visibility, explained.** Every commission ships with a "why" ("you got 60% because you registered + demoed"). Explainability kills disputes, and disputes are the #1 trust-killer in channel programs — but visibility is the means, pipeline is the end.
+3. **Trust between vendor and partner.** Partner portal with real-time deal and commission visibility on every plan — transparency as a feature, not a tier.
+4. **Mid-market economics.** $299–$1,999/mo, transparent, self-serve vs. $30K–$100K/yr legacy PRM with 6-month implementations.
+5. **Speed to value.** 15 minutes to first attribution report; partner pipeline visible from week one.
+6. **AI-native, not AI-washed.** The partner motion generates the data; Ask Covant reasons over it.
 
 ### What do we deliberately NOT care about?
 
@@ -101,10 +104,11 @@ This list is healthy. Like Monaco's gaps, each maps to a buyer we've chosen not 
 
 ### What's our sauce?
 
-1. **Explainable multi-touch attribution as the foundation everything else sits on** — competitors bolt last-touch reporting onto a portal; we built the portal on top of the attribution engine.
-2. **The marketplace co-sell hybrid model** — handles "reseller sourced, we demoed, integration partner influenced" scenarios nobody else models.
-3. **10x price disruption with a more modern product** — the Monaco-style consolidation economics, applied to the partner stack.
-4. **AI that answers questions about YOUR partner data**, not generic copilot theater.
+1. **The partner motion runs IN Covant.** Deal reg, progression, credit, payout — one system of action, the same way Monaco's agents make Monaco the system of record instead of a layer on Salesforce. Competitors report on a partner business that lives somewhere else; in Covant, it lives here.
+2. **Explainable multi-touch attribution as the trust mechanism underneath it** — competitors bolt last-touch reporting onto a portal; our portal, payouts, and analytics all sit on the attribution engine, so partners trust the pipeline they're building.
+3. **The marketplace co-sell hybrid model** — handles "reseller sourced, we demoed, integration partner influenced" scenarios nobody else models.
+4. **10x price disruption with a more modern product** — the Monaco-style consolidation economics, applied to the partner stack.
+5. **AI that answers questions about YOUR partner data**, not generic copilot theater.
 
 ---
 
@@ -116,36 +120,38 @@ What to steal, what to translate, what to refuse.
 
 | Monaco move | Covant version |
 |---|---|
-| Name the category after the outcome: "revenue engine" | Stop leading with "attribution platform." Lead with **"the revenue engine for your partner program"** / "prove and pay." Attribution is the how, not the what. |
-| Denominate every claim in outcomes | Not "5 attribution models" → "know within 15 minutes which partners actually source revenue, and run payouts with zero disputes." |
+| Name the category after the outcome: "revenue engine" | Stop leading with "attribution platform." Lead with **"partner pipeline and progression"** — the revenue engine for your channel. Attribution is the how, not the what. |
+| Denominate every claim in outcomes | Not "5 attribution models" → "partner-sourced pipeline you can see building and progressing from week one — with every dollar of credit explained." |
+| System of record/action ambition | Monaco replaces the CRM for startups; Covant replaces "PRM + CRM reports" as the place the partner business runs. Don't position as a layer on their stack — the deal reg, progression, credit, and payout motion happens **in Covant**. |
 | One system replacing a stack | Name the stack we kill: **spreadsheets + last-touch CRM reports + a payout script + a legacy PRM nobody logs into.** One number: hours/quarter spent reconciling commissions. |
 | Ruthless ICP discipline | Keep saying it without hedging: $10–200M ARR SaaS, 10–200 partners, outgrowing spreadsheets. Keep saying **no** to enterprise PRM RFPs asking for LMS + MDF. |
 | Honest AI positioning | Monaco: "no AI pretending to be a rep." Covant: **"no black-box attribution"** — every dollar of credit is explainable and auditable. Same trust move, our domain. |
 
 ### Translate (the big one)
 
-**Monaco's agents DO the work; Covant currently measures the work.** The agentic leap for us:
+**Monaco's pitch is "you can't hire a sales team, so Monaco IS your sales team." Ours is the channel version: if you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do exactly that.** The agentic moves that make that literal:
 
-- Agent chases stale deal registrations and missing touchpoint data
+- Agent chases stale deal registrations and missing touchpoint data — keeps the partner pipeline moving, not just measured
+- Agent flags stuck deals and recommends which partner belongs on a deal — progression, actively driven
 - Agent drafts the QBR deck per partner (already on Phase 3 roadmap — pull it forward)
-- Agent flags at-risk partners and recommends which partner belongs on a deal
 - Agent runs the payout cycle end-to-end: calculates → explains → routes for approval → notifies partners
-- "Ask Covant" graduates from answering questions to **doing partner ops**
+- "Ask Covant" graduates from answering questions to **running the channel motion**
 
-**Forward-deployed equivalent:** bundle a fractional **"partner ops manager"** (us, the founders, initially) with the first 10–20 customers. White-glove their data in, run their first attribution cycle with them, guarantee a "which partners drive revenue" readout in week one. This is how Monaco manufactures its case studies; it's how we should manufacture ours. It also directly powers the existing "founding customer" motion in GTM_STRATEGY.md.
+**Forward-deployed equivalent:** bundle a fractional **"channel manager"** (us, the founders, initially) with the first 10–20 customers. White-glove their partners in, stand up deal registration, get partner-sourced pipeline visible and progressing in week one. This is how Monaco manufactures its case studies; it's how we should manufacture ours. It also directly powers the existing "founding customer" motion in GTM_STRATEGY.md.
 
 **Distribution equivalent:** We don't have Sam Blond's founder brand — our substitute is already in the GTM plan: Partnership Leaders community, the advisory board of recognized partnership leaders, Catalyst/PartnerUp. Double down; for our ICP, those communities are what Blond's Twitter following is for his.
 
 ### Refuse to copy
 
 1. **Opaque pricing.** Monaco can get away with it; for us, transparent pricing is a primary weapon against $30K+/yr quote-gated legacy PRM. Keep the public pricing page.
-2. **Rip-and-replace the CRM.** Monaco replaces Salesforce because startups don't have one yet. **Channel orgs live in their CRM.** We must integrate, not replace — which makes activating the already-built Salesforce/HubSpot connectors our single highest-leverage gap. Attribution credibility depends on ingesting the deal data automatically; until then, our "email-only" equivalent weakness is "manual data in."
-3. **Beta-gated everything.** Self-serve free tier is our PLG wedge; Monaco doesn't need PLG, we do.
+2. **Beta-gated everything.** Self-serve free tier is our PLG wedge; Monaco doesn't need PLG, we do.
+
+One nuance on the replace-the-stack move: we DO take Monaco's system-of-record ambition — the partner motion runs out of Covant, not out of a PRM or CRM reports. But the company's direct-sales CRM stays; the Salesforce/HubSpot connectors matter as **plumbing** (close data flows in so credit and payouts stay automatic), not as positioning. Activate them, but never describe Covant as a layer on the CRM.
 
 ### The symmetry, in one line
 
 > Monaco: *"You can't afford a sales team — our AI agents + one embedded human ARE your sales team."*
-> Covant: *"You can't prove your partner program works — our attribution engine + AI ARE your partner ops team."*
+> Covant: *"You can't hire a channel sales team to integrate partner-driven revenue — Covant runs your partner pipeline and progression for you."*
 
 ---
 
