@@ -8,7 +8,7 @@ import { MOTIONS } from "@/lib/marketing";
 export const metadata: Metadata = {
   title: "Product — Covant",
   description:
-    "One platform for the whole partner experience. Covant gives every partner their own home base — revenue credited with reasons, what they're owed, where they stand, and their next move — in an experience you configure, brand, and control. Underneath: partner scoring, prescriptive actions, and attribution with a paper trail, synced to your CRM. Multi-program from day one.",
+    "The revenue engine for your channel. Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant — partner-driven revenue integrated without hiring a channel sales team. Underneath: explainable attribution where every commission ships with a why, partner scoring, and the next best action. Multi-program from day one.",
 };
 
 // What the partner sees — their home base. All grounded in the live portal + scoring engine.
@@ -19,7 +19,7 @@ const PARTNER_VIEW = [
   },
   {
     title: "Incentives, in the open.",
-    body: "Earned, pending, approved — flagged the moment the criteria are met, with the evidence attached. Payment stays in your hands; the guesswork doesn't.",
+    body: "Earned, pending, paid — payouts run out of Covant, flagged the moment the criteria are met, with the evidence attached. No quarter-end chasing, no guesswork.",
   },
   {
     title: "Where they stand.",
@@ -39,12 +39,12 @@ export default function ProductPage() {
         <div className="m-container m-hero-grid">
           <div>
             <p className="m-eyebrow">Product</p>
-            <h1 className="m-h1">One platform for the whole partner experience.</h1>
+            <h1 className="m-h1">The revenue engine for your channel.</h1>
             <p className="m-lead">
-              Covant gives every partner their own home base — the revenue they&apos;ve driven,
-              what they&apos;re owed, and their next move — in an experience you control and
-              brand. Underneath, it scores partners, tells your team who to back, and settles
-              attribution to your CRM with a paper trail. Multi-program from day one.
+              Deals get registered in Covant, progress in Covant, get credited in Covant, and
+              pay out of Covant — the whole partner motion in one place, under your brand.
+              Underneath, explainable attribution keeps every credit defensible and tells your
+              team who to back. Multi-program from day one.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -100,7 +100,7 @@ export default function ProductPage() {
               </p>
               <p className="m-small" style={{ marginTop: "1.5rem" }}>
                 <strong style={{ color: "#fbfaf6" }}>Today:</strong> deal registration,
-                attribution with a paper trail, earned-incentive tracking, scorecards,
+                pipeline progression, explainable credit, commission payouts,
                 next-best-actions.{" "}
                 <strong style={{ color: "#fbfaf6" }}>Next:</strong> partner recruiting and
                 guided onboarding — added to the same experience, no re-platforming.
@@ -135,7 +135,7 @@ export default function ProductPage() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">The attribution underneath</p>
-            <h2 className="m-h2">One model per motion. Recommended, not guessed.</h2>
+            <h2 className="m-h2">One model per motion. Never a black box.</h2>
           </Reveal>
           <Reveal style={{ marginTop: "2.5rem" }}>
             <ModelList />
@@ -148,16 +148,15 @@ export default function ProductPage() {
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "center" }}>
             <Reveal>
-              <p className="m-eyebrow">Sits in your stack</p>
-              <h2 className="m-h2">Built on your CRM, not instead of it.</h2>
+              <p className="m-eyebrow">The plumbing</p>
+              <h2 className="m-h2">Your CRM feeds it. Covant runs it.</h2>
             </Reveal>
             <Reveal>
               <p className="m-body">
-                Covant runs the partner experience on top of the relationship — scoring,
-                attribution, earned incentives, and the next move. Your CRM stays the source
-                of truth for deals; Covant reads from it, catches the signal that never made
-                it in, writes back the numbers your CRO can trust, and stands up in days, not
-                a six-month rollout.
+                Salesforce and HubSpot connectors are plumbing: closed-deal data flows in so
+                credit and payouts stay automatic. The partner motion itself — registration,
+                progression, credit, payout — lives in Covant, not scattered across PRM and
+                CRM reports. Self-serve in 15 minutes, not a six-month rollout.
               </p>
             </Reveal>
           </div>

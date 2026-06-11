@@ -1,5 +1,5 @@
 # Competitive Battle Card
-### PartnerBase vs. Legacy PRM
+### Covant vs. Legacy PRM
 
 *Use this when prospects mention Impartner, Allbound, Crossbeam, or Reveal*
 
@@ -7,19 +7,19 @@
 
 ## The One-Liner
 
-**"Legacy PRMs manage partner contracts and onboarding. PartnerBase measures partner ROI and predicts revenue. Different category."**
+**"Legacy PRMs store partner contracts and onboarding docs. Covant runs your partner revenue — deals get registered, progress, get credited, and pay out, all in one place. Different category."**
 
 ---
 
-## Category: Partner Intelligence Platform
+## Category: The Revenue Engine for Your Channel
 
-We're not a PRM (Partner Relationship Management). We're a **Partner Intelligence Platform** — the analytics and attribution layer that sits on top of your CRM and tells you which partners actually drive revenue.
+We're not a PRM (Partner Relationship Management). We're the **revenue engine for your channel** — the system your partner pipeline actually runs in. If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that: deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant.
 
 Think of it like:
-- **PRM** = Partner CRM (contracts, onboarding, content libraries)
-- **PartnerBase** = Partner analytics (attribution, ROI, revenue intelligence)
+- **PRM** = Partner filing cabinet (contracts, onboarding, content libraries)
+- **Covant** = Partner sales floor (pipeline, progression, credit, payouts)
 
-Many customers use both. We integrate with Impartner/Allbound.
+Some customers keep a PRM for contracts and training. The partner motion itself moves into Covant.
 
 ---
 
@@ -29,18 +29,18 @@ Many customers use both. We integrate with Impartner/Allbound.
 
 | **What They Do Well** | **What They Miss** |
 |-----------------------|--------------------|
-| Contract management | No attribution intelligence |
-| Partner onboarding workflows | No revenue impact measurement |
+| Contract management | No view of partner pipeline actually moving |
+| Partner onboarding workflows | Deals progress somewhere else (CRM reports, spreadsheets) |
 | Content/training libraries | Can't answer "Which partners drive revenue?" |
 | Deal registration (basic) | Manual commission calculations |
 | Lots of features (complex) | Takes 6-12 months to implement |
 
 **When to position against them:**
-- "Impartner is great for managing 500+ partners at scale, but it won't tell you which 50 partners to invest your MDF budget in. That's us."
-- "Allbound handles onboarding. We handle the question your CFO asks: 'What's the ROI on our partner program?'"
+- "Impartner is great for managing 500+ partner records at scale, but the deals themselves still live in CRM reports and spreadsheets. Covant is where partner deals actually get registered, progress, and pay out."
+- "Allbound handles onboarding. Covant runs the revenue — registration, progression, credit, payout. When your CFO asks what the program returned, the answer falls out of the system."
 
 **When to partner with them:**
-- "We integrate with Impartner. You keep using it for contracts and training. We layer attribution and revenue intelligence on top."
+- "Keep Impartner for contracts and training if it's working. The deal flow — registration through payout — moves into Covant."
 
 ---
 
@@ -51,14 +51,14 @@ Many customers use both. We integrate with Impartner/Allbound.
 | Partner discovery (account mapping) | No attribution modeling |
 | Overlap analysis | No commission automation |
 | Co-sell opportunity identification | No partner portal |
-| Slack integrations | Can't measure long-term partner ROI |
+| Slack integrations | No pipeline progression, credit, or payouts |
 
 **When to position against them:**
-- "Crossbeam finds the opportunities. We measure which partners close them and what they should be paid."
-- "Reveal is great for co-sell discovery. PartnerBase answers: After the deal closes, how do we split the credit fairly?"
+- "Crossbeam finds the opportunities. Covant is where they become pipeline — registered, progressed, credited, and paid."
+- "Reveal is great for co-sell discovery. Covant runs everything after: the deal registers, progresses, and when it closes, credit and payout happen automatically — with a why attached."
 
 **When to partner with them:**
-- "Use Crossbeam to find co-sell opps, then send them into PartnerBase for attribution and payout automation."
+- "Use Crossbeam to find co-sell opps, then register them in Covant, where they progress through to close, credit, and payout."
 
 ---
 
@@ -72,11 +72,11 @@ Many customers use both. We integrate with Impartner/Allbound.
 | Workflow automation | Can't answer "Which attribution model is fair?" |
 
 **When to position against them:**
-- "Salesforce PRM tracks partner activity. PartnerBase measures partner *impact*. Big difference."
-- "You can log partner touchpoints in SFDC, but can you automatically calculate who gets 60% credit vs. 40%? That's our AI."
+- "Salesforce PRM logs partner activity into CRM reports. Covant is where the partner motion actually *runs* — registration, progression, credit, payout. Big difference."
+- "You can log partner touchpoints in SFDC, but can you automatically calculate who gets 60% credit vs. 40% — and explain why? That's our AI."
 
 **When to partner with them:**
-- "We write partner attribution data back into Salesforce. Keep using SFDC PRM for workflows. We add the intelligence layer."
+- "Salesforce stays your system of record for closed revenue — our connector pulls closed-deal data in so credit and payouts stay automatic. The partner motion itself lives in Covant, not in SFDC PRM reports."
 
 ---
 
@@ -91,7 +91,7 @@ Many customers use both. We integrate with Impartner/Allbound.
 
 **When to position against them:**
 - "Spreadsheets work until you have 20+ partners. Then every QBR turns into a dispute over who gets credit."
-- "Your CFO won't approve MDF spend based on a spreadsheet. They will approve it based on PartnerBase's ROI dashboard."
+- "Your CFO won't approve MDF spend based on a spreadsheet. They will approve it when partner-sourced pipeline is sitting in Covant — created, progressing, credited — with a why behind every number."
 
 **Our biggest wins come from companies graduating out of spreadsheets.**
 
@@ -99,14 +99,14 @@ Many customers use both. We integrate with Impartner/Allbound.
 
 ## Competitive Positioning Framework
 
-### The Category We Own: **Partner Intelligence**
+### The Category We Own: **Partner Pipeline & Progression**
 
-| **Old Category (PRM)** | **New Category (Partner Intelligence)** |
+| **Old Category (PRM + CRM reports)** | **New Category (Partner Pipeline & Progression)** |
 |------------------------|------------------------------------------|
-| Manage partner relationships | Measure partner revenue impact |
-| Workflows and contracts | Attribution and ROI analytics |
-| Onboarding and training | Predictive revenue modeling |
-| Partner as a cost center | Partner as a revenue driver |
+| Manage partner records | Run partner-driven revenue |
+| Workflows and contracts | Deal registration, progression, credit, payout |
+| Reports that describe the motion | The system the motion runs in |
+| Partner as a cost center | Partner as a revenue engine |
 | 6-12 month implementation | 15 minutes to value |
 
 ### Our Wedge: **Trust Through Transparency**
@@ -118,42 +118,44 @@ Every legacy PRM has a "partner portal," but partners don't trust the commission
 - Every commission calculation is explainable ("You got 55% because you registered the deal + ran the demo")
 - Full audit trail (partners see every touchpoint that contributed)
 
-**Result:** Partners trust the numbers → Fewer disputes → Faster deal velocity
+**Result:** Partners trust the numbers → Disputes disappear → Partners register more deals and work them harder
+
+Transparency is how we land. Running the partner motion is why we stay.
 
 ---
 
 ## Objection Handling
 
 ### "We already use [Impartner/Allbound]"
-✅ **Great! We integrate with them. You keep using it for partner onboarding and content. We layer attribution and revenue intelligence on top. Think of us as the analytics brain for your partner program.**
+✅ **Great — keep it for onboarding and content if it's working. The revenue side is what moves into Covant: deals get registered, progress, get credited, and pay out here. Most teams find their PRM quietly becomes a content library, and the partner business runs out of Covant.**
 
 ### "Salesforce PRM is free"
-✅ **It's free, but how much does your finance team spend reconciling partner commissions every quarter? What's the cost of a partner dispute that delays a deal by 30 days? We save 40+ hours/month and eliminate disputes. ROI pays for itself in Month 1.**
+✅ **It's free, but how much does your finance team spend reconciling partner commissions every quarter? What's the cost of a partner dispute that delays a deal by 30 days? When the deal flow runs in Covant, credit and payouts are automatic — we save 40+ hours/month and eliminate disputes. It pays for itself in Month 1.**
 
 ### "We're too small for a PRM"
-✅ **Exactly. PRMs are overkill for most companies. We're built for teams with 5-50 partners who need attribution and payouts, not a full contract management suite. 15 minutes to set up, not 6 months.**
+✅ **Exactly. PRMs are overkill for most companies. We're built for teams with 5-50 partners who need deals registered, progressed, and paid — not a full contract management suite. 15 minutes to set up, not 6 months.**
 
 ### "How is this different from Crossbeam?"
-✅ **Crossbeam finds co-sell opportunities. We measure which partners close them and what they should be paid. Crossbeam is top-of-funnel (discovery). PartnerBase is bottom-of-funnel (attribution + payouts). Use both.**
+✅ **Crossbeam finds co-sell opportunities. Covant is where those opportunities become pipeline — registered, progressed, credited, and paid. Crossbeam is discovery. Covant is the revenue engine. Use both.**
 
 ### "Can you do [feature X] that Impartner has?"
-❌ **We're not trying to replace Impartner. We solve a different problem: measuring partner ROI. If you need contract workflows and training libraries, keep using Impartner. If you need to know which partners to invest in, that's us.**
+❌ **We're not trying to out-feature Impartner. We solve a different problem: integrating partner-driven revenue without hiring a channel sales team. If you need contract workflows and training libraries, keep Impartner. If you need partner pipeline created, progressing, and paying out, that's us.**
 
 ---
 
 ## Win Themes
 
-1. **"Partner Intelligence, Not Partner Management"**
-   - We don't manage partners. We measure their revenue impact.
+1. **"A Revenue Engine, Not a Filing Cabinet"**
+   - We don't store partner records. We run partner-driven revenue — registration to payout.
 
 2. **"15 Minutes to Value, Not 6 Months"**
-   - Connect your CRM, import partners, see your first attribution report.
+   - Connect your CRM, import partners, register your first deal the same morning.
 
 3. **"Trust Through Transparency"**
    - Partners see exactly why they earned their commission. No black boxes.
 
-4. **"C-Suite Insights, Not Ops Busywork"**
-   - Built for the CRO asking "Where's my next $10M in partner revenue?" Not just the ops team tracking contracts.
+4. **"The Channel Sales Team You Don't Have to Hire"**
+   - Built for the CRO asking "Where's my next $10M in partner-sourced pipeline?" — and the team expected to deliver it without headcount.
 
 ---
 
@@ -176,7 +178,7 @@ We're in early access — formal case studies are in development. In the meantim
 
 **We lose when:**
 - Prospect needs full contract lifecycle management (send to Impartner)
-- Prospect wants partner discovery, not attribution (send to Crossbeam)
+- Prospect wants partner discovery, not a pipeline to run (send to Crossbeam)
 - Prospect <$5M ARR, <5 partners (too early, circle back in 6 months)
 
 **We win when:**
@@ -190,12 +192,12 @@ We're in early access — formal case studies are in development. In the meantim
 
 ## The Benioff Close
 
-*"You're not buying software. You're buying a decision: Do you want to keep guessing which partners drive revenue, or do you want to know?"*
+*"You're not buying software. You're buying the channel sales team you can't hire: deals registered, progressed, credited, and paid — without adding headcount."*
 
-*"Partner programs are either a cost center or a revenue engine. PartnerBase turns yours into an engine."*
+*"Partner programs are either a cost center or a revenue engine. Covant turns yours into an engine."*
 
 ---
 
-**Last Updated:** 2026-02-15  
+**Last Updated:** 2026-06-11  
 **Owner:** Dylan Ram / Fingerz  
 **Next Review:** After first 10 customer conversations

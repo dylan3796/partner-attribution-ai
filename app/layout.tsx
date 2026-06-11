@@ -24,25 +24,25 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Covant — Partner Experience Management",
+  title: "Covant — Partner Pipeline & Progression",
   description:
-    "Covant is Partner Experience Management for B2B SaaS running more than one partner motion — SI, co-sell, ISV, reseller. Attribution with a paper trail under every dollar, incentives flagged the moment they're earned, and a portal that shows every partner their next move.",
+    "Covant is the revenue engine for your channel. If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that: deals get registered, progress, get credited, and pay out — all in Covant. No black-box attribution — every commission ships with a why.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "Covant — Partner Experience Management",
-    description: "Partner Experience Management for B2B SaaS. Attribution with a paper trail, incentives flagged the moment they're earned, and a portal that shows every partner their next move.",
+    title: "Covant — Partner Pipeline & Progression",
+    description: "The revenue engine for your channel. Deals register, progress, get credited, and pay out — all in Covant. Partner-driven revenue without hiring a channel sales team.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — Partner Experience Management",
-    description: "Attribution with a paper trail, incentives flagged the moment they're earned, and a portal that shows every partner their next move.",
+    title: "Covant — Partner Pipeline & Progression",
+    description: "Deals register, progress, get credited, and pay out — all in Covant. Partner-driven revenue without hiring a channel sales team.",
   },
   metadataBase: new URL("https://covant.ai"),
 };

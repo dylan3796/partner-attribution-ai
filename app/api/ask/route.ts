@@ -14,7 +14,7 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import Anthropic from "@anthropic-ai/sdk";
 
-const SYSTEM_PROMPT = `You are the Covant AI assistant — a partner intelligence analyst embedded in a partner management platform.
+const SYSTEM_PROMPT = `You are the Covant AI assistant — an analyst embedded in Covant, the system where the company's partner pipeline runs: deals registered, progressed, credited, and paid out.
 
 You have access to the company's REAL partner program data provided in each message. This data includes partners, deals, attribution, commissions, payouts, and activity.
 

@@ -1,12 +1,12 @@
-# Product Vision: Partner Platform
+# Product Vision: Covant
 
 ## The Big Idea
 
-**Attribution is the brain. Everything else runs on it.**
+**Covant is the revenue engine for your channel.**
 
-Most partner platforms treat attribution as a reporting feature. We make it the foundation. Every module — incentives, program management, revenue ops, partner portal — is powered by real-time attribution intelligence.
+Most partner platforms are a place to file paperwork — a PRM on one side, CRM reports on the other, and the actual revenue motion living in spreadsheets and Slack threads in between. We're building the place the partner business itself runs: deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Explainable attribution is the wedge — it's how we earn the trust to own the whole motion — but what we sell is partner pipeline and progression.
 
-> "We don't just track who gets credit. We use that intelligence to run your entire partner operation."
+> "If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that."
 
 ---
 
@@ -33,8 +33,8 @@ Most partner platforms treat attribution as a reporting feature. We make it the 
 
 ## Platform Modules
 
-### 🧠 1. Attribution Engine (Core — The Brain)
-The AI-powered attribution engine that everything else depends on.
+### 🧠 1. Attribution Engine (The Trust Layer)
+The AI-powered attribution engine is how we earn the right to run the whole motion. No black-box attribution — every credit decision ships with a why, so partners and finance both trust what pays out.
 
 **What it does:**
 - Tracks every partner touchpoint across the customer journey
@@ -42,12 +42,12 @@ The AI-powered attribution engine that everything else depends on.
 - AI model learns which attribution approach best matches actual outcomes
 - Provides explainable, auditable attribution decisions
 
-**How it powers everything else:**
+**How it feeds the rest of the motion:**
 - Feeds **Incentives** → accurate commission calculations
 - Feeds **Program Mgmt** → data-driven tier decisions
-- Feeds **Revenue Ops** → forecasting & pipeline intelligence
-- Feeds **Partner Portal** → real-time partner performance visibility
-- Feeds **Analytics** → strategic insights for leadership
+- Feeds **Revenue Ops** → pipeline forecasting & progression
+- Feeds **Partner Portal** → partners see their credit in real time
+- Feeds **Analytics** → the numbers leadership runs the channel on
 
 **Attribution Models:**
 | Model | Best For | How It Works |
@@ -117,7 +117,7 @@ Structure, manage, and optimize your partner program.
 ---
 
 ### 📊 4. Revenue Operations
-Pipeline visibility, forecasting, and revenue intelligence for partner-sourced deals.
+Where partner-sourced pipeline lives: registered, staged, progressed, and forecast in Covant.
 
 **Features:**
 - **Partner pipeline** — deals by stage, source, partner
@@ -190,7 +190,7 @@ Arm your partners with what they need to sell.
 ---
 
 ### 📈 7. Analytics & Insights
-Strategic intelligence for partner leadership.
+The numbers partner leadership runs the channel on — and walks into the CRO meeting with.
 
 **Features:**
 - **Executive dashboard** — KPIs at a glance
@@ -203,7 +203,7 @@ Strategic intelligence for partner leadership.
 - **Benchmarks** — how does your program compare to industry
 
 **How attribution powers this:**
-- Every insight is grounded in real attribution data
+- Every number is grounded in real attribution data — explainable down to the touchpoint
 - "Your top quartile partners drive 80% of attributed revenue"
 - Model comparison reveals if you're over/under-crediting certain partners
 
@@ -213,8 +213,8 @@ Strategic intelligence for partner leadership.
 
 ### 1. SaaS with Channel Programs
 **Examples:** Salesforce, HubSpot, AWS, Datadog, Snowflake
-**Key pain:** Manual attribution in spreadsheets, can't measure true partner impact on ARR
-**Our angle:** Real-time multi-touch attribution across the entire SaaS customer lifecycle (trial → close → expand → renew)
+**Key pain:** The partner motion lives in spreadsheets, Slack threads, and CRM reports — partner-sourced pipeline stalls because no one system owns it
+**Our angle:** The partner motion runs in Covant across the entire SaaS lifecycle (register → progress → close → expand → renew), with explainable credit at every step
 **Unique needs:**
 - Recurring revenue attribution (who gets credit on renewal?)
 - Expansion revenue tracking
@@ -223,8 +223,8 @@ Strategic intelligence for partner leadership.
 
 ### 2. Marketplace Operators
 **Examples:** Shopify App Store, Atlassian Marketplace, Salesforce AppExchange
-**Key pain:** Can't measure which apps/partners actually drive platform adoption
-**Our angle:** Track how partner integrations influence platform revenue
+**Key pain:** Partner-driven platform revenue isn't integrated into one motion — apps drive adoption, but crediting and incentives lag months behind
+**Our angle:** Run the ecosystem revenue motion in one place, from install to credited revenue to payout
 **Unique needs:**
 - Install → activation → revenue attribution
 - Partner app quality scoring
@@ -233,8 +233,8 @@ Strategic intelligence for partner leadership.
 
 ### 3. Hardware & Distribution
 **Examples:** Dell, Cisco, HP, Lenovo
-**Key pain:** Multi-tier distribution makes attribution nearly impossible
-**Our angle:** Track attribution across distributor → reseller → end customer chains
+**Key pain:** Deals pass through distributor → reseller chains with no single system carrying registration, credit, or payout end to end
+**Our angle:** The multi-tier motion runs in Covant — explainable credit splits across distributor → reseller → end customer, automatically
 **Unique needs:**
 - Multi-tier attribution (distributor gets X%, reseller gets Y%)
 - Volume-based incentives and rebates
@@ -243,8 +243,8 @@ Strategic intelligence for partner leadership.
 
 ### 4. Professional Services & Agencies
 **Examples:** Deloitte, Accenture, boutique consultancies
-**Key pain:** Referral revenue is invisible, no way to measure which partners send quality leads
-**Our angle:** Attribution that tracks referral quality, not just quantity
+**Key pain:** Referrals arrive over email and die there — referral pipeline never gets worked as pipeline, and good partners stop sending
+**Our angle:** Referrals become registered, progressing deals with explainable credit — so quality partners keep sending
 **Unique needs:**
 - Lead quality scoring (referred deals close rate, deal size, LTV)
 - Project-based attribution (not just SaaS recurring)
@@ -272,9 +272,9 @@ Strategic intelligence for partner leadership.
 | Crossbeam | Account mapping | Not a PRM, no attribution | We do attribution + everything else |
 | Impartner | Enterprise PRM | Old-school, no AI | Modern, AI-first, self-serve |
 | Reveal | Data sharing | No attribution or management | Full platform, not just data |
-| Allbound | Partner portal | Basic attribution | Deep attribution powers everything |
+| Allbound | Partner portal | Basic attribution | The whole motion runs here, not just the portal |
 
-**Our moat:** Attribution-first architecture. Everyone else bolted attribution on. We built the platform around it.
+**Our moat:** We're the system of record for the partner motion. Explainable attribution is the wedge that earns the trust — and once deals register, progress, get credited, and pay out of Covant, there's nothing left to switch away to.
 
 ---
 
@@ -315,7 +315,7 @@ Strategic intelligence for partner leadership.
 
 ## The One-Liner
 
-> **The AI-native partner platform where attribution powers everything.**
+> **Covant is the revenue engine for your channel — deals register, progress, get credited, and pay out of Covant.**
 
 ---
 

@@ -3,7 +3,7 @@ import { NextRequest } from "next/server";
 
 const client = new Anthropic();
 
-const SYSTEM_PROMPT = `You are a sharp, concise setup assistant for Covant — a partner intelligence platform that helps companies track which partners drive revenue and automate payouts.
+const SYSTEM_PROMPT = `You are a sharp, concise setup assistant for Covant — the revenue engine for a company's channel: the system where partner deals get registered, progress, get credited, and pay out.
 
 Your job: have a short natural conversation to understand the user's partner program, then output a structured config.
 

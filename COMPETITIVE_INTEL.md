@@ -92,11 +92,11 @@
 
 **Where We Win Against Impact.com:**
 1. **Price** — 10x cheaper for mid-market ($299/mo vs $30K+/year)
-2. **AI-native attribution** — Their attribution is cookie-based tracking; ours is AI multi-touch
+2. **The motion, not the tracking** — They track clicks and conversions; in Covant the partner deal itself gets registered, progresses, gets credited, and pays out
 3. **Modern UX** — They have a decade of UI debt; we're building clean and modern
-4. **Full PRM scope** — They're strongest in affiliate/influencer; we cover all partner types equally
-5. **Self-serve** — They require lengthy enterprise sales + onboarding; we're self-serve from day one
-6. **Partner transparency** — Their partner view is limited; ours shows full attribution breakdown
+4. **Every partner type** — They're strongest in affiliate/influencer; resellers, agencies, and tech partners run their pipeline in Covant too
+5. **Self-serve** — They require lengthy enterprise sales + onboarding; we're live in 15 minutes
+6. **Explainable credit** — Their tracking discrepancies and payment delays breed disputes; every commission in Covant ships with a why, so partners stop arguing and start selling
 
 ---
 
@@ -141,12 +141,12 @@
 **G2 Rating:** 4.7/5 (828 reviews)
 
 **Where We Win Against PartnerStack:**
-1. **Full platform scope** — We're a complete PRM + attribution; they're affiliate-focused
-2. **AI attribution** — Their attribution is basic tracking; ours is AI multi-touch
+1. **Pipeline, not just payouts** — They cut checks after the fact; Covant is where partner-sourced pipeline gets created, progressed, credited, and paid
+2. **Explainable credit** — Their first-touch/last-touch logic invites disputes; our no-black-box credit means every payout comes with a why
 3. **Multi-industry** — We serve SaaS, hardware, fintech, services; they're SaaS-only
-4. **Transparent pricing** — Self-serve, published pricing; they require sales calls
+4. **Transparent pricing** — Self-serve, published pricing ($299/$799/$1,999); they require sales calls
 5. **Program management** — We have tiers, certifications, territory management; they don't
-6. **Revenue ops** — We have pipeline visibility and forecasting; they focus on payouts
+6. **A channel sales team in software** — If you can't hire one, Covant does that job; PartnerStack assumes you already have the motion figured out
 
 ---
 
@@ -192,11 +192,11 @@
 **G2 Rating:** 4.6/5 (200+ reviews)
 
 **Where We Win Against Crossbeam:**
-1. **Full platform** — They do account mapping; we do everything (attribution + PRM + portal + incentives + analytics)
-2. **Attribution** — They have none; attribution is our core
-3. **Actionability** — We don't just show overlap; we manage the entire partner relationship and track revenue impact
-4. **Incentive management** — We handle commissions; they can't
-5. **Partner portal** — We give partners a self-serve experience; they don't
+1. **We run the deals; they map the accounts** — Overlap data tells you where to hunt; Covant is where the resulting deals get registered, progress, and pay out
+2. **Revenue, not reports** — They show partner influence; we integrate partner-driven revenue end to end, with explainable credit on every dollar
+3. **Actionability** — We don't just show overlap; the entire partner motion — registration through payout — lives in Covant
+4. **Incentive management** — Commissions calculate and pay out of Covant; they can't touch money
+5. **Partner portal** — Partners work their own pipeline self-serve in Covant; Crossbeam has no partner-facing experience
 6. **Complementary, not competitive** — Initially, we can integrate WITH Crossbeam as a data source
 
 ---
@@ -244,12 +244,12 @@
 **Gartner Peer Insights:** 4.0/5
 
 **Where We Win Against Impartner:**
-1. **Speed** — Hours to value vs. 3–6 months implementation
+1. **Speed** — 15 minutes self-serve vs. 3–6 months implementation
 2. **Price** — $299/mo vs. $30K+/year
 3. **Modern UX** — Clean, intuitive interface vs. legacy enterprise design
-4. **AI-native attribution** — Built-in vs. bolted-on basic reporting
+4. **Explainable credit** — Their last-touch reporting sparks channel conflict; every commission in Covant ships with a why
 5. **Self-serve** — No professional services required
-6. **Mid-market fit** — Right-sized for 10–500 partners; they target 500+
+6. **Mid-market fit** — Right-sized for 10–200 partners; they target 500+
 
 ---
 
@@ -292,8 +292,8 @@
 **Gartner Peer Insights:** 4.2/5
 
 **Where We Win Against Allbound/Channelscaler:**
-1. **AI attribution** — They have none; our core advantage
-2. **Revenue intelligence** — We provide pipeline forecasting and partner ROI; they don't
+1. **A revenue engine, not a portal** — Their portal hosts content; Covant runs the partner pipeline itself, registration through payout
+2. **Pipeline progression** — Partner-sourced deals visibly move forward in Covant; they offer basic deal tracking with no forward view
 3. **Stability** — We're building fresh; they're merging two products (risky)
 4. **Simpler pricing** — Self-serve vs. custom quotes
 5. **Modern architecture** — API-first, built for integrations; they're combining legacy codebases
@@ -340,11 +340,11 @@
 **G2 Rating:** 4.6/5 (50+ reviews)
 
 **Where We Win Against Kiflo:**
-1. **AI attribution** — They're manual/basic; we're AI-native
-2. **Scale** — We can handle enterprise-size programs; they can't
-3. **Intelligence** — We provide actionable insights; they provide basic dashboards
-4. **Full platform** — We have revenue ops, advanced analytics, partner enablement; they're basic PRM
-5. **But**: We compete for similar early customers, so our free tier and superior attribution must be clearly communicated
+1. **The whole motion** — Registration, progression, credit, and payout live in Covant; they're a lightweight deal log
+2. **Scale** — We run 10–200 partner programs comfortably; they strain past 100
+3. **Explainable credit** — They track deals manually; Covant credits and pays them, with a why attached to every commission
+4. **Mid-market depth** — Revenue ops, program tiers, and partner enablement; they're basic PRM
+5. **But**: We compete for similar early customers, so our 15-minute setup and dispute-free credit must be clearly communicated
 
 ---
 
@@ -388,10 +388,10 @@
 
 **Where We Win Against ZINFI:**
 1. **Simplicity** — Modern, self-serve experience vs. complex enterprise platform
-2. **AI attribution** — Core differentiator
+2. **Explainable credit** — No black-box attribution; every payout ships with a why, vs. their basic reporting
 3. **Price transparency** — Published pricing vs. module-based complexity
-4. **Time to value** — Hours vs. weeks/months
-5. **Focus** — We do one thing brilliantly (attribution-powered partner management); they try to do everything
+4. **Time to value** — 15 minutes vs. weeks/months
+5. **Focus** — Covant does one job brilliantly: run partner pipeline from registration to payout; they try to do everything
 
 ---
 
@@ -467,36 +467,36 @@
 - Term coined by Crossbeam/PartnerHacker, now widely adopted
 - Companies shifting from partner programs as cost centers → revenue engines
 - Ecosystem data (account overlap, partner influence) becoming part of standard GTM
-- **Our angle:** ELG needs attribution to prove ROI. We're the attribution layer.
+- **Our angle:** ELG turns the channel into a revenue engine — Covant is where that engine actually runs. Partner pipeline gets created, progressed, credited, and paid in one place.
 
 ### Trend 2: AI Adoption in PRM
 - Every vendor is adding "AI" — mostly superficial (AI partner matching, chatbots)
 - True AI attribution (multi-touch, ML-optimized) is rare/nonexistent
 - Gartner's Market Guide for PRM (2024): "Indirect sales technologies are using BI and AI-based tools to understand partner engagement nuances"
-- **Our angle:** We're the first to make AI attribution the foundation, not a feature.
+- **Our angle:** Explainable AI credit is our trust mechanism — every commission ships with a why. That trust is what lets the whole partner motion run in Covant instead of in PRM + CRM reports.
 
 ### Trend 3: Platform Consolidation
 - Companies fatigued by managing 4–5 partner tools
 - Allbound + Channel Mechanics merger (2024) = Channelscaler
 - Crossbeam + Reveal merger (2024)
 - Market moving toward unified platforms
-- **Our angle:** One platform that replaces the entire stack.
+- **Our angle:** Covant replaces "PRM + CRM reports" as the place the partner motion lives. One system, registration through payout.
 
 ### Trend 4: Partner Experience as a Differentiator
 - Partners choose vendors partly based on portal quality and transparency
 - Self-serve portals with real-time data = competitive advantage in partner recruitment
-- **Our angle:** Transparent attribution = best partner experience.
+- **Our angle:** Partners see exactly why they were credited and paid, on every plan. Transparency kills disputes and wins partner mindshare.
 
 ### Trend 5: Revenue Attribution Pressure
 - CFOs demanding proof of partner channel ROI
 - Partnership leaders under pressure to justify headcount and program spend
 - Multi-touch attribution becoming expected, not aspirational
-- **Our angle:** We solve the #1 question: "What's the partner channel actually worth?"
+- **Our angle:** Visibility is our wedge, not our product. When the channel actually runs in Covant — registered, progressed, credited, paid — the CFO's question answers itself, and the partner team gets a CRO-meeting proof point for free.
 
 ### Trend 6: Shift from Affiliate to Multi-Type Partner Programs
 - Companies moving beyond affiliate/referral to include resellers, agencies, tech partners, consultants
 - Need platforms that handle multiple partner types, not just affiliates
-- **Our angle:** Our attribution engine works across all partner types.
+- **Our angle:** One pipeline, every partner type — resellers, agencies, tech partners, and referrers all register, progress, and get paid in Covant.
 
 ---
 
@@ -564,26 +564,26 @@
 ### Our Unique Advantages by Competitor
 
 ```
-Impact.com      → We're 10x cheaper, AI-native, modern UX
-PartnerStack    → We're full-platform PRM, not just affiliate
-Crossbeam       → We do everything they can't (attribution, PRM, incentives)
-Impartner       → We're fast, affordable, self-serve vs. 6-month impl.
-Allbound        → We have AI; they're busy merging two products
-Kiflo           → We have AI, scale, and intelligence; they're basic
+Impact.com      → 10x cheaper, modern, and we run the deal — not just the tracking
+PartnerStack    → Pipeline and progression, not just payouts; every industry, not just SaaS
+Crossbeam       → They map accounts; we run the resulting deals, registration to payout
+Impartner       → 15 minutes self-serve vs. 6-month impl.; priced for mid-market
+Allbound        → A revenue engine, not a portal; they're busy merging two products
+Kiflo           → We run the channel at scale; they log deals for small programs
 ZINFI           → We're simple and modern; they're complex and dated
 ```
 
 ### The Moat That Deepens Over Time
 
-1. **Data moat:** Every attribution decision trains our ML model. More data → better attribution → more value → harder to leave.
-2. **Network effects:** As more companies use our platform, benchmarking data improves. "Your partner program is outperforming 80% of similar programs."
-3. **Integration depth:** The more CRM/marketing/product data we ingest, the more accurate attribution becomes — and the harder to replicate.
-4. **Partner trust:** Once partners trust the attribution system, switching costs are massive (for both the vendor and the partner).
-5. **AI advantage:** No competitor has the architecture to retrofit AI-native attribution. They'd have to rebuild from scratch.
+1. **Data moat:** Every credit decision trains our ML model. More deals through Covant → better, more explainable credit → more trust → harder to leave.
+2. **Network effects:** As more companies run their channel in Covant, benchmarking data improves. "Your partner program is outperforming 80% of similar programs."
+3. **Integration depth:** Salesforce/HubSpot connectors are plumbing — closed-deal data flows in so credit and payouts stay automatic. The longer it runs, the harder it is to rip out.
+4. **Partner trust:** Once partners trust the credit system — every commission with a why, zero black boxes — switching costs are massive (for both the vendor and the partner).
+5. **System of record:** When deals get registered, progressed, credited, and paid in Covant, we're not a report you cancel — we're the rails the channel runs on. No competitor's architecture can retrofit that with explainable AI credit underneath.
 
 ### Summary: Competitive Positioning
 
-> **We are the only platform purpose-built with AI attribution at the core.** Every competitor either lacks attribution (Crossbeam, Allbound, Kiflo), has basic attribution (Impartner, ZINFI, PartnerStack), or has good tracking but legacy architecture and enterprise-only pricing (Impact.com). No one has built a modern, mid-market-friendly, full-scope partner platform where AI-powered attribution powers every module. That's our gap. That's our opportunity.
+> **Covant is the revenue engine for the channel — partner pipeline and progression in one place.** If you can't hire a channel sales team to integrate partner-driven revenue, you use Covant to do just that: deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Attribution visibility is the wedge — explainable, no-black-box credit is what makes partners and finance trust the system enough to run the whole motion in it. Every competitor either stops at visibility (Crossbeam), stops at payouts (PartnerStack, Impact.com), or buries mid-market teams in enterprise PRM (Impartner, ZINFI). No one runs the partner motion end to end, self-serve in 15 minutes, at mid-market pricing. That's our gap. That's our opportunity.
 
 ---
 

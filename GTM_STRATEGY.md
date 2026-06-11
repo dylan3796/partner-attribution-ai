@@ -1,7 +1,7 @@
 # Go-To-Market Strategy
-## AI-Native Partner Attribution Platform
+## Covant — The Revenue Engine for Your Channel
 
-*Last updated: February 2026*
+*Last updated: June 2026*
 
 ---
 
@@ -38,10 +38,10 @@
 | **Reports to** | CRO, CEO, or VP Sales |
 | **Age range** | 30–45 |
 | **Experience** | 3–8 years in partnerships/channel |
-| **Pain level** | HIGH — under pressure to prove partner ROI to leadership |
+| **Pain level** | HIGH — expected to deliver partner-sourced pipeline without the headcount to run it |
 
 **Core Pains:**
-1. **"I can't prove partner value."** — Leadership asks for partner ROI and they're stuck with anecdotal evidence or spreadsheets
+1. **"My partner motion lives everywhere except one place."** — Deals registered in a PRM, tracked in CRM reports, paid out of spreadsheets — nobody can see partner pipeline actually moving
 2. **"We're overpaying some partners and underpaying others."** — Attribution guesswork means wrong incentives
 3. **"I spend 15+ hours/week on manual commission calculations."** — Excel hell
 4. **"Our partners don't trust us."** — Opaque attribution = partner churn
@@ -53,14 +53,14 @@
 |---|------|----------------|-------------------|
 | 1 | **Mid-stage SaaS** | $20M ARR, 50 partners, using spreadsheets | Feels the pain, can't afford Impact.com |
 | 2 | **API-first platform** | $30M ARR, developer ecosystem + resellers | Complex attribution across integration + referral |
-| 3 | **Vertical SaaS** | $15M ARR, 30 agency partners | Needs to prove agencies drive revenue |
-| 4 | **Marketplace operator** | $40M ARR, 100+ app partners | Can't measure which apps drive platform growth |
+| 3 | **Vertical SaaS** | $15M ARR, 30 agency partners | Agency-sourced deals need one place to register, progress, and pay out |
+| 4 | **Marketplace operator** | $40M ARR, 100+ app partners | App-driven deals never make it into a pipeline anyone can run |
 | 5 | **Growing fintech** | $25M ARR, 40 distribution partners | Compliance needs + attribution transparency |
 | 6 | **E-commerce SaaS** | $50M ARR, 80 affiliate + reseller partners | Juggling affiliate network + channel in separate tools |
 | 7 | **HR/People tech** | $35M ARR, 60 consultant partners | Consultant-influenced deals are invisible |
 | 8 | **Cybersecurity vendor** | $60M ARR, 100 MSP partners | Multi-tier attribution is a nightmare |
 | 9 | **Martech platform** | $20M ARR, agency + tech partners | Integration-influenced attribution needed |
-| 10 | **Data/analytics SaaS** | $45M ARR, growing partner program from scratch | Wants to build attribution-first from day one |
+| 10 | **Data/analytics SaaS** | $45M ARR, growing partner program from scratch | Wants the partner motion running in one system from day one |
 
 ### Secondary ICP (Phase 2)
 
@@ -74,26 +74,26 @@
 
 ### Positioning Statement
 
-> **For partnership leaders at scaling B2B companies** who struggle to prove partner ROI and run efficient programs, **[Product Name]** is the **AI-native partner platform** that uses **real-time attribution intelligence to power every aspect of partner operations** — from incentives and program management to revenue ops and analytics. Unlike legacy tools that bolt on reporting as an afterthought, we built the entire platform around attribution, giving you a single source of truth that partners trust and leadership relies on.
+> **For partnership leaders at scaling B2B companies** who need partner-driven revenue but can't hire a channel sales team to run it, **Covant** is the **revenue engine for your channel** — the place where partner deals get registered, progress, get credited, and pay out. Attribution visibility is how teams find us; running the partner pipeline is why they stay. Unlike PRM + CRM reports that merely describe the partner motion after the fact, Covant is where the partner motion actually lives — with explainable credit that partners trust and leadership relies on.
 
 ### Competitive Differentiation Matrix
 
 | Dimension | Legacy PRM (Impartner, Zinfi) | Affiliate Networks (Impact.com, PartnerStack) | Ecosystem Tools (Crossbeam) | **Us** |
 |-----------|------|------|------|------|
 | Attribution depth | Basic (last-touch) | Cookie-based tracking | No attribution | **AI multi-touch, configurable** |
-| Platform scope | Broad but outdated | Narrow (affiliate/referral) | Account mapping only | **Full platform, attribution-powered** |
+| Platform scope | Broad but outdated | Narrow (affiliate/referral) | Account mapping only | **Full pipeline-to-payout engine** |
 | AI-native | Bolted-on AI | Minimal | Some account matching | **Built around AI from day one** |
-| Time to value | 3–6 months impl. | 2–4 weeks | 1–2 weeks | **Same day — self-serve** |
+| Time to value | 3–6 months impl. | 2–4 weeks | 1–2 weeks | **15 minutes — self-serve** |
 | Price for mid-market | $30K–$80K/year | $15K–$50K/year | $15K–$40K/year | **$299/mo starting** |
-| Partner trust | Low transparency | Commission tracking | N/A | **Full attribution visibility** |
+| Partner trust | Low transparency | Commission tracking | N/A | **Explainable credit partners can audit** |
 
 ### Key Differentiators (In Priority Order)
 
-1. **Attribution-first architecture** — Everything runs on attribution data. It's not a feature; it's the foundation.
-2. **AI-powered intelligence** — ML models that learn which attribution approach best matches actual outcomes.
-3. **10x faster time to value** — Self-serve setup, working attribution in hours not months.
-4. **Radical transparency** — Partners see exactly how they contributed. Trust = retention.
-5. **One platform** — Replace 3–5 tools (PRM + affiliate tracking + spreadsheets + BI dashboards + payout systems).
+1. **Pipeline to payout in one system** — Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. The partner motion lives here, not in PRM + CRM reports.
+2. **Explainable attribution as the trust mechanism** — No black-box attribution. Every commission ships with a why, so partners work the pipeline instead of disputing it.
+3. **10x faster time to value** — Self-serve setup, partner deals registered and credited in 15 minutes, not months.
+4. **Radical transparency** — Partners see exactly how they contributed, on every plan. Trust = retention.
+5. **One platform** — Replace 3–5 tools (PRM + CRM reports + affiliate tracking + spreadsheets + payout systems) with the place your channel revenue actually runs.
 
 ---
 
@@ -101,26 +101,26 @@
 
 ### Tagline Options
 
-1. **"Attribution powers everything."** ← Primary
-2. **"The partner platform that actually knows who drives revenue."**
-3. **"Stop guessing. Start attributing."**
+1. **"The revenue engine for your channel."** ← Primary
+2. **"Can't hire a channel sales team? Run one out of Covant."**
+3. **"Registered. Progressed. Credited. Paid. All in Covant."**
 4. **"Your partners deserve better than spreadsheets."**
 
 ### Elevator Pitch (30 seconds)
 
-> "We're building the modern partner platform for companies that are serious about channel revenue. Today, most partnership teams can't actually prove which partners drive revenue — they're stuck in spreadsheets or overpaying for legacy tools. We put AI-powered attribution at the core, and everything else — incentives, program management, partner portals, analytics — runs on that intelligence. It's like replacing your whole partner stack with one platform that actually knows what's working."
+> "Covant is the revenue engine for your channel. If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that. Partner deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Most teams find us because they can't see what their partners are driving — and that visibility is real — but what they're buying is partner pipeline that actually moves, without the headcount. And because every commission ships with a why, partners trust the numbers instead of disputing them."
 
 ### Value Propositions by Persona
 
 **For VP of Partnerships:**
-- "Prove partner ROI to your board with real attribution data, not anecdotes"
-- "Retain top partners with transparent, auditable attribution they can see"
-- "Go from 15 hours/week on commissions to automated, attribution-driven payouts"
+- "Run the whole partner motion — registration to payout — in one place instead of PRM + CRM reports"
+- "Retain top partners with transparent, explainable credit they can audit themselves"
+- "Go from 15 hours/week on commissions to credit and payouts that flow automatically from deals progressing in Covant"
 
 **For CRO / CEO:**
-- "Know exactly what your partner channel is worth — and how to scale it"
+- "Partner-sourced pipeline, created and progressing, in one system — with board-ready numbers when you need the proof point"
+- "Integrate partner-driven revenue without hiring a channel sales team"
 - "Replace 3–5 tools with one platform, saving $50K+/year"
-- "AI-optimized incentives that maximize partner-sourced revenue per dollar spent"
 
 **For Partner (the end user):**
 - "See exactly how you contributed to every deal"
@@ -130,12 +130,12 @@
 ### Key Messages for Different Contexts
 
 **Cold email subject lines:**
-- "Your partner attribution is probably wrong"
+- "Where does [Company]'s partner pipeline actually live?"
 - "[Company] — who actually drove that partner deal?"
-- "The $500K partner attribution mistake most SaaS companies make"
+- "Partner-driven revenue without the channel sales hire"
 
 **LinkedIn headline:**
-- "Most partner platforms track clicks. We track revenue. Here's the difference."
+- "PRMs store partners. CRMs store deals. Covant runs the partner motion — registration to payout."
 
 **Conference talk title:**
 - "Why 73% of Partner Revenue is Misattributed (And What to Do About It)"
@@ -172,20 +172,20 @@
 
 ### Cold Email Templates
 
-**Template 1: The Attribution Problem**
+**Template 1: The Pipeline Problem**
 
 ```
-Subject: Your partner attribution is probably wrong
+Subject: Where does [Company]'s partner pipeline actually live?
 
 Hi [First Name],
 
-Quick question — when your CEO asks "how much revenue did partners actually drive last quarter," how confident are you in that number?
+Quick question — when your CEO asks "how much partner-sourced pipeline did we create last quarter, and where is it now," how confident are you in that answer?
 
-Most partnership leaders I talk to say "not very." They're stuck reconciling spreadsheets, dealing with attribution disputes, and guessing at commission accuracy.
+Most partnership leaders I talk to say "not very." Their partner motion is scattered across a PRM, CRM reports, and spreadsheets — and nobody is actually running it.
 
-We built [Product] specifically to solve this. It's an AI-native partner platform where real-time attribution powers everything — incentives, payouts, partner portals, analytics.
+We built Covant to be the revenue engine for your channel. Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. If you can't hire a channel sales team to integrate partner-driven revenue, Covant does that job.
 
-The result: you know exactly which partners drive revenue, your partners trust the numbers, and your CFO stops questioning the partner investment.
+The result: partner pipeline you can see moving, partners who trust the credit (every commission ships with a why), and a CFO who stops questioning the partner investment.
 
 Would you be open to a 15-min demo? I think you'd find it relevant given [Company]'s growing partner program.
 
@@ -204,9 +204,9 @@ I noticed [Company] is scaling its partner program — congrats on the momentum.
 
 Most companies at your stage are cobbling together Impact.com/PartnerStack for tracking + spreadsheets for commissions + Salesforce reports for pipeline + manual portals for partners. That's $40K-$80K/year and 20+ hours/week of ops work.
 
-We built a single platform where AI-powered attribution feeds everything: commission calculations, partner dashboards, program management, and revenue analytics. One tool, one source of truth.
+We built a single platform where the partner motion actually lives: deals get registered, progress, get credited, and pay out — all in Covant. One tool, one source of truth, and your closed-deal data flows in from Salesforce/HubSpot so credit and payouts stay automatic.
 
-Companies switch and typically save 50%+ on tooling costs while getting 10x better attribution accuracy.
+Companies switch and typically save 50%+ on tooling costs while finally running partner pipeline in one place.
 
 Worth a 15-minute look?
 
@@ -224,9 +224,9 @@ Top partners churn when they don't trust the attribution. They know they influen
 
 We see this constantly — it's the #1 reason high-performing partners leave programs.
 
-[Product] gives partners a transparent view into exactly how they contributed to every deal, with explainable AI-powered attribution they can audit themselves.
+Covant gives partners a transparent view into every deal they registered and progressed, with explainable credit they can audit themselves — every commission ships with a why.
 
-The result: partner NPS goes up, disputes go down, and your best partners stay.
+The result: partner NPS goes up, disputes disappear, and your best partners keep bringing you pipeline.
 
 I'd love to show you how it works — 15 minutes?
 
@@ -236,10 +236,10 @@ I'd love to show you how it works — 15 minutes?
 ### LinkedIn Outreach Sequence
 
 **Connection request:**
-> "Hi [Name] — I'm working on solving the partner attribution problem for scaling SaaS companies. Saw you're leading partnerships at [Company]. Would love to connect and trade notes on what's working in the space."
+> "Hi [Name] — I'm building Covant, the revenue engine for partner-driven sales at scaling SaaS companies. Saw you're leading partnerships at [Company]. Would love to connect and trade notes on what's working in the space."
 
 **Follow-up (Day 3, after connection):**
-> "Thanks for connecting! Quick question — do you use multi-touch attribution for partner deals today, or mostly first/last touch? Curious because we're seeing a huge gap between the two approaches at most companies."
+> "Thanks for connecting! Quick question — where do partner deals actually live at [Company] today? PRM, CRM reports, spreadsheets? Curious because almost every team I talk to is running the partner motion across three systems and none of them own it."
 
 **Value-add (Day 7):**
 > "Thought you might find this interesting — we published a study on how misattribution causes companies to overspend on low-performing partners by 30-40%. [Link to content piece]. Would love to hear if this resonates with what you're seeing at [Company]."
@@ -258,9 +258,9 @@ I'd love to show you how it works — 15 minutes?
 
 ### Content Pillars
 
-1. **Partner Attribution** — The technical and strategic aspects of getting attribution right
+1. **Partner Attribution** — The technical and strategic aspects of getting credit right (our wedge content)
 2. **Partner Program Operations** — Running efficient programs (commissions, tiers, onboarding)
-3. **Partner Revenue Intelligence** — Using data to drive partner strategy decisions
+3. **Partner Pipeline & Progression** — Running deal registration, progression, credit, and payout as one revenue motion
 4. **Industry Analysis** — Trends, benchmarks, competitive landscape
 
 ### Blog / Content Calendar (First 90 Days)
@@ -271,8 +271,8 @@ I'd love to show you how it works — 15 minutes?
 | 2 | "Partner Attribution Models Explained: First Touch vs. Last Touch vs. AI-Weighted" | Long-form guide | partner attribution models |
 | 3 | "How to Calculate Partner Commissions Without Losing Your Mind (Or Your Partners)" | Blog + template | partner commission management |
 | 4 | "We Analyzed 1,000 Partner Deals: Here's What Multi-Touch Attribution Revealed" | Data study | multi-touch partner attribution |
-| 5 | "Impact.com vs. PartnerStack vs. [Product]: Which Partner Platform Fits Your Stage?" | Comparison | Impact.com alternative |
-| 6 | "Building a Partner Program from Scratch: The Attribution-First Approach" | Guide | how to build partner program |
+| 5 | "Impact.com vs. PartnerStack vs. Covant: Which Partner Platform Fits Your Stage?" | Comparison | Impact.com alternative |
+| 6 | "Building a Partner Program Without a Channel Sales Team: The Pipeline-First Approach" | Guide | how to build partner program |
 | 7 | "Why Your Best Partners Are Leaving (And How Transparent Attribution Fixes It)" | Blog | partner retention strategies |
 | 8 | "The True Cost of Your Partner Stack: Why 5 Tools ≠ 1 Platform" | Calculator + blog | partner management tools cost |
 | 9 | "AI in Partner Management: Beyond the Buzz" | Thought leadership | AI partner management |
@@ -317,7 +317,7 @@ I'd love to show you how it works — 15 minutes?
 | **Free / Starter** | $0/mo (up to 5 partners) | Individuals exploring, tiny programs | Attribution engine, basic dashboard, 1 user |
 | **Growth** | $299/mo | Scaling programs (6–100 partners) | Full platform, partner portal, integrations, 5 users |
 | **Pro** | $799/mo | Established programs (100–500 partners) | Advanced attribution models, AI insights, API access, 15 users |
-| **Enterprise** | Custom ($2,000+/mo) | Large programs (500+ partners) | Multi-tier, custom models, SSO, dedicated support, unlimited users |
+| **Enterprise** | From $1,999/mo (custom) | Large programs (500+ partners) | Multi-tier, custom models, SSO, dedicated support, unlimited users |
 
 ### Why This Pricing Works
 
@@ -394,7 +394,7 @@ I'd love to show you how it works — 15 minutes?
 ### Leading Indicators to Watch
 
 1. **Demo show rate** — Are people actually showing up? (Target: >70%)
-2. **Time to value** — How fast from signup to first attribution insight? (Target: <1 hour)
+2. **Time to value** — How fast from signup to first partner deal registered and credited? (Target: <15 minutes)
 3. **Partner portal adoption** — Are partners actually logging in? (Target: 60%+ WAU)
 4. **Attribution model usage** — Are users exploring beyond default model? (Indicates depth of engagement)
 5. **NPS from design partners** — Product-market fit signal (Target: >50)

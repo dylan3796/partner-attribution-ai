@@ -9,11 +9,14 @@
 // the copy stays grounded in what Covant actually does.
 //
 // Two hard rules for all marketing copy:
-// 1. Covant flags incentives as earned (with evidence); the COMPANY pays.
-//    Never imply Covant moves money or that payouts are automatic.
+// 1. The payout motion runs in Covant — calculated, explained, flagged as
+//    earned, routed for approval, recorded. But the COMPANY approves and
+//    moves the money. Never imply Covant touches funds or that payouts
+//    happen without sign-off.
 // 2. Partner signal lives beyond the CRM (spreadsheets, marketplace portals,
 //    event streams) and Covant also GENERATES new signal (registrations,
 //    logged touches, portal activity) — don't reduce the story to "reads CRM."
+//    Connectors are plumbing; the partner motion itself lives in Covant.
 
 export const DEMO_SOURCE = "demo_request";
 
@@ -22,13 +25,14 @@ export type Pillar = {
   body: string;
 };
 
-// What Covant lets you run — the PXM triad. Solution-framed (showcase what
-// works, not what's broken): prove the agreed KPIs, make tiers/incentives
-// pull partners forward, capture the signal partners send through every
-// channel and turn it into their next move. Each maps to shipped product.
+// What Covant lets you run — the pipeline-and-progression triad. Solution-framed
+// (showcase what works, not what's broken): credit every dollar with the reason
+// attached, make tiers/incentives pull partners forward, capture the signal
+// partners send through every channel and turn it into their next move. Each
+// maps to shipped product.
 export const PILLARS: Pillar[] = [
   {
-    title: "Prove the KPIs you agreed on.",
+    title: "Credit nobody disputes.",
     body: "Sourced or influenced, every dollar is attributed with the reason attached — one number you and your partners read the same way.",
   },
   {

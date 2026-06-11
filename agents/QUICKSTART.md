@@ -2,7 +2,7 @@
 
 ## What This Is
 
-**5 autonomous AI agents working together to run PartnerBase as a business.**
+**5 autonomous AI agents working together to run Covant as a business.**
 
 Each agent is an OpenClaw session with a specific role:
 1. **Lead Manager** - Handles inbound leads

@@ -1,8 +1,8 @@
 # Covant
 
-**The intelligence layer for your partner business.**
+**The revenue engine for your channel.**
 
-> Track which partners drive which deals. Automate attribution and commissions. Give every partner a self-service portal. All in one platform.
+> If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that. Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant.
 
 **Live:** [covant.ai](https://covant.ai)
 
@@ -10,16 +10,16 @@
 
 ## What It Is
 
-Covant is a Partner Intelligence Platform for B2B SaaS companies running reseller, referral, or channel programs. It sits at the intersection of your CRM and your partner ops — tracking every partner relationship, calculating attribution, automating commission rules, and surfacing the data your team actually needs.
+Covant is where the partner motion lives for B2B SaaS companies running reseller, referral, or channel programs. It replaces the PRM-plus-CRM-reports patchwork: partners register deals in Covant, those deals progress in Covant, credit is calculated in Covant, and commissions pay out of Covant. Salesforce and HubSpot connect underneath so closed-deal data flows in and credit and payouts stay automatic — but the partner business itself runs here.
 
-**Target customer:** Growing SaaS companies with 5–50 active partners, outgrowing spreadsheets and manual tracking.
+**Target customer:** Mid-market SaaS companies ($10M–$200M ARR) with 10–200 partners, ready to run a real channel motion without hiring a channel sales team.
 
 ---
 
 ## Core Product
 
 ### Attribution Engine
-The foundation everything else runs on. Tracks every partner touchpoint across your pipeline — including unregistered partner influence. Multi-touch attribution models (first-touch, last-touch, time decay, equal split, custom weights). Full audit trail, explainable calculations, zero disputes.
+The trust mechanism the whole motion runs on. Tracks every partner touchpoint across your pipeline — including unregistered partner influence. Multi-touch attribution models (first-touch, last-touch, time decay, equal split, custom weights). No black-box attribution: every commission ships with a why. Full audit trail, explainable calculations, zero disputes.
 
 ### Commission Rules Engine
 Priority-based rule matching. Configure tiered rates by partner type, deal size, territory, or any combination. Rules evaluate automatically on every closed deal. Full history of what was paid, why, and when.
