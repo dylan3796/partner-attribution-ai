@@ -38,16 +38,6 @@ export default function AskCovant() {
   const inputRef = useRef<HTMLInputElement>(null);
   const store = useStore();
 
-  // Hide on auth pages and onboarding/setup
-  if (
-    pathname?.startsWith("/sign-in") ||
-    pathname?.startsWith("/sign-up") ||
-    pathname?.startsWith("/onboard") ||
-    pathname?.startsWith("/setup")
-  ) {
-    return null;
-  }
-
   // Real Convex data
   const convexPartners = useQuery(api.partners.listWithStats) ?? [];
   const convexDeals = useQuery(api.dealsCrud.list) ?? [];
@@ -258,6 +248,13 @@ export default function AskCovant() {
   const clearHistory = useCallback(() => {
     setMessages([]);
   }, []);
+
+  // Only render inside the app (dashboard / portal), where org data exists.
+  // Public marketing and auth pages get no assistant bubble. Kept after all
+  // hooks so the hook order never changes across client-side navigations.
+  if (!pathname?.startsWith("/dashboard") && !pathname?.startsWith("/portal")) {
+    return null;
+  }
 
   return (
     <>

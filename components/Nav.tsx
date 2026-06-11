@@ -85,7 +85,7 @@ export default function Nav() {
               null
             ) : (
               <>
-                <Link href="/sign-in" style={{ color: "#6b7280", fontSize: ".9rem", fontWeight: 500, textDecoration: "none", marginRight: ".5rem" }}>Sign in</Link>
+                <Link href="/sign-in" className="nav-login-link" style={{ color: "#6b7280", fontSize: ".9rem", fontWeight: 500, textDecoration: "none", marginRight: ".5rem" }}>Sign in</Link>
                 <a href={demoHref} className="btn nav-cta-btn">Request a demo</a>
               </>
             )}

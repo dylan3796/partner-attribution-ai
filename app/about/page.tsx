@@ -36,9 +36,11 @@ export default function CompanyPage() {
     <main className="site">
       {/* Mission */}
       <section className="m-section m-section--flush m-hero">
-        <div className="m-container" style={{ maxWidth: "820px" }}>
+        <div className="m-container">
           <p className="m-eyebrow">Company</p>
-          <h1 className="m-h1">Partnerships should pay off for everyone in them.</h1>
+          <h1 className="m-h1" style={{ maxWidth: "22ch" }}>
+            Partnerships should pay off for everyone in them.
+          </h1>
           <p className="m-lead" style={{ maxWidth: "58ch" }}>
             We started Covant on one conviction: partners are the most underused signal in
             B2B software — billions of datapoints about what&apos;s working, who to back, and

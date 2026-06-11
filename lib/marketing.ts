@@ -22,23 +22,65 @@ export type Pillar = {
   body: string;
 };
 
-// How Covant works, as a pipeline. This is the demo arc, and each step is real product.
+// What Covant lets you run — the PXM triad. Solution-framed (showcase what
+// works, not what's broken): prove the agreed KPIs, make tiers/incentives
+// pull partners forward, capture the signal partners send through every
+// channel and turn it into their next move. Each maps to shipped product.
 export const PILLARS: Pillar[] = [
   {
-    title: "Bring the signal together.",
-    body: "Covant assembles partner activity from wherever it lives — CRM, spreadsheets, marketplace portals, event streams — and starts generating the signal you've never had: registrations, logged touches, portal activity, every interaction stamped and kept.",
+    title: "Prove the KPIs you agreed on.",
+    body: "Sourced or influenced, every dollar is attributed with the reason attached — one number you and your partners read the same way.",
   },
   {
-    title: "Encode how your channel actually works.",
-    body: "Programs are first-class in Covant. An SI influence motion, a cloud co-sell split, an ISV integration track, a reseller tier ladder — each runs its own attribution model and incentive rules, side by side. Your logic, not a vendor's template.",
+    title: "Make the tier ladder pull its weight.",
+    body: "Partners see the bar, their progress, and the payoff. Incentives flag the moment they're earned, evidence included — approval stays with you.",
   },
   {
-    title: "Attribution with a paper trail.",
-    body: "Every split comes with its reasons attached — who did what, when, and why it earned the percentage it did. Compare five models on the same pipeline. When someone challenges the number, you show your work.",
+    title: "Catch the signal from every channel.",
+    body: "Registrations, meetings, logged touches, portal activity — even the work you'd never have heard about — gathered into one record and turned into each partner's next move.",
+  },
+];
+
+export type Workflow = {
+  label: string;
+  title: string;
+  steps: string[];
+};
+
+// Walkthroughs of real product loops — each step is shipped surface
+// (deal registration + approval in convex/deals.ts, attribution explanations,
+// payout approvals, tier progress in app/portal/**, scoring/recommendations
+// + forecasting in app/dashboard/**).
+export const WORKFLOWS: Workflow[] = [
+  {
+    label: "The revenue loop",
+    title: "A partner brings you a deal.",
+    steps: [
+      "They register it in your portal — two minutes, your fields.",
+      "You approve; from there every touch on the deal is logged.",
+      "It closes. Attribution splits with the reasons attached.",
+      "The incentive flags as earned, evidence included, awaiting your sign-off.",
+    ],
   },
   {
-    title: "Act before the moment passes.",
-    body: "Covant flags incentives the moment they're earned — evidence attached, payment in your hands. It tells your team which partner belongs on which deal, and shows every partner their next move.",
+    label: "The growth loop",
+    title: "A partner wants to make Gold.",
+    steps: [
+      "You set the bar — wins, revenue, registrations — per program.",
+      "Their portal shows the gap and the next move that closes it.",
+      "Every win updates their progress in real time.",
+      "The tier review lands on your desk with the record already made.",
+    ],
+  },
+  {
+    label: "The planning loop",
+    title: "You're shaping next quarter.",
+    steps: [
+      "Scores and health, current for every partner — no chasing.",
+      "Covant ranks who to back, and which partner belongs on which open deal.",
+      "Partner-sourced revenue forecast across every program.",
+      "You walk into the QBR with the answers already pulled.",
+    ],
   },
 ];
 
@@ -67,27 +109,6 @@ export const MOTIONS: Motion[] = [
   {
     title: "Resellers & referral.",
     body: "Deal registration, tiers, and incentive rules that outgrow the spreadsheet on day one.",
-  },
-];
-
-export type Outcome = {
-  title: string;
-  body: string;
-};
-
-// What changes for each person once the channel runs on signal instead of instinct.
-export const OUTCOMES: Outcome[] = [
-  {
-    title: "Partners stop guessing.",
-    body: "Each one sees where they stand, what “good” looks like, and their next action — without waiting on a QBR to find out they were off track.",
-  },
-  {
-    title: "Reps move on the right partner.",
-    body: "Sellers get the highest-leverage play, ranked — the right rep, the right partner, the right reason — while it still changes the quarter.",
-  },
-  {
-    title: "The CRO trusts the number.",
-    body: "Partner-sourced and partner-influenced revenue, reconciled across every program — defensible line by line, not assembled in a spreadsheet the night before the board call.",
   },
 ];
 
