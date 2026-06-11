@@ -1,4 +1,4 @@
-# Launch Checklist — PartnerBase
+# Launch Checklist — Covant
 
 > Everything needed to go from prototype to first 5 paying customers.
 > Status: 🔴 Not started · 🟡 In progress · 🟢 Done
@@ -36,16 +36,16 @@
 - [ ] **Mutual NDA template** — For sales conversations with enterprise prospects. Keep it simple, mutual, 2-year term.
 
 ### IP & Brand
-- [ ] **Trademark search for "PartnerBase"** — Check USPTO TESS database. Risk: "Partner" is generic in this space, "AI" is descriptive. Consider:
+- [ ] **Trademark search for "Covant"** — Check USPTO TESS database. "Covant" is a coined mark (stronger than descriptive names), but check for conflicts in adjacent software/services classes:
   - Search [USPTO TESS](https://tess2.uspto.gov/)
   - Also check [Namechk](https://namechk.com/) for social handles
   - If clear, file intent-to-use trademark application (~$350/class via USPTO, or $1,500-2,500 via attorney)
-  - **Backup names** if "PartnerBase" is contested: PartnerGraph, Attribly, PartnerIntel
+  - ~~Backup names if "PartnerBase" is contested: PartnerGraph, Attribly, PartnerIntel~~ *(superseded — rebranded to Covant, live at covant.ai)*
 - [ ] **Domain acquisition** — Secure:
-  - `partnerai.com` (primary — check availability / broker if taken)
-  - `getpartnerai.com` (fallback)
-  - `partnerai.io` (tech credibility)
-  - `partnerai.dev` (for API docs)
+  - `covant.ai` (primary — live)
+  - `getcovant.com` (fallback)
+  - `covant.io` (tech credibility)
+  - `covant.dev` (for API docs)
 - [ ] **Social handles** — Register on LinkedIn, X/Twitter, Discord, YouTube before launch
 
 ### Insurance
@@ -74,14 +74,14 @@
   - Use Convex's built-in environment support
 
 ### Domain & SSL
-- [ ] **Custom domain on Vercel** — `app.partnerai.com` for the product, `partnerai.com` for marketing
+- [ ] **Custom domain on Vercel** — `app.covant.ai` for the product, `covant.ai` for marketing
 - [ ] **SSL/HTTPS** — Automatic via Vercel (Let's Encrypt). Verify:
   - HSTS enabled
   - No mixed content
   - Certificate auto-renewal working
-- [ ] **Email domain** — Set up Google Workspace or similar on `partnerai.com`:
-  - `hello@partnerai.com` (support)
-  - `founders@partnerai.com` (sales)
+- [ ] **Email domain** — Set up Google Workspace or similar on `covant.ai`:
+  - `hello@covant.ai` (support)
+  - `founders@covant.ai` (sales)
   - Configure SPF, DKIM, DMARC records
 
 ### Monitoring & Observability
@@ -91,8 +91,8 @@
   - Set up Slack alerts for new errors
   - Create alert rules: P0 (page load failures, API crashes), P1 (attribution calculation errors), P2 (UI glitches)
 - [ ] **Uptime monitoring — Better Uptime or Checkly** (free tier):
-  - Monitor: `app.partnerai.com`, `partnerai.com`, Convex API endpoints
-  - Status page: `status.partnerai.com` (builds trust with customers)
+  - Monitor: `app.covant.ai`, `covant.ai`, Convex API endpoints
+  - Status page: `status.covant.ai` (builds trust with customers)
   - Alert channels: Slack + SMS for P0
 - [ ] **Analytics — PostHog** (recommended over Mixpanel for startups, generous free tier):
   - Product analytics (feature usage, funnel analysis)
@@ -190,7 +190,7 @@ These are the must-haves. Everything else is "nice to have."
 - [ ] **Time to value target:** < 15 minutes from signup to first attribution result
 
 ### Demo Environment
-- [ ] **Public sandbox** at `demo.partnerai.com`:
+- [ ] **Public sandbox** at `demo.covant.ai`:
   - Pre-loaded with realistic sample data (50 partners, 200 deals, 5,000 touchpoints)
   - Read-only, resets daily
   - No signup required — shareable link
@@ -209,7 +209,7 @@ These are the must-haves. Everything else is "nice to have."
   - Authentication guide
   - Rate limits
   - Code examples (cURL, JavaScript, Python)
-- [ ] **Changelog** — Public changelog at `partnerai.com/changelog`. Update with every release.
+- [ ] **Changelog** — Public changelog at `covant.ai/changelog`. Update with every release.
 
 ### Feedback & Support
 - [ ] **In-app feedback widget** — Canny or simple form. Capture:
@@ -219,7 +219,7 @@ These are the must-haves. Everything else is "nice to have."
 - [ ] **Support channel:**
   - Intercom or Crisp for in-app chat ($0-74/mo for early stage)
   - Shared Slack channel with each early customer (high-touch for first 5)
-  - `support@partnerai.com` as fallback
+  - `support@covant.ai` as fallback
 - [ ] **Bug reporting** — Sentry for automatic error capture + in-app "Report a bug" button
 - [ ] **Customer success check-ins** — Weekly 15-min call with each of first 5 customers for first month
 
@@ -241,7 +241,7 @@ These are the must-haves. Everything else is "nice to have."
   - "Talk to sales" for Enterprise
   - FAQ section addressing common pricing questions
 - [ ] **Invoice generation** — Stripe handles this automatically:
-  - Customize invoice template with PartnerBase branding
+  - Customize invoice template with Covant branding
   - Auto-email invoices to billing contacts
   - Support for net-30 terms (enterprise)
 
@@ -278,8 +278,8 @@ These are the must-haves. Everything else is "nice to have."
 
 **Runway planning:**
 - At $800/mo burn, $10K covers ~12 months of infrastructure
-- First paying customer at Growth tier ($299/mo) covers ~40% of operating costs
-- 3 Growth customers = cash-flow positive on infrastructure
+- First paying customer at Launch tier ($299/mo) covers ~40% of operating costs
+- 3 Launch customers = cash-flow positive on infrastructure
 
 ### When to Raise (& What Metrics You Need)
 

@@ -11,7 +11,7 @@
 - Send personalized welcome email
 - Include:
   - Thank you for interest
-  - Brief intro to PartnerBase
+  - Brief intro to Covant
   - Ask 2-3 qualifying questions
   - Link to schedule demo
 
@@ -20,7 +20,7 @@ Ask:
 - **Company size:** How many employees?
 - **Current setup:** Do you use Salesforce, HubSpot, or Pipedrive?
 - **Partner program:** Do you have an existing partner program?
-- **Pain point:** What's your biggest challenge with partner attribution?
+- **Pain point:** What's your biggest challenge with your partner pipeline — getting deals registered, progressing them, or crediting and paying partners?
 
 **Qualified = YES:**
 - Company >50 employees
@@ -57,18 +57,18 @@ Ask:
 
 ### Welcome Email
 ```
-Subject: Welcome to PartnerBase - Let's solve partner attribution
+Subject: Welcome to Covant - Let's get your partner pipeline moving
 
 Hi {{first_name}},
 
-Thanks for your interest in PartnerBase! I'm {{agent_name}}, and I help teams like yours measure partner impact without the spreadsheet chaos.
+Thanks for your interest in Covant! I'm {{agent_name}}, and I help teams like yours run their partner pipeline — registration to payout — out of one system, without hiring a channel sales team.
 
 I'd love to learn more about your partner program. Mind answering a few quick questions?
 
 1. How many employees at {{company}}?
 2. What CRM do you use? (Salesforce, HubSpot, Pipedrive, other)
 3. Do you have an active partner program today?
-4. What's your biggest challenge with partner attribution?
+4. What's your biggest challenge with your partner pipeline — registering deals, progressing them, or crediting and paying partners?
 
 Based on your answers, I can either:
 - Set up a personalized demo
@@ -79,20 +79,20 @@ Looking forward to hearing from you!
 
 Best,
 {{agent_name}}
-PartnerBase Lead Team
+Covant Lead Team
 
 P.S. If you're ready to see it in action, grab a time here: {{calendly_link}}
 ```
 
 ### Follow-up (Day 3)
 ```
-Subject: Quick follow-up - PartnerBase demo?
+Subject: Quick follow-up - Covant demo?
 
 Hi {{first_name}},
 
 Just wanted to follow up on my last email. I know inboxes get crazy!
 
-If you're still interested in seeing how PartnerBase can automate your partner attribution, I'd be happy to set up a quick 15-minute walkthrough.
+If you're still interested in seeing how Covant can run your partner pipeline — deal registration through payout — in one place, I'd be happy to set up a quick 15-minute walkthrough.
 
 No pressure - just wanted to make sure you didn't miss this.
 
@@ -102,18 +102,18 @@ Best,
 
 ### Follow-up (Day 7) - Value Add
 ```
-Subject: Case study: How TechCo automated 100+ partner commissions
+Subject: Case study: How TechCo runs 100+ partners' deals — registration to payout — in one system
 
 Hi {{first_name}},
 
-Thought you might find this interesting - we just published a case study on how TechCo went from spreadsheet hell to automated partner attribution in 2 weeks.
+Thought you might find this interesting - we just published a case study on how TechCo went from spreadsheet hell to running their entire partner motion in Covant in 2 weeks.
 
 [Link to case study]
 
 Key takeaways:
-- Reduced commission calculation time from 2 days/quarter to 5 minutes
-- Zero attribution disputes (partners trust the system)
-- Identified top 20% of partners driving 80% of revenue
+- Deals get registered, progress, and get credited in one system — no more chasing CRM reports
+- Zero credit disputes (every commission ships with a why, so partners trust the system)
+- Cut commission calculation and approval prep from 2 days/quarter to 5 minutes
 
 If you'd like to see how this would work for {{company}}, I'm happy to walk you through it.
 

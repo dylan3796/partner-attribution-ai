@@ -46,7 +46,7 @@ Common objections:
 
 **Intro (2 min):**
 - "Thanks for taking the time, {{name}}. I saw you're at {{company}}, using {{crm}}, and your main challenge is {{pain_point}}."
-- "Today I'll show you exactly how PartnerBase solves that—should take about 15 minutes, with time for questions."
+- "Today I'll show you exactly how Covant solves that—should take about 15 minutes, with time for questions."
 
 **Discovery (3 min):**
 - "Before I dive in, tell me more about your partner program. How many partners do you work with?"
@@ -55,8 +55,9 @@ Common objections:
 
 **Demo (10 min):**
 Focus on their use case:
-- If **attribution** is the pain → show 5 models, transparent calculations
-- If **payouts** are chaotic → show auto-calculated commissions
+- If the **partner motion lives in spreadsheets and CRM reports** → show the full pipeline in Covant: deals registered, progressing, credited, and routed for payout in one system
+- If **attribution** is the pain → show 5 models, transparent calculations (every commission ships with a why — no black-box attribution)
+- If **payouts** are chaotic → show commissions calculated, explained, and routed for the company's approval in Covant
 - If **partner disputes** are common → show audit trail and transparency
 
 **Close (5 min):**
@@ -72,7 +73,7 @@ Subject: Let's solve {{pain_point}} - Demo time?
 
 Hi {{name}},
 
-Great news - I reviewed your info and PartnerBase is a perfect fit for {{company}}.
+Great news - I reviewed your info and Covant is a perfect fit for {{company}}.
 
 I'd love to show you exactly how we can {{solve_specific_problem}} in about 15 minutes.
 
@@ -83,27 +84,29 @@ Before the call, one quick question: {{personalized_question}}?
 Looking forward to it!
 
 {{agent_name}}
-PartnerBase Sales
+Covant Sales
 ```
 
 ### Post-Demo Follow-Up
 ```
-Subject: Next steps for {{company}} + PartnerBase
+Subject: Next steps for {{company}} + Covant
 
 Hi {{name}},
 
 Great chatting today! Here's a quick recap of what we covered:
 
 ✅ Challenge: {{pain_point}}
-✅ Solution: {{how_partnerbase_solves_it}}
+✅ Solution: {{how_covant_solves_it}}
 ✅ ROI: {{estimated_time_or_money_saved}}
 
 Next steps:
 1. {{action_item_1}}
 2. {{action_item_2}}
 
-Pricing for your team ({{seats}} users):
-- Growth Plan: $299/mo (unlimited partners, 5 users)
+Pricing for your team — transparent, no "call us" games:
+- Launch: $299/mo
+- Scale: $799/mo
+- Program: $1,999/mo
 - Enterprise: Custom (SSO, dedicated support, custom models)
 
 Ready to get started? I can have you up and running by {{date}}.
@@ -116,7 +119,7 @@ Best,
 
 ### Closing Email
 ```
-Subject: Ready when you are - PartnerBase contract
+Subject: Ready when you are - Covant contract
 
 Hi {{name}},
 
@@ -125,7 +128,7 @@ Sounds like we're aligned! I've attached the contract for {{plan}} - should take
 Once signed, here's what happens:
 1. You'll get access credentials within 24 hours
 2. Our Product Builder will help you import your first partners
-3. You'll see your first attribution report within 48 hours
+3. You'll have partner deals registered and progressing in Covant within 48 hours
 
 Questions? I'm here.
 
@@ -150,11 +153,11 @@ Excited to get you started!
 
 ### "It's too expensive"
 **Response:**
-"I get it - let's look at ROI. Right now you spend {{hours}} per quarter calculating partner commissions manually. That's {{cost}} in staff time alone. PartnerBase automates that, plus eliminates disputes and improves partner satisfaction. Break-even is usually {{timeframe}}."
+"I get it - let's look at ROI. Right now you spend {{hours}} per quarter calculating partner commissions manually. That's {{cost}} in staff time alone. Covant handles that math and explains every credit, which eliminates disputes and keeps partners registering deals. And it's a fraction of what a channel sales hire or legacy PRM would cost. Break-even is usually {{timeframe}}."
 
 ### "We're already using [Competitor]"
 **Response:**
-"That's great! How's it working for you? What I hear from teams switching from [Competitor] is that {{common_complaint}}. With PartnerBase, we solve that by {{our_advantage}}. Want to see a side-by-side comparison?"
+"That's great! How's it working for you? What I hear from teams switching from [Competitor] is that {{common_complaint}}. With Covant, the whole partner motion — registration, progression, credit, payout — runs in one system, and we solve that by {{our_advantage}}. Want to see a side-by-side comparison?"
 
 ### "I need to get buy-in from [Finance/Exec/etc.]"
 **Response:**
@@ -186,7 +189,7 @@ Track where each lead is in the pipeline:
 - **Demo-to-trial conversion:** >60%
 - **Trial-to-paid conversion:** >40%
 - **Avg time to close:** <14 days
-- **Deal size (ACV):** $3,600 avg (Growth plan)
+- **Deal size (ACV):** $3,600 avg (Launch plan)
 
 ## Escalation
 

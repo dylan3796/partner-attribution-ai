@@ -41,15 +41,15 @@ Rewrote copy to sell business results, not features:
 > "The Partner Intelligence Layer for Your CRM"
 
 **New Hero:**
-> "Stop Guessing Which Partners Drive Revenue"
+> "The Revenue Engine for Your Channel"
 > 
-> "Your best partners are invisible in your CRM. Your worst partners are invisible in your spreadsheets. PartnerBase makes partner ROI measurable for the first time — so you invest MDF in the right places, cut the dead weight, and grow partner-sourced revenue 30% in 12 months."
+> "If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that. Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant — and because every commission ships with a why, disputes disappear and partner-sourced pipeline keeps moving."
 
 **Old CTA:**
 > "Stop guessing which partners drive revenue"
 
 **New CTA:**
-> "Partner programs are either a cost center or a revenue engine. PartnerBase turns yours into an engine."
+> "Partner programs are either a cost center or a revenue engine. Covant turns yours into an engine."
 
 ---
 
@@ -75,8 +75,8 @@ Also in pricing footer: "🔒 SOC 2 Type II in progress (target Q2 2026) • You
 - Blocker identification
 
 **`BATTLE_CARD.md`** — Competitive positioning
-- PartnerBase vs Impartner/Allbound/Crossbeam/SFDC PRM/Spreadsheets
-- Category definition: "Partner Intelligence Platform"
+- Covant vs Impartner/Allbound/Crossbeam/SFDC PRM/Spreadsheets
+- Category definition: partner pipeline & progression — "the revenue engine for your channel"
 - Objection handling
 - Win themes
 - When we lose (and how to pivot)
@@ -218,13 +218,13 @@ Also in pricing footer: "🔒 SOC 2 Type II in progress (target Q2 2026) • You
 ## 🚀 What to Tell People Right Now
 
 ### For Prospects:
-> "We're accepting early access applications for March. Connect your CRM, import partners, and see your first attribution report in 15 minutes. 14-day free trial, no credit card required."
+> "We're accepting early access applications for March. Connect your CRM, bring your partners in, and watch partner-sourced pipeline move — with explainable credit on every deal — in 15 minutes. 14-day free trial, no credit card required."
 
 ### For Investors (if relevant):
-> "We're positioning PartnerBase as the **Partner Intelligence Platform** — not a PRM replacement, but the analytics and ROI layer that sits on top of your CRM. Think of it as the brain for partner programs. We're pre-launch with early access opening in March. First 10 customers get lifetime Pro pricing at $99/mo."
+> "Covant is **partner pipeline and progression** — the revenue engine for your channel. If you can't hire a channel sales team to integrate partner-driven revenue, Covant does that job: deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Attribution visibility is the wedge; the partner motion itself moves out of PRM + CRM reports and into us. We're pre-launch with early access opening in March. First 10 customers get lifetime Pro pricing at $99/mo."
 
 ### For Advisors:
-> "Looking for 3 VPs of Channels to join our advisory board. Quarterly dinners in SF, early feature access, optional equity. We're building what you wish Impartner could do — measure which partners actually drive revenue."
+> "Looking for 3 VPs of Channels to join our advisory board. Quarterly dinners in SF, early feature access, optional equity. We're building what you wish Impartner could do — run the whole partner motion, registration to payout, with credit nobody disputes."
 
 ---
 

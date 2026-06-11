@@ -11,8 +11,8 @@ const PARTNER_ANSWERS = [
     body: "Every percentage arrives with its reason attached — the deal they registered, the demo they ran, the work they delivered.",
   },
   {
-    title: "What's owed, and where it stands.",
-    body: "Earned, pending, projected — visible the moment it changes, not chased down at the end of the quarter.",
+    title: "What's owed, and when it pays.",
+    body: "Earned, pending, paid — payouts run out of Covant, visible the moment they change, not chased at quarter end.",
   },
   {
     title: "Where they stand, and what's next.",
@@ -22,16 +22,16 @@ const PARTNER_ANSWERS = [
 
 const START_STEPS = [
   {
-    title: "Day one — connect what you have.",
+    title: "First 15 minutes — self-serve, connected.",
     body: "CRM connectors, CSV import, or the event API. Nothing to rip out.",
   },
   {
-    title: "Week one — attribution on your history.",
-    body: "Your last 12 months of pipeline through five attribution models, side by side — choose per motion with evidence.",
+    title: "Week one — credit on your history.",
+    body: "Your last 12 months of pipeline through five attribution models, side by side — every split with the why attached.",
   },
   {
-    title: "First month — the machine is running.",
-    body: "Portal live under your brand, registrations flowing, incentives flagging with evidence attached.",
+    title: "First month — the channel runs in Covant.",
+    body: "Portal live under your brand, deals registering and progressing, commissions paying out with the reason attached.",
   },
 ];
 
@@ -42,14 +42,14 @@ export default function Home() {
       <section className="m-section m-section--flush m-hero">
         <div className="m-container m-hero-grid">
           <div>
-            <p className="m-eyebrow">Partner Experience Management</p>
+            <p className="m-eyebrow">Partner Pipeline &amp; Progression</p>
             <h1 className="m-h1">
-              The partner experience is your growth engine. Covant runs it.
+              Partner-driven revenue, without hiring a channel sales team.
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Covant is PXM: the KPIs, tiers, and incentives you&apos;ve agreed with partners
-              become a live experience that guides each one down the right path — and
-              everything partners do for you, in every channel, finally counts.
+              Covant is the revenue engine for your channel: deals get registered in
+              Covant, progress in Covant, get credited in Covant, and pay out of Covant —
+              your partner motion in one place, not scattered across PRM and CRM reports.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -70,7 +70,7 @@ export default function Home() {
       <section className="m-section m-section--flush" style={{ padding: 0 }}>
         <div className="m-container">
           <div className="m-trust">
-            <p className="m-trust-label">Built on the systems you already run</p>
+            <p className="m-trust-label">Plumbing included — closed-deal data flows in from</p>
             <ul className="m-trust-items">
               <li>Salesforce</li>
               <li>HubSpot</li>
@@ -90,7 +90,7 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">What you run on Covant</p>
-            <h2 className="m-h2">Prove it. Reward it. Guide it.</h2>
+            <h2 className="m-h2">Register it. Progress it. Pay it.</h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
             {PILLARS.map((p) => (
@@ -142,10 +142,10 @@ export default function Home() {
             <p className="m-eyebrow">Every shape of ecosystem</p>
             <h2 className="m-h2">Your data. Your priorities. Your program.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
-              No two ecosystems run alike. Covant starts from whatever you have — CRM,
-              spreadsheets, an event stream — and encodes the program you&apos;ve already
-              promised your partners: your KPIs, your tiers, your rules. Five partners or
-              five hundred, one motion or four, side by side.
+              No two channels run alike. Covant takes the program you&apos;ve already
+              promised your partners — your tiers, your rules, your registration flow —
+              and runs it end to end: pipeline in, progression tracked, credit explained,
+              payouts out. Five partners or five hundred, one motion or four.
             </p>
           </Reveal>
           <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
@@ -171,8 +171,8 @@ export default function Home() {
                 Partners don&apos;t want another portal. They want answers.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                Partners who trust the math bring you more: every registration and logged
-                touch is new signal, and the machine gets sharper with each one.
+                Partners who trust the credit bring you more pipeline: every commission
+                ships with a why, so disputes disappear and registrations keep coming.
               </p>
             </Reveal>
             <Reveal>
@@ -197,7 +197,7 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">Getting started</p>
-            <h2 className="m-h2">Weeks, not quarters.</h2>
+            <h2 className="m-h2">Minutes to start. Weeks to full speed.</h2>
           </Reveal>
           <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
             {START_STEPS.map((s, i) => (
@@ -213,8 +213,8 @@ export default function Home() {
             ))}
           </Reveal>
           <p className="m-small" style={{ marginTop: "1.5rem" }}>
-            We&apos;re building with our first customers — you&apos;ll work directly with the
-            team.
+            Transparent pricing, about a tenth the cost of legacy PRM — and you&apos;ll work
+            directly with the team.
           </p>
         </div>
       </section>

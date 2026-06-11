@@ -61,3 +61,17 @@
 **Phrases to avoid:** Any competitor names, "better than X", "replaces X"
 
 **Why:** Naming competitors slots you into their category and picks a fight with companies 100x our size. Let the positioning do the work — VPs already know exactly who we're talking about.
+
+---
+
+## 2026-06-11 — Repositioning: Partner Pipeline & Progression
+
+**Decision:** Covant sells **partner pipeline and progression** — "the revenue engine for your channel." Headline pitch: *"If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that."*
+
+**Retired framings (do not use as the lead):** "Partner Intelligence Platform," "prove partner ROI," "measure partner impact," "payouts that run themselves," any "analytics/intelligence layer on top of your CRM" language. These survive only as supporting benefits.
+
+**The model:** Attribution visibility is the wedge, not the product. It's parlayed into the partner motion running out of Covant: deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Covant replaces "PRM + CRM reports" as the place the partner business lives. Salesforce/HubSpot connectors are plumbing (closed-deal data flows in), never the positioning.
+
+**Guardrail kept:** Covant never moves money. Payouts are calculated, explained, flagged as earned, and routed for the company's approval — never imply otherwise.
+
+**Why:** Channel-driven buyers buy the outcome (pipeline that builds and progresses), not measurement. Mirrors the Monaco playbook — sell the outcome, be the system the motion runs in (see MONACO_ANALYSIS.md).
