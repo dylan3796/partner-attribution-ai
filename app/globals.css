@@ -2451,10 +2451,6 @@ a:focus-visible {
 /* Serif display voice — reserved for the hero headline */
 .site--story .m-h1{font-family:var(--font-serif-display);font-weight:560;letter-spacing:-.01em;font-size:clamp(2.5rem,4.6vw,3.6rem);line-height:1.07}
 
-/* Inline highlight chip — the copy is the interface */
-.m-chip{display:inline-flex;align-items:center;gap:.32em;padding:.05em .45em .12em;border-radius:.45em;background:var(--m-accent-soft);color:var(--m-accent-ink);font-weight:600;white-space:nowrap;line-height:1.25;vertical-align:baseline}
-.m-chip svg{width:.8em;height:.8em;flex-shrink:0;transform:translateY(.04em)}
-
 /* Vignette: in-card product animation, gated on .is-played.
    Elements opt in with data-vig="1..6" (staggered landing),
    .m-vig-bar + --fill (bar fills), .m-vig-pop (toast pop). */

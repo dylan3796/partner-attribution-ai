@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Reveal from "@/components/marketing/Reveal";
-import Chip from "@/components/marketing/Chip";
 import AttributionExplainVisual from "@/components/marketing/AttributionExplainVisual";
 import NextMoveVisual from "@/components/marketing/NextMoveVisual";
 import CTABand from "@/components/marketing/CTABand";
@@ -46,11 +45,10 @@ export default function Home() {
             <p className="m-eyebrow">The Partner Hub</p>
             <h1 className="m-h1">The engine for channel-driven revenue.</h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Covant powers the whole partner journey — a portal under your brand,
-              shaped to the experience you want partners to have. They{" "}
-              <Chip icon="register">register</Chip> deals, work them with you, and
-              see the <Chip icon="credit">credit</Chip>, the commissions, the tier
-              progress, and the next best action as they happen.
+              A partner portal under your brand, shaped to your program: partners
+              register deals, track credit, commissions, and tier progress. Every
+              split traces to a source — the deal registered, the contract closed,
+              the work delivered — never an unverified claim.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -174,8 +172,7 @@ export default function Home() {
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
                 Partners who trust the credit bring you more pipeline: every commission
-                ships with a <Chip icon="why">why</Chip>, so disputes disappear and
-                registrations keep coming.
+                ships with a why, so disputes disappear and registrations keep coming.
               </p>
             </Reveal>
             <Reveal>
