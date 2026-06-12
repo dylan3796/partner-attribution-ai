@@ -28,16 +28,16 @@ const CONTEXT_CARDS = [
 
 const SIGNAL_CARDS = [
   {
-    title: "Already in the account.",
-    body: "A partner logged work on an account you're selling into — surfaced while the deal is open, not discovered after it closes.",
+    title: "Know who's good at what.",
+    body: "Verticals, solutions, closed wins — each partner's proven strengths on the record, readable by the AE working the deal.",
   },
   {
-    title: "Proven in the vertical.",
-    body: "A healthcare deal opens, and the partner with four healthcare deployments behind them gets flagged as the strongest fit.",
+    title: "Unblock the stalled deal.",
+    body: "A deal needs healthcare integration expertise; the partner who's delivered it four times gets flagged to bring in.",
   },
   {
-    title: "Cited, not asserted.",
-    body: "Every suggestion names the records behind it — the deals, the work, the wins. You decide what it means.",
+    title: "Document who's already there.",
+    body: "A partner's logged work on the account becomes intel on the record — credited and visible, not tribal knowledge.",
   },
 ];
 
@@ -80,13 +80,14 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">The Partner Hub</p>
             <h1 className="m-h1">
-              See your channel. Catch the signal. Credit every dollar.
+              Partners bring deals when they trust the credit.
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Covant connects your partners, customers, and deals in one place,
-              flags the partners already working your accounts, and splits credit
-              from records anyone can open. Turn on registration, tiers, and
-              incentives whenever you&apos;re ready.
+              Covant proves every partner&apos;s contribution from records anyone can
+              open — so registering deals with you is worth their while. Then it puts
+              the ecosystem to work: partner expertise matched to your open deals,
+              stalled ones unblocked. Seeing what&apos;s hidden is the floor;
+              partner-sourced pipeline is the point.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -152,11 +153,13 @@ export default function Home() {
       <section className="m-section">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">02. Catch what&apos;s already happening</p>
-            <h2 className="m-h2">Partners are already on your deals. Now you&apos;ll know.</h2>
+            <p className="m-eyebrow">02. Put the ecosystem to work</p>
+            <h2 className="m-h2">Unblock deals with the partner who&apos;s done it before.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
-              Covant reads the records you already have and flags the points of
-              interest — with the evidence attached, for your judgment.
+              Your AEs don&apos;t know which partner is good at what — Covant does,
+              from the record. It matches proven expertise to open deals, every
+              suggestion citing the records behind it, and when a partner is already
+              on the account, it captures that intel where it belongs.
             </p>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
@@ -227,7 +230,7 @@ export default function Home() {
                 to have. And when you&apos;re ready for tiers and incentives,
                 they&apos;re built in — partners see the bar, the progress, and the
                 payoff, and every incentive flags with its evidence, awaiting your
-                approval.
+                approval. Partners who see their credit keep bringing deals.
               </p>
             </Reveal>
             <Reveal>

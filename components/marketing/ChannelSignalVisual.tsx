@@ -2,27 +2,18 @@ import Vignette from "@/components/marketing/Vignette";
 import CountUp from "@/components/marketing/CountUp";
 
 /**
- * Illustrative product shot for the hero: an open deal with two channel
- * signals — a partner already active in the account, and a partner proven
- * in the deal's vertical — each citing the records behind it. Clearly
- * labelled example data. This is the stage-one story: context and signal
- * from the customer's own records, before any program structure (tiers,
- * incentives, attribution) is configured. Suggestions are cited and left
+ * Illustrative product shot for the hero: a stalled open deal with two
+ * channel signals — a partner proven in the deal's vertical who could
+ * unblock it, and a partner already active in the account — each citing
+ * the records behind it. Clearly labelled example data. Ordering matches
+ * the positioning: putting partner expertise to work on revenue leads;
+ * uncovering who's already there supports. Suggestions are cited and left
  * to the customer's judgment — never asserted as fact.
  *
  * Plays once on scroll-into-view: each signal lands, then the
- * partner-found toast pops.
+ * unblock suggestion pops.
  */
 const SIGNALS = [
-  {
-    initials: "MC",
-    color: "#1f5d4c",
-    name: "Meridian Consulting",
-    tag: "Already in the account",
-    detail:
-      "3 logged touches with Atlas Health since March — a workshop, an intro call, a scoping doc.",
-    source: "Meeting + project records",
-  },
   {
     initials: "BA",
     color: "#7a6a3a",
@@ -32,6 +23,15 @@ const SIGNALS = [
       "4 healthcare deployments closed-won, including two at this deal size.",
     source: "Deal history",
   },
+  {
+    initials: "MC",
+    color: "#1f5d4c",
+    name: "Meridian Consulting",
+    tag: "Already in the account",
+    detail:
+      "3 logged touches with Atlas Health since March — a workshop, an intro call, a scoping doc.",
+    source: "Meeting + project records",
+  },
 ];
 
 export default function ChannelSignalVisual() {
@@ -40,7 +40,7 @@ export default function ChannelSignalVisual() {
     <div
       className="m-shot"
       role="img"
-      aria-label="Example product screen: an open healthcare deal with two partner signals — one partner already active in the account with logged touches, another proven in the vertical — each citing the records behind it"
+      aria-label="Example product screen: a stalled healthcare deal with two partner signals — one partner proven in the vertical who could unblock it, another already active in the account — each citing the records behind it"
     >
       <div className="m-app">
         <div className="m-app-bar">
@@ -55,7 +55,7 @@ export default function ChannelSignalVisual() {
             <div className="m-app-deal">
               Atlas Health — New implementation <span className="m-pill">Open deal</span>
             </div>
-            <p className="m-app-sub">Healthcare · Northeast · no partner attached yet</p>
+            <p className="m-app-sub">Healthcare · stalled 21 days · no partner attached</p>
           </div>
           <div>
             <div className="m-app-amount">
@@ -92,10 +92,10 @@ export default function ChannelSignalVisual() {
       <div className="m-float m-vig-pop" data-vig={4}>
         <span className="m-float-icon">⚑</span>
         <div>
-          <p className="m-float-title">Partner already on this deal</p>
+          <p className="m-float-title">A partner can unblock this deal</p>
           <p className="m-float-sub">
-            Meridian Consulting logged a scoping workshop with Atlas Health in March — review
-            and attach?
+            Brightline Apps has delivered 4 healthcare deployments like this one — suggest
+            them to the AE?
           </p>
         </div>
       </div>
