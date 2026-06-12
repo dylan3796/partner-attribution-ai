@@ -2,11 +2,11 @@
 
 ## The Big Idea
 
-**Covant is the revenue engine for your channel.**
+**Covant is the partner hub.**
 
-Most partner platforms are a place to file paperwork — a PRM on one side, CRM reports on the other, and the actual revenue motion living in spreadsheets and Slack threads in between. We're building the place the partner business itself runs: deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained. Explainable attribution is the wedge — it's how we earn the trust to own the whole motion — but what we sell is partner pipeline and progression.
+Most partner platforms are a place to file paperwork — a PRM on one side, CRM reports on the other, and the actual revenue motion living in spreadsheets and Slack threads in between. We're building the hub the partner program runs on: deals stay in your CRM — partners register them through Covant — and the partner side lives here: credit calculated and explained, incentives and tier progress tracked, a next best action for every partner. Explainable attribution is the wedge — it's how we earn the trust to run the partner side — but what we sell is bringing every partner along for the whole journey.
 
-> "Covant is the revenue engine for your channel — partner pipeline that registers, progresses, and gets credited in one system."
+> "Your CRM runs the deals. Covant is the partner hub alongside it — partner revenue, program, incentives, and next best actions, shared with every partner."
 
 ---
 
@@ -214,7 +214,7 @@ The numbers partner leadership runs the channel on — and walks into the CRO me
 ### 1. SaaS with Channel Programs
 **Examples:** Salesforce, HubSpot, AWS, Datadog, Snowflake
 **Key pain:** The partner motion lives in spreadsheets, Slack threads, and CRM reports — partner-sourced pipeline stalls because no one system owns it
-**Our angle:** The partner motion runs in Covant across the entire SaaS lifecycle (register → progress → close → expand → renew), with explainable credit at every step
+**Our angle:** The partner side runs in Covant across the entire SaaS lifecycle (register → close → expand → renew) — deals stay in your CRM — with explainable credit at every step
 **Unique needs:**
 - Recurring revenue attribution (who gets credit on renewal?)
 - Expansion revenue tracking
@@ -234,7 +234,7 @@ The numbers partner leadership runs the channel on — and walks into the CRO me
 ### 3. Hardware & Distribution
 **Examples:** Dell, Cisco, HP, Lenovo
 **Key pain:** Deals pass through distributor → reseller chains with no single system carrying registration, credit, or payout end to end
-**Our angle:** The multi-tier motion runs in Covant — explainable credit splits across distributor → reseller → end customer, automatically
+**Our angle:** The multi-tier program runs on Covant — explainable credit splits across distributor → reseller → end customer, automatically
 **Unique needs:**
 - Multi-tier attribution (distributor gets X%, reseller gets Y%)
 - Volume-based incentives and rebates
@@ -274,7 +274,7 @@ The numbers partner leadership runs the channel on — and walks into the CRO me
 | Reveal | Data sharing | No attribution or management | Full platform, not just data |
 | Allbound | Partner portal | Basic attribution | The whole motion runs here, not just the portal |
 
-**Our moat:** We're the system of record for the partner motion. Explainable attribution is the wedge that earns the trust — and once deals register, progress, and get credited in Covant — with every commission calculated and approved here — there's nothing left to switch away to.
+**Our moat:** We're the system of record for the partner side — the hub holding every partner's touches, credit, incentives, and progression. Explainable attribution is the wedge that earns the trust — and once that whole partner record lives in Covant, there's nothing left to switch away to.
 
 ---
 
@@ -315,7 +315,7 @@ The numbers partner leadership runs the channel on — and walks into the CRO me
 
 ## The One-Liner
 
-> **Covant is the revenue engine for your channel — deals register, progress, and get credited, with every commission calculated and explained.**
+> **Covant is the partner hub — partner revenue, program, incentives, and next best actions in one place, every commission calculated and explained.**
 
 ---
 

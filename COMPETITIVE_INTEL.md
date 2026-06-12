@@ -146,7 +146,7 @@
 3. **Multi-industry** — We serve SaaS, hardware, fintech, services; they're SaaS-only
 4. **Transparent pricing** — Self-serve, published pricing ($299/$799/$1,999); they require sales calls
 5. **Program management** — We have tiers, certifications, territory management; they don't
-6. **The motion end to end** — Covant runs registration through credit in one system; PartnerStack assumes you already have the motion figured out
+6. **The partner side end to end** — Registration into your CRM through credited commission, in one hub; PartnerStack assumes you already have the motion figured out
 
 ---
 
@@ -194,7 +194,7 @@
 **Where We Win Against Crossbeam:**
 1. **We run the deals; they map the accounts** — Overlap data tells you where to hunt; Covant is where the resulting deals get registered, progress, and get credited
 2. **Revenue, not reports** — They show partner influence; we integrate partner-driven revenue end to end, with explainable credit on every dollar
-3. **Actionability** — We don't just show overlap; the entire partner motion — registration through payout — lives in Covant
+3. **Actionability** — We don't just show overlap; the entire partner side — registration through credited commission — lives in Covant
 4. **Incentive management** — Commission calculation and approval workflows run in Covant; Crossbeam has nothing here
 5. **Partner portal** — Partners work their own pipeline self-serve in Covant; Crossbeam has no partner-facing experience
 6. **Complementary, not competitive** — Initially, we can integrate WITH Crossbeam as a data source
@@ -292,7 +292,7 @@
 **Gartner Peer Insights:** 4.2/5
 
 **Where We Win Against Allbound/Channelscaler:**
-1. **A revenue engine, not a portal** — Their portal hosts content; Covant runs the partner pipeline itself, registration through payout
+1. **A hub, not a content portal** — Their portal hosts content; Covant runs the partner side: registration into your CRM, credit, incentives, progression
 2. **Pipeline progression** — Partner-sourced deals visibly move forward in Covant; they offer basic deal tracking with no forward view
 3. **Stability** — We're building fresh; they're merging two products (risky)
 4. **Simpler pricing** — Self-serve vs. custom quotes
@@ -467,7 +467,7 @@
 - Term coined by Crossbeam/PartnerHacker, now widely adopted
 - Companies shifting from partner programs as cost centers → revenue engines
 - Ecosystem data (account overlap, partner influence) becoming part of standard GTM
-- **Our angle:** ELG turns the channel into a revenue engine — Covant is where that engine actually runs. Partner pipeline gets created, progressed, credited, and paid in one place.
+- **Our angle:** ELG makes partners part of the GTM — Covant is the hub where that happens: registrations into your CRM, credit, incentives, and progression in one shared place.
 
 ### Trend 2: AI Adoption in PRM
 - Every vendor is adding "AI" — mostly superficial (AI partner matching, chatbots)
@@ -480,7 +480,7 @@
 - Allbound + Channel Mechanics merger (2024) = Channelscaler
 - Crossbeam + Reveal merger (2024)
 - Market moving toward unified platforms
-- **Our angle:** Covant replaces "PRM + CRM reports" as the place the partner motion lives. One system, registration through payout.
+- **Our angle:** Covant replaces "PRM + CRM reports" as the place the partner side lives. One hub: registration into the CRM, credit, incentives, progression.
 
 ### Trend 4: Partner Experience as a Differentiator
 - Partners choose vendors partly based on portal quality and transparency
@@ -491,7 +491,7 @@
 - CFOs demanding proof of partner channel ROI
 - Partnership leaders under pressure to justify headcount and program spend
 - Multi-touch attribution becoming expected, not aspirational
-- **Our angle:** Visibility is our wedge, not our product. When the channel actually runs in Covant — registered, progressed, credited, paid — the CFO's question answers itself, and the partner team gets a CRO-meeting proof point for free.
+- **Our angle:** Visibility is our wedge, not our product. When the partner program runs on Covant — registrations, credit, incentives, progression — the CFO's question answers itself, and the partner team gets a CRO-meeting proof point for free.
 
 ### Trend 6: Shift from Affiliate to Multi-Type Partner Programs
 - Companies moving beyond affiliate/referral to include resellers, agencies, tech partners, consultants
@@ -565,10 +565,10 @@
 
 ```
 Impact.com      → 10x cheaper, modern, and we run the deal — not just the tracking
-PartnerStack    → Pipeline and progression, not just payouts; every industry, not just SaaS
+PartnerStack    → The whole partner side, not just payouts; every industry, not just SaaS
 Crossbeam       → They map accounts; we run the resulting deals, registration to payout
 Impartner       → 15 minutes self-serve vs. 6-month impl.; priced for mid-market
-Allbound        → A revenue engine, not a portal; they're busy merging two products
+Allbound        → A hub, not a content portal; they're busy merging two products
 Kiflo           → We run the channel at scale; they log deals for small programs
 ZINFI           → We're simple and modern; they're complex and dated
 ```
@@ -583,7 +583,7 @@ ZINFI           → We're simple and modern; they're complex and dated
 
 ### Summary: Competitive Positioning
 
-> **Covant is the revenue engine for the channel — partner pipeline and progression in one place.** Deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained. Attribution visibility is the wedge — explainable, no-black-box credit is what makes partners and finance trust the system enough to run the whole motion in it. Every competitor either stops at visibility (Crossbeam), stops at payouts (PartnerStack, Impact.com), or buries mid-market teams in enterprise PRM (Impartner, ZINFI). No one runs the partner motion end to end, self-serve in 15 minutes, at mid-market pricing. That's our gap. That's our opportunity.
+> **Covant is the partner hub — partner revenue, program, incentives, and next best actions in one place.** Partners register deals that flow into your CRM; credit, incentives, and progression are tracked and explained in Covant. Attribution visibility is the wedge — explainable, no-black-box credit is what makes partners and finance trust the hub enough to run the program on it. Every competitor either stops at visibility (Crossbeam), stops at payouts (PartnerStack, Impact.com), or buries mid-market teams in enterprise PRM (Impartner, ZINFI). No one gives the partner team and its partners one shared hub, self-serve in 15 minutes, at mid-market pricing. That's our gap. That's our opportunity.
 
 ---
 

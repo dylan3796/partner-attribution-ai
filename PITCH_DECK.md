@@ -1,7 +1,7 @@
 # Pitch Deck Outline
 ## Covant — Seed Stage
 
-*The revenue engine for your channel.*
+*The partner hub.*
 
 ---
 
@@ -12,14 +12,14 @@
 # Covant
 ### The Revenue Engine for Your Channel
 
-**Covant is the revenue engine for your channel — the system where partner pipeline registers, progresses, and gets credited.**
+**Covant is the partner hub — partners register deals into your CRM, and both sides track partner revenue, progression, and incentives in one place.**
 
 *[Logo]*
 
 *Seed Round — [Month] 2026*
 
 ### Speaker Notes:
-"Thanks for taking the time. I'm [Name], founder of Covant. We're building the revenue engine for the channel — the system where the partner business itself runs. Deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained. Today I'll show you why this matters, who needs it, and why now is the perfect time to build it."
+"Thanks for taking the time. I'm [Name], founder of Covant. We're building the partner hub — one place a company and its partners share. Partners register deals in Covant that flow into the CRM, and the hub tracks partner revenue, program progression, and incentives — every commission calculated, approved, and explained. Today I'll show you why this matters, who needs it, and why now is the perfect time to build it."
 
 ---
 
@@ -95,7 +95,7 @@
 
 # Covant: The Place the Partner Business Runs
 
-### Deals register in Covant, progress in Covant, and get credited in Covant — every commission calculated and explained.
+### Partners register deals into your CRM — credit, incentives, and progression tracked and explained in Covant.
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -118,12 +118,12 @@
 |---|---|
 | Impact.com / PartnerStack (tracking) | Explainable AI attribution engine |
 | Spreadsheets (commissions) | Automated incentive management |
-| PRM + CRM reports (pipeline) | Partner pipeline that lives and progresses in Covant |
+| PRM + CRM reports (pipeline) | Partner registrations flowing into the CRM, credit and progression tracked in Covant |
 | Custom portal or email (partners) | Self-service partner portal |
 | Looker / Tableau (reporting) | Built-in analytics & insights |
 
 ### Speaker Notes:
-"So what are we building? Covant is where the partner business actually runs — not a layer of reports sitting on top of a PRM and a CRM. Partners register deals in Covant. Those deals progress in Covant. Credit is calculated in Covant — explainably, with our attribution engine that shows the why behind every credit decision. And commissions are calculated, approved, and explained in Covant — finance pays through the rails they already use. Salesforce and HubSpot connect underneath as plumbing, so closed-deal data flows in and credit and commission math stay automatic — but the motion itself lives with us. Attribution is our wedge, not our product: explainable credit is what earns partners' and finance's trust, and that trust is what lets a company run its whole channel through Covant. The key insight: when every deal registers, progresses, and gets credited in one system, the channel stops being a side project and starts being a revenue engine."
+"So what are we building? Covant is the partner hub — the place a company and its partners share, alongside the CRM where the deals actually run. Partners register deals in Covant and they flow into the CRM. Every partner touch is logged in Covant. Credit is calculated in Covant — explainably, with our attribution engine that shows the why behind every credit decision. And commissions are calculated, approved, and explained in Covant — finance pays through the rails they already use. Salesforce and HubSpot connect underneath, so registrations flow in and closed-deal data flows back automatically. Attribution is our wedge, not our product: explainable credit is what earns partners' and finance's trust, and that trust is what brings the partner along for the whole journey. The key insight: when both sides read the same numbers — credit, incentives, progression — the channel stops being a side project and starts producing revenue."
 
 ---
 
@@ -156,7 +156,7 @@
 - Trust-building moment: "Your partners have never seen anything like this"
 
 ### Speaker Notes:
-"Let me show you the product. [Switch to demo] First, the motion itself. A partner registers a deal in their portal, and it lands in your pipeline instantly — staged, owned, progressing. This is the thing nobody else does: the deal lives here, it doesn't just get reported here. Second, credit. When that deal moves, every credit decision ships with a why — the touchpoints, the model, the math. Watch what happens when I toggle from last-touch to multi-touch to our AI-weighted model. There's no black box, which is why nobody disputes a commission. Third, commissions. The deal closes, credit is calculated in real time, the commission is computed and routed for approval — with the why attached. No spreadsheets. No disputes. And finally, the partner's side — full transparency into their pipeline, their credit, their earnings, included on every plan. That transparency is why partners keep registering their next deal with you."
+"Let me show you the product. [Switch to demo] First, registration. A partner registers a deal in their portal and it flows straight into your CRM — your pipeline, your fields, no rekeying. From that moment, Covant logs every partner touch on the deal. Second, credit. When that deal moves, every credit decision ships with a why — the touchpoints, the model, the math. Watch what happens when I toggle from last-touch to multi-touch to our AI-weighted model. There's no black box, which is why nobody disputes a commission. Third, commissions. The deal closes, credit is calculated in real time, the commission is computed and routed for approval — with the why attached. No spreadsheets. No disputes. And finally, the partner's side — full transparency into their pipeline, their credit, their earnings, included on every plan. That transparency is why partners keep registering their next deal with you."
 
 ---
 
@@ -206,7 +206,7 @@
 - Surfaces what top partners do differently
 
 ### Speaker Notes:
-"Here's the architecture that makes this work. The partner motion runs in Covant — deals registered, progressing, credited, paid — and data flows in underneath from your CRM, website, product analytics, support tickets, and marketing automation. That's plumbing: closed-deal data flows in so credit and payouts stay automatic, without anyone touching a spreadsheet. Our AI engine processes every touchpoint, scores it, and attributes credit across all contributing partners — explainably, so every commission ships with a why. Commissions are auto-calculated. Program tiers are based on real attributed revenue, not self-reported deals. Partners see their actual credit and keep feeding the pipeline. And when the CRO asks what the channel produced, you have the answer — grounded in the same system the deals ran through. The magic is that the AI learns over time. It figures out which attribution model best predicts actual revenue outcomes for YOUR business. It recommends incentive changes. It identifies partners who are at risk of churning. No one else can do this because no one else owns the full motion end to end."
+"Here's the architecture that makes this work. The partner side runs in Covant — registrations, logged touches, credit, incentives — and data flows underneath from your CRM, website, product analytics, support tickets, and marketing automation. That's plumbing: registrations flow out to the CRM, closed-deal data flows back, so credit and payout math stay automatic without anyone touching a spreadsheet. Our AI engine processes every touchpoint, scores it, and attributes credit across all contributing partners — explainably, so every commission ships with a why. Commissions are auto-calculated. Program tiers are based on real attributed revenue, not self-reported deals. Partners see their actual credit and keep feeding the pipeline. And when the CRO asks what the channel produced, you have the answer — grounded in the same hub your partners work in. The magic is that the AI learns over time. It figures out which attribution model best predicts actual revenue outcomes for YOUR business. It recommends incentive changes. It identifies partners who are at risk of churning. No one else can do this because no one else holds the full partner record end to end."
 
 ---
 
@@ -242,7 +242,7 @@
 | Scale | 200 | $3M+ | Month 36 |
 
 ### Speaker Notes:
-"Our business model is straightforward SaaS, sold the way mid-market buys: transparent public pricing and 15-minute self-serve setup — no demo gauntlet, no implementation project. Our ICP is $10M–$200M ARR SaaS companies with 10 to 200 partners. Launch at $299/mo is 10x cheaper than legacy PRM like Impact.com or Impartner. Scale at $799/mo for growing programs, Program at $1,999/mo for mature ones, and custom Enterprise pricing for large programs — we're already seeing interest from companies that would be $50K+ ACV. The economics work beautifully because net retention is naturally high — as the partner pipeline running through Covant grows, customers move up tiers. We expect 120%+ net revenue retention. Our target blended ACV is $12K, and because the partner motion itself lives in Covant — registered deals, progression history, credit, payouts — churn should be very low once embedded."
+"Our business model is straightforward SaaS, sold the way mid-market buys: transparent public pricing and 15-minute self-serve setup — no demo gauntlet, no implementation project. Our ICP is $10M–$200M ARR SaaS companies with 10 to 200 partners. Launch at $299/mo is 10x cheaper than legacy PRM like Impact.com or Impartner. Scale at $799/mo for growing programs, Program at $1,999/mo for mature ones, and custom Enterprise pricing for large programs — we're already seeing interest from companies that would be $50K+ ACV. The economics work beautifully because net retention is naturally high — as the partner program running on Covant grows, customers move up tiers. We expect 120%+ net revenue retention. Our target blended ACV is $12K, and because the full partner record lives in Covant — registrations, touch history, credit, incentives — churn should be very low once embedded."
 
 ---
 
@@ -381,7 +381,7 @@
 
 - 📈 **$50K+ MRR** / $600K ARR run rate
 - 👥 **50+ paying customers** with strong retention
-- 🤝 **3+ case studies** — partner-sourced pipeline created and progressing in Covant, zero commission disputes
+- 🤝 **3+ case studies** — partner-sourced pipeline registered through Covant, zero commission disputes
 - 🔄 **120%+ net revenue retention**
 - 🏗️ **Full platform** — attribution, portal, incentives, integrations, analytics
 - 🎯 **Series A ready** with clear PMF signals
@@ -404,7 +404,7 @@
 
 | From (Today) | To (Our Vision) |
 |-------------|-----------------|
-| PRM paperwork + CRM reports | The partner motion runs in Covant |
+| PRM paperwork + CRM reports | One shared partner hub |
 | Manual spreadsheet ops | Deals register, progress, and get credited automatically |
 | Partners as an afterthought | Partners as first-class revenue drivers |
 | 5 disconnected tools | One unified platform |
@@ -419,12 +419,12 @@
 ---
 
 **Covant**
-*The revenue engine for your channel.*
+*The partner hub.*
 
 [founder@email.com] · [covant.ai]
 
 ### Speaker Notes:
-"Let me leave you with the big vision. We believe every company with a partner program will eventually run the whole motion out of one system. Not spreadsheets. Not a PRM on one side and CRM reports on the other. One place where deals get registered, progress, and get credited — with explainable attribution underneath so partners and finance trust every dollar. The timing is perfect — AI models are production-ready, the market is actively spending more on PRM, companies want consolidation, and the partnership economy is growing faster than ever. We're building the revenue engine for the channel — the category-defining system for the next era of partner-driven revenue. I'd love to partner with you to make that happen. Thank you."
+"Let me leave you with the big vision. We believe every company with a partner program will eventually run it from one shared hub. Not spreadsheets. Not a PRM on one side and CRM reports on the other. One place where partners register deals, see their credit, track their progression, and know their next move — with explainable attribution underneath so partners and finance trust every dollar. The timing is perfect — AI models are production-ready, the market is actively spending more on PRM, companies want consolidation, and the partnership economy is growing faster than ever. We're building the partner hub — the category-defining system for the next era of partner-driven revenue. I'd love to partner with you to make that happen. Thank you."
 
 ---
 

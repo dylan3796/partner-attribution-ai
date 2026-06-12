@@ -43,7 +43,7 @@ Rewrote copy to sell business results, not features:
 **New Hero:**
 > "The Revenue Engine for Your Channel"
 > 
-> "Covant is the revenue engine for your channel. Deals get registered in Covant, progress in Covant, and get credited in Covant — and because every commission ships with a why, disputes disappear and partner-sourced pipeline keeps moving."
+> "Covant is the partner hub. Partners register deals that flow into your CRM — and because every commission ships with a why, disputes disappear and partner-sourced pipeline keeps moving."
 
 **Old CTA:**
 > "Stop guessing which partners drive revenue"
@@ -76,7 +76,7 @@ Also in pricing footer: "🔒 SOC 2 Type II in progress (target Q2 2026) • You
 
 **`BATTLE_CARD.md`** — Competitive positioning
 - Covant vs Impartner/Allbound/Crossbeam/SFDC PRM/Spreadsheets
-- Category definition: partner pipeline & progression — "the revenue engine for your channel"
+- Category definition: the partner hub — partner revenue, program, incentives, and next best actions in one place
 - Objection handling
 - Win themes
 - When we lose (and how to pivot)
@@ -221,7 +221,7 @@ Also in pricing footer: "🔒 SOC 2 Type II in progress (target Q2 2026) • You
 > "We're accepting early access applications for March. Connect your CRM, bring your partners in, and watch partner-sourced pipeline move — with explainable credit on every deal — in 15 minutes. 14-day free trial, no credit card required."
 
 ### For Investors (if relevant):
-> "Covant is **partner pipeline and progression** — the revenue engine for your channel. Deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated and explained. Attribution visibility is the wedge; the partner motion itself moves out of PRM + CRM reports and into us. We're pre-launch with early access opening in March. First 10 customers get lifetime Pro pricing at $99/mo."
+> "Covant is **the partner hub** — partners register deals into your CRM, and both sides track partner revenue, incentives, and progression in one place, every commission calculated and explained. Attribution visibility is the wedge; the partner experience moves out of PRM + CRM reports and into the hub. We're pre-launch with early access opening in March. First 10 customers get lifetime Pro pricing at $99/mo."
 
 ### For Advisors:
 > "Looking for 3 VPs of Channels to join our advisory board. Quarterly dinners in SF, early feature access, optional equity. We're building what you wish Impartner could do — run the whole partner motion, registration to payout, with credit nobody disputes."

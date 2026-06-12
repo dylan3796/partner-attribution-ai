@@ -24,25 +24,25 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Covant — Partner Pipeline & Progression",
+  title: "Covant — The Partner Hub",
   description:
-    "Covant is the revenue engine for your channel: deals get registered, progress, and get credited — all in Covant, with every commission calculated and explained. No black-box attribution — every credit ships with a why.",
+    "Covant is the partner hub: partners register deals that flow into your CRM, and both sides track partner revenue, tier progress, incentives, and next best actions in one place. Every commission calculated and explained — no black-box attribution.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "Covant — Partner Pipeline & Progression",
-    description: "The revenue engine for your channel. Deals register, progress, and get credited — all in Covant. Partner pipeline and progression in one system.",
+    title: "Covant — The Partner Hub",
+    description: "The partner hub: partners register deals into your CRM, and both sides track partner revenue, tier progress, incentives, and next best actions in one place.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — Partner Pipeline & Progression",
-    description: "Deals register, progress, and get credited — all in Covant. Partner pipeline and progression in one system.",
+    title: "Covant — The Partner Hub",
+    description: "Partners register deals into your CRM; both sides track partner revenue, tier progress, incentives, and next best actions in one place.",
   },
   metadataBase: new URL("https://covant.ai"),
 };

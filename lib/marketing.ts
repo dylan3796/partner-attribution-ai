@@ -8,15 +8,19 @@
 // commission rules in convex/commissionRules.ts, the five MODELS below) so
 // the copy stays grounded in what Covant actually does.
 //
-// Two hard rules for all marketing copy:
-// 1. The payout motion runs in Covant — calculated, explained, flagged as
-//    earned, routed for approval, recorded. But the COMPANY approves and
+// Three hard rules for all marketing copy:
+// 1. Payouts are calculated, explained, flagged as earned, routed for
+//    approval, and recorded in Covant. But the COMPANY approves and
 //    moves the money. Never imply Covant touches funds or that payouts
 //    happen without sign-off.
-// 2. Partner signal lives beyond the CRM (spreadsheets, marketplace portals,
+// 2. Deals live and move in the customer's CRM — Covant is the partner hub
+//    overlaid on it. Partners register deals in Covant and they flow INTO
+//    the CRM; Covant tracks the partner side (credit, incentives, tier
+//    progress, next best actions). Never claim deals live, progress, or
+//    run in Covant.
+// 3. Partner signal lives beyond the CRM (spreadsheets, marketplace portals,
 //    event streams) and Covant also GENERATES new signal (registrations,
 //    logged touches, portal activity) — don't reduce the story to "reads CRM."
-//    Connectors are plumbing; the partner motion itself lives in Covant.
 
 export const DEMO_SOURCE = "demo_request";
 
@@ -25,7 +29,7 @@ export type Pillar = {
   body: string;
 };
 
-// What Covant lets you run — the pipeline-and-progression triad. Solution-framed
+// What lives in the hub — the partner-hub triad. Solution-framed
 // (showcase what works, not what's broken): credit every dollar with the reason
 // attached, make tiers/incentives pull partners forward, capture the signal
 // partners send through every channel and turn it into their next move. Each
@@ -61,8 +65,8 @@ export const WORKFLOWS: Workflow[] = [
     title: "A partner brings you a deal.",
     steps: [
       "They register it in your portal — two minutes, your fields.",
-      "You approve; from there every touch on the deal is logged.",
-      "It closes. Attribution splits with the reasons attached.",
+      "You approve and it flows into your CRM; every partner touch is logged in Covant.",
+      "It closes in your CRM. Attribution splits with the reasons attached.",
       "The incentive flags as earned, evidence included, awaiting your sign-off.",
     ],
   },

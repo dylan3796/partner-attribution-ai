@@ -7,7 +7,7 @@ export function OrganizationSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "Covant is the revenue engine for your channel — the system partner pipeline runs in. Deals get registered, progress, and get credited in Covant, with every commission calculated and explained. Replaces the PRM-plus-CRM-reports patchwork; Salesforce and HubSpot sync underneath.",
+      "Covant is the partner hub: partners register deals that flow into your CRM, and both sides track partner revenue, tier progress, incentives, and next best actions in one place — every commission calculated and explained. Your CRM stays the system of record; Salesforce and HubSpot sync underneath.",
     foundingDate: "2026",
     contactPoint: {
       "@type": "ContactPoint",
@@ -34,7 +34,7 @@ export function SoftwareApplicationSchema() {
     operatingSystem: "Web",
     url: "https://covant.ai",
     description:
-      "The revenue engine for your channel. Partner deals get registered, progress, and get credited in Covant — explainable attribution, partner scoring, and next-best-actions underneath. Replaces the PRM-plus-CRM-reports patchwork; syncs your CRM.",
+      "The partner hub. Partners register deals into your CRM; Covant tracks partner revenue, tier progress, incentives, and next best actions — explainable attribution and partner scoring underneath. Your CRM stays the system of record.",
     offers: [
       {
         "@type": "Offer",
@@ -87,7 +87,7 @@ export function WebSiteSchema() {
     name: "Covant",
     url: "https://covant.ai",
     description:
-      "The revenue engine for your channel — partner deals register, progress, and get credited in one system, every commission explained.",
+      "The partner hub — partner revenue, program progress, incentives, and next best actions in one place, every commission explained.",
   };
 
   return (

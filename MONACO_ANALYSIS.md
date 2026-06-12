@@ -76,11 +76,11 @@ The lesson isn't that gaps are fine — it's that **every gap maps to a buyer th
 
 ### What are we selling?
 
-**Not software. Partner pipeline and progression.**
+**Not software. The partner hub — every partner along for the whole journey.**
 
 The literal product: a partner platform the channel motion runs in — deal registration, 5 attribution models (first-touch, last-touch, split, role-weighted, marketplace co-sell hybrid), commission rules engine, payout approval workflow, partner portal, reconciliation, and "Ask Covant" (AI Q&A over real org data).
 
-We are not fixing the attribution problem. Attribution visibility is the wedge — we parlay it into something much bigger: the partner business itself runs out of Covant. Deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained. Stop using a PRM and CRM reports to see where partners are doing business — run it right out of Covant.
+We are not fixing the attribution problem. Attribution visibility is the wedge — we parlay it into something much bigger: the partner program runs on Covant. Partners register deals that flow into the CRM, and the hub tracks credit, incentives, and progression — every commission calculated, approved, and explained. Stop using a PRM and CRM reports to see where partners are doing business — bring the partners into one shared hub.
 
 The outcome the buyer (VP Partnerships at a $10–200M ARR SaaS) actually wants: **partner-sourced pipeline that builds, progresses, and gets credited — partner-driven revenue made real.**
 
@@ -104,7 +104,7 @@ This list is healthy. Like Monaco's gaps, each maps to a buyer we've chosen not 
 
 ### What's our sauce?
 
-1. **The partner motion runs IN Covant.** Deal reg, progression, credit, payout — one system of action, the same way Monaco's agents make Monaco the system of record instead of a layer on Salesforce. Competitors report on a partner business that lives somewhere else; in Covant, it lives here.
+1. **The partner side runs in Covant — the deals stay in the CRM.** Unlike Monaco, we do NOT take the system-of-record ambition for deals: registrations flow into the customer's CRM, and Covant holds the partner record — touches, credit, incentives, progression. Competitors report on the partner business after the fact; Covant is where the partner experience itself happens.
 2. **Explainable multi-touch attribution as the trust mechanism underneath it** — competitors bolt last-touch reporting onto a portal; our portal, payouts, and analytics all sit on the attribution engine, so partners trust the pipeline they're building.
 3. **The marketplace co-sell hybrid model** — handles "reseller sourced, we demoed, integration partner influenced" scenarios nobody else models.
 4. **10x price disruption with a more modern product** — the Monaco-style consolidation economics, applied to the partner stack.
@@ -120,7 +120,7 @@ What to steal, what to translate, what to refuse.
 
 | Monaco move | Covant version |
 |---|---|
-| Name the category after the outcome: "revenue engine" | Stop leading with "attribution platform." Lead with **"partner pipeline and progression"** — the revenue engine for your channel. Attribution is the how, not the what. |
+| Name the category after the outcome: "revenue engine" | Stop leading with "attribution platform." Lead with **"the partner hub"** — named after what the buyer wants: one place for the partner side. Attribution is the how, not the what. |
 | Denominate every claim in outcomes | Not "5 attribution models" → "partner-sourced pipeline you can see building and progressing from week one — with every dollar of credit explained." |
 | System of record/action ambition | Monaco replaces the CRM for startups; Covant replaces "PRM + CRM reports" as the place the partner business runs. Don't position as a layer on their stack — the deal reg, progression, credit, and payout motion happens **in Covant**. |
 | One system replacing a stack | Name the stack we kill: **spreadsheets + last-touch CRM reports + a payout script + a legacy PRM nobody logs into.** One number: hours/quarter spent reconciling commissions. |
@@ -129,7 +129,7 @@ What to steal, what to translate, what to refuse.
 
 ### Translate (the big one)
 
-**Monaco's pitch is "you can't hire a sales team, so Monaco IS your sales team." We take the system-of-record ambition but NOT the headcount-replacement framing: Covant is where the partner motion itself runs — your team and your partners stay the sellers.** The agentic moves that make that literal:
+**Monaco's pitch is "you can't hire a sales team, so Monaco IS your sales team." We take the outcome-naming and consolidation lessons but NOT the system-of-record ambition (deals stay in the customer's CRM) and NOT the headcount-replacement framing: Covant is the partner hub alongside the CRM — your team and your partners stay the sellers.** The agentic moves that make that literal:
 
 - Agent chases stale deal registrations and missing touchpoint data — keeps the partner pipeline moving, not just measured
 - Agent flags stuck deals and recommends which partner belongs on a deal — progression, actively driven
@@ -146,12 +146,12 @@ What to steal, what to translate, what to refuse.
 1. **Opaque pricing.** Monaco can get away with it; for us, transparent pricing is a primary weapon against $30K+/yr quote-gated legacy PRM. Keep the public pricing page.
 2. **Beta-gated everything.** Self-serve free tier is our PLG wedge; Monaco doesn't need PLG, we do.
 
-One nuance on the replace-the-stack move: we DO take Monaco's system-of-record ambition — the partner motion runs out of Covant, not out of a PRM or CRM reports. But the company's direct-sales CRM stays; the Salesforce/HubSpot connectors matter as **plumbing** (close data flows in so credit and commission math stay automatic), not as positioning. Activate them, but never describe Covant as a layer on the CRM.
+One nuance on the replace-the-stack move: we do NOT take Monaco's system-of-record ambition for deals — the CRM stays the system of record, and partner registrations flow into it. What moves into Covant is the partner side: the record of touches, credit, incentives, and progression that PRM + CRM reports never held. The Salesforce/HubSpot connectors are the bridge (registrations out, close data back) — activate them early; they are what makes the hub real.
 
 ### The symmetry, in one line
 
 > Monaco: *"You can't afford a sales team — our AI agents + one embedded human ARE your sales team."*
-> Covant: *"Covant runs your partner pipeline and progression — registered, progressing, credited, in one system."*
+> Covant: *"Covant is the partner hub — bring every partner along for the whole journey."*
 
 ---
 

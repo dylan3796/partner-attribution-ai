@@ -7,19 +7,19 @@
 
 ## The One-Liner
 
-**"Legacy PRMs store partner contracts and onboarding docs. Covant runs your partner revenue — deals get registered, progress, and get credited, with every commission calculated and explained, all in one place. Different category."**
+**"Legacy PRMs store partner contracts and onboarding docs. Covant is the partner hub — partners register deals into your CRM, and both sides track credit, incentives, and progression in one place. Different category."**
 
 ---
 
 ## Category: The Revenue Engine for Your Channel
 
-We're not a PRM (Partner Relationship Management). We're the **revenue engine for your channel** — the system your partner pipeline actually runs in. Deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained.
+We're not a PRM (Partner Relationship Management). We're the **partner hub** — your CRM runs the deals; Covant runs the partner side. Partners register deals that flow into your CRM, and both sides track credit, incentives, and progression — every commission calculated, approved, and explained.
 
 Think of it like:
 - **PRM** = Partner filing cabinet (contracts, onboarding, content libraries)
 - **Covant** = Partner sales floor (pipeline, progression, credit, payouts)
 
-Some customers keep a PRM for contracts and training. The partner motion itself moves into Covant.
+Some customers keep a PRM for contracts and training. The partner experience itself moves into Covant.
 
 ---
 
@@ -76,7 +76,7 @@ Some customers keep a PRM for contracts and training. The partner motion itself 
 - "You can log partner touchpoints in SFDC, but can you automatically calculate who gets 60% credit vs. 40% — and explain why? That's our AI."
 
 **When to partner with them:**
-- "Salesforce stays your system of record for closed revenue — our connector pulls closed-deal data in so credit and payouts stay automatic. The partner motion itself lives in Covant, not in SFDC PRM reports."
+- "Salesforce stays your system of record — partner registrations flow in, closed-deal data flows back so credit and payout math stay automatic. The partner experience — credit, incentives, progression — lives in Covant, not in SFDC PRM reports."
 
 ---
 
@@ -99,9 +99,9 @@ Some customers keep a PRM for contracts and training. The partner motion itself 
 
 ## Competitive Positioning Framework
 
-### The Category We Own: **Partner Pipeline & Progression**
+### The Category We Own: **The Partner Hub**
 
-| **Old Category (PRM + CRM reports)** | **New Category (Partner Pipeline & Progression)** |
+| **Old Category (PRM + CRM reports)** | **New Category (The Partner Hub)** |
 |------------------------|------------------------------------------|
 | Manage partner records | Run partner-driven revenue |
 | Workflows and contracts | Deal registration, progression, credit, payout |
@@ -127,16 +127,16 @@ Transparency is how we land. Running the partner motion is why we stay.
 ## Objection Handling
 
 ### "We already use [Impartner/Allbound]"
-✅ **Great — keep it for onboarding and content if it's working. The revenue side is what moves into Covant: deals get registered, progress, and get credited here. Most teams find their PRM quietly becomes a content library, and the partner business runs out of Covant.**
+✅ **Great — keep it for onboarding and content if it's working. The partner side is what moves into Covant: registrations, credit, incentives, progression. Most teams find their PRM quietly becomes a content library, and the partner program runs on Covant.**
 
 ### "Salesforce PRM is free"
-✅ **It's free, but how much does your finance team spend reconciling partner commissions every quarter? What's the cost of a partner dispute that delays a deal by 30 days? When the deal flow runs in Covant, credit and payouts are automatic — we save 40+ hours/month and eliminate disputes. It pays for itself in Month 1.**
+✅ **It's free, but how much does your finance team spend reconciling partner commissions every quarter? What's the cost of a partner dispute that delays a deal by 30 days? When partner deals register through Covant, credit and payouts are calculated automatically — we save 40+ hours/month and eliminate disputes. It pays for itself in Month 1.**
 
 ### "We're too small for a PRM"
 ✅ **Exactly. PRMs are overkill for most companies. We're built for teams with 5-50 partners who need deals registered, progressed, and paid — not a full contract management suite. 15 minutes to set up, not 6 months.**
 
 ### "How is this different from Crossbeam?"
-✅ **Crossbeam finds co-sell opportunities. Covant is where those opportunities become pipeline — registered, progressed, credited, and paid. Crossbeam is discovery. Covant is the revenue engine. Use both.**
+✅ **Crossbeam finds co-sell opportunities. Covant is where those opportunities get registered into your CRM and credited — with the partner along for the whole journey. Crossbeam is discovery. Covant is the partner hub. Use both.**
 
 ### "Can you do [feature X] that Impartner has?"
 ❌ **We're not trying to out-feature Impartner. We solve a different problem: running partner pipeline end to end — registered, progressing, credited. If you need contract workflows and training libraries, keep Impartner. If you need partner pipeline created, progressing, and credited, that's us.**
