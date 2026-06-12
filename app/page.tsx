@@ -14,30 +14,34 @@ import { MOTIONS } from "@/lib/marketing";
 const CONTEXT_CARDS = [
   {
     title: "Partners, with a record.",
-    body: "Every partner's history in one place — solutions, verticals, logged work, closed wins. A track record, not a contact list.",
+    body: "Every partner's history in one place — solutions, verticals, notes, emails, delivered work, closed wins. A track record, not a contact list.",
   },
   {
     title: "Customers and deals, connected.",
-    body: "Which partners touch which accounts and deals — sourced, influenced, or quietly working in the background.",
+    body: "Your opportunities, accounts, and revenue joined with your partner data — attached to revenue or not — so every relationship shows its shape.",
   },
   {
-    title: "Signal from everywhere.",
-    body: "Registrations, meetings, logged touches, portal activity, the spreadsheet that never made it into a system — gathered into one record.",
+    title: "Mapped with you, not by you.",
+    body: "Covant makes sense of the data and relationships — we map the partner landscape and the plan together, so day one isn't a data project.",
   },
 ];
 
-const SIGNAL_CARDS = [
+const ECOSYSTEM_CARDS = [
   {
-    title: "Know who's good at what.",
-    body: "Verticals, solutions, closed wins — each partner's proven strengths on the record, readable by the AE working the deal.",
+    title: "Know who's good at what — reliably.",
+    body: "Notes, emails, solutions, and past attributions read into each partner's working profile: what they do well, where, and how consistently.",
   },
   {
-    title: "Unblock the stalled deal.",
-    body: "A deal needs healthcare integration expertise; the partner who's delivered it four times gets flagged to bring in.",
+    title: "Match on your weights.",
+    body: "The matching is yours to steer — you set the leverage and the weights, and prior attribution does the arguing. No black-box picks.",
   },
   {
-    title: "Document who's already there.",
-    body: "A partner's logged work on the account becomes intel on the record — credited and visible, not tribal knowledge.",
+    title: "Send the ask, book the call.",
+    body: "When the right partner surfaces, they get the request — \"can you help us on this deal?\" — and the discovery call comes with every contact attached.",
+  },
+  {
+    title: "Insights where your reps live.",
+    body: "Partner recommendations and intel flow to your reps through the CRM integration — no new tab for your sales team to ignore.",
   },
 ];
 
@@ -62,8 +66,8 @@ const START_STEPS = [
     body: "CRM connectors, CSV import, or the event API. Nothing to rip out.",
   },
   {
-    title: "Week one — your channel, visible.",
-    body: "Every partner, customer, and deal in one picture — with the first signals flagged: partners already on open deals, your last 12 months through five attribution models.",
+    title: "Week one — your channel, mapped.",
+    body: "We map it with you: opportunities, accounts, and partner data joined; notes, emails, and solutions read into each partner's profile; your last 12 months through five attribution models.",
   },
   {
     title: "First month — your program, live.",
@@ -129,10 +133,10 @@ export default function Home() {
             <p className="m-eyebrow">01. See your channel</p>
             <h2 className="m-h2">See every partner, customer, and deal in one picture.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
-              Day one is context, not configuration. Connect your data and see the
-              channel as it actually is — who works with whom, what each partner has
-              actually delivered, where the revenue comes from. No tiers required, no
-              program prerequisites.
+              Day one is context, not configuration. Data funnels in from your side —
+              opportunities, accounts, revenue, the characteristics of each — and
+              joins your existing partner data, attached to revenue or not. No tiers
+              required, no program prerequisites.
             </p>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
@@ -161,8 +165,8 @@ export default function Home() {
               on the account, it captures that intel where it belongs.
             </p>
           </Reveal>
-          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
-            {SIGNAL_CARDS.map((c) => (
+          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
+            {ECOSYSTEM_CARDS.map((c) => (
               <Reveal className="m-card" key={c.title}>
                 <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
                   {c.title}
@@ -220,16 +224,18 @@ export default function Home() {
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">04. Grow when you&apos;re ready</p>
+              <p className="m-eyebrow">04. One portal, both sides</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-                Partners don&apos;t want another portal. They want answers.
+                Both sides of the house, working the same system.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                A portal under your brand, shaped to the experience you want partners
-                to have. And when you&apos;re ready for tiers and incentives,
-                they&apos;re built in — partners see the bar, the progress, and the
-                payoff, and every incentive flags with its evidence, awaiting your
-                approval. Partners who see their credit keep bringing deals.
+                Your team and your partners finally see the same journey. Partners
+                get a portal under your brand surfacing exactly what you choose —
+                opportunity updates, tier progress, deal registration. You define the
+                journey paths — a certification, a revenue milestone — and partners
+                watch themselves advance, every incentive flagging with its evidence,
+                awaiting your approval. Partners who see their credit keep bringing
+                deals.
               </p>
             </Reveal>
             <Reveal>

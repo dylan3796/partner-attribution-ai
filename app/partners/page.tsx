@@ -85,9 +85,10 @@ export default function PartnersPage() {
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
                 Every win you log builds a verified record — verticals, solutions,
                 deployments, closed deals. When your vendor&apos;s deal needs what
-                you&apos;ve done before, you&apos;re the one who gets flagged: to
-                unblock a stall, to bring the expertise, to take the intro. Not the
-                loudest partner. The proven one.
+                you&apos;ve done before, you&apos;re the one who gets flagged — and
+                the ask lands in your portal: the deal, the context, and a discovery
+                call with the right contacts already attached. Not the loudest
+                partner. The proven one.
               </p>
             </Reveal>
             <Reveal>
