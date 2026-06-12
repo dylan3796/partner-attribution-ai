@@ -79,11 +79,14 @@ export default function Home() {
         <div className="m-container m-hero-grid">
           <div>
             <p className="m-eyebrow">The Partner Hub</p>
-            <h1 className="m-h1">The engine for channel-driven revenue.</h1>
+            <h1 className="m-h1">
+              See your channel. Catch the signal. Credit every dollar.
+            </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Your partners, customers, and deals in one picture — with the signals
-              you&apos;re missing surfaced from your own records. Run the program you
-              have today; grow into the one you want.
+              Covant connects your partners, customers, and deals in one place,
+              flags the partners already working your accounts, and splits credit
+              from records anyone can open. Turn on registration, tiers, and
+              incentives whenever you&apos;re ready.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -124,7 +127,7 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">01. See your channel</p>
-            <h2 className="m-h2">Every partner, customer, and deal — one picture.</h2>
+            <h2 className="m-h2">See every partner, customer, and deal in one picture.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
               Day one is context, not configuration. Connect your data and see the
               channel as it actually is — who works with whom, what each partner has
