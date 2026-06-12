@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Covant — The Partner Hub';
+export const alt = 'Covant — Partner Experience Management';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -55,7 +55,7 @@ export default function OgImage() {
           marginBottom: 24, maxWidth: 800,
           display: 'flex', flexWrap: 'wrap',
         }}>
-          The partner hub.
+          Grow partner-sourced revenue you can prove.
         </div>
 
         {/* Subline */}
@@ -63,7 +63,7 @@ export default function OgImage() {
           color: '#888', fontSize: 24, lineHeight: 1.5,
           maxWidth: 700, display: 'flex',
         }}>
-          Partner revenue, program, incentives, and next best actions — one place for you and your partners.
+          Partner Experience Management — every step of your program, no communication lost.
         </div>
 
         {/* Bottom row */}

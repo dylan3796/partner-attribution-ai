@@ -78,15 +78,15 @@ export default function Home() {
       <section className="m-section m-section--flush m-hero">
         <div className="m-container m-hero-grid">
           <div>
-            <p className="m-eyebrow">The Partner Hub</p>
+            <p className="m-eyebrow">Partner Experience Management</p>
             <h1 className="m-h1">
               Grow partner-sourced revenue you can prove.
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Partners bring deals, unblock stalled ones, and deliver the work that
-              closes — and too much of it goes unnoticed. Covant runs that motion end
-              to end and puts a number on every contribution, so partners keep
-              bringing more.
+              Covant grows it by bringing partners along for the whole journey —
+              every step of your program, no communication lost. Deals registered,
+              work logged, credit and commissions explained in the open: partners
+              who see the journey keep bringing deals.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
