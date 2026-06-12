@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Reveal from "@/components/marketing/Reveal";
+import Chip from "@/components/marketing/Chip";
 import AttributionExplainVisual from "@/components/marketing/AttributionExplainVisual";
 import NextMoveVisual from "@/components/marketing/NextMoveVisual";
 import CTABand from "@/components/marketing/CTABand";
@@ -37,20 +38,21 @@ const START_STEPS = [
 
 export default function Home() {
   return (
-    <main className="site">
+    <main className="site site--story">
       {/* Hero */}
       <section className="m-section m-section--flush m-hero">
         <div className="m-container m-hero-grid">
           <div>
             <p className="m-eyebrow">The Partner Hub</p>
             <h1 className="m-h1">
-              Bring every partner along for the whole journey.
+              Bring every partner along <em>for the whole journey.</em>
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
               Your deals run in your CRM. Covant is the partner hub alongside it:
-              partners register deals that flow straight into your pipeline, then both
-              sides track the credit, the commissions, the tier progress, and the next
-              best action — in one place you read the same way.
+              partners <Chip icon="register">register</Chip> deals that flow straight
+              into your pipeline, then both sides track the{" "}
+              <Chip icon="credit">credit</Chip>, the commissions, the tier progress,
+              and the next best action — in one place you read the same way.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -90,8 +92,10 @@ export default function Home() {
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">What lives in the hub</p>
-            <h2 className="m-h2">Partner revenue. Program. Incentives. Next moves.</h2>
+            <p className="m-eyebrow">01. What lives in the hub</p>
+            <h2 className="m-h2">
+              Partner revenue. Program. Incentives. <em>Next moves.</em>
+            </h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
             {PILLARS.map((p) => (
@@ -110,8 +114,10 @@ export default function Home() {
       <section id="workflows" className="m-section">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">Workflows</p>
-            <h2 className="m-h2">Three loops your team will run in week one.</h2>
+            <p className="m-eyebrow">02. Workflows</p>
+            <h2 className="m-h2">
+              Three loops your team will run <em>in week one.</em>
+            </h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
             {WORKFLOWS.map((w) => (
@@ -140,8 +146,10 @@ export default function Home() {
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">Every shape of ecosystem</p>
-            <h2 className="m-h2">Your data. Your priorities. Your program.</h2>
+            <p className="m-eyebrow">03. Every shape of ecosystem</p>
+            <h2 className="m-h2">
+              Your data. Your priorities. <em>Your program.</em>
+            </h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
               No two channels run alike. Covant takes the program you&apos;ve already
               promised your partners — your tiers, your rules, your registration flow —
@@ -168,13 +176,14 @@ export default function Home() {
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">What partners get</p>
+              <p className="m-eyebrow">04. What partners get</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-                Partners don&apos;t want another portal. They want answers.
+                Partners don&apos;t want another portal. <em>They want answers.</em>
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
                 Partners who trust the credit bring you more pipeline: every commission
-                ships with a why, so disputes disappear and registrations keep coming.
+                ships with a <Chip icon="why">why</Chip>, so disputes disappear and
+                registrations keep coming.
               </p>
             </Reveal>
             <Reveal>
@@ -198,8 +207,10 @@ export default function Home() {
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">Getting started</p>
-            <h2 className="m-h2">Minutes to start. Weeks to full speed.</h2>
+            <p className="m-eyebrow">05. Getting started</p>
+            <h2 className="m-h2">
+              Minutes to start. <em>Weeks to full speed.</em>
+            </h2>
           </Reveal>
           <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
             {START_STEPS.map((s, i) => (
