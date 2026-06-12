@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Inter, Space_Grotesk, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/lib/store";
 import { Analytics } from "@vercel/analytics/next";
@@ -21,6 +21,12 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
+});
+
+const sourceSerif = Source_Serif_4({
+  variable: "--font-source-serif",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
 });
 
 export const metadata: Metadata = {
@@ -60,7 +66,7 @@ export default function RootLayout({
         <WebSiteSchema />
         <SoftwareApplicationSchema />
       </head>
-      <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
+      <body className={`${inter.variable} ${spaceGrotesk.variable} ${sourceSerif.variable} font-sans antialiased`}>
         <Providers>
           <StoreProvider>
             <PlatformConfigProvider>
