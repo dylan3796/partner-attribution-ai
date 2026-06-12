@@ -91,3 +91,15 @@
 **Guardrail — deals:** Never claim deals live, progress, run, or close in Covant. Covant's verbs: register (flows to the CRM), log, track, credit, calculate, explain, recommend. Note Monaco's system-of-record ambition is explicitly NOT part of our playbook (see MONACO_ANALYSIS.md).
 
 **Why:** It's the truth of the product (the dashboard settings page has said "your CRM stays your system of record" all along), and it sells better: buyers don't want a second deal database — they want their partners inside the journey they already run.
+
+---
+
+## 2026-06-12 — Thesis: Triangulation
+
+**Decision:** The hub's core intelligence is **triangulation** — for any deal, partner-originated or not, Covant surfaces which partnerships are relevant and what the move is, by fusing data partners *provide* (registrations, touches, account lists) with data *on* partners (win history, scores, certifications, cloud co-sell signals, CRM history). See PRODUCT_VISION.md ("The Thesis: Triangulation") and TRIANGULATION.md for the build spec.
+
+**Why it matters:** It changes the denominator — the hub becomes useful on ALL pipeline, not just partner-sourced. The AE becomes a user; the channel team becomes the matchmaker with evidence. Relevance that took months to surface across the AE / partner / channel-team channels shows up the moment the deal does.
+
+**The flywheel:** partner data in → relevance surfaced on deals → intro/co-sell action → touches logged → credit explained → incentive paid → partners keep feeding the hub. Account-mapping tools (Crossbeam) have overlap but no credit/incentive loop; cloud GTM tools (Suger, Tackle) have marketplace signal but one channel. Only the hub closes the circle.
+
+**Constraints carried forward:** triangulation is computed in the hub and delivered into the CRM (deals guardrail); recommendations ship with reasons attached (same explainability rule as attribution); partner-facing views are gated by what the customer allows partners to see.

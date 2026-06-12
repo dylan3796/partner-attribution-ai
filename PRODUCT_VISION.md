@@ -10,6 +10,31 @@ Most partner platforms are a place to file paperwork — a PRM on one side, CRM 
 
 ---
 
+## The Thesis: Triangulation
+
+The hub's compounding value is **triangulation**: for any deal — partner-originated or not — Covant answers *"which of our partnerships is relevant here, and what's the move?"*
+
+It fuses two kinds of data nobody else holds together:
+
+- **Data partners provide** — registrations, logged touches, field intel, portal activity, account lists
+- **Data on partners** — win history by segment and size, scores, certifications, implementation record, cloud co-sell signals (ACE / Partner Center / Partner Advantage), CRM history
+
+Today, surfacing "the SI who implemented for this account's sister company" or "there's an open ACE opportunity on this account" takes months of back-and-forth between the AE, the partner, and the channel team. Triangulation makes it a panel that's there the moment the deal appears — and it changes the denominator: the hub becomes useful on **all** pipeline, not just partner-sourced pipeline. The AE becomes a user. The channel team becomes the matchmaker with evidence.
+
+**The flywheel (only this shape of product closes it):**
+
+```
+partner data in → relevance surfaced on deals → intro / co-sell action
+      ↑                                                   ↓
+incentive paid ← credit explained ← touches logged on the deal
+```
+
+Partners keep feeding the hub because explained credit and paid incentives flow back. Account-mapping tools have overlap data but no credit/incentive loop; cloud GTM tools have marketplace signal but one channel. See TRIANGULATION.md for the build spec.
+
+> "Covant triangulates every deal across all your partnerships — what each partner tells you, and what you know about each partner — so relevance that took months to surface shows up the moment the deal does."
+
+---
+
 ## Platform Architecture
 
 ```
