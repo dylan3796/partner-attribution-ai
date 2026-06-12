@@ -1,9 +1,15 @@
+import Vignette from "@/components/marketing/Vignette";
+import CountUp from "@/components/marketing/CountUp";
+
 /**
  * Illustrative product shot: a closed-won deal's attribution screen — split
  * percentages with the evidence behind each one, plus an earned-incentive
  * toast. Clearly labelled example data, not a live customer. Mirrors the
  * explanation strings the shipped engine produces
  * (convex/lib/attribution/models.ts).
+ *
+ * Plays once on scroll-into-view: each partner row lands, its bar fills to
+ * the split and the percentage counts up, then the incentive toast pops.
  */
 const ROWS = [
   {
@@ -35,8 +41,13 @@ const ROWS = [
   },
 ];
 
+/* CountUp delays trail each row's CSS landing delay so the number is
+   mid-count as the row fades in (see .m-vig rules in globals.css). */
+const ROW_COUNT_DELAYS = [250, 600, 950];
+
 export default function AttributionExplainVisual() {
   return (
+    <Vignette>
     <div
       className="m-shot"
       role="img"
@@ -58,15 +69,17 @@ export default function AttributionExplainVisual() {
             <p className="m-app-sub">Northwind Logistics · Closed May 28 · 3 partners credited</p>
           </div>
           <div>
-            <div className="m-app-amount">$186,000</div>
+            <div className="m-app-amount">
+              <CountUp to={186000} prefix="$" duration={1100} />
+            </div>
             <p className="m-app-sub" style={{ textAlign: "right", whiteSpace: "nowrap" }}>
               Role-weighted model
             </p>
           </div>
         </div>
         <div>
-          {ROWS.map((r) => (
-            <div className="m-app-row" key={r.name}>
+          {ROWS.map((r, i) => (
+            <div className="m-app-row" data-vig={i + 1} key={r.name}>
               <span className="m-avatar" style={{ background: r.color }}>
                 {r.initials}
               </span>
@@ -76,22 +89,27 @@ export default function AttributionExplainVisual() {
                 </div>
                 <p className="m-app-reason">{r.reason}</p>
                 <span className="m-app-bartrack">
-                  <span className="m-app-barfill" style={{ width: `${r.pct}%` }} />
+                  <span
+                    className="m-app-barfill m-vig-bar"
+                    style={{ "--fill": `${r.pct}%` } as React.CSSProperties}
+                  />
                 </span>
               </div>
               <div>
-                <div className="m-app-pct">{r.pct}%</div>
+                <div className="m-app-pct">
+                  <CountUp to={r.pct} suffix="%" delay={ROW_COUNT_DELAYS[i]} />
+                </div>
                 <div className="m-app-credit">{r.credit} credited</div>
               </div>
             </div>
           ))}
         </div>
-        <div className="m-app-foot">
+        <div className="m-app-foot" data-vig={4}>
           <span>14 touchpoints logged · full audit trail</span>
           <span className="m-app-link">View evidence →</span>
         </div>
       </div>
-      <div className="m-float">
+      <div className="m-float m-vig-pop" data-vig={5}>
         <span className="m-float-icon">✓</span>
         <div>
           <p className="m-float-title">Incentive earned</p>
@@ -101,5 +119,6 @@ export default function AttributionExplainVisual() {
         </div>
       </div>
     </div>
+    </Vignette>
   );
 }

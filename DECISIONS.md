@@ -91,3 +91,17 @@
 **Guardrail — deals:** Never claim deals live, progress, run, or close in Covant. Covant's verbs: register (flows to the CRM), log, track, credit, calculate, explain, recommend. Note Monaco's system-of-record ambition is explicitly NOT part of our playbook (see MONACO_ANALYSIS.md).
 
 **Why:** It's the truth of the product (the dashboard settings page has said "your CRM stays your system of record" all along), and it sells better: buyers don't want a second deal database — they want their partners inside the journey they already run.
+
+## 2026-06-12 — Category reinstated: Partner Experience Management (PXM)
+
+**Decision (founder, this session):** The category is **Partner Experience Management (PXM)** — reinstated over the earlier same-day retirement. Site title and home eyebrow carry it. The hero leads with the outcome (*"Grow partner-sourced revenue you can prove."*) and PXM is the mechanism: bring partners along for the whole journey — every step of the program, no communication lost.
+
+**Messaging hierarchy (founder-set):**
+1. **Bringing revenue outranks uncovering it.** Partners bring deals when recognition is provable; discovery/overlap intel is a supporting beam, never the headline.
+2. **Not an attribution checker.** Attribution is computed and source-validated (never an AI's unverified claim), but the page sells revenue growth — "a number on every contribution" is the enabler, not the product.
+3. **Meet programs where they are.** Maturity ladder on the home page: see your channel → put the ecosystem to work (match expertise, unblock deals) → run your program → grow into tiers/incentives. No program prerequisites for day-one value.
+4. **Attack both sides of the market.** `/partners` speaks to partners in second person (free, two-minute registration, track record gets them pulled into deals) and arms them to lobby their other vendors ("ask your vendor" loop).
+
+**Context (not for the page):** partner orgs are overlay teams that struggle for budget until they can show sourced-revenue numbers — the hero's "you can prove" is that story, never stated as "justify your budget."
+
+**Still standing:** money guardrail, hiring guardrail, deals-live-in-the-CRM guardrail, no competitor naming.

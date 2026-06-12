@@ -1,18 +1,44 @@
 import Link from "next/link";
 import Reveal from "@/components/marketing/Reveal";
+import ChannelSignalVisual from "@/components/marketing/ChannelSignalVisual";
+import PartnerMapVisual from "@/components/marketing/PartnerMapVisual";
 import AttributionExplainVisual from "@/components/marketing/AttributionExplainVisual";
 import NextMoveVisual from "@/components/marketing/NextMoveVisual";
 import CTABand from "@/components/marketing/CTABand";
-import { PILLARS, WORKFLOWS, MOTIONS } from "@/lib/marketing";
+import { MOTIONS } from "@/lib/marketing";
+
+// The page reads as a maturity ladder: see the channel (01), catch what's
+// already happening in it (02), run whatever program exists today (03),
+// grow into tiers and incentives when ready (04). Nothing early in the
+// ladder requires program structure the customer hasn't built yet.
+
+const ECOSYSTEM_CARDS = [
+  {
+    title: "Know who's good at what — reliably.",
+    body: "Notes, emails, solutions, attributions — read into what each partner does well, where, and how consistently.",
+  },
+  {
+    title: "Match on your weights.",
+    body: "You set the weights — deal size, industry, prior relationship — and attribution history does the arguing. No black-box picks.",
+  },
+  {
+    title: "Send the ask, book the call.",
+    body: "The right partner gets the ask — \"help us on this deal?\" — with the discovery call and contacts attached.",
+  },
+  {
+    title: "Insights where your reps live.",
+    body: "Recommendations flow to reps inside your CRM — no new tab to ignore.",
+  },
+];
 
 const PARTNER_ANSWERS = [
   {
     title: "Why they earned that number.",
-    body: "Every percentage arrives with its reason attached — the deal they registered, the demo they ran, the work they delivered.",
+    body: "Every percentage ships with its reason — the deal registered, the demo run, the work delivered.",
   },
   {
     title: "What's owed, down to the dollar.",
-    body: "Earned, pending, paid — every commission calculated and tracked in Covant, visible the moment it changes, not chased at quarter end.",
+    body: "Earned, pending, paid — visible the moment it changes, not chased at quarter end.",
   },
   {
     title: "Where they stand, and what's next.",
@@ -22,47 +48,46 @@ const PARTNER_ANSWERS = [
 
 const START_STEPS = [
   {
-    title: "First 15 minutes — self-serve, connected.",
+    title: "First 15 minutes — connected.",
     body: "CRM connectors, CSV import, or the event API. Nothing to rip out.",
   },
   {
-    title: "Week one — credit on your history.",
-    body: "Your last 12 months of pipeline through five attribution models, side by side — every split with the why attached.",
+    title: "Week one — your channel, mapped.",
+    body: "We build the map with you — profiles from notes and emails, 12 months of history through five attribution models.",
   },
   {
-    title: "First month — the hub is live.",
-    body: "Portal live under your brand, partners registering deals into your CRM, every commission calculated with the reason attached.",
+    title: "First month — your program, live.",
+    body: "Portal live under your brand, partners registering deals, every split explained with evidence.",
   },
 ];
 
 export default function Home() {
   return (
-    <main className="site">
+    <main className="site site--story">
       {/* Hero */}
       <section className="m-section m-section--flush m-hero">
         <div className="m-container m-hero-grid">
           <div>
-            <p className="m-eyebrow">The Partner Hub</p>
+            <p className="m-eyebrow">Partner Experience Management</p>
             <h1 className="m-h1">
-              Bring every partner along for the whole journey.
+              Grow partner-sourced revenue you can prove.
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Your deals run in your CRM. Covant is the partner hub alongside it:
-              partners register deals that flow straight into your pipeline, then both
-              sides track the credit, the commissions, the tier progress, and the next
-              best action — in one place you read the same way.
+              Bring partners along for the whole journey — every step in the open,
+              no communication lost. Partners who see their credit keep bringing
+              deals.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
                 Request a demo
               </a>
-              <a className="m-btn-ghost" href="#workflows">
-                See the workflows
+              <a className="m-btn-ghost" href="#start">
+                See how it starts
               </a>
             </div>
           </div>
           <Reveal>
-            <AttributionExplainVisual />
+            <ChannelSignalVisual />
           </Reveal>
         </div>
       </section>
@@ -86,43 +111,79 @@ export default function Home() {
         </div>
       </section>
 
-      {/* What you run on Covant */}
+      {/* 01 — The map */}
       <section className="m-section m-section--surface">
         <div className="m-container">
+          <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
+            <Reveal>
+              <p className="m-eyebrow">01. Map your channel</p>
+              <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
+                Your data becomes a map of who can do what.
+              </h2>
+              <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
+                Your opportunities, accounts, and revenue join your partner data;
+                Covant maps who can do what — expertise, deal size, progression,
+                relationships. We build it with you. No program prerequisites.
+              </p>
+            </Reveal>
+            <Reveal>
+              <PartnerMapVisual />
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* 02 — Catch what's already happening */}
+      <section className="m-section">
+        <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">What lives in the hub</p>
-            <h2 className="m-h2">Partner revenue. Program. Incentives. Next moves.</h2>
+            <p className="m-eyebrow">02. Put the ecosystem to work</p>
+            <h2 className="m-h2">Source more deals. Unblock the stuck ones.</h2>
+            <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
+              The map works both directions: provable credit keeps sourced deals
+              coming in, and your team pulls the right partner into deals already
+              open.
+            </p>
           </Reveal>
-          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
-            {PILLARS.map((p) => (
-              <Reveal className="m-card" key={p.title}>
+          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
+            {ECOSYSTEM_CARDS.map((c) => (
+              <Reveal className="m-card" key={c.title}>
                 <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
-                  {p.title}
+                  {c.title}
                 </h3>
-                <p className="m-body">{p.body}</p>
+                <p className="m-body">{c.body}</p>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Workflows */}
-      <section id="workflows" className="m-section">
+      {/* 03 — Run your program */}
+      <section className="m-section m-section--surface">
         <div className="m-container">
-          <Reveal>
-            <p className="m-eyebrow">Workflows</p>
-            <h2 className="m-h2">Three loops your team will run in week one.</h2>
-          </Reveal>
-          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
-            {WORKFLOWS.map((w) => (
-              <Reveal className="m-card" key={w.title}>
-                <p className="m-flow-label">{w.label}</p>
-                <h3 className="m-h3">{w.title}</h3>
-                <ol className="m-flow-steps">
-                  {w.steps.map((s) => (
-                    <li key={s}>{s}</li>
-                  ))}
-                </ol>
+          <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
+            <Reveal>
+              <p className="m-eyebrow">03. Run your program</p>
+              <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
+                Whatever shape your program is, the engine fits.
+              </h2>
+              <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
+                No two channels run alike. Registration, five attribution models,
+                incentive rules — on when you want them, shaped to your program.
+                Every split traces to a source — never an unverified claim.
+              </p>
+            </Reveal>
+            <Reveal>
+              <AttributionExplainVisual />
+            </Reveal>
+          </div>
+          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
+            {MOTIONS.map((m) => (
+              <Reveal className="m-card" key={m.title}>
+                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
+                  {m.title}
+                </h3>
+                <p className="m-body">{m.body}</p>
               </Reveal>
             ))}
           </div>
@@ -136,45 +197,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Every shape of ecosystem */}
-      <section className="m-section m-section--surface">
-        <div className="m-container">
-          <Reveal>
-            <p className="m-eyebrow">Every shape of ecosystem</p>
-            <h2 className="m-h2">Your data. Your priorities. Your program.</h2>
-            <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
-              No two channels run alike. Covant takes the program you&apos;ve already
-              promised your partners — your tiers, your rules, your registration flow —
-              and puts it in one shared hub: registrations flowing into your CRM, tier
-              progress tracked, credit explained, every payout calculated and routed for
-              your approval. Five partners or five hundred, one motion or four.
-            </p>
-          </Reveal>
-          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
-            {MOTIONS.map((m) => (
-              <Reveal className="m-card" key={m.title}>
-                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
-                  {m.title}
-                </h3>
-                <p className="m-body">{m.body}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* What partners get */}
+      {/* 04 — Grow when you're ready */}
       <section className="m-section">
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">What partners get</p>
+              <p className="m-eyebrow">04. One portal, both sides</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-                Partners don&apos;t want another portal. They want answers.
+                Both sides of the house, working the same system.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                Partners who trust the credit bring you more pipeline: every commission
-                ships with a why, so disputes disappear and registrations keep coming.
+                Your team and your partners see the same journey: a portal under
+                your brand, surfacing what you choose — opportunity updates, tier
+                progress, deal registration — and the journey paths you define.
+                Partners watch themselves advance.
+              </p>
+              <p className="m-body" style={{ marginTop: "1rem", maxWidth: "46ch" }}>
+                As the program grows, Covant grows with it — recommending partners
+                for coverage and investment, on your parameters. Ask in plain
+                language; the map answers, records attached.
               </p>
             </Reveal>
             <Reveal>
@@ -194,11 +235,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Getting started */}
-      <section className="m-section m-section--surface">
+      {/* 05 — Getting started */}
+      <section id="start" className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">Getting started</p>
+            <p className="m-eyebrow">05. Getting started</p>
             <h2 className="m-h2">Minutes to start. Weeks to full speed.</h2>
           </Reveal>
           <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
