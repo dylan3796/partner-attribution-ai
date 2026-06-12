@@ -80,14 +80,13 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">The Partner Hub</p>
             <h1 className="m-h1">
-              Partners bring deals when they trust the credit.
+              Make partners your best source of revenue.
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Covant proves every partner&apos;s contribution from records anyone can
-              open — so registering deals with you is worth their while. Then it puts
-              the ecosystem to work: partner expertise matched to your open deals,
-              stalled ones unblocked. Seeing what&apos;s hidden is the floor;
-              partner-sourced pipeline is the point.
+              Partners bring deals, unblock stalled ones, and deliver the work that
+              closes — and too much of it goes unnoticed. Covant runs that motion end
+              to end and puts a number on every contribution, so partners keep
+              bringing more.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
