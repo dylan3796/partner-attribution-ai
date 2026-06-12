@@ -2448,12 +2448,10 @@ a:focus-visible {
    ============================================================ */
 .site--story{--font-serif-display:var(--font-source-serif),Georgia,'Times New Roman',serif}
 
-/* Serif display voice; <em> inside a heading is the soft italic accent */
-.site--story .m-h1,.site--story .m-h2{font-family:var(--font-serif-display);font-weight:560;letter-spacing:-.01em}
-.site--story .m-h1{font-size:clamp(2.5rem,4.6vw,3.6rem);line-height:1.07}
-.site--story .m-h2{line-height:1.16}
-.site--story .m-h1 em,.site--story .m-h2 em{font-style:italic;font-weight:470;color:#6f6b5c}
-.site--story .m-section--ink .m-h2 em{color:#b8b4a4}
+/* Serif display voice — reserved for the hero headline.
+   <em> inside it is the soft italic accent. */
+.site--story .m-h1{font-family:var(--font-serif-display);font-weight:560;letter-spacing:-.01em;font-size:clamp(2.5rem,4.6vw,3.6rem);line-height:1.07}
+.site--story .m-h1 em{font-style:italic;font-weight:470;color:#6f6b5c}
 
 /* Inline highlight chip — the copy is the interface */
 .m-chip{display:inline-flex;align-items:center;gap:.32em;padding:.05em .45em .12em;border-radius:.45em;background:var(--m-accent-soft);color:var(--m-accent-ink);font-weight:600;white-space:nowrap;line-height:1.25;vertical-align:baseline}

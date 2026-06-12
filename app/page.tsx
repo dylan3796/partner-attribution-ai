@@ -45,14 +45,14 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">The Partner Hub</p>
             <h1 className="m-h1">
-              Bring every partner along <em>for the whole journey.</em>
+              The engine for <em>channel-driven revenue.</em>
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Your deals run in your CRM. Covant is the partner hub alongside it:
-              partners <Chip icon="register">register</Chip> deals that flow straight
-              into your pipeline, then both sides track the{" "}
-              <Chip icon="credit">credit</Chip>, the commissions, the tier progress,
-              and the next best action — in one place you read the same way.
+              Covant powers the whole partner journey — a portal under your brand,
+              shaped to the experience you want partners to have. They{" "}
+              <Chip icon="register">register</Chip> deals, work them with you, and
+              see the <Chip icon="credit">credit</Chip>, the commissions, the tier
+              progress, and the next best action as they happen.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -93,9 +93,7 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">01. What lives in the hub</p>
-            <h2 className="m-h2">
-              Partner revenue. Program. Incentives. <em>Next moves.</em>
-            </h2>
+            <h2 className="m-h2">Partner revenue. Program. Incentives. Next moves.</h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
             {PILLARS.map((p) => (
@@ -115,9 +113,7 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">02. Workflows</p>
-            <h2 className="m-h2">
-              Three loops your team will run <em>in week one.</em>
-            </h2>
+            <h2 className="m-h2">Three loops your team will run in week one.</h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
             {WORKFLOWS.map((w) => (
@@ -147,9 +143,7 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">03. Every shape of ecosystem</p>
-            <h2 className="m-h2">
-              Your data. Your priorities. <em>Your program.</em>
-            </h2>
+            <h2 className="m-h2">Your data. Your priorities. Your program.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
               No two channels run alike. Covant takes the program you&apos;ve already
               promised your partners — your tiers, your rules, your registration flow —
@@ -178,7 +172,7 @@ export default function Home() {
             <Reveal>
               <p className="m-eyebrow">04. What partners get</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-                Partners don&apos;t want another portal. <em>They want answers.</em>
+                Partners don&apos;t want another portal. They want answers.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
                 Partners who trust the credit bring you more pipeline: every commission
@@ -208,9 +202,7 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">05. Getting started</p>
-            <h2 className="m-h2">
-              Minutes to start. <em>Weeks to full speed.</em>
-            </h2>
+            <h2 className="m-h2">Minutes to start. Weeks to full speed.</h2>
           </Reveal>
           <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
             {START_STEPS.map((s, i) => (
