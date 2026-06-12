@@ -140,11 +140,11 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">02. Put the ecosystem to work</p>
-            <h2 className="m-h2">Unblock deals with the partner who&apos;s done it before.</h2>
+            <h2 className="m-h2">Source more deals. Unblock the stuck ones.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
-              Your AEs don&apos;t know which partner is good at what — Covant does,
-              from the map. Every suggestion cites its records, and when a partner is
-              already on the account, that intel lands where it belongs.
+              The map works both directions: provable credit keeps partner-sourced
+              deals coming in the door, and your team pulls the right partner into
+              the deals already open. Every suggestion cites its records.
             </p>
           </Reveal>
           <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
@@ -215,6 +215,13 @@ export default function Home() {
                 progress, deal registration. Define journey paths — a certification,
                 a revenue milestone — and partners watch themselves advance.
                 Partners who see their credit keep bringing deals.
+              </p>
+              <p className="m-body" style={{ marginTop: "1rem", maxWidth: "46ch" }}>
+                And as the program grows, Covant grows alongside it — recommending
+                partners for coverage and for investment, on your parameters. Ask in
+                plain language: where&apos;s coverage thin, who&apos;s earned the
+                next bet, which partner belongs on this deal. Answers from the map,
+                records attached.
               </p>
             </Reveal>
             <Reveal>
