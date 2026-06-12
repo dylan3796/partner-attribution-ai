@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Reveal from "@/components/marketing/Reveal";
 import ChannelSignalVisual from "@/components/marketing/ChannelSignalVisual";
+import PartnerMapVisual from "@/components/marketing/PartnerMapVisual";
 import AttributionExplainVisual from "@/components/marketing/AttributionExplainVisual";
 import NextMoveVisual from "@/components/marketing/NextMoveVisual";
 import CTABand from "@/components/marketing/CTABand";
@@ -11,37 +12,22 @@ import { MOTIONS } from "@/lib/marketing";
 // grow into tiers and incentives when ready (04). Nothing early in the
 // ladder requires program structure the customer hasn't built yet.
 
-const CONTEXT_CARDS = [
-  {
-    title: "Partners, with a record.",
-    body: "Every partner's history in one place — solutions, verticals, notes, emails, delivered work, closed wins. A track record, not a contact list.",
-  },
-  {
-    title: "Customers and deals, connected.",
-    body: "Your opportunities, accounts, and revenue joined with your partner data — attached to revenue or not — so every relationship shows its shape.",
-  },
-  {
-    title: "Mapped with you, not by you.",
-    body: "Covant makes sense of the data and relationships — we map the partner landscape and the plan together, so day one isn't a data project.",
-  },
-];
-
 const ECOSYSTEM_CARDS = [
   {
     title: "Know who's good at what — reliably.",
-    body: "Notes, emails, solutions, and past attributions read into each partner's working profile: what they do well, where, and how consistently.",
+    body: "Notes, emails, solutions, past attributions — read into a working profile: what they do well, where, how consistently.",
   },
   {
     title: "Match on your weights.",
-    body: "The matching is yours to steer — you set the leverage and the weights, and prior attribution does the arguing. No black-box picks.",
+    body: "You set the weights — deal size, industry, prior relationship — and attribution history does the arguing. No black-box picks.",
   },
   {
     title: "Send the ask, book the call.",
-    body: "When the right partner surfaces, they get the request — \"can you help us on this deal?\" — and the discovery call comes with every contact attached.",
+    body: "The right partner gets the request — \"help us on this deal?\" — with a discovery call and the contacts attached.",
   },
   {
     title: "Insights where your reps live.",
-    body: "Partner recommendations and intel flow to your reps through the CRM integration — no new tab for your sales team to ignore.",
+    body: "Recommendations flow to your reps through the CRM — no new tab for your sales team to ignore.",
   },
 ];
 
@@ -67,7 +53,7 @@ const START_STEPS = [
   },
   {
     title: "Week one — your channel, mapped.",
-    body: "We map it with you: opportunities, accounts, and partner data joined; notes, emails, and solutions read into each partner's profile; your last 12 months through five attribution models.",
+    body: "We build the map with you — data joined, profiles read from notes and emails, your last 12 months through five attribution models.",
   },
   {
     title: "First month — your program, live.",
@@ -88,9 +74,8 @@ export default function Home() {
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
               Covant grows it by bringing partners along for the whole journey —
-              every step of your program, no communication lost. Deals registered,
-              work logged, credit and commissions explained in the open: partners
-              who see the journey keep bringing deals.
+              every step, no communication lost. Credit and commissions explained
+              in the open: partners who see the journey keep bringing deals.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -126,28 +111,26 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 01 — See your channel */}
+      {/* 01 — The map */}
       <section className="m-section m-section--surface">
         <div className="m-container">
-          <Reveal>
-            <p className="m-eyebrow">01. See your channel</p>
-            <h2 className="m-h2">See every partner, customer, and deal in one picture.</h2>
-            <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
-              Day one is context, not configuration. Data funnels in from your side —
-              opportunities, accounts, revenue, the characteristics of each — and
-              joins your existing partner data, attached to revenue or not. No tiers
-              required, no program prerequisites.
-            </p>
-          </Reveal>
-          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
-            {CONTEXT_CARDS.map((c) => (
-              <Reveal className="m-card" key={c.title}>
-                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
-                  {c.title}
-                </h3>
-                <p className="m-body">{c.body}</p>
-              </Reveal>
-            ))}
+          <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
+            <Reveal>
+              <p className="m-eyebrow">01. Map your channel</p>
+              <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
+                Your data becomes a map of who can do what.
+              </h2>
+              <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
+                Your opportunities, accounts, and revenue join your partner data, and
+                Covant reads it into a working profile per partner — industry
+                expertise, deal size, deal progression, prior relationships, and
+                more. We build the map with you. No tiers required, no program
+                prerequisites.
+              </p>
+            </Reveal>
+            <Reveal>
+              <PartnerMapVisual />
+            </Reveal>
           </div>
         </div>
       </section>
@@ -160,9 +143,8 @@ export default function Home() {
             <h2 className="m-h2">Unblock deals with the partner who&apos;s done it before.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
               Your AEs don&apos;t know which partner is good at what — Covant does,
-              from the record. It matches proven expertise to open deals, every
-              suggestion citing the records behind it, and when a partner is already
-              on the account, it captures that intel where it belongs.
+              from the map. Every suggestion cites its records, and when a partner is
+              already on the account, that intel lands where it belongs.
             </p>
           </Reveal>
           <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
@@ -188,11 +170,10 @@ export default function Home() {
                 Whatever shape your program is, the engine fits.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                No two channels run alike, and some are just getting started.
-                Registration flows, five attribution models, incentive rules — each
-                piece turns on when you want it, configured to the program
-                you&apos;ve promised your partners. Every split traces to a source —
-                never an unverified claim.
+                No two channels run alike. Registration flows, five attribution
+                models, incentive rules — each turns on when you want it, shaped to
+                the program you&apos;ve promised your partners. Every split traces
+                to a source — never an unverified claim.
               </p>
             </Reveal>
             <Reveal>
@@ -229,13 +210,11 @@ export default function Home() {
                 Both sides of the house, working the same system.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                Your team and your partners finally see the same journey. Partners
-                get a portal under your brand surfacing exactly what you choose —
-                opportunity updates, tier progress, deal registration. You define the
-                journey paths — a certification, a revenue milestone — and partners
-                watch themselves advance, every incentive flagging with its evidence,
-                awaiting your approval. Partners who see their credit keep bringing
-                deals.
+                Your team and your partners see the same journey. A portal under
+                your brand surfaces what you choose — opportunity updates, tier
+                progress, deal registration. Define journey paths — a certification,
+                a revenue milestone — and partners watch themselves advance.
+                Partners who see their credit keep bringing deals.
               </p>
             </Reveal>
             <Reveal>
