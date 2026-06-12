@@ -15,7 +15,7 @@ import { MOTIONS } from "@/lib/marketing";
 const ECOSYSTEM_CARDS = [
   {
     title: "Know who's good at what — reliably.",
-    body: "Notes, emails, solutions, past attributions — read into a working profile: what they do well, where, how consistently.",
+    body: "Notes, emails, solutions, attributions — read into what each partner does well, where, and how consistently.",
   },
   {
     title: "Match on your weights.",
@@ -23,22 +23,22 @@ const ECOSYSTEM_CARDS = [
   },
   {
     title: "Send the ask, book the call.",
-    body: "The right partner gets the request — \"help us on this deal?\" — with a discovery call and the contacts attached.",
+    body: "The right partner gets the ask — \"help us on this deal?\" — with the discovery call and contacts attached.",
   },
   {
     title: "Insights where your reps live.",
-    body: "Recommendations flow to your reps through the CRM — no new tab for your sales team to ignore.",
+    body: "Recommendations flow to reps inside your CRM — no new tab to ignore.",
   },
 ];
 
 const PARTNER_ANSWERS = [
   {
     title: "Why they earned that number.",
-    body: "Every percentage arrives with its reason attached — the deal they registered, the demo they ran, the work they delivered.",
+    body: "Every percentage ships with its reason — the deal registered, the demo run, the work delivered.",
   },
   {
     title: "What's owed, down to the dollar.",
-    body: "Earned, pending, paid — every commission calculated and tracked in Covant, visible the moment it changes, not chased at quarter end.",
+    body: "Earned, pending, paid — visible the moment it changes, not chased at quarter end.",
   },
   {
     title: "Where they stand, and what's next.",
@@ -53,11 +53,11 @@ const START_STEPS = [
   },
   {
     title: "Week one — your channel, mapped.",
-    body: "We build the map with you — data joined, profiles read from notes and emails, your last 12 months through five attribution models.",
+    body: "We build the map with you — profiles from notes and emails, 12 months of history through five attribution models.",
   },
   {
     title: "First month — your program, live.",
-    body: "Portal live under your brand, partners registering deals, every split and commission explained with the evidence attached.",
+    body: "Portal live under your brand, partners registering deals, every split explained with evidence.",
   },
 ];
 
@@ -73,9 +73,9 @@ export default function Home() {
               Grow partner-sourced revenue you can prove.
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Covant grows it by bringing partners along for the whole journey —
-              every step, no communication lost. Credit and commissions explained
-              in the open: partners who see the journey keep bringing deals.
+              Bring partners along for the whole journey — every step in the open,
+              no communication lost. Partners who see their credit keep bringing
+              deals.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -121,11 +121,9 @@ export default function Home() {
                 Your data becomes a map of who can do what.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                Your opportunities, accounts, and revenue join your partner data, and
-                Covant reads it into a working profile per partner — industry
-                expertise, deal size, deal progression, prior relationships, and
-                more. We build the map with you. No tiers required, no program
-                prerequisites.
+                Your opportunities, accounts, and revenue join your partner data;
+                Covant maps who can do what — expertise, deal size, progression,
+                relationships. We build it with you. No program prerequisites.
               </p>
             </Reveal>
             <Reveal>
@@ -142,9 +140,9 @@ export default function Home() {
             <p className="m-eyebrow">02. Put the ecosystem to work</p>
             <h2 className="m-h2">Source more deals. Unblock the stuck ones.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
-              The map works both directions: provable credit keeps partner-sourced
-              deals coming in the door, and your team pulls the right partner into
-              the deals already open. Every suggestion cites its records.
+              The map works both directions: provable credit keeps sourced deals
+              coming in, and your team pulls the right partner into deals already
+              open.
             </p>
           </Reveal>
           <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
@@ -170,10 +168,9 @@ export default function Home() {
                 Whatever shape your program is, the engine fits.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                No two channels run alike. Registration flows, five attribution
-                models, incentive rules — each turns on when you want it, shaped to
-                the program you&apos;ve promised your partners. Every split traces
-                to a source — never an unverified claim.
+                No two channels run alike. Registration, five attribution models,
+                incentive rules — on when you want them, shaped to your program.
+                Every split traces to a source — never an unverified claim.
               </p>
             </Reveal>
             <Reveal>
@@ -210,18 +207,15 @@ export default function Home() {
                 Both sides of the house, working the same system.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                Your team and your partners see the same journey. A portal under
-                your brand surfaces what you choose — opportunity updates, tier
-                progress, deal registration. Define journey paths — a certification,
-                a revenue milestone — and partners watch themselves advance.
-                Partners who see their credit keep bringing deals.
+                Your team and your partners see the same journey: a portal under
+                your brand, surfacing what you choose — opportunity updates, tier
+                progress, deal registration — and the journey paths you define.
+                Partners watch themselves advance.
               </p>
               <p className="m-body" style={{ marginTop: "1rem", maxWidth: "46ch" }}>
-                And as the program grows, Covant grows alongside it — recommending
-                partners for coverage and for investment, on your parameters. Ask in
-                plain language: where&apos;s coverage thin, who&apos;s earned the
-                next bet, which partner belongs on this deal. Answers from the map,
-                records attached.
+                As the program grows, Covant grows with it — recommending partners
+                for coverage and investment, on your parameters. Ask in plain
+                language; the map answers, records attached.
               </p>
             </Reveal>
             <Reveal>
