@@ -80,7 +80,7 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">The Partner Hub</p>
             <h1 className="m-h1">
-              Make partners your best source of revenue.
+              Grow partner-sourced revenue you can prove.
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
               Partners bring deals, unblock stalled ones, and deliver the work that
