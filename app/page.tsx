@@ -11,8 +11,8 @@ const PARTNER_ANSWERS = [
     body: "Every percentage arrives with its reason attached — the deal they registered, the demo they ran, the work they delivered.",
   },
   {
-    title: "What's owed, and when it pays.",
-    body: "Earned, pending, paid — payouts run out of Covant, visible the moment they change, not chased at quarter end.",
+    title: "What's owed, down to the dollar.",
+    body: "Earned, pending, paid — every commission calculated and tracked in Covant, visible the moment it changes, not chased at quarter end.",
   },
   {
     title: "Where they stand, and what's next.",
@@ -30,8 +30,8 @@ const START_STEPS = [
     body: "Your last 12 months of pipeline through five attribution models, side by side — every split with the why attached.",
   },
   {
-    title: "First month — the channel runs in Covant.",
-    body: "Portal live under your brand, deals registering and progressing, commissions paying out with the reason attached.",
+    title: "First month — the hub is live.",
+    body: "Portal live under your brand, partners registering deals into your CRM, every commission calculated with the reason attached.",
   },
 ];
 
@@ -42,14 +42,15 @@ export default function Home() {
       <section className="m-section m-section--flush m-hero">
         <div className="m-container m-hero-grid">
           <div>
-            <p className="m-eyebrow">Partner Pipeline &amp; Progression</p>
+            <p className="m-eyebrow">The Partner Hub</p>
             <h1 className="m-h1">
-              Partner-driven revenue, without hiring a channel sales team.
+              Bring every partner along for the whole journey.
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Covant is the revenue engine for your channel: deals get registered in
-              Covant, progress in Covant, get credited in Covant, and pay out of Covant —
-              your partner motion in one place, not scattered across PRM and CRM reports.
+              Your deals run in your CRM. Covant is the partner hub alongside it:
+              partners register deals that flow straight into your pipeline, then both
+              sides track the credit, the commissions, the tier progress, and the next
+              best action — in one place you read the same way.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -89,8 +90,8 @@ export default function Home() {
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">What you run on Covant</p>
-            <h2 className="m-h2">Register it. Progress it. Pay it.</h2>
+            <p className="m-eyebrow">What lives in the hub</p>
+            <h2 className="m-h2">Partner revenue. Program. Incentives. Next moves.</h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
             {PILLARS.map((p) => (
@@ -144,8 +145,9 @@ export default function Home() {
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
               No two channels run alike. Covant takes the program you&apos;ve already
               promised your partners — your tiers, your rules, your registration flow —
-              and runs it end to end: pipeline in, progression tracked, credit explained,
-              payouts out. Five partners or five hundred, one motion or four.
+              and puts it in one shared hub: registrations flowing into your CRM, tier
+              progress tracked, credit explained, every payout calculated and routed for
+              your approval. Five partners or five hundred, one motion or four.
             </p>
           </Reveal>
           <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>

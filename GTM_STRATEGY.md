@@ -38,7 +38,7 @@
 | **Reports to** | CRO, CEO, or VP Sales |
 | **Age range** | 30–45 |
 | **Experience** | 3–8 years in partnerships/channel |
-| **Pain level** | HIGH — expected to deliver partner-sourced pipeline without the headcount to run it |
+| **Pain level** | HIGH — expected to deliver partner-sourced pipeline with no system that actually runs the motion |
 
 **Core Pains:**
 1. **"My partner motion lives everywhere except one place."** — Deals registered in a PRM, tracked in CRM reports, paid out of spreadsheets — nobody can see partner pipeline actually moving
@@ -53,14 +53,14 @@
 |---|------|----------------|-------------------|
 | 1 | **Mid-stage SaaS** | $20M ARR, 50 partners, using spreadsheets | Feels the pain, can't afford Impact.com |
 | 2 | **API-first platform** | $30M ARR, developer ecosystem + resellers | Complex attribution across integration + referral |
-| 3 | **Vertical SaaS** | $15M ARR, 30 agency partners | Agency-sourced deals need one place to register, progress, and pay out |
+| 3 | **Vertical SaaS** | $15M ARR, 30 agency partners | Agency-sourced deals need one place to register, progress, and get credited |
 | 4 | **Marketplace operator** | $40M ARR, 100+ app partners | App-driven deals never make it into a pipeline anyone can run |
 | 5 | **Growing fintech** | $25M ARR, 40 distribution partners | Compliance needs + attribution transparency |
 | 6 | **E-commerce SaaS** | $50M ARR, 80 affiliate + reseller partners | Juggling affiliate network + channel in separate tools |
 | 7 | **HR/People tech** | $35M ARR, 60 consultant partners | Consultant-influenced deals are invisible |
 | 8 | **Cybersecurity vendor** | $60M ARR, 100 MSP partners | Multi-tier attribution is a nightmare |
 | 9 | **Martech platform** | $20M ARR, agency + tech partners | Integration-influenced attribution needed |
-| 10 | **Data/analytics SaaS** | $45M ARR, growing partner program from scratch | Wants the partner motion running in one system from day one |
+| 10 | **Data/analytics SaaS** | $45M ARR, growing partner program from scratch | Wants the partner program running on one hub from day one |
 
 ### Secondary ICP (Phase 2)
 
@@ -74,7 +74,7 @@
 
 ### Positioning Statement
 
-> **For partnership leaders at scaling B2B companies** who need partner-driven revenue but can't hire a channel sales team to run it, **Covant** is the **revenue engine for your channel** — the place where partner deals get registered, progress, get credited, and pay out. Attribution visibility is how teams find us; running the partner pipeline is why they stay. Unlike PRM + CRM reports that merely describe the partner motion after the fact, Covant is where the partner motion actually lives — with explainable credit that partners trust and leadership relies on.
+> **For partnership leaders at scaling B2B companies** who need partner-driven revenue to actually move, **Covant** is the **partner hub** — partners register deals that flow into your CRM, and both sides track partner revenue, progression, and incentives in one place, every commission calculated and explained. Attribution visibility is how teams find us; running the partner program on the hub is why they stay. Unlike PRM + CRM reports that leave partners outside the journey, Covant brings every partner along — with explainable credit that partners trust and leadership relies on.
 
 ### Competitive Differentiation Matrix
 
@@ -89,7 +89,7 @@
 
 ### Key Differentiators (In Priority Order)
 
-1. **Pipeline to payout in one system** — Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. The partner motion lives here, not in PRM + CRM reports.
+1. **One shared hub** — Partners register deals into your CRM through Covant; credit, incentives, and tier progress are tracked and explained in Covant. The partner side lives here, not in PRM + CRM reports.
 2. **Explainable attribution as the trust mechanism** — No black-box attribution. Every commission ships with a why, so partners work the pipeline instead of disputing it.
 3. **10x faster time to value** — Self-serve setup, partner deals registered and credited in 15 minutes, not months.
 4. **Radical transparency** — Partners see exactly how they contributed, on every plan. Trust = retention.
@@ -101,25 +101,25 @@
 
 ### Tagline Options
 
-1. **"The revenue engine for your channel."** ← Primary
-2. **"Can't hire a channel sales team? Run one out of Covant."**
+1. **"The partner hub."** ← Primary
+2. **"Bring every partner along for the whole journey."**
 3. **"Registered. Progressed. Credited. Paid. All in Covant."**
 4. **"Your partners deserve better than spreadsheets."**
 
 ### Elevator Pitch (30 seconds)
 
-> "Covant is the revenue engine for your channel. If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that. Partner deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Most teams find us because they can't see what their partners are driving — and that visibility is real — but what they're buying is partner pipeline that actually moves, without the headcount. And because every commission ships with a why, partners trust the numbers instead of disputing them."
+> "Covant is the partner hub. Partners register deals that flow straight into your CRM, and both sides track partner revenue, tier progress, and incentives in one place — every commission calculated and explained. Most teams find us because they can't see what their partners are driving — and that visibility is real — but what they're buying is one place they and their partners read the same way. And because every commission ships with a why, partners trust the numbers instead of disputing them."
 
 ### Value Propositions by Persona
 
 **For VP of Partnerships:**
 - "Run the whole partner motion — registration to payout — in one place instead of PRM + CRM reports"
 - "Retain top partners with transparent, explainable credit they can audit themselves"
-- "Go from 15 hours/week on commissions to credit and payouts that flow automatically from deals progressing in Covant"
+- "Go from 15 hours/week on commissions to credit and payouts calculated automatically as deals close in your CRM"
 
 **For CRO / CEO:**
-- "Partner-sourced pipeline, created and progressing, in one system — with board-ready numbers when you need the proof point"
-- "Integrate partner-driven revenue without hiring a channel sales team"
+- "Partner-sourced pipeline, registered and credited, in one shared hub — with board-ready numbers when you need the proof point"
+- "Partners register deals into your CRM; credit and progression tracked in one hub"
 - "Replace 3–5 tools with one platform, saving $50K+/year"
 
 **For Partner (the end user):**
@@ -132,7 +132,7 @@
 **Cold email subject lines:**
 - "Where does [Company]'s partner pipeline actually live?"
 - "[Company] — who actually drove that partner deal?"
-- "Partner-driven revenue without the channel sales hire"
+- "Partner-sourced pipeline that actually progresses"
 
 **LinkedIn headline:**
 - "PRMs store partners. CRMs store deals. Covant runs the partner motion — registration to payout."
@@ -183,7 +183,7 @@ Quick question — when your CEO asks "how much partner-sourced pipeline did we 
 
 Most partnership leaders I talk to say "not very." Their partner motion is scattered across a PRM, CRM reports, and spreadsheets — and nobody is actually running it.
 
-We built Covant to be the revenue engine for your channel. Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. If you can't hire a channel sales team to integrate partner-driven revenue, Covant does that job.
+We built Covant to be the partner hub. Partners register deals that flow into your CRM, and the hub tracks credit, incentives, and progression — every commission calculated, approved, and explained.
 
 The result: partner pipeline you can see moving, partners who trust the credit (every commission ships with a why), and a CFO who stops questioning the partner investment.
 
@@ -204,7 +204,7 @@ I noticed [Company] is scaling its partner program — congrats on the momentum.
 
 Most companies at your stage are cobbling together Impact.com/PartnerStack for tracking + spreadsheets for commissions + Salesforce reports for pipeline + manual portals for partners. That's $40K-$80K/year and 20+ hours/week of ops work.
 
-We built a single platform where the partner motion actually lives: deals get registered, progress, get credited, and pay out — all in Covant. One tool, one source of truth, and your closed-deal data flows in from Salesforce/HubSpot so credit and payouts stay automatic.
+We built one hub for the partner side: partners register deals that flow into your CRM, and credit, incentives, and progression are tracked in Covant — every commission calculated and routed for approval. One hub shared by both sides; registrations flow to Salesforce/HubSpot and closed-deal data flows back so credit and commission math stay automatic.
 
 Companies switch and typically save 50%+ on tooling costs while finally running partner pipeline in one place.
 
@@ -236,7 +236,7 @@ I'd love to show you how it works — 15 minutes?
 ### LinkedIn Outreach Sequence
 
 **Connection request:**
-> "Hi [Name] — I'm building Covant, the revenue engine for partner-driven sales at scaling SaaS companies. Saw you're leading partnerships at [Company]. Would love to connect and trade notes on what's working in the space."
+> "Hi [Name] — I'm building Covant, the partner hub for scaling SaaS companies. Saw you're leading partnerships at [Company]. Would love to connect and trade notes on what's working in the space."
 
 **Follow-up (Day 3, after connection):**
 > "Thanks for connecting! Quick question — where do partner deals actually live at [Company] today? PRM, CRM reports, spreadsheets? Curious because almost every team I talk to is running the partner motion across three systems and none of them own it."
@@ -260,7 +260,7 @@ I'd love to show you how it works — 15 minutes?
 
 1. **Partner Attribution** — The technical and strategic aspects of getting credit right (our wedge content)
 2. **Partner Program Operations** — Running efficient programs (commissions, tiers, onboarding)
-3. **Partner Pipeline & Progression** — Running deal registration, progression, credit, and payout as one revenue motion
+3. **The Partner Hub** — Partners registering deals into the CRM, with credit, incentives, and progression tracked in one shared place
 4. **Industry Analysis** — Trends, benchmarks, competitive landscape
 
 ### Blog / Content Calendar (First 90 Days)

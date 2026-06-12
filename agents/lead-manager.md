@@ -61,7 +61,7 @@ Subject: Welcome to Covant - Let's get your partner pipeline moving
 
 Hi {{first_name}},
 
-Thanks for your interest in Covant! I'm {{agent_name}}, and I help teams like yours run their partner pipeline — registration to payout — out of one system, without hiring a channel sales team.
+Thanks for your interest in Covant! I'm {{agent_name}}, and I help teams like yours bring partners into one hub — deals registered into your CRM, credit and incentives explained in Covant.
 
 I'd love to learn more about your partner program. Mind answering a few quick questions?
 
@@ -102,7 +102,7 @@ Best,
 
 ### Follow-up (Day 7) - Value Add
 ```
-Subject: Case study: How TechCo runs 100+ partners' deals — registration to payout — in one system
+Subject: Case study: How TechCo runs 100+ partners from one hub — registration to credited commission
 
 Hi {{first_name}},
 
@@ -111,7 +111,7 @@ Thought you might find this interesting - we just published a case study on how 
 [Link to case study]
 
 Key takeaways:
-- Deals get registered, progress, and get credited in one system — no more chasing CRM reports
+- Partners register deals into your CRM; credit and progression tracked in one hub — no more chasing CRM reports
 - Zero credit disputes (every commission ships with a why, so partners trust the system)
 - Cut commission calculation and approval prep from 2 days/quarter to 5 minutes
 

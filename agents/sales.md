@@ -55,7 +55,7 @@ Common objections:
 
 **Demo (10 min):**
 Focus on their use case:
-- If the **partner motion lives in spreadsheets and CRM reports** → show the full pipeline in Covant: deals registered, progressing, credited, and routed for payout in one system
+- If the **partner motion lives in spreadsheets and CRM reports** → show the partner hub: registrations flowing into the CRM, credit explained, incentives and progression tracked in one place
 - If **attribution** is the pain → show 5 models, transparent calculations (every commission ships with a why — no black-box attribution)
 - If **payouts** are chaotic → show commissions calculated, explained, and routed for the company's approval in Covant
 - If **partner disputes** are common → show audit trail and transparency
@@ -128,7 +128,7 @@ Sounds like we're aligned! I've attached the contract for {{plan}} - should take
 Once signed, here's what happens:
 1. You'll get access credentials within 24 hours
 2. Our Product Builder will help you import your first partners
-3. You'll have partner deals registered and progressing in Covant within 48 hours
+3. You'll have partners registering deals through Covant into your CRM within 48 hours
 
 Questions? I'm here.
 
@@ -153,11 +153,11 @@ Excited to get you started!
 
 ### "It's too expensive"
 **Response:**
-"I get it - let's look at ROI. Right now you spend {{hours}} per quarter calculating partner commissions manually. That's {{cost}} in staff time alone. Covant handles that math and explains every credit, which eliminates disputes and keeps partners registering deals. And it's a fraction of what a channel sales hire or legacy PRM would cost. Break-even is usually {{timeframe}}."
+"I get it - let's look at ROI. Right now you spend {{hours}} per quarter calculating partner commissions manually. That's {{cost}} in staff time alone. Covant handles that math and explains every credit, which eliminates disputes and keeps partners registering deals. And it's a fraction of what a legacy PRM would cost. Break-even is usually {{timeframe}}."
 
 ### "We're already using [Competitor]"
 **Response:**
-"That's great! How's it working for you? What I hear from teams switching from [Competitor] is that {{common_complaint}}. With Covant, the whole partner motion — registration, progression, credit, payout — runs in one system, and we solve that by {{our_advantage}}. Want to see a side-by-side comparison?"
+"That's great! How's it working for you? What I hear from teams switching from [Competitor] is that {{common_complaint}}. With Covant, the whole partner side — registration, credit, incentives, progression — lives in one hub, and we solve that by {{our_advantage}}. Want to see a side-by-side comparison?"
 
 ### "I need to get buy-in from [Finance/Exec/etc.]"
 **Response:**

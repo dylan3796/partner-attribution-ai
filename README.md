@@ -1,8 +1,8 @@
 # Covant
 
-**The revenue engine for your channel.**
+**The partner hub.**
 
-> If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that. Deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant.
+> Your CRM runs the deals. Covant is the partner hub alongside it: partners register deals that flow into your CRM, and both sides track partner revenue, tier progress, incentives, and next best actions — every commission calculated, approved, and explained.
 
 **Live:** [covant.ai](https://covant.ai)
 
@@ -10,9 +10,9 @@
 
 ## What It Is
 
-Covant is where the partner motion lives for B2B SaaS companies running reseller, referral, or channel programs. It replaces the PRM-plus-CRM-reports patchwork: partners register deals in Covant, those deals progress in Covant, credit is calculated in Covant, and commissions pay out of Covant. Salesforce and HubSpot connect underneath so closed-deal data flows in and credit and payouts stay automatic — but the partner business itself runs here.
+Covant is the partner hub for B2B SaaS companies running reseller, referral, or channel programs. Deals live in your CRM — partners register them through Covant, and the registration flows into your pipeline along with whatever other data you let partners add. The hub holds the partner side: every partner touch logged, credit calculated and explained, commissions calculated and approved (your team moves the money through your existing payment rails), tiers, incentives, and each partner's next best action. Salesforce and HubSpot connect underneath: registrations flow in, closed-deal data flows back, and the partner program itself runs here.
 
-**Target customer:** Mid-market SaaS companies ($10M–$200M ARR) with 10–200 partners, ready to run a real channel motion without hiring a channel sales team.
+**Target customer:** Mid-market SaaS companies ($10M–$200M ARR) with 10–200 partners, ready to run a real channel motion.
 
 ---
 

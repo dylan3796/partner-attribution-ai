@@ -66,12 +66,28 @@
 
 ## 2026-06-11 — Repositioning: Partner Pipeline & Progression
 
-**Decision:** Covant sells **partner pipeline and progression** — "the revenue engine for your channel." Headline pitch: *"If you can't hire a channel sales team to integrate partner-driven revenue, use Covant to do just that."*
+> **Partially superseded by the 2026-06-12 entry below:** the "deals get registered, progress, and get credited in Covant" lifecycle line and the "revenue engine for your channel" tagline are retired. The wedge model, retired framings, and both guardrails still stand.
+
+**Decision:** Covant sells **partner pipeline and progression** — "the revenue engine for your channel." Headline pitch: *"The revenue engine for your channel — partner deals get registered, progress, and get credited in one system, every commission calculated and explained."*
 
 **Retired framings (do not use as the lead):** "Partner Intelligence Platform," "prove partner ROI," "measure partner impact," "payouts that run themselves," any "analytics/intelligence layer on top of your CRM" language. These survive only as supporting benefits.
 
-**The model:** Attribution visibility is the wedge, not the product. It's parlayed into the partner motion running out of Covant: deals get registered in Covant, progress in Covant, get credited in Covant, and pay out of Covant. Covant replaces "PRM + CRM reports" as the place the partner business lives. Salesforce/HubSpot connectors are plumbing (closed-deal data flows in), never the positioning.
+**The model:** Attribution visibility is the wedge, not the product. It's parlayed into the partner motion running out of Covant: deals get registered in Covant, progress in Covant, and get credited in Covant — every commission calculated, approved, and explained. Covant replaces "PRM + CRM reports" as the place the partner business lives. Salesforce/HubSpot connectors are plumbing (closed-deal data flows in), never the positioning.
 
-**Guardrail kept:** Covant never moves money. Payouts are calculated, explained, flagged as earned, and routed for the company's approval — never imply otherwise.
+**Guardrail — money:** Covant never moves money and never facilitates payments. Payouts are calculated, explained, flagged as earned, and routed for the company's approval; the company pays through its own rails. Never write "pay out of Covant" or imply funds flow through us.
+
+**Guardrail — hiring:** Don't pitch Covant as a substitute for hiring ("without hiring a channel sales team," "the team you don't have to hire," "without headcount"). We sell the system the partner pipeline runs in — the customer's team and partners stay the sellers.
 
 **Why:** Channel-driven buyers buy the outcome (pipeline that builds and progresses), not measurement. Mirrors the Monaco playbook — sell the outcome, be the system the motion runs in (see MONACO_ANALYSIS.md).
+
+---
+
+## 2026-06-12 — Correction: Covant is the partner hub; deals live in the CRM
+
+**Decision:** Covant is **the partner hub** — an overlay alongside the customer's CRM, not a system of record for deals. Headline pitch: *"The partner hub — bring every partner along for the whole journey."*
+
+**The model:** The partner team is an overlay team, and Covant is its hub. Partners register deals in Covant and they **flow into the customer's CRM** (alongside any other data the customer lets partners add); the deals live and move in the CRM. The hub is where both sides check partner revenue, the partner program, partner incentives, and partner next best actions — one shared place that brings the partner along for the whole journey.
+
+**Guardrail — deals:** Never claim deals live, progress, run, or close in Covant. Covant's verbs: register (flows to the CRM), log, track, credit, calculate, explain, recommend. Note Monaco's system-of-record ambition is explicitly NOT part of our playbook (see MONACO_ANALYSIS.md).
+
+**Why:** It's the truth of the product (the dashboard settings page has said "your CRM stays your system of record" all along), and it sells better: buyers don't want a second deal database — they want their partners inside the journey they already run.
