@@ -44,9 +44,7 @@ export default function Home() {
         <div className="m-container m-hero-grid">
           <div>
             <p className="m-eyebrow">The Partner Hub</p>
-            <h1 className="m-h1">
-              The engine for <em>channel-driven revenue.</em>
-            </h1>
+            <h1 className="m-h1">The engine for channel-driven revenue.</h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
               Covant powers the whole partner journey — a portal under your brand,
               shaped to the experience you want partners to have. They{" "}
