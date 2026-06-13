@@ -2,11 +2,12 @@ import Vignette from "@/components/marketing/Vignette";
 import CountUp from "@/components/marketing/CountUp";
 
 /**
- * Illustrative product shot: a closed-won deal's attribution screen — split
- * percentages with the evidence behind each one, plus an earned-incentive
- * toast. Clearly labelled example data, not a live customer. Mirrors the
- * explanation strings the shipped engine produces
- * (convex/lib/attribution/models.ts).
+ * Illustrative product shot: credit on a closed-won deal, computed on the
+ * customer's terms — their model, their weights — with the evidence behind
+ * each number, plus an earned-incentive toast. Demoted from flagship:
+ * lives only in /product's "Attribution, on your terms" section. Clearly
+ * labelled example data, not a live customer. Mirrors the explanation
+ * strings the shipped engine produces (convex/lib/attribution/models.ts).
  *
  * Plays once on scroll-into-view: each partner row lands, its bar fills to
  * the split and the percentage counts up, then the incentive toast pops.
@@ -58,7 +59,7 @@ export default function AttributionExplainVisual() {
           <span className="m-app-dot" />
           <span className="m-app-dot" />
           <span className="m-app-dot" />
-          <span className="m-app-title">Covant · Deal attribution</span>
+          <span className="m-app-title">Covant · Credit — your model</span>
           <span className="m-app-tag">Example data</span>
         </div>
         <div className="m-app-head">
@@ -73,7 +74,7 @@ export default function AttributionExplainVisual() {
               <CountUp to={186000} prefix="$" duration={1100} />
             </div>
             <p className="m-app-sub" style={{ textAlign: "right", whiteSpace: "nowrap" }}>
-              Role-weighted model
+              Role-weighted — your pick
             </p>
           </div>
         </div>

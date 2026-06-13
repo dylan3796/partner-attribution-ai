@@ -2,21 +2,41 @@ import Vignette from "@/components/marketing/Vignette";
 import CountUp from "@/components/marketing/CountUp";
 
 /**
- * Illustrative product shot: a partner's home base in the portal — earnings
- * at a glance, explicit tier criteria, and the recommended next move.
- * Clearly labelled example data, not a live customer. Mirrors real portal
- * surface (app/portal/** dashboard, commissions, tier progress).
+ * Illustrative product shot: a partner's home base in the portal — the
+ * journey they're walking, the deals they're part of, an incoming enlist
+ * ask from the vendor, and a two-way submission in review. Clearly
+ * labelled example data, not a live customer.
  *
- * Plays once on scroll-into-view: earnings count up, the tier bar fills,
- * the criteria land one by one, then the next move pops.
+ * Future scope: the one-click enlist actions (call scheduling, AI-drafted
+ * outreach) and two-way submission types (leads, customer stories,
+ * references, posts) shown here are not yet modeled in app/portal/** —
+ * marketing surface for the full vision, not shipped product.
+ *
+ * Plays once on scroll-into-view: journey bar fills, deals land, the
+ * enlist ask pops, then the submission line.
  */
+const DEALS = [
+  {
+    name: "Atlas Health — implementation",
+    pill: "Enlisted",
+    line: true,
+    note: "Joined at evaluation · next step: scoping call",
+  },
+  {
+    name: "Northwind expansion",
+    pill: "Registered",
+    line: true,
+    note: "Submitted by you · approved, in your vendor's pipeline",
+  },
+];
+
 export default function NextMoveVisual() {
   return (
     <Vignette>
     <div
       className="m-shot"
       role="img"
-      aria-label="Example partner portal screen: earnings summary, progress toward Gold tier with explicit criteria, and a recommended next move"
+      aria-label="Example partner portal screen: journey progress toward a solution launch, the partner's active deals with their status, an incoming ask from the vendor to join a deal with a call proposed, and a submitted customer story in review"
     >
       <div className="m-app">
         <div className="m-app-bar">
@@ -38,60 +58,48 @@ export default function NextMoveVisual() {
               </p>
             </div>
           </div>
-          <span className="m-pill">Silver tier</span>
+          <span className="m-pill">Launch journey</span>
         </div>
-        <div className="m-stats" data-vig={1}>
-          <div className="m-stat">
-            <p className="m-stat-label">Earned YTD</p>
-            <p className="m-stat-value">
-              <CountUp to={48200} prefix="$" delay={250} />
-            </p>
-          </div>
-          <div className="m-stat">
-            <p className="m-stat-label">Pending approval</p>
-            <p className="m-stat-value">
-              <CountUp to={6400} prefix="$" delay={400} />
-            </p>
-          </div>
-          <div className="m-stat">
-            <p className="m-stat-label">Projected Q3</p>
-            <p className="m-stat-value">
-              <CountUp to={12800} prefix="$" delay={550} />
-            </p>
-          </div>
-        </div>
-        <div className="m-prog" data-vig={2}>
+        <div className="m-prog" data-vig={1}>
           <div className="m-prog-top">
-            <span>Progress to Gold</span>
+            <span>Your journey — solution launch</span>
             <span>
-              <CountUp to={78} suffix="%" delay={900} />
+              <CountUp to={2} suffix=" of 3" delay={600} duration={600} />
             </span>
           </div>
           <span className="m-app-bartrack">
             <span
               className="m-app-barfill m-vig-bar"
-              style={{ "--fill": "78%" } as React.CSSProperties}
+              style={{ "--fill": "66%" } as React.CSSProperties}
             />
           </span>
-          <ul className="m-checklist">
-            <li data-vig={3}>
-              <span className="m-check">✓</span> $250K influenced revenue — met
-            </li>
-            <li data-vig={4}>
-              <span className="m-check">✓</span> 8 registered deals — met
-            </li>
-            <li data-vig={5}>
-              <span className="m-check m-check--todo">○</span> 2 more closed wins to qualify
-            </li>
-          </ul>
         </div>
-        <div className="m-reco m-vig-pop" data-vig={6}>
-          <p className="m-reco-tag">Recommended next move</p>
+        <div>
+          {DEALS.map((d, i) => (
+            <div className="m-app-row" data-vig={i + 2} key={d.name}>
+              <div style={{ minWidth: 0 }}>
+                <div className="m-app-name">
+                  {d.name}{" "}
+                  <span className={d.line ? "m-pill m-pill--line" : "m-pill"}>
+                    {d.pill}
+                  </span>
+                </div>
+                <p className="m-app-reason">{d.note}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="m-reco m-vig-pop" data-vig={4}>
+          <p className="m-reco-tag">New ask from your vendor</p>
           <p className="m-reco-body">
-            Register the Atlas Logistics expansion — your evaluation work on the account is
-            already credited.
+            Atlas Logistics expansion — they want you in. Your delivery record
+            on the account fits. Call proposed for Thursday.
           </p>
-          <span className="m-reco-btn">Register deal →</span>
+          <span className="m-reco-btn">Accept &amp; book →</span>
+        </div>
+        <div className="m-app-foot" data-vig={5}>
+          <span>Customer story submitted · in review</span>
+          <span className="m-app-link">Submit a lead →</span>
         </div>
       </div>
     </div>

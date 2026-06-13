@@ -55,7 +55,7 @@ export default function OgImage() {
           marginBottom: 24, maxWidth: 800,
           display: 'flex', flexWrap: 'wrap',
         }}>
-          Grow partner-sourced revenue you can prove.
+          More revenue from the channel you already built.
         </div>
 
         {/* Subline */}
@@ -63,7 +63,7 @@ export default function OgImage() {
           color: '#888', fontSize: 24, lineHeight: 1.5,
           maxWidth: 700, display: 'flex',
         }}>
-          Partner Experience Management — every step of your program, no communication lost.
+          Partner Experience Management — powered by the Channel Graph.
         </div>
 
         {/* Bottom row */}
@@ -72,7 +72,7 @@ export default function OgImage() {
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <div style={{ display: 'flex', gap: 32 }}>
-            {['Deal registration', 'Explainable credit', 'Tier progression', 'Incentives', 'Next best actions'].map(f => (
+            {['Channel Graph', 'Partner journeys', 'Partner portal', 'One-click enlist', 'MCP access'].map(f => (
               <span key={f} style={{ color:'#374151', fontSize: 14 }}>{f}</span>
             ))}
           </div>

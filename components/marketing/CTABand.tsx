@@ -3,8 +3,8 @@ import RequestDemo from "./RequestDemo";
 /** Closing call-to-action band with the inline demo form. Anchored #demo. */
 export default function CTABand({
   eyebrow = "Get started",
-  heading = "See Covant on your own partners.",
-  body = "We'll show you the partner portal, the partner scores, and your last 12 months of attribution on a pipeline that looks like yours.",
+  heading = "See your Channel Graph.",
+  body = "We'll make the first pass on your data and show you the graph — then the journeys and portal running on top of it. Your partners, not a demo dataset.",
 }: {
   eyebrow?: string;
   heading?: string;
