@@ -17,16 +17,12 @@ import CTABand from "@/components/marketing/CTABand";
 
 const ACTIVATION_CARDS = [
   {
-    title: "Move the open ones.",
-    body: "New opportunity, known territory — the graph names the partner who has closed there, with the records behind it.",
+    title: "See which engagements a partner could move.",
+    body: "The Channel Graph flags the open deals where a partner's expertise — a reference architecture, an account relationship — could amp them up, including the ones that have stalled.",
   },
   {
-    title: "Unblock the stuck ones.",
-    body: "Stalled deal, existing relationship — the graph finds the partner already in the account.",
-  },
-  {
-    title: "Insights where reps live.",
-    body: "Recommendations land in your CRM, on the record — not in another tab.",
+    title: "In the tools reps already use.",
+    body: "Recommendations land on the opportunity in your CRM — not in another tab reps have to remember to open.",
   },
 ];
 
@@ -36,8 +32,8 @@ const PORTAL_CARDS = [
     body: "Partners see the deals they're on and where each one stands. No chasing the channel manager.",
   },
   {
-    title: "One-click enlist.",
-    body: "Pull a partner into a deal from the opportunity itself. Covant sets up the call or drafts the email.",
+    title: "One-click outbound.",
+    body: "Ask a partner to engage on a specific deal, straight from the opportunity. They accept or decline — you see the answer in Covant.",
   },
   {
     title: "Two-way by design.",
@@ -45,18 +41,29 @@ const PORTAL_CARDS = [
   },
 ];
 
+const CHAT_CARDS = [
+  {
+    title: "Your team asks.",
+    body: "Which partners close fastest in healthcare? Who belongs on this deal? Answers come straight from the graph, records attached.",
+  },
+  {
+    title: "Your partners ask.",
+    body: "What's my certification status? Which of my deals need action? Partners query their own slice of the channel the same way.",
+  },
+];
+
 const START_STEPS = [
   {
-    title: "Connect what you have.",
-    body: "CRM, spreadsheets, emails, Slack, notes. Structured or not — every parameter is signal.",
+    title: "Connect your data.",
+    body: "CRM, spreadsheets, Slack, emails, notes — structured or not. Every parameter is signal.",
   },
   {
-    title: "First pass, then yours.",
-    body: "Covant builds the initial Channel Graph from your data. You refine it from there — it's your asset, and it compounds.",
+    title: "We take the first pass.",
+    body: "Covant builds your Channel Graph — the most sophisticated read of your partner business you've had, because we understand what partner businesses actually look like. You refine it from there; it's yours, and it compounds.",
   },
   {
-    title: "Build what's missing. Activate what exists.",
-    body: "Journeys and the portal go live where you had nothing. Infrastructure you already have gets ingested and put to work.",
+    title: "Watch your program come to life — and expand it as you go.",
+    body: "Journeys and the portal go live where you had nothing, running on infrastructure you already had. Add programs and partners as you grow.",
   },
 ];
 
@@ -69,13 +76,16 @@ export default function Home() {
           <div>
             <p className="m-eyebrow">Partner Experience Management</p>
             <h1 className="m-h1">
-              More revenue from the channel you already built.
+              More Revenue From The Channel You Already Built.
             </h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Covant is partner experience management — one system your team
-              and your partners run the channel through. The engine underneath
-              is the Channel Graph: a living model of how your channel actually
-              operates, built from your data and sharpened by your team.
+              Covant is <strong>Partner Experience Management</strong> — the
+              single system your team and your partners run the channel
+              through, from progressing partners through your program to
+              winning deals together. Its core is the{" "}
+              <strong>Channel Graph</strong>: a living model of how your
+              channel actually operates, built from your data and sharpened by
+              your team.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -116,17 +126,16 @@ export default function Home() {
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">The engine · 01 — Your Channel Graph</p>
+            <p className="m-eyebrow">Your Channel Graph</p>
             <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
-              A living model of how your channel actually operates.
+              A Living Model Of How Your Channel Actually Operates.
             </h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "56ch" }}>
-              Covant makes a first pass over everything you have — opportunity
-              records, activity logs, emails, Slack threads, deal notes — and
-              builds the Channel Graph: what each partner does well, at what
-              deal size, in which verticals, at what speed. You refine it; it
-              sharpens. The graph is the durable asset. Everything partners
-              experience in Covant runs on it.
+              Covant reads everything you already have — CRM records, activity
+              logs, emails, Slack threads, deal notes — and builds the Channel
+              Graph: what each partner does well, at what deal size, in which
+              verticals, how fast. You refine it; it sharpens. Everything else
+              in Covant runs on it.
             </p>
           </Reveal>
         </div>
@@ -137,24 +146,23 @@ export default function Home() {
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The engine · 02 — At work on live deals</p>
+              <p className="m-eyebrow">At Work on Live Deals</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-                The right partner, on the deal that needs them.
+                The Right Partner, On The Deal That Needs Them.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                This is the graph in motion — not a separate module. On a live,
-                open deal, the Channel Graph surfaces the partner who can
-                source or unblock it: a new opportunity opens in a vertical a
-                partner owns; a deal stalls where a partner has the
-                relationship. Covant names them, shows the evidence, and your
-                team enlists them in one click.
+                The Channel Graph in motion. On an engagement, it surfaces the
+                right partner to push the deal through — the one whose
+                expertise or relationship with the account can move it — and
+                shows the evidence behind the call. Your team brings them in
+                with one click.
               </p>
             </Reveal>
             <Reveal>
               <ChannelSignalVisual />
             </Reveal>
           </div>
-          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
+          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
             {ACTIVATION_CARDS.map((c) => (
               <Reveal className="m-card" key={c.title}>
                 <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
@@ -178,9 +186,9 @@ export default function Home() {
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The experience · 03 — Partner journeys</p>
+              <p className="m-eyebrow">Partner Journeys</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-                Define the milestones. Covant runs the journey.
+                Define The Milestones. Covant Runs The Journey.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
                 One certification. One dollar of revenue. One solution
@@ -202,17 +210,15 @@ export default function Home() {
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The experience · 04 — The portal</p>
+              <p className="m-eyebrow">The Portal</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-                The portal partners don&apos;t dread.
+                Where Your Partners Run Their Deals.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                Most portals are painful to set up and worse to use.
-                Covant&apos;s is lightweight: it walks each partner along the
-                journey you defined, shows them the deals they&apos;re part of,
-                and keeps the channel two-way. When the graph names a partner
-                for a deal, the ask lands here — call scheduled or outreach
-                drafted.
+                Covant&apos;s portal is built for partners: it walks each one
+                along the journey you defined, shows the deals they&apos;re part
+                of, and keeps the channel two-way. When the Channel Graph names
+                a partner for a deal, the ask lands right here.
               </p>
             </Reveal>
             <Reveal>
@@ -237,22 +243,29 @@ export default function Home() {
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The experience · 05 — Ask the graph</p>
+              <p className="m-eyebrow">Ask the Graph</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-                Queryable, not just viewable.
+                Queryable, Not Just Viewable.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
                 The Channel Graph ships as MCP servers for Claude and OpenAI.
-                Point your assistant at it and ask in natural language — no
-                dashboard, no report builder. Your team asks: which partners
-                close fastest in healthcare; who belongs on this deal. Your
-                partners ask: what&apos;s my certification status. Answers come
-                back from the graph, records attached.
+                Point an assistant at it and ask in natural language — no
+                dashboard, no report builder. Both sides of the channel get it.
               </p>
             </Reveal>
             <Reveal>
               <AskGraphVisual />
             </Reveal>
+          </div>
+          <div className="m-grid m-grid-2" style={{ marginTop: "3rem" }}>
+            {CHAT_CARDS.map((c) => (
+              <Reveal className="m-card" key={c.title}>
+                <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
+                  {c.title}
+                </h3>
+                <p className="m-body">{c.body}</p>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -261,9 +274,9 @@ export default function Home() {
       <section id="start" className="m-section">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">06 — How it starts</p>
+            <p className="m-eyebrow">How It Starts</p>
             <h2 className="m-h2">
-              A complete map of your program — what exists and what doesn&apos;t.
+              A Complete Map Of Your Program — What Exists And What Doesn&apos;t.
             </h2>
           </Reveal>
           <Reveal className="m-list" style={{ marginTop: "2.5rem" }}>
