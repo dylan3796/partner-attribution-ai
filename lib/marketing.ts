@@ -1,26 +1,37 @@
 // Shared content + constants for the Covant marketing site (Home / Product / Company).
-// Model names + descriptions mirror the shipped attribution engine
-// (convex/lib/attribution/models.ts + types.ts) so the site never claims a
-// model the product doesn't actually compute. PILLARS (signal -> encoded
-// program logic -> paper-trail attribution -> action), MOTIONS (the program
-// types the engine serves), and OUTCOMES each map to real product surface
-// (partner portal in app/portal/**, scoring in lib/partner-scoring.ts,
-// commission rules in convex/commissionRules.ts, the five MODELS below) so
-// the copy stays grounded in what Covant actually does.
 //
-// Three hard rules for all marketing copy:
+// Positioning: Partner Experience Management is the umbrella — the category
+// Covant is building. The Channel Graph is the intelligence engine that
+// powers it: a living model of the customer's channel, built from a first
+// pass over their data (structured or unstructured) and refined by their
+// team. Journeys, the portal, and conversational/MCP access are the
+// delivery surfaces. No copy may present the graph or the portal as the
+// top-level product, and no copy may present attribution as the foundation.
+// Surfaces that lead shipped product (journey flows, MCP servers, enlist
+// actions, two-way submissions) are flagged "future scope" in the
+// components that depict them.
+//
+// Five hard rules for all marketing copy:
 // 1. Payouts are calculated, explained, flagged as earned, routed for
 //    approval, and recorded in Covant. But the COMPANY approves and
 //    moves the money. Never imply Covant touches funds or that payouts
 //    happen without sign-off.
-// 2. Deals live and move in the customer's CRM — Covant is the partner hub
-//    overlaid on it. Partners register deals in Covant and they flow INTO
-//    the CRM; Covant tracks the partner side (credit, incentives, tier
-//    progress, next best actions). Never claim deals live, progress, or
-//    run in Covant.
-// 3. Partner signal lives beyond the CRM (spreadsheets, marketplace portals,
-//    event streams) and Covant also GENERATES new signal (registrations,
-//    logged touches, portal activity) — don't reduce the story to "reads CRM."
+// 2. Deals live and move in the customer's CRM — Covant is the partner
+//    experience layer overlaid on it. Partners register deals in Covant and
+//    they flow INTO the CRM; Covant runs the partner side (journeys, asks,
+//    submissions, credit). Never claim deals live, progress, or run in
+//    Covant.
+// 3. Partner signal lives beyond the CRM (spreadsheets, emails, Slack
+//    threads, deal notes, marketplace portals, event streams) and Covant
+//    also GENERATES new signal (registrations, logged touches, portal
+//    activity) — don't reduce the story to "reads CRM."
+// 4. Attribution is a customer-owned input the graph respects — their
+//    model, their weights, their call. Never position Covant as the credit
+//    referee, and never delete attribution from the story; demote and
+//    reframe.
+// 5. The audience is partnerships and sales executives. Lead with outcomes
+//    and leverage; never explain channel basics; short declarative
+//    sentences; no fabricated metrics or social proof.
 
 export const DEMO_SOURCE = "demo_request";
 
@@ -97,26 +108,26 @@ export type Motion = {
   body: string;
 };
 
-// The program motions the attribution engine serves today. Each maps to a
-// shipped model: SI -> role_weighted/implementation_credit, cloud ->
-// marketplace_cosell_hybrid, ISV -> touchpoint-level influence, reseller ->
-// first_touch_sourcer + deal registration workflow.
+// The program motions the engine and experience serve. Framed on the
+// umbrella narrative (graph -> activation -> journeys), not split
+// mechanics; the five MODELS below remain available per program when the
+// customer wants credit formalized.
 export const MOTIONS: Motion[] = [
   {
     title: "SI & implementation partners.",
-    body: "Credit the partner who ran the eval and delivered the work — even when they never resell. Role-weighted and implementation-credit models make influence payable.",
+    body: "The graph knows who actually delivers — eval speed, project record, verticals — and pulls them into the next deal that fits, even when they never resell.",
   },
   {
     title: "Cloud co-sell.",
-    body: "Hyperscaler opens the door, a partner sources, your team closes. Covant reconciles the three-way split instead of letting the loudest claim win.",
+    body: "Three-party motion, one picture. The graph reads who opened the door, who sourced, who closed — and names who to bring next time.",
   },
   {
     title: "ISV & integration partners.",
-    body: "The integration that drove the expansion finally shows up in a number — touchpoint-level influence, not anecdote.",
+    body: "The integration that drives expansion shows up as signal on live deals — the graph surfaces the ISV before the renewal, not after.",
   },
   {
     title: "Resellers & referral.",
-    body: "Deal registration, tiers, and incentive rules that outgrow the spreadsheet on day one.",
+    body: "Deal registration, journeys, and incentive rules that outgrow the spreadsheet on day one.",
   },
 ];
 

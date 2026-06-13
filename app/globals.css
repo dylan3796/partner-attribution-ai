@@ -2413,6 +2413,12 @@ a:focus-visible {
 .m-float-sub{font-size:.72rem;color:var(--m-muted);margin:.15rem 0 0;line-height:1.4}
 @media (max-width:900px){.m-float{position:static;margin-top:.9rem;max-width:none}}
 
+/* Conversational exchange inside a product shot (Ask the graph / MCP) */
+.m-chat{display:flex;flex-direction:column;gap:.7rem;padding:1rem 1.1rem}
+.m-chat-q{align-self:flex-end;max-width:85%;background:var(--m-accent);color:var(--m-accent-fg);border-radius:14px 14px 4px 14px;padding:.55rem .85rem;font-size:.8rem;line-height:1.45}
+.m-chat-a{align-self:flex-start;max-width:100%;background:var(--m-surface);border:1px solid var(--m-border);border-radius:14px 14px 14px 4px;padding:.7rem .9rem;font-size:.78rem;color:var(--m-ink-2);line-height:1.5}
+.m-chat-meta{align-self:flex-end;font-size:.64rem;color:var(--m-muted);letter-spacing:.04em}
+
 /* Trust strip (integrations + security line under the hero) */
 .m-trust{display:flex;flex-wrap:wrap;align-items:baseline;gap:.6rem 2rem;padding:1.4rem 0;border-top:1px solid var(--m-border)}
 .m-trust-label{font-size:.75rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--m-muted);margin:0}

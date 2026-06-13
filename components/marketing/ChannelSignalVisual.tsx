@@ -2,12 +2,11 @@ import Vignette from "@/components/marketing/Vignette";
 import CountUp from "@/components/marketing/CountUp";
 
 /**
- * Illustrative product shot for the hero: a stalled open deal with two
- * channel signals — a partner proven in the deal's vertical who could
- * unblock it, and a partner already active in the account — each citing
- * the records behind it. Clearly labelled example data. Ordering matches
- * the positioning: putting partner expertise to work on revenue leads;
- * uncovering who's already there supports. Suggestions are cited and left
+ * Illustrative product shot: the Channel Graph in motion on a live, open
+ * deal — two signals surfaced from the graph: a partner proven in the
+ * deal's vertical who could unblock it, and a partner already active in
+ * the account — each citing the records behind it, including unstructured
+ * sources. Clearly labelled example data. Suggestions are cited and left
  * to the customer's judgment — never asserted as fact.
  *
  * Plays once on scroll-into-view: each signal lands, then the
@@ -29,8 +28,8 @@ const SIGNALS = [
     name: "Meridian Consulting",
     tag: "Already in the account",
     detail:
-      "3 logged touches with Atlas Health since March — a workshop, an intro call, a scoping doc.",
-    source: "Meeting + project records",
+      "3 touches with Atlas Health since March — a workshop, an intro call, a scoping doc.",
+    source: "Emails + meeting notes",
   },
 ];
 
@@ -40,14 +39,14 @@ export default function ChannelSignalVisual() {
     <div
       className="m-shot"
       role="img"
-      aria-label="Example product screen: a stalled healthcare deal with two partner signals — one partner proven in the vertical who could unblock it, another already active in the account — each citing the records behind it"
+      aria-label="Example product screen: the Channel Graph surfacing two partner signals on a stalled healthcare deal — one partner proven in the vertical who could unblock it, another already active in the account — each citing the records behind it"
     >
       <div className="m-app">
         <div className="m-app-bar">
           <span className="m-app-dot" />
           <span className="m-app-dot" />
           <span className="m-app-dot" />
-          <span className="m-app-title">Covant · Channel signals</span>
+          <span className="m-app-title">Covant · Channel Graph</span>
           <span className="m-app-tag">Example data</span>
         </div>
         <div className="m-app-head">
