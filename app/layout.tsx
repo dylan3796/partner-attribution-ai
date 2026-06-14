@@ -30,25 +30,25 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Covant — Partner software built for the partner",
+  title: "Covant — Partner software built for both sides",
   description:
-    "Every partner tool is built for the vendor. Covant brings the partner along the journey — deals they can see, credit they trust, and their next best move — powered by the Channel Graph, a living model of how your channel actually operates.",
+    "Every partner tool is built for the vendor's back office. Covant is built for both sides of the partnership — partners see their deals, credit, and next best move; you see the whole channel and the revenue behind it — powered by the Channel Graph, a living model of how your channel actually operates.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "Covant — Partner software built for the partner",
-    description: "Every partner tool is built for the vendor. Covant brings the partner along the journey — deals they can see, credit they trust, their next best move — powered by the Channel Graph.",
+    title: "Covant — Partner software built for both sides",
+    description: "Every partner tool is built for the vendor's back office. Covant is built for both sides of the partnership — same deal, same credit, same journey — powered by the Channel Graph.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — Partner software built for the partner",
-    description: "Every partner tool is built for the vendor. Covant brings the partner along the journey — deals they see, credit they trust, their next best move.",
+    title: "Covant — Partner software built for both sides",
+    description: "Every partner tool is built for the vendor's back office. Covant is built for both sides of the partnership — same deal, same credit, same journey.",
   },
   metadataBase: new URL("https://covant.ai"),
 };
