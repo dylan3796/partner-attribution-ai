@@ -1,8 +1,8 @@
 # Covant
 
-**The partner hub.**
+**The Channel Graph.**
 
-> Your CRM runs the deals. Covant is the partner hub alongside it: partners register deals that flow into your CRM, and both sides track partner revenue, tier progress, incentives, and next best actions — every commission calculated, approved, and explained.
+> Your CRM runs the deals. Covant is the Channel Graph alongside it — a living model of how your channel actually operates, built from your data. Partners register deals that flow into your CRM; the graph attributes contribution *across* every channel (not siloed cloud-vs-SI-vs-referral), explains every commission, and gives both sides visibility into the relationship. The CRM owns the pipeline. Covant makes the channel legible on top of it.
 
 **Live:** [covant.ai](https://covant.ai)
 
@@ -10,9 +10,9 @@
 
 ## What It Is
 
-Covant is the partner hub for B2B SaaS companies running reseller, referral, or channel programs. Deals live in your CRM — partners register them through Covant, and the registration flows into your pipeline along with whatever other data you let partners add. The hub holds the partner side: every partner touch logged, credit calculated and explained, commissions calculated and approved (your team moves the money through your existing payment rails), tiers, incentives, and each partner's next best action. Salesforce and HubSpot connect underneath: registrations flow in, closed-deal data flows back, and the partner program itself runs here.
+Covant is the Channel Graph for B2B SaaS companies running reseller, referral, or channel programs. Deals live in your CRM — partners register them through Covant, and the registration flows into your pipeline along with whatever other data you let partners add. Covant builds a living model of the channel from that data: every partner touch logged, contribution attributed *across* channels (not siloed cloud-vs-SI-vs-referral), credit calculated and explained, commissions calculated and approved (your team moves the money through your existing rails). Both sides get visibility into the relationship and each partner's next best action. Salesforce and HubSpot connect underneath: registrations flow in, closed-deal data flows back, and the graph stays current — without re-implementing anything when the program changes.
 
-**Target customer:** Mid-market SaaS companies ($10M–$200M ARR) with 10–200 partners, ready to run a real channel motion.
+**Target customer:** Mid-market SaaS companies ($10M–$200M ARR) with 10–200 partners, ready to run a real channel motion. The graph generalizes to *any* inter-company relationship — co-sell alliances, tech/ISV partners, agencies, distributors — but channel partners are the beachhead.
 
 ---
 

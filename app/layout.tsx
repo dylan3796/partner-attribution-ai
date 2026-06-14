@@ -30,25 +30,25 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Covant — Partner Experience Management",
+  title: "Covant — Partner Intelligence",
   description:
-    "Partner experience management, powered by the Channel Graph — a living model of your channel built from your data. The right partner on every live deal, journeys both sides track, a portal partners use, and a graph you can query through Claude and OpenAI.",
+    "Covant is partner intelligence. Pour your partner data into the Channel Graph — a semantic layer over your whole channel — and run the partnerships org on it: attribution and reporting, planning, and proactive recommendations, with a portal for partners and answers in plain language.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "Covant — Partner Experience Management",
-    description: "Powered by the Channel Graph: the right partner on every live deal, journeys both sides track, a portal partners use, and a graph you can query in plain language.",
+    title: "Covant — Partner Intelligence",
+    description: "Run your partnerships org on the Channel Graph — a semantic layer over your whole channel. Attribution and reporting, planning, and proactive recommendations, with a portal for partners and answers in plain language.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — Partner Experience Management",
-    description: "Powered by the Channel Graph: the right partner on every live deal, journeys both sides track, and a graph you can query in plain language.",
+    title: "Covant — Partner Intelligence",
+    description: "Run your partnerships org on the Channel Graph — a semantic layer over your whole channel. Reporting, planning, and recommendations, with a portal for partners and answers in plain language.",
   },
   metadataBase: new URL("https://covant.ai"),
 };
