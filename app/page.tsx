@@ -7,15 +7,16 @@ import NextMoveVisual from "@/components/marketing/NextMoveVisual";
 import AskGraphVisual from "@/components/marketing/AskGraphVisual";
 import CTABand from "@/components/marketing/CTABand";
 
-// Narrative spine: Partner Intelligence is the category (hero, led by the
-// wound — partner influence is invisible and unprovable today) → the market
-// stakes make the wound real (third-party 2026 research) → the Channel Graph
-// is the asset that closes it (01: the context layer, 02: measurement — see
-// sourced and influenced across every channel and the whole lifecycle, 03:
-// the graph at work on live deals) → delivered through the experience
-// surfaces (04: journeys, 05: the portal, 06: conversational access) → how it
-// starts (07). Eyebrow prefixes ("The graph" / "The experience") carry the
-// hierarchy so the page never reads as a flat feature list.
+// Narrative spine: the category is partner-first — every other tool is built
+// for the vendor managing partners; Covant is built to bring the partner
+// along the journey. Hero leads with that asymmetry → market stakes show the
+// channel is huge and everyone's flying blind (third-party 2026 research) →
+// the Channel Graph is the engine that powers it (01: the context layer, 02:
+// credit both sides trust, 03: the graph at work on live deals) → the partner
+// experience surfaces are the soul (04: journeys, 05: the portal, 06:
+// conversational access) → how it starts (07). Eyebrow prefixes ("The engine"
+// / "The experience") carry the hierarchy so the page never reads as a flat
+// feature list.
 
 const STAKES = [
   {
@@ -84,16 +85,18 @@ export default function Home() {
       <section className="m-section m-section--flush m-hero">
         <div className="m-container m-hero-grid">
           <div>
-            <p className="m-eyebrow">Partner Intelligence</p>
+            <p className="m-eyebrow">Built for the partner</p>
             <h1 className="m-h1">
-              Most of your partner revenue is invisible.
+              Your partner program is built for you. Not for your partners.
             </h1>
-            <p className="m-lead" style={{ maxWidth: "52ch" }}>
-              Covant is partner intelligence — a living model of how your
-              channel actually operates, built from your data. The Channel
-              Graph captures every partner touch across every channel and the
-              whole lifecycle, so sourced and influenced revenue is finally
-              something you can see, explain, and prove.
+            <p className="m-lead" style={{ maxWidth: "54ch" }}>
+              Partners drive the revenue — and they&apos;re the one party every
+              tool forgets. No view of their deals, no credit they trust, no
+              idea what to do next. Covant brings every partner along the
+              journey: they see where each deal stands, why they were credited,
+              and their next best move — powered by the Channel Graph, a living
+              model of how your channel actually operates. Partners who are
+              brought along sell more. You get the revenue, and the proof.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -136,7 +139,7 @@ export default function Home() {
           <Reveal>
             <p className="m-eyebrow">The state of partnerships, 2026</p>
             <h2 className="m-h2" style={{ maxWidth: "26ch" }}>
-              Partners drive the pipeline. Almost no one can prove it.
+              Partners drive the pipeline. Everyone&apos;s flying blind — the partner most of all.
             </h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
@@ -170,7 +173,7 @@ export default function Home() {
               builds the Channel Graph: what each partner does well, at what
               deal size, in which verticals, at what speed. You refine it; it
               sharpens. The graph is the durable asset, and it&apos;s yours.
-              Everything else Covant does runs on it.
+              It&apos;s the engine behind everything the partner sees and does in Covant.
             </p>
           </Reveal>
         </div>
@@ -191,7 +194,8 @@ export default function Home() {
                 the first deal goes unseen entirely. The graph reads
                 contribution across all of them and across the lifecycle: who
                 sourced, who unblocked, who drove the expansion. Every touch on
-                the record, the reason attached.
+                the record, the reason attached — so the partner trusts the
+                number instead of disputing it.
               </p>
             </Reveal>
             <Reveal>

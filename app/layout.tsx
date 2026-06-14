@@ -30,25 +30,25 @@ const sourceSerif = Source_Serif_4({
 });
 
 export const metadata: Metadata = {
-  title: "Covant — Partner Experience Management",
+  title: "Covant — Partner software built for the partner",
   description:
-    "Partner experience management, powered by the Channel Graph — a living model of your channel built from your data. The right partner on every live deal, journeys both sides track, a portal partners use, and a graph you can query through Claude and OpenAI.",
+    "Every partner tool is built for the vendor. Covant brings the partner along the journey — deals they can see, credit they trust, and their next best move — powered by the Channel Graph, a living model of how your channel actually operates.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
     ],
   },
   openGraph: {
-    title: "Covant — Partner Experience Management",
-    description: "Powered by the Channel Graph: the right partner on every live deal, journeys both sides track, a portal partners use, and a graph you can query in plain language.",
+    title: "Covant — Partner software built for the partner",
+    description: "Every partner tool is built for the vendor. Covant brings the partner along the journey — deals they can see, credit they trust, their next best move — powered by the Channel Graph.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Covant — Partner Experience Management",
-    description: "Powered by the Channel Graph: the right partner on every live deal, journeys both sides track, and a graph you can query in plain language.",
+    title: "Covant — Partner software built for the partner",
+    description: "Every partner tool is built for the vendor. Covant brings the partner along the journey — deals they see, credit they trust, their next best move.",
   },
   metadataBase: new URL("https://covant.ai"),
 };
