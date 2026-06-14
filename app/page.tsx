@@ -141,8 +141,8 @@ export default function Home() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">The state of partnerships, 2026</p>
-            <h2 className="m-h2" style={{ maxWidth: "26ch" }}>
-              Partners drive the pipeline. Everything that proves it is still manual.
+            <h2 className="m-h2" style={{ maxWidth: "28ch" }}>
+              Most companies can&apos;t measure the partner pipeline they&apos;re betting on.
             </h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
