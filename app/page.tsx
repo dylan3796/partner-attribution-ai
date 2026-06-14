@@ -7,13 +7,30 @@ import NextMoveVisual from "@/components/marketing/NextMoveVisual";
 import AskGraphVisual from "@/components/marketing/AskGraphVisual";
 import CTABand from "@/components/marketing/CTABand";
 
-// Narrative spine: Partner Experience Management is the category (hero) →
-// the Channel Graph is the engine that powers it (01: the context layer,
-// 02: the graph at work on live deals) → delivered through the experience
-// surfaces (03: journeys, 04: the portal, 05: conversational access) →
-// how it starts (06: the complete map — build what's missing, activate
-// what exists). Eyebrow prefixes ("The engine" / "The experience") carry
-// the hierarchy so the page never reads as a flat feature list.
+// Narrative spine: Partner Intelligence is the category (hero, led by the
+// wound — partner influence is invisible and unprovable today) → the market
+// stakes make the wound real (third-party 2026 research) → the Channel Graph
+// is the asset that closes it (01: the context layer, 02: measurement — see
+// sourced and influenced across every channel and the whole lifecycle, 03:
+// the graph at work on live deals) → delivered through the experience
+// surfaces (04: journeys, 05: the portal, 06: conversational access) → how it
+// starts (07). Eyebrow prefixes ("The graph" / "The experience") carry the
+// hierarchy so the page never reads as a flat feature list.
+
+const STAKES = [
+  {
+    stat: "42%",
+    body: "of B2B SaaS can measure partner influence across the funnel. The rest are guessing.",
+  },
+  {
+    stat: "35%",
+    body: "of mid-market and enterprise pipeline is partner-influenced — most of it unattributed.",
+  },
+  {
+    stat: "69%",
+    body: "are increasing partner investment — into a measurement vacuum.",
+  },
+];
 
 const ACTIVATION_CARDS = [
   {
@@ -63,19 +80,20 @@ const START_STEPS = [
 export default function Home() {
   return (
     <main className="site site--story">
-      {/* Hero — the category, then the engine */}
+      {/* Hero — the category (Partner Intelligence), led by the wound */}
       <section className="m-section m-section--flush m-hero">
         <div className="m-container m-hero-grid">
           <div>
-            <p className="m-eyebrow">Partner Experience Management</p>
+            <p className="m-eyebrow">Partner Intelligence</p>
             <h1 className="m-h1">
-              More revenue from the channel you already built.
+              Most of your partner revenue is invisible.
             </h1>
-            <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              Covant is partner experience management — one system your team
-              and your partners run the channel through. The engine underneath
-              is the Channel Graph: a living model of how your channel actually
-              operates, built from your data and sharpened by your team.
+            <p className="m-lead" style={{ maxWidth: "52ch" }}>
+              Covant is partner intelligence — a living model of how your
+              channel actually operates, built from your data. The Channel
+              Graph captures every partner touch across every channel and the
+              whole lifecycle, so sourced and influenced revenue is finally
+              something you can see, explain, and prove.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -112,11 +130,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 01 — The Channel Graph: the context layer */}
+      {/* The stakes — the wound, in the market's own numbers */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">The engine · 01 — Your Channel Graph</p>
+            <p className="m-eyebrow">The state of partnerships, 2026</p>
+            <h2 className="m-h2" style={{ maxWidth: "26ch" }}>
+              Partners drive the pipeline. Almost no one can prove it.
+            </h2>
+          </Reveal>
+          <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
+            {STAKES.map((s) => (
+              <Reveal className="m-card" key={s.stat}>
+                <h3 className="m-h1" style={{ marginBottom: ".5rem" }}>
+                  {s.stat}
+                </h3>
+                <p className="m-body">{s.body}</p>
+              </Reveal>
+            ))}
+          </div>
+          <p className="m-small" style={{ marginTop: "1.5rem" }}>
+            Source: PartnerStack &amp; Wynter, The State of Partnerships in GTM
+            2026 (100 senior B2B SaaS leaders).
+          </p>
+        </div>
+      </section>
+
+      {/* 01 — The Channel Graph: the context layer */}
+      <section className="m-section">
+        <div className="m-container">
+          <Reveal>
+            <p className="m-eyebrow">The graph · 01 — Your Channel Graph</p>
             <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
               A living model of how your channel actually operates.
             </h2>
@@ -125,25 +169,54 @@ export default function Home() {
               records, activity logs, emails, Slack threads, deal notes — and
               builds the Channel Graph: what each partner does well, at what
               deal size, in which verticals, at what speed. You refine it; it
-              sharpens. The graph is the durable asset. Everything partners
-              experience in Covant runs on it.
+              sharpens. The graph is the durable asset, and it&apos;s yours.
+              Everything else Covant does runs on it.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* 02 — Activation: the graph at work on live deals */}
+      {/* 02 — Measurement: see what you couldn't (the wound, resolved) */}
+      <section className="m-section m-section--surface">
+        <div className="m-container">
+          <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
+            <Reveal>
+              <p className="m-eyebrow">The graph · 02 — See what you couldn&apos;t</p>
+              <h2 className="m-h2" style={{ maxWidth: "22ch" }}>
+                Sourced and influenced. Every channel, the whole lifecycle.
+              </h2>
+              <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
+                Cloud co-sell, SI delivery, referrals, tech partners — most
+                teams measure each in its own silo, and partner influence after
+                the first deal goes unseen entirely. The graph reads
+                contribution across all of them and across the lifecycle: who
+                sourced, who unblocked, who drove the expansion. Every touch on
+                the record, the reason attached.
+              </p>
+            </Reveal>
+            <Reveal>
+              <ChannelSignalVisual />
+            </Reveal>
+          </div>
+          <p className="m-small" style={{ marginTop: "1.5rem" }}>
+            Credit stays your call — your models, your weights. The graph makes
+            contribution visible; you decide how it&apos;s split.
+          </p>
+        </div>
+      </section>
+
+      {/* 03 — Activation: the graph at work on live deals */}
       <section className="m-section">
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The engine · 02 — At work on live deals</p>
+              <p className="m-eyebrow">The graph · 03 — At work on live deals</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
                 The right partner, on the deal that needs them.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                This is the graph in motion — not a separate module. On a live,
-                open deal, the Channel Graph surfaces the partner who can
+                Measurement is the foundation; activation is the payoff. On a
+                live, open deal, the Channel Graph surfaces the partner who can
                 source or unblock it: a new opportunity opens in a vertical a
                 partner owns; a deal stalls where a partner has the
                 relationship. Covant names them, shows the evidence, and your
@@ -151,7 +224,7 @@ export default function Home() {
               </p>
             </Reveal>
             <Reveal>
-              <ChannelSignalVisual />
+              <NextMoveVisual />
             </Reveal>
           </div>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
@@ -164,21 +237,17 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
-          <p className="m-small" style={{ marginTop: "1.5rem" }}>
-            Attribution stays your call — your models, your weights. The graph
-            treats credit as your input, not a verdict Covant hands down.
-          </p>
         </div>
       </section>
 
-      {/* 03 — Partner journeys */}
+      {/* 04 — Partner journeys */}
       {/* Future scope: the journey-flow engine and validation datasets shown
           here are not yet modeled in convex/ — see JourneyVisual. */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The experience · 03 — Partner journeys</p>
+              <p className="m-eyebrow">The experience · 04 — Partner journeys</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
                 Define the milestones. Covant runs the journey.
               </h2>
@@ -197,28 +266,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 04 — The portal */}
+      {/* 05 — The portal */}
       <section className="m-section">
         <div className="m-container">
-          <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
-            <Reveal>
-              <p className="m-eyebrow">The experience · 04 — The portal</p>
-              <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-                The portal partners don&apos;t dread.
-              </h2>
-              <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                Most portals are painful to set up and worse to use.
-                Covant&apos;s is lightweight: it walks each partner along the
-                journey you defined, shows them the deals they&apos;re part of,
-                and keeps the channel two-way. When the graph names a partner
-                for a deal, the ask lands here — call scheduled or outreach
-                drafted.
-              </p>
-            </Reveal>
-            <Reveal>
-              <NextMoveVisual />
-            </Reveal>
-          </div>
+          <Reveal>
+            <p className="m-eyebrow">The experience · 05 — The portal</p>
+            <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
+              The portal partners don&apos;t dread.
+            </h2>
+            <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "56ch" }}>
+              Most portals are painful to set up and worse to use.
+              Covant&apos;s is lightweight: it walks each partner along the
+              journey you defined, shows them the deals they&apos;re part of,
+              and keeps the channel two-way. When the graph names a partner for
+              a deal, the ask lands here — call scheduled or outreach drafted.
+            </p>
+          </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
             {PORTAL_CARDS.map((c) => (
               <Reveal className="m-card" key={c.title}>
@@ -232,12 +295,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 05 — Ask the graph (conversational access over MCP) */}
+      {/* 06 — Ask the graph (conversational access over MCP) */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The experience · 05 — Ask the graph</p>
+              <p className="m-eyebrow">The experience · 06 — Ask the graph</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
                 Queryable, not just viewable.
               </h2>
@@ -257,11 +320,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 06 — How it starts */}
+      {/* 07 — How it starts */}
       <section id="start" className="m-section">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">06 — How it starts</p>
+            <p className="m-eyebrow">07 — How it starts</p>
             <h2 className="m-h2">
               A complete map of your program — what exists and what doesn&apos;t.
             </h2>
