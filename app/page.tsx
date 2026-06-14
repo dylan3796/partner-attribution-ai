@@ -7,17 +7,17 @@ import NextMoveVisual from "@/components/marketing/NextMoveVisual";
 import AskGraphVisual from "@/components/marketing/AskGraphVisual";
 import CTABand from "@/components/marketing/CTABand";
 
-// Narrative spine: the category is two-sided — partnerships take two parties,
-// but every legacy tool serves only the vendor's back office and hands the
-// partner a login they ignore. Covant is built for both sides of the same
-// journey. Hero leads with that asymmetry → market stakes show the channel is
-// huge and everyone's flying blind (third-party 2026 research) → the Channel
-// Graph is the engine that powers it (01: the context layer, 02: credit both
-// sides trust, 03: the graph at work on live deals) → the shared experience
-// surfaces are the soul (04: journeys both sides track, 05: the portal, 06:
-// conversational access) → how it starts (07). Eyebrow prefixes ("The engine"
-// / "The experience") carry the hierarchy so the page never reads as a flat
-// feature list.
+// Narrative spine: the category is Partner Intelligence. The asset is the
+// Channel Graph — a semantic layer over the vendor's partner data, built from
+// what they have plus the context they add (the way .md files brief an LLM).
+// Hero states the category and the promise: run the partnerships org on the
+// graph → market stakes show the work to prove it is still manual (third-party
+// 2026 research) → the graph itself (01: the semantic layer) → what you run on
+// it (02: reporting & attribution, which frees rev ops; 03: planning &
+// recommendations, incl. Partner Finder) → the surfaces (04: journeys, 05: the
+// portal, 06: ask in plain language) → how it starts (07). Eyebrow prefixes
+// ("The graph" / "On the graph" / "The surfaces") carry the hierarchy so the
+// page reads as one system, not a flat feature list.
 
 const STAKES = [
   {
@@ -34,18 +34,18 @@ const STAKES = [
   },
 ];
 
-const ACTIVATION_CARDS = [
+const RECOMMENDATION_CARDS = [
   {
-    title: "Move the open ones.",
-    body: "New opportunity, known territory — the graph names the partner who has closed there, with the records behind it.",
+    title: "Put the right partner on the deal.",
+    body: "New opportunity or stalled deal — the graph names the partner who can source or unblock it, evidence attached, right in your CRM.",
   },
   {
-    title: "Unblock the stuck ones.",
-    body: "Stalled deal, existing relationship — the graph finds the partner already in the account.",
+    title: "Recruit the partner you're missing.",
+    body: "Partner Finder spots the gaps in your coverage and surfaces who to recruit next — by vertical, geography, and the deals they'd help you win.",
   },
   {
-    title: "Insights where reps live.",
-    body: "Recommendations land in your CRM, on the record — not in another tab.",
+    title: "Plan on evidence, not instinct.",
+    body: "Tiers, territories, quota, where the next investment goes — the calls you make on gut, grounded in what the graph already knows.",
   },
 ];
 
@@ -71,7 +71,7 @@ const START_STEPS = [
   },
   {
     title: "First pass, then yours.",
-    body: "Covant builds the initial Channel Graph from your data. You refine it from there — it's your asset, and it compounds.",
+    body: "Covant builds the initial Channel Graph from your data and the context you add. You refine it from there — it's your asset, and it compounds.",
   },
   {
     title: "Build what's missing. Activate what exists.",
@@ -82,23 +82,24 @@ const START_STEPS = [
 export default function Home() {
   return (
     <main className="site site--story">
-      {/* Hero — the category (Partner Intelligence), led by the wound */}
+      {/* Hero — the category (Partner Intelligence) and the promise */}
       <section className="m-section m-section--flush m-hero">
         <div className="m-container m-hero-grid">
           <div>
-            <p className="m-eyebrow">Built for both sides</p>
+            <p className="m-eyebrow">Partner Intelligence</p>
             <h1 className="m-h1">
-              Your partner program is built for you. Not for your partners.
+              Run your partnerships org on the Channel Graph.
             </h1>
-            <p className="m-lead" style={{ maxWidth: "54ch" }}>
-              Partners drive the revenue — and they&apos;re the one side every
-              tool forgets. Legacy software runs the vendor&apos;s back office
-              and hands the partner a login they ignore. Covant is built for
-              both sides of the partnership: the partner sees where each deal
-              stands, why they were credited, and their next best move; you see
-              the whole channel and the revenue behind it. One source of truth,
-              powered by the Channel Graph — a living model of how your channel
-              actually operates.
+            <p className="m-lead" style={{ maxWidth: "56ch" }}>
+              Pour your partner data into Covant — with a little context on what
+              it is — and it builds the Channel Graph: a semantic layer over
+              everything happening across your channel. Once it exists, the
+              whole partner org runs on it — the attribution and reporting that
+              buries rev ops, the planning you do on instinct (tiers, territory,
+              quota, where the next investment goes), and proactive
+              recommendations down to which partner to recruit next. It runs
+              alongside your CRM, gives partners their own view, and answers in
+              plain language.
             </p>
             <div className="m-hero-cta">
               <a className="m-btn" href="#demo">
@@ -119,7 +120,7 @@ export default function Home() {
       <section className="m-section m-section--flush" style={{ padding: 0 }}>
         <div className="m-container">
           <div className="m-trust">
-            <p className="m-trust-label">The graph builds from whatever you have</p>
+            <p className="m-trust-label">The graph builds from your stack — and the context you add</p>
             <ul className="m-trust-items">
               <li>Salesforce</li>
               <li>HubSpot</li>
@@ -135,13 +136,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The stakes — the wound, in the market's own numbers */}
+      {/* The stakes — the problem, in the market's own numbers */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">The state of partnerships, 2026</p>
             <h2 className="m-h2" style={{ maxWidth: "26ch" }}>
-              Partners drive the pipeline. Everyone&apos;s flying blind — the partner most of all.
+              Partners drive the pipeline. Everything that proves it is still manual.
             </h2>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
@@ -161,43 +162,45 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 01 — The Channel Graph: the context layer */}
+      {/* 01 — The Channel Graph: the semantic layer */}
       <section className="m-section">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">The graph · 01 — Your Channel Graph</p>
+            <p className="m-eyebrow">The graph · 01 — The semantic layer</p>
             <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
-              A living model of how your channel actually operates.
+              A semantic layer over everything in your channel.
             </h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "56ch" }}>
               Covant makes a first pass over everything you have — opportunity
               records, activity logs, emails, Slack threads, deal notes — and
-              builds the Channel Graph: what each partner does well, at what
-              deal size, in which verticals, at what speed. You refine it; it
-              sharpens. The graph is the durable asset, and it&apos;s yours.
-              It&apos;s the engine behind everything both sides see and do in Covant.
+              you tell it what the data means, the way you&apos;d brief a new
+              analyst. From that it builds the Channel Graph: what each partner
+              does well, at what deal size, in which verticals, at what speed,
+              and how every touch ladders up to revenue. You refine it; it
+              sharpens. The graph is the durable asset, and it&apos;s yours —
+              the foundation every report, plan, and recommendation runs on.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* 02 — Measurement: see what you couldn't (the wound, resolved) */}
+      {/* 02 — Reporting & attribution: the rev ops grind, automated */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The graph · 02 — See what you couldn&apos;t</p>
-              <h2 className="m-h2" style={{ maxWidth: "22ch" }}>
-                Sourced and influenced. Every channel, the whole lifecycle.
+              <p className="m-eyebrow">On the graph · 02 — Reporting &amp; attribution</p>
+              <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
+                The partner reporting your team builds by hand, built continuously.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
                 Cloud co-sell, SI delivery, referrals, tech partners — most
                 teams measure each in its own silo, and partner influence after
                 the first deal goes unseen entirely. The graph reads
                 contribution across all of them and across the lifecycle: who
-                sourced, who unblocked, who drove the expansion. Every touch on
-                the record, the reason attached — so both sides trust the
-                number instead of disputing it.
+                sourced, who unblocked, who drove the expansion. The board deck
+                rev ops rebuilds before every QBR, the graph keeps live — every
+                touch on the record, the reason attached.
               </p>
             </Reveal>
             <Reveal>
@@ -211,22 +214,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 03 — Activation: the graph at work on live deals */}
+      {/* 03 — Planning & recommendations: the graph at work, from live deals to the annual plan */}
       <section className="m-section">
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The graph · 03 — At work on live deals</p>
+              <p className="m-eyebrow">On the graph · 03 — Planning &amp; recommendations</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-                The right partner, on the deal that needs them.
+                From the next deal to next year&apos;s plan.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                Measurement is the foundation; activation is the payoff. On a
-                live, open deal, the Channel Graph surfaces the partner who can
-                source or unblock it: a new opportunity opens in a vertical a
-                partner owns; a deal stalls where a partner has the
-                relationship. Covant names them, shows the evidence, and your
-                team enlists them in one click.
+                The graph that names the right partner for a live deal answers
+                the bigger calls too. Which tier a partner has earned. Which
+                territory or market to move into. How to set quota and capacity
+                for the year, and where the next dollar of partner investment
+                pays back. And the partner you don&apos;t have yet but should —
+                Partner Finder surfaces who to recruit, with the evidence behind
+                it.
               </p>
             </Reveal>
             <Reveal>
@@ -234,7 +238,7 @@ export default function Home() {
             </Reveal>
           </div>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
-            {ACTIVATION_CARDS.map((c) => (
+            {RECOMMENDATION_CARDS.map((c) => (
               <Reveal className="m-card" key={c.title}>
                 <h3 className="m-h3" style={{ marginBottom: ".5rem" }}>
                   {c.title}
@@ -253,7 +257,7 @@ export default function Home() {
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The experience · 04 — Partner journeys</p>
+              <p className="m-eyebrow">The surfaces · 04 — Partner journeys</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
                 Define the milestones. Covant runs the journey.
               </h2>
@@ -276,16 +280,18 @@ export default function Home() {
       <section className="m-section">
         <div className="m-container">
           <Reveal>
-            <p className="m-eyebrow">The experience · 05 — The portal</p>
+            <p className="m-eyebrow">The surfaces · 05 — The portal</p>
             <h2 className="m-h2" style={{ maxWidth: "24ch" }}>
               The portal partners don&apos;t dread.
             </h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "56ch" }}>
               Most portals are painful to set up and worse to use.
               Covant&apos;s is lightweight: it walks each partner along the
-              journey you defined, shows them the deals they&apos;re part of,
-              and keeps the channel two-way. When the graph names a partner for
-              a deal, the ask lands here — call scheduled or outreach drafted.
+              journey you defined and shows them their slice of the graph — the
+              deals they&apos;re on, where each one stands, and what to do next —
+              while keeping the channel two-way. When the graph names a partner
+              for a deal, the ask lands here: call scheduled or outreach
+              drafted.
             </p>
           </Reveal>
           <div className="m-grid m-grid-3" style={{ marginTop: "3rem" }}>
@@ -306,17 +312,19 @@ export default function Home() {
         <div className="m-container">
           <div className="m-grid m-grid-2" style={{ alignItems: "start" }}>
             <Reveal>
-              <p className="m-eyebrow">The experience · 06 — Ask the graph</p>
+              <p className="m-eyebrow">The surfaces · 06 — Ask the graph</p>
               <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
                 Queryable, not just viewable.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
                 The Channel Graph ships as MCP servers for Claude and OpenAI.
-                Point your assistant at it and ask in natural language — no
-                dashboard, no report builder. Your team asks: which partners
-                close fastest in healthcare; who belongs on this deal. Your
-                partners ask: what&apos;s my certification status. Answers come
-                back from the graph, records attached.
+                Point your assistant at it and ask in plain language — no
+                dashboard, no report builder. Your team asks which partners
+                close fastest in healthcare, or what you&apos;d lose if a top
+                partner churned. Rev ops pulls the board report without building
+                it. Partners ask their own: what&apos;s my certification status,
+                which of my deals need a push. Answers come back from the graph,
+                records attached.
               </p>
             </Reveal>
             <Reveal>
