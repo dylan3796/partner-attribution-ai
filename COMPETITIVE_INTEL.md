@@ -141,12 +141,17 @@
 **G2 Rating:** 4.7/5 (828 reviews)
 
 **Where We Win Against PartnerStack:**
-1. **Pipeline, not just payouts** — They cut checks after the fact; Covant is where partner-sourced pipeline gets created, progressed, credited, and paid
-2. **Explainable credit** — Their first-touch/last-touch logic invites disputes; our no-black-box credit means every payout comes with a why
-3. **Multi-industry** — We serve SaaS, hardware, fintech, services; they're SaaS-only
+1. **Cross-channel attribution** — They measure each channel in its own silo (cloud, SI, referral, each on its own); Covant attributes contribution *across* all of them in one graph, so the same deal isn't double-claimed and finance sees who actually moved it
+2. **Explainable credit** — Their first-touch/last-touch logic is a black box that invites disputes; every credit decision in Covant ships with a why
+3. **Multi-industry** — We serve SaaS, hardware, fintech, services; they're SaaS-only by design
 4. **Transparent pricing** — Self-serve, published pricing ($299/$799/$1,999); they require sales calls
-5. **Program management** — We have tiers, certifications, territory management; they don't
-6. **The partner side end to end** — Registration into your CRM through credited commission, in one hub; PartnerStack assumes you already have the motion figured out
+5. **Flexible, not frozen** — Their platform is configured once and is painful to reconfigure; the Channel Graph is a model that bends as the program changes — no re-implementation
+6. **Visibility both sides trust** — Partners and your team see contribution and credit on the same graph; PartnerStack's portal shows payouts, not how the credit was reached
+
+**Where PartnerStack Wins (be honest):**
+- **The Network** — 100K+ active partners with a matching team. If the buyer needs to *find* partners, this is a real reason to choose them; we have no supply-side network and can't fake one
+- **Money movement** — They run automated payouts end-to-end; we calculate and approve, the customer pays through their own rails
+- **Proof + integration depth** — 800+ G2 reviews and a live, deep HubSpot integration; ours is on the roadmap
 
 ---
 
@@ -444,9 +449,9 @@
 | **Partner portal** | ✅ | ⚠️ Basic | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ |
 | **Automated commissions** | ✅ Attribution-driven | ✅ | ✅ | ❌ | ⚠️ Basic | ⚠️ | ⚠️ | ✅ |
 | **Deal registration** | ✅ | ⚠️ | ⚠️ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| **Program management (tiers)** | ✅ | ⚠️ | ⚠️ | ❌ | ✅ | ✅ | ⚠️ | ✅ |
+| **Program management (tiers)** | ⚠️ Input, not a module | ⚠️ | ⚠️ | ❌ | ✅ | ✅ | ⚠️ | ✅ |
 | **Account mapping/overlap** | ⚠️ Roadmap | ❌ | ❌ | ✅ Best-in-class | ❌ | ❌ | ❌ | ❌ |
-| **Revenue ops / pipeline** | ✅ | ⚠️ | ⚠️ | ⚠️ Co-sell | ⚠️ | ❌ | ❌ | ⚠️ |
+| **Revenue ops / pipeline** | ⚠️ Visibility (CRM owns pipeline) | ⚠️ | ⚠️ | ⚠️ Co-sell | ⚠️ | ❌ | ❌ | ⚠️ |
 | **Content / enablement** | ✅ | ⚠️ | ⚠️ | ❌ | ✅ | ✅ | ⚠️ | ✅ |
 | **TCMA** | ⚠️ Roadmap | ⚠️ | ❌ | ❌ | ⚠️ | ⚠️ | ❌ | ✅ Best-in-class |
 | **AI-powered insights** | ✅ | ⚠️ | ❌ | ⚠️ | ⚠️ Adding | ❌ | ❌ | ❌ |
@@ -583,7 +588,7 @@ ZINFI           → We're simple and modern; they're complex and dated
 
 ### Summary: Competitive Positioning
 
-> **Covant is the partner hub — partner revenue, program, incentives, and next best actions in one place.** Partners register deals that flow into your CRM; credit, incentives, and progression are tracked and explained in Covant. Attribution visibility is the wedge — explainable, no-black-box credit is what makes partners and finance trust the hub enough to run the program on it. Every competitor either stops at visibility (Crossbeam), stops at payouts (PartnerStack, Impact.com), or buries mid-market teams in enterprise PRM (Impartner, ZINFI). No one gives the partner team and its partners one shared hub, self-serve in 15 minutes, at mid-market pricing. That's our gap. That's our opportunity.
+> **Covant is the Channel Graph — a living model of how your channel actually operates, sitting alongside your CRM.** The CRM owns the deals and the pipeline; Covant attributes partner contribution *across* every channel, explains every commission, and gives both sides visibility into the relationship. Cross-channel, explainable credit is the wedge — no one else rolls cloud, SI, referral, and tech partners into one graph, and no one else makes finance and partners trust the same number. Every competitor either stops at account overlap (Crossbeam), stops at single-channel payouts (PartnerStack, Impact.com), or buries mid-market teams in enterprise PRM (Impartner, ZINFI). And because the graph is a model, not a hardcoded program, it bends as the channel changes — and generalizes to *any* inter-company relationship beyond channel partners. That's our gap. That's our opportunity.
 
 ---
 

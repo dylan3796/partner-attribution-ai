@@ -1,25 +1,26 @@
 # Competitive Battle Card
-### Covant vs. Legacy PRM
+### Covant vs. PartnerStack, Legacy PRM, and Ecosystem Tools
 
-*Use this when prospects mention Impartner, Allbound, Crossbeam, or Reveal*
+*Use this when prospects mention PartnerStack, Impartner, Allbound, Crossbeam, or Reveal*
 
 ---
 
 ## The One-Liner
 
-**"Legacy PRMs store partner contracts and onboarding docs. Covant is the partner hub — partners register deals into your CRM, and both sides track credit, incentives, and progression in one place. Different category."**
+**"PRMs store contracts. Payout tools cut checks. Covant is the Channel Graph — a living model of how your channel actually operates that attributes contribution across every channel, explains every commission, and gives both sides visibility into the relationship. Different category."**
 
 ---
 
-## Category: The Revenue Engine for Your Channel
+## Category: The Channel Graph
 
-We're not a PRM (Partner Relationship Management). We're the **partner hub** — your CRM runs the deals; Covant runs the partner side. Partners register deals that flow into your CRM, and both sides track credit, incentives, and progression — every commission calculated, approved, and explained.
+We're not a PRM (Partner Relationship Management). We're the **Channel Graph** — a living model of your channel, built from your data, sitting alongside your CRM. Your CRM owns the deals and the pipeline. Covant attributes partner contribution *across* channels (cloud, SI, referral, tech — not measured in separate silos), explains every commission, and gives your team and your partners visibility into the relationship — every credit decision calculated, approved, and explained.
 
 Think of it like:
 - **PRM** = Partner filing cabinet (contracts, onboarding, content libraries)
-- **Covant** = Partner sales floor (pipeline, progression, credit, payouts)
+- **CRM** = Where deals and pipeline live (system of record)
+- **Covant** = The graph on top: who contributed, how much credit, and why — visible to both sides
 
-Some customers keep a PRM for contracts and training. The partner experience itself moves into Covant.
+The CRM stays the system of record. Covant makes the channel legible on top of it.
 
 ---
 
@@ -62,6 +63,33 @@ Some customers keep a PRM for contracts and training. The partner experience its
 
 ---
 
+### vs. PartnerStack (Payouts + Network)
+
+| **What They Do Well** | **What They Miss** |
+|-----------------------|--------------------|
+| 100K+ partner network (real supply-side moat) | Attribution is basic — first/last touch, single channel |
+| Automated payouts — they move the money | No cross-channel view — each channel measured in its own silo |
+| Deep HubSpot integration, live | Black-box credit → partner disputes |
+| Proven, 800+ G2 reviews | SaaS-only by design |
+| Clean partner-facing portal | Rigid — built once, painful to reconfigure after the fact |
+
+**When to position against them:**
+- "PartnerStack measures each channel on its own — your cloud number, your SI number, your referral number, all in separate silos. They never roll up into one picture of who actually moved the deal. Covant is the graph *across* all of them."
+- "Their credit is first-touch/last-touch in a black box. Every commission in Covant ships with a why — that's what kills the partner disputes."
+- "Their platform is configured once and then it's hard to change. Covant is a model of your channel, so it bends as the program changes — no re-implementation."
+
+**Where they're genuinely ahead (don't pretend otherwise):**
+- The Network. If a prospect's #1 need is *finding* partners they don't have, PartnerStack's 100K-partner marketplace is a real reason to buy them. We don't have a supply-side network and can't fake one.
+- They actually move money end-to-end; we calculate and approve, the customer pays through their own rails.
+- Their HubSpot integration is live; ours is on the roadmap.
+
+**When to position alongside:**
+- "Keep PartnerStack for the network and payouts if it's working. Covant sits on top and gives you the one thing it can't — contribution attributed across *every* channel, with credit both sides trust."
+
+**Where we win:** the prospect already has partners and needs to *measure across channels and trust the credit* — not find net-new partners.
+
+---
+
 ### vs. Salesforce PRM (Native)
 
 | **What They Do Well** | **What They Miss** |
@@ -101,12 +129,12 @@ Some customers keep a PRM for contracts and training. The partner experience its
 
 ### The Category We Own: **The Partner Hub**
 
-| **Old Category (PRM + CRM reports)** | **New Category (The Partner Hub)** |
+| **Old Category (PRM + CRM reports)** | **New Category (The Channel Graph)** |
 |------------------------|------------------------------------------|
-| Manage partner records | Run partner-driven revenue |
-| Workflows and contracts | Deal registration, progression, credit, payout |
-| Reports that describe the motion | The system the motion runs in |
-| Partner as a cost center | Partner as a revenue engine |
+| Manage partner records | Model how the channel actually operates |
+| Each channel measured in its own silo | Contribution attributed across every channel |
+| Black-box credit | Every commission explained, both sides see why |
+| Configured once, frozen | A model that bends as the program changes |
 | 6-12 month implementation | 15 minutes to value |
 
 ### Our Wedge: **Trust Through Transparency**
@@ -154,8 +182,11 @@ Transparency is how we land. Running the partner motion is why we stay.
 3. **"Trust Through Transparency"**
    - Partners see exactly why they earned their commission. No black boxes.
 
-4. **"Partner Pipeline That Actually Progresses"**
-   - Built for the CRO asking "Where's my next $10M in partner-sourced pipeline?" — and the team expected to deliver it.
+4. **"One Channel, Not Five Silos"**
+   - Cloud, SI, referral, tech partners — everyone else measures each channel on its own. Covant attributes contribution across all of them, so the CRO finally sees who actually moved the deal.
+
+5. **"A Model, Not a Hardcoded Program"**
+   - Legacy tools are configured once and frozen. The Channel Graph bends as your program changes — no six-month re-implementation when the motion evolves.
 
 ---
 
