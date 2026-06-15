@@ -101,10 +101,13 @@ export default function ProductPage() {
                 Attribution, proposed with evidence.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-                Covant proposes who sourced and who influenced each deal and
-                attaches the records behind every claim. You approve or adjust —
-                Covant never decides credit on its own, and your corrections
-                train it. Your model, your weights, your call.
+                Covant proposes who sourced and who influenced each deal — or
+                whatever your team measures — and attaches the records behind
+                every claim. You approve or adjust, and every call carries a
+                reason. Covant remembers that reasoning and brings it to the
+                next deal, so each round it proposes more of what your team
+                would have decided anyway — and asks less of you. It never
+                decides credit on its own. Your model, your weights, your call.
               </p>
             </Reveal>
             <Reveal>

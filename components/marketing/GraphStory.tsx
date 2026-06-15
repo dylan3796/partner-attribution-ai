@@ -49,11 +49,11 @@ const SPINE: Section[] = [
     tag: "Prove the impact",
     graphState: 4,
     headline: "Attribution, proposed with evidence.",
-    body: "Covant proposes who sourced and who influenced every deal, with the records attached. You approve or adjust — it never decides credit on its own — and your corrections train it.",
+    body: "Covant proposes who sourced and who influenced every deal — or whatever your team measures — with the records attached. You approve or adjust; it never decides credit on its own, and every call you make teaches it how your team rules.",
     subs: [
-      { t: "Sourced and influenced", d: "Covant proposes the split; the call stays yours." },
+      { t: "Sourced, influenced — or however you measure", d: "Covant proposes the split in your categories; the call stays yours." },
       { t: "Records attached", d: "Every claim cites the touchpoints behind it." },
-      { t: "You approve; it learns", d: "Your corrections sharpen the next proposal." },
+      { t: "Every call teaches it", d: "Approve or override with a reason — the next proposal reflects how your team actually rules." },
     ],
   },
   {
