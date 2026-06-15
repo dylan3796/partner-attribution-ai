@@ -157,6 +157,7 @@ export default function GraphStory() {
         {/* Pinned graph (desktop) / single static asset shot (mobile) */}
         <div className={styles.visual}>
           <ChannelGraph activeSection={active} />
+          <p className={styles.caption}>Illustrative graph — sample data, not customer data</p>
         </div>
 
         {/* The 6 spine sections */}

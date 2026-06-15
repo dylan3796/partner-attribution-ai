@@ -38,8 +38,19 @@
   align-self: start;
   height: calc(100vh - 80px);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 1rem;
+}
+
+.caption {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--m-ink-2);
 }
 
 .section {
@@ -60,7 +71,7 @@
 }
 
 .tag {
-  color: var(--m-muted);
+  color: var(--m-ink-2); /* AA-safe at the eyebrow's small size (muted fails) */
   font-weight: 600;
 }
 

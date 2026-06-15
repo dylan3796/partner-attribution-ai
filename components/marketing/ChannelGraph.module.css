@@ -148,7 +148,7 @@
   transition: opacity .35s ease .15s;
 }
 .chip[data-show="true"] { opacity: 1; }
-.chipEvidence { background: #fff; border: 1px solid var(--m-border); color: var(--m-ink); box-shadow: 0 6px 18px -10px rgba(22,21,15,.4); }
+.chipEvidence { background: #fff; border: 1px solid var(--m-ink-2); color: var(--m-ink); }
 .chipSignal { background: var(--m-accent-soft); color: var(--m-accent-ink); text-transform: uppercase; }
 .chipTier { background: transparent; color: var(--m-muted); text-transform: uppercase; letter-spacing: .1em; transform: translate(-50%, -50%); }
 .chipQuery { background: var(--m-accent); color: var(--m-accent-fg); border-radius: 12px 12px 12px 4px; max-width: 240px; white-space: normal; }
