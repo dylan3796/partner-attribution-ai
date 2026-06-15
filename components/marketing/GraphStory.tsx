@@ -18,68 +18,68 @@ type Section = { key: string; eyebrow: string; tag: string; graphState: number; 
 
 const SPINE: Section[] = [
   {
-    key: "channel-graph",
-    eyebrow: "01 — The Channel Graph",
-    tag: "Partner intelligence, built",
+    key: "connect",
+    eyebrow: "01 — Connect",
+    tag: "Useful in days",
     graphState: 2,
-    headline: "All your partner data, organized.",
-    body: "Covant reads your CRM, email, Slack, and notes, then organizes everything into one connected place — Partners, Accounts, Opportunities, Program, Definitions, Personnel. That's the Channel Graph, and every answer, plan, and recommendation comes from it.",
+    headline: "Reads the CRM you already have.",
+    body: "Covant pulls the deals and partner touchpoints already sitting in Salesforce or HubSpot and builds a working model of your channel from them. Connected to current in days — no clean-room, no six-month rollout.",
     subs: [
-      { t: "Reads your whole stack", d: "CRM, email, Slack, notes, spreadsheets — structured or not." },
-      { t: "Organized into clear areas", d: "Partners, Accounts, Opportunities, Program, Definitions, Personnel." },
-      { t: "Connected, and yours", d: "Covant builds the first pass; you sharpen it." },
+      { t: "Salesforce and HubSpot", d: "Reads the deals and touchpoints you already have." },
+      { t: "Beyond the CRM", d: "Registrations, logged touches, and portal activity, counted too." },
+      { t: "Useful in days", d: "No migration, no blank slate." },
     ],
   },
   {
-    key: "tam",
-    eyebrow: "02 — Channel TAM",
-    tag: "Grow your channel",
+    key: "scoring",
+    eyebrow: "02 — Scoring",
+    tag: "Know who drives revenue",
     graphState: 3,
-    headline: "Find the partners you're missing.",
-    body: "Covant maps who fits your channel and flags who's missing — then reads the market, M&A and new-practice moves, for when to act. Recruit the gaps; activate who you already have.",
+    headline: "Every partner, scored.",
+    body: "Covant scores every partner on what they actually drive — sourced revenue, win rate, deal influence — not what they claim. The quiet over-performers surface; the logos that coast stop hiding.",
     subs: [
-      { t: "Fit, not a list", d: "Partners matched to your verticals and deal sizes." },
-      { t: "Timing signals", d: "M&A, consolidation, and new-practice moves." },
-      { t: "Recruit and activate", d: "Close the gaps; wake up partners you already have." },
+      { t: "Scored on outcomes", d: "Sourced revenue, win rate, influence." },
+      { t: "Grounded decisions", d: "Tiers and investment set on the numbers." },
+      { t: "The right partner, named", d: "Best fit for any open deal." },
     ],
   },
   {
     key: "attribution",
     eyebrow: "03 — Attribution",
-    tag: "Prove the impact",
+    tag: "A model per motion",
     graphState: 4,
-    headline: "Attribution, proposed with evidence.",
-    body: "Covant proposes who sourced and who influenced every deal — or whatever your team measures — with the records attached. You approve or adjust; it never decides credit on its own, and every call you make teaches it how your team rules.",
+    headline: "A model per motion. Settled.",
+    body: "Covant recommends the attribution model that fits each motion — resell, co-sell, services — instead of forcing one onto everything. Every deal is settled with a model and an audit trail, on your call.",
     subs: [
-      { t: "Sourced, influenced — or however you measure", d: "Covant proposes the split in your categories; the call stays yours." },
-      { t: "Records attached", d: "Every claim cites the touchpoints behind it." },
-      { t: "Every call teaches it", d: "Approve or override with a reason — the next proposal reflects how your team actually rules." },
+      { t: "The right model, per motion", d: "Recommended, not forced onto everything." },
+      { t: "An audit trail per dollar", d: "Every split explained, every touchpoint cited." },
+      { t: "Your call", d: "Covant proposes; you approve or adjust." },
     ],
   },
   {
-    key: "plan",
-    eyebrow: "04 — Plan & recommend",
-    tag: "Plan with evidence",
+    key: "reconstruct",
+    eyebrow: "04 — Reconstruct",
+    tag: "See the last twelve months",
     graphState: 5,
-    headline: "The right partner, every deal.",
-    body: "Covant names the best-fit partner for a live deal, with the evidence — and grounds the calls you used to make on instinct: tiers, territories, quota, investment. Partner Finder surfaces who to recruit next.",
+    headline: "Your last twelve months, attributed.",
+    body: "Connect the CRM and watch Covant attribute the last twelve months of partner-sourced revenue under the right model — then hand your team the next move on every open deal.",
     subs: [
-      { t: "The right partner, this deal", d: "Best-fit partner for an open or stalled deal." },
-      { t: "Plan on evidence", d: "Tiers, territories, quota, and investment." },
-      { t: "Partner Finder", d: "Who to add next, by vertical and geography." },
+      { t: "History, reconstructed", d: "Twelve months of partner-sourced revenue, attributed." },
+      { t: "The next move", d: "The best-fit partner for what's open now." },
+      { t: "QBR-ready", d: "The answers pulled before you walk in." },
     ],
   },
   {
     key: "ask",
-    eyebrow: "05 — Ask Covant",
+    eyebrow: "05 — Ask",
     tag: "Run it day to day",
     graphState: 6,
     headline: "Ask your channel anything.",
-    body: "Ask in plain language and the answer comes back with the records attached. Covant ships as MCP servers for Claude and OpenAI. Each partner sees only their slice, and controls what you can ask.",
+    body: "Ask in plain language — who closes fastest in healthcare, who belongs on this deal — and the answer comes back with the records attached. Each partner sees only their slice.",
     subs: [
-      { t: "Plain-language answers", d: "Sourced, with the records attached." },
-      { t: "MCP for Claude and OpenAI", d: "Point an assistant at your channel." },
-      { t: "Two-sided by design", d: "Partners control their own slice." },
+      { t: "Plain-language answers", d: "With the records attached." },
+      { t: "Two-sided by design", d: "Partners see only their slice." },
+      { t: "On your terms", d: "You control what each partner can ask." },
     ],
   },
 ];
@@ -132,12 +132,14 @@ export default function GraphStory() {
           data-index={0}
           className={styles.hero}
         >
-          <p className="m-eyebrow">Covant</p>
-          <h1 className="m-h1" style={{ maxWidth: "15ch" }}>
-            Partner Intelligence for Startups.
+          <p className="m-eyebrow">Partner Experience Management</p>
+          <h1 className="m-h1" style={{ maxWidth: "16ch" }}>
+            Make partner revenue accountable.
           </h1>
           <p className="m-lead">
-            Covant organizes your scattered partner data into the Channel Graph.
+            Covant is the AI-native successor to the PRM. It scores every
+            partner, settles attribution across every motion, and reconstructs
+            your last twelve months of partner-sourced revenue.
           </p>
           <div className={styles.heroCta}>
             <a className="m-btn" href="#demo">Request a demo</a>
