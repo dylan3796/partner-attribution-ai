@@ -27,9 +27,9 @@ export default function Home() {
       {/* Hero — partner intelligence on the channel graph */}
       <section className="m-section m-section--flush m-hero">
         <div className="m-container">
-          <p className="m-eyebrow">Partner intelligence</p>
-          <h1 className="m-h1" style={{ maxWidth: "15ch" }}>
-            The context layer for your channel.
+          <p className="m-eyebrow">Built on the Channel Graph</p>
+          <h1 className="m-h1" style={{ maxWidth: "20ch" }}>
+            The Partner Intelligence Layer for your program.
           </h1>
           <p className="m-lead" style={{ maxWidth: "42ch", fontWeight: 600 }}>
             Your partners are already selling for you.
