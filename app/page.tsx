@@ -1,77 +1,45 @@
 import CTABand from "@/components/marketing/CTABand";
 import styles from "./Home.module.css";
 
-// Covant HOME — sells the OUTCOME to the exec who signs (VP/SVP Partnerships,
-// CRO, CPO). Type-forward and graph-free by design: the neural-net Channel Graph
-// is the PRODUCT page's explainer, not HOME's. Four business outcomes, scannable.
-// Copy: home-messaging.md. No fabricated proof.
+// Covant HOME — the big picture, for the exec who signs (VP/SVP Partnerships,
+// CRO, CPO). States the category thesis (partner management -> partner
+// intelligence) and consolidates the capabilities into one pithy beat. The
+// mechanism and the Channel Graph live on PRODUCT. Type-forward, no fabricated
+// proof. Copy: home-messaging.md.
 
-type Outcome = {
-  eyebrow: string;
-  headline: string;
-  body: string;
-  bullets: string[];
-  surface?: boolean;
-};
+const FROM = [
+  "Managing partners in a portal",
+  "Last-touch credit, argued in spreadsheets",
+  "Recruiting on gut",
+  "QBRs reported after the fact",
+];
 
-const OUTCOMES: Outcome[] = [
-  {
-    eyebrow: "Bring in more partner revenue",
-    headline: "Prove your partner number.",
-    body: "See sourced and influenced revenue, with the records — the number you take to the board.",
-    bullets: [
-      "Sourced and influenced, with the records",
-      "A number that holds up in the QBR",
-      "Grow what you can finally measure",
-    ],
-  },
-  {
-    eyebrow: "Build your ecosystem",
-    headline: "Recruit the partners you're missing.",
-    body: "See who fits your channel, who you're missing, and which moves to make before the market does.",
-    bullets: [
-      "The right partners, not more partners",
-      "Recruit the gaps by vertical and geography",
-      "See M&A and consolidation coming",
-    ],
-    surface: true,
-  },
-  {
-    eyebrow: "Craft the program you want",
-    headline: "Design the program you want.",
-    body: "See where to add coverage, who to invest in, and who should build a solution — then design the program around it.",
-    bullets: [
-      "Launch incentives where they'll land",
-      "Add managed coverage where it's thin",
-      "Spot the partners who should build",
-    ],
-  },
-  {
-    eyebrow: "Every question at your fingertips",
-    headline: "Answers without the ops ticket.",
-    body: "Ask in plain language, get the answer with the records — no two-week ops project.",
-    bullets: [
-      "Plain-language answers, records attached",
-      "No ops ticket, no waiting",
-      "For your team and your partners",
-    ],
-    surface: true,
-  },
+const TO = [
+  "Knowing your whole ecosystem",
+  "Sourced + influenced, with the records",
+  "Building where the market moves",
+  "Answers the moment you ask",
+];
+
+const OUTCOMES = [
+  { title: "Prove the number.", body: "Partner-influenced revenue becomes your most defensible line." },
+  { title: "Build on purpose.", body: "Grow the right ecosystem, ahead of where the market moves." },
+  { title: "Design the program.", body: "Incentives, coverage, and investment, grounded in what works." },
+  { title: "Ask anything.", body: "Every question about your channel, answered on the spot." },
 ];
 
 export default function Home() {
   return (
     <main className="site site--story">
-      {/* Hero — type-forward; the product visual lives on /product */}
+      {/* Hero — the thesis */}
       <section className="m-section m-section--flush m-hero">
         <div className="m-container">
-          <p className="m-eyebrow">Covant</p>
+          <p className="m-eyebrow">Partner Intelligence</p>
           <h1 className="m-h1" style={{ maxWidth: "14ch" }}>
             Partner Intelligence for Startups.
           </h1>
-          <p className="m-lead" style={{ maxWidth: "50ch" }}>
-            Covant organizes your scattered partner data into the Channel Graph —
-            so partner revenue, recruiting, and program decisions run on evidence.
+          <p className="m-lead" style={{ maxWidth: "48ch" }}>
+            Your fastest-growing channel is the one you can&apos;t see. Covant changes that.
           </p>
           <div className="m-hero-cta">
             <a className="m-btn" href="#demo">Request a demo</a>
@@ -80,33 +48,67 @@ export default function Home() {
         </div>
       </section>
 
-      {/* The 4 exec outcomes — type-forward */}
-      <div id="outcomes">
-        {OUTCOMES.map((o, i) => (
-          <section
-            key={o.headline}
-            className={`m-section${o.surface ? " m-section--surface" : ""}`}
-          >
-            <div className="m-container">
-              <div className={styles.grid}>
-                <div>
-                  <span className={styles.index}>{String(i + 1).padStart(2, "0")}</span>
-                  <p className="m-eyebrow">{o.eyebrow}</p>
-                  <h2 className="m-h2" style={{ maxWidth: "16ch" }}>{o.headline}</h2>
-                </div>
-                <div>
-                  <p className="m-lead" style={{ maxWidth: "44ch" }}>{o.body}</p>
-                  <ul className={styles.bullets}>
-                    {o.bullets.map((b) => (
-                      <li className={styles.bullet} key={b}>{b}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+      {/* The blind spot */}
+      <section className="m-section m-section--surface">
+        <div className="m-container">
+          <p className="m-eyebrow">The opportunity</p>
+          <h2 className="m-h2" style={{ maxWidth: "16ch" }}>The ecosystem you can&apos;t see.</h2>
+          <p className="m-lead" style={{ marginTop: "1.25rem", maxWidth: "60ch" }}>
+            Partners shape more of every deal — and almost none of it is visible.
+            Influence hides in CRM notes, email, and Slack: real revenue you
+            can&apos;t prove, plan, or grow. The teams that see their ecosystem
+            win the next decade.
+          </p>
+        </div>
+      </section>
+
+      {/* The category shift */}
+      <section className="m-section">
+        <div className="m-container">
+          <p className="m-eyebrow">The shift</p>
+          <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
+            From partner management to partner intelligence.
+          </h2>
+          <p className="m-lead" style={{ marginTop: "1.25rem", maxWidth: "56ch" }}>
+            Covant builds the Channel Graph from your data — one system of record
+            for your whole ecosystem.
+          </p>
+          <div className={styles.shiftGrid}>
+            <div>
+              <p className={`${styles.shiftLabel} ${styles.fromLabel}`}>The old world</p>
+              <ul className={styles.shiftList}>
+                {FROM.map((f) => (
+                  <li className={styles.fromItem} key={f}>{f}</li>
+                ))}
+              </ul>
             </div>
-          </section>
-        ))}
-      </div>
+            <div className={styles.toCol}>
+              <p className={`${styles.shiftLabel} ${styles.toLabel}`}>With Covant</p>
+              <ul className={styles.shiftList}>
+                {TO.map((t) => (
+                  <li className={styles.toItem} key={t}>{t}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* What you can finally do — consolidated */}
+      <section className="m-section m-section--surface">
+        <div className="m-container">
+          <p className="m-eyebrow">What you get</p>
+          <h2 className="m-h2">What you can finally do.</h2>
+          <div className={styles.outcomes}>
+            {OUTCOMES.map((o) => (
+              <div key={o.title}>
+                <h3 className={styles.outcomeTitle}>{o.title}</h3>
+                <p className={styles.outcomeBody}>{o.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <CTABand
         eyebrow="Get started"
