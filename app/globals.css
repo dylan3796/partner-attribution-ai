@@ -2454,8 +2454,9 @@ a:focus-visible {
    ============================================================ */
 .site--story{--font-serif-display:var(--font-source-serif),Georgia,'Times New Roman',serif}
 
-/* Serif display voice — reserved for the hero headline */
+/* Serif display voice — hero + section headlines (design-system.md) */
 .site--story .m-h1{font-family:var(--font-serif-display);font-weight:560;letter-spacing:-.01em;font-size:clamp(2.5rem,4.6vw,3.6rem);line-height:1.07}
+.site--story .m-h2{font-family:var(--font-serif-display);font-weight:560;letter-spacing:-.01em;font-size:clamp(1.9rem,3vw,2.6rem);line-height:1.12}
 
 /* Vignette: in-card product animation, gated on .is-played.
    Elements opt in with data-vig="1..6" (staggered landing),
