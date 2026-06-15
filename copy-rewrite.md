@@ -10,6 +10,32 @@
 
 ---
 
+## REVISION — drop the bare word "graph"
+
+"Channel Graph" is the product name (proper noun, used with context). The bare
+word **"graph" is banned in copy** — it's jargon nobody parses. The thing it does
+in plain terms: takes scattered partner data and **organizes it into one place** —
+clear areas (Partners, Accounts, Opportunities, Program, Definitions, Personnel),
+all connected. Sell **organized / one place / connected / your channel**, not
+"graph." The neural-net visual already shows those areas as nodes.
+
+### Hero — replacing "The first Partner Intelligence Engine for startups."
+1. **Your whole channel, in one place.** — concrete, asserts the end state, nods to the organized-areas idea, zero jargon.
+2. **Partner intelligence for startups.** — keeps your category; flat (cf. "the AI-native CRM"); no "graph."
+3. **Every partner and deal, connected.** — concrete nouns; "connected" carries the structure without "graph."
+
+### Lines from below, revised to drop "graph":
+- Subhead: **All your partner data, organized in one place.** / **Covant maps your whole channel from data you already have.**
+- S1: **Every system, one place.**
+- S2: **Covant builds the first pass.** (or proper-noun once: "Covant builds your Channel Graph.")
+- S6: **Ask your channel anything.**
+- CTA heading: **See it on your data.** (replaces "See your Channel Graph.")
+
+The original survivor lists below are kept for reference; where they use bare
+"graph," prefer the revised lines above.
+
+---
+
 ## HOMEPAGE (`messaging.md` / `app/page.tsx`)
 
 ### Hero — current: "The first Partner Intelligence Engine for startups."
