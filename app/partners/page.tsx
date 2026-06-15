@@ -47,15 +47,11 @@ export default function PartnersPage() {
         <div className="m-container m-hero-grid">
           <div>
             <p className="m-eyebrow">For partners</p>
-            <h1 className="m-h1">
-              Get credited for the work. Get found for the next deal.
-            </h1>
+            <h1 className="m-h1">Your work, on the record.</h1>
             <p className="m-lead" style={{ maxWidth: "50ch" }}>
-              When a vendor runs their channel on Covant, nothing you do
-              disappears: register a deal in two minutes, watch credit and
-              commissions calculated in the open, and get pulled into deals that
-              need exactly what you&apos;ve proven you can do. Free for partners,
-              always.
+              When your vendor runs on Covant, register a deal in two minutes,
+              see credit with the reasons attached, and get pulled into deals
+              that fit what you&apos;ve proven. Free for partners, always.
             </p>
             <div className="m-hero-cta">
               <Link className="m-btn" href="/sign-in">
@@ -79,7 +75,7 @@ export default function PartnersPage() {
             <Reveal>
               <p className="m-eyebrow">01. Get pulled into deals</p>
               <h2 className="m-h2" style={{ maxWidth: "22ch" }}>
-                Your track record works while you sleep.
+                Your wins find the next deal.
               </h2>
               <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
                 Every win you log builds a verified record — verticals, solutions,
@@ -102,7 +98,7 @@ export default function PartnersPage() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">02. Know where the money is</p>
-            <h2 className="m-h2">No more chasing the channel manager.</h2>
+            <h2 className="m-h2">Know what you&apos;re owed.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
               The portal answers the questions you&apos;re tired of asking — in the
               open, with the records behind every number.
@@ -126,7 +122,7 @@ export default function PartnersPage() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">03. Nothing to learn, nothing to pay</p>
-            <h2 className="m-h2">Register a deal in two minutes. That&apos;s the training.</h2>
+            <h2 className="m-h2">Register a deal in two minutes.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "54ch" }}>
               No license fee, no certification course, no portal you dread. You
               register the deal, the vendor approves it, and from there the credit
