@@ -52,18 +52,25 @@ outcome:
 - Recruit the gaps by vertical and geography
 - See M&A and consolidation coming
 
-## Section 3 — Take full control of your program  ·  graph: tier clustering (state 5)
-**Gap:** tiers/quota/investment are gut calls you can't defend. (NOTE: "take
-control" is banned in the copy itself — name the real levers instead.)
+## Section 3 — Craft the program you want  ·  graph: recommendation highlight (state 5)
+**The real outcome:** not tiers/quota mechanics — *designing the program*. The
+exec asks "what if I launch an incentive here," "where do we need managed
+coverage," "which partners should we invest in to build solutions." With the
+context, Covant triages it: *this partner runs 2 solutions, strong in fins, has
+HLS presence but no solution like Partner X — they should build one.*
 **Headline — survivors:**
-1. **Model the change before you commit.** — the decision an exec actually makes; 6 words.
-2. **Set tiers and quota on evidence.** — names the real levers; 6 words.
-3. **Defend every investment call.** — names the decision/meeting; 4 words.
-**Body:** Set tiers, territories, quota, and investment on what's actually happening — and test a change before you make it.
+1. **Design the program you want.** — names the act; exec; 5 words.
+2. **Craft the program you want.** — your phrasing.
+3. **Decide where to invest next.** — concrete decision; 5 words.
+**Body:** See where to add coverage, who to invest in, and who should build a solution — then design the program around it.
 **Bullets:**
-- Tiers, territories, quota, investment
-- Grounded in evidence, not gut
-- Model a change before you commit
+- Launch incentives where they'll land
+- Add managed coverage where it's thin
+- Spot the partners who should build
+
+**NOTE (depends on context available):** this is a recommendation, not a
+guarantee — phrase it as "Covant surfaces / recommends," never "Covant decides."
+Quality scales with how much partner context is connected.
 
 ## Section 4 — Every question at your fingertips  ·  graph: query path (state 6)
 **Gap:** every channel question is a two-week ops project.

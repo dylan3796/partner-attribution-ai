@@ -51,10 +51,19 @@ values to tune in graph-lab.
 - **Crop:** `{x:40, y:10, w:520, h:360}`.
 - **Motion:** static still with ghosts + badges shown (skip the scan sweep in the crop). Optional one-time badge blink on view.
 
-### Full control → planning/tiers (state 5) · static (one pulse)
-- **Frames:** partner records clustered into **Tier 1 / 2 / 3** bands with the tier labels.
-- **Crop:** `{x:380, y:110, w:470, h:500}`.
-- **Motion:** static still of the clean bands (mounts directly in the clustered end-state — no glide needed). The single **pulse** on the recommended partner is the only motion; drop it under reduced-motion / mobile.
+### Craft the program → recommendation highlight (state 5) · static (one pulse)
+- **Reframed:** this section is program *design* (incentives, coverage,
+  solution-building), not tier mechanics — so the crop frames the **recommend**
+  beat, not literal tier bands.
+- **Frames:** partners grouped by strength, with **one partner highlighted**
+  (the `pulse`) and a **recommendation chip** naming the strategic move —
+  e.g. *"Strong in fins · HLS gap → build a solution"* or *"Invest here."*
+- **Crop:** `{x:380, y:110, w:470, h:500}` (tune to the highlighted partner).
+- **Motion:** static still; the single `pulse` is the only motion (dropped under reduced-motion / mobile).
+- **Small new work on state 5:** add a **recommendation chip** (same pattern as
+  state 4's evidence chip) carrying the triage line; de-emphasize/hide the
+  literal "Tier 1/2/3" labels in this HOME crop (PRODUCT's state-5 explainer can
+  still show the tier beat). This is a config/chip addition, not a new component.
 
 ### Every question → ask (state 6) · short loop
 - **Frames:** the lit **query path** through the scoped slice (V → Partners → PR2 → OP1 → AC1) with the **query** and **answer** chips.
