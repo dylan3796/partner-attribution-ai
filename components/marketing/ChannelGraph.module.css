@@ -162,6 +162,13 @@
 @keyframes edgeIn { from { opacity: 0; } }
 @keyframes scan { from { transform: translateX(-40%); } to { transform: translateX(140%); } }
 
+/* ---- mobile: the graph scales down, so enlarge captions for legibility */
+@media (max-width: 900px) {
+  .graph { max-width: 460px; }
+  .label { font-size: 26px; }
+  .source { font-size: 24px; }
+}
+
 /* ---- reduced motion: pre-assembled, no drift/flow, instant ---------- */
 @media (prefers-reduced-motion: reduce) {
   .node, .body, .shape, .label, .edge, .feed, .chip, .source { transition: none !important; animation: none !important; }

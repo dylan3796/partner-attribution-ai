@@ -97,74 +97,92 @@ export default function GraphStory() {
   const markers = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActive(Number((entry.target as HTMLElement).dataset.index));
+    // Mobile: the sticky interaction doesn't apply — show one static "asset"
+    // shot (section 2) and skip the observer entirely. Desktop: scroll-link it.
+    const mq = window.matchMedia("(max-width: 900px)");
+    let obs: IntersectionObserver | null = null;
+
+    const setup = () => {
+      obs?.disconnect();
+      obs = null;
+      if (mq.matches) {
+        setActive(2);
+        return;
+      }
+      obs = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              setActive(Number((entry.target as HTMLElement).dataset.index));
+            }
           }
-        }
-      },
-      { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
-    );
-    markers.current.forEach((m) => m && obs.observe(m));
-    return () => obs.disconnect();
+        },
+        { rootMargin: "-50% 0px -50% 0px", threshold: 0 }
+      );
+      markers.current.forEach((m) => m && obs!.observe(m));
+    };
+
+    setup();
+    mq.addEventListener("change", setup);
+    return () => {
+      mq.removeEventListener("change", setup);
+      obs?.disconnect();
+    };
   }, []);
 
   return (
     <div className={styles.wrap}>
       <div className={styles.grid}>
-        <div className={styles.content}>
-          {/* Hero — section 0 (assembly) */}
-          <section
-            ref={(el) => { markers.current[0] = el; }}
-            data-index={0}
-            className={styles.hero}
-          >
-            <p className="m-eyebrow">Covant · Partner Intelligence</p>
-            <h1 className="m-h1" style={{ maxWidth: "16ch" }}>
-              The first Partner Intelligence Engine for startups.
-            </h1>
-            <p className="m-lead">
-              The AI-native platform that turns scattered partner data into one
-              connected source of truth.
-            </p>
-            <div className={styles.heroCta}>
-              <a className="m-btn" href="#demo">Request a demo</a>
-              <a className="m-btn-ghost" href="#spine">See how it works</a>
-            </div>
-          </section>
+        {/* Hero — section 0 (assembly). DOM order hero -> graph -> sections so
+            mobile stacks as hero -> static shot -> sections. */}
+        <section
+          ref={(el) => { markers.current[0] = el; }}
+          data-index={0}
+          className={styles.hero}
+        >
+          <p className="m-eyebrow">Covant · Partner Intelligence</p>
+          <h1 className="m-h1" style={{ maxWidth: "16ch" }}>
+            The first Partner Intelligence Engine for startups.
+          </h1>
+          <p className="m-lead">
+            The AI-native platform that turns scattered partner data into one
+            connected source of truth.
+          </p>
+          <div className={styles.heroCta}>
+            <a className="m-btn" href="#demo">Request a demo</a>
+            <a className="m-btn-ghost" href="#spine">See how it works</a>
+          </div>
+        </section>
 
-          {/* The 6 spine sections */}
-          {SPINE.map((s, i) => (
-            <section
-              key={s.n}
-              id={i === 0 ? "spine" : undefined}
-              ref={(el) => { markers.current[s.n] = el; }}
-              data-index={s.n}
-              className={styles.section}
-            >
-              <p className="m-eyebrow">
-                {s.eyebrow} <span className={styles.tag}>· {s.tag}</span>
-              </p>
-              <h2 className="m-h2" style={{ maxWidth: "20ch" }}>{s.headline}</h2>
-              <p className={`m-lead ${styles.body}`}>{s.body}</p>
-              <div className={styles.subs}>
-                {s.subs.map((sub) => (
-                  <div className={styles.sub} key={sub.t}>
-                    <h3 className={styles.subTitle}>{sub.t}</h3>
-                    <p className={styles.subBody}>{sub.d}</p>
-                  </div>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
-
-        {/* Pinned graph */}
+        {/* Pinned graph (desktop) / single static asset shot (mobile) */}
         <div className={styles.visual}>
           <ChannelGraph activeSection={active} />
         </div>
+
+        {/* The 6 spine sections */}
+        {SPINE.map((s, i) => (
+          <section
+            key={s.n}
+            id={i === 0 ? "spine" : undefined}
+            ref={(el) => { markers.current[s.n] = el; }}
+            data-index={s.n}
+            className={styles.section}
+          >
+            <p className="m-eyebrow">
+              {s.eyebrow} <span className={styles.tag}>· {s.tag}</span>
+            </p>
+            <h2 className="m-h2" style={{ maxWidth: "20ch" }}>{s.headline}</h2>
+            <p className={`m-lead ${styles.body}`}>{s.body}</p>
+            <div className={styles.subs}>
+              {s.subs.map((sub) => (
+                <div className={styles.sub} key={sub.t}>
+                  <h3 className={styles.subTitle}>{sub.t}</h3>
+                  <p className={styles.subBody}>{sub.d}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </div>
   );
