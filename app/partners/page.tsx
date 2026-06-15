@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Reveal from "@/components/marketing/Reveal";
-import ChannelSignalVisual from "@/components/marketing/ChannelSignalVisual";
-import NextMoveVisual from "@/components/marketing/NextMoveVisual";
+import ChannelGraph from "@/components/marketing/ChannelGraph";
 
 export const metadata: Metadata = {
   title: "For partners — Covant",
@@ -68,7 +67,7 @@ export default function PartnersPage() {
             </div>
           </div>
           <Reveal>
-            <NextMoveVisual />
+            <ChannelGraph activeSection={2} />
           </Reveal>
         </div>
       </section>
@@ -92,7 +91,7 @@ export default function PartnersPage() {
               </p>
             </Reveal>
             <Reveal>
-              <ChannelSignalVisual />
+              <ChannelGraph activeSection={5} />
             </Reveal>
           </div>
         </div>
