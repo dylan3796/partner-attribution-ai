@@ -440,8 +440,11 @@ select.input{appearance:auto;cursor:pointer}
 }
 
 @media(max-width:768px){
-  /* Nav: list marketing links inline; hide dashboard scroller */
-  .nav-links{gap:1.25rem}
+  /* Nav: logo left, marketing links right — no centered-grid overlap */
+  .nav-inner{padding:0 1rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+  .nav-inner > a span{font-size:1.35rem!important}
+  .nav-inner > a img{width:32px!important;height:32px!important}
+  .nav-links{gap:1.25rem;flex-shrink:0}
   .nav-links-dash{display:none}
   .nav-back-link,.nav-login-link{display:none!important}
   .nav-cta-btn{display:none!important}
