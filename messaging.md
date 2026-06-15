@@ -73,77 +73,94 @@ plans with, and asks." Leaving as-is per your instruction.
 ## 3. The 6-section spine
 
 Order is fixed: **Connect → Graph forms → Channel TAM → Attribution → Plan &
-recommend → Ask.** Each section: declarative headline (the graph or the outcome
-is the grammatical subject), one body sentence, three ≤8-word capability bullets.
+recommend → Ask.**
+
+**Structure per section (Monaco-density pattern, founder-requested):**
+- **Eyebrow:** `0N — Section name • Outcome tag`
+- **Headline:** declarative; the graph or the outcome is the grammatical subject
+- **Body:** two sentences, one carrying a memorable cadence line
+- **Three sub-features:** each a **title + one concrete sentence** (not ≤8-word
+  bullets — see deviation note in §6)
+
+---
 
 ### Section 1 — Connect everything
+**Eyebrow:** 01 — Connect everything • Build the Graph
 **Headline:** Every source you already have feeds one graph.
-**Body:** Covant reads your CRM, email, Slack, notes, and spreadsheets —
-structured or not — and connects what it finds instead of filing it.
-**Bullets:**
-- CRM, email, Slack, notes, spreadsheets
-- Structured or not — every field is signal
-- Connected into a graph, not a dashboard
+**Body:** Covant reads the systems your channel already lives in — structured or
+not — and connects them into one model. Your deals stay where they are; nothing
+to migrate.
+**Sub-features:**
+- **Reads your whole stack** — CRM, email, Slack, deal notes, and spreadsheets, structured or unstructured.
+- **Every field is signal** — verticals, deal size, time-to-close, and use cases are pulled from real records.
+- **Connected, not dumped** — sources become relationships in a graph, not rows in another dashboard.
 
-### Section 2 — The Channel Graph forms (the asset)
-**Headline:** Covant infers the context. The graph is yours to keep.
-**Body:** Covant writes down what your data means — who partners with whom, who
-drives what — and you refine it; the graph sharpens and compounds.
-**Bullets:**
-- Covant infers the context; you refine
-- A durable asset, not a report
-- Every correction makes it sharper
+### Section 2 — The Channel Graph forms  *(REWRITTEN per founder feedback)*
+**Eyebrow:** 02 — The Channel Graph • Build the Graph
+**Headline:** Covant builds your first Channel Graph. You make it yours.
+**Body:** Covant takes an intelligent first pass — inferring who partners with
+whom and who drives what — so you start from a working model, not a blank slate.
+You iterate from there, and every correction compounds.
+**Sub-features:**
+- **An intelligent first pass** — Covant drafts the graph from your data on day one, not a blank canvas.
+- **You iterate, it sharpens** — adjust a partner profile or a relationship and the graph updates around it.
+- **A durable asset you own** — the context compounds with you, not locked inside a vendor report.
 
-### Section 3 — Channel TAM  *(NEW — no equivalent on the live page)*
-**Headline:** The partners you're missing surface themselves.
-**Body:** The graph maps who fits your ecosystem, flags who you're missing, and
-reads M&A, consolidation, and new-practice signals so you recruit at the moment
-it matters.
-**Bullets:**
-- Who fits, and who you're missing
-- M&A, consolidation, new-practice signals
-- Recruit by vertical and geography
+> **Founder note addressed:** headline + body now make explicit that Covant takes
+> the *first intelligent stab* at creating the graph, and the customer *iterates
+> after*. (Replaces "the graph is yours to keep," which skipped the first-pass idea.)
 
-### Section 4 — Attribution
-**Headline:** Your attribution arrives proposed, with the records attached.
-**Body:** Covant proposes who sourced and who influenced each deal — evidence
-attached — and you approve or adjust; your corrections train the graph.
-**Bullets:**
-- Sourced and influenced, proposed for you
-- Every claim cites its records
-- You approve; corrections train the graph
+### Section 3 — Channel TAM  *(NEW — no live equivalent; reframed per feedback)*
+**Eyebrow:** 03 — Channel TAM • Grow your channel
+**Headline:** Recruit and activate the partners who fit your program.
+**Body:** The graph maps who fits your ecosystem and flags who you're missing,
+then reads the market for the right moment to move. Recruit the gaps; activate
+the partners you already have.
+**Sub-features:**
+- **Fit, not a list** — surfaces partners matched to your verticals, deal sizes, and motions.
+- **Timing signals** — M&A, consolidation, and new-practice moves flag who to approach now.
+- **Recruit and activate** — close the gaps, and wake up partners already in your program.
 
-> **Required framing (met):** Covant *infers and proposes* sourced + influenced
-> with the evidence; the vendor *approves or adjusts*; corrections train the
-> graph. It does **not** decide unilaterally, and it does **not** just accept
-> whatever the customer asserts.
-> *Optional kicker (KEEP from live):* "Attribution, not a dashboard." works as a
-> section eyebrow above this headline.
+### Section 4 — Attribution  *(REWRITTEN per founder feedback)*
+**Eyebrow:** 04 — Attribution • Prove the impact
+**Headline:** Proposed attribution, with the paper trail, awaiting your approval.
+**Body:** Covant proposes who sourced and who influenced each deal and attaches
+the records behind every claim. You approve or adjust — Covant never decides
+credit on its own, and your corrections train the graph.
+**Sub-features:**
+- **Sourced and influenced, proposed** — Covant drafts the split; the call stays yours.
+- **The paper trail is attached** — every claim cites the touchpoints and records behind it.
+- **You approve; it learns** — adjustments train the graph, so the next proposal is sharper.
+
+> **Required framing (met):** Covant *infers and proposes* with evidence; the
+> vendor *approves or adjusts*; corrections train the graph. Not unilateral, and
+> not just accepting whatever the customer asserts.
 
 ### Section 5 — Plan & recommend
+**Eyebrow:** 05 — Plan & recommend • Plan with evidence
 **Headline:** From the next deal to next year's plan.  *(KEEP — live headline)*
-**Body:** The graph names the best-fit partner for a live deal and grounds your
-tiers, territories, quotas, and investment — and Partner Finder surfaces who to
-recruit next.
-**Bullets:**
-- The right partner on a live deal
-- Tiers, territories, quota, investment
-- Partner Finder surfaces who's next
+**Body:** The graph names the best-fit partner for a live deal and grounds the
+calls you used to make on instinct — tiers, territories, quota, and investment.
+Partner Finder surfaces who to recruit next.
+**Sub-features:**
+- **The right partner, this deal** — best-fit partner named for an open or stalled deal, evidence attached.
+- **Plan on evidence** — tiers, territories, quota, and investment grounded in the graph.
+- **Partner Finder** — spots the gaps and surfaces who to add, by vertical and geography.
 
-### Section 6 — Ask Covant  *(carries the two-sided beat — R4)*
-**Headline:** Ask in plain language. Both sides get the answer.
-**Body:** Ask and the answer comes back with the records attached; Covant ships
-as MCP servers for Claude and OpenAI, and each partner sees only their scoped
-slice — they control what you can ask.
-**Bullets:**
-- Plain-language answers, records attached
-- Ships as MCP for Claude and OpenAI
-- Partners control their scoped slice
+### Section 6 — Ask Covant  *(REWRITTEN — dual analogy per feedback; carries R4)*
+**Eyebrow:** 06 — Ask Covant • Run it day to day
+**Headline:** A Partner Manager for every partner. A CPO for you.
+**Body:** Ask in plain language and the answer comes back with the records
+attached. For partners, Covant is like a dedicated Partner Manager; for you,
+it's like a Chief Partnership Officer who already knows the whole channel.
+**Sub-features:**
+- **For partners — a dedicated Partner Manager** — their deals, status, and next step, on demand.
+- **For vendors — your CPO** — the channel's priorities and answers, surfaced proactively.
+- **Two-sided by design** — ships as MCP servers for Claude and OpenAI; each partner controls their scoped slice.
 
 > *Optional kicker (KEEP from live):* "Ask. Don't dig." works as the eyebrow.
-> **R4 guardrail for Step 4:** if folding the Portal away makes the page read
-> vendor-only, restore a short partner-view beat (source copy preserved in §5
-> diff below).
+> **R4 two-sided beat:** carried by the dual analogy **and** the scoped-slice
+> sub-feature. Source Portal copy preserved in §5 diff as the fallback.
 
 ---
 
@@ -163,18 +180,22 @@ The live "Builds from the stack you already have" strip is **CUT** as a strip.
 ## 5. MERGE diff — kept / new / cut (vs live `app/page.tsx`)
 
 **KEEP (verbatim or near):**
-- Hero line "Run your partner org on one graph." (hero option 1)
 - "From the next deal to next year's plan." → Section 5 headline
 - "Attribution, not a dashboard." → Section 4 eyebrow (optional)
 - "Ask. Don't dig." → Section 6 eyebrow (optional)
-- Recommendation/Portal/Start card copy → mined for §3 bullets
+- Recommendation/Portal/Start card copy → mined for §3 sub-features
 
-**REWRITE (before/after shown):**
-- Hero subhead/lead → §2 (before/after above)
+**REWRITE (before/after shown / founder-directed):**
+- Hero → new founder line (§1); live "Run your partner org on one graph" retired
+- Hero subhead/lead → new founder line (§2)
+- Section 2 — first-pass + iterate framing (was "graph is yours to keep")
+- Section 4 — "proposed…awaiting your approval" framing
+- Section 6 — Partner Manager / CPO dual analogy
+- All sections — expanded to title+sentence sub-features (Monaco density)
 
 **NEW:**
-- Section 3 — Channel TAM (whole section; no live equivalent)
-- Section 6 two-sided line — explicit partner-controlled scoped-slice framing
+- Section 3 — Channel TAM (whole section; reframed to "recruit and activate")
+- Per-section eyebrow **outcome tags** (Build the Graph / Grow your channel / etc.)
 
 **CUT (with reason):**
 - Stakes-stats section (42/35/69%) — outside spine + unverified provenance (§4)
@@ -189,12 +210,18 @@ The live "Builds from the stack you already have" strip is **CUT** as a strip.
 
 ---
 
-## 6. Voice check
+## 6. Voice check + deviation note
 
 Declarative, short sentences, the-system-does-the-work. Modeled on monaco's
 cadence ("Monaco does the updating, you do the selling"), not its words.
 Confirmed absent: seamless, powerful, revolutionary, supercharge, "unlock"
 (verb), emoji, adjective stacking, fabricated proof.
+
+**Deviation from the messaging prompt (founder-approved):** the prompt specified
+"3 capability bullets, ≤8 words each." Per founder feedback (Monaco reference),
+each section now uses **3 sub-features = title + one concrete sentence** for
+density. We take Monaco's *information density*, not its dark theme — palette
+stays light/pine (a Step 2 decision).
 
 ---
 
