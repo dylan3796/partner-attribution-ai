@@ -100,34 +100,8 @@ select.input{appearance:auto;cursor:pointer}
 .nav-links-dash a:hover{color:var(--fg)}
 .nav-actions{display:flex;gap:1rem;align-items:center;justify-content:flex-end}
 .nav-actions .link{font-weight:500;font-size:.9rem}
-.menu-toggle{display:none;background:none;border:none;cursor:pointer;padding:.25rem;line-height:0}
-
-/* === Mobile Menu === */
-.mobile-menu-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:200;
-  animation:fadeIn .15s ease;
-}
-.mobile-menu{
-  position:fixed;top:65px;left:0;right:0;bottom:0;
-  background:#ffffff;z-index:201;
-  overflow-y:auto;
-  padding:1rem 0;
-  animation:slideDown .2s ease;
-}
-.mobile-menu-item{
-  display:flex;align-items:center;gap:.75rem;
-  padding:.9rem 1.5rem;font-size:1rem;font-weight:500;
-  color:var(--muted);transition:all .15s;
-}
-.mobile-menu-item:hover,.mobile-menu-item.active{
-  background:var(--subtle);color:var(--fg);
-}
-.mobile-menu-divider{
-  height:1px;background:var(--border);margin:.5rem 1.5rem;
-}
 
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
 @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 
 /* === Waitlist Form === */
@@ -466,11 +440,14 @@ select.input{appearance:auto;cursor:pointer}
 }
 
 @media(max-width:768px){
-  /* Nav mobile menu */
-  .nav-links,.nav-links-dash{display:none}
+  /* Nav: logo left, marketing links right — no centered-grid overlap */
+  .nav-inner{padding:0 1rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+  .nav-inner > a span{font-size:1.35rem!important}
+  .nav-inner > a img{width:32px!important;height:32px!important}
+  .nav-links{gap:1.25rem;flex-shrink:0}
+  .nav-links-dash{display:none}
   .nav-back-link,.nav-login-link{display:none!important}
   .nav-cta-btn{display:none!important}
-  .menu-toggle{display:flex!important}
 
   /* Layout & containers */
   .wrap{padding:0 1rem}
