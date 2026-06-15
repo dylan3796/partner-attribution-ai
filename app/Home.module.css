@@ -1,30 +1,9 @@
 /* HOME — big-picture exec narrative. Type-forward, graph-free.
-   Hero → the blind spot → the category shift (From/To) → what you can finally
-   do (consolidated 4-up) → CTA. PRODUCT carries the mechanism + the graph. */
+   Hero → it's already revenue → keep running your channel → what you can
+   finally do (prove/build/ask) → no black-box credit → CTA.
+   PRODUCT carries the mechanism + the graph. */
 
-/* the category shift: From (old world) | To (partner intelligence) */
-.shiftGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1.5rem, 5vw, 4rem);
-  margin-top: 2.75rem;
-}
-.shiftLabel {
-  font-family: var(--font-space-grotesk), system-ui, sans-serif;
-  text-transform: uppercase;
-  letter-spacing: .14em;
-  font-size: .75rem;
-  font-weight: 600;
-  margin: 0 0 1.1rem;
-}
-.fromLabel { color: var(--m-muted); }
-.toLabel { color: var(--m-accent); }
-.shiftList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .85rem; }
-.fromItem { color: var(--m-muted); font-size: 1.05rem; line-height: 1.4; }
-.toCol { border-left: 2px solid var(--m-accent); padding-left: clamp(1rem, 3vw, 1.75rem); }
-.toItem { color: var(--m-ink); font-size: 1.05rem; line-height: 1.4; font-weight: 500; }
-
-/* what you can finally do — consolidated 4-up, no bullets */
+/* what you can finally do — consolidated, no bullets */
 .outcomes {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -49,6 +28,5 @@
 }
 
 @media (max-width: 720px) {
-  .shiftGrid { grid-template-columns: 1fr; gap: 2rem; }
   .outcomes { grid-template-columns: 1fr; }
 }

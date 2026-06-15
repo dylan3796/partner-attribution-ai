@@ -8,7 +8,7 @@ import { MOTIONS } from "@/lib/marketing";
 export const metadata: Metadata = {
   title: "Product — Covant",
   description:
-    "How Covant works: the Channel Graph, built from your partner data, then attribution, planning, recommendations, and plain-language answers on top of it. The mechanism, step by step.",
+    "How Covant works: the Channel Graph, built from your partner data, then recruiting, attribution, recommendations, and a channel copilot on top of it. The mechanism, step by step.",
 };
 
 // PRODUCT = the mechanism explainer. The pinned Channel Graph (GraphStory)
@@ -28,10 +28,10 @@ export default function ProductPage() {
         <div className="m-container">
           <Reveal>
             <p className="m-eyebrow">Attribution, on your terms</p>
-            <h2 className="m-h2">Your model, your weights, your call.</h2>
+            <h2 className="m-h2">Your model, your way.</h2>
             <p className="m-body" style={{ marginTop: "1.25rem", maxWidth: "46ch" }}>
-              Covant proposes credit and shows its work; you pick the model per
-              program. Five cover the usual motions.
+              Covant supports every attribution model, and can help you build
+              your own from your channel-graph data.
             </p>
           </Reveal>
           <Reveal style={{ marginTop: "2.5rem" }}>
@@ -94,11 +94,13 @@ export default function ProductPage() {
             </Reveal>
             <Reveal>
               <p className="m-body">
-                Your CRM stays the system of record. Registrations flow into your
-                pipeline; closed-deal data flows back to keep Covant current.
-                The partner side — attribution, planning, asks, submissions —
-                lives in Covant. Self-serve in 15 minutes, not a six-month
-                rollout.
+                Covant is the contextual layer for your partners, sitting
+                alongside everything you already run. Your CRM stays the system
+                of record; registrations flow into your pipeline and closed-deal
+                data flows back to keep the channel graph current. From there,
+                take it where you want — ask Covant to design an incentive
+                program and it answers from your channel-graph patterns.
+                Self-serve in 15 minutes, not a six-month rollout.
               </p>
             </Reveal>
           </div>

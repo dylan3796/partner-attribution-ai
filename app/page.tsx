@@ -1,99 +1,85 @@
 import CTABand from "@/components/marketing/CTABand";
 import styles from "./Home.module.css";
 
-// Covant HOME — Monaco-register pass. Short outcome-named declaratives,
-// second person, enemy-as-a-stack, honesty-as-flex; the mechanism + Channel
-// Graph stay on PRODUCT. Category noun: "the revenue engine for your channel"
-// (PXM language deliberately omitted). No fabricated proof. Copy: home-messaging.md.
-
-const FROM = [
-  "Partners managed in a portal",
-  "Last-touch credit, argued in spreadsheets",
-  "Recruiting on gut",
-  "QBRs reported after the fact",
-];
-
-const TO = [
-  "Your whole ecosystem, known",
-  "Sourced and influenced, with the receipts",
-  "Building where the market moves",
-  "Answers the moment you ask",
-];
+// Covant HOME — partner intelligence, built on the channel graph (the context
+// layer). Outcome-led and graph-free; the mechanism + Channel Graph live on
+// PRODUCT. No old-world/new-world contrast, no "ask anything" (copilot only),
+// attribution demoted to the unlock. No fabricated proof. Copy: home-messaging.md.
 
 const OUTCOMES = [
-  { title: "Prove the number.", body: "Partner-influenced revenue becomes your most defensible line." },
-  { title: "Build on purpose.", body: "Grow the right ecosystem, ahead of where the market moves." },
-  { title: "Design the program.", body: "Incentives, coverage, and investment, grounded in what works." },
-  { title: "Ask anything.", body: "Every question about your channel, answered on the spot." },
+  {
+    title: "Prove the number.",
+    body: "The revenue your partners drive becomes your most defensible line — with a paper trail behind every piece of credit.",
+  },
+  {
+    title: "Build where the market moves.",
+    body: "Design the program — incentives, coverage, and investment — on evidence, not gut.",
+  },
+  {
+    title: "Ask your copilot.",
+    body: "Your own partner-program copilot, fluent in your channel graph.",
+  },
 ];
 
 export default function Home() {
   return (
     <main className="site site--story">
-      {/* Hero — the thesis */}
+      {/* Hero — partner intelligence on the channel graph */}
       <section className="m-section m-section--flush m-hero">
         <div className="m-container">
-          <p className="m-eyebrow">The revenue engine for your channel</p>
-          <h1 className="m-h1" style={{ maxWidth: "16ch" }}>
-            Your partners are already selling for you.
+          <p className="m-eyebrow">Partner intelligence</p>
+          <h1 className="m-h1" style={{ maxWidth: "15ch" }}>
+            The context layer for your channel.
           </h1>
-          <p className="m-lead" style={{ maxWidth: "52ch" }}>
-            Covant is where that becomes pipeline you can see, prove, and grow.
-            One place for the whole partner side — every deal registered, every
-            dollar of credit explained, every next move.
+          <p className="m-lead" style={{ maxWidth: "42ch", fontWeight: 600 }}>
+            Your partners are already selling for you.
+          </p>
+          <p className="m-lead" style={{ maxWidth: "56ch" }}>
+            Most of your channel&apos;s real work happens in your partners&apos;
+            world — and never crosses into yours. Covant captures it: the data,
+            the rules, the relationships. So the work that actually drives
+            revenue becomes visible, provable, and something you can finally
+            reward the right partners for.
           </p>
           <div className="m-hero-cta">
-            <a className="m-btn" href="#demo">Get your Channel Graph</a>
+            <a className="m-btn" href="#demo">Request a demo</a>
             <a className="m-btn-ghost" href="/product">See how it works</a>
           </div>
         </div>
       </section>
 
-      {/* The blind spot */}
+      {/* It's already revenue — surface the number, don't invent it */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <p className="m-eyebrow">The opportunity</p>
-          <h2 className="m-h2" style={{ maxWidth: "16ch" }}>Your best channel is invisible.</h2>
-          <p className="m-lead" style={{ marginTop: "1.25rem", maxWidth: "58ch" }}>
-            It lives in CRM notes, email threads, and Slack. Real revenue you
-            can&apos;t prove, plan, or grow. We make it a number.
+          <h2 className="m-h2" style={{ maxWidth: "16ch" }}>It&apos;s already revenue.</h2>
+          <p className="m-lead" style={{ marginTop: "1.25rem", maxWidth: "60ch" }}>
+            Most of it lives across your systems, notes, and documents, so it
+            never rolls up. This is revenue that&apos;s already happening in your
+            channel. Covant doesn&apos;t invent the number — it surfaces the one
+            that&apos;s been there the whole time, so you can prove it, plan
+            around it, and grow it.
           </p>
         </div>
       </section>
 
-      {/* The category shift */}
+      {/* Keep running your channel — Covant is the intelligence on top */}
       <section className="m-section">
         <div className="m-container">
-          <p className="m-eyebrow">The shift</p>
-          <h2 className="m-h2" style={{ maxWidth: "20ch" }}>
-            Stop managing partners. Start growing a channel.
+          <p className="m-eyebrow">The approach</p>
+          <h2 className="m-h2" style={{ maxWidth: "18ch" }}>
+            Keep running your channel.
           </h2>
           <p className="m-lead" style={{ marginTop: "1.25rem", maxWidth: "56ch" }}>
-            Covant builds the Channel Graph from your data — one record of your
-            whole ecosystem.
+            Covant gives you the intelligence to grow it. Pour in your
+            definitions, rules of engagement, metrics, and your data — Covant
+            builds the channel graph and answers questions about your channel in
+            a snap.
           </p>
-          <div className={styles.shiftGrid}>
-            <div>
-              <p className={`${styles.shiftLabel} ${styles.fromLabel}`}>The old world</p>
-              <ul className={styles.shiftList}>
-                {FROM.map((f) => (
-                  <li className={styles.fromItem} key={f}>{f}</li>
-                ))}
-              </ul>
-            </div>
-            <div className={styles.toCol}>
-              <p className={`${styles.shiftLabel} ${styles.toLabel}`}>With Covant</p>
-              <ul className={styles.shiftList}>
-                {TO.map((t) => (
-                  <li className={styles.toItem} key={t}>{t}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* What you can finally do — consolidated */}
+      {/* What you can finally do — prove / build / ask */}
       <section className="m-section m-section--surface">
         <div className="m-container">
           <p className="m-eyebrow">What you get</p>
@@ -109,15 +95,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Honesty-as-flex — pre-empt the black-box objection, keep the CRM line */}
+      {/* Honesty-as-flex + attribution demoted to the unlock */}
       <section className="m-section">
         <div className="m-container">
           <p className="m-eyebrow">How it stays honest</p>
           <h2 className="m-h2" style={{ maxWidth: "16ch" }}>No black-box credit.</h2>
-          <p className="m-lead" style={{ marginTop: "1.25rem", maxWidth: "58ch" }}>
-            Every dollar is sourced from your data and explained — or it
-            doesn&apos;t ship. Your CRM stays your system of record. We make the
-            partner side legible on top of it.
+          <p className="m-lead" style={{ marginTop: "1.25rem", maxWidth: "60ch" }}>
+            Every recommendation Covant makes comes with the evidence behind it —
+            a paper trail you can stand behind in any partner conversation.
+          </p>
+          <p className="m-lead" style={{ marginTop: "1.25rem", maxWidth: "60ch" }}>
+            Attribution is the starting point, not the product. Once Covant has
+            your channel graph, getting credit right is just the unlock —
+            it&apos;s what lets Covant recommend who to recruit, what to
+            incentivize, and where to invest next.
           </p>
         </div>
       </section>

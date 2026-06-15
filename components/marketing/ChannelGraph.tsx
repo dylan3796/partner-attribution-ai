@@ -66,7 +66,7 @@ const GHOSTS: GraphNode[] = [
   { id: "G2", type: "ghost", x: 470, y: 120, dom: "P", signal: "new practice" },
 ];
 
-const VENDOR: GraphNode = { id: "V", type: "vendor", label: "You", x: 500, y: 350 };
+const VENDOR: GraphNode = { id: "V", type: "vendor", label: "Your Channel", x: 500, y: 350 };
 
 const NODES: GraphNode[] = [VENDOR, ...DOMAINS, ...RECORDS, ...GHOSTS];
 
@@ -218,7 +218,7 @@ export default function ChannelGraph({
       data-ambient={ambient}
       data-still={still}
       role="img"
-      aria-label="The Channel Graph: a central 'You' connected to your data domains — Partners, Accounts, Opportunities, Program, Definitions, and Personnel — each holding records, with the relationships between them highlighted."
+      aria-label="The Channel Graph: your channel at the core, connected to your data domains — Partners, Accounts, Opportunities, Program, Definitions, and Personnel — each holding records, with the relationships between them highlighted."
     >
       <svg className={styles.svg} viewBox={viewBox} aria-hidden="true">
         <defs>

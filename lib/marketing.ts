@@ -1,15 +1,13 @@
 // Shared content + constants for the Covant marketing site (Home / Product / Company).
 //
-// Positioning: Partner Experience Management is the umbrella — the category
-// Covant is building. The Channel Graph is the intelligence engine that
-// powers it: a living model of the customer's channel, built from a first
-// pass over their data (structured or unstructured) and refined by their
-// team. Journeys, the portal, and conversational/MCP access are the
-// delivery surfaces. No copy may present the graph or the portal as the
-// top-level product, and no copy may present attribution as the foundation.
-// Surfaces that lead shipped product (journey flows, MCP servers, enlist
-// actions, two-way submissions) are flagged "future scope" in the
-// components that depict them.
+// Positioning: Covant is partner intelligence, built on the Channel Graph —
+// the context layer for the channel. Customers pour in their definitions,
+// rules of engagement, metrics, and data (where accounts, opportunities,
+// partners, and partner solutions live); Covant answers questions about the
+// channel and helps grow revenue. Attribution is ONE capability the graph
+// unlocks — never the product. No copy may present Covant as an attribution
+// or crediting engine, and no copy may present the graph as a mere data store.
+// Conversational access is the partner-program COPILOT, never "ask anything."
 //
 // Five hard rules for all marketing copy:
 // 1. Payouts are calculated, explained, flagged as earned, routed for
@@ -114,19 +112,19 @@ export type Motion = {
 // customer wants credit formalized.
 export const MOTIONS: Motion[] = [
   {
-    title: "SI & implementation partners.",
-    body: "The graph knows who actually delivers — eval speed, project record, verticals — and pulls them into the next deal that fits, even when they never resell.",
+    title: "SI and Implementation Partners.",
+    body: "As your channel graph fills in, Covant gets sharper on which partners fit which deals — including partners who deliver but never resell.",
   },
   {
-    title: "Cloud co-sell.",
+    title: "Cloud Co-Sell.",
     body: "Three-party motion, one picture. The graph reads who opened the door, who sourced, who closed — and names who to bring next time.",
   },
   {
-    title: "ISV & integration partners.",
+    title: "ISV.",
     body: "The integration that drives expansion shows up as signal on live deals — the graph surfaces the ISV before the renewal, not after.",
   },
   {
-    title: "Resellers & referral.",
+    title: "Resellers.",
     body: "Deal registration, journeys, and incentive rules that outgrow the spreadsheet on day one.",
   },
 ];
