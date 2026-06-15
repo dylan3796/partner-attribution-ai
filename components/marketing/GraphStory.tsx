@@ -132,16 +132,16 @@ export default function GraphStory() {
           data-index={0}
           className={styles.hero}
         >
-          <p className="m-eyebrow">Covant</p>
-          <h1 className="m-h1" style={{ maxWidth: "15ch" }}>
-            Partner Intelligence for Startups.
+          <p className="m-eyebrow">Product</p>
+          <h1 className="m-h1" style={{ maxWidth: "18ch" }}>
+            Your whole channel, in one place.
           </h1>
           <p className="m-lead">
-            Covant organizes your scattered partner data into the Channel Graph.
+            Covant organizes your partner data into the Channel Graph. Here&apos;s how it works.
           </p>
           <div className={styles.heroCta}>
             <a className="m-btn" href="#demo">Request a demo</a>
-            <a className="m-btn-ghost" href="#spine">See how it works</a>
+            <a className="m-btn-ghost" href="#spine">See the steps</a>
           </div>
         </section>
 

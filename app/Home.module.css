@@ -1,20 +1,23 @@
-/* HOME outcome sections — exec scan layout (not the pinned PRODUCT scroll). */
-
-.heroVisual {
-  max-width: 960px;
-  margin: 2.75rem auto 0;
-}
+/* HOME — type-forward exec layout. No graph (that lives on PRODUCT).
+   Each outcome: a quiet index numeral + eyebrow + serif headline on the left,
+   body + bullets on the right. Editorial, scannable, lots of whitespace. */
 
 .grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: center;
+  grid-template-columns: 0.85fr 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: start;
 }
 
-/* alternate sides on desktop for rhythm; text always first on mobile */
-.flip .text { order: 2; }
-.flip .visual { order: 1; }
+.index {
+  display: block;
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: clamp(2.25rem, 5vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1;
+  color: var(--m-border);
+  margin-bottom: 1.1rem;
+}
 
 .bullets {
   list-style: none;
@@ -28,7 +31,7 @@
   position: relative;
   padding-left: 1.1rem;
   color: var(--m-ink-2);
-  font-size: .98rem;
+  font-size: 1rem;
   line-height: 1.5;
 }
 .bullet::before {
@@ -43,6 +46,6 @@
 }
 
 @media (max-width: 860px) {
-  .grid { grid-template-columns: 1fr; gap: 1.75rem; }
-  .flip .text, .flip .visual { order: 0; }
+  .grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .index { margin-bottom: .5rem; }
 }

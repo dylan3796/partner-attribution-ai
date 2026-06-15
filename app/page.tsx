@@ -1,12 +1,10 @@
-import ChannelGraph from "@/components/marketing/ChannelGraph";
 import CTABand from "@/components/marketing/CTABand";
 import styles from "./Home.module.css";
 
 // Covant HOME — sells the OUTCOME to the exec who signs (VP/SVP Partnerships,
-// CRO, CPO). Organized by 4 business outcomes; the Channel Graph is the hero
-// spectacle (assembles once, drifts) and each outcome gets a tight self-contained
-// crop. PRODUCT carries the mechanism (the 6-step explainer). Copy: home-messaging.md
-// Visuals: home-visual-spec.md. No fabricated proof.
+// CRO, CPO). Type-forward and graph-free by design: the neural-net Channel Graph
+// is the PRODUCT page's explainer, not HOME's. Four business outcomes, scannable.
+// Copy: home-messaging.md. No fabricated proof.
 
 type Outcome = {
   eyebrow: string;
@@ -14,7 +12,6 @@ type Outcome = {
   body: string;
   bullets: string[];
   surface?: boolean;
-  graph: React.ComponentProps<typeof ChannelGraph>;
 };
 
 const OUTCOMES: Outcome[] = [
@@ -27,7 +24,6 @@ const OUTCOMES: Outcome[] = [
       "A number that holds up in the QBR",
       "Grow what you can finally measure",
     ],
-    graph: { activeSection: 4, crop: { x: 110, y: 40, w: 610, h: 330 } },
   },
   {
     eyebrow: "Build your ecosystem",
@@ -39,7 +35,6 @@ const OUTCOMES: Outcome[] = [
       "See M&A and consolidation coming",
     ],
     surface: true,
-    graph: { activeSection: 3, crop: { x: 40, y: 10, w: 520, h: 360 }, still: true },
   },
   {
     eyebrow: "Craft the program you want",
@@ -50,12 +45,6 @@ const OUTCOMES: Outcome[] = [
       "Add managed coverage where it's thin",
       "Spot the partners who should build",
     ],
-    graph: {
-      activeSection: 5,
-      crop: { x: 380, y: 110, w: 470, h: 500 },
-      still: true,
-      recommendChip: "Strong in fins · HLS gap → build a solution",
-    },
   },
   {
     eyebrow: "Every question at your fingertips",
@@ -67,34 +56,31 @@ const OUTCOMES: Outcome[] = [
       "For your team and your partners",
     ],
     surface: true,
-    graph: { activeSection: 6, crop: { x: 270, y: 30, w: 680, h: 560 } },
   },
 ];
 
 export default function Home() {
   return (
     <main className="site site--story">
-      {/* Hero — the graph assembles once, then drifts (the spectacle) */}
+      {/* Hero — type-forward; the product visual lives on /product */}
       <section className="m-section m-section--flush m-hero">
         <div className="m-container">
           <p className="m-eyebrow">Covant</p>
-          <h1 className="m-h1" style={{ maxWidth: "15ch" }}>
+          <h1 className="m-h1" style={{ maxWidth: "14ch" }}>
             Partner Intelligence for Startups.
           </h1>
-          <p className="m-lead" style={{ maxWidth: "46ch" }}>
-            Covant organizes your scattered partner data into the Channel Graph.
+          <p className="m-lead" style={{ maxWidth: "50ch" }}>
+            Covant organizes your scattered partner data into the Channel Graph —
+            so partner revenue, recruiting, and program decisions run on evidence.
           </p>
           <div className="m-hero-cta">
             <a className="m-btn" href="#demo">Request a demo</a>
-            <a className="m-btn-ghost" href="#outcomes">See what you get</a>
-          </div>
-          <div className={styles.heroVisual}>
-            <ChannelGraph activeSection={2} ambient large />
+            <a className="m-btn-ghost" href="/product">See how it works</a>
           </div>
         </div>
       </section>
 
-      {/* The 4 exec outcomes */}
+      {/* The 4 exec outcomes — type-forward */}
       <div id="outcomes">
         {OUTCOMES.map((o, i) => (
           <section
@@ -102,19 +88,19 @@ export default function Home() {
             className={`m-section${o.surface ? " m-section--surface" : ""}`}
           >
             <div className="m-container">
-              <div className={`${styles.grid}${i % 2 ? " " + styles.flip : ""}`}>
-                <div className={styles.text}>
+              <div className={styles.grid}>
+                <div>
+                  <span className={styles.index}>{String(i + 1).padStart(2, "0")}</span>
                   <p className="m-eyebrow">{o.eyebrow}</p>
-                  <h2 className="m-h2" style={{ maxWidth: "18ch" }}>{o.headline}</h2>
-                  <p className="m-lead" style={{ marginTop: "1rem", maxWidth: "42ch" }}>{o.body}</p>
+                  <h2 className="m-h2" style={{ maxWidth: "16ch" }}>{o.headline}</h2>
+                </div>
+                <div>
+                  <p className="m-lead" style={{ maxWidth: "44ch" }}>{o.body}</p>
                   <ul className={styles.bullets}>
                     {o.bullets.map((b) => (
                       <li className={styles.bullet} key={b}>{b}</li>
                     ))}
                   </ul>
-                </div>
-                <div className={styles.visual}>
-                  <ChannelGraph {...o.graph} />
                 </div>
               </div>
             </div>
