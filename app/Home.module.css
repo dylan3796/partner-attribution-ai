@@ -1,0 +1,32 @@
+/* HOME — big-picture exec narrative. Type-forward, graph-free.
+   Hero → it's already revenue → keep running your channel → what you can
+   finally do (prove/build/ask) → no black-box credit → CTA.
+   PRODUCT carries the mechanism + the graph. */
+
+/* what you can finally do — consolidated, no bullets */
+.outcomes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 4vw, 3rem) clamp(2rem, 5vw, 4rem);
+  margin-top: 3rem;
+}
+.outcomeTitle {
+  font-family: var(--font-serif-display), Georgia, serif;
+  font-weight: 560;
+  font-size: 1.5rem;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  color: var(--m-ink);
+  margin: 0;
+}
+.outcomeBody {
+  color: var(--m-ink-2);
+  margin: .55rem 0 0;
+  font-size: 1.02rem;
+  line-height: 1.5;
+  max-width: 38ch;
+}
+
+@media (max-width: 720px) {
+  .outcomes { grid-template-columns: 1fr; }
+}
