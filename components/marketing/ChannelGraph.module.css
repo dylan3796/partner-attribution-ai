@@ -1,0 +1,178 @@
+/* Channel Graph — isolated component styles.
+   Colors come from the global --m-* tokens (app/globals.css :root).
+   Motion timing matches design-system.md: 400ms state / 600-900ms intro. */
+
+.graph {
+  position: relative;
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+  aspect-ratio: 1000 / 700;
+  --ease: cubic-bezier(.25, .7, .25, 1);
+  --dur: .4s;
+}
+
+.svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+}
+
+/* ---- nodes ---------------------------------------------------------- */
+/* .node = position (translate, glides for tier reorg)
+   .body = scale + opacity per state
+   .shape = the drawn mark; .ring = pulse halo; .label = caption */
+.node {
+  transform: translate(calc(var(--x) * 1px), calc(var(--y) * 1px));
+  transition: transform var(--dur) var(--ease);
+}
+.body {
+  transform: scale(1);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform var(--dur) var(--ease), opacity var(--dur) ease;
+}
+.shape {
+  transition: fill var(--dur) ease, stroke var(--dur) ease, stroke-width var(--dur) ease;
+}
+.label {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: 17px;
+  font-weight: 600;
+  fill: var(--m-muted);
+  text-anchor: middle;
+  transition: opacity var(--dur) ease, fill var(--dur) ease;
+}
+.ring {
+  fill: none;
+  stroke: var(--m-accent);
+  stroke-width: 2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* node type identity (monochrome; differentiated by tone + shape) */
+.node[data-type="vendor"] .shape { fill: var(--m-ink); stroke: var(--m-accent); stroke-width: 2.5; }
+.node[data-type="partner"] .shape { fill: var(--m-ink); }
+.node[data-type="deal"] .shape { fill: #fff; stroke: var(--m-ink-2); stroke-width: 1.5; }
+.node[data-type="account"] .shape { fill: var(--m-surface); stroke: var(--m-border); stroke-width: 1.5; }
+.node[data-type="ghost"] .shape { fill: none; stroke: var(--m-muted); stroke-width: 1.5; stroke-dasharray: 3 2; }
+
+/* node states (overlay on type) */
+.node[data-state="idle"] .body { opacity: 1; transform: scale(1); }
+.node[data-state="hidden"] .body { opacity: 0; }
+.node[data-state="hidden"] .label { opacity: 0; }
+.node[data-state="dimmed"] .body { opacity: .25; filter: grayscale(.7); }
+.node[data-state="dimmed"] .label { opacity: .25; }
+.node[data-state="active"] .body { transform: scale(1.15); }
+.node[data-state="active"] .shape { stroke: var(--m-accent); stroke-width: 2.5; }
+.node[data-state="active"] .label { fill: var(--m-ink); }
+.node[data-state="pulse"] .body { transform: scale(1.15); }
+.node[data-state="pulse"] .shape { stroke: var(--m-accent); stroke-width: 2.5; }
+.node[data-state="pulse"] .label { fill: var(--m-ink); }
+.node[data-state="pulse"] .ring { animation: pulse 2s ease-out infinite; }
+.node[data-state="ghost"] .body { opacity: .55; }
+
+/* section 6 (partner-scoped) pushes the dim further toward locked */
+.graph[data-section="6"] .node[data-state="dimmed"] .body { opacity: .08; filter: grayscale(1); }
+.graph[data-section="6"] .node[data-state="dimmed"] .label { opacity: 0; }
+
+/* ---- edges ---------------------------------------------------------- */
+.edge {
+  fill: none;
+  transition: opacity var(--dur) ease, stroke var(--dur) ease, stroke-width var(--dur) ease;
+}
+.edge[data-type="program"] { stroke: var(--m-border); stroke-width: 1; }
+.edge[data-type="sourced"] { stroke: var(--m-ink); stroke-width: 2; }
+.edge[data-type="influenced"] { stroke: var(--m-ink-2); stroke-width: 1.25; stroke-dasharray: 4 3; }
+.edge[data-type="deal-account"] { stroke: var(--m-border); stroke-width: 1; }
+.edge[data-type="cosell"] { stroke: var(--m-muted); stroke-width: 1; stroke-dasharray: 2 3; }
+
+.edge[data-state="idle"] { opacity: 1; }
+.edge[data-state="dimmed"] { opacity: .1; }
+.edge[data-state="hidden"] { opacity: 0; }
+.edge[data-state="active-flow"] {
+  stroke: var(--m-accent);
+  stroke-width: 2.5;
+  stroke-dasharray: 7 7;
+  opacity: 1;
+  animation: flow 1s linear infinite;
+}
+/* the section-5 recommendation edge fades in after the tier reorg settles */
+.graph[data-section="5"] .edge[data-state="active-flow"] {
+  animation: flow 1s linear .5s infinite;
+  transition: opacity .3s ease .5s;
+}
+.graph[data-section="5"] .edge[data-state="dimmed"] { transition: opacity .2s ease; }
+
+/* feed lines (sources -> nearest node) */
+.feed { fill: none; stroke: var(--m-border); stroke-width: 1.25; opacity: 0; transition: opacity var(--dur) ease, stroke var(--dur) ease; }
+.feed[data-state="faint"] { opacity: .5; }
+.feed[data-state="active-flow"] { stroke: var(--m-accent); stroke-dasharray: 6 6; opacity: 1; animation: flow 1s linear infinite; }
+.source { font-family: var(--font-space-grotesk), system-ui, sans-serif; font-size: 15px; font-weight: 600; letter-spacing: .04em; fill: var(--m-muted); text-anchor: middle; transition: opacity var(--dur) ease; }
+.source[data-on="0"] { opacity: 0; }
+.source[data-on="1"] { opacity: 1; }
+
+/* scan sweep (section 3) */
+.scan { opacity: 0; }
+.graph[data-section="3"] .scan { opacity: 1; animation: scan 1.6s var(--ease) .1s 1; }
+
+/* ---- intro assembly (runs once after mount) ------------------------- */
+.graph[data-assembled="false"] .body { opacity: 0; }
+.graph[data-assembled="false"] .edge,
+.graph[data-assembled="false"] .feed { opacity: 0; }
+.graph[data-assembled="true"] .body {
+  animation: formIn .6s var(--ease) backwards;
+  animation-delay: calc(var(--i, 0) * 28ms);
+}
+.graph[data-assembled="true"] .edge {
+  animation: edgeIn .6s ease backwards;
+  animation-delay: calc(.2s + var(--i, 0) * 12ms);
+}
+
+/* ---- overlay chips (HTML, positioned in graph coords) --------------- */
+.overlay { position: absolute; inset: 0; pointer-events: none; }
+.chip {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: .68rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  padding: .3rem .55rem;
+  border-radius: 8px;
+  opacity: 0;
+  transition: opacity .35s ease .15s;
+}
+.chip[data-show="true"] { opacity: 1; }
+.chipEvidence { background: #fff; border: 1px solid var(--m-ink-2); color: var(--m-ink); }
+.chipSignal { background: var(--m-accent-soft); color: var(--m-accent-ink); text-transform: uppercase; }
+.chipTier { background: transparent; color: var(--m-muted); text-transform: uppercase; letter-spacing: .1em; transform: translate(-50%, -50%); }
+.chipQuery { background: var(--m-accent); color: var(--m-accent-fg); border-radius: 12px 12px 12px 4px; max-width: 240px; white-space: normal; }
+.chipAnswer { background: var(--m-surface); border: 1px solid var(--m-border); color: var(--m-ink-2); border-radius: 12px 12px 4px 12px; max-width: 240px; white-space: normal; }
+.chipContext { background: #fff; border: 1px solid var(--m-border); color: var(--m-ink-2); }
+
+/* ---- keyframes ------------------------------------------------------ */
+@keyframes flow { to { stroke-dashoffset: -28; } }
+@keyframes pulse { 0% { opacity: .5; transform: scale(1); } 100% { opacity: 0; transform: scale(2.1); } }
+@keyframes formIn { from { opacity: 0; transform: scale(.6); } }
+@keyframes edgeIn { from { opacity: 0; } }
+@keyframes scan { from { transform: translateX(-40%); } to { transform: translateX(140%); } }
+
+/* ---- mobile: the graph scales down, so enlarge captions for legibility */
+@media (max-width: 900px) {
+  .graph { max-width: 460px; }
+  .label { font-size: 26px; }
+  .source { font-size: 24px; }
+}
+
+/* ---- reduced motion: pre-assembled, no drift/flow, instant ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .node, .body, .shape, .label, .edge, .feed, .chip, .source { transition: none !important; animation: none !important; }
+  .node[data-state="pulse"] .ring { animation: none; opacity: 0; }
+  .edge[data-state="active-flow"], .feed[data-state="active-flow"] { animation: none; }
+  .scan { display: none; }
+}

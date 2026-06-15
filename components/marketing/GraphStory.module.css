@@ -1,0 +1,139 @@
+/* GraphStory — the pinned-graph scrollytelling layout (homepage spine).
+   Type comes from the global .m-* system; this module owns layout + the
+   sticky/scroll structure only. Colors via --m-* tokens.
+
+   Desktop: two columns. Hero + 6 sections in column 1; the graph in column 2,
+   sticky, spanning the whole spine. DOM order is hero -> graph -> sections so
+   that on mobile (single column) it naturally reads hero -> static graph shot
+   -> stacked sections. */
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 0.92fr 1.08fr;
+  column-gap: clamp(2rem, 5vw, 5rem);
+}
+
+.hero {
+  grid-column: 1;
+  grid-row: 1;
+  min-height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+/* the pinned visual — stays in view while content scrolls past it */
+.visual {
+  grid-column: 2;
+  grid-row: 1 / span 50; /* span the whole spine; extra implicit rows are 0-height */
+  position: sticky;
+  top: 80px;
+  align-self: start;
+  height: calc(100vh - 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.caption {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--m-ink-2);
+}
+
+.section {
+  grid-column: 1;
+  min-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 0;
+  border-top: 1px solid var(--m-border);
+}
+
+.heroCta {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.tag {
+  color: var(--m-ink-2); /* AA-safe at the eyebrow's small size (muted fails) */
+  font-weight: 600;
+}
+
+.body {
+  margin-top: 1.1rem;
+  max-width: 46ch;
+}
+
+/* sub-features: title + concrete sentence, divided by hairlines (Monaco density) */
+.subs {
+  margin-top: 2.25rem;
+  display: flex;
+  flex-direction: column;
+}
+.sub {
+  padding: 1.1rem 0;
+  border-top: 1px solid var(--m-border);
+}
+.sub:last-child {
+  border-bottom: 1px solid var(--m-border);
+}
+.subTitle {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.02rem;
+  letter-spacing: -.005em;
+  color: var(--m-ink);
+  margin: 0;
+}
+.subBody {
+  font-size: .98rem;
+  line-height: 1.55;
+  color: var(--m-ink-2);
+  margin: .3rem 0 0;
+  max-width: 48ch;
+}
+
+/* --- mobile: single column, graph collapses to one static shot --- */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .hero {
+    grid-column: 1;
+    grid-row: auto;
+    min-height: auto;
+    padding: 1.5rem 0 0;
+  }
+  .visual {
+    grid-column: 1;
+    grid-row: auto;
+    position: static;
+    height: auto;
+    align-self: auto;
+    padding: 1.75rem 0 .5rem;
+  }
+  .section {
+    grid-column: 1;
+    min-height: auto;
+    padding: 2.5rem 0;
+  }
+  .body {
+    max-width: none;
+  }
+}
