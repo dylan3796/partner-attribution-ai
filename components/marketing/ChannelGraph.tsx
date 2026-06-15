@@ -165,11 +165,28 @@ function edgeStateFor(e: GraphEdge, section: number): EdgeState {
   }
 }
 
-// graph coords (1000×700) -> percentage position for HTML overlay chips
-const px = (x: number) => `${(x / 1000) * 100}%`;
-const py = (y: number) => `${(y / 700) * 100}%`;
+type Crop = { x: number; y: number; w: number; h: number };
 
-export default function ChannelGraph({ activeSection = 0 }: { activeSection?: number }) {
+export default function ChannelGraph({
+  activeSection = 0,
+  crop,
+  ambient = false,
+  still = false,
+  large = false,
+  recommendChip,
+}: {
+  activeSection?: number;
+  /** Frame a subregion of the same 1000×700 layout (HOME crops). */
+  crop?: Crop;
+  /** HERO: slow ambient drift after the one-time assembly. */
+  ambient?: boolean;
+  /** Disable looping flow dashes for an at-a-glance still (pulse still allowed). */
+  still?: boolean;
+  /** HERO: render at the larger cinematic width. */
+  large?: boolean;
+  /** State-5 program-design recommendation; hides tier labels when set. */
+  recommendChip?: string;
+}) {
   const [assembled, setAssembled] = useState(false);
   // unique per instance so multiple graphs on one page don't share gradient ids
   const scanId = `scan-${useId().replace(/:/g, "")}`;
@@ -184,15 +201,26 @@ export default function ChannelGraph({ activeSection = 0 }: { activeSection?: nu
   const pos = positionFor(section);
   const showSources = section === 0 || section === 1;
 
+  // crop-aware coords for the HTML overlay chips
+  const cx = crop?.x ?? 0;
+  const cy = crop?.y ?? 0;
+  const cw = crop?.w ?? 1000;
+  const ch = crop?.h ?? 700;
+  const px = (x: number) => `${((x - cx) / cw) * 100}%`;
+  const py = (y: number) => `${((y - cy) / ch) * 100}%`;
+  const viewBox = `${cx} ${cy} ${cw} ${ch}`;
+
   return (
     <div
-      className={styles.graph}
+      className={`${styles.graph} ${large ? styles.large : ""}`}
       data-section={section}
       data-assembled={assembled}
+      data-ambient={ambient}
+      data-still={still}
       role="img"
-      aria-label="Animated Channel Graph: a central 'You' connected to your data domains — Partners, Accounts, Opportunities, Program, Definitions, and Personnel — each holding records. As each section becomes active, the graph highlights data connecting, the formed graph, partners to recruit, deal attribution, partner tiers and a recommendation, and a partner-scoped query view."
+      aria-label="The Channel Graph: a central 'You' connected to your data domains — Partners, Accounts, Opportunities, Program, Definitions, and Personnel — each holding records, with the relationships between them highlighted."
     >
-      <svg className={styles.svg} viewBox="0 0 1000 700" aria-hidden="true">
+      <svg className={styles.svg} viewBox={viewBox} aria-hidden="true">
         <defs>
           <linearGradient id={scanId} x1="0" x2="1" y1="0" y2="0">
             <stop offset="0" stopColor="var(--m-accent)" stopOpacity="0" />
@@ -205,6 +233,9 @@ export default function ChannelGraph({ activeSection = 0 }: { activeSection?: nu
         <g className={styles.scan}>
           <rect x="-200" y="0" width="160" height="700" fill={`url(#${scanId})`} />
         </g>
+
+        {/* scene — gently drifts as one when ambient (keeps edges + nodes aligned) */}
+        <g className={styles.scene}>
 
         {/* feed lines from sources to nearest domain */}
         {SOURCES.map((s, i) => {
@@ -281,6 +312,7 @@ export default function ChannelGraph({ activeSection = 0 }: { activeSection?: nu
             </g>
           );
         })}
+        </g>
       </svg>
 
       {/* ---- HTML overlay chips (positioned in graph coords) ---- */}
@@ -306,8 +338,9 @@ export default function ChannelGraph({ activeSection = 0 }: { activeSection?: nu
           </div>
         ))}
 
-        {/* Plan tier band labels */}
-        {section === 5 &&
+        {/* Plan tier band labels (PRODUCT explainer); hidden when a HOME
+            program-design recommendation chip is shown instead */}
+        {section === 5 && !recommendChip &&
           [
             { label: "Tier 1", y: 165 },
             { label: "Tier 2", y: 350 },
@@ -322,6 +355,17 @@ export default function ChannelGraph({ activeSection = 0 }: { activeSection?: nu
               {t.label}
             </div>
           ))}
+
+        {/* State-5 program-design recommendation (HOME "Craft the program") */}
+        {section === 5 && recommendChip && (
+          <div
+            className={`${styles.chip} ${styles.chipEvidence}`}
+            data-show={true}
+            style={{ left: px(620), top: py(620) }}
+          >
+            {recommendChip}
+          </div>
+        )}
 
         {/* Connect — context tags snapping onto edges */}
         {[

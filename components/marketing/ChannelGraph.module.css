@@ -159,23 +159,40 @@
 .chipAnswer { background: var(--m-surface); border: 1px solid var(--m-border); color: var(--m-ink-2); border-radius: 12px 12px 4px 12px; max-width: 240px; white-space: normal; }
 .chipContext { background: #fff; border: 1px solid var(--m-border); color: var(--m-ink-2); }
 
+/* ---- ambient drift (HERO) + still (crops) --------------------------- */
+.scene { transform-box: fill-box; transform-origin: center; }
+.graph[data-ambient="true"][data-assembled="true"] .scene {
+  animation: drift 11s ease-in-out infinite;
+}
+/* a still crop keeps its accent but stops the marching flow (pulse stays) */
+.graph[data-still="true"] .edge[data-state="active-flow"],
+.graph[data-still="true"] .feed[data-state="active-flow"] { animation: none; }
+
 /* ---- keyframes ------------------------------------------------------ */
+@keyframes drift { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(5px, -4px); } 50% { transform: translate(0, -8px); } 75% { transform: translate(-5px, -4px); } }
 @keyframes flow { to { stroke-dashoffset: -28; } }
 @keyframes pulse { 0% { opacity: .5; transform: scale(1); } 100% { opacity: 0; transform: scale(2.1); } }
 @keyframes formIn { from { opacity: 0; transform: scale(.6); } }
 @keyframes edgeIn { from { opacity: 0; } }
 @keyframes scan { from { transform: translateX(-40%); } to { transform: translateX(140%); } }
 
+/* hero cinematic width (capped again on mobile below) */
+.large { max-width: 960px; }
+
 /* ---- mobile: the graph scales down, so enlarge captions for legibility */
 @media (max-width: 900px) {
   .graph { max-width: 460px; }
   .label { font-size: 26px; }
   .source { font-size: 24px; }
+  /* mobile is fully static: no drift, no flow, no pulse */
+  .scene { animation: none !important; }
+  .edge[data-state="active-flow"], .feed[data-state="active-flow"] { animation: none; }
+  .node[data-state="pulse"] .ring { animation: none; opacity: 0; }
 }
 
 /* ---- reduced motion: pre-assembled, no drift/flow, instant ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .node, .body, .shape, .label, .edge, .feed, .chip, .source { transition: none !important; animation: none !important; }
+  .node, .body, .shape, .label, .edge, .feed, .chip, .source, .scene { transition: none !important; animation: none !important; }
   .node[data-state="pulse"] .ring { animation: none; opacity: 0; }
   .edge[data-state="active-flow"], .feed[data-state="active-flow"] { animation: none; }
   .scan { display: none; }
