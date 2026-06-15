@@ -6,7 +6,7 @@ import CTABand from "@/components/marketing/CTABand";
 export const metadata: Metadata = {
   title: "Company — Covant",
   description:
-    "We started Covant on one conviction: partners are the most underused signal in B2B software, and no tool has ever used them to lift a single partner. We're building the hub that does — one place partners and the companies they sell with share — so 'better together' finally pays off for both sides.",
+    "We started Covant on one conviction: partners are the most underused data in B2B software, and no tool has ever turned it into action. We built the Channel Graph to do exactly that — partner data, organized into one place both sides can act on.",
 };
 
 const BELIEFS = [
@@ -33,21 +33,19 @@ const LEGAL = [
 
 export default function CompanyPage() {
   return (
-    <main className="site">
+    <main className="site site--story">
       {/* Mission */}
       <section className="m-section m-section--flush m-hero">
         <div className="m-container">
           <p className="m-eyebrow">Company</p>
-          <h1 className="m-h1" style={{ maxWidth: "22ch" }}>
-            Partnerships should pay off for everyone in them.
+          <h1 className="m-h1" style={{ maxWidth: "20ch" }}>
+            Partners are signal, not overhead.
           </h1>
           <p className="m-lead" style={{ maxWidth: "58ch" }}>
-            We started Covant on one conviction: partners are the most underused signal in
-            B2B software — billions of datapoints about what&apos;s working, who to back, and
-            where to grow — and no tool has ever used them to lift a single partner. We&apos;re
-            building the hub that does: one place where partners and the companies they sell
-            with share the revenue, the progression, and the next move — so &ldquo;better
-            together&rdquo; finally pays off for both sides.
+            We started Covant on one conviction: partners are the most underused data in
+            B2B software — billions of datapoints about what&apos;s working and where to grow
+            — and no tool has ever turned it into action. So we built the Channel Graph:
+            partner data, organized into one place both sides can act on.
           </p>
         </div>
       </section>

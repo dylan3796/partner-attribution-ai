@@ -7,6 +7,23 @@
 
 ---
 
+## FINAL (voice pass — supersedes the lines below; see `copy-rewrite.md`)
+
+A higher-register pass replaced the copy below. The shipped lines:
+- **Hero:** "Partner Intelligence for Startups."
+- **Subhead:** "Covant organizes your scattered partner data into the Channel Graph."
+- **Spine is 5 sections** (the Channel Graph is introduced first, as the *how*):
+  01 The Channel Graph · 02 Channel TAM · 03 Attribution · 04 Plan & recommend ·
+  05 Ask Covant. ("Connect" folded into 01.)
+- **Bare "graph" is banned** in copy; "Channel Graph" is the proper-noun product.
+- Final headlines: *All your partner data, organized* · *Find the partners
+  you're missing* · *Attribution, proposed with evidence* · *The right partner,
+  every deal* · *Ask your channel anything.*
+
+The sections below are retained as the decision record only.
+
+---
+
 ## 0. Reconciliation notes (read before approving)
 
 - **Category = Partner Intelligence, anchored on the Channel Graph.** Per the

@@ -32,7 +32,7 @@ const sourceSerif = Source_Serif_4({
 export const metadata: Metadata = {
   title: "Covant — Partner Intelligence",
   description:
-    "Covant is partner intelligence. Pour your partner data into the Channel Graph — a semantic layer over your whole channel — and run the partnerships org on it: attribution and reporting, planning, and proactive recommendations, with a portal for partners and answers in plain language.",
+    "Partner intelligence for startups. Covant organizes your scattered partner data into the Channel Graph, then runs attribution, planning, recommendations, and plain-language answers on it.",
   icons: {
     icon: [
       { url: "/favicon.svg", type: "image/svg+xml" },
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Covant — Partner Intelligence",
-    description: "Run your partnerships org on the Channel Graph — a semantic layer over your whole channel. Attribution and reporting, planning, and proactive recommendations, with a portal for partners and answers in plain language.",
+    description: "Partner intelligence for startups. Covant organizes your partner data into the Channel Graph — attribution, planning, recommendations, and plain-language answers, all in one place.",
     type: "website",
     siteName: "Covant",
     url: "https://covant.ai",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Covant — Partner Intelligence",
-    description: "Run your partnerships org on the Channel Graph — a semantic layer over your whole channel. Reporting, planning, and recommendations, with a portal for partners and answers in plain language.",
+    description: "Partner intelligence for startups. Covant organizes your partner data into the Channel Graph — attribution, planning, recommendations, and answers in plain language.",
   },
   metadataBase: new URL("https://covant.ai"),
 };

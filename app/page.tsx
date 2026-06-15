@@ -13,8 +13,8 @@ export default function Home() {
       <GraphStory />
       <CTABand
         eyebrow="Get started"
-        heading="See your Channel Graph."
-        body="We make the first pass on your data and show you the graph — your partners and your channel, not a demo dataset. You take it from there."
+        heading="See it on your data."
+        body="We build your first Channel Graph from your real partner data — not a demo dataset."
       />
     </main>
   );

@@ -55,10 +55,13 @@
 
 /* node type identity (monochrome; differentiated by tone + shape) */
 .node[data-type="vendor"] .shape { fill: var(--m-ink); stroke: var(--m-accent); stroke-width: 2.5; }
-.node[data-type="partner"] .shape { fill: var(--m-ink); }
-.node[data-type="deal"] .shape { fill: #fff; stroke: var(--m-ink-2); stroke-width: 1.5; }
-.node[data-type="account"] .shape { fill: var(--m-surface); stroke: var(--m-border); stroke-width: 1.5; }
+.node[data-type="domain"] .shape { fill: #fff; stroke: var(--m-ink); stroke-width: 2; }
+.node[data-type="record"] .shape { fill: var(--m-ink-2); }
 .node[data-type="ghost"] .shape { fill: none; stroke: var(--m-muted); stroke-width: 1.5; stroke-dasharray: 3 2; }
+
+/* only the vendor and domains are labeled; records are unlabeled dots */
+.node[data-type="vendor"] .label { font-size: 18px; fill: var(--m-ink); }
+.node[data-type="domain"] .label { font-size: 19px; fill: var(--m-ink); }
 
 /* node states (overlay on type) */
 .node[data-state="idle"] .body { opacity: 1; transform: scale(1); }
@@ -84,7 +87,8 @@
   fill: none;
   transition: opacity var(--dur) ease, stroke var(--dur) ease, stroke-width var(--dur) ease;
 }
-.edge[data-type="program"] { stroke: var(--m-border); stroke-width: 1; }
+.edge[data-type="program"] { stroke: var(--m-ink-2); stroke-width: 1.25; }
+.edge[data-type="member"] { stroke: var(--m-border); stroke-width: 1; }
 .edge[data-type="sourced"] { stroke: var(--m-ink); stroke-width: 2; }
 .edge[data-type="influenced"] { stroke: var(--m-ink-2); stroke-width: 1.25; stroke-dasharray: 4 3; }
 .edge[data-type="deal-account"] { stroke: var(--m-border); stroke-width: 1; }
