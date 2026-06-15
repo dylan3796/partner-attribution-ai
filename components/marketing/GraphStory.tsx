@@ -62,11 +62,11 @@ const SPINE: Section[] = [
     tag: "Plan with evidence",
     graphState: 5,
     headline: "The right partner for every deal.",
-    body: "Choose an account and an opportunity, and Covant returns a ranked list of partners — each with the reasons it's suggested, drawn from what's worked before for partners in similar deals. Win the deal now with the right expertise, and plan ahead: give partners the work they want and set fair growth targets.",
+    body: "Choose an account and an opportunity, and Covant returns a ranked list of partners — each with the reasons it's suggested, drawn from what's worked before for partners in similar deals. Win the deal now with the right expertise — and the same graph makes the next move possible, whether that's a specialist program or a new incentive.",
     subs: [
       { t: "Account and opportunity in", d: "A ranked, reasoned shortlist out." },
       { t: "Based on what's worked", d: "Patterns from partners in similar deals." },
-      { t: "Win now, plan ahead", d: "Right expertise today; fair targets next." },
+      { t: "Win now, build next", d: "Right expertise today; the next program tomorrow." },
     ],
   },
   {

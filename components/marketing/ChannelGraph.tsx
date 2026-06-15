@@ -1,195 +1,146 @@
 "use client";
 
-import { useEffect, useId, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ChannelGraph.module.css";
 
 /**
  * The Channel Graph — the signature visual.
  *
- * A frozen-layout SVG graph of the data the Channel Graph unifies: a central
- * "You" surrounded by the data domains (Partners, Accounts, Opportunities,
- * Program, Definitions, Personnel), each holding a few unlabeled record-dots.
- * No company names — the nodes are areas of data, not customers.
+ * A frozen-layout SVG *mesh* of how a partnerships org actually runs: five
+ * labeled layers — Definitions & rules, Where things live, The work, Programs
+ * & investment, External signals — each a cluster of labeled nodes wrapped in a
+ * soft group lasso. The clusters interconnect (no single hub); "Your Channel"
+ * is a low-emphasis label at the core, the layer the graph lives in, never a
+ * node in it.
  *
  * One `activeSection` (0–6) drives every state; transitions are pure CSS on
- * class/attribute changes (never re-rendered or simulated). The scroll owner
- * sets `activeSection`; the state machine lives here and is not forked.
+ * class/attribute changes (never re-rendered or simulated). Each step lights
+ * the clusters it's about and the sub-web between them.
  *
  * Spec: channel-graph-spec.md · Tokens: design-system.md
  */
 
-type NodeType = "vendor" | "domain" | "record" | "ghost";
-type NodeState = "idle" | "dimmed" | "active" | "pulse" | "ghost" | "hidden";
-type EdgeType = "program" | "member" | "sourced" | "influenced" | "deal-account" | "cosell";
-type EdgeState = "idle" | "dimmed" | "active-flow" | "hidden";
+type CL = 1 | 2 | 3 | 4 | 5;
+type NodeType = "core" | "cluster" | "leaf";
+type NodeState = "core" | "idle" | "dimmed" | "active";
+type GroupState = "idle" | "dimmed" | "active";
+type EdgeType = "mesh" | "member";
+type EdgeState = "idle" | "dimmed" | "active-flow";
 
-type Dom = "P" | "O" | "A" | "PROG" | "PERS" | "DEF";
-type GraphNode = { id: string; type: NodeType; label?: string; x: number; y: number; dom?: Dom; signal?: string };
-type GraphEdge = { from: string; to: string; type: EdgeType };
+type GNode = { id: string; type: NodeType; label?: string; x: number; y: number; cl?: CL; labelAbove?: boolean };
+type GEdge = { from: string; to: string; type: EdgeType };
+type Group = { cl: CL; cx: number; cy: number; rx: number; ry: number };
 
 // Frozen coordinates on a 1000×700 canvas (authored, not simulated).
-const DOMAINS: GraphNode[] = [
-  { id: "DOM_P", type: "domain", label: "Partners", x: 300, y: 170, dom: "P" },
-  { id: "DOM_O", type: "domain", label: "Opportunities", x: 700, y: 170, dom: "O" },
-  { id: "DOM_A", type: "domain", label: "Accounts", x: 825, y: 350, dom: "A" },
-  { id: "DOM_PROG", type: "domain", label: "Program", x: 700, y: 560, dom: "PROG" },
-  { id: "DOM_PERS", type: "domain", label: "Personnel", x: 300, y: 560, dom: "PERS" },
-  { id: "DOM_DEF", type: "domain", label: "Definitions", x: 175, y: 350, dom: "DEF" },
+const CORE: GNode = { id: "core", type: "core", label: "Your Channel", x: 500, y: 350 };
+
+const CLUSTERS: GNode[] = [
+  { id: "C1", type: "cluster", label: "Where things live", x: 500, y: 130, cl: 1 },
+  { id: "C2", type: "cluster", label: "The work", x: 840, y: 250, cl: 2 },
+  { id: "C3", type: "cluster", label: "Programs & investment", x: 710, y: 590, cl: 3, labelAbove: true },
+  { id: "C4", type: "cluster", label: "External signals", x: 290, y: 590, cl: 4, labelAbove: true },
+  { id: "C5", type: "cluster", label: "Definitions & rules", x: 160, y: 250, cl: 5 },
 ];
 
-const RECORDS: GraphNode[] = [
-  // Partners (six — they organize into tiers in section 5)
-  { id: "PR1", type: "record", x: 175, y: 85, dom: "P" },
-  { id: "PR2", type: "record", x: 400, y: 90, dom: "P" },
-  { id: "PR3", type: "record", x: 110, y: 205, dom: "P" },
-  { id: "PR4", type: "record", x: 440, y: 200, dom: "P" },
-  { id: "PR5", type: "record", x: 245, y: 285, dom: "P" },
-  { id: "PR6", type: "record", x: 330, y: 35, dom: "P" },
-  // Opportunities
-  { id: "OP1", type: "record", x: 620, y: 110, dom: "O" },
-  { id: "OP2", type: "record", x: 810, y: 110, dom: "O" },
-  { id: "OP3", type: "record", x: 825, y: 240, dom: "O" },
-  // Accounts
-  { id: "AC1", type: "record", x: 915, y: 295, dom: "A" },
-  { id: "AC2", type: "record", x: 920, y: 415, dom: "A" },
-  // Program
-  { id: "PG1", type: "record", x: 625, y: 635, dom: "PROG" },
-  { id: "PG2", type: "record", x: 795, y: 625, dom: "PROG" },
-  // Personnel
-  { id: "PE1", type: "record", x: 300, y: 645, dom: "PERS" },
-  // Definitions
-  { id: "DF1", type: "record", x: 80, y: 360, dom: "DEF" },
+const LEAVES: GNode[] = [
+  // 1 — Where things live
+  { id: "l_partners", type: "leaf", label: "Partners", x: 375, y: 70, cl: 1 },
+  { id: "l_accounts", type: "leaf", label: "Accounts", x: 510, y: 48, cl: 1 },
+  { id: "l_opps", type: "leaf", label: "Opportunities", x: 650, y: 70, cl: 1 },
+  // 2 — The work (evidence)
+  { id: "l_reg", type: "leaf", label: "Registrations", x: 930, y: 162, cl: 2 },
+  { id: "l_act", type: "leaf", label: "Activities", x: 958, y: 275, cl: 2 },
+  { id: "l_docs", type: "leaf", label: "Documents", x: 915, y: 382, cl: 2 },
+  // 3 — Programs & investment
+  { id: "l_inc", type: "leaf", label: "Incentives", x: 838, y: 600, cl: 3 },
+  { id: "l_mdf", type: "leaf", label: "MDF & claims", x: 700, y: 668, cl: 3, labelAbove: true },
+  { id: "l_cert", type: "leaf", label: "Certifications", x: 560, y: 652, cl: 3, labelAbove: true },
+  // 4 — External signals
+  { id: "l_analyst", type: "leaf", label: "Analyst data", x: 168, y: 605, cl: 4 },
+  { id: "l_mkt", type: "leaf", label: "Marketplace", x: 320, y: 672, cl: 4, labelAbove: true },
+  // 5 — Definitions & rules
+  { id: "l_roe", type: "leaf", label: "Rules of engagement", x: 80, y: 162, cl: 5 },
+  { id: "l_models", type: "leaf", label: "Attribution models", x: 55, y: 290, cl: 5 },
+  { id: "l_metrics", type: "leaf", label: "Metrics & tiers", x: 95, y: 398, cl: 5 },
 ];
 
-const GHOSTS: GraphNode[] = [
-  { id: "G1", type: "ghost", x: 130, y: 290, dom: "P", signal: "M&A" },
-  { id: "G2", type: "ghost", x: 470, y: 120, dom: "P", signal: "new practice" },
+const NODES: GNode[] = [CORE, ...CLUSTERS, ...LEAVES];
+
+const GROUPS: Group[] = [
+  { cl: 1, cx: 512, cy: 92, rx: 172, ry: 80 },
+  { cl: 2, cx: 902, cy: 272, rx: 96, ry: 138 },
+  { cl: 3, cx: 700, cy: 626, rx: 172, ry: 80 },
+  { cl: 4, cx: 250, cy: 630, rx: 138, ry: 74 },
+  { cl: 5, cx: 95, cy: 288, rx: 98, ry: 142 },
 ];
 
-const VENDOR: GraphNode = { id: "V", type: "vendor", label: "Your Channel", x: 500, y: 350 };
-
-const NODES: GraphNode[] = [VENDOR, ...DOMAINS, ...RECORDS, ...GHOSTS];
-
-// Edges: backbone (You→domain), membership (domain→record), and the semantic
-// cross-links that the choreography lights up.
-const CROSS_EDGES: GraphEdge[] = [
-  { from: "PR2", to: "OP1", type: "sourced" },
-  { from: "PR5", to: "OP1", type: "influenced" },
-  { from: "PR1", to: "OP1", type: "influenced" },
-  { from: "PR3", to: "OP3", type: "sourced" },
-  { from: "PR4", to: "OP2", type: "sourced" },
-  { from: "OP1", to: "AC1", type: "deal-account" },
-  { from: "OP2", to: "AC2", type: "deal-account" },
-  { from: "PR2", to: "PR5", type: "cosell" },
+// Inter-cluster mesh: a ring plus three diagonals — a web, not a hub.
+const MESH: [string, string][] = [
+  ["C1", "C2"], ["C2", "C3"], ["C3", "C4"], ["C4", "C5"], ["C5", "C1"],
+  ["C1", "C3"], ["C1", "C4"], ["C2", "C5"],
 ];
 
-const EDGES: GraphEdge[] = [
-  ...DOMAINS.map((d) => ({ from: "V", to: d.id, type: "program" as EdgeType })),
-  ...RECORDS.map((r) => ({ from: `DOM_${r.dom}`, to: r.id, type: "member" as EdgeType })),
-  ...CROSS_EDGES,
+const EDGES: GEdge[] = [
+  ...MESH.map(([from, to]) => ({ from, to, type: "mesh" as EdgeType })),
+  ...LEAVES.map((l) => ({ from: `C${l.cl}`, to: l.id, type: "member" as EdgeType })),
 ];
 
-// Section 5 tier bands — partner records glide into Tier 1/2/3, vendor steps aside.
-const TIER_POS: Record<string, { x: number; y: number }> = {
-  V: { x: 165, y: 350 },
-  PR1: { x: 560, y: 165 }, PR2: { x: 760, y: 165 },
-  PR5: { x: 560, y: 350 }, PR6: { x: 760, y: 350 },
-  PR3: { x: 560, y: 535 }, PR4: { x: 760, y: 535 },
+const clOf: Record<string, CL> = Object.fromEntries(
+  [...CLUSTERS, ...LEAVES].map((n) => [n.id, n.cl as CL])
+);
+
+// Which layers each step is about. Sections 0–2 show the whole graph.
+const ACTIVE: Record<number, CL[]> = {
+  3: [4, 1], // Recruit & activate — external signals feed partner fit
+  4: [5, 2], // Attribution — definitions + the evidence
+  5: [1, 2], // Recommend — entities + the work behind them
+  6: [5, 1, 2], // Copilot — an answer traced across the mesh
 };
 
-// Sources stream in from the periphery and feed the nearest domain.
-const SOURCES = [
-  { label: "CRM", x: 615, y: 35, target: "DOM_O" },
-  { label: "Email", x: 110, y: 620, target: "DOM_PERS" },
-  { label: "Slack", x: 95, y: 110, target: "DOM_P" },
-  { label: "Notes", x: 900, y: 620, target: "DOM_PROG" },
-  { label: "Sheets", x: 950, y: 240, target: "DOM_A" },
-];
+const isActive = (cl: CL | undefined, section: number) =>
+  cl !== undefined && (ACTIVE[section]?.includes(cl) ?? false);
 
-const ACTIVE_EDGES: Record<number, string[]> = {
-  4: ["PR2->OP1", "PR5->OP1", "PR1->OP1", "OP1->AC1"],
-  5: ["PR4->OP2"],
-  6: ["V->DOM_P", "DOM_P->PR2", "PR2->OP1", "OP1->AC1"],
-};
-
-const edgeKey = (e: GraphEdge) => `${e.from}->${e.to}`;
-
-function positionFor(section: number): Record<string, { x: number; y: number }> {
-  const base: Record<string, { x: number; y: number }> = {};
-  for (const n of NODES) base[n.id] = { x: n.x, y: n.y };
-  if (section === 5) return { ...base, ...TIER_POS };
-  return base;
+function nodeStateFor(n: GNode, section: number): NodeState {
+  if (n.type === "core") return "core";
+  if (section <= 2) return "idle";
+  if (!isActive(n.cl, section)) return "dimmed";
+  return n.type === "cluster" ? "active" : "idle";
 }
 
-function nodeStateFor(n: GraphNode, section: number): NodeState {
-  if (n.type === "ghost") return section === 3 ? "ghost" : "hidden";
-  switch (section) {
-    case 0:
-    case 1:
-    case 2:
-      return "idle";
-    case 3: // Channel TAM — light the Partners domain and its records; ghosts appear
-      if (n.id === "DOM_P") return "active";
-      if (n.id === "V") return "idle";
-      if (n.type === "record" && n.dom === "P") return "idle";
-      return "dimmed";
-    case 4: // Attribution — one opportunity record + its contributing partner records
-      if (n.id === "OP1") return "active";
-      if (["PR1", "PR2", "PR5", "AC1", "V", "DOM_O"].includes(n.id)) return "idle";
-      return "dimmed";
-    case 5: // Plan & recommend — partner records into tiers, one pulse on a live opp
-      if (n.type === "record" && n.dom === "P") return n.id === "PR4" ? "pulse" : "idle";
-      if (n.id === "V") return "idle";
-      if (n.id === "OP2") return "active";
-      return "dimmed";
-    case 6: // Ask — collapse to a single partner's scoped slice
-      return ["V", "DOM_P", "PR2", "OP1", "AC1"].includes(n.id) ? "active" : "dimmed";
-    default:
-      return "idle";
+function groupStateFor(g: Group, section: number): GroupState {
+  if (section <= 2) return "idle";
+  return isActive(g.cl, section) ? "active" : "dimmed";
+}
+
+function edgeStateFor(e: GEdge, section: number): EdgeState {
+  if (section <= 2) return "idle";
+  if (e.type === "member") {
+    return isActive(clOf[e.to], section) ? "idle" : "dimmed";
   }
+  // mesh: light it only when both clusters are in play this step
+  return isActive(clOf[e.from], section) && isActive(clOf[e.to], section)
+    ? "active-flow"
+    : "dimmed";
 }
 
-function edgeStateFor(e: GraphEdge, section: number): EdgeState {
-  if (ACTIVE_EDGES[section]?.includes(edgeKey(e))) return "active-flow";
-  switch (section) {
-    case 3: // keep the Partners backbone + memberships lit; recede the rest
-      if (e.from === "V" && e.to === "DOM_P") return "idle";
-      if (e.from === "DOM_P" && e.type === "member") return "idle";
-      return "dimmed";
-    case 4:
-    case 5:
-    case 6:
-      return "dimmed";
-    default:
-      return "idle";
-  }
-}
-
-type Crop = { x: number; y: number; w: number; h: number };
+const px = (x: number) => `${(x / 1000) * 100}%`;
+const py = (y: number) => `${(y / 700) * 100}%`;
 
 export default function ChannelGraph({
   activeSection = 0,
-  crop,
   ambient = false,
   still = false,
   large = false,
-  recommendChip,
 }: {
   activeSection?: number;
-  /** Frame a subregion of the same 1000×700 layout (HOME crops). */
-  crop?: Crop;
-  /** HERO: slow ambient drift after the one-time assembly. */
+  /** Slow ambient drift after the one-time assembly. */
   ambient?: boolean;
-  /** Disable looping flow dashes for an at-a-glance still (pulse still allowed). */
+  /** Disable looping flow dashes for an at-a-glance still. */
   still?: boolean;
-  /** HERO: render at the larger cinematic width. */
+  /** Render at the larger cinematic width. */
   large?: boolean;
-  /** State-5 program-design recommendation; hides tier labels when set. */
-  recommendChip?: string;
 }) {
   const [assembled, setAssembled] = useState(false);
-  // unique per instance so multiple graphs on one page don't share gradient ids
-  const scanId = `scan-${useId().replace(/:/g, "")}`;
 
   // Play the intro assembly once, after first paint.
   useEffect(() => {
@@ -198,17 +149,7 @@ export default function ChannelGraph({
   }, []);
 
   const section = Math.max(0, Math.min(6, activeSection));
-  const pos = positionFor(section);
-  const showSources = section === 0 || section === 1;
-
-  // crop-aware coords for the HTML overlay chips
-  const cx = crop?.x ?? 0;
-  const cy = crop?.y ?? 0;
-  const cw = crop?.w ?? 1000;
-  const ch = crop?.h ?? 700;
-  const px = (x: number) => `${((x - cx) / cw) * 100}%`;
-  const py = (y: number) => `${((y - cy) / ch) * 100}%`;
-  const viewBox = `${cx} ${cy} ${cw} ${ch}`;
+  const posOf = (id: string) => NODES.find((n) => n.id === id)!;
 
   return (
     <div
@@ -218,184 +159,94 @@ export default function ChannelGraph({
       data-ambient={ambient}
       data-still={still}
       role="img"
-      aria-label="The Channel Graph: your channel at the core, connected to your data domains — Partners, Accounts, Opportunities, Program, Definitions, and Personnel — each holding records, with the relationships between them highlighted."
+      aria-label="The Channel Graph: your channel at the core, surrounded by five interconnected layers — Definitions & rules, Where things live, The work, Programs & investment, and External signals — each a cluster of labeled records, woven into one mesh."
     >
-      <svg className={styles.svg} viewBox={viewBox} aria-hidden="true">
-        <defs>
-          <linearGradient id={scanId} x1="0" x2="1" y1="0" y2="0">
-            <stop offset="0" stopColor="var(--m-accent)" stopOpacity="0" />
-            <stop offset="0.5" stopColor="var(--m-accent)" stopOpacity="0.18" />
-            <stop offset="1" stopColor="var(--m-accent)" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        {/* scan sweep (Channel TAM) */}
-        <g className={styles.scan}>
-          <rect x="-200" y="0" width="160" height="700" fill={`url(#${scanId})`} />
-        </g>
-
-        {/* scene — gently drifts as one when ambient (keeps edges + nodes aligned) */}
+      <svg className={styles.svg} viewBox="0 0 1000 700" aria-hidden="true">
         <g className={styles.scene}>
-
-        {/* feed lines from sources to nearest domain */}
-        {SOURCES.map((s, i) => {
-          const t = pos[s.target];
-          const state = section === 1 ? "active-flow" : section === 0 ? "faint" : "off";
-          return (
-            <line
-              key={`feed-${s.label}`}
-              className={styles.feed}
-              data-state={state}
-              x1={s.x}
-              y1={s.y}
-              x2={t.x}
-              y2={t.y}
-              style={{ ["--i" as string]: i }}
+          {/* cluster group lassos (behind everything) */}
+          {GROUPS.map((g) => (
+            <ellipse
+              key={`g-${g.cl}`}
+              className={styles.group}
+              data-state={groupStateFor(g, section)}
+              cx={g.cx}
+              cy={g.cy}
+              rx={g.rx}
+              ry={g.ry}
             />
-          );
-        })}
+          ))}
 
-        {/* edges */}
-        {EDGES.map((e, i) => {
-          const a = pos[e.from];
-          const b = pos[e.to];
-          return (
-            <line
-              key={edgeKey(e)}
-              className={styles.edge}
-              data-type={e.type}
-              data-state={edgeStateFor(e, section)}
-              x1={a.x}
-              y1={a.y}
-              x2={b.x}
-              y2={b.y}
-              style={{ ["--i" as string]: i }}
-            />
-          );
-        })}
+          {/* edges */}
+          {EDGES.map((e, i) => {
+            const a = posOf(e.from);
+            const b = posOf(e.to);
+            return (
+              <line
+                key={`${e.from}->${e.to}`}
+                className={styles.edge}
+                data-type={e.type}
+                data-state={edgeStateFor(e, section)}
+                x1={a.x}
+                y1={a.y}
+                x2={b.x}
+                y2={b.y}
+                style={{ ["--i" as string]: i }}
+              />
+            );
+          })}
 
-        {/* source labels */}
-        {SOURCES.map((s) => (
-          <text
-            key={`src-${s.label}`}
-            className={styles.source}
-            data-on={showSources ? 1 : 0}
-            x={s.x}
-            y={s.y - 14}
-          >
-            {s.label}
-          </text>
-        ))}
-
-        {/* nodes */}
-        {NODES.map((n, i) => {
-          const p = pos[n.id];
-          const state = nodeStateFor(n, section);
-          const r = n.type === "vendor" ? 26 : n.type === "domain" ? 19 : 7;
-          return (
-            <g
-              key={n.id}
-              className={styles.node}
-              data-type={n.type}
-              data-state={state}
-              style={{ ["--x" as string]: p.x, ["--y" as string]: p.y, ["--i" as string]: i }}
-            >
-              <circle className={styles.ring} r={r + 6} />
-              <g className={styles.body}>
-                <circle className={styles.shape} r={r} />
+          {/* nodes */}
+          {NODES.map((n, i) => {
+            const r = n.type === "core" ? 46 : n.type === "cluster" ? 16 : 6;
+            const ly = n.type === "core" ? 6 : n.labelAbove ? -(r + 12) : r + 20;
+            return (
+              <g
+                key={n.id}
+                className={styles.node}
+                data-type={n.type}
+                data-state={nodeStateFor(n, section)}
+                style={{ ["--x" as string]: n.x, ["--y" as string]: n.y, ["--i" as string]: i }}
+              >
+                <circle className={styles.ring} r={r + 6} />
+                <g className={styles.body}>
+                  <circle className={styles.shape} r={r} />
+                </g>
+                {n.label ? (
+                  <text className={styles.label} y={ly}>
+                    {n.label}
+                  </text>
+                ) : null}
               </g>
-              {n.label ? (
-                <text className={styles.label} y={r + 20}>
-                  {n.label}
-                </text>
-              ) : null}
-            </g>
-          );
-        })}
+            );
+          })}
         </g>
       </svg>
 
       {/* ---- HTML overlay chips (positioned in graph coords) ---- */}
       <div className={styles.overlay}>
-        {/* Attribution evidence chip near OP1 */}
-        <div
-          className={`${styles.chip} ${styles.chipEvidence}`}
-          data-show={section === 4}
-          style={{ left: px(560), top: py(55) }}
-        >
-          3 touchpoints — proposed
+        {/* Recruit & activate — fit + signal */}
+        <div className={`${styles.chip} ${styles.chipSignal}`} data-show={section === 3} style={{ left: px(375), top: py(36) }}>
+          fit score
+        </div>
+        <div className={`${styles.chip} ${styles.chipSignal}`} data-show={section === 3} style={{ left: px(250), top: py(540) }}>
+          analyst + marketplace
         </div>
 
-        {/* Channel TAM signal badges on ghost partner records */}
-        {GHOSTS.map((g) => (
-          <div
-            key={`sig-${g.id}`}
-            className={`${styles.chip} ${styles.chipSignal}`}
-            data-show={section === 3}
-            style={{ left: px(g.x), top: py(g.y - 34) }}
-          >
-            {g.signal}
-          </div>
-        ))}
+        {/* Attribution — credit with the records */}
+        <div className={`${styles.chip} ${styles.chipEvidence}`} data-show={section === 4} style={{ left: px(845), top: py(195) }}>
+          credit, with the records
+        </div>
 
-        {/* Plan tier band labels (PRODUCT explainer); hidden when a HOME
-            program-design recommendation chip is shown instead */}
-        {section === 5 && !recommendChip &&
-          [
-            { label: "Tier 1", y: 165 },
-            { label: "Tier 2", y: 350 },
-            { label: "Tier 3", y: 535 },
-          ].map((t) => (
-            <div
-              key={t.label}
-              className={`${styles.chip} ${styles.chipTier}`}
-              data-show={true}
-              style={{ left: px(430), top: py(t.y) }}
-            >
-              {t.label}
-            </div>
-          ))}
+        {/* Recommend — best-fit partner */}
+        <div className={`${styles.chip} ${styles.chipEvidence}`} data-show={section === 5} style={{ left: px(510), top: py(178) }}>
+          best-fit partner
+        </div>
 
-        {/* State-5 program-design recommendation (HOME "Craft the program") */}
-        {section === 5 && recommendChip && (
-          <div
-            className={`${styles.chip} ${styles.chipEvidence}`}
-            data-show={true}
-            style={{ left: px(620), top: py(620) }}
-          >
-            {recommendChip}
-          </div>
-        )}
-
-        {/* Connect — context tags snapping onto edges */}
-        {[
-          { label: "sourced", x: 510, y: 105 },
-          { label: "co-sell", x: 320, y: 195 },
-          { label: "renewal", x: 760, y: 360 },
-        ].map((c) => (
-          <div
-            key={`ctx-${c.label}`}
-            className={`${styles.chip} ${styles.chipContext}`}
-            data-show={section === 1}
-            style={{ left: px(c.x), top: py(c.y) }}
-          >
-            {c.label}
-          </div>
-        ))}
-
-        {/* Ask — query + answer chips */}
-        <div
-          className={`${styles.chip} ${styles.chipQuery}`}
-          data-show={section === 6}
-          style={{ left: px(330), top: py(70) }}
-        >
+        {/* Copilot — query + answer */}
+        <div className={`${styles.chip} ${styles.chipQuery}`} data-show={section === 6} style={{ left: px(300), top: py(120) }}>
           Which partners influenced closed-won in EMEA?
         </div>
-        <div
-          className={`${styles.chip} ${styles.chipAnswer}`}
-          data-show={section === 6}
-          style={{ left: px(720), top: py(560) }}
-        >
+        <div className={`${styles.chip} ${styles.chipAnswer}`} data-show={section === 6} style={{ left: px(720), top: py(560) }}>
           One partner — 1 sourced, 2 influenced
         </div>
       </div>
