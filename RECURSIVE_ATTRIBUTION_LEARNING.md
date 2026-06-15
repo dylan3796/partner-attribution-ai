@@ -10,14 +10,34 @@
 Every time a human judge approves, overrides, or rejects an attribution
 recommendation **and tells us why**, that decision becomes a labeled signal the
 recommender consults next time — so the *first* recommendation gets steadily
-better at calling **partner-sourced vs. partner-influenced** without a human in
-the loop, while the guardrails never come off.
+better at calling **whatever the customer measures** without a human in the
+loop, while the guardrails never come off.
 
 The goal is not a black box that drifts toward "99% accuracy." It's a
 **deterministic, explainable feedback loop**: every recommendation can still
 point to *exactly why* it was made, and now one of those reasons can be _"the
 last 14 times your team saw this pattern on an SI deal, they ruled it
 influenced, not sourced."_
+
+### The category being judged is the customer's, not ours
+
+A critical framing correction: **sourced vs. influenced is just the most common
+example, not the contract.** Different programs measure credit on different
+axes — `sourced / influenced`, `primary / secondary / assist`,
+`registered / co-sell / services-led`, or some bespoke bucket a RevOps team
+invented. The loop must learn against **the customer's own taxonomy**, never a
+vocabulary we impose.
+
+Keep two things separate:
+
+- **The credit math stays bounded and defensible.** The 5 canonical models
+  produce the actual percentage split. We do *not* let customers invent payout
+  math — that's the whole "bounded set of correct models" philosophy, and it's
+  what keeps a dollar figure defensible in a dispute.
+- **The taxonomy — the labels credit is bucketed into, and the thing judges
+  actually rule on — is customer-configured.** This is what the loop learns and
+  what every recommendation is reported in. `sourcer`/`influencer` (our internal
+  role enum) becomes *one possible mapping*, the default, not the schema.
 
 This was an explicit fork in the road (see §7). We are deliberately **not**
 training an opaque ML model, because attribution drives payouts and disputes —
@@ -34,8 +54,8 @@ them together*, not new infrastructure.
 | Piece | Lives in | Role in the loop |
 |---|---|---|
 | Bounded model recommender | `convex/lib/attribution/recommender.ts` | Today: static keyword rules pick 1 of 5 models. Becomes: rules **+ learned precedent**. |
-| Source-vs-influenced derivation | `convex/lib/attribution/roles.ts` (`DEFAULT_ROLE_MAP`) | `deal_registration / referral / introduction → sourcer`; `co_sell / demo / content_share → influencer`. This map is what the loop learns to adjust **per org**. |
-| Role taxonomy | `convex/lib/attribution/types.ts` (`AttributionRole`) | `sourcer` ≈ "partner source", `influencer` ≈ "partner influenced". |
+| Default category derivation | `convex/lib/attribution/roles.ts` (`DEFAULT_ROLE_MAP`) | `deal_registration / referral / introduction → sourcer`; `co_sell / demo / content_share → influencer`. This is the *default* taxonomy + map the loop learns to adjust **per org** — an org can rename or re-bucket it. |
+| Default role taxonomy | `convex/lib/attribution/types.ts` (`AttributionRole`) | The built-in 4-category scheme. `sourcer` ≈ "partner source", `influencer` ≈ "partner influenced" — the default a customer inherits until they define their own. |
 | Attribution ledger | `attributions` table (`schema.ts:173`), each row has a `reason` | The thing being judged. |
 | Judge-with-reason pattern | `convex/tierReviews.ts` + `audit_log` | The exact approve/reject/defer + `notes` + audit pattern we copy — it's just pointed at tier changes today, not attribution calls. |
 | Per-program config | `programs.modelConfig` (`schema.ts:584`) | Where learned `roleMap` overrides eventually land. |
@@ -80,7 +100,39 @@ produces a weight no human can trace.
 
 ## 4. Data model (proposed new tables)
 
-### 4.1 `attributionDecisions` — the labeled signal store
+### 4.1 `attributionTaxonomies` — the customer's categories
+
+Defines the buckets a given org/program measures credit in. Seeded from our
+default 4-category scheme (`sourcer`/`influencer`/`implementer`/`closer`) so a
+customer who never touches it behaves exactly like today — but fully
+re-labelable and re-bucketable. Everything downstream references a
+`categoryKey` from here, never a hardcoded role literal.
+
+```ts
+attributionTaxonomies: defineTable({
+  organizationId: v.id("organizations"),
+  programId: v.optional(v.id("programs")),  // null = org-wide default
+  categories: v.array(v.object({
+    key: v.string(),          // stable id, e.g. "sourced" | "influenced" | "assist"
+    label: v.string(),        // display name the customer chose
+    // optional mapping back to the engine's internal role, for credit math
+    mapsToRole: v.optional(v.union(
+      v.literal("sourcer"), v.literal("influencer"),
+      v.literal("implementer"), v.literal("closer"),
+    )),
+  })),
+  isDefault: v.boolean(),     // true = the built-in scheme, untouched
+  updatedAt: v.number(),
+})
+  .index("by_organization", ["organizationId"])
+  .index("by_org_and_program", ["organizationId", "programId"]),
+```
+
+The `mapsToRole` field is the bridge: the customer's vocabulary is what judges
+and the loop work in, but the bounded models still need a role to compute the
+percentage split. A category with no mapping is purely a measurement label.
+
+### 4.2 `attributionDecisions` — the labeled signal store
 
 One row per human judgment on a recommendation. This is the training corpus,
 but it's queryable plain English, not tensors.
@@ -92,13 +144,10 @@ attributionDecisions: defineTable({
   partnerId: v.id("partners"),
   programId: v.optional(v.id("programs")),
 
-  // What the engine proposed
-  recommendedRole: v.union(            // "partner source" vs "partner influenced"
-    v.literal("sourcer"),
-    v.literal("influencer"),
-    v.literal("implementer"),
-    v.literal("closer"),
-  ),
+  // What the engine proposed — categoryKey references attributionTaxonomies,
+  // NOT a hardcoded role. For most orgs this resolves to "sourced"/"influenced",
+  // but it's whatever that customer measures.
+  recommendedCategoryKey: v.string(),
   recommendedPercentage: v.number(),
   recommendedReason: v.string(),        // the engine's explanation at decision time
   confidenceAtRecommendation: v.number(), // 0-1, what the engine believed
@@ -106,10 +155,10 @@ attributionDecisions: defineTable({
   // What the human decided
   action: v.union(
     v.literal("approved"),              // engine was right
-    v.literal("overridden"),            // human changed the role/split
+    v.literal("overridden"),            // human changed the category/split
     v.literal("rejected"),              // no credit / wrong partner
   ),
-  finalRole: v.optional(v.union(/* same 4 literals */)),
+  finalCategoryKey: v.optional(v.string()), // the bucket the judge landed on
   finalPercentage: v.optional(v.number()),
 
   // WHY — the part that makes learning possible
@@ -142,7 +191,7 @@ alone can't drive a deterministic rule. A small, curated enum of reason codes
 (plus an optional note) is the difference between a dataset and a comment
 thread. The enum starts tiny and grows as real override reasons cluster.
 
-### 4.2 `attributionPrecedents` — the learned, materialized patterns
+### 4.3 `attributionPrecedents` — the learned, materialized patterns
 
 The aggregate the recommender actually reads at runtime. Recomputed
 (incrementally or on a schedule) from `attributionDecisions`. This table is
@@ -159,8 +208,8 @@ attributionPrecedents: defineTable({
   patternKey: v.string(),               // e.g. "archetype=si|touch=co_sell|stage=post_qualified"
 
   // What the org consistently decides for this pattern (the "then")
-  dominantRole: v.union(/* 4 role literals */),
-  agreementRate: v.number(),            // 0-1: share of decisions agreeing with dominantRole
+  dominantCategoryKey: v.string(),      // references attributionTaxonomies
+  agreementRate: v.number(),            // 0-1: share of decisions agreeing with dominantCategoryKey
   sampleSize: v.number(),               // how many decisions back this
   topReasonCode: v.string(),            // most common reason → surfaced as the "because"
 
@@ -199,10 +248,11 @@ Decision order (first match wins, most-specific to least):
    eligible as sourcer; crm_sync is *never* qualifying.) These cap what the
    loop is allowed to conclude.
 2. **Org precedent** — if a matching `attributionPrecedents` row exists with
-   `sampleSize ≥ N` and `agreementRate ≥ A`, use its `dominantRole`, set
-   confidence from agreement rate, and cite the precedent in the rationale.
-3. **Default role map / keyword rules** — today's behavior, used when there's
-   no precedent yet. Confidence is a fixed baseline.
+   `sampleSize ≥ N` and `agreementRate ≥ A`, use its `dominantCategoryKey`
+   (resolved through the org's taxonomy), set confidence from agreement rate,
+   and cite the precedent in the rationale.
+3. **Default category map / keyword rules** — today's behavior, used when
+   there's no precedent yet. Confidence is a fixed baseline.
 
 A fresh org with zero decisions behaves **exactly like today** — the loop is
 purely additive. Accuracy improves as the decision log fills, org by org. No
@@ -249,8 +299,9 @@ dead end.
 
 ## 8. Build sequence (each step ships independently)
 
-1. **Capture.** Add `attributionDecisions`; build the judge UI on the
-   attribution review screen — approve/override + **reason code picker** + note.
+1. **Capture.** Add `attributionTaxonomies` (seeded with the default scheme) +
+   `attributionDecisions`; build the judge UI on the attribution review screen —
+   approve/override into the org's own categories + **reason code picker** + note.
    *Value even with zero learning:* a structured, auditable record of every
    credit decision and the reasoning behind it. (This is the natural next PR.)
 2. **Aggregate.** Build the `attributionDecisions → attributionPrecedents`
@@ -267,7 +318,12 @@ dead end.
 
 ## 9. Open questions for the team
 
-- **Reason-code taxonomy:** §4.1 lists a starter set. The real list should come
+- **Category taxonomy UX:** §4.1 makes the buckets customer-defined. Open
+  question is how much we let them customize at launch — pick from a few preset
+  schemes (sourced/influenced, primary/secondary/assist, …) vs. fully freeform.
+  Freeform is more flexible but every custom category needs a `mapsToRole` to
+  drive the credit math. Likely start with presets + rename.
+- **Reason-code taxonomy:** §4.2 lists a starter set. The real list should come
   from looking at how your design partners actually phrase overrides. Worth a
   short discovery pass before locking the enum.
 - **Precedent scope:** per-program (proposed) vs. per-org. Per-program is
