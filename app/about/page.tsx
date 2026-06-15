@@ -6,7 +6,7 @@ import CTABand from "@/components/marketing/CTABand";
 export const metadata: Metadata = {
   title: "Company — Covant",
   description:
-    "We started Covant on one conviction: partners are the most underused signal in B2B software, and no tool has ever used them to lift a single partner. We're building the hub that does — one place partners and the companies they sell with share — so 'better together' finally pays off for both sides.",
+    "We started Covant on one conviction: partners are the most underused signal in B2B software, and no tool has ever turned that signal into action. We're building the Partner Intelligence Engine that does — the Channel Graph — so 'better together' finally pays off for both sides.",
 };
 
 const BELIEFS = [
@@ -33,7 +33,7 @@ const LEGAL = [
 
 export default function CompanyPage() {
   return (
-    <main className="site">
+    <main className="site site--story">
       {/* Mission */}
       <section className="m-section m-section--flush m-hero">
         <div className="m-container">
@@ -44,10 +44,10 @@ export default function CompanyPage() {
           <p className="m-lead" style={{ maxWidth: "58ch" }}>
             We started Covant on one conviction: partners are the most underused signal in
             B2B software — billions of datapoints about what&apos;s working, who to back, and
-            where to grow — and no tool has ever used them to lift a single partner. We&apos;re
-            building the hub that does: one place where partners and the companies they sell
-            with share the revenue, the progression, and the next move — so &ldquo;better
-            together&rdquo; finally pays off for both sides.
+            where to grow — and no tool has ever turned that signal into action. We&apos;re
+            building the Partner Intelligence Engine that does: the Channel Graph turns
+            scattered partner data into one connected source of truth both sides can act on
+            — so &ldquo;better together&rdquo; finally pays off for everyone.
           </p>
         </div>
       </section>

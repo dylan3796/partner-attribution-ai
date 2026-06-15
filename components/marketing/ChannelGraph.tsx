@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import styles from "./ChannelGraph.module.css";
 
 /**
@@ -171,6 +171,8 @@ const py = (y: number) => `${(y / 700) * 100}%`;
 
 export default function ChannelGraph({ activeSection = 0 }: { activeSection?: number }) {
   const [assembled, setAssembled] = useState(false);
+  // unique per instance so multiple graphs on one page don't share gradient ids
+  const scanId = `scan-${useId().replace(/:/g, "")}`;
 
   // Play the intro assembly once, after first paint.
   useEffect(() => {
@@ -192,7 +194,7 @@ export default function ChannelGraph({ activeSection = 0 }: { activeSection?: nu
     >
       <svg className={styles.svg} viewBox="0 0 1000 700" aria-hidden="true">
         <defs>
-          <linearGradient id="scanGrad" x1="0" x2="1" y1="0" y2="0">
+          <linearGradient id={scanId} x1="0" x2="1" y1="0" y2="0">
             <stop offset="0" stopColor="var(--m-accent)" stopOpacity="0" />
             <stop offset="0.5" stopColor="var(--m-accent)" stopOpacity="0.18" />
             <stop offset="1" stopColor="var(--m-accent)" stopOpacity="0" />
@@ -201,7 +203,7 @@ export default function ChannelGraph({ activeSection = 0 }: { activeSection?: nu
 
         {/* scan sweep (Channel TAM) */}
         <g className={styles.scan}>
-          <rect x="-200" y="0" width="160" height="700" fill="url(#scanGrad)" />
+          <rect x="-200" y="0" width="160" height="700" fill={`url(#${scanId})`} />
         </g>
 
         {/* feed lines from sources to nearest domain */}
