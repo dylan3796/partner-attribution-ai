@@ -6,6 +6,28 @@ The single most important rule is at the bottom under “Build it this way.” R
 
 -----
 
+## AMENDMENT (model update — supersedes §1 node labels)
+
+The graph no longer uses fictional partner/company names. Nodes are **areas of
+data**, not customers:
+
+- **`vendor`** — one central anchor, “You”.
+- **`domain`** — the data areas the Channel Graph unifies: **Partners,
+  Accounts, Opportunities, Program, Definitions, Personnel** (labeled).
+- **`record`** — small unlabeled dots clustered in each domain (individual rows).
+- **`ghost`** — potential partner *records* (Channel TAM), dashed, hidden until §3.
+
+Edges: `program` (You→domain backbone), `member` (domain→record), plus the
+semantic cross-links `sourced` / `influenced` / `deal-account` / `cosell` between
+records. The six-section choreography is unchanged in spirit, now operating on
+**records inside Partners & Opportunities** (attribution lights one opportunity
+record + its partner records; tiers reorganize partner records; the scoped view
+collapses to one partner record’s slice). The component
+(`components/marketing/ChannelGraph.tsx`) is the source of truth; the named-entity
+starter data in §5 below is retained only as historical reference.
+
+-----
+
 ## 1. What the graph represents
 
 A semantic layer over a vendor’s channel. Four node types and a small set of edges. Keep it legible — this is a marketing visual, not a real graph render. ~20 nodes total.
