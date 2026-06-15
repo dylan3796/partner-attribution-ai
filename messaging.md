@@ -26,39 +26,47 @@
 
 ---
 
-## 1. Hero line — 5 options, ranked
+## 1. Hero line — LOCKED
 
-Customer-outcome led. None use banned phrasing.
+> **The first Partner Intelligence Engine for startups.**
 
-| # | Option | Why it works |
-|---|--------|--------------|
-| **1 (rec.)** | **Run your partner org on one graph.** | **KEEP** (live line). Declarative, system-does-the-work, "one graph" is the wedge. Lowest risk, already earned. The outcome is *you run the whole org on it.* |
-| 2 | **Know who drives your channel — and what to do next.** | Pure outcome: knowing + the next move. Captures attribution **and** recommend in one breath. Sharpest "their win" line. |
-| 3 | **Your whole channel, finally legible.** | Editorial, confident, monaco-cadence. Outcome = legibility. Slight risk: "legible" is a notch abstract. |
-| 4 | **See the channel. Put the right partner on every deal.** | Concrete dual outcome. Risk: two clauses, longer in display type. |
-| 5 | **The graph runs your channel. You run the graph.** | Echoes the monaco "does the X, you do the Y" cadence. Memorable; risk: a touch clever/inward. |
+Chosen by founder (overrides the earlier ranked options). This is a deliberate
+**category-creation** hero ("the first X for Y"), not the outcome-led line the
+messaging prompt defaults to — a legitimate strategic call. Compliance notes:
+- Does **not** use the banned literal phrase "intelligence layer." ✓
+- Avoids the banned mission verb framing ("become the…"). ✓
+- Two open flags carried to the gate: (a) **"first"** is an unverified category
+  claim — see §1a; (b) **"for startups"** narrows the ICP — see §1b.
 
-**Recommendation:** keep **#1** as the hero; it's strong and already live. If you
-want to lead harder on the customer's *win* rather than the mechanism, **#2** is
-the upgrade. Pick one to lock the gate.
+### 1a. "first" — RESOLVED: keep
+Founder elects to keep "first" as a category-creation claim. Accepted as a
+deliberate positioning choice (not fabricated proof). No change.
 
-> **MERGE note (hero):** live line kept verbatim as option 1 — not silently
-> replaced. Any change is your call at the gate.
+### 1b. Audience — RESOLVED: startups now, mid-market later
+Lead with **startups** as the wedge (matches the hero). Keep section copy
+**expandable to mid-market** — avoid startup-only language (e.g. "pre-seed,"
+"your first hire") that would later have to be unwound. Design tone speaks to
+early-stage founders without boxing out a $10M–$200M ARR buyer.
 
 ---
 
-## 2. Subhead — names the mechanism (data in → graph → many jobs)
+## 2. Subhead — LOCKED
 
-**Recommended (rewrite of live lead):**
-> Covant reads your partner data — CRM, email, Slack, notes — and builds the
-> Channel Graph: one model your team reports on, plans with, and asks.
+> **The AI-native platform that turns scattered partner data into one connected
+> source of truth.**
 
-**Before/after (MERGE — this is a rewrite, flagged):**
+Chosen by founder. Compliant (no banned words). Names data → connected source of
+truth.
+
+**Before/after (MERGE — rewrite of the live lead):**
 - **Before (live):** "Covant turns your partner data into the Channel Graph — a
   semantic layer your whole org runs on."
-- **After (above):** names the inputs, the graph, and the *jobs* (report / plan /
-  ask) in plain terms instead of leaning on "semantic layer."
-- *Keep-option:* if you prefer the live line, it's compliant — your call.
+- **After (locked):** above.
+
+*Optional sharpening (not applied unless you want it):* the locked line names the
+input and the asset but not the **jobs**. If you later want the "many jobs" beat,
+append a clause — e.g. "…one connected source of truth your team reports on,
+plans with, and asks." Leaving as-is per your instruction.
 
 ---
 
@@ -139,22 +147,12 @@ slice — they control what you can ask.
 
 ---
 
-## 4. Proof flag — resolve before Step 4 (R1)
+## 4. Proof — stakes section CUT (LOCKED)
 
-The live page runs a **stakes** section with three stats —
-**42% / 35% / 69%**, cited to *"PartnerStack & Wynter, The State of Partnerships
-in GTM 2026."* The new 6-spine has **no stakes section**, and these specific
-figures **do not appear in any in-repo doc**. The repo docs cite *different*
-numbers (e.g. pitch deck: 73% misattribution, 62% partner distrust, 69%
-increasing PRM investment per Forrester Q4 2025; $1.3T through partner channels).
-
-**Recommendation:**
-- **CUT the standalone stakes-stats section** from the homepage (it's outside the
-  spine and its provenance can't be confirmed in-repo).
-- If you want a problem beat, fold a **non-numeric** problem line into the hero
-  area or Section 1 (e.g. "Your channel is real revenue you can't yet see.").
-- Only restore a numeric stat if you can point me to the real, nameable source;
-  then it stays **with citation**. Otherwise it stays cut (zero fabricated proof).
+Decision: **the stakes-stats section (42% / 35% / 69%) is CUT.** It sat outside
+the new 6-spine and its specific figures could not be traced to any in-repo
+source. No numeric market stats appear on the homepage unless a real, nameable
+source is provided later. Zero fabricated proof holds.
 
 **Integration names (Salesforce/HubSpot):** keep only as a factual capability
 line inside Section 1 body ("CRM" wording), **not** as a logo/"trusted by" strip.
