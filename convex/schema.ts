@@ -31,6 +31,51 @@ const attributionModelValidator = v.union(
   v.literal("role_split")
 );
 
+// ============================================================================
+// Channel Graph — shared validators (the no-fabrication substrate)
+//
+// Nothing enters the graph bare. Every node, edge, and attribute value is
+// wrapped in a fact envelope that records WHERE it came from (sourceId) and
+// WHAT proves it (evidencePointer), and stays distinguishable by method
+// forever. These validators are reused across the graph tables below.
+// ============================================================================
+
+/** How a fact came to be known. asserted != inferred != user_confirmed (Law 3). */
+const factMethodValidator = v.union(
+  v.literal("asserted"), // deterministic from a system of record (CRM/sheet field)
+  v.literal("inferred"), // model/heuristic — provisional until a human confirms
+  v.literal("user_confirmed") // a human approved it (confidence 1.0)
+);
+
+/** What a fact is about. A subject points at a real row so the graph WRAPS data. */
+const factSubjectKindValidator = v.union(
+  v.literal("node"),
+  v.literal("edge"),
+  v.literal("attribute")
+);
+
+/** Where the proof lives: a field path (structured) OR an exact span (unstructured). */
+const evidencePointerValidator = v.union(
+  v.object({
+    kind: v.literal("field_path"),
+    path: v.string(), // e.g. "Opportunity.Amount" or "row[4].commission"
+  }),
+  v.object({
+    kind: v.literal("span"),
+    quote: v.string(), // exact verbatim substring of the source text (grounding check)
+    startOffset: v.optional(v.number()),
+    endOffset: v.optional(v.number()),
+  })
+);
+
+/** Cloud platform for co-sell / marketplace records. */
+const cloudPlatformValidator = v.union(
+  v.literal("aws"),
+  v.literal("azure"),
+  v.literal("gcp"),
+  v.literal("other")
+);
+
 export default defineSchema({
   // Organizations/Companies using the platform
   organizations: defineTable({
@@ -242,7 +287,13 @@ export default defineSchema({
       v.literal("payout"),
       v.literal("deal_registration"),
       v.literal("tier_change"),
-      v.literal("dispute")
+      v.literal("dispute"),
+      // Channel Graph learn loop — inferred facts, merges, and conflicts ride the
+      // same proposed -> approved/rejected lifecycle. entityId points at the
+      // facts / entityResolutionQueue / conflicts row under review.
+      v.literal("fact_inference"),
+      v.literal("entity_merge"),
+      v.literal("conflict_resolution")
     ),
     entityId: v.string(),
     status: v.union(
@@ -664,7 +715,8 @@ export default defineSchema({
       v.literal("referral"),
       v.literal("oem"),
       v.literal("technology"),
-      v.literal("co_sell")
+      v.literal("co_sell"),
+      v.literal("msa") // master service agreement (ingested from a document SourceDocument)
     ),
     status: v.union(
       v.literal("active"),
@@ -1045,4 +1097,301 @@ export default defineSchema({
   })
     .index("by_organization", ["organizationId"])
     .index("by_org_published", ["organizationId", "isPublished"]),
+
+  // ==========================================================================
+  // CHANNEL GRAPH — provenance substrate (wraps the operational tables above)
+  //
+  // Design: existing tables (partners/deals/touchpoints/...) stay the
+  // system-of-record. The graph adds (1) a universal `facts` envelope so no
+  // value is bare, (2) `sourceDocuments` as the root of every evidence chain,
+  // (3) `graphEdges` for relationships with no existing FK home, (4) node
+  // tables for entities the channel taxonomy needs but the app never modeled,
+  // and (5) resolution/conflict/extraction-staging tables for the firewall.
+  // ==========================================================================
+
+  // The root of every evidence chain (Law 1). Generalizes inboundEvents: a CRM
+  // record, Slack message, email, PDF/MSA/RFP, sheet row, or webhook payload.
+  sourceDocuments: defineTable({
+    organizationId: v.id("organizations"),
+    kind: v.union(
+      v.literal("crm_record"),
+      v.literal("slack"),
+      v.literal("email"),
+      v.literal("document"),
+      v.literal("sheet_row"),
+      v.literal("webhook"),
+      v.literal("manual")
+    ),
+    // Set when kind === "document". MSA also asserts onto the contracts table.
+    docType: v.optional(
+      v.union(
+        v.literal("msa"),
+        v.literal("rfp"),
+        v.literal("sow"),
+        v.literal("deal_reg_pdf"),
+        v.literal("commission_sheet"),
+        v.literal("other")
+      )
+    ),
+    adapter: v.string(), // which source adapter emitted this (e.g. "salesforce")
+    externalRef: v.optional(v.string()), // id / url in the source system
+    rawText: v.optional(v.string()), // raw text for grounding checks on unstructured sources
+    rawPayloadRef: v.optional(v.string()), // pointer to a large raw payload in storage
+    capturedAt: v.optional(v.number()), // when the source produced it (observed)
+    ingestedAt: v.number(), // when Covant pulled it (recorded)
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_kind", ["organizationId", "kind"])
+    .index("by_external_ref", ["externalRef"]),
+
+  // THE fact envelope. Every node, edge, and attribute value lives here with its
+  // provenance. Subject is stored flat (Convex can't index nested objects) and
+  // points at any operational OR graph row. Conflicting facts about the same
+  // subject coexist (Law 4); inferred facts stay provisional until confirmed.
+  facts: defineTable({
+    organizationId: v.id("organizations"),
+    subjectKind: factSubjectKindValidator,
+    subjectTable: v.string(), // e.g. "partners", "deals", "graphEdges", "accounts"
+    subjectId: v.string(), // the row id (string form of a Convex Id)
+    subjectField: v.optional(v.string()), // attribute name, or edge predicate
+    value: v.any(), // the asserted/extracted value
+    method: factMethodValidator,
+    confidence: v.number(), // 1.0 only for asserted-from-system or user_confirmed
+    sourceId: v.id("sourceDocuments"), // Law 1: never bare
+    evidencePointer: evidencePointerValidator,
+    observedAt: v.optional(v.number()), // when the fact was true in the world
+    recordedAt: v.number(), // when Covant learned it
+    status: v.union(v.literal("active"), v.literal("superseded")),
+    supersededBy: v.optional(v.id("facts")),
+    conflictId: v.optional(v.id("conflicts")),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_subject", ["subjectTable", "subjectId"])
+    .index("by_subject_field", ["subjectTable", "subjectId", "subjectField"])
+    .index("by_source", ["sourceId"])
+    .index("by_org_and_method", ["organizationId", "method"])
+    .index("by_conflict", ["conflictId"]),
+
+  // Typed, directional relationships with no existing FK home. Existing FK
+  // relationships (touchpoint->deal, etc.) are exposed as edges by an adapter in
+  // convex/lib/graph and are NOT duplicated here. Each edge is provenanced by a
+  // fact whose subject is (subjectTable="graphEdges", subjectId=<edge id>).
+  graphEdges: defineTable({
+    organizationId: v.id("organizations"),
+    type: v.string(), // predicate: employs | parent_of | involved_in | account_mapping | cosell_link
+    fromTable: v.string(),
+    fromId: v.string(),
+    toTable: v.string(),
+    toId: v.string(),
+    role: v.optional(v.string()), // e.g. involved_in role: sourcer|influencer|fulfiller|services
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_from", ["fromTable", "fromId"])
+    .index("by_to", ["toTable", "toId"])
+    .index("by_org_and_type", ["organizationId", "type"]),
+
+  // --- New node tables for entities the channel taxonomy needs (Cat A & C & E) ---
+
+  // PartnerPerson: the humans at the partner (Cat A). partnerId optional so an
+  // unresolved person is a first-class gap (Law 6) until resolution links them.
+  partnerPersons: defineTable({
+    organizationId: v.id("organizations"),
+    partnerId: v.optional(v.id("partners")),
+    name: v.string(),
+    email: v.optional(v.string()),
+    title: v.optional(v.string()),
+    role: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_partner", ["partnerId"])
+    .index("by_email", ["email"]),
+
+  // VendorRep: the company's own people (channel managers, AEs) who touch a deal.
+  vendorReps: defineTable({
+    organizationId: v.id("organizations"),
+    name: v.string(),
+    email: v.optional(v.string()),
+    role: v.optional(v.string()), // channel_manager | ae | se ...
+    crmUserId: v.optional(v.string()), // e.g. Salesforce OwnerId
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_email", ["email"])
+    .index("by_crm_user", ["crmUserId"]),
+
+  // Account: the end customer. Today deals only carry free-text contactName.
+  accounts: defineTable({
+    organizationId: v.id("organizations"),
+    name: v.string(),
+    domain: v.optional(v.string()),
+    salesforceId: v.optional(v.string()),
+    hubspotId: v.optional(v.string()),
+    industry: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_domain", ["domain"])
+    .index("by_salesforce_id", ["salesforceId"])
+    .index("by_hubspot_id", ["hubspotId"]),
+
+  // Deal registration as a first-class lifecycle (Cat C): submitted -> approved
+  // -> rejected -> expired, with a protection window. Replaces the two bare
+  // fields on deals (which remain for backward compatibility).
+  dealRegistrations: defineTable({
+    organizationId: v.id("organizations"),
+    dealId: v.optional(v.id("deals")), // may be unresolved at submit time
+    partnerId: v.id("partners"),
+    state: v.union(
+      v.literal("submitted"),
+      v.literal("approved"),
+      v.literal("rejected"),
+      v.literal("expired")
+    ),
+    submittedAt: v.number(),
+    decidedAt: v.optional(v.number()),
+    protectionWindowEnds: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_deal", ["dealId"])
+    .index("by_partner", ["partnerId"])
+    .index("by_org_and_state", ["organizationId", "state"]),
+
+  // Cloud co-sell record (Cat E). Stores the HYPERSCALER's own sourced/influenced
+  // classification, kept DISTINCT from our attribution view per spec §1.E.
+  cosellRecords: defineTable({
+    organizationId: v.id("organizations"),
+    dealId: v.optional(v.id("deals")),
+    partnerId: v.optional(v.id("partners")),
+    platform: cloudPlatformValidator,
+    externalId: v.optional(v.string()), // ACE opportunity id, etc.
+    hyperscalerClassification: v.optional(
+      v.union(v.literal("sourced"), v.literal("influenced"), v.literal("unknown"))
+    ),
+    stage: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_deal", ["dealId"])
+    .index("by_external_id", ["externalId"]),
+
+  // Marketplace economics (Cat D/E): private offers, EDP drawdown, fees.
+  marketplaceTransactions: defineTable({
+    organizationId: v.id("organizations"),
+    accountId: v.optional(v.id("accounts")),
+    dealId: v.optional(v.id("deals")),
+    platform: cloudPlatformValidator,
+    type: v.union(
+      v.literal("private_offer"),
+      v.literal("edp_drawdown"),
+      v.literal("standard")
+    ),
+    amount: v.optional(v.number()),
+    marketplaceFee: v.optional(v.number()),
+    externalId: v.optional(v.string()),
+    occurredAt: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_deal", ["dealId"])
+    .index("by_external_id", ["externalId"]),
+
+  // Account mapping / overlap from Crossbeam / Reveal (Cat E).
+  accountMappings: defineTable({
+    organizationId: v.id("organizations"),
+    partnerId: v.id("partners"),
+    accountId: v.optional(v.id("accounts")),
+    accountName: v.string(),
+    source: v.union(
+      v.literal("crossbeam"),
+      v.literal("reveal"),
+      v.literal("manual")
+    ),
+    overlapType: v.optional(v.string()),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_partner", ["partnerId"])
+    .index("by_account", ["accountId"]),
+
+  // --- Firewall / resolution / conflict tables ---
+
+  // Staging for unstructured LLM output BEFORE the grounding check (Law 2). A
+  // candidate is promoted to `facts` only if groundingStatus === "passed";
+  // failed candidates are never written to the graph (kept here for training).
+  extractionCandidates: defineTable({
+    organizationId: v.id("organizations"),
+    sourceId: v.id("sourceDocuments"),
+    factType: factSubjectKindValidator,
+    subjectHint: v.any(), // extracted identity (name/email/id) — resolved later
+    predicate: v.string(), // typed whitelist predicate
+    value: v.any(),
+    evidenceQuote: v.string(), // exact span the model cited
+    suggestedMethod: factMethodValidator,
+    modelConfidence: v.number(),
+    groundingStatus: v.union(
+      v.literal("pending"),
+      v.literal("passed"),
+      v.literal("failed")
+    ),
+    groundingReason: v.optional(v.string()),
+    promotedFactId: v.optional(v.id("facts")),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_source", ["sourceId"])
+    .index("by_grounding_status", ["organizationId", "groundingStatus"]),
+
+  // Entity resolution queue (Law 5). Tier 1 deterministic / Tier 2 semantic. The
+  // middle confidence band (decision="review") waits for a human; never silently
+  // merged. high -> auto_merge, low -> new entity.
+  entityResolutionQueue: defineTable({
+    organizationId: v.id("organizations"),
+    candidateType: v.string(), // node type being resolved: "partners" | "accounts" | ...
+    sourceId: v.id("sourceDocuments"),
+    extractedIdentity: v.any(), // raw identity payload
+    proposedMatchTable: v.optional(v.string()),
+    proposedMatchId: v.optional(v.string()),
+    tier1Signals: v.optional(v.array(v.string())), // deterministic signals that fired
+    tier2Score: v.optional(v.number()), // semantic similarity 0-1
+    decision: v.union(
+      v.literal("auto_merge"),
+      v.literal("review"),
+      v.literal("new")
+    ),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("merged"),
+      v.literal("rejected"),
+      v.literal("new_created")
+    ),
+    reviewedBy: v.optional(v.string()),
+    reviewedAt: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_status", ["organizationId", "status"])
+    .index("by_org_and_decision", ["organizationId", "decision"]),
+
+  // Conflict marker (Law 4). When sources disagree about the same subject, both
+  // fact envelopes are retained and a conflict is raised. Resolution is a rule +
+  // a human, never a silent overwrite.
+  conflicts: defineTable({
+    organizationId: v.id("organizations"),
+    subjectKind: factSubjectKindValidator,
+    subjectTable: v.string(),
+    subjectId: v.string(),
+    subjectField: v.optional(v.string()),
+    factIds: v.array(v.id("facts")), // the disagreeing envelopes
+    status: v.union(v.literal("open"), v.literal("resolved")),
+    resolutionRule: v.optional(v.string()),
+    resolvedFactId: v.optional(v.id("facts")),
+    resolvedBy: v.optional(v.string()),
+    resolvedAt: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_organization", ["organizationId"])
+    .index("by_org_and_status", ["organizationId", "status"])
+    .index("by_subject", ["subjectTable", "subjectId"]),
 });
