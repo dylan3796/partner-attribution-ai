@@ -1,31 +1,31 @@
-Priority,Company,Archetype,Est ARR band (VERIFY),Partner motion,Why Covant fits,Title to target,Partner-program proof (where to look),Status
-A,Gorgias,E-comm/Shopify CX,$50-150M,Agency + tech/app partners,Agency-sourced deals + app marketplace influence = messy cross-channel attribution; founder/PM buyer signs fast,Head of Partnerships,gorgias.com/partners,Not started
-A,Rebuy Engine,E-comm/Shopify,$10-50M,Agency partners,Agency-driven pipeline lives in spreadsheets; no SOC2 gate at this size,VP/Head of Partnerships,rebuyengine.com partners page,Not started
-A,Okendo,E-comm/Shopify reviews,$10-50M,Agency + tech partners,Multi-channel agency+tech attribution; perfect mid-market fit,Partnerships Lead,okendo.io/partners,Not started
-A,Triple Whale,E-comm analytics,$20-80M,Agency + affiliate,Affiliate + agency in separate tools; needs one credit model,Head of Partnerships,triplewhale.com partners,Not started
-A,Postscript,E-comm SMS,$20-80M,Agency partners,Agency-influenced deals invisible today,VP Partnerships,postscript.io/partners,Not started
-A,Hex,Data/analytics,$10-50M,Resell + ISV/SI,Integration-influenced + SI-sourced deals; building program from scratch,Head of Partnerships,hex.tech partners,Not started
-A,Census,Data activation,$10-50M,ISV + SI partners,Reverse-ETL ecosystem attribution across integrations,Partnerships Lead,getcensus.com partners,Not started
-A,Hightouch,Data activation,$20-80M,ISV + SI partners,SI + tech-partner co-sell attribution,VP Partnerships,hightouch.com/partners,Not started
-A,Mutiny,Martech/personalization,$20-80M,Agency partners,Agency-sourced pipeline; mid-market sweet spot,Head of Partnerships,mutinyhq.com partners,Not started
-A,Clay,Sales tech/GTM,$30-100M,Agency + Clay-expert partners,Fast-growing expert/agency program; attribution greenfield,Head of Partnerships,clay.com/experts,Not started
-A,Sanity,Dev/headless CMS,$20-80M,SI + agency partners,SI-led implementations + referral blend = multi-touch,Head of Partnerships,sanity.io/partners,Not started
-A,Framer,Dev/design tool,$20-80M,Agency/expert partners,Expert-program attribution; PLG + partner blend,Partnerships Lead,framer.com partners,Not started
-A,Bubble,No-code/dev,$20-80M,Agency partners,Bubble-agency-sourced deals need registration + credit,Head of Partnerships,bubble.io/agencies,Not started
-A,Blumira,Cybersecurity/MSP,$10-50M,MSP channel,Multi-tier MSP attribution nightmare; classic ICP pain,VP Channel,blumira.com/partners,Not started
-A,Coro,Cybersecurity/MSP,$50-150M,MSP + reseller channel,Multi-tier channel; explainable credit builds MSP trust,VP Channel,coro.net/partners,Not started
-B,Recharge,E-comm subscriptions,$80-200M,Agency + tech partners,Verify band; large agency ecosystem,VP Partnerships,rechargepayments.com/partners,Not started
-B,Loop Returns,E-comm returns,$10-50M,Agency + tech partners,Agency + app-partner attribution,Partnerships Lead,loopreturns.com/partners,Not started
-B,Lemlist,Sales tech/outreach,$10-50M,Agency + affiliate,Affiliate + agency mix; EU mid-market,Head of Partnerships,lemlist.com affiliate/partners,Not started
-B,Smartlead,Sales tech,$10-30M,Agency + affiliate,Agency reseller attribution,Partnerships Lead,smartlead.ai partners,Not started
-B,Y42,Data/ELT,$10-30M,SI + ISV partners,Early program; attribution from day one,Partnerships Lead,y42.com partners,Not started
-B,Polytomic,Data integration,$10-30M,ISV partners,Integration-influenced attribution,Founder/Head of GTM,polytomic.com partners,Not started
-B,Xano,No-code backend,$10-50M,Agency partners,Agency-sourced deals,Head of Partnerships,xano.com/partners,Not started
-B,ThreatLocker,Cybersecurity/MSP,$80-200M,MSP channel,Verify band; heavy MSP multi-tier,VP Channel,threatlocker.com/partners,Not started
-B,Cynet,Cybersecurity/MSP,$50-150M,MSP + MSSP channel,Multi-tier MSSP attribution,VP Channel,cynet.com/partners,Not started
-B,Rho,Fintech/spend,$20-80M,Distribution + referral,Distribution-partner attribution + compliance trust,Head of Partnerships,rho.co partners,Not started
-B,Settle,Fintech/working capital,$10-50M,Referral + distribution,Referral attribution + explainable credit,Head of Partnerships,settle.com partners,Not started
-B,Pinpoint,HR/ATS,$10-30M,Agency + referral partners,Consultant/agency-influenced deals invisible,Partnerships Lead,pinpointhq.com partners,Not started
-B,Close,Sales CRM,$20-80M,Referral + affiliate,Referral + affiliate in separate tools,Head of Partnerships,close.com/partners,Not started
-B,Front,Comms/CX,$80-200M,Reseller + tech partners,Verify band; reseller + integration mix,VP Partnerships,front.com/partners,Not started
-B,Aircall,Comms/telephony,$80-200M,Reseller + referral,Verify band; reseller + referral attribution,VP Channel,aircall.io/partners,Not started
+Hiring signal,Company,Priority,Archetype,Est ARR band (VERIFY),Partner motion,Why Covant fits,Signal detail (verified ~Jun 2026 via public job boards),Title to target,Partner-program proof,Status
+HOT - multiple,Clay,A,Sales tech/GTM,$30-100M,Agency + Clay-expert partners,Fast-growing expert/agency program; attribution greenfield,"Hiring Solutions Partner Program Mgr ($160-200k), Partner Management/Solutions, GTM Partnerships Mgr, Data Partnerships - actively scaling program ops",Head of Partnerships / GTM Partnerships Lead,clay.com/experts,Not started
+HOT - multiple,Hightouch,A,Data activation,$20-80M,ISV + SI partners,SI + tech-partner co-sell attribution,"Hiring Partner Sales Mgr, Technology Partner Mgr, Channel Partner Account Mgr (EMEA+NA), Partner SE - building cross-channel motion",VP Partnerships / Mgr Technology Partnerships,hightouch.com/partners,Not started
+HOT,Gorgias,A,E-comm/Shopify CX,$50-150M,Agency + tech/app partners,Agency-sourced + app-marketplace influence = messy cross-channel attribution,Senior Agency Partnerships Mgr (NY) + Senior Partnerships Mgr APAC (posted Jan 2026) - scaling agency channel,Head of Partnerships,gorgias.com/partners,Not started
+HOT,Okendo,A,E-comm/Shopify reviews,$10-50M,Agency + tech partners,Multi-channel agency+tech attribution; perfect mid-market fit,Agency Partner Mgr (East Coast + APAC) - MRR-target comp plan = revenue-attributed program,Partnerships Lead,okendo.io/partners,Not started
+HOT,Rebuy Engine,A,E-comm/Shopify,$10-50M,Agency partners,Agency-driven pipeline in spreadsheets; no SOC2 gate at this size,Agency Partner Mgr - building Shopify-ecosystem partner portfolio,VP/Head of Partnerships,rebuyengine.com partners page,Not started
+HOT,Triple Whale,A,E-comm analytics,$20-80M,Agency + affiliate,Affiliate + agency in separate tools; needs one credit model,Agency Partnership Mgr ($90-100k base + commission) - referral-revenue driven,Head of Partnerships,triplewhale.com partners,Not started
+HOT,Framer,A,Dev/design tool,$20-80M,Agency/expert partners,Expert-program attribution; PLG + partner blend,Agency Partnerships Mgr - owns full partner journey + turning partners into revenue,Partnerships Lead,framer.com/careers + partners,Not started
+HOT,Blumira,A,Cybersecurity/MSP,$10-50M,MSP channel,Multi-tier MSP attribution nightmare; classic ICP pain,Senior Strategic Channel Mgr - driving channel revenue + partner performance,VP Channel,blumira.com/partners,Not started
+HOT,Coro,A,Cybersecurity/MSP,$50-150M,MSP + reseller channel,100% channel-led; explainable credit builds MSP trust,Channel Manager (FL/AL) - partner recruitment + quota on channel revenue,VP Channel,coro.net/partners,Not started
+STALE,Hex,A,Data/analytics,$10-50M,Resell + ISV/SI,Integration-influenced + SI-sourced; building program from scratch,Posted first Partner Mgr in 2024 (now closed) - program likely staffed; re-check for new reqs,Head of Partnerships,hex.tech partners,Not started
+CHECK,Census,A,Data activation,$10-50M,ISV + SI partners,Reverse-ETL ecosystem attribution across integrations,Has Solutions Partner Program + dedicated partner mgrs; no open req confirmed - verify on LinkedIn Jobs,Partnerships Lead,getcensus.com solutions-partner-program,Not started
+CHECK,Mutiny,A,Martech/personalization,$20-80M,Agency partners,Agency-sourced pipeline; mid-market sweet spot,No partner req confirmed in search - verify on greenhouse/LinkedIn Jobs,Head of Partnerships,mutinyhq.com partners,Not started
+CHECK,Sanity,A,Dev/headless CMS,$20-80M,SI + agency partners,SI-led implementations + referral blend = multi-touch,Hiring broadly; no partner-specific req confirmed - verify on workable/LinkedIn,Head of Partnerships,sanity.io/partners,Not started
+CHECK,Postscript,A,E-comm SMS,$20-80M,Agency partners,Agency-influenced deals invisible today,Not confirmed in search - verify on LinkedIn Jobs,VP Partnerships,postscript.io/partners,Not started
+STALE,Bubble,A,No-code/dev,$20-80M,Agency partners,Bubble-agency-sourced deals need registration + credit,Agency Partnerships Mgr req removed Sep 2023 - program likely staffed; re-check,Head of Partnerships,bubble.io/agencies,Not started
+CHECK,Recharge,B,E-comm subscriptions,$80-200M,Agency + tech partners,Verify band; large agency ecosystem,Verify on LinkedIn Jobs,VP Partnerships,rechargepayments.com/partners,Not started
+CHECK,Loop Returns,B,E-comm returns,$10-50M,Agency + tech partners,Agency + app-partner attribution,Verify on LinkedIn Jobs,Partnerships Lead,loopreturns.com/partners,Not started
+CHECK,Lemlist,B,Sales tech/outreach,$10-50M,Agency + affiliate,Affiliate + agency mix; EU mid-market,Verify on LinkedIn Jobs,Head of Partnerships,lemlist.com affiliate/partners,Not started
+CHECK,Smartlead,B,Sales tech,$10-30M,Agency + affiliate,Agency reseller attribution,Verify on LinkedIn Jobs,Partnerships Lead,smartlead.ai partners,Not started
+CHECK,Y42,B,Data/ELT,$10-30M,SI + ISV partners,Early program; attribution from day one,Verify on LinkedIn Jobs,Partnerships Lead,y42.com partners,Not started
+CHECK,Polytomic,B,Data integration,$10-30M,ISV partners,Integration-influenced attribution,Verify on LinkedIn Jobs,Founder/Head of GTM,polytomic.com partners,Not started
+CHECK,Xano,B,No-code backend,$10-50M,Agency partners,Agency-sourced deals,Verify on LinkedIn Jobs,Head of Partnerships,xano.com/partners,Not started
+CHECK,ThreatLocker,B,Cybersecurity/MSP,$80-200M,MSP channel,Verify band; heavy MSP multi-tier,Verify on LinkedIn Jobs,VP Channel,threatlocker.com/partners,Not started
+CHECK,Cynet,B,Cybersecurity/MSP,$50-150M,MSP + MSSP channel,Multi-tier MSSP attribution,Verify on LinkedIn Jobs,VP Channel,cynet.com/partners,Not started
+CHECK,Rho,B,Fintech/spend,$20-80M,Distribution + referral,Distribution-partner attribution + compliance trust,Verify on LinkedIn Jobs,Head of Partnerships,rho.co partners,Not started
+CHECK,Settle,B,Fintech/working capital,$10-50M,Referral + distribution,Referral attribution + explainable credit,Verify on LinkedIn Jobs,Head of Partnerships,settle.com partners,Not started
+CHECK,Pinpoint,B,HR/ATS,$10-30M,Agency + referral partners,Consultant/agency-influenced deals invisible,Verify on LinkedIn Jobs,Partnerships Lead,pinpointhq.com partners,Not started
+CHECK,Close,B,Sales CRM,$20-80M,Referral + affiliate,Referral + affiliate in separate tools,Verify on LinkedIn Jobs,Head of Partnerships,close.com/partners,Not started
+CHECK,Front,B,Comms/CX,$80-200M,Reseller + tech partners,Verify band; reseller + integration mix,Verify on LinkedIn Jobs,VP Partnerships,front.com/partners,Not started
+CHECK,Aircall,B,Comms/telephony,$80-200M,Reseller + referral,Verify band; reseller + referral attribution,Verify on LinkedIn Jobs,VP Channel,aircall.io/partners,Not started
