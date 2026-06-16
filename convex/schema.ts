@@ -1117,6 +1117,7 @@ export default defineSchema({
       v.literal("crm_record"),
       v.literal("slack"),
       v.literal("email"),
+      v.literal("calendar"),
       v.literal("document"),
       v.literal("sheet_row"),
       v.literal("webhook"),

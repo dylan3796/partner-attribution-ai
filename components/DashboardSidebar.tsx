@@ -35,6 +35,7 @@ import {
   HeartPulse,
   Lightbulb,
   Radio,
+  Network,
 } from "lucide-react";
 
 // ─── Nav structure ───────────────────────────────────────────────────────────
@@ -106,6 +107,7 @@ const navSections: NavSection[] = [
       { name: "Leaderboard",    href: "/dashboard/leaderboard",    icon: Trophy },
       { name: "Reports",        href: "/dashboard/reports",        icon: PieChart },
       { name: "Recommendations", href: "/dashboard/recommendations", icon: Lightbulb },
+      { name: "Channel Graph",   href: "/dashboard/channel-graph",   icon: Network },
       { name: "Forecasting",    href: "/dashboard/forecasting",    icon: TrendingUp },
       { name: "Benchmarks",     href: "/dashboard/benchmarks",     icon: Crosshair },
       { name: "Cohorts",        href: "/dashboard/cohorts",        icon: BarChart2 },

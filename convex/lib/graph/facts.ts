@@ -17,7 +17,7 @@
  * should ever call ctx.db.insert("facts", ...) directly.
  */
 
-import { MutationCtx } from "../../_generated/server";
+import { MutationCtx, QueryCtx } from "../../_generated/server";
 import { Id } from "../../_generated/dataModel";
 import type { FactInput, FactSubject, EvidencePointer } from "./types";
 
@@ -129,7 +129,7 @@ export async function assertField(
  * detection. Returns most-recently-recorded first.
  */
 export async function getActiveFacts(
-  ctx: MutationCtx,
+  ctx: QueryCtx | MutationCtx,
   subject: Pick<FactSubject, "table" | "id"> & { field?: string }
 ) {
   const rows = subject.field
