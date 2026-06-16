@@ -15,6 +15,10 @@ Legacy partner tools (PRMs, CRM channel add-ons) are built on thin, structured d
 
 A competitor has to win each capability as a *feature*. Covant wins all of them as a *consequence of the architecture*. That asymmetry is the moat.
 
+There are actually **two compounding loops**, not one:
+- **Flywheel A — account depth** (single vendor): time-in-product accumulates org-specific understanding → switching cost rises. Covered by Layers 1–5 below.
+- **Flywheel B — the partner network** (across vendors): partners multi-home on Covant → two-sided pull → self-cleaning data via payouts → a cockpit partners won't quit. This is the *bigger* moat and is its own section below.
+
 ---
 
 ## Why incumbents structurally can't copy it
@@ -77,6 +81,27 @@ Don't build five layers in parallel — build **one loop end-to-end** so it's pr
 Why this one: it's the most *legible* proof of the whole thesis, it's the loop a buyer feels immediately ("you found 40 contacts my CRM never had and told me what to do with them"), and it rides on the attribution trust wedge you already have. Lead the pitch with this instance; claim the principle behind it.
 
 **Sequencing:** Attribution (already built, = trust) → Wedge loop (Layers 1+3, = wow) → Program intelligence (Layer 4, = expansion) → instrument the flywheel (Layer 5, = the investor story).
+
+---
+
+## Flywheel B — the partner network (the bigger moat)
+
+Everything above is single-sided: one vendor, deeper over time, harder to leave. That's a **switching-cost** moat — real, but one buyer can still decide to rip it out. The stronger moat is on the **partner** side, and it's a **network** moat: you can't leave because your partners already work there.
+
+**The mechanism:** partners are **multi-homed** — a reseller/agency works with many vendors at once. Once a partner lives in Covant's portal for *one* vendor (seeing credit, payouts, next actions), every other vendor that partner works with is easier to bring on, because the partner is already there and the data already flows.
+
+- **Partners pull vendors in.** "Three of my vendors run through Covant — why are you making me use a separate PRM?" The partner becomes a distribution channel.
+- **Vendors pull partners in.** Standard two-sided dynamic; each side makes the other more valuable.
+- **Covant becomes the partner's cockpit**, not just the vendor's tool — their single view across all channel relationships. A product partners refuse to give up, which means the vendor can't leave either.
+
+**Why it's stronger than Flywheel A:** a switching-cost moat is "it'd be painful to leave." A network moat is "you can't leave, because your partners are transacting through it." The vendor isn't ripping out a tool — they'd be ripping out the place their partners already work. A PRM can never have this: it's single-tenant paperwork the partner tolerates, not a cockpit the partner chooses.
+
+**The self-cleaning property (why the data stays fresh):** the partner keeps the data current because **their money depends on it** — they confirm contacts, register deals, update status to get paid correctly, not because a rep nags them. The payout link makes the partner-side capture loop self-cleaning. No other layer has that incentive built in.
+
+**The gates (don't overclaim it):**
+1. **Later-stage unlock, not day one.** Two-sided networks cold-start single-sided. Early on it's one vendor + their partners; the network effect only kicks in once partners are multi-homed on Covant. Flywheel A and the wedge loop are how you earn the right to get there.
+2. **The portal must earn standalone love.** No pull without it. If the partner portal is a chore, there's no network. Partner UX is strategic, not cosmetic.
+3. **Cross-vendor data is consent-gated.** Seeing a partner's behavior *across* vendors is incredibly rich signal — and also the thing a partner may not want vendor A to learn about vendor B. Design around permission, or it becomes a trust liability instead of a moat.
 
 ---
 
