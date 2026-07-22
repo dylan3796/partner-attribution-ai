@@ -1,0 +1,292 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://covant.ai/schema/covant-attribution/v0.1.0/covant-attribution.schema.json",
+  "title": "Covant Attribution Export",
+  "description": "A standardized, portable dataset of partner attribution records emitted by a vendor and consumed by its partners. Version 0.1.0 (draft). See covant-attribution-schema.v0.md for the human-readable specification.",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "source", "default_model", "records"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "Semantic version of the Covant Attribution Schema this document conforms to.",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "examples": ["0.1.0"]
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp when this export document was produced."
+    },
+    "source": { "$ref": "#/$defs/source" },
+    "default_model": {
+      "$ref": "#/$defs/attributionModel",
+      "description": "The attribution model used for the canonical numbers in each record's `attribution` block."
+    },
+    "currency": {
+      "$ref": "#/$defs/currency",
+      "description": "Default ISO 4217 currency for all monetary amounts, unless overridden at the deal or commission level. Defaults to USD when omitted."
+    },
+    "record_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of records in this document. When present, MUST equal records.length. Consumers may use it to detect truncation."
+    },
+    "records": {
+      "type": "array",
+      "description": "The attribution records. Each is one partner's credit on one deal under the default model.",
+      "items": { "$ref": "#/$defs/record" }
+    },
+    "extensions": {
+      "type": "object",
+      "description": "Optional vendor-specific fields that are not part of the standard. Consumers MUST ignore keys they do not recognize.",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 three-letter currency code.",
+      "pattern": "^[A-Z]{3}$",
+      "examples": ["USD", "EUR", "GBP"]
+    },
+    "money": {
+      "type": "number",
+      "description": "A monetary amount in major currency units (e.g. dollars, not cents). SHOULD be expressed with at most 2 decimal places.",
+      "minimum": 0
+    },
+    "attributionModel": {
+      "type": "string",
+      "description": "Canonical attribution model identifier. The v0 standard defines exactly these five models. New models are added by minting a new schema version.",
+      "enum": [
+        "equal_split",
+        "first_touch",
+        "last_touch",
+        "time_decay",
+        "role_based"
+      ]
+    },
+    "partnerType": {
+      "type": "string",
+      "enum": ["affiliate", "referral", "reseller", "integration"]
+    },
+    "partnerTier": {
+      "type": "string",
+      "enum": ["bronze", "silver", "gold", "platinum"]
+    },
+    "dealStatus": {
+      "type": "string",
+      "enum": ["open", "won", "lost"]
+    },
+    "touchpointType": {
+      "type": "string",
+      "description": "Kind of partner interaction. The listed values are the standard set; consumers SHOULD tolerate unknown values.",
+      "examples": [
+        "referral",
+        "demo",
+        "content_share",
+        "introduction",
+        "proposal",
+        "negotiation",
+        "deal_registration",
+        "co_sell",
+        "technical_enablement",
+        "crm_sync"
+      ]
+    },
+    "commissionStatus": {
+      "type": "string",
+      "enum": [
+        "pending_approval",
+        "approved",
+        "rejected",
+        "processing",
+        "paid",
+        "failed"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "description": "Identifies the vendor emitting this dataset.",
+      "required": ["vendor_id"],
+      "additionalProperties": false,
+      "properties": {
+        "vendor_id": {
+          "type": "string",
+          "description": "Stable opaque identifier for the emitting vendor/organization. MUST be stable across exports.",
+          "minLength": 1
+        },
+        "vendor_name": {
+          "type": "string",
+          "description": "Human-readable vendor name. Optional; may be omitted for privacy."
+        },
+        "environment": {
+          "type": "string",
+          "enum": ["production", "sandbox"],
+          "description": "Whether this dataset is real or test data. Defaults to production when omitted."
+        }
+      }
+    },
+    "deal": {
+      "type": "object",
+      "required": ["id", "amount", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable opaque identifier for the deal within the vendor's namespace.",
+          "minLength": 1
+        },
+        "name": { "type": "string" },
+        "amount": { "$ref": "#/$defs/money", "description": "Total deal value." },
+        "currency": { "$ref": "#/$defs/currency", "description": "Overrides the document-level currency for this deal." },
+        "status": { "$ref": "#/$defs/dealStatus" },
+        "closed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 UTC timestamp the deal closed (won or lost). Omitted for open deals."
+        },
+        "product_name": {
+          "type": "string",
+          "description": "Optional product/line item the deal is attributed against."
+        },
+        "external_ids": {
+          "type": "object",
+          "description": "Identifiers for this deal in upstream systems, enabling round-trip reconciliation.",
+          "additionalProperties": { "type": "string" },
+          "properties": {
+            "salesforce": { "type": "string" },
+            "hubspot": { "type": "string" }
+          }
+        }
+      }
+    },
+    "partner": {
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Stable opaque identifier for the partner within the vendor's namespace.",
+          "minLength": 1
+        },
+        "name": { "type": "string" },
+        "type": { "$ref": "#/$defs/partnerType" },
+        "tier": { "$ref": "#/$defs/partnerTier" },
+        "domain": {
+          "type": "string",
+          "description": "Partner's primary web domain (e.g. acme-partners.com). Optional. Enables cross-vendor partner matching."
+        },
+        "identity_hash": {
+          "type": "string",
+          "description": "Optional privacy-preserving match key, e.g. `sha256:<hex>` of the partner's normalized domain. Lets two vendors detect a shared partner without exchanging PII.",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      }
+    },
+    "attributionCredit": {
+      "type": "object",
+      "description": "One partner's credit on the deal under a specific model.",
+      "required": ["model", "credit_percentage", "credited_amount"],
+      "additionalProperties": false,
+      "properties": {
+        "model": { "$ref": "#/$defs/attributionModel" },
+        "credit_percentage": {
+          "type": "number",
+          "description": "Share of credit assigned to this partner, 0-100. Across all records for a given deal+model, these SHOULD sum to ~100.",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "credited_amount": {
+          "$ref": "#/$defs/money",
+          "description": "Deal amount multiplied by credit_percentage/100."
+        }
+      }
+    },
+    "commission": {
+      "type": "object",
+      "required": ["rate", "amount"],
+      "additionalProperties": false,
+      "properties": {
+        "rate": {
+          "type": "number",
+          "description": "Commission rate applied, as a fraction 0.0-1.0 (e.g. 0.15 = 15%).",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "amount": { "$ref": "#/$defs/money", "description": "Commission owed to the partner for this record." },
+        "currency": { "$ref": "#/$defs/currency", "description": "Overrides the document-level currency for this commission." },
+        "status": { "$ref": "#/$defs/commissionStatus" }
+      }
+    },
+    "touchpoint": {
+      "type": "object",
+      "required": ["type", "occurred_at"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string" },
+        "type": { "$ref": "#/$defs/touchpointType" },
+        "occurred_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 UTC timestamp the interaction occurred."
+        },
+        "weight": {
+          "type": "number",
+          "description": "Optional explicit weight used by weighted models (e.g. role_based).",
+          "minimum": 0
+        }
+      }
+    },
+    "record": {
+      "type": "object",
+      "required": ["record_id", "computed_at", "deal", "partner", "attribution"],
+      "additionalProperties": false,
+      "properties": {
+        "record_id": {
+          "type": "string",
+          "description": "Stable opaque identifier for this attribution record.",
+          "minLength": 1
+        },
+        "computed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 UTC timestamp the attribution was calculated."
+        },
+        "deal": { "$ref": "#/$defs/deal" },
+        "partner": { "$ref": "#/$defs/partner" },
+        "attribution": {
+          "$ref": "#/$defs/attributionCredit",
+          "description": "Credit under the document's default_model. Its `model` MUST equal the document `default_model`."
+        },
+        "commission": { "$ref": "#/$defs/commission" },
+        "touchpoints": {
+          "type": "array",
+          "description": "The interaction trail that produced this attribution, oldest first.",
+          "items": { "$ref": "#/$defs/touchpoint" }
+        },
+        "alternate_models": {
+          "type": "array",
+          "description": "The same deal+partner credit computed under other models, for sensitivity/transparency. Each entry MAY also carry the commission amount under that model.",
+          "items": {
+            "type": "object",
+            "required": ["model", "credit_percentage", "credited_amount"],
+            "additionalProperties": false,
+            "properties": {
+              "model": { "$ref": "#/$defs/attributionModel" },
+              "credit_percentage": { "type": "number", "minimum": 0, "maximum": 100 },
+              "credited_amount": { "$ref": "#/$defs/money" },
+              "commission_amount": { "$ref": "#/$defs/money" }
+            }
+          }
+        },
+        "extensions": {
+          "type": "object",
+          "description": "Optional vendor-specific fields. Consumers MUST ignore unrecognized keys.",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

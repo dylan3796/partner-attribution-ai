@@ -1,0 +1,82 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-07-22T18:00:00Z",
+  "source": {
+    "vendor_id": "org_8fa21c",
+    "vendor_name": "Acme Analytics",
+    "environment": "production"
+  },
+  "default_model": "time_decay",
+  "currency": "USD",
+  "record_count": 2,
+  "records": [
+    {
+      "record_id": "attr_01H9Z3K2QeXAMPLE001",
+      "computed_at": "2026-07-22T17:58:12Z",
+      "deal": {
+        "id": "deal_9c1f0a",
+        "name": "Globex — Platform (Annual)",
+        "amount": 50000,
+        "status": "won",
+        "closed_at": "2026-07-20T00:00:00Z",
+        "product_name": "Platform",
+        "external_ids": { "salesforce": "0061t00000AbCdEfGHI" }
+      },
+      "partner": {
+        "id": "partner_3ab77e",
+        "name": "Northstar Consulting",
+        "type": "reseller",
+        "tier": "gold",
+        "domain": "northstar.example.com"
+      },
+      "attribution": {
+        "model": "time_decay",
+        "credit_percentage": 62.5,
+        "credited_amount": 31250
+      },
+      "commission": {
+        "rate": 0.15,
+        "amount": 4687.5,
+        "status": "approved"
+      },
+      "touchpoints": [
+        { "id": "tp_a1", "type": "referral", "occurred_at": "2026-05-02T14:00:00Z" },
+        { "id": "tp_a2", "type": "demo", "occurred_at": "2026-06-18T16:30:00Z" },
+        { "id": "tp_a3", "type": "negotiation", "occurred_at": "2026-07-15T11:00:00Z" }
+      ]
+    },
+    {
+      "record_id": "attr_01H9Z3K2QeXAMPLE002",
+      "computed_at": "2026-07-22T17:58:12Z",
+      "deal": {
+        "id": "deal_9c1f0a",
+        "name": "Globex — Platform (Annual)",
+        "amount": 50000,
+        "status": "won",
+        "closed_at": "2026-07-20T00:00:00Z",
+        "product_name": "Platform",
+        "external_ids": { "salesforce": "0061t00000AbCdEfGHI" }
+      },
+      "partner": {
+        "id": "partner_77c210",
+        "name": "Beacon Integrations",
+        "type": "integration",
+        "tier": "silver",
+        "domain": "beacon.example.com"
+      },
+      "attribution": {
+        "model": "time_decay",
+        "credit_percentage": 37.5,
+        "credited_amount": 18750
+      },
+      "commission": {
+        "rate": 0.1,
+        "amount": 1875,
+        "status": "pending_approval"
+      },
+      "touchpoints": [
+        { "id": "tp_b1", "type": "technical_enablement", "occurred_at": "2026-06-30T09:00:00Z" }
+      ]
+    }
+  ]
+}

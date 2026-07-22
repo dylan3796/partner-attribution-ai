@@ -1,0 +1,55 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-07-22T18:05:00Z",
+  "source": {
+    "vendor_id": "org_8fa21c",
+    "environment": "production"
+  },
+  "default_model": "role_based",
+  "currency": "USD",
+  "record_count": 1,
+  "records": [
+    {
+      "record_id": "attr_01H9Z3K2QeXAMPLE010",
+      "computed_at": "2026-07-22T18:04:40Z",
+      "deal": {
+        "id": "deal_44bd91",
+        "name": "Initech — Platform + Support",
+        "amount": 120000,
+        "currency": "USD",
+        "status": "won",
+        "closed_at": "2026-07-19T00:00:00Z",
+        "external_ids": { "salesforce": "0061t00000ZzYyXwVUT", "hubspot": "18274655091" }
+      },
+      "partner": {
+        "id": "partner_3ab77e",
+        "name": "Northstar Consulting",
+        "type": "reseller",
+        "tier": "gold",
+        "domain": "northstar.example.com",
+        "identity_hash": "sha256:9f2c1a5b3d7e4680a1b2c3d4e5f60718293a4b5c6d7e8f9012345678abcdef01"
+      },
+      "attribution": {
+        "model": "role_based",
+        "credit_percentage": 70,
+        "credited_amount": 84000
+      },
+      "commission": {
+        "rate": 0.15,
+        "amount": 12600,
+        "status": "approved"
+      },
+      "touchpoints": [
+        { "id": "tp_c1", "type": "referral", "occurred_at": "2026-04-11T13:00:00Z", "weight": 30 },
+        { "id": "tp_c2", "type": "proposal", "occurred_at": "2026-06-02T15:00:00Z", "weight": 25 },
+        { "id": "tp_c3", "type": "negotiation", "occurred_at": "2026-07-10T10:00:00Z", "weight": 20 }
+      ],
+      "alternate_models": [
+        { "model": "first_touch", "credit_percentage": 100, "credited_amount": 120000, "commission_amount": 18000 },
+        { "model": "last_touch", "credit_percentage": 100, "credited_amount": 120000, "commission_amount": 18000 },
+        { "model": "equal_split", "credit_percentage": 50, "credited_amount": 60000, "commission_amount": 9000 },
+        { "model": "time_decay", "credit_percentage": 64.2, "credited_amount": 77040, "commission_amount": 11556 }
+      ]
+    }
+  ]
+}

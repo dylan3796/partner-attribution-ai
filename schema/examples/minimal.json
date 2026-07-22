@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.1.0",
+  "generated_at": "2026-07-22T18:10:00Z",
+  "source": { "vendor_id": "org_8fa21c" },
+  "default_model": "last_touch",
+  "records": [
+    {
+      "record_id": "attr_min_0001",
+      "computed_at": "2026-07-22T18:09:55Z",
+      "deal": {
+        "id": "deal_min_01",
+        "amount": 8000,
+        "status": "won"
+      },
+      "partner": {
+        "id": "partner_min_01",
+        "type": "referral"
+      },
+      "attribution": {
+        "model": "last_touch",
+        "credit_percentage": 100,
+        "credited_amount": 8000
+      }
+    }
+  ]
+}
