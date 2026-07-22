@@ -40,10 +40,10 @@ Attribution reimagined, with AI to understand and intelligence to calculate
 **Feature 1 — Current:** "Your attribution expert"
 **Improved:**
 ```html
-<span class="tag">AI-Powered Attribution</span>
-<h2>Seven attribution models. One clear answer.</h2>
-<p>From first-touch to AI-weighted, run every model side by side. See which partners actually drive revenue — not just who registered the deal.</p>
-<p>PartnerBase's ML model learns from your historical outcomes to recommend the attribution approach that best matches reality.</p>
+<span class="tag">Multi-Touch Attribution</span>
+<h2>Five attribution models. One clear answer.</h2>
+<p>From first-touch to time-decay to role-based, run every model side by side. See which partners actually drive revenue — not just who registered the deal.</p>
+<p>Compare models against your own historical outcomes to find the attribution approach that best matches reality.</p>
 ```
 
 **Feature 2 — Current:** "Every touchpoint, automatically tracked"
@@ -88,8 +88,8 @@ Partnerships got spreadsheets. Attribution gets Partner AI.
 
 ```html
 <div>
-  <h3>7 attribution models</h3>
-  <p>First-touch, last-touch, time-decay, AI-weighted, and more. Compare models side by side to find what matches your reality.</p>
+  <h3>5 attribution models</h3>
+  <p>Equal-split, first-touch, last-touch, time-decay, and role-based. Compare models side by side to find what matches your reality.</p>
 </div>
 <div>
   <h3>15-minute time to value</h3>
@@ -330,7 +330,7 @@ Create a `/blog` section with these initial posts:
 1. "What is Multi-Touch Partner Attribution? (The Complete Guide)" — target "partner attribution"
 2. "Partner Commissions: How to Calculate Fair Credit Splits" — target "partner commission management"
 3. "Spreadsheets vs Partner Attribution Software: When to Switch" — target "partner attribution software"
-4. "7 Attribution Models Explained for Partnership Leaders" — target "attribution models"
+4. "5 Attribution Models Explained for Partnership Leaders" — target "attribution models"
 5. "The Hidden Cost of Manual Partner Attribution" — thought leadership
 
 ---

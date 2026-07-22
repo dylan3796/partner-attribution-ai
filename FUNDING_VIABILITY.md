@@ -16,7 +16,7 @@
 | Email | ❌ | Resend wired, awaiting API key |
 | Enterprise (SOC 2, SSO, RBAC) | ❌ | Not built; SOC 2 targeted Q2 2026 |
 | Pitch / GTM / battle card | ✅ | All exist and are detailed |
-| **Customers / ARR / pilots / LOIs** | ❌ | **Zero. `COMPANY_REVIEWS.md` contains fictional reviews — credibility risk if shown to an investor.** |
+| **Customers / ARR / pilots / LOIs** | ❌ | **Zero.** (Note: `COMPANY_REVIEWS.md` is an *internal* red-team exercise — five fictional personas honestly stress-testing the product, most verdicts "not ready yet." It is candid self-assessment, clearly labeled fictional; keep it. It is NOT a set of fake testimonials.) |
 | Recent dev focus | ⚠️ | Last ~30 commits are marketing/positioning/YC prep; last substantive backend feature shipped 2026-04-08 |
 
 ---
@@ -139,7 +139,7 @@ Ranked by leverage, assuming the headless / LLM reframe:
 2. **Build the agent monitoring loop** — Convex cron + Claude with tool access over attribution events, posting to a Slack webhook. End-to-end demo in 2 weeks.
 3. **Ship one export target** — pick Postgres or signed webhook (easier than warehouse connectors) so a partner can actually consume the dataset.
 4. **Ship Salesforce OAuth end-to-end** — still the #1 integration gap. Without one real CRM source, the schema has nothing to populate.
-5. **Delete `COMPANY_REVIEWS.md`** (fictional reviews) and scrub the ML-weighted-model claim from `PITCH_DECK.md` and `README.md`. Both are credibility landmines in DD.
+5. **Scrub the false "ML-weighted / 7 models" claim** from all materials — the code has 5 fixed-formula models, no machine learning. (Done: `PITCH_DECK.md`, `PRODUCT_VISION.md`, `LANDING_PAGE_IMPROVEMENTS.md` corrected to 5 models; the `ARCHITECTURE.md` mention is fine — it's honestly labeled a Phase-4 future goal.) Keep `COMPANY_REVIEWS.md` — on re-read it is honest internal QA, not fake testimonials.
 6. **Find 1–2 design-partner RevOps teams** (easier sell than VP Partnerships) — give them the schema + agent for free in exchange for a public quote.
 7. **Rewrite the pitch deck** around the three-slide reframe; fill the Team slide with a real bio + founder story.
 8. **Apply to YC (next batch)** with the reframed pitch — the AI-agent + standardization angle fits YC's current taste better than another PRM.

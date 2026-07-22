@@ -57,8 +57,10 @@ The AI-powered attribution engine that everything else depends on.
 | Last Touch | Closer-focused | 100% to who closed the deal |
 | Time Decay | Balanced programs | Recent touches weighted higher |
 | Role-Based | Complex B2B | Weights by activity type |
-| AI-Weighted | Advanced | ML learns optimal weights from outcomes |
-| Custom | Enterprise | Define your own rules |
+| AI-Weighted *(planned)* | Advanced | ML learns optimal weights from outcomes — roadmap, not yet built |
+| Custom *(planned)* | Enterprise | Define your own rules — roadmap, not yet built |
+
+> Live today: the five models above the divider. AI-Weighted and Custom are on the roadmap and are not part of the shipping product.
 
 ---
 

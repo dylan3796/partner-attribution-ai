@@ -299,11 +299,11 @@
 # Where We Are & Where We're Going
 
 ### Built (Today)
-- ✅ AI attribution engine (7 models including ML-weighted)
+- ✅ Multi-touch attribution engine (5 models: equal-split, first-touch, last-touch, time-decay, role-based)
 - ✅ Partner management dashboard
-- ✅ Multi-touch attribution across CRM + web + product data
-- ✅ Configurable attribution models per organization
-- ✅ Explainable, auditable attribution decisions
+- ✅ Side-by-side model comparison — see how credit shifts across every model
+- ✅ Configurable attribution model per organization
+- ✅ Explainable, auditable attribution decisions with full touchpoint trail
 
 ### Building Now (Next 90 Days)
 - 🔧 Partner portal with transparent attribution views
@@ -326,7 +326,7 @@
 | **Q4 2026** | Content/enablement + Advanced analytics + Series A readiness |
 
 ### Speaker Notes:
-"Here's where we are. The core attribution engine is built and working — seven attribution models including our ML-weighted model that learns optimal weights from actual outcomes. We have multi-touch tracking across CRM, web, and product data with explainable, auditable decisions. Right now we're building the partner portal, automated commissions, and CRM integrations. On the traction front — [share early signals: waitlist numbers, design partner feedback, demo conversion rates, relevant quotes]. Our roadmap has us at full V1 by end of Q1, first paying customers in Q2, and a compelling Series A story by Q4 with real revenue, retention data, and case studies."
+"Here's where we are. The core attribution engine is built and working — five attribution models (equal-split, first-touch, last-touch, time-decay, and role-based), with a side-by-side comparison view so a customer can see exactly how partner credit shifts from one model to the next. We have multi-touch tracking with explainable, auditable decisions — every credited dollar traces back to the touchpoints that earned it. Right now we're building the partner portal, automated commissions, and CRM integrations. On the traction front — [share early signals: waitlist numbers, design partner feedback, demo conversion rates, relevant quotes]. Our roadmap has us at full V1 by end of Q1, first paying customers in Q2, and a compelling Series A story by Q4 with real revenue, retention data, and case studies."
 
 ---
 
